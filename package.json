@@ -1,0 +1,29 @@
+{
+  "name": "brokerize-client",
+  "version": "1.0.0",
+  "description": "Client for the brokerize.com API",
+  "main": "dist/index.js",
+  "types": "dist/brokerize-client.d.ts",
+  "scripts": {
+    "build": "npx tsc && npm run api-extractor",
+    "download-spec": "curl https://api-preview.brokerize.com/openapi.json > openapi.json",
+    "generate": "npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-fetch --additional-properties=typescriptThreePlus=true -o ./src/swagger",
+    "download-and-generate": "npm run download-spec && npm run generate",
+    "api-extractor": "npx api-extractor run --local"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brokerize/client-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brokerize/client-js/issues"
+  },
+  "homepage": "https://github.com/brokerize/client-js#readme",
+  "devDependencies": {
+    "@microsoft/api-extractor": "7.23.1",
+    "typescript": "4.6.4"
+  }
+}
