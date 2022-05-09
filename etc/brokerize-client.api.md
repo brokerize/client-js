@@ -76,6 +76,12 @@ interface ApiResponse<T> {
     value(): Promise<T>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "GuestAuthContextConfiguration" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "RegisteredUserAuthContextConfiguration" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type AuthContextConfiguration = GuestAuthContextConfiguration | RegisteredUserAuthContextConfiguration;
+
 // @public
 interface AuthInfo {
     allOperationsRequireSessionTan?: boolean;
@@ -113,6 +119,82 @@ function AuthMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthM
 
 // @public (undocumented)
 function AuthMethodToJSON(value?: AuthMethod | null): any;
+
+// @public (undocumented)
+export class AuthorizedApiContext {
+    // Warning: (ae-forgotten-export) The symbol "Auth" needs to be exported by the entry point index.d.ts
+    constructor(cfg: BrokerizeConfig, auth: Auth);
+    // (undocumented)
+    addSession(params: AddSessionParams): Promise<openApiClient.LoginResultPublic>;
+    // (undocumented)
+    addSessionCompleteChallenge(req: openApiClient.AddSessionCompleteChallengeRequest): Promise<openApiClient.LoginResultReadyPublic>;
+    // (undocumented)
+    cancelDecoupledOperation(req: openApiClient.CancelDecoupledOperationRequest): Promise<void>;
+    // (undocumented)
+    cancelOrder(req: openApiClient.CancelOrderRequest): Promise<void>;
+    // (undocumented)
+    changeOrder(req: openApiClient.ChangeOrderRequest): Promise<void>;
+    // (undocumented)
+    createCancelOrderChallenge(req: openApiClient.CreateCancelOrderChallengeRequest): Promise<openApiClient.Challenge>;
+    // (undocumented)
+    createChangeOrderChallenge(req: openApiClient.CreateChangeOrderChallengeRequest): Promise<openApiClient.Challenge>;
+    // (undocumented)
+    createDemoAccount(): Promise<openApiClient.InlineResponse2002>;
+    // (undocumented)
+    createSessionTanChallenge(req: openApiClient.CreateSessionTanChallengeRequest): Promise<openApiClient.Challenge>;
+    // (undocumented)
+    createTrade(req: CreateTradeRequest): Promise<openApiClient.InlineResponse20011>;
+    // (undocumented)
+    createTradeChallenge(req: CreateTradeChallengeRequest): Promise<openApiClient.Challenge>;
+    // (undocumented)
+    createWebSocketClient(): BrokerizeWebSocketClient;
+    // (undocumented)
+    deleteDemoAccount(del: DeleteDemoAccountRequest): Promise<openApiClient.InlineResponse2003>;
+    // (undocumented)
+    deletePortfolio(portfolioId: string): Promise<openApiClient.InlineResponse2003>;
+    // (undocumented)
+    destroy(): void;
+    // (undocumented)
+    enableSessionTan(req: openApiClient.EnableSessionTanRequest): Promise<openApiClient.EnableSessionTanResponse>;
+    // (undocumented)
+    endSessionTan(sessionId: string): Promise<openApiClient.EndSessionTanResult>;
+    // (undocumented)
+    getAuthInfo(portfolioId: string): Promise<openApiClient.InlineResponse2009>;
+    // Warning: (ae-forgotten-export) The symbol "openApiClient" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getBrokers(): Promise<openApiClient.InlineResponse200>;
+    // (undocumented)
+    getCostEstimation(p: GetCostEstimationParams): Promise<openApiClient.OrderCostEstimation>;
+    // (undocumented)
+    getDecoupledOperationStatus(req: openApiClient.GetDecoupledOperationStatusRequest): Promise<openApiClient.DecoupledOperationState>;
+    // (undocumented)
+    getDemoAccounts(): Promise<openApiClient.InlineResponse2001>;
+    // (undocumented)
+    getExchanges(): Promise<openApiClient.InlineResponse2004>;
+    // (undocumented)
+    getOrder(orderId: string): Promise<openApiClient.InlineResponse2005>;
+    // (undocumented)
+    getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest): Promise<openApiClient.InlineResponse2008>;
+    // (undocumented)
+    getPortfolioPositions(portfolioId: string): Promise<openApiClient.InlineResponse2007>;
+    // (undocumented)
+    getPortfolioQuotes(portfolioId: string): Promise<openApiClient.InlineResponse2006>;
+    // (undocumented)
+    getPortfolios(): Promise<openApiClient.PortfoliosResponse>;
+    // (undocumented)
+    getQuote(p: GetQuoteRequest): Promise<openApiClient.GetQuoteResult>;
+    // (undocumented)
+    getSessions(): Promise<openApiClient.SessionResponse>;
+    // (undocumented)
+    getUser(): Promise<openApiClient.InlineResponse20012>;
+    // (undocumented)
+    logoutSession(sessionId: string): Promise<openApiClient.InlineResponse2003>;
+    // (undocumented)
+    prepareTrade(req: PrepareTradeRequest): Promise<openApiClient.InlineResponse20010>;
+    // (undocumented)
+    triggerSessionSync(sessionId: string): Promise<openApiClient.InlineResponse2003>;
+}
 
 // @public
 const BASE_PATH: string;
@@ -159,17 +241,48 @@ function BrokerEnvironmentToJSON(value?: BrokerEnvironment | null): any;
 
 // @public (undocumented)
 export class Brokerize {
-    // Warning: (ae-forgotten-export) The symbol "BrokerizeConfig" needs to be exported by the entry point index.d.ts
     constructor(cfg: BrokerizeConfig);
-    // Warning: (ae-forgotten-export) The symbol "AuthContextConfiguration" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "AuthorizedApiContext" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     createAuthorizedContext(authCtxCfg: AuthContextConfiguration): AuthorizedApiContext;
-    // Warning: (ae-forgotten-export) The symbol "openApiClient" needs to be exported by the entry point index.d.ts
+    // (undocumented)
+    createGuestUser(): Promise<AuthContextConfiguration>;
+    createRegisteredUserAuthConfigurationFromLoginRedirect({ codeVerifier, code, }: {
+        codeVerifier: string;
+        code: string;
+    }): Promise<RegisteredUserAuthContextConfiguration>;
+    prepareLoginRedirect(redirectUri: string): Promise<{
+        state: string;
+        codeVerifier: string;
+        url: string;
+    }>;
+}
+
+// @public (undocumented)
+export interface BrokerizeConfig {
+    basePath?: string;
+    // (undocumented)
+    createAbortController: () => AbortController;
+    // (undocumented)
+    createWebSocket: (url?: string, protocol?: string | string[]) => WebSocket;
+    // Warning: (ae-forgotten-export) The symbol "WhatWgFetch" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    createGuestUser(): Promise<openApiClient.InlineResponse20013>;
+    fetch: WhatWgFetch;
+}
+
+// @public (undocumented)
+export class BrokerizeWebSocketClient {
+    constructor(websocketUrl: string, auth: Auth);
+    // Warning: (ae-forgotten-export) The symbol "SubscribeDecoupledOperation" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    subscribeDecoupledOperation(subscribe: Pick<SubscribeDecoupledOperation, "sessionId" | "decoupledOperationId">, callback: Callback): Subscription;
+    // Warning: (ae-forgotten-export) The symbol "SubscribeInvalidateDetails" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Callback" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    subscribeInvalidate(subscribe: SubscribeInvalidateDetails, callback: Callback): Subscription;
 }
 
 // @public

@@ -1,6 +1,15 @@
 import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
 import * as openApiClient from "./swagger";
-import { AddSessionParams, DeleteDemoAccountRequest } from "./swagger";
+import {
+  AddSessionParams,
+  CreateTradeChallengeRequest,
+  CreateTradeRequest,
+  DeleteDemoAccountRequest,
+  GetCostEstimationParams,
+  GetQuoteParams,
+  GetQuoteRequest,
+  PrepareTradeRequest,
+} from "./swagger";
 import { BrokerizeWebSocketClient } from "./websocketClient";
 
 export class AuthorizedApiContext {
@@ -138,6 +147,7 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
+  // XXX improve "kind" enum
   async enableSessionTan(req: openApiClient.EnableSessionTanRequest) {
     return this._defaultApi.enableSessionTan(
       req,
@@ -182,12 +192,37 @@ export class AuthorizedApiContext {
   async getUser() {
     return this._defaultApi.getUser(await this._initRequestInit());
   }
+  async prepareTrade(req: PrepareTradeRequest) {
+    return this._tradeApi.prepareTrade(req, await this._initRequestInit());
+  }
+  async createTrade(req: CreateTradeRequest) {
+    return this._tradeApi.createTrade(req, await this._initRequestInit());
+  }
+  async createTradeChallenge(req: CreateTradeChallengeRequest) {
+    return this._tradeApi.createTradeChallenge(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async getCostEstimation(p: GetCostEstimationParams) {
+    return this._tradeApi.getCostEstimation(
+      {
+        getCostEstimationParams: p,
+      },
+      await this._initRequestInit()
+    );
+  }
+  async getQuote(p: GetQuoteRequest) {
+    return this._tradeApi.getQuote(p, await this._initRequestInit());
+  }
 
   createWebSocketClient() {
-    return new BrokerizeWebSocketClient(
-      "https://api-preview.brokerize.com/websocket",
-      this._auth
-    );
+    const basePath = this._cfg.basePath || "https://api-preview.brokerize.com";
+    const websocketPath =
+      (basePath.startsWith("https")
+        ? "wss://" + basePath.substring(8)
+        : "ws://" + basePath.substring(7)) + "/websocket";
+    return new BrokerizeWebSocketClient(websocketPath, this._auth);
   }
   destroy() {
     this._isDestroyed = true;

@@ -1,32 +1,16 @@
 /* Import/Export the DOM parts we rely on. Those are partial copies from the official TypeScript DOM library definitions (https://github.com/microsoft/TypeScript/blob/master/lib/lib.dom.d.ts),
    but reduced to the parts actually used by bg-trading. */
-import { AuthorizedApiContext } from "./authorizedApiContext";
 import { WhatWgFetch } from "./dependencyDefinitions/fetch";
-import * as openApiClient from "./swagger";
 import { Configuration } from "./swagger";
-
-export class Brokerize {
-  private _cfg: BrokerizeConfig;
-  private _defaultApi: openApiClient.DefaultApi;
-
-  constructor(cfg: BrokerizeConfig) {
-    this._cfg = cfg;
-    this._defaultApi = new openApiClient.DefaultApi(createConfiguration(cfg));
-  }
-
-  createGuestUser() {
-    return this._defaultApi.createGuestUser();
-  }
-
-  createAuthorizedContext(authCtxCfg: AuthContextConfiguration) {
-    return new AuthorizedApiContext(this._cfg, createAuth(authCtxCfg));
-  }
-}
 
 export interface BrokerizeConfig {
   fetch: WhatWgFetch;
   createAbortController: () => AbortController;
   createWebSocket: (url?: string, protocol?: string | string[]) => WebSocket;
+  /**
+   * Path to the API, e.g. https://api-preview.brokerize.com
+   */
+  basePath?: string;
 }
 
 export type AuthContextConfiguration =
@@ -35,7 +19,11 @@ export type AuthContextConfiguration =
 
 export type RegisteredUserAuthContextConfiguration = {
   type: "registered";
-  // TODO refreshToken etc. for cognito auth
+  tokens: {
+    idToken: string;
+    refreshToken: string;
+    expiresAt: number;
+  };
 };
 
 export interface GuestAuthContextConfiguration {
@@ -50,6 +38,7 @@ export interface Auth {
 export function createConfiguration(cfg: BrokerizeConfig) {
   return new Configuration({
     fetchApi: cfg.fetch as any,
+    basePath: cfg.basePath
   });
 }
 
@@ -60,9 +49,14 @@ export function createAuth(authCfg: AuthContextConfiguration): Auth {
         return { idToken: authCfg.idToken };
       },
     };
+  } else if (authCfg.type == "registered") {
+    return {
+      async getToken() {
+        // TODO implement refresh token
+        return { idToken: authCfg.tokens.idToken };
+      },
+    };
   } else {
-    throw new Error(
-      "Unsupported auth config. Currently only guest user is implemented."
-    );
+    throw new Error("Unsupported auth config.");
   }
 }
