@@ -1,11 +1,6 @@
 import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
-import { WhatWgAbortSignal } from "./dependencyDefinitions/abortSignal";
 import * as openApiClient from "./swagger";
-import {
-  AddSessionParams,
-  DeleteDemoAccountRequest,
-  GetOrderRequest,
-} from "./swagger";
+import { AddSessionParams, DeleteDemoAccountRequest } from "./swagger";
 import { BrokerizeWebSocketClient } from "./websocketClient";
 
 export class AuthorizedApiContext {
@@ -66,9 +61,128 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
-  async getOrder(o: GetOrderRequest) {
-    return this._defaultApi.getOrder(o);
+  async getOrder(orderId: string) {
+    return this._defaultApi.getOrder(
+      { id: orderId },
+      await this._initRequestInit()
+    );
   }
+  async createCancelOrderChallenge(
+    req: openApiClient.CreateCancelOrderChallengeRequest
+  ) {
+    return this._defaultApi.createCancelOrderChallenge(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async cancelOrder(req: openApiClient.CancelOrderRequest) {
+    return this._defaultApi.cancelOrder(req, await this._initRequestInit());
+  }
+  async createChangeOrderChallenge(
+    req: openApiClient.CreateChangeOrderChallengeRequest
+  ) {
+    return this._defaultApi.createChangeOrderChallenge(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async changeOrder(req: openApiClient.ChangeOrderRequest) {
+    return this._defaultApi.changeOrder(req, await this._initRequestInit());
+  }
+  async getPortfolios() {
+    return this._defaultApi.getPortfolios(await this._initRequestInit());
+  }
+  async deletePortfolio(portfolioId: string) {
+    return this._defaultApi.deletePortfolio(
+      { portfolioId },
+      await this._initRequestInit()
+    );
+  }
+  async getPortfolioQuotes(portfolioId: string) {
+    return this._defaultApi.getPortfolioQuotes(
+      { portfolioId },
+      await this._initRequestInit()
+    );
+  }
+  async getPortfolioPositions(portfolioId: string) {
+    return this._defaultApi.getPortfolioPositions(
+      { portfolioId },
+      await this._initRequestInit()
+    );
+  }
+  async getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest) {
+    return this._defaultApi.getPortfolioOrders(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async getAuthInfo(portfolioId: string) {
+    return this._defaultApi.getAuthInfo(
+      { portfolioId },
+      await this._initRequestInit()
+    );
+  }
+  async addSessionCompleteChallenge(
+    req: openApiClient.AddSessionCompleteChallengeRequest
+  ) {
+    return this._defaultApi.addSessionCompleteChallenge(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async createSessionTanChallenge(
+    req: openApiClient.CreateSessionTanChallengeRequest
+  ) {
+    return this._defaultApi.createSessionTanChallenge(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async enableSessionTan(req: openApiClient.EnableSessionTanRequest) {
+    return this._defaultApi.enableSessionTan(
+      req,
+      await this._initRequestInit()
+    );
+  }
+
+  async endSessionTan(sessionId: string) {
+    return this._defaultApi.endSessionTan(
+      { sessionId },
+      await this._initRequestInit()
+    );
+  }
+  async getDecoupledOperationStatus(
+    req: openApiClient.GetDecoupledOperationStatusRequest
+  ) {
+    return this._defaultApi.getDecoupledOperationStatus(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async cancelDecoupledOperation(
+    req: openApiClient.CancelDecoupledOperationRequest
+  ) {
+    return this._defaultApi.cancelDecoupledOperation(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async triggerSessionSync(sessionId: string) {
+    return this._defaultApi.triggerSessionSync(
+      { sessionId },
+      await this._initRequestInit()
+    );
+  }
+  async logoutSession(sessionId: string) {
+    return this._defaultApi.logoutSession(
+      { sessionId },
+      await this._initRequestInit()
+    );
+  }
+  async getUser() {
+    return this._defaultApi.getUser(await this._initRequestInit());
+  }
+
   createWebSocketClient() {
     return new BrokerizeWebSocketClient(
       "https://api-preview.brokerize.com/websocket",
