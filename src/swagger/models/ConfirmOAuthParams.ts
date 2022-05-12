@@ -12,28 +12,53 @@
  * Do not edit the class manually.
  */
 
+import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @enum {string}
+ * @interface ConfirmOAuthParams
  */
-export enum BrokerName {
-    Demo = 'demo',
-    Consors = 'consors',
-    Finanzen = 'finanzen',
-    Justtrade = 'justtrade',
-    Comdirect = 'comdirect'
+export interface ConfirmOAuthParams {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmOAuthParams
+     */
+    code: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmOAuthParams
+     */
+    ticketId: string;
 }
 
-export function BrokerNameFromJSON(json: any): BrokerName {
-    return BrokerNameFromJSONTyped(json, false);
+export function ConfirmOAuthParamsFromJSON(json: any): ConfirmOAuthParams {
+    return ConfirmOAuthParamsFromJSONTyped(json, false);
 }
 
-export function BrokerNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerName {
-    return json as BrokerName;
+export function ConfirmOAuthParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ConfirmOAuthParams {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'code': json['code'],
+        'ticketId': json['ticketId'],
+    };
 }
 
-export function BrokerNameToJSON(value?: BrokerName | null): any {
-    return value as any;
+export function ConfirmOAuthParamsToJSON(value?: ConfirmOAuthParams | null): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+    return {
+        
+        'code': value.code,
+        'ticketId': value.ticketId,
+    };
 }
 

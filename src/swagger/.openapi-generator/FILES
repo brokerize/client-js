@@ -19,6 +19,7 @@ models/CashQuotation.ts
 models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
+models/ConfirmOAuthParams.ts
 models/CostDetailsLink.ts
 models/CreateOrderChallengeParams.ts
 models/CreateOrderParams.ts
@@ -58,6 +59,8 @@ models/InlineResponse20010.ts
 models/InlineResponse20011.ts
 models/InlineResponse20012.ts
 models/InlineResponse20013.ts
+models/InlineResponse20014.ts
+models/InlineResponse20015.ts
 models/InlineResponse2001Accounts.ts
 models/InlineResponse2002.ts
 models/InlineResponse2003.ts
@@ -94,6 +97,7 @@ models/PortfoliosResponse.ts
 models/PortfoliosResponsePortfolios.ts
 models/Position.ts
 models/PositionValuation.ts
+models/PrepareOAuthRedirectParams.ts
 models/PreparedTrade.ts
 models/QuoteOrderCreate.ts
 models/RiskClassInfo.ts

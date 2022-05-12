@@ -33,12 +33,12 @@ import {
     GetQuoteResult,
     GetQuoteResultFromJSON,
     GetQuoteResultToJSON,
-    InlineResponse20010,
-    InlineResponse20010FromJSON,
-    InlineResponse20010ToJSON,
-    InlineResponse20011,
-    InlineResponse20011FromJSON,
-    InlineResponse20011ToJSON,
+    InlineResponse20012,
+    InlineResponse20012FromJSON,
+    InlineResponse20012ToJSON,
+    InlineResponse20013,
+    InlineResponse20013FromJSON,
+    InlineResponse20013ToJSON,
     MustAcceptHint,
     MustAcceptHintFromJSON,
     MustAcceptHintToJSON,
@@ -83,7 +83,7 @@ export class TradeApi extends runtime.BaseAPI {
     /**
      * Create a trade.  It is possible that the broker rejects the order because of some extra hints that the user must accept (which can not be figured out in `prepareTrade`, e.g. because the order volume has to be determined first). In thise case, the `MUST_ACCEPT_HINT` error code is returned. The user can choose to accept that hint. If that is the case, the request can be retried with the `acceptHintId` parameter.
      */
-    async createTradeRaw(requestParameters: CreateTradeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20011>> {
+    async createTradeRaw(requestParameters: CreateTradeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20013>> {
         if (requestParameters.createOrderParams === null || requestParameters.createOrderParams === undefined) {
             throw new runtime.RequiredError('createOrderParams','Required parameter requestParameters.createOrderParams was null or undefined when calling createTrade.');
         }
@@ -106,13 +106,13 @@ export class TradeApi extends runtime.BaseAPI {
             body: CreateOrderParamsToJSON(requestParameters.createOrderParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20011FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20013FromJSON(jsonValue));
     }
 
     /**
      * Create a trade.  It is possible that the broker rejects the order because of some extra hints that the user must accept (which can not be figured out in `prepareTrade`, e.g. because the order volume has to be determined first). In thise case, the `MUST_ACCEPT_HINT` error code is returned. The user can choose to accept that hint. If that is the case, the request can be retried with the `acceptHintId` parameter.
      */
-    async createTrade(requestParameters: CreateTradeRequest, initOverrides?: RequestInit): Promise<InlineResponse20011> {
+    async createTrade(requestParameters: CreateTradeRequest, initOverrides?: RequestInit): Promise<InlineResponse20013> {
         const response = await this.createTradeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -237,7 +237,7 @@ export class TradeApi extends runtime.BaseAPI {
     /**
      * Prepare a trade of `isin` in the given portfolio `portfolioId`. This describes what kind of orders are supported by the broker for the security. This requires the portfolio to have at least one active broker session.
      */
-    async prepareTradeRaw(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20010>> {
+    async prepareTradeRaw(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20012>> {
         if (requestParameters.isin === null || requestParameters.isin === undefined) {
             throw new runtime.RequiredError('isin','Required parameter requestParameters.isin was null or undefined when calling prepareTrade.');
         }
@@ -269,13 +269,13 @@ export class TradeApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20010FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20012FromJSON(jsonValue));
     }
 
     /**
      * Prepare a trade of `isin` in the given portfolio `portfolioId`. This describes what kind of orders are supported by the broker for the security. This requires the portfolio to have at least one active broker session.
      */
-    async prepareTrade(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit): Promise<InlineResponse20010> {
+    async prepareTrade(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit): Promise<InlineResponse20012> {
         const response = await this.prepareTradeRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -12,28 +12,68 @@
  * Do not edit the class manually.
  */
 
+import { exists, mapValues } from '../runtime';
+import {
+    BrokerName,
+    BrokerNameFromJSON,
+    BrokerNameFromJSONTyped,
+    BrokerNameToJSON,
+} from './BrokerName';
+
 /**
  * 
  * @export
- * @enum {string}
+ * @interface PrepareOAuthRedirectParams
  */
-export enum BrokerName {
-    Demo = 'demo',
-    Consors = 'consors',
-    Finanzen = 'finanzen',
-    Justtrade = 'justtrade',
-    Comdirect = 'comdirect'
+export interface PrepareOAuthRedirectParams {
+    /**
+     * 
+     * @type {string}
+     * @memberof PrepareOAuthRedirectParams
+     */
+    returnToUrl: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PrepareOAuthRedirectParams
+     */
+    env: string;
+    /**
+     * 
+     * @type {BrokerName}
+     * @memberof PrepareOAuthRedirectParams
+     */
+    brokerName: BrokerName;
 }
 
-export function BrokerNameFromJSON(json: any): BrokerName {
-    return BrokerNameFromJSONTyped(json, false);
+export function PrepareOAuthRedirectParamsFromJSON(json: any): PrepareOAuthRedirectParams {
+    return PrepareOAuthRedirectParamsFromJSONTyped(json, false);
 }
 
-export function BrokerNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerName {
-    return json as BrokerName;
+export function PrepareOAuthRedirectParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PrepareOAuthRedirectParams {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'returnToUrl': json['returnToUrl'],
+        'env': json['env'],
+        'brokerName': BrokerNameFromJSON(json['brokerName']),
+    };
 }
 
-export function BrokerNameToJSON(value?: BrokerName | null): any {
-    return value as any;
+export function PrepareOAuthRedirectParamsToJSON(value?: PrepareOAuthRedirectParams | null): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+    return {
+        
+        'returnToUrl': value.returnToUrl,
+        'env': value.env,
+        'brokerName': BrokerNameToJSON(value.brokerName),
+    };
 }
 

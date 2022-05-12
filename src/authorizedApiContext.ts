@@ -2,12 +2,14 @@ import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
 import * as openApiClient from "./swagger";
 import {
   AddSessionParams,
+  ConfirmOAuthParams,
   CreateTradeChallengeRequest,
   CreateTradeRequest,
   DeleteDemoAccountRequest,
   GetCostEstimationParams,
   GetQuoteParams,
   GetQuoteRequest,
+  PrepareOAuthRedirectParams,
   PrepareTradeRequest,
 } from "./swagger";
 import { BrokerizeWebSocketClient } from "./websocketClient";
@@ -214,6 +216,18 @@ export class AuthorizedApiContext {
   }
   async getQuote(p: GetQuoteRequest) {
     return this._tradeApi.getQuote(p, await this._initRequestInit());
+  }
+  async prepareOAuthRedirect(p: PrepareOAuthRedirectParams) {
+    return this._defaultApi.prepareOAuthRedirect(
+      { prepareOAuthRedirectParams: p },
+      await this._initRequestInit()
+    );
+  }
+  async confirmOAuth(p: ConfirmOAuthParams) {
+    return this._defaultApi.confirmOAuth(
+      { confirmOAuthParams: p },
+      await this._initRequestInit()
+    );
   }
 
   createWebSocketClient() {

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Client for the brokerize.com API",
   "main": "dist/index.js",
-  "types": "dist/brokerize-client.d.ts",
+  "types": "dist/client.d.ts",
   "scripts": {
     "build": "npx tsc && npm run api-extractor",
     "download-spec": "curl https://api-preview.brokerize.com/openapi.json > openapi.json",

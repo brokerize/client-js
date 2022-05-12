@@ -21,10 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface InlineResponse20011 {
     /**
      * 
-     * @type {any}
+     * @type {string}
      * @memberof InlineResponse20011
      */
-    orderId: any | null;
+    sessionId: string;
 }
 
 export function InlineResponse20011FromJSON(json: any): InlineResponse20011 {
@@ -37,7 +37,7 @@ export function InlineResponse20011FromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'orderId': json['orderId'],
+        'sessionId': json['sessionId'],
     };
 }
 
@@ -50,7 +50,7 @@ export function InlineResponse20011ToJSON(value?: InlineResponse20011 | null): a
     }
     return {
         
-        'orderId': value.orderId,
+        'sessionId': value.sessionId,
     };
 }
 
