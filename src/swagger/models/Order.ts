@@ -232,6 +232,30 @@ export interface Order {
      */
     allowsChangeValidityTypes?: Array<OrderValidityType>;
     /**
+     * If true, the limit of the order can be changed.
+     * @type {boolean}
+     * @memberof Order
+     */
+    allowsChangeLimit?: boolean;
+    /**
+     * If true, the stop limit of the order can be changed.
+     * @type {boolean}
+     * @memberof Order
+     */
+    allowsChangeStopLimit?: boolean;
+    /**
+     * If true, the stop of the order can be changed.
+     * @type {boolean}
+     * @memberof Order
+     */
+    allowsChangeStop?: boolean;
+    /**
+     * If true, the trailing distance of the order can be changed.
+     * @type {boolean}
+     * @memberof Order
+     */
+    allowsChangeTrailingDistance?: boolean;
+    /**
      * If `true`, the order can be canceled
      * @type {boolean}
      * @memberof Order
@@ -419,6 +443,10 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'statusText': json['statusText'],
         'allowsChangeSize': json['allowsChangeSize'],
         'allowsChangeValidityTypes': !exists(json, 'allowsChangeValidityTypes') ? undefined : ((json['allowsChangeValidityTypes'] as Array<any>).map(OrderValidityTypeFromJSON)),
+        'allowsChangeLimit': !exists(json, 'allowsChangeLimit') ? undefined : json['allowsChangeLimit'],
+        'allowsChangeStopLimit': !exists(json, 'allowsChangeStopLimit') ? undefined : json['allowsChangeStopLimit'],
+        'allowsChangeStop': !exists(json, 'allowsChangeStop') ? undefined : json['allowsChangeStop'],
+        'allowsChangeTrailingDistance': !exists(json, 'allowsChangeTrailingDistance') ? undefined : json['allowsChangeTrailingDistance'],
         'allowsCancel': json['allowsCancel'],
         'allowsChangeOrderModels': !exists(json, 'allowsChangeOrderModels') ? undefined : ((json['allowsChangeOrderModels'] as Array<any>).map(OrderModelFromJSON)),
         'allowsCancelAllOrderParts': !exists(json, 'allowsCancelAllOrderParts') ? undefined : json['allowsCancelAllOrderParts'],
@@ -480,6 +508,10 @@ export function OrderToJSON(value?: Order | null): any {
         'statusText': value.statusText,
         'allowsChangeSize': value.allowsChangeSize,
         'allowsChangeValidityTypes': value.allowsChangeValidityTypes === undefined ? undefined : ((value.allowsChangeValidityTypes as Array<any>).map(OrderValidityTypeToJSON)),
+        'allowsChangeLimit': value.allowsChangeLimit,
+        'allowsChangeStopLimit': value.allowsChangeStopLimit,
+        'allowsChangeStop': value.allowsChangeStop,
+        'allowsChangeTrailingDistance': value.allowsChangeTrailingDistance,
         'allowsCancel': value.allowsCancel,
         'allowsChangeOrderModels': value.allowsChangeOrderModels === undefined ? undefined : ((value.allowsChangeOrderModels as Array<any>).map(OrderModelToJSON)),
         'allowsCancelAllOrderParts': value.allowsCancelAllOrderParts,

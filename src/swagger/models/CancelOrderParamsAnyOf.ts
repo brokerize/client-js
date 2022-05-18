@@ -12,28 +12,53 @@
  * Do not edit the class manually.
  */
 
+import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @enum {string}
+ * @interface CancelOrderParamsAnyOf
  */
-export enum BrokerName {
-    Demo = 'demo',
-    Consors = 'consors',
-    Finanzen = 'finanzen',
-    Justtrade = 'justtrade',
-    Comdirect = 'comdirect'
+export interface CancelOrderParamsAnyOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof CancelOrderParamsAnyOf
+     */
+    challengeResponse: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CancelOrderParamsAnyOf
+     */
+    challengeId: string;
 }
 
-export function BrokerNameFromJSON(json: any): BrokerName {
-    return BrokerNameFromJSONTyped(json, false);
+export function CancelOrderParamsAnyOfFromJSON(json: any): CancelOrderParamsAnyOf {
+    return CancelOrderParamsAnyOfFromJSONTyped(json, false);
 }
 
-export function BrokerNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerName {
-    return json as BrokerName;
+export function CancelOrderParamsAnyOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderParamsAnyOf {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'challengeResponse': json['challengeResponse'],
+        'challengeId': json['challengeId'],
+    };
 }
 
-export function BrokerNameToJSON(value?: BrokerName | null): any {
-    return value as any;
+export function CancelOrderParamsAnyOfToJSON(value?: CancelOrderParamsAnyOf | null): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+    return {
+        
+        'challengeResponse': value.challengeResponse,
+        'challengeId': value.challengeId,
+    };
 }
 

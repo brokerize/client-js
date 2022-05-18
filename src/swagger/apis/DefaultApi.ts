@@ -36,6 +36,9 @@ import {
     ChangeOrderParams,
     ChangeOrderParamsFromJSON,
     ChangeOrderParamsToJSON,
+    ConfirmOAuthParams,
+    ConfirmOAuthParamsFromJSON,
+    ConfirmOAuthParamsToJSON,
     CreateTanChallengeParams,
     CreateTanChallengeParamsFromJSON,
     CreateTanChallengeParamsToJSON,
@@ -51,15 +54,24 @@ import {
     EndSessionTanResult,
     EndSessionTanResultFromJSON,
     EndSessionTanResultToJSON,
+    EstimateChangeOrderCostsParams,
+    EstimateChangeOrderCostsParamsFromJSON,
+    EstimateChangeOrderCostsParamsToJSON,
     InlineResponse200,
     InlineResponse200FromJSON,
     InlineResponse200ToJSON,
-    InlineResponse20012,
-    InlineResponse20012FromJSON,
-    InlineResponse20012ToJSON,
-    InlineResponse20013,
-    InlineResponse20013FromJSON,
-    InlineResponse20013ToJSON,
+    InlineResponse20010,
+    InlineResponse20010FromJSON,
+    InlineResponse20010ToJSON,
+    InlineResponse20011,
+    InlineResponse20011FromJSON,
+    InlineResponse20011ToJSON,
+    InlineResponse20014,
+    InlineResponse20014FromJSON,
+    InlineResponse20014ToJSON,
+    InlineResponse20015,
+    InlineResponse20015FromJSON,
+    InlineResponse20015ToJSON,
     InlineResponse2003,
     InlineResponse2003FromJSON,
     InlineResponse2003ToJSON,
@@ -87,9 +99,15 @@ import {
     LoginResultReadyPublic,
     LoginResultReadyPublicFromJSON,
     LoginResultReadyPublicToJSON,
+    OrderCostEstimation,
+    OrderCostEstimationFromJSON,
+    OrderCostEstimationToJSON,
     PortfoliosResponse,
     PortfoliosResponseFromJSON,
     PortfoliosResponseToJSON,
+    PrepareOAuthRedirectParams,
+    PrepareOAuthRedirectParamsFromJSON,
+    PrepareOAuthRedirectParamsToJSON,
     SessionResponse,
     SessionResponseFromJSON,
     SessionResponseToJSON,
@@ -116,6 +134,10 @@ export interface CancelOrderRequest {
 export interface ChangeOrderRequest {
     id: string;
     changeOrderParams: ChangeOrderParams;
+}
+
+export interface ConfirmOAuthRequest {
+    confirmOAuthParams: ConfirmOAuthParams;
 }
 
 export interface CreateCancelOrderChallengeRequest {
@@ -150,6 +172,11 @@ export interface GetAuthInfoRequest {
     portfolioId: string;
 }
 
+export interface GetChangeOrderCostEstimationRequest {
+    id: string;
+    estimateChangeOrderCostsParams: EstimateChangeOrderCostsParams;
+}
+
 export interface GetDecoupledOperationStatusRequest {
     sessionId: string;
     decoupledOperationId: string;
@@ -178,6 +205,10 @@ export interface GetPortfolioQuotesRequest {
 
 export interface LogoutSessionRequest {
     sessionId: string;
+}
+
+export interface PrepareOAuthRedirectRequest {
+    prepareOAuthRedirectParams: PrepareOAuthRedirectParams;
 }
 
 export interface TriggerSessionSyncRequest {
@@ -377,6 +408,43 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * For brokers with OAuth login processes, this adds the session to the user\'s account after redirects happen. Only the user that is redirected from the broker login in the browser will receive the `code`. Therforce this step ensures that the logged-in user at brokerize is the one that has gone through the broker OAuth steps.
+     */
+    async confirmOAuthRaw(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20011>> {
+        if (requestParameters.confirmOAuthParams === null || requestParameters.confirmOAuthParams === undefined) {
+            throw new runtime.RequiredError('confirmOAuthParams','Required parameter requestParameters.confirmOAuthParams was null or undefined when calling confirmOAuth.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/sessions/confirmOAuth`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ConfirmOAuthParamsToJSON(requestParameters.confirmOAuthParams),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20011FromJSON(jsonValue));
+    }
+
+    /**
+     * For brokers with OAuth login processes, this adds the session to the user\'s account after redirects happen. Only the user that is redirected from the broker login in the browser will receive the `code`. Therforce this step ensures that the logged-in user at brokerize is the one that has gone through the broker OAuth steps.
+     */
+    async confirmOAuth(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<InlineResponse20011> {
+        const response = await this.confirmOAuthRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Create a cancel order challenge
      */
     async createCancelOrderChallengeRaw(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Challenge>> {
@@ -461,7 +529,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Create a guest user and return an JWT token which can be used to access resources. The user as well as the token have a lifetime of 24 hours.
      */
-    async createGuestUserRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20013>> {
+    async createGuestUserRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20015>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -473,13 +541,13 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20013FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20015FromJSON(jsonValue));
     }
 
     /**
      * Create a guest user and return an JWT token which can be used to access resources. The user as well as the token have a lifetime of 24 hours.
      */
-    async createGuestUser(initOverrides?: RequestInit): Promise<InlineResponse20013> {
+    async createGuestUser(initOverrides?: RequestInit): Promise<InlineResponse20015> {
         const response = await this.createGuestUserRaw(initOverrides);
         return await response.value();
     }
@@ -687,6 +755,47 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getBrokers(initOverrides?: RequestInit): Promise<InlineResponse200> {
         const response = await this.getBrokersRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get an order cost estimation for an order update.
+     */
+    async getChangeOrderCostEstimationRaw(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<OrderCostEstimation>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getChangeOrderCostEstimation.');
+        }
+
+        if (requestParameters.estimateChangeOrderCostsParams === null || requestParameters.estimateChangeOrderCostsParams === undefined) {
+            throw new runtime.RequiredError('estimateChangeOrderCostsParams','Required parameter requestParameters.estimateChangeOrderCostsParams was null or undefined when calling getChangeOrderCostEstimation.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/order/{id}/changeCostEstimation`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EstimateChangeOrderCostsParamsToJSON(requestParameters.estimateChangeOrderCostsParams),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => OrderCostEstimationFromJSON(jsonValue));
+    }
+
+    /**
+     * Get an order cost estimation for an order update.
+     */
+    async getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<OrderCostEstimation> {
+        const response = await this.getChangeOrderCostEstimationRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -965,7 +1074,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Checks the provided authentication and returns the logged-in user.
      */
-    async getUserRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20012>> {
+    async getUserRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20014>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -981,13 +1090,13 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20012FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20014FromJSON(jsonValue));
     }
 
     /**
      * Checks the provided authentication and returns the logged-in user.
      */
-    async getUser(initOverrides?: RequestInit): Promise<InlineResponse20012> {
+    async getUser(initOverrides?: RequestInit): Promise<InlineResponse20014> {
         const response = await this.getUserRaw(initOverrides);
         return await response.value();
     }
@@ -1023,6 +1132,43 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit): Promise<InlineResponse2003> {
         const response = await this.logoutSessionRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
+     */
+    async prepareOAuthRedirectRaw(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20010>> {
+        if (requestParameters.prepareOAuthRedirectParams === null || requestParameters.prepareOAuthRedirectParams === undefined) {
+            throw new runtime.RequiredError('prepareOAuthRedirectParams','Required parameter requestParameters.prepareOAuthRedirectParams was null or undefined when calling prepareOAuthRedirect.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/sessions/prepareOAuthRedirect`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PrepareOAuthRedirectParamsToJSON(requestParameters.prepareOAuthRedirectParams),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20010FromJSON(jsonValue));
+    }
+
+    /**
+     * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
+     */
+    async prepareOAuthRedirect(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<InlineResponse20010> {
+        const response = await this.prepareOAuthRedirectRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

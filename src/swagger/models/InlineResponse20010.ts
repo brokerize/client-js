@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    PreparedTrade,
-    PreparedTradeFromJSON,
-    PreparedTradeFromJSONTyped,
-    PreparedTradeToJSON,
-} from './PreparedTrade';
-
 /**
  * 
  * @export
@@ -28,10 +21,10 @@ import {
 export interface InlineResponse20010 {
     /**
      * 
-     * @type {PreparedTrade}
+     * @type {any}
      * @memberof InlineResponse20010
      */
-    preparedTrade: PreparedTrade;
+    redirectTo: any | null;
 }
 
 export function InlineResponse20010FromJSON(json: any): InlineResponse20010 {
@@ -44,7 +37,7 @@ export function InlineResponse20010FromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'preparedTrade': PreparedTradeFromJSON(json['preparedTrade']),
+        'redirectTo': json['redirectTo'],
     };
 }
 
@@ -57,7 +50,7 @@ export function InlineResponse20010ToJSON(value?: InlineResponse20010 | null): a
     }
     return {
         
-        'preparedTrade': PreparedTradeToJSON(value.preparedTrade),
+        'redirectTo': value.redirectTo,
     };
 }
 

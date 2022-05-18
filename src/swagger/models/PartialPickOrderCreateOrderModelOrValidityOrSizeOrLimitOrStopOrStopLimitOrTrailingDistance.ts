@@ -14,55 +14,95 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance,
-    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON,
-    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSONTyped,
-    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON,
-} from './PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance';
+    OrderModelOrderCreate,
+    OrderModelOrderCreateFromJSON,
+    OrderModelOrderCreateFromJSONTyped,
+    OrderModelOrderCreateToJSON,
+} from './OrderModelOrderCreate';
+import {
+    OrderValidity,
+    OrderValidityFromJSON,
+    OrderValidityFromJSONTyped,
+    OrderValidityToJSON,
+} from './OrderValidity';
+import {
+    TrailingDistance,
+    TrailingDistanceFromJSON,
+    TrailingDistanceFromJSONTyped,
+    TrailingDistanceToJSON,
+} from './TrailingDistance';
 
 /**
- * 
+ * Make all properties in T optional
  * @export
- * @interface ChangeOrderParams
+ * @interface PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance
  */
-export interface ChangeOrderParams {
+export interface PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance {
     /**
      * 
-     * @type {PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance}
-     * @memberof ChangeOrderParams
+     * @type {number}
+     * @memberof PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance
      */
-    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
+    limit?: number;
     /**
      * 
-     * @type {string}
-     * @memberof ChangeOrderParams
+     * @type {number}
+     * @memberof PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance
      */
-    challengeResponse: string;
+    stopLimit?: number;
     /**
      * 
-     * @type {string}
-     * @memberof ChangeOrderParams
+     * @type {OrderModelOrderCreate}
+     * @memberof PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance
      */
-    challengeId: string;
+    orderModel?: OrderModelOrderCreate;
+    /**
+     * 
+     * @type {OrderValidity}
+     * @memberof PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance
+     */
+    validity?: OrderValidity;
+    /**
+     * 
+     * @type {number}
+     * @memberof PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance
+     */
+    size?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance
+     */
+    stop?: number;
+    /**
+     * 
+     * @type {TrailingDistance}
+     * @memberof PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance
+     */
+    trailingDistance?: TrailingDistance;
 }
 
-export function ChangeOrderParamsFromJSON(json: any): ChangeOrderParams {
-    return ChangeOrderParamsFromJSONTyped(json, false);
+export function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON(json: any): PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance {
+    return PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSONTyped(json, false);
 }
 
-export function ChangeOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChangeOrderParams {
+export function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'changes': PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON(json['changes']),
-        'challengeResponse': json['challengeResponse'],
-        'challengeId': json['challengeId'],
+        'limit': !exists(json, 'limit') ? undefined : json['limit'],
+        'stopLimit': !exists(json, 'stopLimit') ? undefined : json['stopLimit'],
+        'orderModel': !exists(json, 'orderModel') ? undefined : OrderModelOrderCreateFromJSON(json['orderModel']),
+        'validity': !exists(json, 'validity') ? undefined : OrderValidityFromJSON(json['validity']),
+        'size': !exists(json, 'size') ? undefined : json['size'],
+        'stop': !exists(json, 'stop') ? undefined : json['stop'],
+        'trailingDistance': !exists(json, 'trailingDistance') ? undefined : TrailingDistanceFromJSON(json['trailingDistance']),
     };
 }
 
-export function ChangeOrderParamsToJSON(value?: ChangeOrderParams | null): any {
+export function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON(value?: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -71,9 +111,13 @@ export function ChangeOrderParamsToJSON(value?: ChangeOrderParams | null): any {
     }
     return {
         
-        'changes': PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON(value.changes),
-        'challengeResponse': value.challengeResponse,
-        'challengeId': value.challengeId,
+        'limit': value.limit,
+        'stopLimit': value.stopLimit,
+        'orderModel': OrderModelOrderCreateToJSON(value.orderModel),
+        'validity': OrderValidityToJSON(value.validity),
+        'size': value.size,
+        'stop': value.stop,
+        'trailingDistance': TrailingDistanceToJSON(value.trailingDistance),
     };
 }
 

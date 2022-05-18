@@ -12,28 +12,52 @@
  * Do not edit the class manually.
  */
 
+import { exists, mapValues } from '../runtime';
+import {
+    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance,
+    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON,
+    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSONTyped,
+    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON,
+} from './PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance';
+
 /**
  * 
  * @export
- * @enum {string}
+ * @interface EstimateChangeOrderCostsParams
  */
-export enum BrokerName {
-    Demo = 'demo',
-    Consors = 'consors',
-    Finanzen = 'finanzen',
-    Justtrade = 'justtrade',
-    Comdirect = 'comdirect'
+export interface EstimateChangeOrderCostsParams {
+    /**
+     * 
+     * @type {PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance}
+     * @memberof EstimateChangeOrderCostsParams
+     */
+    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
 }
 
-export function BrokerNameFromJSON(json: any): BrokerName {
-    return BrokerNameFromJSONTyped(json, false);
+export function EstimateChangeOrderCostsParamsFromJSON(json: any): EstimateChangeOrderCostsParams {
+    return EstimateChangeOrderCostsParamsFromJSONTyped(json, false);
 }
 
-export function BrokerNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerName {
-    return json as BrokerName;
+export function EstimateChangeOrderCostsParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): EstimateChangeOrderCostsParams {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'changes': PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON(json['changes']),
+    };
 }
 
-export function BrokerNameToJSON(value?: BrokerName | null): any {
-    return value as any;
+export function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrderCostsParams | null): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+    return {
+        
+        'changes': PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON(value.changes),
+    };
 }
 

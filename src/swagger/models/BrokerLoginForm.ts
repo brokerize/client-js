@@ -21,7 +21,7 @@ import {
 } from './BrokerLoginFormPasswordField';
 
 /**
- * 
+ * If a login form can be shown for the broker, describes the fields to show.
  * @export
  * @interface BrokerLoginForm
  */

@@ -12,28 +12,45 @@
  * Do not edit the class manually.
  */
 
+import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @enum {string}
+ * @interface InlineResponse20014
  */
-export enum BrokerName {
-    Demo = 'demo',
-    Consors = 'consors',
-    Finanzen = 'finanzen',
-    Justtrade = 'justtrade',
-    Comdirect = 'comdirect'
+export interface InlineResponse20014 {
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineResponse20014
+     */
+    userId: string;
 }
 
-export function BrokerNameFromJSON(json: any): BrokerName {
-    return BrokerNameFromJSONTyped(json, false);
+export function InlineResponse20014FromJSON(json: any): InlineResponse20014 {
+    return InlineResponse20014FromJSONTyped(json, false);
 }
 
-export function BrokerNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerName {
-    return json as BrokerName;
+export function InlineResponse20014FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineResponse20014 {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'userId': json['userId'],
+    };
 }
 
-export function BrokerNameToJSON(value?: BrokerName | null): any {
-    return value as any;
+export function InlineResponse20014ToJSON(value?: InlineResponse20014 | null): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+    return {
+        
+        'userId': value.userId,
+    };
 }
 
