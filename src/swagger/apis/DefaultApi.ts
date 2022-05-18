@@ -54,6 +54,9 @@ import {
     EndSessionTanResult,
     EndSessionTanResultFromJSON,
     EndSessionTanResultToJSON,
+    EstimateChangeOrderCostsParams,
+    EstimateChangeOrderCostsParamsFromJSON,
+    EstimateChangeOrderCostsParamsToJSON,
     InlineResponse200,
     InlineResponse200FromJSON,
     InlineResponse200ToJSON,
@@ -96,6 +99,9 @@ import {
     LoginResultReadyPublic,
     LoginResultReadyPublicFromJSON,
     LoginResultReadyPublicToJSON,
+    OrderCostEstimation,
+    OrderCostEstimationFromJSON,
+    OrderCostEstimationToJSON,
     PortfoliosResponse,
     PortfoliosResponseFromJSON,
     PortfoliosResponseToJSON,
@@ -164,6 +170,11 @@ export interface EndSessionTanRequest {
 
 export interface GetAuthInfoRequest {
     portfolioId: string;
+}
+
+export interface GetChangeOrderCostEstimationRequest {
+    id: string;
+    estimateChangeOrderCostsParams: EstimateChangeOrderCostsParams;
 }
 
 export interface GetDecoupledOperationStatusRequest {
@@ -397,6 +408,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * For brokers with OAuth login processes, this adds the session to the user\'s account after redirects happen. Only the user that is redirected from the broker login in the browser will receive the `code`. Therforce this step ensures that the logged-in user at brokerize is the one that has gone through the broker OAuth steps.
      */
     async confirmOAuthRaw(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20011>> {
         if (requestParameters.confirmOAuthParams === null || requestParameters.confirmOAuthParams === undefined) {
@@ -425,6 +437,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * For brokers with OAuth login processes, this adds the session to the user\'s account after redirects happen. Only the user that is redirected from the broker login in the browser will receive the `code`. Therforce this step ensures that the logged-in user at brokerize is the one that has gone through the broker OAuth steps.
      */
     async confirmOAuth(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<InlineResponse20011> {
         const response = await this.confirmOAuthRaw(requestParameters, initOverrides);
@@ -742,6 +755,47 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getBrokers(initOverrides?: RequestInit): Promise<InlineResponse200> {
         const response = await this.getBrokersRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get an order cost estimation for an order update.
+     */
+    async getChangeOrderCostEstimationRaw(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<OrderCostEstimation>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getChangeOrderCostEstimation.');
+        }
+
+        if (requestParameters.estimateChangeOrderCostsParams === null || requestParameters.estimateChangeOrderCostsParams === undefined) {
+            throw new runtime.RequiredError('estimateChangeOrderCostsParams','Required parameter requestParameters.estimateChangeOrderCostsParams was null or undefined when calling getChangeOrderCostEstimation.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/order/{id}/changeCostEstimation`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EstimateChangeOrderCostsParamsToJSON(requestParameters.estimateChangeOrderCostsParams),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => OrderCostEstimationFromJSON(jsonValue));
+    }
+
+    /**
+     * Get an order cost estimation for an order update.
+     */
+    async getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<OrderCostEstimation> {
+        const response = await this.getChangeOrderCostEstimationRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1082,6 +1136,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
      */
     async prepareOAuthRedirectRaw(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20010>> {
         if (requestParameters.prepareOAuthRedirectParams === null || requestParameters.prepareOAuthRedirectParams === undefined) {
@@ -1110,6 +1165,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
      */
     async prepareOAuthRedirect(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<InlineResponse20010> {
         const response = await this.prepareOAuthRedirectRaw(requestParameters, initOverrides);

@@ -15,6 +15,7 @@ models/BrokerMeta.ts
 models/BrokerName.ts
 models/CancelOrderChallengeParams.ts
 models/CancelOrderParams.ts
+models/CancelOrderParamsAnyOf.ts
 models/CashQuotation.ts
 models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
@@ -33,6 +34,7 @@ models/EnableSessionTanParamsDecoupled.ts
 models/EnableSessionTanResponse.ts
 models/EnableSessionTanResponseAnyOf.ts
 models/EndSessionTanResult.ts
+models/EstimateChangeOrderCostsParams.ts
 models/Exchange.ts
 models/GenericTable.ts
 models/GenericTableRow.ts
@@ -89,7 +91,7 @@ models/OrderModelOrderCreate.ts
 models/OrderStatus.ts
 models/OrderValidity.ts
 models/OrderValidityType.ts
-models/PartialPickOrderForCreateOrderModelOrValidityOrSize.ts
+models/PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance.ts
 models/PartialRecordOrderModelOrderValidity.ts
 models/PartialRecordOrderModelOrderValidityTypeArray.ts
 models/PortfolioQuotes.ts

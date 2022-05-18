@@ -39,11 +39,11 @@ import {
  */
 export interface BrokerMeta {
     /**
-     * If true, the broker login happens via OAuth (involving redirects). Prepare the redirect using
+     * If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.
      * @type {boolean}
      * @memberof BrokerMeta
      */
-    isOAuth?: boolean;
+    supportsOAuthLogin?: boolean;
     /**
      * 
      * @type {BrokerLoginForm}
@@ -74,7 +74,7 @@ export function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'isOAuth': !exists(json, 'isOAuth') ? undefined : json['isOAuth'],
+        'supportsOAuthLogin': !exists(json, 'supportsOAuthLogin') ? undefined : json['supportsOAuthLogin'],
         'loginForm': !exists(json, 'loginForm') ? undefined : BrokerLoginFormFromJSON(json['loginForm']),
         'envs': ((json['envs'] as Array<any>).map(BrokerEnvironmentFromJSON)),
         'brokerName': BrokerNameFromJSON(json['brokerName']),
@@ -90,7 +90,7 @@ export function BrokerMetaToJSON(value?: BrokerMeta | null): any {
     }
     return {
         
-        'isOAuth': value.isOAuth,
+        'supportsOAuthLogin': value.supportsOAuthLogin,
         'loginForm': BrokerLoginFormToJSON(value.loginForm),
         'envs': ((value.envs as Array<any>).map(BrokerEnvironmentToJSON)),
         'brokerName': BrokerNameToJSON(value.brokerName),

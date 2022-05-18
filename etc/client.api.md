@@ -331,8 +331,8 @@ function BrokerLoginFormToJSON(value?: BrokerLoginForm | null): any;
 interface BrokerMeta {
     brokerName: BrokerName;
     envs: Array<BrokerEnvironment>;
-    isOAuth?: boolean;
     loginForm?: BrokerLoginForm;
+    supportsOAuthLogin?: boolean;
 }
 
 // @public (undocumented)
@@ -394,6 +394,21 @@ interface CancelOrderParams {
     challengeId: string;
     challengeResponse: string;
 }
+
+// @public
+interface CancelOrderParamsAnyOf {
+    challengeId: string;
+    challengeResponse: string;
+}
+
+// @public (undocumented)
+function CancelOrderParamsAnyOfFromJSON(json: any): CancelOrderParamsAnyOf;
+
+// @public (undocumented)
+function CancelOrderParamsAnyOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderParamsAnyOf;
+
+// @public (undocumented)
+function CancelOrderParamsAnyOfToJSON(value?: CancelOrderParamsAnyOf | null): any;
 
 // @public (undocumented)
 function CancelOrderParamsFromJSON(json: any): CancelOrderParams;
@@ -462,7 +477,7 @@ function ChallengeToJSON(value?: Challenge | null): any;
 // @public
 interface ChangeOrderChallengeParams {
     authMethod: string;
-    changes: PartialPickOrderForCreateOrderModelOrValidityOrSize;
+    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
 }
 
 // @public (undocumented)
@@ -478,7 +493,7 @@ function ChangeOrderChallengeParamsToJSON(value?: ChangeOrderChallengeParams | n
 interface ChangeOrderParams {
     challengeId: string;
     challengeResponse: string;
-    changes: PartialPickOrderForCreateOrderModelOrValidityOrSize;
+    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
 }
 
 // @public (undocumented)
@@ -739,9 +754,7 @@ class DefaultApi extends runtime.BaseAPI {
     cancelOrderRaw(requestParameters: CancelOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
     changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit): Promise<void>;
     changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
-    // (undocumented)
     confirmOAuth(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<InlineResponse20011>;
-    // (undocumented)
     confirmOAuthRaw(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20011>>;
     createCancelOrderChallenge(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<Challenge>;
     createCancelOrderChallengeRaw(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Challenge>>;
@@ -769,6 +782,8 @@ class DefaultApi extends runtime.BaseAPI {
     getAuthInfoRaw(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2009>>;
     getBrokers(initOverrides?: RequestInit): Promise<InlineResponse200>;
     getBrokersRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse200>>;
+    getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<OrderCostEstimation>;
+    getChangeOrderCostEstimationRaw(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<OrderCostEstimation>>;
     // (undocumented)
     getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit): Promise<DecoupledOperationState>;
     // (undocumented)
@@ -801,9 +816,7 @@ class DefaultApi extends runtime.BaseAPI {
     getUserRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20014>>;
     logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit): Promise<InlineResponse2003>;
     logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2003>>;
-    // (undocumented)
     prepareOAuthRedirect(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<InlineResponse20010>;
-    // (undocumented)
     prepareOAuthRedirectRaw(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20010>>;
     triggerSessionSync(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit): Promise<InlineResponse2003>;
     triggerSessionSyncRaw(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2003>>;
@@ -973,6 +986,20 @@ function EndSessionTanResultFromJSONTyped(json: any, ignoreDiscriminator: boolea
 
 // @public (undocumented)
 function EndSessionTanResultToJSON(value?: EndSessionTanResult | null): any;
+
+// @public
+interface EstimateChangeOrderCostsParams {
+    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
+}
+
+// @public (undocumented)
+function EstimateChangeOrderCostsParamsFromJSON(json: any): EstimateChangeOrderCostsParams;
+
+// @public (undocumented)
+function EstimateChangeOrderCostsParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): EstimateChangeOrderCostsParams;
+
+// @public (undocumented)
+function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrderCostsParams | null): any;
 
 // @public
 interface Exchange {
@@ -1293,6 +1320,14 @@ function GenericTableToJSON(value?: GenericTable | null): any;
 interface GetAuthInfoRequest {
     // (undocumented)
     portfolioId: string;
+}
+
+// @public (undocumented)
+interface GetChangeOrderCostEstimationRequest {
+    // (undocumented)
+    estimateChangeOrderCostsParams: EstimateChangeOrderCostsParams;
+    // (undocumented)
+    id: string;
 }
 
 // @public
@@ -1861,8 +1896,12 @@ function NoSessionAvailableForPortfolioToJSON(value?: NoSessionAvailableForPortf
 interface Order {
     allowsCancel: boolean;
     allowsCancelAllOrderParts?: boolean;
+    allowsChangeLimit?: boolean;
     allowsChangeOrderModels?: Array<OrderModel>;
     allowsChangeSize: boolean;
+    allowsChangeStop?: boolean;
+    allowsChangeStopLimit?: boolean;
+    allowsChangeTrailingDistance?: boolean;
     allowsChangeValidityTypes?: Array<OrderValidityType>;
     bondCurrencyIso?: string;
     brokerExchangeId: string;
@@ -2180,20 +2219,24 @@ function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
 
 // @public
-interface PartialPickOrderForCreateOrderModelOrValidityOrSize {
+interface PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance {
+    limit?: number;
     orderModel?: OrderModelOrderCreate;
     size?: number;
+    stop?: number;
+    stopLimit?: number;
+    trailingDistance?: TrailingDistance;
     validity?: OrderValidity;
 }
 
 // @public (undocumented)
-function PartialPickOrderForCreateOrderModelOrValidityOrSizeFromJSON(json: any): PartialPickOrderForCreateOrderModelOrValidityOrSize;
+function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON(json: any): PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
 
 // @public (undocumented)
-function PartialPickOrderForCreateOrderModelOrValidityOrSizeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialPickOrderForCreateOrderModelOrValidityOrSize;
+function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
 
 // @public (undocumented)
-function PartialPickOrderForCreateOrderModelOrValidityOrSizeToJSON(value?: PartialPickOrderForCreateOrderModelOrValidityOrSize | null): any;
+function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON(value?: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance | null): any;
 
 // @public
 interface PartialRecordOrderModelOrderValidity {

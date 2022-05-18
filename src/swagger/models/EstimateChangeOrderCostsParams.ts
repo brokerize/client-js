@@ -23,46 +23,32 @@ import {
 /**
  * 
  * @export
- * @interface ChangeOrderParams
+ * @interface EstimateChangeOrderCostsParams
  */
-export interface ChangeOrderParams {
+export interface EstimateChangeOrderCostsParams {
     /**
      * 
      * @type {PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance}
-     * @memberof ChangeOrderParams
+     * @memberof EstimateChangeOrderCostsParams
      */
     changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChangeOrderParams
-     */
-    challengeResponse: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChangeOrderParams
-     */
-    challengeId: string;
 }
 
-export function ChangeOrderParamsFromJSON(json: any): ChangeOrderParams {
-    return ChangeOrderParamsFromJSONTyped(json, false);
+export function EstimateChangeOrderCostsParamsFromJSON(json: any): EstimateChangeOrderCostsParams {
+    return EstimateChangeOrderCostsParamsFromJSONTyped(json, false);
 }
 
-export function ChangeOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChangeOrderParams {
+export function EstimateChangeOrderCostsParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): EstimateChangeOrderCostsParams {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'changes': PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON(json['changes']),
-        'challengeResponse': json['challengeResponse'],
-        'challengeId': json['challengeId'],
     };
 }
 
-export function ChangeOrderParamsToJSON(value?: ChangeOrderParams | null): any {
+export function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrderCostsParams | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -72,8 +58,6 @@ export function ChangeOrderParamsToJSON(value?: ChangeOrderParams | null): any {
     return {
         
         'changes': PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON(value.changes),
-        'challengeResponse': value.challengeResponse,
-        'challengeId': value.challengeId,
     };
 }
 

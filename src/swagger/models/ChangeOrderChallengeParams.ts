@@ -14,11 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    PartialPickOrderForCreateOrderModelOrValidityOrSize,
-    PartialPickOrderForCreateOrderModelOrValidityOrSizeFromJSON,
-    PartialPickOrderForCreateOrderModelOrValidityOrSizeFromJSONTyped,
-    PartialPickOrderForCreateOrderModelOrValidityOrSizeToJSON,
-} from './PartialPickOrderForCreateOrderModelOrValidityOrSize';
+    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance,
+    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON,
+    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSONTyped,
+    PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON,
+} from './PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface ChangeOrderChallengeParams {
     /**
      * 
-     * @type {PartialPickOrderForCreateOrderModelOrValidityOrSize}
+     * @type {PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance}
      * @memberof ChangeOrderChallengeParams
      */
-    changes: PartialPickOrderForCreateOrderModelOrValidityOrSize;
+    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
     /**
      * 
      * @type {string}
@@ -50,7 +50,7 @@ export function ChangeOrderChallengeParamsFromJSONTyped(json: any, ignoreDiscrim
     }
     return {
         
-        'changes': PartialPickOrderForCreateOrderModelOrValidityOrSizeFromJSON(json['changes']),
+        'changes': PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON(json['changes']),
         'authMethod': json['authMethod'],
     };
 }
@@ -64,7 +64,7 @@ export function ChangeOrderChallengeParamsToJSON(value?: ChangeOrderChallengePar
     }
     return {
         
-        'changes': PartialPickOrderForCreateOrderModelOrValidityOrSizeToJSON(value.changes),
+        'changes': PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON(value.changes),
         'authMethod': value.authMethod,
     };
 }
