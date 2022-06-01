@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * brokerize
- * The brokerize API allows clients to implement multi-brokerage easily with a unified interface.  # user accounts & temporary guest sessions  Users either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.  # connecting brokers and synchronizing data to brokerize  The general approach is that users connect their brokerage accounts from either the official brokerize UI or from an app\'s interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. For example, an end user can add a Consorsbank login by calling [AddSession](#operation/AddSession). Note that brokerize *never* saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).  As soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their data are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios)). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available via the API until deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).  Data is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).   # performing actions in portfolios Actions can be performed in portfolios that have online sessions. Using [GetAuthInfo](#operation/GetAuthInfo), different methods for authorising an action can be figured out. For example, some brokers support mTAN, where an SMS is sent for a specific use-case (e.g. a set of parameters for order creation). Other brokers allow authorizing actions with their mobile apps. Brokerizes unifies that information in `AuthInfo`. Usually, an action requires creation of a challenge (for mTAN that would be when the broker sends an SMS with a code) and later the actual action with a response for that challenge. The following actions are implemented:  - Session TAN handling (for performing other actions in portfolios without further per-case authorization)     - [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge)     - [EnableSessionTan](#operation/EnableSessionTan)     - [EndSessionTan](#operation/EndSessionTan) - Create a trade     - [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio     - [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade     - [CreateTrade](#operation/CreateTrade) to perform the trade. - Edit an order (e.g. cancel or change specific fields)     - *not implemented yet*  # rate limits Currently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. Clients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior.
+ * The brokerize API allows clients to implement multi-brokerage easily with a unified interface.  # user accounts & temporary guest sessions  Users either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.  ![](/docs/diagrams/account.svg)  # connecting brokers and synchronizing data to brokerize  Users connect their brokerage accounts from either the official brokerize UI or from an app\'s interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).  As soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).  Data is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).  ![](/docs/diagrams/session-lifecycle.svg)  # performing actions in portfolios  Actions can be performed in portfolios that have online sessions.  In order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).  The following actions are implemented:  -   Session TAN handling (for performing other actions in portfolios without further per-case authorization)     -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.     -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.     -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN. -   Create a trade     -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.     -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.     -   [CreateTrade](#operation/CreateTrade) to perform the trade. -   Edit an order     -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.     -   [ChangeOrder](#operation/ChangeOrder) to change an order. -   Cancel an order     -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.     -   [CancelOrder](#operation/CancelOrder) to cancel an order.  # rate limits  Currently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. Clients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior. The rate limits will be refined in the future.  | `flow`               | requires challenge? | Description                                                                                                                                                                                                          | | -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              | | `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters | | `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action\'s status. Users will authorize the action in another frontend (usually in their broker\'s app)   | 
  *
  * The version of the OpenAPI document: 0.0.1-preview
  * 
@@ -13,6 +13,25 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    AuthMethodChallengeResponse,
+    AuthMethodChallengeResponseFromJSON,
+    AuthMethodChallengeResponseFromJSONTyped,
+    AuthMethodChallengeResponseToJSON,
+} from './AuthMethodChallengeResponse';
+import {
+    AuthMethodDecoupled,
+    AuthMethodDecoupledFromJSON,
+    AuthMethodDecoupledFromJSONTyped,
+    AuthMethodDecoupledToJSON,
+} from './AuthMethodDecoupled';
+import {
+    AuthMethodTan,
+    AuthMethodTanFromJSON,
+    AuthMethodTanFromJSONTyped,
+    AuthMethodTanToJSON,
+} from './AuthMethodTan';
+
 /**
  * 
  * @export
@@ -24,25 +43,7 @@ export interface AuthMethod {
      * @type {string}
      * @memberof AuthMethod
      */
-    id: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AuthMethod
-     */
-    label: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AuthMethod
-     */
-    requiresChallenge: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof AuthMethod
-     */
-    getChallengeLabel?: string;
+    tanFieldLabel: string;
     /**
      * 
      * @type {boolean}
@@ -54,21 +55,39 @@ export interface AuthMethod {
      * @type {string}
      * @memberof AuthMethod
      */
-    tanFieldLabel?: string;
+    label: string;
     /**
-     * If operations are not confirmed with a TAN (e.g. "Push TAN", where the operation is confirmed in the broker's authorization app),
-     * the confirmation/perform step is only the user telling us that she has confirmed the operation.
-     * Defaults to `false`
-     * @type {boolean}
+     * 
+     * @type {string}
      * @memberof AuthMethod
      */
-    isDecoupled?: boolean;
+    flow: AuthMethodFlowEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthMethod
+     */
+    id: string;
     /**
      * 
      * @type {string}
      * @memberof AuthMethod
      */
     challengeLabel?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthMethod
+     */
+    getChallengeLabel: string;
+}
+
+/**
+* @export
+* @enum {string}
+*/
+export enum AuthMethodFlowEnum {
+    ChallengeResponse = 'CHALLENGE_RESPONSE'
 }
 
 export function AuthMethodFromJSON(json: any): AuthMethod {
@@ -81,14 +100,13 @@ export function AuthMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'id': json['id'],
-        'label': json['label'],
-        'requiresChallenge': json['requiresChallenge'],
-        'getChallengeLabel': !exists(json, 'getChallengeLabel') ? undefined : json['getChallengeLabel'],
+        'tanFieldLabel': json['tanFieldLabel'],
         'isDefaultMethod': !exists(json, 'isDefaultMethod') ? undefined : json['isDefaultMethod'],
-        'tanFieldLabel': !exists(json, 'tanFieldLabel') ? undefined : json['tanFieldLabel'],
-        'isDecoupled': !exists(json, 'isDecoupled') ? undefined : json['isDecoupled'],
+        'label': json['label'],
+        'flow': json['flow'],
+        'id': json['id'],
         'challengeLabel': !exists(json, 'challengeLabel') ? undefined : json['challengeLabel'],
+        'getChallengeLabel': json['getChallengeLabel'],
     };
 }
 
@@ -101,14 +119,13 @@ export function AuthMethodToJSON(value?: AuthMethod | null): any {
     }
     return {
         
-        'id': value.id,
-        'label': value.label,
-        'requiresChallenge': value.requiresChallenge,
-        'getChallengeLabel': value.getChallengeLabel,
-        'isDefaultMethod': value.isDefaultMethod,
         'tanFieldLabel': value.tanFieldLabel,
-        'isDecoupled': value.isDecoupled,
+        'isDefaultMethod': value.isDefaultMethod,
+        'label': value.label,
+        'flow': value.flow,
+        'id': value.id,
         'challengeLabel': value.challengeLabel,
+        'getChallengeLabel': value.getChallengeLabel,
     };
 }
 

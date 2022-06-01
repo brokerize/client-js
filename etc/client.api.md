@@ -102,13 +102,67 @@ function AuthInfoToJSON(value?: AuthInfo | null): any;
 // @public
 interface AuthMethod {
     challengeLabel?: string;
-    getChallengeLabel?: string;
+    flow: AuthMethodFlowEnum;
+    getChallengeLabel: string;
     id: string;
-    isDecoupled?: boolean;
     isDefaultMethod?: boolean;
     label: string;
-    requiresChallenge: boolean;
-    tanFieldLabel?: string;
+    tanFieldLabel: string;
+}
+
+// @public
+interface AuthMethodChallengeResponse {
+    challengeLabel?: string;
+    flow: AuthMethodChallengeResponseFlowEnum;
+    getChallengeLabel: string;
+    id: string;
+    isDefaultMethod?: boolean;
+    label: string;
+    tanFieldLabel: string;
+}
+
+// @public
+enum AuthMethodChallengeResponseFlowEnum {
+    // (undocumented)
+    ChallengeResponse = "CHALLENGE_RESPONSE"
+}
+
+// @public (undocumented)
+function AuthMethodChallengeResponseFromJSON(json: any): AuthMethodChallengeResponse;
+
+// @public (undocumented)
+function AuthMethodChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodChallengeResponse;
+
+// @public (undocumented)
+function AuthMethodChallengeResponseToJSON(value?: AuthMethodChallengeResponse | null): any;
+
+// @public
+interface AuthMethodDecoupled {
+    flow: AuthMethodDecoupledFlowEnum;
+    id: string;
+    isDefaultMethod?: boolean;
+    label: string;
+}
+
+// @public
+enum AuthMethodDecoupledFlowEnum {
+    // (undocumented)
+    Decoupled = "DECOUPLED"
+}
+
+// @public (undocumented)
+function AuthMethodDecoupledFromJSON(json: any): AuthMethodDecoupled;
+
+// @public (undocumented)
+function AuthMethodDecoupledFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodDecoupled;
+
+// @public (undocumented)
+function AuthMethodDecoupledToJSON(value?: AuthMethodDecoupled | null): any;
+
+// @public
+enum AuthMethodFlowEnum {
+    // (undocumented)
+    ChallengeResponse = "CHALLENGE_RESPONSE"
 }
 
 // @public (undocumented)
@@ -116,6 +170,30 @@ function AuthMethodFromJSON(json: any): AuthMethod;
 
 // @public (undocumented)
 function AuthMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethod;
+
+// @public
+interface AuthMethodTan {
+    flow: AuthMethodTanFlowEnum;
+    id: string;
+    isDefaultMethod?: boolean;
+    label: string;
+    tanFieldLabel: string;
+}
+
+// @public
+enum AuthMethodTanFlowEnum {
+    // (undocumented)
+    Tan = "TAN"
+}
+
+// @public (undocumented)
+function AuthMethodTanFromJSON(json: any): AuthMethodTan;
+
+// @public (undocumented)
+function AuthMethodTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodTan;
+
+// @public (undocumented)
+function AuthMethodTanToJSON(value?: AuthMethodTan | null): any;
 
 // @public (undocumented)
 function AuthMethodToJSON(value?: AuthMethod | null): any;
@@ -289,6 +367,22 @@ export class BrokerizeWebSocketClient {
     subscribeInvalidate(subscribe: SubscribeInvalidateDetails, callback: Callback): Subscription;
 }
 
+// Warning: (ae-forgotten-export) The symbol "runtime" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+class BrokerLoginApi extends runtime.BaseAPI {
+    // (undocumented)
+    addSession(requestParameters: AddSessionRequest, initOverrides?: RequestInit): Promise<LoginResultPublic>;
+    addSessionCompleteChallenge(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit): Promise<LoginResultReadyPublic>;
+    addSessionCompleteChallengeRaw(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<LoginResultReadyPublic>>;
+    // (undocumented)
+    addSessionRaw(requestParameters: AddSessionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<LoginResultPublic>>;
+    confirmOAuth(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<InlineResponse20011>;
+    confirmOAuthRaw(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20011>>;
+    prepareOAuthRedirect(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<InlineResponse20010>;
+    prepareOAuthRedirectRaw(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20010>>;
+}
+
 // @public
 interface BrokerLoginForm {
     passwordField?: BrokerLoginFormPasswordField;
@@ -375,6 +469,14 @@ interface CancelDecoupledOperationRequest {
     sessionId: string;
 }
 
+// @public (undocumented)
+class CancelOrderApi extends runtime.BaseAPI {
+    cancelOrder(requestParameters: CancelOrderRequest, initOverrides?: RequestInit): Promise<void>;
+    cancelOrderRaw(requestParameters: CancelOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
+    createCancelOrderChallenge(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<Challenge>;
+    createCancelOrderChallengeRaw(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Challenge>>;
+}
+
 // @public
 interface CancelOrderChallengeParams {
     authMethod: string;
@@ -390,25 +492,25 @@ function CancelOrderChallengeParamsFromJSONTyped(json: any, ignoreDiscriminator:
 function CancelOrderChallengeParamsToJSON(value?: CancelOrderChallengeParams | null): any;
 
 // @public
+interface CancelOrderChallengeResponse {
+    challengeId: string;
+    challengeResponse: string;
+}
+
+// @public (undocumented)
+function CancelOrderChallengeResponseFromJSON(json: any): CancelOrderChallengeResponse;
+
+// @public (undocumented)
+function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderChallengeResponse;
+
+// @public (undocumented)
+function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse | null): any;
+
+// @public
 interface CancelOrderParams {
     challengeId: string;
     challengeResponse: string;
 }
-
-// @public
-interface CancelOrderParamsAnyOf {
-    challengeId: string;
-    challengeResponse: string;
-}
-
-// @public (undocumented)
-function CancelOrderParamsAnyOfFromJSON(json: any): CancelOrderParamsAnyOf;
-
-// @public (undocumented)
-function CancelOrderParamsAnyOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderParamsAnyOf;
-
-// @public (undocumented)
-function CancelOrderParamsAnyOfToJSON(value?: CancelOrderParamsAnyOf | null): any;
 
 // @public (undocumented)
 function CancelOrderParamsFromJSON(json: any): CancelOrderParams;
@@ -474,10 +576,20 @@ function ChallengeFromJSONTyped(json: any, ignoreDiscriminator: boolean): Challe
 // @public (undocumented)
 function ChallengeToJSON(value?: Challenge | null): any;
 
+// @public (undocumented)
+class ChangeOrderApi extends runtime.BaseAPI {
+    changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit): Promise<void>;
+    changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
+    createChangeOrderChallenge(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit): Promise<Challenge>;
+    createChangeOrderChallengeRaw(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Challenge>>;
+    getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<OrderCostEstimation>;
+    getChangeOrderCostEstimationRaw(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<OrderCostEstimation>>;
+}
+
 // @public
 interface ChangeOrderChallengeParams {
     authMethod: string;
-    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
+    changes: OrderChanges;
 }
 
 // @public (undocumented)
@@ -493,7 +605,7 @@ function ChangeOrderChallengeParamsToJSON(value?: ChangeOrderChallengeParams | n
 interface ChangeOrderParams {
     challengeId: string;
     challengeResponse: string;
-    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
+    changes: OrderChanges;
 }
 
 // @public (undocumented)
@@ -736,30 +848,12 @@ function DecoupledOperationStateFromJSONTyped(json: any, ignoreDiscriminator: bo
 // @public (undocumented)
 function DecoupledOperationStateToJSON(value?: DecoupledOperationState | null): any;
 
-// Warning: (ae-forgotten-export) The symbol "runtime" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 class DefaultApi extends runtime.BaseAPI {
-    // (undocumented)
-    addSession(requestParameters: AddSessionRequest, initOverrides?: RequestInit): Promise<LoginResultPublic>;
-    addSessionCompleteChallenge(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit): Promise<LoginResultReadyPublic>;
-    addSessionCompleteChallengeRaw(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<LoginResultReadyPublic>>;
-    // (undocumented)
-    addSessionRaw(requestParameters: AddSessionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<LoginResultPublic>>;
     // (undocumented)
     cancelDecoupledOperation(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit): Promise<void>;
     // (undocumented)
     cancelDecoupledOperationRaw(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
-    cancelOrder(requestParameters: CancelOrderRequest, initOverrides?: RequestInit): Promise<void>;
-    cancelOrderRaw(requestParameters: CancelOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
-    changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit): Promise<void>;
-    changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
-    confirmOAuth(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<InlineResponse20011>;
-    confirmOAuthRaw(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20011>>;
-    createCancelOrderChallenge(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<Challenge>;
-    createCancelOrderChallengeRaw(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Challenge>>;
-    createChangeOrderChallenge(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit): Promise<Challenge>;
-    createChangeOrderChallengeRaw(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Challenge>>;
     createGuestUser(initOverrides?: RequestInit): Promise<InlineResponse20015>;
     createGuestUserRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20015>>;
     // (undocumented)
@@ -776,20 +870,12 @@ class DefaultApi extends runtime.BaseAPI {
     enableSessionTanRaw(requestParameters: EnableSessionTanRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<EnableSessionTanResponse>>;
     endSessionTan(requestParameters: EndSessionTanRequest, initOverrides?: RequestInit): Promise<EndSessionTanResult>;
     endSessionTanRaw(requestParameters: EndSessionTanRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<EndSessionTanResult>>;
-    // (undocumented)
     getAuthInfo(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit): Promise<InlineResponse2009>;
-    // (undocumented)
     getAuthInfoRaw(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2009>>;
-    getBrokers(initOverrides?: RequestInit): Promise<InlineResponse200>;
-    getBrokersRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse200>>;
-    getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<OrderCostEstimation>;
-    getChangeOrderCostEstimationRaw(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<OrderCostEstimation>>;
     // (undocumented)
     getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit): Promise<DecoupledOperationState>;
     // (undocumented)
     getDecoupledOperationStatusRaw(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<DecoupledOperationState>>;
-    getExchanges(initOverrides?: RequestInit): Promise<InlineResponse2004>;
-    getExchangesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2004>>;
     // (undocumented)
     getOrder(requestParameters: GetOrderRequest, initOverrides?: RequestInit): Promise<InlineResponse2005>;
     // (undocumented)
@@ -816,13 +902,35 @@ class DefaultApi extends runtime.BaseAPI {
     getUserRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20014>>;
     logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit): Promise<InlineResponse2003>;
     logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2003>>;
-    prepareOAuthRedirect(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<InlineResponse20010>;
-    prepareOAuthRedirectRaw(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20010>>;
     triggerSessionSync(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit): Promise<InlineResponse2003>;
     triggerSessionSyncRaw(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2003>>;
     websocket(initOverrides?: RequestInit): Promise<void>;
     websocketRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>>;
 }
+
+// @public
+interface DefaultOrderValidityByOrderModel {
+    fraction?: OrderValidity;
+    limit?: OrderValidity;
+    market?: OrderValidity;
+    ocoStopLimit?: OrderValidity;
+    ocoStopMarket?: OrderValidity;
+    quote?: OrderValidity;
+    savingsPlan?: OrderValidity;
+    stopLimit?: OrderValidity;
+    stopMarket?: OrderValidity;
+    trailingStopLimit?: OrderValidity;
+    trailingStopMarket?: OrderValidity;
+}
+
+// @public (undocumented)
+function DefaultOrderValidityByOrderModelFromJSON(json: any): DefaultOrderValidityByOrderModel;
+
+// @public (undocumented)
+function DefaultOrderValidityByOrderModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): DefaultOrderValidityByOrderModel;
+
+// @public (undocumented)
+function DefaultOrderValidityByOrderModelToJSON(value?: DefaultOrderValidityByOrderModel | null): any;
 
 // @public (undocumented)
 interface DeleteDemoAccountRequest {
@@ -840,9 +948,7 @@ interface DeletePortfolioRequest {
 class DemobrokerApi extends runtime.BaseAPI {
     createDemoAccount(initOverrides?: RequestInit): Promise<InlineResponse2002>;
     createDemoAccountRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2002>>;
-    // (undocumented)
     deleteDemoAccount(requestParameters: DeleteDemoAccountRequest, initOverrides?: RequestInit): Promise<InlineResponse2003>;
-    // (undocumented)
     deleteDemoAccountRaw(requestParameters: DeleteDemoAccountRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2003>>;
     getDemoAccounts(initOverrides?: RequestInit): Promise<InlineResponse2001>;
     getDemoAccountsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2001>>;
@@ -989,7 +1095,7 @@ function EndSessionTanResultToJSON(value?: EndSessionTanResult | null): any;
 
 // @public
 interface EstimateChangeOrderCostsParams {
-    changes: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
+    changes: OrderChanges;
 }
 
 // @public (undocumented)
@@ -1005,13 +1111,13 @@ function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrderCostsPa
 interface Exchange {
     allowsIfDoneLimit?: boolean;
     allowsQuoteModeLimit?: boolean;
-    defaultValidityByOrderModel?: PartialRecordOrderModelOrderValidity;
+    defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
     hideOrderModel?: boolean;
     id: string;
     label: string;
     orderModelsBuy: Array<OrderModel>;
     orderModelsSell: Array<OrderModel>;
-    validityTypesByOrderModel?: PartialRecordOrderModelOrderValidityTypeArray;
+    validityTypesByOrderModel?: OrderValidityTypeByOrderModel;
 }
 
 // @public (undocumented)
@@ -1740,21 +1846,6 @@ function InlineResponse200FromJSONTyped(json: any, ignoreDiscriminator: boolean)
 // @public (undocumented)
 function InlineResponse200ToJSON(value?: InlineResponse200 | null): any;
 
-// @public
-interface Instrument {
-    isin: string;
-    name: string;
-}
-
-// @public (undocumented)
-function InstrumentFromJSON(json: any): Instrument;
-
-// @public (undocumented)
-function InstrumentFromJSONTyped(json: any, ignoreDiscriminator: boolean): Instrument;
-
-// @public (undocumented)
-function InstrumentToJSON(value?: Instrument | null): any;
-
 // @public (undocumented)
 type Json = any;
 
@@ -1841,6 +1932,14 @@ interface LogoutSessionRequest {
 function mapValues(data: any, fn: (item: any) => any): {};
 
 // @public (undocumented)
+class MetaApi extends runtime.BaseAPI {
+    getBrokers(initOverrides?: RequestInit): Promise<InlineResponse200>;
+    getBrokersRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse200>>;
+    getExchanges(initOverrides?: RequestInit): Promise<InlineResponse2004>;
+    getExchangesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2004>>;
+}
+
+// @public (undocumented)
 interface Middleware {
     // (undocumented)
     post?(context: ResponseContext): Promise<Response | void>;
@@ -1850,6 +1949,467 @@ interface Middleware {
 
 // @public (undocumented)
 type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
+
+declare namespace Models {
+    export {
+        AddSessionCompleteChallengeParamsFromJSON,
+        AddSessionCompleteChallengeParamsFromJSONTyped,
+        AddSessionCompleteChallengeParamsToJSON,
+        AddSessionCompleteChallengeParams,
+        AddSessionParamsFromJSON,
+        AddSessionParamsFromJSONTyped,
+        AddSessionParamsToJSON,
+        AddSessionParams,
+        AmountFromJSON,
+        AmountFromJSONTyped,
+        AmountToJSON,
+        Amount,
+        AuthInfoFromJSON,
+        AuthInfoFromJSONTyped,
+        AuthInfoToJSON,
+        AuthInfo,
+        AuthMethodFromJSON,
+        AuthMethodFromJSONTyped,
+        AuthMethodToJSON,
+        AuthMethod,
+        AuthMethodFlowEnum,
+        AuthMethodChallengeResponseFromJSON,
+        AuthMethodChallengeResponseFromJSONTyped,
+        AuthMethodChallengeResponseToJSON,
+        AuthMethodChallengeResponse,
+        AuthMethodChallengeResponseFlowEnum,
+        AuthMethodDecoupledFromJSON,
+        AuthMethodDecoupledFromJSONTyped,
+        AuthMethodDecoupledToJSON,
+        AuthMethodDecoupled,
+        AuthMethodDecoupledFlowEnum,
+        AuthMethodTanFromJSON,
+        AuthMethodTanFromJSONTyped,
+        AuthMethodTanToJSON,
+        AuthMethodTan,
+        AuthMethodTanFlowEnum,
+        BrokerEnvironmentFromJSON,
+        BrokerEnvironmentFromJSONTyped,
+        BrokerEnvironmentToJSON,
+        BrokerEnvironment,
+        BrokerLoginFormFromJSON,
+        BrokerLoginFormFromJSONTyped,
+        BrokerLoginFormToJSON,
+        BrokerLoginForm,
+        BrokerLoginFormPasswordFieldFromJSON,
+        BrokerLoginFormPasswordFieldFromJSONTyped,
+        BrokerLoginFormPasswordFieldToJSON,
+        BrokerLoginFormPasswordField,
+        BrokerLoginFormPasswordFieldTypeEnum,
+        BrokerMetaFromJSON,
+        BrokerMetaFromJSONTyped,
+        BrokerMetaToJSON,
+        BrokerMeta,
+        BrokerNameFromJSON,
+        BrokerNameFromJSONTyped,
+        BrokerNameToJSON,
+        BrokerName,
+        CancelOrderChallengeParamsFromJSON,
+        CancelOrderChallengeParamsFromJSONTyped,
+        CancelOrderChallengeParamsToJSON,
+        CancelOrderChallengeParams,
+        CancelOrderChallengeResponseFromJSON,
+        CancelOrderChallengeResponseFromJSONTyped,
+        CancelOrderChallengeResponseToJSON,
+        CancelOrderChallengeResponse,
+        CancelOrderParamsFromJSON,
+        CancelOrderParamsFromJSONTyped,
+        CancelOrderParamsToJSON,
+        CancelOrderParams,
+        CashQuotationFromJSON,
+        CashQuotationFromJSONTyped,
+        CashQuotationToJSON,
+        CashQuotation,
+        ChallengeFromJSON,
+        ChallengeFromJSONTyped,
+        ChallengeToJSON,
+        Challenge,
+        ChallengeChallengePromptTypeEnum,
+        ChangeOrderChallengeParamsFromJSON,
+        ChangeOrderChallengeParamsFromJSONTyped,
+        ChangeOrderChallengeParamsToJSON,
+        ChangeOrderChallengeParams,
+        ChangeOrderParamsFromJSON,
+        ChangeOrderParamsFromJSONTyped,
+        ChangeOrderParamsToJSON,
+        ChangeOrderParams,
+        ConfirmOAuthParamsFromJSON,
+        ConfirmOAuthParamsFromJSONTyped,
+        ConfirmOAuthParamsToJSON,
+        ConfirmOAuthParams,
+        CostDetailsLinkFromJSON,
+        CostDetailsLinkFromJSONTyped,
+        CostDetailsLinkToJSON,
+        CostDetailsLink,
+        CreateOrderChallengeParamsFromJSON,
+        CreateOrderChallengeParamsFromJSONTyped,
+        CreateOrderChallengeParamsToJSON,
+        CreateOrderChallengeParams,
+        CreateOrderParamsFromJSON,
+        CreateOrderParamsFromJSONTyped,
+        CreateOrderParamsToJSON,
+        CreateOrderParams,
+        CreateOrderParamsWithChallengeResponseFromJSON,
+        CreateOrderParamsWithChallengeResponseFromJSONTyped,
+        CreateOrderParamsWithChallengeResponseToJSON,
+        CreateOrderParamsWithChallengeResponse,
+        CreateTanChallengeParamsFromJSON,
+        CreateTanChallengeParamsFromJSONTyped,
+        CreateTanChallengeParamsToJSON,
+        CreateTanChallengeParams,
+        DecoupledOperationStateFromJSON,
+        DecoupledOperationStateFromJSONTyped,
+        DecoupledOperationStateToJSON,
+        DecoupledOperationState,
+        DefaultOrderValidityByOrderModelFromJSON,
+        DefaultOrderValidityByOrderModelFromJSONTyped,
+        DefaultOrderValidityByOrderModelToJSON,
+        DefaultOrderValidityByOrderModel,
+        DirectionFromJSON,
+        DirectionFromJSONTyped,
+        DirectionToJSON,
+        Direction,
+        EnableSessionTanParamsFromJSON,
+        EnableSessionTanParamsFromJSONTyped,
+        EnableSessionTanParamsToJSON,
+        EnableSessionTanParams,
+        EnableSessionTanParamsKindEnum,
+        EnableSessionTanParamsChallengeResponseFromJSON,
+        EnableSessionTanParamsChallengeResponseFromJSONTyped,
+        EnableSessionTanParamsChallengeResponseToJSON,
+        EnableSessionTanParamsChallengeResponse,
+        EnableSessionTanParamsChallengeResponseKindEnum,
+        EnableSessionTanParamsDecoupledFromJSON,
+        EnableSessionTanParamsDecoupledFromJSONTyped,
+        EnableSessionTanParamsDecoupledToJSON,
+        EnableSessionTanParamsDecoupled,
+        EnableSessionTanParamsDecoupledKindEnum,
+        EnableSessionTanResponseFromJSON,
+        EnableSessionTanResponseFromJSONTyped,
+        EnableSessionTanResponseToJSON,
+        EnableSessionTanResponse,
+        EnableSessionTanResponseAnyOfFromJSON,
+        EnableSessionTanResponseAnyOfFromJSONTyped,
+        EnableSessionTanResponseAnyOfToJSON,
+        EnableSessionTanResponseAnyOf,
+        EndSessionTanResultFromJSON,
+        EndSessionTanResultFromJSONTyped,
+        EndSessionTanResultToJSON,
+        EndSessionTanResult,
+        EstimateChangeOrderCostsParamsFromJSON,
+        EstimateChangeOrderCostsParamsFromJSONTyped,
+        EstimateChangeOrderCostsParamsToJSON,
+        EstimateChangeOrderCostsParams,
+        ExchangeFromJSON,
+        ExchangeFromJSONTyped,
+        ExchangeToJSON,
+        Exchange,
+        GenericTableFromJSON,
+        GenericTableFromJSONTyped,
+        GenericTableToJSON,
+        GenericTable,
+        GenericTableRowFromJSON,
+        GenericTableRowFromJSONTyped,
+        GenericTableRowToJSON,
+        GenericTableRow,
+        GenericTableRowEntryFromJSON,
+        GenericTableRowEntryFromJSONTyped,
+        GenericTableRowEntryToJSON,
+        GenericTableRowEntry,
+        GenericTableRowSubheadingFromJSON,
+        GenericTableRowSubheadingFromJSONTyped,
+        GenericTableRowSubheadingToJSON,
+        GenericTableRowSubheading,
+        GenericTableRowTextFromJSON,
+        GenericTableRowTextFromJSONTyped,
+        GenericTableRowTextToJSON,
+        GenericTableRowText,
+        GenericTableRowValueFromJSON,
+        GenericTableRowValueFromJSONTyped,
+        GenericTableRowValueToJSON,
+        GenericTableRowValue,
+        GenericTableRowValueTypeEnum,
+        GenericTableRowValueAnyOfFromJSON,
+        GenericTableRowValueAnyOfFromJSONTyped,
+        GenericTableRowValueAnyOfToJSON,
+        GenericTableRowValueAnyOf,
+        GenericTableRowValueAnyOfTypeEnum,
+        GenericTableRowValueAnyOf1FromJSON,
+        GenericTableRowValueAnyOf1FromJSONTyped,
+        GenericTableRowValueAnyOf1ToJSON,
+        GenericTableRowValueAnyOf1,
+        GenericTableRowValueAnyOf1TypeEnum,
+        GenericTableRowValueAnyOf2FromJSON,
+        GenericTableRowValueAnyOf2FromJSONTyped,
+        GenericTableRowValueAnyOf2ToJSON,
+        GenericTableRowValueAnyOf2,
+        GenericTableRowValueAnyOf2TypeEnum,
+        GenericTableRowValueAnyOf3FromJSON,
+        GenericTableRowValueAnyOf3FromJSONTyped,
+        GenericTableRowValueAnyOf3ToJSON,
+        GenericTableRowValueAnyOf3,
+        GenericTableRowValueAnyOf3TypeEnum,
+        GenericTableRowValueAnyOf4FromJSON,
+        GenericTableRowValueAnyOf4FromJSONTyped,
+        GenericTableRowValueAnyOf4ToJSON,
+        GenericTableRowValueAnyOf4,
+        GenericTableRowValueAnyOf4TypeEnum,
+        GenericTableRowValueLinkFromJSON,
+        GenericTableRowValueLinkFromJSONTyped,
+        GenericTableRowValueLinkToJSON,
+        GenericTableRowValueLink,
+        GenericTableRowValueLinkTypeEnum,
+        GenericTableRowValueLinkPortfolioFromJSON,
+        GenericTableRowValueLinkPortfolioFromJSONTyped,
+        GenericTableRowValueLinkPortfolioToJSON,
+        GenericTableRowValueLinkPortfolio,
+        GenericTableRowValueLinkPortfolioTypeEnum,
+        GenericTableRowValueLinkUrlFromJSON,
+        GenericTableRowValueLinkUrlFromJSONTyped,
+        GenericTableRowValueLinkUrlToJSON,
+        GenericTableRowValueLinkUrl,
+        GenericTableRowValueLinkUrlTypeEnum,
+        GetCostEstimationParamsFromJSON,
+        GetCostEstimationParamsFromJSONTyped,
+        GetCostEstimationParamsToJSON,
+        GetCostEstimationParams,
+        GetQuoteParamsFromJSON,
+        GetQuoteParamsFromJSONTyped,
+        GetQuoteParamsToJSON,
+        GetQuoteParams,
+        GetQuoteResultFromJSON,
+        GetQuoteResultFromJSONTyped,
+        GetQuoteResultToJSON,
+        GetQuoteResult,
+        GetQuoteResultExpirationFromJSON,
+        GetQuoteResultExpirationFromJSONTyped,
+        GetQuoteResultExpirationToJSON,
+        GetQuoteResultExpiration,
+        HintFromJSON,
+        HintFromJSONTyped,
+        HintToJSON,
+        Hint,
+        InlineResponse200FromJSON,
+        InlineResponse200FromJSONTyped,
+        InlineResponse200ToJSON,
+        InlineResponse200,
+        InlineResponse2001FromJSON,
+        InlineResponse2001FromJSONTyped,
+        InlineResponse2001ToJSON,
+        InlineResponse2001,
+        InlineResponse20010FromJSON,
+        InlineResponse20010FromJSONTyped,
+        InlineResponse20010ToJSON,
+        InlineResponse20010,
+        InlineResponse20011FromJSON,
+        InlineResponse20011FromJSONTyped,
+        InlineResponse20011ToJSON,
+        InlineResponse20011,
+        InlineResponse20012FromJSON,
+        InlineResponse20012FromJSONTyped,
+        InlineResponse20012ToJSON,
+        InlineResponse20012,
+        InlineResponse20013FromJSON,
+        InlineResponse20013FromJSONTyped,
+        InlineResponse20013ToJSON,
+        InlineResponse20013,
+        InlineResponse20014FromJSON,
+        InlineResponse20014FromJSONTyped,
+        InlineResponse20014ToJSON,
+        InlineResponse20014,
+        InlineResponse20015FromJSON,
+        InlineResponse20015FromJSONTyped,
+        InlineResponse20015ToJSON,
+        InlineResponse20015,
+        InlineResponse2001AccountsFromJSON,
+        InlineResponse2001AccountsFromJSONTyped,
+        InlineResponse2001AccountsToJSON,
+        InlineResponse2001Accounts,
+        InlineResponse2002FromJSON,
+        InlineResponse2002FromJSONTyped,
+        InlineResponse2002ToJSON,
+        InlineResponse2002,
+        InlineResponse2003FromJSON,
+        InlineResponse2003FromJSONTyped,
+        InlineResponse2003ToJSON,
+        InlineResponse2003,
+        InlineResponse2004FromJSON,
+        InlineResponse2004FromJSONTyped,
+        InlineResponse2004ToJSON,
+        InlineResponse2004,
+        InlineResponse2004ExchangesFromJSON,
+        InlineResponse2004ExchangesFromJSONTyped,
+        InlineResponse2004ExchangesToJSON,
+        InlineResponse2004Exchanges,
+        InlineResponse2005FromJSON,
+        InlineResponse2005FromJSONTyped,
+        InlineResponse2005ToJSON,
+        InlineResponse2005,
+        InlineResponse2006FromJSON,
+        InlineResponse2006FromJSONTyped,
+        InlineResponse2006ToJSON,
+        InlineResponse2006,
+        InlineResponse2007FromJSON,
+        InlineResponse2007FromJSONTyped,
+        InlineResponse2007ToJSON,
+        InlineResponse2007,
+        InlineResponse2008FromJSON,
+        InlineResponse2008FromJSONTyped,
+        InlineResponse2008ToJSON,
+        InlineResponse2008,
+        InlineResponse2009FromJSON,
+        InlineResponse2009FromJSONTyped,
+        InlineResponse2009ToJSON,
+        InlineResponse2009,
+        LoginResultChallengePublicFromJSON,
+        LoginResultChallengePublicFromJSONTyped,
+        LoginResultChallengePublicToJSON,
+        LoginResultChallengePublic,
+        LoginResultChallengePublicStateEnum,
+        LoginResultPublicFromJSON,
+        LoginResultPublicFromJSONTyped,
+        LoginResultPublicToJSON,
+        LoginResultPublic,
+        LoginResultPublicStateEnum,
+        LoginResultReadyPublicFromJSON,
+        LoginResultReadyPublicFromJSONTyped,
+        LoginResultReadyPublicToJSON,
+        LoginResultReadyPublic,
+        LoginResultReadyPublicStateEnum,
+        MustAcceptHintFromJSON,
+        MustAcceptHintFromJSONTyped,
+        MustAcceptHintToJSON,
+        MustAcceptHint,
+        MustAcceptHintCodeEnum,
+        NoSessionAvailableForPortfolioFromJSON,
+        NoSessionAvailableForPortfolioFromJSONTyped,
+        NoSessionAvailableForPortfolioToJSON,
+        NoSessionAvailableForPortfolio,
+        NoSessionAvailableForPortfolioCodeEnum,
+        OrderFromJSON,
+        OrderFromJSONTyped,
+        OrderToJSON,
+        Order,
+        OrderChangesFromJSON,
+        OrderChangesFromJSONTyped,
+        OrderChangesToJSON,
+        OrderChanges,
+        OrderCostEstimationFromJSON,
+        OrderCostEstimationFromJSONTyped,
+        OrderCostEstimationToJSON,
+        OrderCostEstimation,
+        OrderCreateFromJSON,
+        OrderCreateFromJSONTyped,
+        OrderCreateToJSON,
+        OrderCreate,
+        OrderExecutionFromJSON,
+        OrderExecutionFromJSONTyped,
+        OrderExecutionToJSON,
+        OrderExecution,
+        OrderExtensionFromJSON,
+        OrderExtensionFromJSONTyped,
+        OrderExtensionToJSON,
+        OrderExtension,
+        OrderForCreateFromJSON,
+        OrderForCreateFromJSONTyped,
+        OrderForCreateToJSON,
+        OrderForCreate,
+        OrderForCreateOrderModelEnum,
+        OrderModelFromJSON,
+        OrderModelFromJSONTyped,
+        OrderModelToJSON,
+        OrderModel,
+        OrderModelAnyOfFromJSON,
+        OrderModelAnyOfFromJSONTyped,
+        OrderModelAnyOfToJSON,
+        OrderModelAnyOf,
+        OrderModelOrderCreateFromJSON,
+        OrderModelOrderCreateFromJSONTyped,
+        OrderModelOrderCreateToJSON,
+        OrderModelOrderCreate,
+        OrderStatusFromJSON,
+        OrderStatusFromJSONTyped,
+        OrderStatusToJSON,
+        OrderStatus,
+        OrderValidityFromJSON,
+        OrderValidityFromJSONTyped,
+        OrderValidityToJSON,
+        OrderValidity,
+        OrderValidityTypeFromJSON,
+        OrderValidityTypeFromJSONTyped,
+        OrderValidityTypeToJSON,
+        OrderValidityType,
+        OrderValidityTypeByOrderModelFromJSON,
+        OrderValidityTypeByOrderModelFromJSONTyped,
+        OrderValidityTypeByOrderModelToJSON,
+        OrderValidityTypeByOrderModel,
+        PortfolioQuotesFromJSON,
+        PortfolioQuotesFromJSONTyped,
+        PortfolioQuotesToJSON,
+        PortfolioQuotes,
+        PortfoliosResponseFromJSON,
+        PortfoliosResponseFromJSONTyped,
+        PortfoliosResponseToJSON,
+        PortfoliosResponse,
+        PortfoliosResponsePortfoliosFromJSON,
+        PortfoliosResponsePortfoliosFromJSONTyped,
+        PortfoliosResponsePortfoliosToJSON,
+        PortfoliosResponsePortfolios,
+        PositionFromJSON,
+        PositionFromJSONTyped,
+        PositionToJSON,
+        Position,
+        PositionValuationFromJSON,
+        PositionValuationFromJSONTyped,
+        PositionValuationToJSON,
+        PositionValuation,
+        PrepareOAuthRedirectParamsFromJSON,
+        PrepareOAuthRedirectParamsFromJSONTyped,
+        PrepareOAuthRedirectParamsToJSON,
+        PrepareOAuthRedirectParams,
+        PreparedTradeFromJSON,
+        PreparedTradeFromJSONTyped,
+        PreparedTradeToJSON,
+        PreparedTrade,
+        QuoteOrderCreateFromJSON,
+        QuoteOrderCreateFromJSONTyped,
+        QuoteOrderCreateToJSON,
+        QuoteOrderCreate,
+        QuoteOrderCreateOrderModelEnum,
+        RiskClassInfoFromJSON,
+        RiskClassInfoFromJSONTyped,
+        RiskClassInfoToJSON,
+        RiskClassInfo,
+        SecurityFromJSON,
+        SecurityFromJSONTyped,
+        SecurityToJSON,
+        Security,
+        SecurityNotAvailableForTradingFromJSON,
+        SecurityNotAvailableForTradingFromJSONTyped,
+        SecurityNotAvailableForTradingToJSON,
+        SecurityNotAvailableForTrading,
+        SecurityNotAvailableForTradingCodeEnum,
+        SessionFromJSON,
+        SessionFromJSONTyped,
+        SessionToJSON,
+        Session,
+        SessionResponseFromJSON,
+        SessionResponseFromJSONTyped,
+        SessionResponseToJSON,
+        SessionResponse,
+        TrailingDistanceFromJSON,
+        TrailingDistanceFromJSONTyped,
+        TrailingDistanceToJSON,
+        TrailingDistance,
+        TrailingDistanceModeEnum
+    }
+}
+export { Models }
 
 // @public
 interface MustAcceptHint {
@@ -1948,6 +2508,26 @@ interface Order {
     trailingLimitTolerance?: number;
     validity: OrderValidity;
 }
+
+// @public
+interface OrderChanges {
+    limit?: number;
+    orderModel: OrderModelOrderCreate;
+    size: number;
+    stop?: number;
+    stopLimit?: number;
+    trailingDistance?: TrailingDistance;
+    validity: OrderValidity;
+}
+
+// @public (undocumented)
+function OrderChangesFromJSON(json: any): OrderChanges;
+
+// @public (undocumented)
+function OrderChangesFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderChanges;
+
+// @public (undocumented)
+function OrderChangesToJSON(value?: OrderChanges | null): any;
 
 // @public
 interface OrderCostEstimation {
@@ -2209,61 +2789,8 @@ enum OrderValidityType {
     Gtu = "GTU"
 }
 
-// @public (undocumented)
-function OrderValidityTypeFromJSON(json: any): OrderValidityType;
-
-// @public (undocumented)
-function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderValidityType;
-
-// @public (undocumented)
-function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
-
 // @public
-interface PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance {
-    limit?: number;
-    orderModel?: OrderModelOrderCreate;
-    size?: number;
-    stop?: number;
-    stopLimit?: number;
-    trailingDistance?: TrailingDistance;
-    validity?: OrderValidity;
-}
-
-// @public (undocumented)
-function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSON(json: any): PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
-
-// @public (undocumented)
-function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance;
-
-// @public (undocumented)
-function PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistanceToJSON(value?: PartialPickOrderCreateOrderModelOrValidityOrSizeOrLimitOrStopOrStopLimitOrTrailingDistance | null): any;
-
-// @public
-interface PartialRecordOrderModelOrderValidity {
-    fraction?: OrderValidity;
-    limit?: OrderValidity;
-    market?: OrderValidity;
-    ocoStopLimit?: OrderValidity;
-    ocoStopMarket?: OrderValidity;
-    quote?: OrderValidity;
-    savingsPlan?: OrderValidity;
-    stopLimit?: OrderValidity;
-    stopMarket?: OrderValidity;
-    trailingStopLimit?: OrderValidity;
-    trailingStopMarket?: OrderValidity;
-}
-
-// @public (undocumented)
-function PartialRecordOrderModelOrderValidityFromJSON(json: any): PartialRecordOrderModelOrderValidity;
-
-// @public (undocumented)
-function PartialRecordOrderModelOrderValidityFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialRecordOrderModelOrderValidity;
-
-// @public (undocumented)
-function PartialRecordOrderModelOrderValidityToJSON(value?: PartialRecordOrderModelOrderValidity | null): any;
-
-// @public
-interface PartialRecordOrderModelOrderValidityTypeArray {
+interface OrderValidityTypeByOrderModel {
     fraction?: Array<OrderValidityType>;
     limit?: Array<OrderValidityType>;
     market?: Array<OrderValidityType>;
@@ -2278,13 +2805,22 @@ interface PartialRecordOrderModelOrderValidityTypeArray {
 }
 
 // @public (undocumented)
-function PartialRecordOrderModelOrderValidityTypeArrayFromJSON(json: any): PartialRecordOrderModelOrderValidityTypeArray;
+function OrderValidityTypeByOrderModelFromJSON(json: any): OrderValidityTypeByOrderModel;
 
 // @public (undocumented)
-function PartialRecordOrderModelOrderValidityTypeArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialRecordOrderModelOrderValidityTypeArray;
+function OrderValidityTypeByOrderModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderValidityTypeByOrderModel;
 
 // @public (undocumented)
-function PartialRecordOrderModelOrderValidityTypeArrayToJSON(value?: PartialRecordOrderModelOrderValidityTypeArray | null): any;
+function OrderValidityTypeByOrderModelToJSON(value?: OrderValidityTypeByOrderModel | null): any;
+
+// @public (undocumented)
+function OrderValidityTypeFromJSON(json: any): OrderValidityType;
+
+// @public (undocumented)
+function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderValidityType;
+
+// @public (undocumented)
+function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
 
 // @public
 interface PortfolioQuotes {
@@ -2395,8 +2931,8 @@ function PositionValuationToJSON(value?: PositionValuation | null): any;
 interface PreparedTrade {
     costEstimationMustBeShown: boolean;
     exchanges: Array<Exchange>;
-    instrument: Instrument;
     riskClassInfo: RiskClassInfo;
+    security: Security;
     strikingHint?: string;
 }
 

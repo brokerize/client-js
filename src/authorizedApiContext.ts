@@ -22,15 +22,26 @@ export class AuthorizedApiContext {
   private _tradeApi: openApiClient.TradeApi;
   private _isDestroyed: boolean = false;
   private _abortController: AbortController;
+  private _metaApi: openApiClient.MetaApi;
+  private _brokerLoginApi: openApiClient.BrokerLoginApi;
+  private _cancelOrderApi: openApiClient.CancelOrderApi;
+  private _changeOrderApi: openApiClient.ChangeOrderApi;
   constructor(cfg: BrokerizeConfig, auth: Auth) {
     this._cfg = cfg;
     this._auth = auth;
-    this._defaultApi = new openApiClient.DefaultApi(createConfiguration(cfg));
+
+    const apiConfig = createConfiguration(cfg);
+    this._defaultApi = new openApiClient.DefaultApi(apiConfig);
     this._demoBrokerApi = new openApiClient.DemobrokerApi(
-      createConfiguration(cfg)
+      apiConfig
     );
-    this._tradeApi = new openApiClient.TradeApi(createConfiguration(cfg));
+    this._tradeApi = new openApiClient.TradeApi(apiConfig);
+    this._metaApi = new openApiClient.MetaApi(apiConfig);
+    this._brokerLoginApi = new openApiClient.BrokerLoginApi(apiConfig);
+    this._cancelOrderApi = new openApiClient.CancelOrderApi(apiConfig);
+    this._changeOrderApi = new openApiClient.ChangeOrderApi(apiConfig);
     this._abortController = cfg.createAbortController();
+
   }
   private async _initRequestInit() {
     if (this._isDestroyed) {
@@ -46,13 +57,15 @@ export class AuthorizedApiContext {
     };
   }
   async getBrokers() {
-    return this._defaultApi.getBrokers(await this._initRequestInit());
+
+
+    return this._metaApi.getBrokers(await this._initRequestInit());
   }
   async getExchanges() {
-    return this._defaultApi.getExchanges(await this._initRequestInit());
+    return this._metaApi.getExchanges(await this._initRequestInit());
   }
   async addSession(params: AddSessionParams) {
-    return this._defaultApi.addSession(
+    return this._brokerLoginApi.addSession(
       { addSessionParams: params },
       await this._initRequestInit()
     );
@@ -81,24 +94,24 @@ export class AuthorizedApiContext {
   async createCancelOrderChallenge(
     req: openApiClient.CreateCancelOrderChallengeRequest
   ) {
-    return this._defaultApi.createCancelOrderChallenge(
+    return this._cancelOrderApi.createCancelOrderChallenge(
       req,
       await this._initRequestInit()
     );
   }
   async cancelOrder(req: openApiClient.CancelOrderRequest) {
-    return this._defaultApi.cancelOrder(req, await this._initRequestInit());
+    return this._cancelOrderApi.cancelOrder(req, await this._initRequestInit());
   }
   async createChangeOrderChallenge(
     req: openApiClient.CreateChangeOrderChallengeRequest
   ) {
-    return this._defaultApi.createChangeOrderChallenge(
+    return this._changeOrderApi.createChangeOrderChallenge(
       req,
       await this._initRequestInit()
     );
   }
   async changeOrder(req: openApiClient.ChangeOrderRequest) {
-    return this._defaultApi.changeOrder(req, await this._initRequestInit());
+    return this._changeOrderApi.changeOrder(req, await this._initRequestInit());
   }
   async getPortfolios() {
     return this._defaultApi.getPortfolios(await this._initRequestInit());
@@ -136,7 +149,7 @@ export class AuthorizedApiContext {
   async addSessionCompleteChallenge(
     req: openApiClient.AddSessionCompleteChallengeRequest
   ) {
-    return this._defaultApi.addSessionCompleteChallenge(
+    return this._brokerLoginApi.addSessionCompleteChallenge(
       req,
       await this._initRequestInit()
     );
@@ -218,13 +231,13 @@ export class AuthorizedApiContext {
     return this._tradeApi.getQuote(p, await this._initRequestInit());
   }
   async prepareOAuthRedirect(p: PrepareOAuthRedirectParams) {
-    return this._defaultApi.prepareOAuthRedirect(
+    return this._brokerLoginApi.prepareOAuthRedirect(
       { prepareOAuthRedirectParams: p },
       await this._initRequestInit()
     );
   }
   async confirmOAuth(p: ConfirmOAuthParams) {
-    return this._defaultApi.confirmOAuth(
+    return this._brokerLoginApi.confirmOAuth(
       { confirmOAuthParams: p },
       await this._initRequestInit()
     );

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * brokerize
- * The brokerize API allows clients to implement multi-brokerage easily with a unified interface.  # user accounts & temporary guest sessions  Users either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.  # connecting brokers and synchronizing data to brokerize  The general approach is that users connect their brokerage accounts from either the official brokerize UI or from an app\'s interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. For example, an end user can add a Consorsbank login by calling [AddSession](#operation/AddSession). Note that brokerize *never* saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).  As soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their data are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios)). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available via the API until deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).  Data is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).   # performing actions in portfolios Actions can be performed in portfolios that have online sessions. Using [GetAuthInfo](#operation/GetAuthInfo), different methods for authorising an action can be figured out. For example, some brokers support mTAN, where an SMS is sent for a specific use-case (e.g. a set of parameters for order creation). Other brokers allow authorizing actions with their mobile apps. Brokerizes unifies that information in `AuthInfo`. Usually, an action requires creation of a challenge (for mTAN that would be when the broker sends an SMS with a code) and later the actual action with a response for that challenge. The following actions are implemented:  - Session TAN handling (for performing other actions in portfolios without further per-case authorization)     - [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge)     - [EnableSessionTan](#operation/EnableSessionTan)     - [EndSessionTan](#operation/EndSessionTan) - Create a trade     - [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio     - [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade     - [CreateTrade](#operation/CreateTrade) to perform the trade. - Edit an order (e.g. cancel or change specific fields)     - *not implemented yet*  # rate limits Currently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. Clients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior.
+ * The brokerize API allows clients to implement multi-brokerage easily with a unified interface.  # user accounts & temporary guest sessions  Users either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.  ![](/docs/diagrams/account.svg)  # connecting brokers and synchronizing data to brokerize  Users connect their brokerage accounts from either the official brokerize UI or from an app\'s interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).  As soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).  Data is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).  ![](/docs/diagrams/session-lifecycle.svg)  # performing actions in portfolios  Actions can be performed in portfolios that have online sessions.  In order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).  The following actions are implemented:  -   Session TAN handling (for performing other actions in portfolios without further per-case authorization)     -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.     -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.     -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN. -   Create a trade     -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.     -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.     -   [CreateTrade](#operation/CreateTrade) to perform the trade. -   Edit an order     -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.     -   [ChangeOrder](#operation/ChangeOrder) to change an order. -   Cancel an order     -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.     -   [CancelOrder](#operation/CancelOrder) to cancel an order.  # rate limits  Currently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. Clients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior. The rate limits will be refined in the future.  | `flow`               | requires challenge? | Description                                                                                                                                                                                                          | | -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              | | `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters | | `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action\'s status. Users will authorize the action in another frontend (usually in their broker\'s app)   | 
  *
  * The version of the OpenAPI document: 0.0.1-preview
  * 
@@ -15,30 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
-    AddSessionCompleteChallengeParams,
-    AddSessionCompleteChallengeParamsFromJSON,
-    AddSessionCompleteChallengeParamsToJSON,
-    AddSessionParams,
-    AddSessionParamsFromJSON,
-    AddSessionParamsToJSON,
-    CancelOrderChallengeParams,
-    CancelOrderChallengeParamsFromJSON,
-    CancelOrderChallengeParamsToJSON,
-    CancelOrderParams,
-    CancelOrderParamsFromJSON,
-    CancelOrderParamsToJSON,
     Challenge,
     ChallengeFromJSON,
     ChallengeToJSON,
-    ChangeOrderChallengeParams,
-    ChangeOrderChallengeParamsFromJSON,
-    ChangeOrderChallengeParamsToJSON,
-    ChangeOrderParams,
-    ChangeOrderParamsFromJSON,
-    ChangeOrderParamsToJSON,
-    ConfirmOAuthParams,
-    ConfirmOAuthParamsFromJSON,
-    ConfirmOAuthParamsToJSON,
     CreateTanChallengeParams,
     CreateTanChallengeParamsFromJSON,
     CreateTanChallengeParamsToJSON,
@@ -54,18 +33,6 @@ import {
     EndSessionTanResult,
     EndSessionTanResultFromJSON,
     EndSessionTanResultToJSON,
-    EstimateChangeOrderCostsParams,
-    EstimateChangeOrderCostsParamsFromJSON,
-    EstimateChangeOrderCostsParamsToJSON,
-    InlineResponse200,
-    InlineResponse200FromJSON,
-    InlineResponse200ToJSON,
-    InlineResponse20010,
-    InlineResponse20010FromJSON,
-    InlineResponse20010ToJSON,
-    InlineResponse20011,
-    InlineResponse20011FromJSON,
-    InlineResponse20011ToJSON,
     InlineResponse20014,
     InlineResponse20014FromJSON,
     InlineResponse20014ToJSON,
@@ -75,9 +42,6 @@ import {
     InlineResponse2003,
     InlineResponse2003FromJSON,
     InlineResponse2003ToJSON,
-    InlineResponse2004,
-    InlineResponse2004FromJSON,
-    InlineResponse2004ToJSON,
     InlineResponse2005,
     InlineResponse2005FromJSON,
     InlineResponse2005ToJSON,
@@ -93,61 +57,17 @@ import {
     InlineResponse2009,
     InlineResponse2009FromJSON,
     InlineResponse2009ToJSON,
-    LoginResultPublic,
-    LoginResultPublicFromJSON,
-    LoginResultPublicToJSON,
-    LoginResultReadyPublic,
-    LoginResultReadyPublicFromJSON,
-    LoginResultReadyPublicToJSON,
-    OrderCostEstimation,
-    OrderCostEstimationFromJSON,
-    OrderCostEstimationToJSON,
     PortfoliosResponse,
     PortfoliosResponseFromJSON,
     PortfoliosResponseToJSON,
-    PrepareOAuthRedirectParams,
-    PrepareOAuthRedirectParamsFromJSON,
-    PrepareOAuthRedirectParamsToJSON,
     SessionResponse,
     SessionResponseFromJSON,
     SessionResponseToJSON,
 } from '../models';
 
-export interface AddSessionRequest {
-    addSessionParams: AddSessionParams;
-}
-
-export interface AddSessionCompleteChallengeRequest {
-    addSessionCompleteChallengeParams: AddSessionCompleteChallengeParams;
-}
-
 export interface CancelDecoupledOperationRequest {
     sessionId: string;
     decoupledOperationId: string;
-}
-
-export interface CancelOrderRequest {
-    id: string;
-    cancelOrderParams: CancelOrderParams;
-}
-
-export interface ChangeOrderRequest {
-    id: string;
-    changeOrderParams: ChangeOrderParams;
-}
-
-export interface ConfirmOAuthRequest {
-    confirmOAuthParams: ConfirmOAuthParams;
-}
-
-export interface CreateCancelOrderChallengeRequest {
-    id: string;
-    cancelOrderChallengeParams: CancelOrderChallengeParams;
-}
-
-export interface CreateChangeOrderChallengeRequest {
-    id: string;
-    changeOrderChallengeParams: ChangeOrderChallengeParams;
 }
 
 export interface CreateSessionTanChallengeRequest {
@@ -170,11 +90,6 @@ export interface EndSessionTanRequest {
 
 export interface GetAuthInfoRequest {
     portfolioId: string;
-}
-
-export interface GetChangeOrderCostEstimationRequest {
-    id: string;
-    estimateChangeOrderCostsParams: EstimateChangeOrderCostsParams;
 }
 
 export interface GetDecoupledOperationStatusRequest {
@@ -207,10 +122,6 @@ export interface LogoutSessionRequest {
     sessionId: string;
 }
 
-export interface PrepareOAuthRedirectRequest {
-    prepareOAuthRedirectParams: PrepareOAuthRedirectParams;
-}
-
 export interface TriggerSessionSyncRequest {
     sessionId: string;
 }
@@ -219,78 +130,6 @@ export interface TriggerSessionSyncRequest {
  * 
  */
 export class DefaultApi extends runtime.BaseAPI {
-
-    /**
-     */
-    async addSessionRaw(requestParameters: AddSessionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<LoginResultPublic>> {
-        if (requestParameters.addSessionParams === null || requestParameters.addSessionParams === undefined) {
-            throw new runtime.RequiredError('addSessionParams','Required parameter requestParameters.addSessionParams was null or undefined when calling addSession.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/sessions`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: AddSessionParamsToJSON(requestParameters.addSessionParams),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => LoginResultPublicFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async addSession(requestParameters: AddSessionRequest, initOverrides?: RequestInit): Promise<LoginResultPublic> {
-        const response = await this.addSessionRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * If login returns the state `challenge`, the login must be completed by providing a challenge response first.
-     */
-    async addSessionCompleteChallengeRaw(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<LoginResultReadyPublic>> {
-        if (requestParameters.addSessionCompleteChallengeParams === null || requestParameters.addSessionCompleteChallengeParams === undefined) {
-            throw new runtime.RequiredError('addSessionCompleteChallengeParams','Required parameter requestParameters.addSessionCompleteChallengeParams was null or undefined when calling addSessionCompleteChallenge.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/sessions/completeLogin`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: AddSessionCompleteChallengeParamsToJSON(requestParameters.addSessionCompleteChallengeParams),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => LoginResultReadyPublicFromJSON(jsonValue));
-    }
-
-    /**
-     * If login returns the state `challenge`, the login must be completed by providing a challenge response first.
-     */
-    async addSessionCompleteChallenge(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit): Promise<LoginResultReadyPublic> {
-        const response = await this.addSessionCompleteChallengeRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
 
     /**
      */
@@ -325,205 +164,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async cancelDecoupledOperation(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit): Promise<void> {
         await this.cancelDecoupledOperationRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Actually cancel the order
-     */
-    async cancelOrderRaw(requestParameters: CancelOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling cancelOrder.');
-        }
-
-        if (requestParameters.cancelOrderParams === null || requestParameters.cancelOrderParams === undefined) {
-            throw new runtime.RequiredError('cancelOrderParams','Required parameter requestParameters.cancelOrderParams was null or undefined when calling cancelOrder.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/order/{id}/cancel`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CancelOrderParamsToJSON(requestParameters.cancelOrderParams),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Actually cancel the order
-     */
-    async cancelOrder(requestParameters: CancelOrderRequest, initOverrides?: RequestInit): Promise<void> {
-        await this.cancelOrderRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Actually change the order
-     */
-    async changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling changeOrder.');
-        }
-
-        if (requestParameters.changeOrderParams === null || requestParameters.changeOrderParams === undefined) {
-            throw new runtime.RequiredError('changeOrderParams','Required parameter requestParameters.changeOrderParams was null or undefined when calling changeOrder.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/order/{id}/change`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ChangeOrderParamsToJSON(requestParameters.changeOrderParams),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * Actually change the order
-     */
-    async changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit): Promise<void> {
-        await this.changeOrderRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * For brokers with OAuth login processes, this adds the session to the user\'s account after redirects happen. Only the user that is redirected from the broker login in the browser will receive the `code`. Therforce this step ensures that the logged-in user at brokerize is the one that has gone through the broker OAuth steps.
-     */
-    async confirmOAuthRaw(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20011>> {
-        if (requestParameters.confirmOAuthParams === null || requestParameters.confirmOAuthParams === undefined) {
-            throw new runtime.RequiredError('confirmOAuthParams','Required parameter requestParameters.confirmOAuthParams was null or undefined when calling confirmOAuth.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/sessions/confirmOAuth`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ConfirmOAuthParamsToJSON(requestParameters.confirmOAuthParams),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20011FromJSON(jsonValue));
-    }
-
-    /**
-     * For brokers with OAuth login processes, this adds the session to the user\'s account after redirects happen. Only the user that is redirected from the broker login in the browser will receive the `code`. Therforce this step ensures that the logged-in user at brokerize is the one that has gone through the broker OAuth steps.
-     */
-    async confirmOAuth(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit): Promise<InlineResponse20011> {
-        const response = await this.confirmOAuthRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Create a cancel order challenge
-     */
-    async createCancelOrderChallengeRaw(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Challenge>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling createCancelOrderChallenge.');
-        }
-
-        if (requestParameters.cancelOrderChallengeParams === null || requestParameters.cancelOrderChallengeParams === undefined) {
-            throw new runtime.RequiredError('cancelOrderChallengeParams','Required parameter requestParameters.cancelOrderChallengeParams was null or undefined when calling createCancelOrderChallenge.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/order/{id}/cancelChallenge`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CancelOrderChallengeParamsToJSON(requestParameters.cancelOrderChallengeParams),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ChallengeFromJSON(jsonValue));
-    }
-
-    /**
-     * Create a cancel order challenge
-     */
-    async createCancelOrderChallenge(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit): Promise<Challenge> {
-        const response = await this.createCancelOrderChallengeRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Create a change order challenge
-     */
-    async createChangeOrderChallengeRaw(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Challenge>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling createChangeOrderChallenge.');
-        }
-
-        if (requestParameters.changeOrderChallengeParams === null || requestParameters.changeOrderChallengeParams === undefined) {
-            throw new runtime.RequiredError('changeOrderChallengeParams','Required parameter requestParameters.changeOrderChallengeParams was null or undefined when calling createChangeOrderChallenge.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/order/{id}/changeChallenge`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: ChangeOrderChallengeParamsToJSON(requestParameters.changeOrderChallengeParams),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ChallengeFromJSON(jsonValue));
-    }
-
-    /**
-     * Create a change order challenge
-     */
-    async createChangeOrderChallenge(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit): Promise<Challenge> {
-        const response = await this.createChangeOrderChallengeRaw(requestParameters, initOverrides);
-        return await response.value();
     }
 
     /**
@@ -697,6 +337,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get the AuthInfo for the given portfolio.  If the portfolio does not have an online session, this will return a 400 status code.  The `AuthInfo` is used to figure out how operations (enable session tan, create trade, cancel order, change order) can be authorized for the portfolio. - If `sessionTanActive` is `true`: Session TAN has been enabled for the session that currently backs the portfolio. In this case, all operations like `CreateTrade` can be executed right away without an `authMethod`. The UI should *not* show a dropdown with the auth methods in this case. - If `sessionTanActive` is `false` but `sessionTanSupported` is `true`: the user can enable session TAN using `CreateSessionTanChallenge` / `EnableSessionTan`. - If `allOperationsRequireSessionTan` is `true`, the auth methods can *ONLY* be used for enabling session TAN. - Otherwise, the `authMethods` can be used to perform individual operations.  | sessionTanActive | sessionTanSupported | allOperationsRequireSessionTan | Description                                                                                                                                                                                                                                                 | | ---------------- | ------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | `true`           | `true`              | -                              | Session TAN has been enabled for the session that currently backs the portfolio. In this case, all operations like `CreateTrade`, `ChangeOrder`, `CancelOrder` can be executed right away without an `authMethod`. The UI should _not_ show adropdown with the auth methods in this case. | | `false`          | `true`              | `true`                         | the user can enable session TAN using the provided auth methods via `CreateSessionTanChallenge` / `EnableSessionTan`. All other operations can only take place after session TAN has been enabled.                                                          | | `false`          | `true`              | `false`                        | the user can enable any operation (enable session tan, create trade, cancel order, change order) using the provided auth methods                                                                                                                            |  The list of available AuthMethods should only be presented to the user if session TAN is not active (yet). The list and names are defined by our partner brokers. Auth Methods are categorized using the `flow` attribute:  | `flow`               | requires challenge? | Description                                                                                                                                                                                                          | | -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              | | `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters | | `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action\'s status. Users will authorize the action in another frontend (usually in their broker\'s app)   |     *
      */
     async getAuthInfoRaw(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2009>> {
         if (requestParameters.portfolioId === null || requestParameters.portfolioId === undefined) {
@@ -722,80 +363,10 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get the AuthInfo for the given portfolio.  If the portfolio does not have an online session, this will return a 400 status code.  The `AuthInfo` is used to figure out how operations (enable session tan, create trade, cancel order, change order) can be authorized for the portfolio. - If `sessionTanActive` is `true`: Session TAN has been enabled for the session that currently backs the portfolio. In this case, all operations like `CreateTrade` can be executed right away without an `authMethod`. The UI should *not* show a dropdown with the auth methods in this case. - If `sessionTanActive` is `false` but `sessionTanSupported` is `true`: the user can enable session TAN using `CreateSessionTanChallenge` / `EnableSessionTan`. - If `allOperationsRequireSessionTan` is `true`, the auth methods can *ONLY* be used for enabling session TAN. - Otherwise, the `authMethods` can be used to perform individual operations.  | sessionTanActive | sessionTanSupported | allOperationsRequireSessionTan | Description                                                                                                                                                                                                                                                 | | ---------------- | ------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | `true`           | `true`              | -                              | Session TAN has been enabled for the session that currently backs the portfolio. In this case, all operations like `CreateTrade`, `ChangeOrder`, `CancelOrder` can be executed right away without an `authMethod`. The UI should _not_ show adropdown with the auth methods in this case. | | `false`          | `true`              | `true`                         | the user can enable session TAN using the provided auth methods via `CreateSessionTanChallenge` / `EnableSessionTan`. All other operations can only take place after session TAN has been enabled.                                                          | | `false`          | `true`              | `false`                        | the user can enable any operation (enable session tan, create trade, cancel order, change order) using the provided auth methods                                                                                                                            |  The list of available AuthMethods should only be presented to the user if session TAN is not active (yet). The list and names are defined by our partner brokers. Auth Methods are categorized using the `flow` attribute:  | `flow`               | requires challenge? | Description                                                                                                                                                                                                          | | -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              | | `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters | | `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action\'s status. Users will authorize the action in another frontend (usually in their broker\'s app)   |     *
      */
     async getAuthInfo(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit): Promise<InlineResponse2009> {
         const response = await this.getAuthInfoRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future).
-     */
-    async getBrokersRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse200>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/brokers`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse200FromJSON(jsonValue));
-    }
-
-    /**
-     * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future).
-     */
-    async getBrokers(initOverrides?: RequestInit): Promise<InlineResponse200> {
-        const response = await this.getBrokersRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Get an order cost estimation for an order update.
-     */
-    async getChangeOrderCostEstimationRaw(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<OrderCostEstimation>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getChangeOrderCostEstimation.');
-        }
-
-        if (requestParameters.estimateChangeOrderCostsParams === null || requestParameters.estimateChangeOrderCostsParams === undefined) {
-            throw new runtime.RequiredError('estimateChangeOrderCostsParams','Required parameter requestParameters.estimateChangeOrderCostsParams was null or undefined when calling getChangeOrderCostEstimation.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/order/{id}/changeCostEstimation`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: EstimateChangeOrderCostsParamsToJSON(requestParameters.estimateChangeOrderCostsParams),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => OrderCostEstimationFromJSON(jsonValue));
-    }
-
-    /**
-     * Get an order cost estimation for an order update.
-     */
-    async getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit): Promise<OrderCostEstimation> {
-        const response = await this.getChangeOrderCostEstimationRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -832,36 +403,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit): Promise<DecoupledOperationState> {
         const response = await this.getDecoupledOperationStatusRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * List all exchanges mapped in brokerize.  Brokers provide their own list of exchanges with any order preparation request, so there may be cases where a broker exchange is not mapped to this brokerize exchange list. This is totally valid: this list serves as a known subset of exchanges to facilitate switching between brokers or mapping to your own exchange database.
-     */
-    async getExchangesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse2004>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/exchanges`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse2004FromJSON(jsonValue));
-    }
-
-    /**
-     * List all exchanges mapped in brokerize.  Brokers provide their own list of exchanges with any order preparation request, so there may be cases where a broker exchange is not mapped to this brokerize exchange list. This is totally valid: this list serves as a known subset of exchanges to facilitate switching between brokers or mapping to your own exchange database.
-     */
-    async getExchanges(initOverrides?: RequestInit): Promise<InlineResponse2004> {
-        const response = await this.getExchangesRaw(initOverrides);
         return await response.value();
     }
 
@@ -1132,43 +673,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit): Promise<InlineResponse2003> {
         const response = await this.logoutSessionRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
-     */
-    async prepareOAuthRedirectRaw(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<InlineResponse20010>> {
-        if (requestParameters.prepareOAuthRedirectParams === null || requestParameters.prepareOAuthRedirectParams === undefined) {
-            throw new runtime.RequiredError('prepareOAuthRedirectParams','Required parameter requestParameters.prepareOAuthRedirectParams was null or undefined when calling prepareOAuthRedirect.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
-        }
-
-        const response = await this.request({
-            path: `/sessions/prepareOAuthRedirect`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: PrepareOAuthRedirectParamsToJSON(requestParameters.prepareOAuthRedirectParams),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse20010FromJSON(jsonValue));
-    }
-
-    /**
-     * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
-     */
-    async prepareOAuthRedirect(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit): Promise<InlineResponse20010> {
-        const response = await this.prepareOAuthRedirectRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

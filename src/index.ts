@@ -120,4 +120,5 @@ export class Brokerize {
   }
 }
 
-export { BrokerizeConfig, AuthContextConfiguration, AuthorizedApiContext, BrokerizeWebSocketClient };
+import * as Models from './swagger/models';
+export { BrokerizeConfig, AuthContextConfiguration, AuthorizedApiContext, BrokerizeWebSocketClient, Models };
