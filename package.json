@@ -7,7 +7,8 @@
   "scripts": {
     "build": "npx tsc && npm run api-extractor",
     "download-spec": "curl https://api-preview.brokerize.com/openapi.json > openapi_dl.json &&  node -e 'console.log(JSON.stringify(JSON.parse(require(\"fs\").readFileSync(\"openapi_dl.json\").toString()),null,4))' > openapi.json && rm openapi_dl.json",
-    "generate": "npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-fetch --additional-properties=typescriptThreePlus=true -o ./src/swagger",
+    "clean-swagger": "rm -rf ./src/swagger",
+    "generate": "npm run clean-swagger & npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-fetch -o ./src/swagger",
     "download-and-generate": "npm run download-spec && npm run generate",
     "api-extractor": "npx api-extractor run --local"
   },
@@ -28,5 +29,8 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "2.5.1"
   }
 }

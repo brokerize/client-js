@@ -35,45 +35,32 @@
                 ],
                 "type": "object"
             },
+            "BrokerLoginFormField": {
+                "properties": {
+                    "label": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "string",
+                            "password"
+                        ]
+                    }
+                },
+                "required": [
+                    "label",
+                    "type"
+                ],
+                "type": "object"
+            },
             "BrokerLoginForm": {
                 "properties": {
                     "passwordField": {
-                        "properties": {
-                            "label": {
-                                "type": "string"
-                            },
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "string",
-                                    "password"
-                                ]
-                            }
-                        },
-                        "required": [
-                            "label",
-                            "type"
-                        ],
-                        "type": "object"
+                        "$ref": "#/components/schemas/BrokerLoginFormField"
                     },
                     "usernameField": {
-                        "properties": {
-                            "label": {
-                                "type": "string"
-                            },
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "string",
-                                    "password"
-                                ]
-                            }
-                        },
-                        "required": [
-                            "label",
-                            "type"
-                        ],
-                        "type": "object"
+                        "$ref": "#/components/schemas/BrokerLoginFormField"
                     }
                 },
                 "type": "object",
@@ -104,9 +91,107 @@
                 ],
                 "type": "object"
             },
-            "OrderModelOrderCreate": {
+            "GetBrokersResponse": {
+                "properties": {
+                    "brokers": {
+                        "items": {
+                            "$ref": "#/components/schemas/BrokerMeta"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "brokers"
+                ],
+                "type": "object"
+            },
+            "CreatedResponseBody": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id"
+                ],
+                "type": "object"
+            },
+            "DemoAccount": {
+                "properties": {
+                    "accountName": {
+                        "type": "string"
+                    },
+                    "accountId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "accountName",
+                    "accountId"
+                ],
+                "type": "object"
+            },
+            "DemoAccountsResponse": {
+                "properties": {
+                    "accounts": {
+                        "items": {
+                            "$ref": "#/components/schemas/DemoAccount"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "accounts"
+                ],
+                "type": "object"
+            },
+            "OkResponseBody": {
+                "properties": {
+                    "msg": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "msg"
+                ],
+                "type": "object"
+            },
+            "ExchangeMeta": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "name",
+                    "id"
+                ],
+                "type": "object"
+            },
+            "ExchangesResponse": {
+                "properties": {
+                    "exchanges": {
+                        "items": {
+                            "$ref": "#/components/schemas/ExchangeMeta"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "exchanges"
+                ],
+                "type": "object"
+            },
+            "OrderModel": {
                 "type": "string",
                 "enum": [
+                    "quote",
+                    "fraction",
+                    "savingsPlan",
                     "market",
                     "limit",
                     "stopMarket",
@@ -115,21 +200,6 @@
                     "trailingStopLimit",
                     "ocoStopMarket",
                     "ocoStopLimit"
-                ]
-            },
-            "OrderModel": {
-                "anyOf": [
-                    {
-                        "$ref": "#/components/schemas/OrderModelOrderCreate"
-                    },
-                    {
-                        "type": "string",
-                        "enum": [
-                            "quote",
-                            "fraction",
-                            "savingsPlan"
-                        ]
-                    }
                 ],
                 "description": "The `orderModel` defines how the order is executed at an exchange.\nSome of the values cannot be used for creation, i.e. currently `fraction` and `savingsPlan` (those\ntwo values only appear in order lists / receipts)."
             },
@@ -347,7 +417,7 @@
             "OrderQuoteLimitValue": {
                 "type": "number",
                 "format": "double",
-                "description": "If supported by the broker, an optional limit can be added to a quote trade."
+                "description": "If supported by the broker, an optional limit can be added to a quote trade (`orderModel=quote`)."
             },
             "Order": {
                 "properties": {
@@ -402,14 +472,14 @@
                     "direction": {
                         "$ref": "#/components/schemas/Direction"
                     },
+                    "orderModel": {
+                        "$ref": "#/components/schemas/OrderModel"
+                    },
                     "portfolioId": {
                         "type": "string"
                     },
                     "id": {
                         "type": "string"
-                    },
-                    "orderModel": {
-                        "$ref": "#/components/schemas/OrderModel"
                     },
                     "displayNo": {
                         "type": "string",
@@ -571,9 +641,9 @@
                     "isin",
                     "brokerExchangeId",
                     "direction",
+                    "orderModel",
                     "portfolioId",
                     "id",
-                    "orderModel",
                     "status",
                     "statusText",
                     "allowsChangeSize",
@@ -583,6 +653,17 @@
                 ],
                 "type": "object",
                 "additionalProperties": false
+            },
+            "GetOrderResponse": {
+                "properties": {
+                    "order": {
+                        "$ref": "#/components/schemas/Order"
+                    }
+                },
+                "required": [
+                    "order"
+                ],
+                "type": "object"
             },
             "Challenge": {
                 "properties": {
@@ -622,35 +703,62 @@
                 ],
                 "type": "object"
             },
-            "Empty": {
-                "properties": {},
+            "CreateModeSessionTan": {
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "enum": [
+                            "sessionTan"
+                        ],
+                        "nullable": false
+                    }
+                },
+                "required": [
+                    "mode"
+                ],
                 "type": "object",
                 "additionalProperties": false
             },
             "CancelOrderChallengeResponse": {
                 "properties": {
-                    "challengeResponse": {
-                        "type": "string"
+                    "mode": {
+                        "type": "string",
+                        "enum": [
+                            "challengeResponse"
+                        ],
+                        "nullable": false
                     },
                     "challengeId": {
+                        "type": "string"
+                    },
+                    "challengeResponse": {
                         "type": "string"
                     }
                 },
                 "required": [
-                    "challengeResponse",
-                    "challengeId"
+                    "mode",
+                    "challengeId",
+                    "challengeResponse"
                 ],
-                "type": "object"
+                "type": "object",
+                "additionalProperties": false
             },
             "CancelOrderParams": {
-                "anyOf": [
+                "oneOf": [
                     {
-                        "$ref": "#/components/schemas/Empty"
+                        "$ref": "#/components/schemas/CreateModeSessionTan"
                     },
                     {
                         "$ref": "#/components/schemas/CancelOrderChallengeResponse"
                     }
-                ]
+                ],
+                "discriminator": {
+                    "propertyName": "mode",
+                    "mapping": {
+                        "sessionTan": "#/components/schemas/CreateModeSessionTan",
+                        "challengeResponse": "#/components/schemas/CancelOrderChallengeResponse"
+                    }
+                }
             },
             "OrderChanges": {
                 "properties": {
@@ -661,7 +769,7 @@
                         "$ref": "#/components/schemas/OrderStopLimitValue"
                     },
                     "orderModel": {
-                        "$ref": "#/components/schemas/OrderModelOrderCreate"
+                        "$ref": "#/components/schemas/OrderModel"
                     },
                     "validity": {
                         "$ref": "#/components/schemas/OrderValidity"
@@ -719,10 +827,18 @@
                 "properties": {
                     "subheading": {
                         "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "subheading"
+                        ],
+                        "nullable": false
                     }
                 },
                 "required": [
-                    "subheading"
+                    "subheading",
+                    "type"
                 ],
                 "type": "object"
             },
@@ -730,10 +846,76 @@
                 "properties": {
                     "text": {
                         "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "text"
+                        ],
+                        "nullable": false
                     }
                 },
                 "required": [
-                    "text"
+                    "text",
+                    "type"
+                ],
+                "type": "object"
+            },
+            "GenericTableRowValueText": {
+                "properties": {
+                    "value": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "text"
+                        ],
+                        "nullable": false
+                    }
+                },
+                "required": [
+                    "value",
+                    "type"
+                ],
+                "type": "object"
+            },
+            "GenericTableRowValueAmount": {
+                "properties": {
+                    "value": {
+                        "$ref": "#/components/schemas/Amount"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "amount"
+                        ],
+                        "nullable": false
+                    }
+                },
+                "required": [
+                    "value",
+                    "type"
+                ],
+                "type": "object"
+            },
+            "GenericTableRowValueDatetime": {
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "datetime"
+                        ],
+                        "nullable": false
+                    }
+                },
+                "required": [
+                    "value",
+                    "type"
                 ],
                 "type": "object"
             },
@@ -783,127 +965,66 @@
                 ],
                 "type": "object"
             },
-            "GenericTableRowValueLink": {
-                "anyOf": [
+            "GenericTableRowValueLinkValue": {
+                "oneOf": [
                     {
                         "$ref": "#/components/schemas/GenericTableRowValueLinkPortfolio"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowValueLinkUrl"
                     }
-                ]
+                ],
+                "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                        "portfolio": "#/components/schemas/GenericTableRowValueLinkPortfolio",
+                        "url": "#/components/schemas/GenericTableRowValueLinkUrl"
+                    }
+                }
+            },
+            "GenericTableRowValueLink": {
+                "properties": {
+                    "value": {
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkValue"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "link"
+                        ],
+                        "nullable": false
+                    }
+                },
+                "required": [
+                    "value",
+                    "type"
+                ],
+                "type": "object"
             },
             "GenericTableRowValue": {
-                "anyOf": [
+                "oneOf": [
                     {
-                        "properties": {
-                            "value": {
-                                "type": "string"
-                            },
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "text"
-                                ],
-                                "nullable": false
-                            }
-                        },
-                        "required": [
-                            "value",
-                            "type"
-                        ],
-                        "type": "object"
+                        "$ref": "#/components/schemas/GenericTableRowValueText"
                     },
                     {
-                        "properties": {
-                            "currency": {
-                                "type": "string"
-                            },
-                            "maxDecimals": {
-                                "type": "number",
-                                "format": "double"
-                            },
-                            "minDecimals": {
-                                "type": "number",
-                                "format": "double"
-                            },
-                            "value": {
-                                "type": "number",
-                                "format": "double"
-                            },
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "amount"
-                                ],
-                                "nullable": false
-                            }
-                        },
-                        "required": [
-                            "value",
-                            "type"
-                        ],
-                        "type": "object"
+                        "$ref": "#/components/schemas/GenericTableRowValueAmount"
                     },
                     {
-                        "properties": {
-                            "value": {
-                                "$ref": "#/components/schemas/Amount"
-                            },
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "amount"
-                                ],
-                                "nullable": false
-                            }
-                        },
-                        "required": [
-                            "value",
-                            "type"
-                        ],
-                        "type": "object"
+                        "$ref": "#/components/schemas/GenericTableRowValueDatetime"
                     },
                     {
-                        "properties": {
-                            "value": {
-                                "type": "number",
-                                "format": "double"
-                            },
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "datetime"
-                                ],
-                                "nullable": false
-                            }
-                        },
-                        "required": [
-                            "value",
-                            "type"
-                        ],
-                        "type": "object"
-                    },
-                    {
-                        "properties": {
-                            "value": {
-                                "$ref": "#/components/schemas/GenericTableRowValueLink"
-                            },
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "link"
-                                ],
-                                "nullable": false
-                            }
-                        },
-                        "required": [
-                            "value",
-                            "type"
-                        ],
-                        "type": "object"
+                        "$ref": "#/components/schemas/GenericTableRowValueLink"
                     }
-                ]
+                ],
+                "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                        "text": "#/components/schemas/GenericTableRowValueText",
+                        "amount": "#/components/schemas/GenericTableRowValueAmount",
+                        "datetime": "#/components/schemas/GenericTableRowValueDatetime",
+                        "link": "#/components/schemas/GenericTableRowValueLink"
+                    }
+                }
             },
             "GenericTableRowEntry": {
                 "properties": {
@@ -918,16 +1039,24 @@
                     },
                     "id": {
                         "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "entry"
+                        ],
+                        "nullable": false
                     }
                 },
                 "required": [
                     "value",
-                    "caption"
+                    "caption",
+                    "type"
                 ],
                 "type": "object"
             },
             "GenericTableRow": {
-                "anyOf": [
+                "oneOf": [
                     {
                         "$ref": "#/components/schemas/GenericTableRowSubheading"
                     },
@@ -937,7 +1066,15 @@
                     {
                         "$ref": "#/components/schemas/GenericTableRowEntry"
                     }
-                ]
+                ],
+                "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                        "subheading": "#/components/schemas/GenericTableRowSubheading",
+                        "text": "#/components/schemas/GenericTableRowText",
+                        "entry": "#/components/schemas/GenericTableRowEntry"
+                    }
+                }
             },
             "GenericTable": {
                 "properties": {
@@ -1028,34 +1165,37 @@
                 ],
                 "type": "object"
             },
+            "Portfolio": {
+                "properties": {
+                    "sessionIds": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "portfolioName": {
+                        "type": "string"
+                    },
+                    "brokerName": {
+                        "$ref": "#/components/schemas/BrokerName"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "sessionIds",
+                    "portfolioName",
+                    "brokerName",
+                    "id"
+                ],
+                "type": "object"
+            },
             "PortfoliosResponse": {
                 "properties": {
                     "portfolios": {
                         "items": {
-                            "properties": {
-                                "sessionIds": {
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "type": "array"
-                                },
-                                "portfolioName": {
-                                    "type": "string"
-                                },
-                                "brokerName": {
-                                    "$ref": "#/components/schemas/BrokerName"
-                                },
-                                "id": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "sessionIds",
-                                "portfolioName",
-                                "brokerName",
-                                "id"
-                            ],
-                            "type": "object"
+                            "$ref": "#/components/schemas/Portfolio"
                         },
                         "type": "array"
                     }
@@ -1113,6 +1253,17 @@
                 },
                 "required": [
                     "positionValue"
+                ],
+                "type": "object"
+            },
+            "GetPortfolioQuotesResponse": {
+                "properties": {
+                    "quotes": {
+                        "$ref": "#/components/schemas/PortfolioQuotes"
+                    }
+                },
+                "required": [
+                    "quotes"
                 ],
                 "type": "object"
             },
@@ -1234,6 +1385,39 @@
                 ],
                 "type": "object"
             },
+            "GetPortfolioPositionsResponse": {
+                "properties": {
+                    "positions": {
+                        "items": {
+                            "$ref": "#/components/schemas/Position"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "positions"
+                ],
+                "type": "object"
+            },
+            "GetPortfolioOrdersResponse": {
+                "properties": {
+                    "totalCount": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "orders": {
+                        "items": {
+                            "$ref": "#/components/schemas/Order"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "totalCount",
+                    "orders"
+                ],
+                "type": "object"
+            },
             "AuthMethodTan": {
                 "properties": {
                     "tanFieldLabel": {
@@ -1331,7 +1515,7 @@
                 "description": "With the `CHALLENGE_RESPONSE` flow, to execute an operation, a challenge has to be created as the first step (e.g. requesting)\nan MTAN. The UI should show a button labelled with the string from `getChallengeLabel`. When the\nchallenge has been requested (e.g. for enabling session TAN with `CreateSessionTanChallenge`), the\nTAN field should be shown (labelled `tanFieldLabel`). When the user has entered the challenge response,\nthe operation can be executed (e.g. `EnableSessionTan`)."
             },
             "AuthMethod": {
-                "anyOf": [
+                "oneOf": [
                     {
                         "$ref": "#/components/schemas/AuthMethodTan"
                     },
@@ -1341,7 +1525,15 @@
                     {
                         "$ref": "#/components/schemas/AuthMethodChallengeResponse"
                     }
-                ]
+                ],
+                "discriminator": {
+                    "propertyName": "flow",
+                    "mapping": {
+                        "TAN": "#/components/schemas/AuthMethodTan",
+                        "DECOUPLED": "#/components/schemas/AuthMethodDecoupled",
+                        "CHALLENGE_RESPONSE": "#/components/schemas/AuthMethodChallengeResponse"
+                    }
+                }
             },
             "AuthInfo": {
                 "properties": {
@@ -1364,6 +1556,17 @@
                 },
                 "type": "object"
             },
+            "GetAuthInfoResponse": {
+                "properties": {
+                    "authInfo": {
+                        "$ref": "#/components/schemas/AuthInfo"
+                    }
+                },
+                "required": [
+                    "authInfo"
+                ],
+                "type": "object"
+            },
             "Session": {
                 "properties": {
                     "syncError": {},
@@ -1382,9 +1585,6 @@
                     }
                 },
                 "required": [
-                    "syncError",
-                    "authInfo",
-                    "lastSuccessfulSync",
                     "brokerName",
                     "id"
                 ],
@@ -1401,6 +1601,17 @@
                 },
                 "required": [
                     "sessions"
+                ],
+                "type": "object"
+            },
+            "PrepareOAuthRedirectResponse": {
+                "properties": {
+                    "redirectTo": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "redirectTo"
                 ],
                 "type": "object"
             },
@@ -1423,6 +1634,17 @@
                 ],
                 "type": "object"
             },
+            "ConfirmOAuthResponse": {
+                "properties": {
+                    "sessionId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "sessionId"
+                ],
+                "type": "object"
+            },
             "ConfirmOAuthParams": {
                 "properties": {
                     "code": {
@@ -1438,7 +1660,7 @@
                 ],
                 "type": "object"
             },
-            "LoginResultReadyPublic": {
+            "LoginResponseReady": {
                 "properties": {
                     "sessionId": {
                         "type": "string"
@@ -1457,7 +1679,7 @@
                 ],
                 "type": "object"
             },
-            "LoginResultChallengePublic": {
+            "LoginResponseChallenge": {
                 "properties": {
                     "challenge": {
                         "$ref": "#/components/schemas/Challenge"
@@ -1476,15 +1698,22 @@
                 ],
                 "type": "object"
             },
-            "LoginResultPublic": {
-                "anyOf": [
+            "LoginResponse": {
+                "oneOf": [
                     {
-                        "$ref": "#/components/schemas/LoginResultReadyPublic"
+                        "$ref": "#/components/schemas/LoginResponseReady"
                     },
                     {
-                        "$ref": "#/components/schemas/LoginResultChallengePublic"
+                        "$ref": "#/components/schemas/LoginResponseChallenge"
                     }
-                ]
+                ],
+                "discriminator": {
+                    "propertyName": "state",
+                    "mapping": {
+                        "ready": "#/components/schemas/LoginResponseReady",
+                        "challenge": "#/components/schemas/LoginResponseChallenge"
+                    }
+                }
             },
             "AddSessionParams": {
                 "properties": {
@@ -1536,20 +1765,12 @@
                 "type": "object"
             },
             "EnableSessionTanResponse": {
-                "anyOf": [
-                    {},
-                    {
-                        "properties": {
-                            "decoupledOperationId": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "decoupledOperationId"
-                        ],
-                        "type": "object"
+                "properties": {
+                    "decoupledOperationId": {
+                        "type": "string"
                     }
-                ]
+                },
+                "type": "object"
             },
             "EnableSessionTanParamsChallengeResponse": {
                 "properties": {
@@ -1594,14 +1815,21 @@
                 "type": "object"
             },
             "EnableSessionTanParams": {
-                "anyOf": [
+                "oneOf": [
                     {
                         "$ref": "#/components/schemas/EnableSessionTanParamsChallengeResponse"
                     },
                     {
                         "$ref": "#/components/schemas/EnableSessionTanParamsDecoupled"
                     }
-                ]
+                ],
+                "discriminator": {
+                    "propertyName": "kind",
+                    "mapping": {
+                        "challengeResponse": "#/components/schemas/EnableSessionTanParamsChallengeResponse",
+                        "decoupled": "#/components/schemas/EnableSessionTanParamsDecoupled"
+                    }
+                }
             },
             "DecoupledOperationState": {
                 "type": "string",
@@ -1612,7 +1840,7 @@
                     "AUTHORIZATION_USER_CANCELED"
                 ]
             },
-            "EndSessionTanResult": {
+            "EndSessionTanResponse": {
                 "properties": {
                     "message": {
                         "type": "string"
@@ -1838,6 +2066,17 @@
                 ],
                 "type": "object"
             },
+            "PrepareTradeResponse": {
+                "properties": {
+                    "preparedTrade": {
+                        "$ref": "#/components/schemas/PreparedTrade"
+                    }
+                },
+                "required": [
+                    "preparedTrade"
+                ],
+                "type": "object"
+            },
             "NoSessionAvailableForPortfolio": {
                 "properties": {
                     "code": {
@@ -1868,7 +2107,24 @@
                 ],
                 "type": "object"
             },
-            "GetQuoteResult": {
+            "QuoteExpiration": {
+                "properties": {
+                    "expires": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "started": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "expires",
+                    "started"
+                ],
+                "type": "object"
+            },
+            "GetQuoteResponse": {
                 "properties": {
                     "quoteId": {
                         "type": "string"
@@ -1890,21 +2146,7 @@
                         "$ref": "#/components/schemas/Amount"
                     },
                     "expiration": {
-                        "properties": {
-                            "expires": {
-                                "type": "string",
-                                "format": "date-time"
-                            },
-                            "started": {
-                                "type": "string",
-                                "format": "date-time"
-                            }
-                        },
-                        "required": [
-                            "expires",
-                            "started"
-                        ],
-                        "type": "object"
+                        "$ref": "#/components/schemas/QuoteExpiration"
                     },
                     "costEstimation": {
                         "$ref": "#/components/schemas/OrderCostEstimation",
@@ -1951,7 +2193,6 @@
                 "type": "object"
             },
             "OrderCreate": {
-                "description": "This is the text for OrderCreate.",
                 "properties": {
                     "stopLoss": {
                         "$ref": "#/components/schemas/MonetaryValue"
@@ -2004,11 +2245,15 @@
                     "direction": {
                         "$ref": "#/components/schemas/Direction"
                     },
+                    "orderModel": {
+                        "$ref": "#/components/schemas/OrderModel"
+                    },
                     "portfolioId": {
                         "type": "string"
                     },
-                    "orderModel": {
-                        "$ref": "#/components/schemas/OrderModelOrderCreate"
+                    "quoteId": {
+                        "type": "string",
+                        "description": "For `orderModel=quote`: the quoteId, as retrieved from `GetQuote`."
                     }
                 },
                 "required": [
@@ -2017,68 +2262,11 @@
                     "isin",
                     "brokerExchangeId",
                     "direction",
-                    "portfolioId",
-                    "orderModel"
-                ],
-                "type": "object",
-                "additionalProperties": false
-            },
-            "QuoteOrderCreate": {
-                "properties": {
-                    "validity": {
-                        "$ref": "#/components/schemas/OrderValidity"
-                    },
-                    "quoteLimit": {
-                        "$ref": "#/components/schemas/OrderQuoteLimitValue"
-                    },
-                    "quoteId": {
-                        "type": "string",
-                        "description": "The quoteId, as retrieved in `GetQuote`"
-                    },
-                    "size": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "isin": {
-                        "type": "string"
-                    },
-                    "brokerExchangeId": {
-                        "type": "string"
-                    },
-                    "direction": {
-                        "$ref": "#/components/schemas/Direction"
-                    },
-                    "orderModel": {
-                        "type": "string",
-                        "enum": [
-                            "quote"
-                        ],
-                        "nullable": false
-                    },
-                    "portfolioId": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "quoteId",
-                    "size",
-                    "isin",
-                    "brokerExchangeId",
-                    "direction",
                     "orderModel",
                     "portfolioId"
                 ],
-                "type": "object"
-            },
-            "OrderForCreate": {
-                "anyOf": [
-                    {
-                        "$ref": "#/components/schemas/OrderCreate"
-                    },
-                    {
-                        "$ref": "#/components/schemas/QuoteOrderCreate"
-                    }
-                ]
+                "type": "object",
+                "additionalProperties": false
             },
             "CreateOrderChallengeParams": {
                 "properties": {
@@ -2090,7 +2278,7 @@
                         "type": "string"
                     },
                     "order": {
-                        "$ref": "#/components/schemas/OrderForCreate"
+                        "$ref": "#/components/schemas/OrderCreate"
                     }
                 },
                 "required": [
@@ -2101,11 +2289,22 @@
             "GetCostEstimationParams": {
                 "properties": {
                     "order": {
-                        "$ref": "#/components/schemas/OrderForCreate"
+                        "$ref": "#/components/schemas/OrderCreate"
                     }
                 },
                 "required": [
                     "order"
+                ],
+                "type": "object"
+            },
+            "CreateTradeResponse": {
+                "properties": {
+                    "orderId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "orderId"
                 ],
                 "type": "object"
             },
@@ -2143,7 +2342,7 @@
                 ],
                 "type": "object"
             },
-            "CreateOrderParamsWithChallengeResponse": {
+            "CreateOrderParams": {
                 "properties": {
                     "acceptHintId": {
                         "type": "string",
@@ -2153,32 +2352,42 @@
                         "type": "string"
                     },
                     "order": {
-                        "$ref": "#/components/schemas/OrderForCreate"
-                    },
-                    "challengeResponse": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/OrderCreate"
                     },
                     "challengeId": {
+                        "type": "string"
+                    },
+                    "challengeResponse": {
                         "type": "string"
                     }
                 },
                 "required": [
-                    "order",
-                    "challengeResponse",
-                    "challengeId"
+                    "order"
                 ],
                 "type": "object",
                 "additionalProperties": false
             },
-            "CreateOrderParams": {
-                "anyOf": [
-                    {
-                        "$ref": "#/components/schemas/CreateOrderParamsWithChallengeResponse"
-                    },
-                    {
-                        "$ref": "#/components/schemas/CreateOrderChallengeParams"
+            "GetUserResponse": {
+                "properties": {
+                    "userId": {
+                        "type": "string"
                     }
-                ]
+                },
+                "required": [
+                    "userId"
+                ],
+                "type": "object"
+            },
+            "CreateGuestUserResponse": {
+                "properties": {
+                    "idToken": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "idToken"
+                ],
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -2200,7 +2409,7 @@
         "title": "brokerize",
         "version": "0.0.1-preview",
         "contact": {},
-        "description": "The brokerize API allows clients to implement multi-brokerage easily with a unified interface.\n\n# user accounts & temporary guest sessions\n\nUsers either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nActions can be performed in portfolios that have online sessions.\n\nIn order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).\n\nThe following actions are implemented:\n\n-   Session TAN handling (for performing other actions in portfolios without further per-case authorization)\n    -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.\n    -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.\n    -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN.\n-   Create a trade\n    -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.\n    -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.\n    -   [CreateTrade](#operation/CreateTrade) to perform the trade.\n-   Edit an order\n    -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.\n    -   [ChangeOrder](#operation/ChangeOrder) to change an order.\n-   Cancel an order\n    -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.\n    -   [CancelOrder](#operation/CancelOrder) to cancel an order.\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. Clients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior. The rate limits will be refined in the future.\n\n| `flow`               | requires challenge? | Description                                                                                                                                                                                                          |\n| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |\n| `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |\n| `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |\n",
+        "description": "The brokerize API allows clients to implement multi-brokerage easily with a unified interface.\n\n# user accounts & temporary guest sessions\n\nUsers either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nActions can be performed in portfolios that have online sessions.\n\nIn order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).\n\nThe following actions are implemented:\n\n-   Session TAN handling (for performing other actions in portfolios without further per-case authorization)\n    -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.\n    -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.\n    -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN.\n-   Create a trade\n    -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.\n    -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.\n    -   [CreateTrade](#operation/CreateTrade) to perform the trade.\n-   Edit an order\n    -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.\n    -   [ChangeOrder](#operation/ChangeOrder) to change an order.\n-   Cancel an order\n    -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.\n    -   [CancelOrder](#operation/CancelOrder) to cancel an order.\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. Clients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior. The rate limits will be refined in the future.\n\n| `flow`               | requires challenge? | Description                                                                                                                                                                                                          |\n| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |\n| `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |\n| `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |\n\n\n API build data: <pre>{\n    \"buildTime\": \"2022-06-10T11:33:47.776Z\"\n}</pre>",
         "x-logo": {
             "url": "/logo.svg",
             "backgroundColor": "#FFFFFF",
@@ -2218,18 +2427,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "brokers": {
-                                            "items": {
-                                                "$ref": "#/components/schemas/BrokerMeta"
-                                            },
-                                            "type": "array"
-                                        }
-                                    },
-                                    "required": [
-                                        "brokers"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/GetBrokersResponse"
                                 }
                             }
                         }
@@ -2259,15 +2457,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "id"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/CreatedResponseBody"
                                 },
                                 "examples": {
                                     "Example 1": {
@@ -2302,30 +2492,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "accounts": {
-                                            "items": {
-                                                "properties": {
-                                                    "accountName": {
-                                                        "type": "string"
-                                                    },
-                                                    "accountId": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "accountName",
-                                                    "accountId"
-                                                ],
-                                                "type": "object"
-                                            },
-                                            "type": "array"
-                                        }
-                                    },
-                                    "required": [
-                                        "accounts"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/DemoAccountsResponse"
                                 }
                             }
                         }
@@ -2355,15 +2522,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "msg"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/OkResponseBody"
                                 }
                             }
                         }
@@ -2402,31 +2561,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "exchanges": {
-                                            "items": {
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "string"
-                                                    },
-                                                    "id": {
-                                                        "type": "number",
-                                                        "format": "double"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "name",
-                                                    "id"
-                                                ],
-                                                "type": "object"
-                                            },
-                                            "type": "array"
-                                        }
-                                    },
-                                    "required": [
-                                        "exchanges"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/ExchangesResponse"
                                 }
                             }
                         }
@@ -2456,15 +2591,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "order": {
-                                            "$ref": "#/components/schemas/Order"
-                                        }
-                                    },
-                                    "required": [
-                                        "order"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/GetOrderResponse"
                                 }
                             }
                         }
@@ -2756,15 +2883,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "msg"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/OkResponseBody"
                                 }
                             }
                         }
@@ -2799,15 +2918,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "quotes": {
-                                            "$ref": "#/components/schemas/PortfolioQuotes"
-                                        }
-                                    },
-                                    "required": [
-                                        "quotes"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/GetPortfolioQuotesResponse"
                                 }
                             }
                         }
@@ -2842,18 +2953,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "positions": {
-                                            "items": {
-                                                "$ref": "#/components/schemas/Position"
-                                            },
-                                            "type": "array"
-                                        }
-                                    },
-                                    "required": [
-                                        "positions"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/GetPortfolioPositionsResponse"
                                 }
                             }
                         }
@@ -2888,23 +2988,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "totalCount": {
-                                            "type": "number",
-                                            "format": "double"
-                                        },
-                                        "orders": {
-                                            "items": {
-                                                "$ref": "#/components/schemas/Order"
-                                            },
-                                            "type": "array"
-                                        }
-                                    },
-                                    "required": [
-                                        "totalCount",
-                                        "orders"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/GetPortfolioOrdersResponse"
                                 }
                             }
                         }
@@ -2986,15 +3070,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "authInfo": {
-                                            "$ref": "#/components/schemas/AuthInfo"
-                                        }
-                                    },
-                                    "required": [
-                                        "authInfo"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/GetAuthInfoResponse"
                                 }
                             }
                         }
@@ -3055,7 +3131,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/LoginResultPublic"
+                                    "$ref": "#/components/schemas/LoginResponse"
                                 }
                             }
                         }
@@ -3094,13 +3170,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "redirectTo": {}
-                                    },
-                                    "required": [
-                                        "redirectTo"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/PrepareOAuthRedirectResponse"
                                 }
                             }
                         }
@@ -3140,15 +3210,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "sessionId": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "sessionId"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/ConfirmOAuthResponse"
                                 }
                             }
                         }
@@ -3188,7 +3250,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/LoginResultReadyPublic"
+                                    "$ref": "#/components/schemas/LoginResponseReady"
                                 }
                             }
                         }
@@ -3316,7 +3378,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/EndSessionTanResult"
+                                    "$ref": "#/components/schemas/EndSessionTanResponse"
                                 }
                             }
                         }
@@ -3429,15 +3491,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "msg"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/OkResponseBody"
                                 }
                             }
                         }
@@ -3473,15 +3527,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "msg"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/OkResponseBody"
                                 }
                             }
                         }
@@ -3517,15 +3563,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "preparedTrade": {
-                                            "$ref": "#/components/schemas/PreparedTrade"
-                                        }
-                                    },
-                                    "required": [
-                                        "preparedTrade"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/PrepareTradeResponse"
                                 }
                             }
                         }
@@ -3592,7 +3630,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/GetQuoteResult"
+                                    "$ref": "#/components/schemas/GetQuoteResponse"
                                 }
                             }
                         }
@@ -3720,13 +3758,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "orderId": {}
-                                    },
-                                    "required": [
-                                        "orderId"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/CreateTradeResponse"
                                 }
                             }
                         }
@@ -3787,15 +3819,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "userId": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "userId"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/GetUserResponse"
                                 }
                             }
                         }
@@ -3822,15 +3846,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "idToken": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "idToken"
-                                    ],
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/CreateGuestUserResponse"
                                 }
                             }
                         }
@@ -3857,10 +3873,6 @@
         {
             "url": "https://api-preview.brokerize.com",
             "description": "Preview environment"
-        },
-        {
-            "url": "http://api-preview.brokerize.com",
-            "description": "This API instance"
         }
     ],
     "tags": [
