@@ -1196,6 +1196,7 @@ function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrderCostsPa
 interface Exchange {
     allowsIfDoneLimit?: boolean;
     allowsQuoteModeLimit?: boolean;
+    currencyIso: string;
     defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
     hideOrderModel?: boolean;
     id: string;
@@ -2508,6 +2509,7 @@ interface OrderCreate {
     ifDoneLimit?: number;
     isin: string;
     limit?: number;
+    limitCurrencyIso?: string;
     orderExtension?: OrderExtension;
     orderModel: OrderModel;
     portfolioId: string;
@@ -2805,6 +2807,7 @@ interface PreparedTrade {
     exchanges: Array<Exchange>;
     riskClassInfo: RiskClassInfo;
     security: Security;
+    sizeUnit: string;
     strikingHint?: string;
 }
 
