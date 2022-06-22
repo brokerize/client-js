@@ -636,7 +636,6 @@
                     }
                 },
                 "required": [
-                    "validity",
                     "size",
                     "isin",
                     "brokerExchangeId",
@@ -645,10 +644,8 @@
                     "portfolioId",
                     "id",
                     "status",
-                    "statusText",
                     "allowsChangeSize",
                     "allowsCancel",
-                    "exchangeId",
                     "security"
                 ],
                 "type": "object",
@@ -704,54 +701,47 @@
                 "type": "object"
             },
             "CreateModeSessionTan": {
-                "properties": {
-                    "mode": {
-                        "type": "string",
-                        "enum": [
-                            "sessionTan"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "mode"
                 ],
                 "type": "object",
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/CancelOrderParams"
+                    },
+                    {
+                        "$ref": "#/components/schemas/CreateModeSessionTanSpecifics"
+                    }
+                ]
             },
             "CancelOrderChallengeResponse": {
-                "properties": {
-                    "mode": {
-                        "type": "string",
-                        "enum": [
-                            "challengeResponse"
-                        ],
-                        "nullable": false
-                    },
-                    "challengeId": {
-                        "type": "string"
-                    },
-                    "challengeResponse": {
-                        "type": "string"
-                    }
-                },
                 "required": [
                     "mode",
                     "challengeId",
                     "challengeResponse"
                 ],
                 "type": "object",
-                "additionalProperties": false
-            },
-            "CancelOrderParams": {
-                "oneOf": [
+                "additionalProperties": false,
+                "allOf": [
                     {
-                        "$ref": "#/components/schemas/CreateModeSessionTan"
+                        "$ref": "#/components/schemas/CancelOrderParams"
                     },
                     {
-                        "$ref": "#/components/schemas/CancelOrderChallengeResponse"
+                        "$ref": "#/components/schemas/CancelOrderChallengeResponseSpecifics"
                     }
+                ]
+            },
+            "CancelOrderParams": {
+                "type": "object",
+                "required": [
+                    "mode"
                 ],
+                "properties": {
+                    "mode": {
+                        "$ref": "#/components/schemas/CancelOrderParamsMode"
+                    }
+                },
                 "discriminator": {
                     "propertyName": "mode",
                     "mapping": {
@@ -824,157 +814,122 @@
                 "type": "object"
             },
             "GenericTableRowSubheading": {
-                "properties": {
-                    "subheading": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "subheading"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "subheading",
                     "type"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/GenericTableRow"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowSubheadingSpecifics"
+                    }
+                ]
             },
             "GenericTableRowText": {
-                "properties": {
-                    "text": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "text"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "text",
                     "type"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/GenericTableRow"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowTextSpecifics"
+                    }
+                ]
             },
             "GenericTableRowValueText": {
-                "properties": {
-                    "value": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "text"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "value",
                     "type"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValue"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValueTextSpecifics"
+                    }
+                ]
             },
             "GenericTableRowValueAmount": {
-                "properties": {
-                    "value": {
-                        "$ref": "#/components/schemas/Amount"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "amount"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "value",
                     "type"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValue"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValueAmountSpecifics"
+                    }
+                ]
             },
             "GenericTableRowValueDatetime": {
-                "properties": {
-                    "value": {
-                        "type": "number",
-                        "format": "double",
-                        "description": "*Milliseconds* since *the epoch*."
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "datetime"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "value",
                     "type"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValue"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValueDatetimeSpecifics"
+                    }
+                ]
             },
             "GenericTableRowValueLinkPortfolio": {
-                "properties": {
-                    "text": {
-                        "type": "string"
-                    },
-                    "portfolioId": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "portfolio"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "text",
                     "portfolioId",
                     "type"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkValue"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkPortfolioSpecifics"
+                    }
+                ]
             },
             "GenericTableRowValueLinkUrl": {
-                "properties": {
-                    "url": {
-                        "type": "string"
-                    },
-                    "text": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "url"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "url",
                     "text",
                     "type"
                 ],
-                "type": "object"
-            },
-            "GenericTableRowValueLinkValue": {
-                "oneOf": [
+                "type": "object",
+                "allOf": [
                     {
-                        "$ref": "#/components/schemas/GenericTableRowValueLinkPortfolio"
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkValue"
                     },
                     {
-                        "$ref": "#/components/schemas/GenericTableRowValueLinkUrl"
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkUrlSpecifics"
                     }
+                ]
+            },
+            "GenericTableRowValueLinkValue": {
+                "type": "object",
+                "required": [
+                    "type"
                 ],
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkValueType"
+                    }
+                },
                 "discriminator": {
                     "propertyName": "type",
                     "mapping": {
@@ -984,39 +939,30 @@
                 }
             },
             "GenericTableRowValueLink": {
-                "properties": {
-                    "value": {
-                        "$ref": "#/components/schemas/GenericTableRowValueLinkValue"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "link"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "value",
                     "type"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValue"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkSpecifics"
+                    }
+                ]
             },
             "GenericTableRowValue": {
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueText"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueAmount"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueDatetime"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueLink"
-                    }
+                "type": "object",
+                "required": [
+                    "type"
                 ],
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/GenericTableRowValueType"
+                    }
+                },
                 "discriminator": {
                     "propertyName": "type",
                     "mapping": {
@@ -1028,46 +974,30 @@
                 }
             },
             "GenericTableRowEntry": {
-                "properties": {
-                    "value": {
-                        "$ref": "#/components/schemas/GenericTableRowValue"
-                    },
-                    "isImportant": {
-                        "type": "boolean"
-                    },
-                    "caption": {
-                        "type": "string"
-                    },
-                    "id": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "entry"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
-                    "value",
                     "caption",
                     "type"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/GenericTableRow"
+                    },
+                    {
+                        "$ref": "#/components/schemas/GenericTableRowEntrySpecifics"
+                    }
+                ]
             },
             "GenericTableRow": {
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowSubheading"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowText"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowEntry"
-                    }
+                "type": "object",
+                "required": [
+                    "type"
                 ],
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/GenericTableRowType"
+                    }
+                },
                 "discriminator": {
                     "propertyName": "type",
                     "mapping": {
@@ -1226,15 +1156,6 @@
                         "format": "double",
                         "description": "Relative P/L of all open positions, since acquisition. 1 means +100%"
                     },
-                    "profitLossRelAllTime": {
-                        "type": "number",
-                        "format": "double",
-                        "description": "All-time relative P/L of the entire portfolio. 1 means +100%"
-                    },
-                    "profitLossAbsAllTime": {
-                        "$ref": "#/components/schemas/Amount",
-                        "description": "All-time profit loss for the portfolio since its creation (including closed positions of the past)."
-                    },
                     "totalValue": {
                         "$ref": "#/components/schemas/Amount",
                         "description": "The total value, usually `cashAccountBalance + positionValue`."
@@ -1252,9 +1173,6 @@
                         "description": "Current total amount of the open positions."
                     }
                 },
-                "required": [
-                    "positionValue"
-                ],
                 "type": "object"
             },
             "GetPortfolioQuotesResponse": {
@@ -1263,9 +1181,6 @@
                         "$ref": "#/components/schemas/PortfolioQuotes"
                     }
                 },
-                "required": [
-                    "quotes"
-                ],
                 "type": "object"
             },
             "PositionValuation": {
@@ -1378,7 +1293,6 @@
                 },
                 "required": [
                     "availableSize",
-                    "exchangeId",
                     "security",
                     "sizeUnit",
                     "size",
@@ -1420,27 +1334,6 @@
                 "type": "object"
             },
             "AuthMethodTan": {
-                "properties": {
-                    "tanFieldLabel": {
-                        "type": "string"
-                    },
-                    "isDefaultMethod": {
-                        "type": "boolean"
-                    },
-                    "label": {
-                        "type": "string"
-                    },
-                    "flow": {
-                        "type": "string",
-                        "enum": [
-                            "TAN"
-                        ],
-                        "nullable": false
-                    },
-                    "id": {
-                        "type": "string"
-                    }
-                },
                 "required": [
                     "tanFieldLabel",
                     "label",
@@ -1448,63 +1341,34 @@
                     "id"
                 ],
                 "type": "object",
-                "description": "With the `TAN` flow, a TAN can be sent with the operation right away, i.e. without creating a challenge first.\nThis may be the case for brokers that provide a fixed trading password or a list of TANs where the user\nmay select an arbitrary TAN from the list."
+                "description": "With the `TAN` flow, a TAN can be sent with the operation right away, i.e. without creating a challenge first.\nThis may be the case for brokers that provide a fixed trading password or a list of TANs where the user\nmay select an arbitrary TAN from the list.",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/AuthMethod"
+                    },
+                    {
+                        "$ref": "#/components/schemas/AuthMethodTanSpecifics"
+                    }
+                ]
             },
             "AuthMethodDecoupled": {
-                "properties": {
-                    "isDefaultMethod": {
-                        "type": "boolean"
-                    },
-                    "label": {
-                        "type": "string"
-                    },
-                    "flow": {
-                        "type": "string",
-                        "enum": [
-                            "DECOUPLED"
-                        ],
-                        "nullable": false
-                    },
-                    "id": {
-                        "type": "string"
-                    }
-                },
                 "required": [
                     "label",
                     "flow",
                     "id"
                 ],
                 "type": "object",
-                "description": "With the `DECOUPLED` flow, the operation is created right away wiuthout creating a challenge first. The operation's\nresponse will include a `decoupledOperationId` which can be subscribed to using `GetDecoupledOperationStatus` and via\na WebSocket subscription. Also, the operation can be cancelled by the user using `CancelDecoupledOperation`. Currently\nthis flow is only implemented for `EnableSessionTan`."
+                "description": "With the `DECOUPLED` flow, the operation is created right away wiuthout creating a challenge first. The operation's\nresponse will include a `decoupledOperationId` which can be subscribed to using `GetDecoupledOperationStatus` and via\na WebSocket subscription. Also, the operation can be cancelled by the user using `CancelDecoupledOperation`. Currently\nthis flow is only implemented for `EnableSessionTan`.",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/AuthMethod"
+                    },
+                    {
+                        "$ref": "#/components/schemas/AuthMethodDecoupledSpecifics"
+                    }
+                ]
             },
             "AuthMethodChallengeResponse": {
-                "properties": {
-                    "tanFieldLabel": {
-                        "type": "string"
-                    },
-                    "challengeLabel": {
-                        "type": "string"
-                    },
-                    "getChallengeLabel": {
-                        "type": "string"
-                    },
-                    "isDefaultMethod": {
-                        "type": "boolean"
-                    },
-                    "label": {
-                        "type": "string"
-                    },
-                    "flow": {
-                        "type": "string",
-                        "enum": [
-                            "CHALLENGE_RESPONSE"
-                        ],
-                        "nullable": false
-                    },
-                    "id": {
-                        "type": "string"
-                    }
-                },
                 "required": [
                     "tanFieldLabel",
                     "getChallengeLabel",
@@ -1513,20 +1377,26 @@
                     "id"
                 ],
                 "type": "object",
-                "description": "With the `CHALLENGE_RESPONSE` flow, to execute an operation, a challenge has to be created as the first step (e.g. requesting)\nan MTAN. The UI should show a button labelled with the string from `getChallengeLabel`. When the\nchallenge has been requested (e.g. for enabling session TAN with `CreateSessionTanChallenge`), the\nTAN field should be shown (labelled `tanFieldLabel`). When the user has entered the challenge response,\nthe operation can be executed (e.g. `EnableSessionTan`)."
+                "description": "With the `CHALLENGE_RESPONSE` flow, to execute an operation, a challenge has to be created as the first step (e.g. requesting)\nan MTAN. The UI should show a button labelled with the string from `getChallengeLabel`. When the\nchallenge has been requested (e.g. for enabling session TAN with `CreateSessionTanChallenge`), the\nTAN field should be shown (labelled `tanFieldLabel`). When the user has entered the challenge response,\nthe operation can be executed (e.g. `EnableSessionTan`).",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/AuthMethod"
+                    },
+                    {
+                        "$ref": "#/components/schemas/AuthMethodChallengeResponseSpecifics"
+                    }
+                ]
             },
             "AuthMethod": {
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/AuthMethodTan"
-                    },
-                    {
-                        "$ref": "#/components/schemas/AuthMethodDecoupled"
-                    },
-                    {
-                        "$ref": "#/components/schemas/AuthMethodChallengeResponse"
-                    }
+                "type": "object",
+                "required": [
+                    "flow"
                 ],
+                "properties": {
+                    "flow": {
+                        "$ref": "#/components/schemas/AuthMethodFlow"
+                    }
+                },
                 "discriminator": {
                     "propertyName": "flow",
                     "mapping": {
@@ -1568,9 +1438,27 @@
                 ],
                 "type": "object"
             },
+            "SyncError": {
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "message",
+                    "date"
+                ],
+                "type": "object"
+            },
             "Session": {
                 "properties": {
-                    "syncError": {},
+                    "syncError": {
+                        "$ref": "#/components/schemas/SyncError"
+                    },
                     "authInfo": {
                         "$ref": "#/components/schemas/AuthInfo"
                     },
@@ -1662,52 +1550,45 @@
                 "type": "object"
             },
             "LoginResponseReady": {
-                "properties": {
-                    "sessionId": {
-                        "type": "string"
-                    },
-                    "state": {
-                        "type": "string",
-                        "enum": [
-                            "ready"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "sessionId",
                     "state"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/LoginResponse"
+                    },
+                    {
+                        "$ref": "#/components/schemas/LoginResponseReadySpecifics"
+                    }
+                ]
             },
             "LoginResponseChallenge": {
-                "properties": {
-                    "challenge": {
-                        "$ref": "#/components/schemas/Challenge"
-                    },
-                    "state": {
-                        "type": "string",
-                        "enum": [
-                            "challenge"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "challenge",
                     "state"
                 ],
-                "type": "object"
-            },
-            "LoginResponse": {
-                "oneOf": [
+                "type": "object",
+                "allOf": [
                     {
-                        "$ref": "#/components/schemas/LoginResponseReady"
+                        "$ref": "#/components/schemas/LoginResponse"
                     },
                     {
-                        "$ref": "#/components/schemas/LoginResponseChallenge"
+                        "$ref": "#/components/schemas/LoginResponseChallengeSpecifics"
                     }
+                ]
+            },
+            "LoginResponse": {
+                "type": "object",
+                "required": [
+                    "state"
                 ],
+                "properties": {
+                    "state": {
+                        "$ref": "#/components/schemas/LoginResponseState"
+                    }
+                },
                 "discriminator": {
                     "propertyName": "state",
                     "mapping": {
@@ -1766,64 +1647,61 @@
                 "type": "object"
             },
             "EnableSessionTanResponse": {
-                "properties": {
-                    "decoupledOperationId": {
-                        "type": "string"
+                "anyOf": [
+                    {
+                        "properties": {
+                            "decoupledOperationId": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "$ref": "#/components/schemas/OkResponseBody"
                     }
-                },
-                "type": "object"
+                ]
             },
             "EnableSessionTanParamsChallengeResponse": {
-                "properties": {
-                    "challengeResponse": {
-                        "type": "string"
-                    },
-                    "challengeId": {
-                        "type": "string"
-                    },
-                    "kind": {
-                        "type": "string",
-                        "enum": [
-                            "challengeResponse"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "challengeResponse",
                     "challengeId",
                     "kind"
                 ],
-                "type": "object"
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/EnableSessionTanParams"
+                    },
+                    {
+                        "$ref": "#/components/schemas/EnableSessionTanParamsChallengeResponseSpecifics"
+                    }
+                ]
             },
             "EnableSessionTanParamsDecoupled": {
-                "properties": {
-                    "authMethod": {
-                        "type": "string"
-                    },
-                    "kind": {
-                        "type": "string",
-                        "enum": [
-                            "decoupled"
-                        ],
-                        "nullable": false
-                    }
-                },
                 "required": [
                     "authMethod",
                     "kind"
                 ],
-                "type": "object"
-            },
-            "EnableSessionTanParams": {
-                "oneOf": [
+                "type": "object",
+                "allOf": [
                     {
-                        "$ref": "#/components/schemas/EnableSessionTanParamsChallengeResponse"
+                        "$ref": "#/components/schemas/EnableSessionTanParams"
                     },
                     {
-                        "$ref": "#/components/schemas/EnableSessionTanParamsDecoupled"
+                        "$ref": "#/components/schemas/EnableSessionTanParamsDecoupledSpecifics"
                     }
+                ]
+            },
+            "EnableSessionTanParams": {
+                "type": "object",
+                "required": [
+                    "kind"
                 ],
+                "properties": {
+                    "kind": {
+                        "$ref": "#/components/schemas/EnableSessionTanParamsKind"
+                    }
+                },
                 "discriminator": {
                     "propertyName": "kind",
                     "mapping": {
@@ -1864,9 +1742,6 @@
                         "description": "If set, must be displayed as a static hint (which the user does not need to confirm) before the order button. May contain (some) HTML."
                     }
                 },
-                "required": [
-                    "msg"
-                ],
                 "type": "object",
                 "additionalProperties": false
             },
@@ -2072,7 +1947,6 @@
                     "costEstimationMustBeShown",
                     "exchanges",
                     "sizeUnit",
-                    "riskClassInfo",
                     "security"
                 ],
                 "type": "object"
@@ -2172,9 +2046,7 @@
                     "quoteId",
                     "isin",
                     "direction",
-                    "size",
-                    "quotation",
-                    "expiration"
+                    "quotation"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -2272,13 +2144,13 @@
                     }
                 },
                 "required": [
-                    "validity",
                     "size",
                     "isin",
                     "brokerExchangeId",
                     "direction",
                     "orderModel",
-                    "portfolioId"
+                    "portfolioId",
+                    "validity"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -2318,9 +2190,6 @@
                         "type": "string"
                     }
                 },
-                "required": [
-                    "orderId"
-                ],
                 "type": "object"
             },
             "Hint": {
@@ -2403,6 +2272,241 @@
                     "idToken"
                 ],
                 "type": "object"
+            },
+            "CreateModeSessionTanSpecifics": {
+                "properties": {}
+            },
+            "CancelOrderChallengeResponseSpecifics": {
+                "properties": {
+                    "challengeId": {
+                        "type": "string"
+                    },
+                    "challengeResponse": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CancelOrderParamsMode": {
+                "type": "string",
+                "enum": [
+                    "sessionTan",
+                    "challengeResponse"
+                ],
+                "nullable": false
+            },
+            "GenericTableRowValueLinkPortfolioSpecifics": {
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    },
+                    "portfolioId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GenericTableRowValueLinkUrlSpecifics": {
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GenericTableRowValueLinkValueType": {
+                "type": "string",
+                "enum": [
+                    "portfolio",
+                    "url"
+                ],
+                "nullable": false
+            },
+            "GenericTableRowValueTextSpecifics": {
+                "properties": {
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GenericTableRowValueAmountSpecifics": {
+                "properties": {
+                    "value": {
+                        "$ref": "#/components/schemas/Amount"
+                    }
+                }
+            },
+            "GenericTableRowValueDatetimeSpecifics": {
+                "properties": {
+                    "value": {
+                        "type": "number",
+                        "format": "double",
+                        "description": "*Milliseconds* since *the epoch*."
+                    }
+                }
+            },
+            "GenericTableRowValueLinkSpecifics": {
+                "properties": {
+                    "value": {
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkValue"
+                    }
+                }
+            },
+            "GenericTableRowValueType": {
+                "type": "string",
+                "enum": [
+                    "text",
+                    "amount",
+                    "datetime",
+                    "link"
+                ],
+                "nullable": false
+            },
+            "GenericTableRowSubheadingSpecifics": {
+                "properties": {
+                    "subheading": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GenericTableRowTextSpecifics": {
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GenericTableRowEntrySpecifics": {
+                "properties": {
+                    "value": {
+                        "$ref": "#/components/schemas/GenericTableRowValue"
+                    },
+                    "isImportant": {
+                        "type": "boolean"
+                    },
+                    "caption": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GenericTableRowType": {
+                "type": "string",
+                "enum": [
+                    "subheading",
+                    "text",
+                    "entry"
+                ],
+                "nullable": false
+            },
+            "AuthMethodTanSpecifics": {
+                "properties": {
+                    "tanFieldLabel": {
+                        "type": "string"
+                    },
+                    "isDefaultMethod": {
+                        "type": "boolean"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AuthMethodDecoupledSpecifics": {
+                "properties": {
+                    "isDefaultMethod": {
+                        "type": "boolean"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AuthMethodChallengeResponseSpecifics": {
+                "properties": {
+                    "tanFieldLabel": {
+                        "type": "string"
+                    },
+                    "challengeLabel": {
+                        "type": "string"
+                    },
+                    "getChallengeLabel": {
+                        "type": "string"
+                    },
+                    "isDefaultMethod": {
+                        "type": "boolean"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AuthMethodFlow": {
+                "type": "string",
+                "enum": [
+                    "TAN",
+                    "DECOUPLED",
+                    "CHALLENGE_RESPONSE"
+                ],
+                "nullable": false
+            },
+            "LoginResponseReadySpecifics": {
+                "properties": {
+                    "sessionId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginResponseChallengeSpecifics": {
+                "properties": {
+                    "challenge": {
+                        "$ref": "#/components/schemas/Challenge"
+                    }
+                }
+            },
+            "LoginResponseState": {
+                "type": "string",
+                "enum": [
+                    "ready",
+                    "challenge"
+                ],
+                "nullable": false
+            },
+            "EnableSessionTanParamsChallengeResponseSpecifics": {
+                "properties": {
+                    "challengeResponse": {
+                        "type": "string"
+                    },
+                    "challengeId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "EnableSessionTanParamsDecoupledSpecifics": {
+                "properties": {
+                    "authMethod": {
+                        "type": "string"
+                    }
+                }
+            },
+            "EnableSessionTanParamsKind": {
+                "type": "string",
+                "enum": [
+                    "challengeResponse",
+                    "decoupled"
+                ],
+                "nullable": false
             }
         },
         "securitySchemes": {
@@ -2411,6 +2515,12 @@
                 "in": "cookie",
                 "name": "_id",
                 "description": "Requests are authenticated by providing an HTTP-Only cookie `_id` which is a JWT token stored in the browser by calling the `/login` endpoint. This allows clients to not have to care about authentication at all - it is provided by 3rd party cookies which are not visible to the frontend at all. However, this comes with limitations (e.g. some browsers do not send those cookies if they are under a 3rd party domain)."
+            },
+            "clientId": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-brkrz-client-id",
+                "description": "The brokerize clientId provided to API customers. The clientId defines which origins are allowed for CORS and which URLs may be used for OAuth redirects."
             },
             "idToken": {
                 "type": "apiKey",
@@ -2424,7 +2534,7 @@
         "title": "brokerize",
         "version": "0.0.1-preview",
         "contact": {},
-        "description": "The brokerize API allows clients to implement multi-brokerage easily with a unified interface.\n\n# user accounts & temporary guest sessions\n\nUsers either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nActions can be performed in portfolios that have online sessions.\n\nIn order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).\n\nThe following actions are implemented:\n\n-   Session TAN handling (for performing other actions in portfolios without further per-case authorization)\n    -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.\n    -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.\n    -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN.\n-   Create a trade\n    -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.\n    -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.\n    -   [CreateTrade](#operation/CreateTrade) to perform the trade.\n-   Edit an order\n    -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.\n    -   [ChangeOrder](#operation/ChangeOrder) to change an order.\n-   Cancel an order\n    -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.\n    -   [CancelOrder](#operation/CancelOrder) to cancel an order.\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. Clients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior. The rate limits will be refined in the future.\n\n| `flow`               | requires challenge? | Description                                                                                                                                                                                                          |\n| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |\n| `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |\n| `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |\n\n\n API build data: <pre>{\n    \"buildTime\": \"2022-06-13T13:22:54.404Z\"\n}</pre>",
+        "description": "The brokerize API allows clients to implement multi-brokerage easily with a unified interface.\n\n# user accounts & temporary guest sessions\n\nUsers either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nActions can be performed in portfolios that have online sessions.\n\nIn order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).\n\nThe following actions are implemented:\n\n-   Session TAN handling (for performing other actions in portfolios without further per-case authorization)\n    -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.\n    -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.\n    -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN.\n-   Create a trade\n    -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.\n    -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.\n    -   [CreateTrade](#operation/CreateTrade) to perform the trade.\n-   Edit an order\n    -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.\n    -   [ChangeOrder](#operation/ChangeOrder) to change an order.\n-   Cancel an order\n    -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.\n    -   [CancelOrder](#operation/CancelOrder) to cancel an order.\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. The `CreateGuestUser` endpoint is accessible without a token, so *for that endpoint* an IP-based limiting (1 guest user creation per 10 seconds) is implemented. These rate limits are subject to change and will be refined in the future.\n\nClients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior.\n\n| `flow`               | requires challenge? | Description                                                                                                                                                                                                          |\n| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |\n| `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |\n| `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |\n\n# request ids\nThe brokerize backend assigns a requestId to each request and returns it in the `x-request-id` header. The ID can be used to research error details, so it may be displayed to the user in the case of unexpected errors. In the case of internal server errors, the id will also be part of the JSON body; for example:\n```\n{\n    \"message\": \"An internal server error occured.\",\n    \"requestId\": \"9KzqMpRvVrQHDkFo\"\n}\n```",
         "x-logo": {
             "url": "/logo.svg",
             "backgroundColor": "#FFFFFF",
@@ -2454,10 +2564,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": []
@@ -2491,10 +2603,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": []
@@ -2519,10 +2633,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": []
@@ -2549,10 +2665,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2588,10 +2706,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": []
@@ -2614,10 +2734,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2653,10 +2775,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2695,10 +2819,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2744,10 +2870,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2793,10 +2921,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2835,10 +2965,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2880,10 +3012,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": []
@@ -2906,10 +3040,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2941,10 +3077,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -2976,10 +3114,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3011,10 +3151,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3094,10 +3236,12 @@
                 "description": "Get the AuthInfo for the given portfolio.\n\nIf the portfolio does not have an online session, this will return a 400 status code.\n\nThe `AuthInfo` is used to figure out how operations (enable session tan, create trade, cancel order, change order) can be authorized for the portfolio.\n- If `sessionTanActive` is `true`: Session TAN has been enabled for the session that\ncurrently backs the portfolio. In this case, all operations like `CreateTrade` can be executed right away\nwithout an `authMethod`. The UI should *not* show a dropdown with the auth methods in this case.\n- If `sessionTanActive` is `false` but `sessionTanSupported` is `true`: the user can enable session TAN\nusing `CreateSessionTanChallenge` / `EnableSessionTan`.\n- If `allOperationsRequireSessionTan` is `true`, the auth methods can *ONLY* be used for enabling session TAN.\n- Otherwise, the `authMethods` can be used to perform individual operations.\n\n| sessionTanActive | sessionTanSupported | allOperationsRequireSessionTan | Description                                                                                                                                                                                                                                                 |\n| ---------------- | ------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `true`           | `true`              | -                              | Session TAN has been enabled for the session that currently backs the portfolio. In this case, all operations like `CreateTrade`, `ChangeOrder`, `CancelOrder` can be executed right away without an `authMethod`. The UI should _not_ show adropdown with the auth methods in this case. |\n| `false`          | `true`              | `true`                         | the user can enable session TAN using the provided auth methods via `CreateSessionTanChallenge` / `EnableSessionTan`. All other operations can only take place after session TAN has been enabled.                                                          |\n| `false`          | `true`              | `false`                        | the user can enable any operation (enable session tan, create trade, cancel order, change order) using the provided auth methods                                                                                                                            |\n\nThe list of available AuthMethods should only be presented to the user if session TAN is not active (yet). The list and names are defined by our partner brokers.\nAuth Methods are categorized using the `flow` attribute:\n\n| `flow`               | requires challenge? | Description                                                                                                                                                                                                          |\n| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |\n| `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |\n| `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |     *",
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3130,10 +3274,12 @@
                 "description": "Get the currently active broker sessions of the user's account.",
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": []
@@ -3157,10 +3303,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [],
@@ -3197,10 +3345,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [],
@@ -3237,10 +3387,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [],
@@ -3277,10 +3429,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [],
@@ -3313,10 +3467,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3358,10 +3514,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3402,10 +3560,12 @@
                 "description": "End Session TAN for the given broker session.\n\nIf applicable, the broker may return a message with a confirmation code which can be looked up in the initial activation SMS.\nIf message is present in the response, it should be displayed to the user.",
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3437,10 +3597,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3471,10 +3633,12 @@
                 },
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3515,10 +3679,53 @@
                 "description": "Trigger a background sync process for the given broker session. This means that a sync will be\nscheduled as soon as possible. All data related to the portfolio (e.g. positions and orders) will\nbe loaded into the brokerize database.",
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "sessionId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/sessions/{sessionId}/triggerSyncError": {
+            "post": {
+                "operationId": "TriggerDemoSessionSyncError",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OkResponseBody"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Only for demo broker portfolios: set a sync error for a session. This can be used for testing.",
+                "tags": [
+                    "demobroker"
+                ],
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "clientId": []
+                    },
+                    {
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3551,10 +3758,12 @@
                 "description": "Log out from the given broker session.",
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3610,10 +3819,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3657,10 +3868,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [
@@ -3706,10 +3919,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [],
@@ -3745,10 +3960,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [],
@@ -3806,10 +4023,12 @@
                 ],
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": [],
@@ -3843,10 +4062,12 @@
                 "description": "Checks the provided authentication and returns the logged-in user.",
                 "security": [
                     {
-                        "cookieAuth": []
+                        "cookieAuth": [],
+                        "clientId": []
                     },
                     {
-                        "idToken": []
+                        "idToken": [],
+                        "clientId": []
                     }
                 ],
                 "parameters": []
@@ -3868,7 +4089,11 @@
                     }
                 },
                 "description": "Create a guest user and return an JWT token which can be used to access resources.\nThe user as well as the token have a lifetime of 24 hours.",
-                "security": [],
+                "security": [
+                    {
+                        "clientId": []
+                    }
+                ],
                 "parameters": []
             }
         },
@@ -3888,6 +4113,10 @@
         {
             "url": "https://api-preview.brokerize.com",
             "description": "Preview environment"
+        },
+        {
+            "url": "http://localhost:3333",
+            "description": "This API instance"
         }
     ],
     "tags": [

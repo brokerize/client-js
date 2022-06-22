@@ -51,6 +51,7 @@ export class AuthorizedApiContext {
     return {
       signal: this._abortController.signal,
       headers: {
+        'x-brkrz-client-id': this._cfg.clientId, 
         "x-access-token": tok.idToken,
         "Content-Type": "application/json",
       },
@@ -194,6 +195,12 @@ export class AuthorizedApiContext {
   }
   async triggerSessionSync(sessionId: string) {
     return this._defaultApi.triggerSessionSync(
+      { sessionId },
+      await this._initRequestInit()
+    );
+  }
+  async triggerDemoSessionSyncError(sessionId: string) {
+    return this._demoBrokerApi.triggerDemoSessionSyncError(
       { sessionId },
       await this._initRequestInit()
     );

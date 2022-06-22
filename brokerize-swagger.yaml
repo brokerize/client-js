@@ -1,0 +1,2767 @@
+components:
+  examples: {}
+  headers: {}
+  parameters: {}
+  requestBodies: {}
+  responses: {}
+  schemas:
+    BrokerName:
+      type: string
+      enum:
+        - demo
+        - consors
+        - finanzen
+        - justtrade
+        - comdirect
+    BrokerEnvironment:
+      properties:
+        isTestingEnvironment:
+          type: boolean
+        label:
+          type: string
+        id:
+          type: string
+      required:
+        - isTestingEnvironment
+        - label
+        - id
+      type: object
+    BrokerLoginFormField:
+      properties:
+        label:
+          type: string
+        type:
+          type: string
+          enum:
+            - string
+            - password
+      required:
+        - label
+        - type
+      type: object
+    BrokerLoginForm:
+      properties:
+        passwordField:
+          $ref: '#/components/schemas/BrokerLoginFormField'
+        usernameField:
+          $ref: '#/components/schemas/BrokerLoginFormField'
+      type: object
+      description: If a login form can be shown for the broker, describes the fields to show.
+    BrokerMeta:
+      properties:
+        supportsOAuthLogin:
+          type: boolean
+          description: If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.
+        loginForm:
+          $ref: '#/components/schemas/BrokerLoginForm'
+        envs:
+          items:
+            $ref: '#/components/schemas/BrokerEnvironment'
+          type: array
+        brokerName:
+          $ref: '#/components/schemas/BrokerName'
+      required:
+        - envs
+        - brokerName
+      type: object
+    GetBrokersResponse:
+      properties:
+        brokers:
+          items:
+            $ref: '#/components/schemas/BrokerMeta'
+          type: array
+      required:
+        - brokers
+      type: object
+    CreatedResponseBody:
+      properties:
+        id:
+          type: string
+      required:
+        - id
+      type: object
+    DemoAccount:
+      properties:
+        accountName:
+          type: string
+        accountId:
+          type: string
+      required:
+        - accountName
+        - accountId
+      type: object
+    DemoAccountsResponse:
+      properties:
+        accounts:
+          items:
+            $ref: '#/components/schemas/DemoAccount'
+          type: array
+      required:
+        - accounts
+      type: object
+    OkResponseBody:
+      properties:
+        msg:
+          type: string
+      required:
+        - msg
+      type: object
+    ExchangeMeta:
+      properties:
+        name:
+          type: string
+        id:
+          type: number
+          format: double
+      required:
+        - name
+        - id
+      type: object
+    ExchangesResponse:
+      properties:
+        exchanges:
+          items:
+            $ref: '#/components/schemas/ExchangeMeta'
+          type: array
+      required:
+        - exchanges
+      type: object
+    OrderModel:
+      type: string
+      enum:
+        - quote
+        - fraction
+        - savingsPlan
+        - market
+        - limit
+        - stopMarket
+        - stopLimit
+        - trailingStopMarket
+        - trailingStopLimit
+        - ocoStopMarket
+        - ocoStopLimit
+      description: |-
+        The `orderModel` defines how the order is executed at an exchange.
+        Some of the values cannot be used for creation, i.e. currently `fraction` and `savingsPlan` (those
+        two values only appear in order lists / receipts).
+    OrderStatus:
+      type: string
+      enum:
+        - open
+        - canceled
+        - executed
+        - open_executed
+        - canceled_executed
+    OrderValidityType:
+      type: string
+      enum:
+        - AUTO
+        - GFD
+        - GTC
+        - GTU
+        - GTD
+        - EOM
+      description: |-
+        Order validity:
+        - `AUTO`: choose automatically
+        - `GFD`: good for day (*today/current trading day*)
+        - `GTC`: good til canceled
+        - `GTD` good til given date
+        - `GTU` good til ultimo (end of month)
+    Security:
+      properties:
+        symbol:
+          type: string
+        wkn:
+          type: string
+        isin:
+          type: string
+        name:
+          type: string
+      type: object
+      description: A security's basic data like symbols and names.
+    DateString:
+      type: string
+      description: Date in the format YYYY-MM-DD
+    CurrencyCode:
+      type: string
+      description: |-
+        - ISO code (e.g. EUR for Euro), if it is a monetary amount
+        - or 'USDT' if its Tether (https://en.wikipedia.org/wiki/Tether_(cryptocurrency)
+        - or 'XXX' if it is pieces
+        - or 'PRC' if it is a percentage
+        - or 'PRM' if it is permil
+        - or 'XXP' if it is points (as for indices)
+    Amount:
+      properties:
+        isRealtime:
+          type: boolean
+          description: |-
+            If this is present and true, a "value is provided in realtime" indicator can be displayed.
+            If this is present and false, a "value is provided delayed" indicator can be displayed.
+            If this is not present, no such indication is available.
+        maxDecimals:
+          type: number
+          format: double
+        minDecimals:
+          type: number
+          format: double
+        currency:
+          $ref: '#/components/schemas/CurrencyCode'
+        date:
+          $ref: '#/components/schemas/DateString'
+          description: If the amount is valid at a given calendar date (without daytime information), this can be set.
+        timestamp:
+          type: number
+          format: double
+          description: If the amount is valid at a given point in time, this can be set (e.g. for quotes). This is a UNIX timestamp in milliseconds.
+        value:
+          type: number
+          format: double
+      type: object
+    MonetaryValue:
+      type: number
+      format: double
+    OrderExecution:
+      properties:
+        crossRate:
+          $ref: '#/components/schemas/MonetaryValue'
+        executionStatusText:
+          type: string
+        executedDateTime:
+          type: string
+          format: date-time
+        totalAmount:
+          $ref: '#/components/schemas/Amount'
+          description: '"Biw.OrderReceipt.Execution.TotalAmount": "Betrag inkl. Gebühren und Steuern",'
+        amount:
+          $ref: '#/components/schemas/Amount'
+          description: '"Biw.OrderReceipt.Execution.Amount": "Betrag ohne Gebühren",'
+        tax:
+          $ref: '#/components/schemas/Amount'
+        transactionTax:
+          $ref: '#/components/schemas/Amount'
+          description: '"Biw.OrderReceipt.Execution.TransactionTax": "Finanztransaktionssteuer",'
+        quote:
+          $ref: '#/components/schemas/Amount'
+        size:
+          $ref: '#/components/schemas/Amount'
+        id:
+          type: string
+      required:
+        - size
+      type: object
+    Direction:
+      type: string
+      enum:
+        - buy
+        - sell
+    OrderExtension:
+      type: string
+      enum:
+        - FOK
+        - IOC
+        - AON
+        - PEA
+      description: |-
+        Some brokers and exchanges allow adding an order extension that influence how the order is executed.
+
+        - `FOK`: Fill or kill
+        - `ICO`: Immediate or cancel
+        - `AON`: All or None
+        - `PEA`: Partial executions allowed
+    CashQuotation:
+      type: string
+      enum:
+        - O
+        - K
+        - C
+      description: |-
+        For some exchanges, this can be added to an order:
+
+        - `K` Kassa
+        - `O` Only Opening Auction
+        - `C` Only Closing Auction
+    OrderLimitValue:
+      type: number
+      format: double
+      description: |-
+        The limit of an order specifies a maximum (direction buy) or minimum (direction sell) value to execute the
+        order at.
+
+        A limit can be set for orderModel `limit`
+    OrderStopValue:
+      type: number
+      format: double
+      description: |-
+        The stop of an order specifies a usually higher value than the current quote (direction buy) or a usually lower value than the current quote (direction sell).
+
+        For the orderModel `stop`, the order is executed immediately when the stop is reached.
+        For the orderModel `stopLimit`, the order will only be executed with a limt value of `stopLimit` (so for buy orders the price of execution will not be higher than `stopLimit`, for sell it orders it will not be lower than `stopLimit`).
+    OrderStopLimitValue:
+      type: number
+      format: double
+      description: The stop limit specifies a limit to use *after stop has been reached*. For buy orders, the stopLimit will be usually higher than stop, for sell orders the stopLimit will usually be lower than stop.
+    TrailingDistance:
+      properties:
+        value:
+          $ref: '#/components/schemas/MonetaryValue'
+        mode:
+          type: string
+          enum:
+            - abs
+            - rel
+      required:
+        - value
+        - mode
+      type: object
+      description: |-
+        For orderModels `trailingStopMarket` and `trailingStopLimit`: the distance between the security's quote and the
+        stop value to calculate.
+    OrderTrailingLimitToleranceValue:
+      type: number
+      format: double
+      description: |-
+        For orderModel `trailingStopLimit`: when the trailing stop has been reached, the tolerance
+        value is added to (for buy orders) or subtracted from (for sell orders) the stop value to obtain
+        a limit value. After that, the order can be regarded as a limit order with that limit value.
+    OrderValidity:
+      properties:
+        eom:
+          type: string
+        date:
+          $ref: '#/components/schemas/DateString'
+        type:
+          $ref: '#/components/schemas/OrderValidityType'
+      required:
+        - type
+      type: object
+      description: Defines how long an order is valid.
+    OrderQuoteLimitValue:
+      type: number
+      format: double
+      description: If supported by the broker, an optional limit can be added to a quote trade (`orderModel=quote`).
+    Order:
+      properties:
+        limitCurrencyIso:
+          type: string
+          description: limit (and stop etc.) currency to use for this order
+        stopLoss:
+          $ref: '#/components/schemas/MonetaryValue'
+        takeProfit:
+          $ref: '#/components/schemas/MonetaryValue'
+        ifDoneLimit:
+          $ref: '#/components/schemas/MonetaryValue'
+        quoteLimit:
+          $ref: '#/components/schemas/OrderQuoteLimitValue'
+        validity:
+          $ref: '#/components/schemas/OrderValidity'
+        trailingLimitTolerance:
+          $ref: '#/components/schemas/OrderTrailingLimitToleranceValue'
+        trailingDistance:
+          $ref: '#/components/schemas/TrailingDistance'
+        stopLimit:
+          $ref: '#/components/schemas/OrderStopLimitValue'
+        stop:
+          $ref: '#/components/schemas/OrderStopValue'
+        limit:
+          $ref: '#/components/schemas/OrderLimitValue'
+        cashQuotation:
+          $ref: '#/components/schemas/CashQuotation'
+        orderExtension:
+          $ref: '#/components/schemas/OrderExtension'
+          description: (AllOrNone/Immediate or Cancel/Fill or Kill)
+        size:
+          type: number
+          format: double
+          description: How much of the security should be traded. For stocks, this is the number of stocks. For bonds, this is a monetary amount.
+        isin:
+          type: string
+        brokerExchangeId:
+          type: string
+        direction:
+          $ref: '#/components/schemas/Direction'
+        orderModel:
+          $ref: '#/components/schemas/OrderModel'
+        portfolioId:
+          type: string
+        id:
+          type: string
+        displayNo:
+          type: string
+          description: |-
+            The order number to use in the interface to display to the user.
+            Some brokers do not assign order numbers, so if this is not present, the order should be displayed without a number.
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        statusText:
+          type: string
+          description: Order status as text (may be broker-specific, only used for displaying it to users).
+        allowsChangeSize:
+          type: boolean
+          description: If `true`, the order size can be changed
+        allowsChangeValidityTypes:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+          description: If set, the validity of the order can be changed to the given types.
+        allowsChangeLimit:
+          type: boolean
+          description: If true, the limit of the order can be changed.
+        allowsChangeStopLimit:
+          type: boolean
+          description: If true, the stop limit of the order can be changed.
+        allowsChangeStop:
+          type: boolean
+          description: If true, the stop of the order can be changed.
+        allowsChangeTrailingDistance:
+          type: boolean
+          description: If true, the trailing distance of the order can be changed.
+        allowsCancel:
+          type: boolean
+          description: If `true`, the order can be canceled
+        allowsChangeOrderModels:
+          items:
+            $ref: '#/components/schemas/OrderModel'
+          type: array
+          description: If set, the orderModel may be changed to one of the given orderModels.
+        allowsCancelAllOrderParts:
+          type: boolean
+          description: |-
+            If present in the order object and `true`, the order is part of a combination order (e.g. OCO order) and it is possible
+            to cancel the entire combination order using `cancelOrder` (TODO flag for cancelAll).
+        exchangeName:
+          type: string
+          description: Name of the exchange as provided by the broker.
+        exchangeId:
+          type: number
+          format: double
+          description: The mapped exchange id, as retrievable in the the `/exchanges` endpoint.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of the order creation.
+        executedAt:
+          type: string
+          format: date-time
+          description: 'For fully executed orders: the timestamp of the *latest* execution.'
+        sourceData:
+          type: string
+          description: Contains original broker data (in the broker's data format).
+        security:
+          $ref: '#/components/schemas/Security'
+          description: Security data, as provided by the broker.
+        showAsDisabled:
+          type: boolean
+          description: |-
+            Order is visible, but it cannot be interacted with (e.g. because it is the discarded part of a combination order).
+            If this is present and `true`, it should be displayed to the user, but visibily disabled.
+        hasNoOrderReceipt:
+          type: boolean
+          description: If this is true, it is not possible to show a receipt for this order (this is the case if order data is incomplete in order lists).
+        orderStatusIsAwaitingParentOrder:
+          type: boolean
+          description: If this is `true` (for open orders only), this order is currently awaiting the execution of a parent order.
+        openSize:
+          type: number
+          format: double
+          description: Remaining/open size of the order
+        executedSize:
+          type: number
+          format: double
+          description: Already executed size of the order
+        cancelledSize:
+          type: number
+          format: double
+          description: Already cancelled size of the order.
+        bondCurrencyIso:
+          type: string
+          description: If the security is a bond, the currency ISO code to show for the size input field.
+        profitLossAbs:
+          $ref: '#/components/schemas/Amount'
+          description: If provided by the broker, the absolute profit/loss this order has produced.
+        profitLossRel:
+          $ref: '#/components/schemas/MonetaryValue'
+          description: If provided by the broker, the relative profit/loss this order has produced. 1 means +100%
+        quoteDecimals:
+          type: number
+          format: double
+          description: If present, defines how many decimal places should be displayed for quote values.
+        sizeDecimals:
+          type: number
+          format: double
+          description: If present, defines how many decimal places should be displayed for size values.
+        executions:
+          items:
+            $ref: '#/components/schemas/OrderExecution'
+          type: array
+          description: If there already have been executions of this order, a list of those.
+        cancellationDateTime:
+          type: string
+          format: date-time
+          description: 'For canceled orders: when the order has been canceled.'
+        mayObserveCurrentStop:
+          type: boolean
+          description: If true, the current stop value of this order can be observed. In this case, the stop value can be subcribed via WebSocket (TODO - not implemented yet)
+        currentStop:
+          $ref: '#/components/schemas/Amount'
+          description: For trailing stop orders, the current stop value.
+      required:
+        - validity
+        - size
+        - isin
+        - brokerExchangeId
+        - direction
+        - orderModel
+        - portfolioId
+        - id
+        - status
+        - statusText
+        - allowsChangeSize
+        - allowsCancel
+        - exchangeId
+        - security
+      type: object
+      additionalProperties: false
+    GetOrderResponse:
+      properties:
+        order:
+          $ref: '#/components/schemas/Order'
+      required:
+        - order
+      type: object
+    Challenge:
+      properties:
+        challengeExplanation:
+          type: string
+          description: If the challenge needs further explanation, this may contain additional information to display to the user.
+        challengePrompt:
+          type: string
+        challengePromptType:
+          type: string
+          enum:
+            - text
+            - base64png
+        challengeId:
+          type: string
+      required:
+        - challengePrompt
+        - challengePromptType
+        - challengeId
+      type: object
+    CancelOrderChallengeParams:
+      properties:
+        authMethod:
+          type: string
+      required:
+        - authMethod
+      type: object
+    CreateModeSessionTan:
+      properties:
+        mode:
+          type: string
+          enum:
+            - sessionTan
+          nullable: false
+      required:
+        - mode
+      type: object
+      additionalProperties: false
+    CancelOrderChallengeResponse:
+      properties:
+        mode:
+          type: string
+          enum:
+            - challengeResponse
+          nullable: false
+        challengeId:
+          type: string
+        challengeResponse:
+          type: string
+      required:
+        - mode
+        - challengeId
+        - challengeResponse
+      type: object
+      additionalProperties: false
+    CancelOrderParams:
+      oneOf:
+        - $ref: '#/components/schemas/CreateModeSessionTan'
+        - $ref: '#/components/schemas/CancelOrderChallengeResponse'
+      discriminator:
+        propertyName: mode
+        mapping:
+          sessionTan: '#/components/schemas/CreateModeSessionTan'
+          challengeResponse: '#/components/schemas/CancelOrderChallengeResponse'
+    OrderChanges:
+      properties:
+        limit:
+          $ref: '#/components/schemas/OrderLimitValue'
+        stopLimit:
+          $ref: '#/components/schemas/OrderStopLimitValue'
+        orderModel:
+          $ref: '#/components/schemas/OrderModel'
+        validity:
+          $ref: '#/components/schemas/OrderValidity'
+        size:
+          type: number
+          format: double
+          description: How much of the security should be traded. For stocks, this is the number of stocks. For bonds, this is a monetary amount.
+        stop:
+          $ref: '#/components/schemas/OrderStopValue'
+        trailingDistance:
+          $ref: '#/components/schemas/TrailingDistance'
+      required:
+        - orderModel
+        - validity
+        - size
+      type: object
+      additionalProperties: false
+    ChangeOrderChallengeParams:
+      properties:
+        changes:
+          $ref: '#/components/schemas/OrderChanges'
+        authMethod:
+          type: string
+      required:
+        - changes
+        - authMethod
+      type: object
+    CostDetailsLink:
+      properties:
+        footerText:
+          type: string
+        linkTitle:
+          type: string
+        url:
+          type: string
+      type: object
+    GenericTableRowSubheading:
+      properties:
+        subheading:
+          type: string
+        type:
+          type: string
+          enum:
+            - subheading
+          nullable: false
+      required:
+        - subheading
+        - type
+      type: object
+    GenericTableRowText:
+      properties:
+        text:
+          type: string
+        type:
+          type: string
+          enum:
+            - text
+          nullable: false
+      required:
+        - text
+        - type
+      type: object
+    GenericTableRowValueText:
+      properties:
+        value:
+          type: string
+        type:
+          type: string
+          enum:
+            - text
+          nullable: false
+      required:
+        - value
+        - type
+      type: object
+    GenericTableRowValueAmount:
+      properties:
+        value:
+          $ref: '#/components/schemas/Amount'
+        type:
+          type: string
+          enum:
+            - amount
+          nullable: false
+      required:
+        - value
+        - type
+      type: object
+    GenericTableRowValueDatetime:
+      properties:
+        value:
+          type: number
+          format: double
+          description: '*Milliseconds* since *the epoch*.'
+        type:
+          type: string
+          enum:
+            - datetime
+          nullable: false
+      required:
+        - value
+        - type
+      type: object
+    GenericTableRowValueLinkPortfolio:
+      properties:
+        text:
+          type: string
+        portfolioId:
+          type: string
+        type:
+          type: string
+          enum:
+            - portfolio
+          nullable: false
+      required:
+        - text
+        - portfolioId
+        - type
+      type: object
+    GenericTableRowValueLinkUrl:
+      properties:
+        url:
+          type: string
+        text:
+          type: string
+        type:
+          type: string
+          enum:
+            - url
+          nullable: false
+      required:
+        - url
+        - text
+        - type
+      type: object
+    GenericTableRowValueLinkValue:
+      oneOf:
+        - $ref: '#/components/schemas/GenericTableRowValueLinkPortfolio'
+        - $ref: '#/components/schemas/GenericTableRowValueLinkUrl'
+      discriminator:
+        propertyName: type
+        mapping:
+          portfolio: '#/components/schemas/GenericTableRowValueLinkPortfolio'
+          url: '#/components/schemas/GenericTableRowValueLinkUrl'
+    GenericTableRowValueLink:
+      properties:
+        value:
+          $ref: '#/components/schemas/GenericTableRowValueLinkValue'
+        type:
+          type: string
+          enum:
+            - link
+          nullable: false
+      required:
+        - value
+        - type
+      type: object
+    GenericTableRowValue:
+      oneOf:
+        - $ref: '#/components/schemas/GenericTableRowValueText'
+        - $ref: '#/components/schemas/GenericTableRowValueAmount'
+        - $ref: '#/components/schemas/GenericTableRowValueDatetime'
+        - $ref: '#/components/schemas/GenericTableRowValueLink'
+      discriminator:
+        propertyName: type
+        mapping:
+          text: '#/components/schemas/GenericTableRowValueText'
+          amount: '#/components/schemas/GenericTableRowValueAmount'
+          datetime: '#/components/schemas/GenericTableRowValueDatetime'
+          link: '#/components/schemas/GenericTableRowValueLink'
+    GenericTableRowEntry:
+      properties:
+        value:
+          $ref: '#/components/schemas/GenericTableRowValue'
+        isImportant:
+          type: boolean
+        caption:
+          type: string
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+            - entry
+          nullable: false
+      required:
+        - value
+        - caption
+        - type
+      type: object
+    GenericTableRow:
+      oneOf:
+        - $ref: '#/components/schemas/GenericTableRowSubheading'
+        - $ref: '#/components/schemas/GenericTableRowText'
+        - $ref: '#/components/schemas/GenericTableRowEntry'
+      discriminator:
+        propertyName: type
+        mapping:
+          subheading: '#/components/schemas/GenericTableRowSubheading'
+          text: '#/components/schemas/GenericTableRowText'
+          entry: '#/components/schemas/GenericTableRowEntry'
+    GenericTable:
+      properties:
+        detailsLink:
+          $ref: '#/components/schemas/CostDetailsLink'
+        footerHtml:
+          type: string
+        rows:
+          items:
+            $ref: '#/components/schemas/GenericTableRow'
+          type: array
+      type: object
+    OrderCostEstimation:
+      properties:
+        entryCosts:
+          $ref: '#/components/schemas/Amount'
+          description: Entry costs for the order.
+        transactionTax:
+          $ref: '#/components/schemas/Amount'
+          description: Financial transaction tax.
+        totalCosts:
+          $ref: '#/components/schemas/Amount'
+          description: The total amount spent for this order.
+        expectedCounterValue:
+          $ref: '#/components/schemas/Amount'
+          description: Expected counter value when order is executed.
+        orderFees:
+          $ref: '#/components/schemas/Amount'
+          description: Orderkosten (Summe aus Provision, Handelsplatzentgelt, Courtage)
+        orderFeesExplanation:
+          type: string
+          description: Detailed explanation for order fees
+        costAcceptancePrompt:
+          type: string
+          description: |-
+            If present, users have to accept this message before creating an order.
+            If accepting the costs and performing the order is one click (which is allowed), the create order button label
+            must contain the information that costs are accepted.
+        detailedTable:
+          $ref: '#/components/schemas/GenericTable'
+          description: If present, a detailed tabular representation of the order cost estimation.
+        costDetailsLink:
+          $ref: '#/components/schemas/CostDetailsLink'
+          description: If available, a direct link to cost details.
+      type: object
+      additionalProperties: false
+    EstimateChangeOrderCostsParams:
+      properties:
+        changes:
+          $ref: '#/components/schemas/OrderChanges'
+      required:
+        - changes
+      type: object
+    ChangeOrderParams:
+      properties:
+        changes:
+          $ref: '#/components/schemas/OrderChanges'
+        challengeResponse:
+          type: string
+        challengeId:
+          type: string
+      required:
+        - changes
+        - challengeResponse
+        - challengeId
+      type: object
+    Portfolio:
+      properties:
+        sessionIds:
+          items:
+            type: string
+          type: array
+        portfolioName:
+          type: string
+        brokerName:
+          $ref: '#/components/schemas/BrokerName'
+        id:
+          type: string
+      required:
+        - sessionIds
+        - portfolioName
+        - brokerName
+        - id
+      type: object
+    PortfoliosResponse:
+      properties:
+        portfolios:
+          items:
+            $ref: '#/components/schemas/Portfolio'
+          type: array
+      required:
+        - portfolios
+      type: object
+    PortfolioQuotes:
+      properties:
+        profitLossAbsPrevClose:
+          $ref: '#/components/schemas/Amount'
+          description: P/L sum of all open positions, since prevClose (or buy, if that is later than prevClose).
+        profitLossRelPrevClose:
+          type: number
+          format: double
+          description: Relative P/L of all open positions, since prevClose (or buy, if that is later than prevClose). 1 means +100%
+        profitLossAbs:
+          $ref: '#/components/schemas/Amount'
+          description: P/L sum of currently open positions.
+        profitLossRel:
+          type: number
+          format: double
+          description: Relative P/L of all open positions, since acquisition. 1 means +100%
+        totalValue:
+          $ref: '#/components/schemas/Amount'
+          description: The total value, usually `cashAccountBalance + positionValue`.
+        cashAccountBalance:
+          $ref: '#/components/schemas/Amount'
+          description: Booked amount of the cash account assigned to this portfolio.
+        availableCash:
+          $ref: '#/components/schemas/Amount'
+          description: Cash that can be used for orders. It should probably be renamed to buyingPower to be consistent with the buyingPower Observable. This has to be checked.
+        positionValue:
+          $ref: '#/components/schemas/Amount'
+          description: Current total amount of the open positions.
+      required:
+        - positionValue
+      type: object
+    GetPortfolioQuotesResponse:
+      properties:
+        quotes:
+          $ref: '#/components/schemas/PortfolioQuotes'
+      required:
+        - quotes
+      type: object
+    PositionValuation:
+      properties:
+        crossRate:
+          type: number
+          format: double
+          description: CrossRate that was used to convert from quotation to positionValue, if this applies here.
+        positionValue:
+          $ref: '#/components/schemas/Amount'
+        quotation:
+          $ref: '#/components/schemas/Amount'
+        isDelayed:
+          type: boolean
+      type: object
+    Position:
+      properties:
+        sourceData:
+          type: string
+        commentIsEditable:
+          type: boolean
+          description: True if the user may edit a comment for this position.
+        comment:
+          type: string
+          description: Textual comment for the position.
+        profitLossRelWithDividends:
+          type: number
+          format: double
+          description: Relative P/L of the entire position, since acquisition, but including the dividends booked for this position (see `totalDividends`). 1 means +100%
+        profitLossAbsWithDividends:
+          $ref: '#/components/schemas/Amount'
+          description: Absolute P/L of the entire position, since acquisition, but including the dividends booked for this position (see `totalDividends`).
+        profitLossRelPrevClose:
+          type: number
+          format: double
+          description: Relative P/L of the entire posiiton, since "prevClose". 1 means +100%
+        profitLossAbsPrevClose:
+          $ref: '#/components/schemas/Amount'
+          description: Absolute P/L of the entire position, since acquisition.
+        profitLossRel:
+          type: number
+          format: double
+          description: Relative P/L of the entire posiiton, since acquisition. 1 means +100%
+        profitLossAbs:
+          $ref: '#/components/schemas/Amount'
+          description: Absolute P/L of the entire position, since acquisition.
+        prevCloseValuation:
+          $ref: '#/components/schemas/PositionValuation'
+          description: '"prevClose" position quote and value. May also be today, if it was purchased today.'
+        currentValuation:
+          $ref: '#/components/schemas/PositionValuation'
+          description: Current position quote and value.
+        purchaseDate:
+          $ref: '#/components/schemas/DateString'
+          description: Date of position purchase.
+        purchaseDateTime:
+          type: string
+          format: date-time
+          description: Date and time of position purchase. If not set, purchaseDate may at least contain the date.
+        purchaseValuation:
+          $ref: '#/components/schemas/PositionValuation'
+          description: Position quote and value at acquisition.
+        availableSize:
+          type: number
+          format: double
+          description: How much of the position is available for sale.
+        brokerExchangeId:
+          type: string
+          description: The exchange id as defined by the broker.
+        exchangeId:
+          type: number
+          format: double
+          description: The mapped exchange id, as retrievable in the the `/exchanges` endpoint.
+        security:
+          $ref: '#/components/schemas/Security'
+        sizeUnit:
+          $ref: '#/components/schemas/CurrencyCode'
+        size:
+          type: number
+          format: double
+        id:
+          type: string
+      required:
+        - availableSize
+        - exchangeId
+        - security
+        - sizeUnit
+        - size
+        - id
+      type: object
+    GetPortfolioPositionsResponse:
+      properties:
+        positions:
+          items:
+            $ref: '#/components/schemas/Position'
+          type: array
+      required:
+        - positions
+      type: object
+    GetPortfolioOrdersResponse:
+      properties:
+        totalCount:
+          type: number
+          format: double
+        orders:
+          items:
+            $ref: '#/components/schemas/Order'
+          type: array
+      required:
+        - totalCount
+        - orders
+      type: object
+    AuthMethodTan:
+      properties:
+        tanFieldLabel:
+          type: string
+        isDefaultMethod:
+          type: boolean
+        label:
+          type: string
+        flow:
+          type: string
+          enum:
+            - TAN
+          nullable: false
+        id:
+          type: string
+      required:
+        - tanFieldLabel
+        - label
+        - flow
+        - id
+      type: object
+      description: |-
+        With the `TAN` flow, a TAN can be sent with the operation right away, i.e. without creating a challenge first.
+        This may be the case for brokers that provide a fixed trading password or a list of TANs where the user
+        may select an arbitrary TAN from the list.
+    AuthMethodDecoupled:
+      properties:
+        isDefaultMethod:
+          type: boolean
+        label:
+          type: string
+        flow:
+          type: string
+          enum:
+            - DECOUPLED
+          nullable: false
+        id:
+          type: string
+      required:
+        - label
+        - flow
+        - id
+      type: object
+      description: |-
+        With the `DECOUPLED` flow, the operation is created right away wiuthout creating a challenge first. The operation's
+        response will include a `decoupledOperationId` which can be subscribed to using `GetDecoupledOperationStatus` and via
+        a WebSocket subscription. Also, the operation can be cancelled by the user using `CancelDecoupledOperation`. Currently
+        this flow is only implemented for `EnableSessionTan`.
+    AuthMethodChallengeResponse:
+      properties:
+        tanFieldLabel:
+          type: string
+        challengeLabel:
+          type: string
+        getChallengeLabel:
+          type: string
+        isDefaultMethod:
+          type: boolean
+        label:
+          type: string
+        flow:
+          type: string
+          enum:
+            - CHALLENGE_RESPONSE
+          nullable: false
+        id:
+          type: string
+      required:
+        - tanFieldLabel
+        - getChallengeLabel
+        - label
+        - flow
+        - id
+      type: object
+      description: |-
+        With the `CHALLENGE_RESPONSE` flow, to execute an operation, a challenge has to be created as the first step (e.g. requesting)
+        an MTAN. The UI should show a button labelled with the string from `getChallengeLabel`. When the
+        challenge has been requested (e.g. for enabling session TAN with `CreateSessionTanChallenge`), the
+        TAN field should be shown (labelled `tanFieldLabel`). When the user has entered the challenge response,
+        the operation can be executed (e.g. `EnableSessionTan`).
+    AuthMethod:
+      oneOf:
+        - $ref: '#/components/schemas/AuthMethodTan'
+        - $ref: '#/components/schemas/AuthMethodDecoupled'
+        - $ref: '#/components/schemas/AuthMethodChallengeResponse'
+      discriminator:
+        propertyName: flow
+        mapping:
+          TAN: '#/components/schemas/AuthMethodTan'
+          DECOUPLED: '#/components/schemas/AuthMethodDecoupled'
+          CHALLENGE_RESPONSE: '#/components/schemas/AuthMethodChallengeResponse'
+    AuthInfo:
+      properties:
+        allOperationsRequireSessionTan:
+          type: boolean
+          description: |-
+            If this is present and true, the only operation that the AuthMethods can be used to is to activate Session TAN (`session.authorizeSessionTan`).
+            All other operations (e.g. order creation etc.) require Session TAN to be activated first.
+        authMethods:
+          items:
+            $ref: '#/components/schemas/AuthMethod'
+          type: array
+        sessionTanSupported:
+          type: boolean
+        sessionTanActive:
+          type: boolean
+      type: object
+    GetAuthInfoResponse:
+      properties:
+        authInfo:
+          $ref: '#/components/schemas/AuthInfo'
+      required:
+        - authInfo
+      type: object
+    Session:
+      properties:
+        syncError: {}
+        authInfo:
+          $ref: '#/components/schemas/AuthInfo'
+        lastSuccessfulSync:
+          type: string
+          format: date-time
+        brokerName:
+          type: string
+        id:
+          type: string
+      required:
+        - brokerName
+        - id
+      type: object
+    SessionResponse:
+      properties:
+        sessions:
+          items:
+            $ref: '#/components/schemas/Session'
+          type: array
+      required:
+        - sessions
+      type: object
+    PrepareOAuthRedirectResponse:
+      properties:
+        redirectTo:
+          type: string
+      required:
+        - redirectTo
+      type: object
+    PrepareOAuthRedirectParams:
+      properties:
+        returnToUrl:
+          type: string
+        env:
+          type: string
+        brokerName:
+          $ref: '#/components/schemas/BrokerName'
+      required:
+        - returnToUrl
+        - env
+        - brokerName
+      type: object
+    ConfirmOAuthResponse:
+      properties:
+        sessionId:
+          type: string
+      required:
+        - sessionId
+      type: object
+    ConfirmOAuthParams:
+      properties:
+        code:
+          type: string
+        ticketId:
+          type: string
+      required:
+        - code
+        - ticketId
+      type: object
+    LoginResponseReady:
+      properties:
+        sessionId:
+          type: string
+        state:
+          type: string
+          enum:
+            - ready
+          nullable: false
+      required:
+        - sessionId
+        - state
+      type: object
+    LoginResponseChallenge:
+      properties:
+        challenge:
+          $ref: '#/components/schemas/Challenge'
+        state:
+          type: string
+          enum:
+            - challenge
+          nullable: false
+      required:
+        - challenge
+        - state
+      type: object
+    LoginResponse:
+      oneOf:
+        - $ref: '#/components/schemas/LoginResponseReady'
+        - $ref: '#/components/schemas/LoginResponseChallenge'
+      discriminator:
+        propertyName: state
+        mapping:
+          ready: '#/components/schemas/LoginResponseReady'
+          challenge: '#/components/schemas/LoginResponseChallenge'
+    AddSessionParams:
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+        env:
+          type: string
+        brokerName:
+          $ref: '#/components/schemas/BrokerName'
+      required:
+        - password
+        - username
+        - env
+        - brokerName
+      type: object
+    AddSessionCompleteChallengeParams:
+      properties:
+        challengeResponse:
+          type: string
+        challengeId:
+          type: string
+      required:
+        - challengeResponse
+        - challengeId
+      type: object
+    CreateTanChallengeParams:
+      properties:
+        authMethod:
+          type: string
+      required:
+        - authMethod
+      type: object
+    EnableSessionTanResponse:
+      properties:
+        decoupledOperationId:
+          type: string
+      type: object
+    EnableSessionTanParamsChallengeResponse:
+      properties:
+        challengeResponse:
+          type: string
+        challengeId:
+          type: string
+        kind:
+          type: string
+          enum:
+            - challengeResponse
+          nullable: false
+      required:
+        - challengeResponse
+        - challengeId
+        - kind
+      type: object
+    EnableSessionTanParamsDecoupled:
+      properties:
+        authMethod:
+          type: string
+        kind:
+          type: string
+          enum:
+            - decoupled
+          nullable: false
+      required:
+        - authMethod
+        - kind
+      type: object
+    EnableSessionTanParams:
+      oneOf:
+        - $ref: '#/components/schemas/EnableSessionTanParamsChallengeResponse'
+        - $ref: '#/components/schemas/EnableSessionTanParamsDecoupled'
+      discriminator:
+        propertyName: kind
+        mapping:
+          challengeResponse: '#/components/schemas/EnableSessionTanParamsChallengeResponse'
+          decoupled: '#/components/schemas/EnableSessionTanParamsDecoupled'
+    DecoupledOperationState:
+      type: string
+      enum:
+        - AUTHORIZATION_ABORTED
+        - AUTHORIZATION_INITIAL
+        - AUTHORIZATION_USER_ACCEPTED
+        - AUTHORIZATION_USER_CANCELED
+    EndSessionTanResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    RiskClassInfo:
+      properties:
+        msg:
+          type: string
+          description: |-
+            Risk class message to display (may contain a subset of HTML: `<a>` tags for linking to external pages, `<p>`/`<br>` to add paragraphs/line breaks, `<ul><li></li></ul>` to show unuordered lists).
+            Users must accept the message before they can create the order. This can happen before the actual order form is visible.
+        onlySellAllowed:
+          type: boolean
+          description: If true, only sell is allowed for this instrument.
+        legalHint:
+          type: string
+          description: If set, must be displayed as a static hint (which the user does not need to confirm) before the order button. May contain (some) HTML.
+      required:
+        - msg
+      type: object
+      additionalProperties: false
+    OrderValidityTypeByOrderModel:
+      properties:
+        quote:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        fraction:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        savingsPlan:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        market:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        limit:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        stopMarket:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        stopLimit:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        trailingStopMarket:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        trailingStopLimit:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        ocoStopMarket:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+        ocoStopLimit:
+          items:
+            $ref: '#/components/schemas/OrderValidityType'
+          type: array
+      type: object
+      additionalProperties: false
+    DefaultOrderValidityByOrderModel:
+      properties:
+        quote:
+          $ref: '#/components/schemas/OrderValidity'
+        fraction:
+          $ref: '#/components/schemas/OrderValidity'
+        savingsPlan:
+          $ref: '#/components/schemas/OrderValidity'
+        market:
+          $ref: '#/components/schemas/OrderValidity'
+        limit:
+          $ref: '#/components/schemas/OrderValidity'
+        stopMarket:
+          $ref: '#/components/schemas/OrderValidity'
+        stopLimit:
+          $ref: '#/components/schemas/OrderValidity'
+        trailingStopMarket:
+          $ref: '#/components/schemas/OrderValidity'
+        trailingStopLimit:
+          $ref: '#/components/schemas/OrderValidity'
+        ocoStopMarket:
+          $ref: '#/components/schemas/OrderValidity'
+        ocoStopLimit:
+          $ref: '#/components/schemas/OrderValidity'
+      type: object
+      additionalProperties: false
+    Exchange:
+      description: An `Exchange` describes the order possibilites for a security at one exchange.
+      properties:
+        id:
+          type: string
+          description: The id of the exchange, as defined by the *broker*. This is to be used as the `brokerExchangeId` in quote and trade requests.
+        label:
+          type: string
+          description: The label of the exchange, as defined by the *broker*.
+        orderModelsSell:
+          items:
+            $ref: '#/components/schemas/OrderModel'
+          type: array
+          description: The orderModels that are available for order direction `sell`. If this is empty, selling is not allowed on this exchange.
+        orderModelsBuy:
+          items:
+            $ref: '#/components/schemas/OrderModel'
+          type: array
+          description: The orderModels that are available for order direction `buy`. If this is empty, buying is not allowed on this exchange.
+        hideOrderModel:
+          type: boolean
+          description: |-
+            only one orderModel is available and it should not be displayed to the user. This is currently the case for buying funds at some
+            exchanges, where there is actually not a real order in the background, so the user should just see buy & sell buttons.
+        allowsQuoteModeLimit:
+          type: boolean
+          description: |-
+            If true, quote orders can be created with quoteMode=limit and quoteOrderOpts.quoteLimit set to a limit. This allows brokers to execute the
+            quote order at a different price instead of rejecting the order when the price has changed.
+        allowsIfDoneLimit:
+          type: boolean
+          description: If this is true, limit buy orders may have the additional "ifDoneLimit" set.
+        validityTypesByOrderModel:
+          $ref: '#/components/schemas/OrderValidityTypeByOrderModel'
+          description: For each supported orderModel, define which kinds of validities are selectable by the user.
+        defaultValidityByOrderModel:
+          $ref: '#/components/schemas/DefaultOrderValidityByOrderModel'
+          description: If present, contains default values for validity based on the orderModel.
+        currencyIso:
+          type: string
+          description: Quotes for the instrument at this exchange are in this currency. This affects fields like limit, stop etc.
+      required:
+        - id
+        - label
+        - orderModelsSell
+        - orderModelsBuy
+        - currencyIso
+      type: object
+      additionalProperties: false
+    PreparedTrade:
+      properties:
+        costEstimationMustBeShown:
+          type: boolean
+          description: |-
+            If this is true, the estimated order costs must be shown before the user can create the order.
+            If this is false, showing the order costs is optional.
+        exchanges:
+          items:
+            $ref: '#/components/schemas/Exchange'
+          type: array
+        strikingHint:
+          type: string
+          description: |-
+            If present, this hint must be displayed in the order form. It should be visible during the order
+            creation process, but does not need to be accepted by the user explicitly.
+        sizeUnit:
+          $ref: '#/components/schemas/CurrencyCode'
+          description: |-
+            Unit in which `size` must be provided for orders. For bonds, this is the currency of the bond, so that
+            size is the monetary amount.
+
+            For other asset classes, this is `XXX`.
+        riskClassInfo:
+          $ref: '#/components/schemas/RiskClassInfo'
+        security:
+          $ref: '#/components/schemas/Security'
+      required:
+        - costEstimationMustBeShown
+        - exchanges
+        - sizeUnit
+        - riskClassInfo
+        - security
+      type: object
+    PrepareTradeResponse:
+      properties:
+        preparedTrade:
+          $ref: '#/components/schemas/PreparedTrade'
+      required:
+        - preparedTrade
+      type: object
+    NoSessionAvailableForPortfolio:
+      properties:
+        code:
+          type: string
+          enum:
+            - NO_SESSION_AVAILABLE_FOR_PORTFOLIO
+          nullable: false
+      required:
+        - code
+      type: object
+    SecurityNotAvailableForTrading:
+      properties:
+        code:
+          type: string
+          enum:
+            - SECURITY_NOT_FOUND
+          nullable: false
+      required:
+        - code
+      type: object
+    QuoteExpiration:
+      properties:
+        expires:
+          type: string
+          format: date-time
+        started:
+          type: string
+          format: date-time
+      required:
+        - expires
+        - started
+      type: object
+    GetQuoteResponse:
+      properties:
+        quoteId:
+          type: string
+        isin:
+          type: string
+        direction:
+          $ref: '#/components/schemas/Direction'
+        size:
+          type: number
+          format: double
+        sourceName:
+          type: string
+        quotation:
+          $ref: '#/components/schemas/Amount'
+        expiration:
+          $ref: '#/components/schemas/QuoteExpiration'
+        costEstimation:
+          $ref: '#/components/schemas/OrderCostEstimation'
+          description: If the broker returns a cost estimation together with the quote, it will also be part of the brokerize quote.
+        costEstimationToken:
+          type: string
+          description: |-
+            If the broker does not return a cost estimation summary, but it is possible to retrieve a cost estimation summary
+            using the `GetCostEstimation` token (TODO), the token will be returned here.
+      required:
+        - quoteId
+        - isin
+        - direction
+        - size
+        - quotation
+        - expiration
+      type: object
+      additionalProperties: false
+    GetQuoteParams:
+      properties:
+        brokerExchangeId:
+          type: string
+        size:
+          type: number
+          format: double
+        direction:
+          $ref: '#/components/schemas/Direction'
+        isin:
+          type: string
+      required:
+        - brokerExchangeId
+        - size
+        - direction
+        - isin
+      type: object
+    OrderCreate:
+      properties:
+        limitCurrencyIso:
+          type: string
+          description: limit (and stop etc.) currency to use for this order
+        stopLoss:
+          $ref: '#/components/schemas/MonetaryValue'
+        takeProfit:
+          $ref: '#/components/schemas/MonetaryValue'
+        ifDoneLimit:
+          $ref: '#/components/schemas/MonetaryValue'
+        quoteLimit:
+          $ref: '#/components/schemas/OrderQuoteLimitValue'
+        validity:
+          $ref: '#/components/schemas/OrderValidity'
+        trailingLimitTolerance:
+          $ref: '#/components/schemas/OrderTrailingLimitToleranceValue'
+        trailingDistance:
+          $ref: '#/components/schemas/TrailingDistance'
+        stopLimit:
+          $ref: '#/components/schemas/OrderStopLimitValue'
+        stop:
+          $ref: '#/components/schemas/OrderStopValue'
+        limit:
+          $ref: '#/components/schemas/OrderLimitValue'
+        cashQuotation:
+          $ref: '#/components/schemas/CashQuotation'
+        orderExtension:
+          $ref: '#/components/schemas/OrderExtension'
+          description: (AllOrNone/Immediate or Cancel/Fill or Kill)
+        size:
+          type: number
+          format: double
+          description: How much of the security should be traded. For stocks, this is the number of stocks. For bonds, this is a monetary amount.
+        isin:
+          type: string
+        brokerExchangeId:
+          type: string
+        direction:
+          $ref: '#/components/schemas/Direction'
+        orderModel:
+          $ref: '#/components/schemas/OrderModel'
+        portfolioId:
+          type: string
+        quoteId:
+          type: string
+          description: 'For `orderModel=quote`: the quoteId, as retrieved from `GetQuote`.'
+      required:
+        - validity
+        - size
+        - isin
+        - brokerExchangeId
+        - direction
+        - orderModel
+        - portfolioId
+      type: object
+      additionalProperties: false
+    CreateOrderChallengeParams:
+      properties:
+        acceptHintId:
+          type: string
+          description: |-
+            If the order has been rejected with code `MUST_ACCEPT_HINT` before, the order creation can be retried with setting the
+            `acceptHintId` accordingly after letting the user accept the hint.
+        authMethod:
+          type: string
+        order:
+          $ref: '#/components/schemas/OrderCreate'
+      required:
+        - order
+      type: object
+    GetCostEstimationParams:
+      properties:
+        order:
+          $ref: '#/components/schemas/OrderCreate'
+      required:
+        - order
+      type: object
+    CreateTradeResponse:
+      properties:
+        orderId:
+          type: string
+      required:
+        - orderId
+      type: object
+    Hint:
+      properties:
+        text:
+          type: string
+        id:
+          type: string
+      required:
+        - text
+        - id
+      type: object
+    MustAcceptHint:
+      properties:
+        hint:
+          $ref: '#/components/schemas/Hint'
+        code:
+          type: string
+          enum:
+            - MUST_ACCEPT_HINT
+          nullable: false
+      required:
+        - hint
+        - code
+      type: object
+    CreateOrderParams:
+      properties:
+        acceptHintId:
+          type: string
+          description: |-
+            If the order has been rejected with code `MUST_ACCEPT_HINT` before, the order creation can be retried with setting the
+            `acceptHintId` accordingly after letting the user accept the hint.
+        authMethod:
+          type: string
+        order:
+          $ref: '#/components/schemas/OrderCreate'
+        challengeId:
+          type: string
+        challengeResponse:
+          type: string
+      required:
+        - order
+      type: object
+      additionalProperties: false
+    GetUserResponse:
+      properties:
+        userId:
+          type: string
+      required:
+        - userId
+      type: object
+    CreateGuestUserResponse:
+      properties:
+        idToken:
+          type: string
+      required:
+        - idToken
+      type: object
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: _id
+      description: Requests are authenticated by providing an HTTP-Only cookie `_id` which is a JWT token stored in the browser by calling the `/login` endpoint. This allows clients to not have to care about authentication at all - it is provided by 3rd party cookies which are not visible to the frontend at all. However, this comes with limitations (e.g. some browsers do not send those cookies if they are under a 3rd party domain).
+    idToken:
+      type: apiKey
+      in: header
+      name: x-access-token
+      description: Requests are authenticated by providing an header `x-access-token` which is a JWT token retrieved either from the `createguest` endpoint or retrieved for a user from the amazon cognito pool.
+info:
+  title: brokerize
+  version: 0.0.1-preview
+  contact: {}
+  description: |-
+    The brokerize API allows clients to implement multi-brokerage easily with a unified interface.
+
+    # user accounts & temporary guest sessions
+
+    Users either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.
+
+    ![](/docs/diagrams/account.svg)
+
+    # connecting brokers and synchronizing data to brokerize
+
+    Users connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).
+
+    As soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an "online session" again).
+
+    Data is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).
+
+    ![](/docs/diagrams/session-lifecycle.svg)
+
+    # performing actions in portfolios
+
+    Actions can be performed in portfolios that have online sessions.
+
+    In order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).
+
+    The following actions are implemented:
+
+    -   Session TAN handling (for performing other actions in portfolios without further per-case authorization)
+        -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.
+        -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.
+        -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN.
+    -   Create a trade
+        -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.
+        -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.
+        -   [CreateTrade](#operation/CreateTrade) to perform the trade.
+    -   Edit an order
+        -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.
+        -   [ChangeOrder](#operation/ChangeOrder) to change an order.
+    -   Cancel an order
+        -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.
+        -   [CancelOrder](#operation/CancelOrder) to cancel an order.
+
+    # rate limits
+
+    Currently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. Clients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior. The rate limits will be refined in the future.
+
+    | `flow`               | requires challenge? | Description                                                                                                                                                                                                          |
+    | -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |
+    | `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |
+    | `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |
+
+
+     API build data: <pre>{
+        "buildTime": "2022-06-14T09:13:02.183Z"
+    }</pre>
+  x-logo:
+    url: /logo.svg
+    backgroundColor: '#FFFFFF'
+    altText: brokerize logo
+openapi: 3.0.0
+paths:
+  /brokers:
+    get:
+      operationId: GetBrokers
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBrokersResponse'
+      description: |-
+        List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means
+        of login (e.g. the brokers' OAuth process in the future).
+      tags:
+        - meta
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+  /demo/accounts:
+    post:
+      operationId: CreateDemoAccount
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedResponseBody'
+              examples:
+                Example 1:
+                  value:
+                    id: 42
+      description: |-
+        Create an account at the demo broker for the logged-in user. The account will have a default
+        set of two empty portfolios.
+
+        The account as well as the two portfolios have a randomly generated name.
+
+        To log into an account, use the account's generated name as username (Account name) in `AddSession`.
+        - with the password `42`, the login will succeed immediately
+        - with the password `1337`, a challenge will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)
+        - other passwords will not allow to log in
+
+        The demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:
+        - ISIN US0378331005 (Apple):
+          - market buy order is executed after 10 seconds by the backend at a random quote
+          - stop buy order stays open forever (can be used for testing cancellation)
+          - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`
+          - the preparedTrade's `costEstimationMustBeShown` is true only for Apple, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.
+        - ISIN LU0378438732 (a DAX ETF)
+          - orders are rejected with code `ORDER_REJECTED` immediately
+        - ISIN US4180561072 (Hasbro)
+          - only quote orders on one exchange are supported
+          - the quotes are valid for 45 seconds
+          - quote value is always `42`
+          - the order gets executed immediately
+        - ISIN US98980L1017 (Zoom)
+          - only market orders (both buy and sell) are suppored on one exchange
+          - orders are executed immediately at a random quote
+          - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)
+        - ISIN XS2149280948 (bond from Bertelsmann)
+          - limit and market orders (both buy and sell) are supported on on exchange
+          - limit orders are executed at exactly the limit price
+          - market orders are executed at a random quote between 90 and 150 percent
+        - all other orders will be canceled after 3 seconds
+
+        Cost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields
+        are set or unavailable.
+      tags:
+        - demobroker
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+    get:
+      operationId: GetDemoAccounts
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoAccountsResponse'
+      description: |-
+        List all demo accounts that the user has in her account. The account name can be used as the login username in the
+        demo broker login process.
+      tags:
+        - demobroker
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+  /demo/accounts/{accountId}:
+    delete:
+      operationId: DeleteDemoAccount
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponseBody'
+      description: Delete the given demo account and all data (demo portfolios and the related orders) *permanently*.
+      tags:
+        - demobroker
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+  /exchanges:
+    get:
+      operationId: GetExchanges
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExchangesResponse'
+      description: |-
+        List all exchanges mapped in brokerize.
+
+        Brokers provide their own list of exchanges with any order preparation request, so there
+        may be cases where a broker exchange is not mapped to this brokerize exchange list. This is
+        totally valid: this list serves as a known subset of exchanges to facilitate switching between
+        brokers or mapping to your own exchange database.
+      tags:
+        - meta
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+  /order/{id}:
+    get:
+      operationId: GetOrder
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrderResponse'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+  /order/{id}/cancelChallenge:
+    post:
+      operationId: CreateCancelOrderChallenge
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+      description: Create a cancel order challenge
+      tags:
+        - cancelOrder
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelOrderChallengeParams'
+  /order/{id}/cancel:
+    post:
+      operationId: CancelOrder
+      responses:
+        "204":
+          description: No content
+      description: Actually cancel the order
+      tags:
+        - cancelOrder
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelOrderParams'
+  /order/{id}/changeChallenge:
+    post:
+      operationId: CreateChangeOrderChallenge
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+      description: Create a change order challenge
+      tags:
+        - changeOrder
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeOrderChallengeParams'
+  /order/{id}/changeCostEstimation:
+    post:
+      operationId: GetChangeOrderCostEstimation
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCostEstimation'
+      description: Get an order cost estimation for an order update.
+      tags:
+        - changeOrder
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstimateChangeOrderCostsParams'
+  /order/{id}/change:
+    post:
+      operationId: ChangeOrder
+      responses:
+        "204":
+          description: No content
+      description: Actually change the order
+      tags:
+        - changeOrder
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeOrderParams'
+  /portfolios:
+    get:
+      operationId: GetPortfolios
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfoliosResponse'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+  /portfolios/{portfolioId}:
+    delete:
+      operationId: DeletePortfolio
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponseBody'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: portfolioId
+          required: true
+          schema:
+            type: string
+  /portfolios/{portfolioId}/quotes:
+    get:
+      operationId: GetPortfolioQuotes
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPortfolioQuotesResponse'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: portfolioId
+          required: true
+          schema:
+            type: string
+  /portfolios/{portfolioId}/positions:
+    get:
+      operationId: GetPortfolioPositions
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPortfolioPositionsResponse'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: portfolioId
+          required: true
+          schema:
+            type: string
+  /portfolios/{portfolioId}/orders:
+    get:
+      operationId: GetPortfolioOrders
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPortfolioOrdersResponse'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: portfolioId
+          required: true
+          schema:
+            type: string
+        - description: 'for pagination: how many items per page'
+          in: query
+          name: take
+          required: false
+          schema:
+            format: double
+            type: number
+        - description: 'for pagination: how many items to skip (0 for first page)'
+          in: query
+          name: skip
+          required: false
+          schema:
+            format: double
+            type: number
+        - description: filter by isin
+          in: query
+          name: isin
+          required: false
+          schema:
+            type: string
+        - description: filter by statuses (comma-separated)
+          in: query
+          name: statuses
+          required: false
+          schema:
+            type: string
+        - description: order by `<field>:<asc|desc>`, where `field` may be one of `createdAt`, `executedAt`
+          in: query
+          name: orderBy
+          required: false
+          schema:
+            type: string
+  /portfolios/{portfolioId}/authinfo:
+    get:
+      operationId: GetAuthInfo
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAuthInfoResponse'
+      description: |-
+        Get the AuthInfo for the given portfolio.
+
+        If the portfolio does not have an online session, this will return a 400 status code.
+
+        The `AuthInfo` is used to figure out how operations (enable session tan, create trade, cancel order, change order) can be authorized for the portfolio.
+        - If `sessionTanActive` is `true`: Session TAN has been enabled for the session that
+        currently backs the portfolio. In this case, all operations like `CreateTrade` can be executed right away
+        without an `authMethod`. The UI should *not* show a dropdown with the auth methods in this case.
+        - If `sessionTanActive` is `false` but `sessionTanSupported` is `true`: the user can enable session TAN
+        using `CreateSessionTanChallenge` / `EnableSessionTan`.
+        - If `allOperationsRequireSessionTan` is `true`, the auth methods can *ONLY* be used for enabling session TAN.
+        - Otherwise, the `authMethods` can be used to perform individual operations.
+
+        | sessionTanActive | sessionTanSupported | allOperationsRequireSessionTan | Description                                                                                                                                                                                                                                                 |
+        | ---------------- | ------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+        | `true`           | `true`              | -                              | Session TAN has been enabled for the session that currently backs the portfolio. In this case, all operations like `CreateTrade`, `ChangeOrder`, `CancelOrder` can be executed right away without an `authMethod`. The UI should _not_ show adropdown with the auth methods in this case. |
+        | `false`          | `true`              | `true`                         | the user can enable session TAN using the provided auth methods via `CreateSessionTanChallenge` / `EnableSessionTan`. All other operations can only take place after session TAN has been enabled.                                                          |
+        | `false`          | `true`              | `false`                        | the user can enable any operation (enable session tan, create trade, cancel order, change order) using the provided auth methods                                                                                                                            |
+
+        The list of available AuthMethods should only be presented to the user if session TAN is not active (yet). The list and names are defined by our partner brokers.
+        Auth Methods are categorized using the `flow` attribute:
+
+        | `flow`               | requires challenge? | Description                                                                                                                                                                                                          |
+        | -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+        | `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |
+        | `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |
+        | `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |     *
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: portfolioId
+          required: true
+          schema:
+            type: string
+  /sessions:
+    get:
+      operationId: GetSessions
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+      description: Get the currently active broker sessions of the user's account.
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+    post:
+      operationId: AddSession
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+      tags:
+        - brokerLogin
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddSessionParams'
+  /sessions/prepareOAuthRedirect:
+    post:
+      operationId: PrepareOAuthRedirect
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrepareOAuthRedirectResponse'
+      description: |-
+        For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session
+        can be added for an OAuth-based login process:
+
+        1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client.
+        2. redirect the user's browser to the `redirectTo` URL
+        3. after the user has logged in at the broker's interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen
+        4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user's account
+      tags:
+        - brokerLogin
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrepareOAuthRedirectParams'
+  /sessions/confirmOAuth:
+    post:
+      operationId: ConfirmOAuth
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmOAuthResponse'
+      description: |-
+        For brokers with OAuth login processes, this adds the session to the user's account after redirects happen. Only the user that is redirected from
+        the broker login in the browser will receive the `code`. This step ensures that the logged-in user at brokerize is actually the one that
+        has gone through the broker OAuth steps.
+      tags:
+        - brokerLogin
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmOAuthParams'
+  /sessions/completeLogin:
+    post:
+      operationId: AddSessionCompleteChallenge
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponseReady'
+      description: If login returns the state `challenge`, the login must be completed by providing a challenge response first.
+      tags:
+        - brokerLogin
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddSessionCompleteChallengeParams'
+  /sessions/{sessionId}/sessiontanchallenge:
+    post:
+      operationId: CreateSessionTanChallenge
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTanChallengeParams'
+  /sessions/{sessionId}/sessiontan:
+    post:
+      operationId: EnableSessionTan
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnableSessionTanResponse'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableSessionTanParams'
+    delete:
+      operationId: EndSessionTan
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndSessionTanResponse'
+      description: |-
+        End Session TAN for the given broker session.
+
+        If applicable, the broker may return a message with a confirmation code which can be looked up in the initial activation SMS.
+        If message is present in the response, it should be displayed to the user.
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+  /sessions/{sessionId}/decoupledOperation/{decoupledOperationId}:
+    get:
+      operationId: GetDecoupledOperationStatus
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecoupledOperationState'
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: decoupledOperationId
+          required: true
+          schema:
+            type: string
+    delete:
+      operationId: CancelDecoupledOperation
+      responses:
+        "204":
+          description: No content
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: decoupledOperationId
+          required: true
+          schema:
+            type: string
+  /sessions/{sessionId}/sync:
+    post:
+      operationId: TriggerSessionSync
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponseBody'
+      description: |-
+        Trigger a background sync process for the given broker session. This means that a sync will be
+        scheduled as soon as possible. All data related to the portfolio (e.g. positions and orders) will
+        be loaded into the brokerize database.
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+  /sessions/{sessionId}:
+    delete:
+      operationId: LogoutSession
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResponseBody'
+      description: Log out from the given broker session.
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+  /trade/prepare:
+    get:
+      operationId: PrepareTrade
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrepareTradeResponse'
+        "400":
+          description: No online session for given portfolio available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoSessionAvailableForPortfolio'
+        "404":
+          description: Security could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityNotAvailableForTrading'
+      description: |-
+        Prepare a trade of `isin` in the given portfolio `portfolioId`. This describes what kind of orders are supported by the broker for the security.
+        This requires the portfolio to have at least one active broker session.
+      tags:
+        - trade
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: query
+          name: isin
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: portfolioId
+          required: true
+          schema:
+            type: string
+  /trade/quote:
+    post:
+      operationId: GetQuote
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetQuoteResponse'
+      description: |-
+        Get a quote to use with `orderModel=quote`. The actual quote trade is then performed using `createTradeChallenge` / `createTrade` as
+        for other orderModels.
+      tags:
+        - trade
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters:
+        - in: query
+          name: portfolioId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetQuoteParams'
+  /trade/challenge:
+    post:
+      operationId: CreateTradeChallenge
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+      description: Create a challenge
+      tags:
+        - trade
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderChallengeParams'
+  /trade/costEstimation:
+    post:
+      operationId: GetCostEstimation
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCostEstimation'
+      tags:
+        - trade
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetCostEstimationParams'
+  /trade/create:
+    post:
+      operationId: CreateTrade
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTradeResponse'
+        "400":
+          description: Hint must be accepted by the user first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MustAcceptHint'
+              examples:
+                Example 1:
+                  value:
+                    code: MUST_ACCEPT_HINT
+                    hint:
+                      id: fees_for_low_order_volume
+                      text: The order volume for this order is very low and will result in extra fees. Those fees have to be accepted first.
+      description: |-
+        Create a trade.
+
+        It is possible that the broker rejects the order because of some extra hints that the user must accept (which can not be figured
+        out in `prepareTrade`, e.g. because the order volume has to be determined first). In thise case, the `MUST_ACCEPT_HINT` error
+        code is returned. The user can choose to accept that hint. If that is the case, the request can be
+        retried with the `acceptHintId` parameter.
+      tags:
+        - trade
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderParams'
+  /user:
+    get:
+      operationId: GetUser
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserResponse'
+      description: Checks the provided authentication and returns the logged-in user.
+      security:
+        - cookieAuth: []
+        - idToken: []
+      parameters: []
+  /user/guest:
+    post:
+      operationId: CreateGuestUser
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateGuestUserResponse'
+      description: |-
+        Create a guest user and return an JWT token which can be used to access resources.
+        The user as well as the token have a lifetime of 24 hours.
+      security: []
+      parameters: []
+  /websocket:
+    get:
+      operationId: Websocket
+      description: "Most operations at brokerize have asynchronous effects.\n\nFor example, consider the flow of an order: when the user creates an order, it will not immediately appear in order list endpoints, because usually brokers take a few seconds until they are retrievable in those lists. Also, after a while, the order may be executed or cancelled asynchronously by the stock exchange.\n\nA common solution for frontends would be to reload the order list regularly. However data is then either delayed or there will be many more requests than needed.\n\nThe brokerize websocket endpoint allows getting updates via web sockets. Generally speaking, clients can subscribe by assigning a subscription id and will then receive updates on that subscription.\n\nIn this documentation, ⬆️ denotes messages from the client to the server, whereas messages from server to client are marked with ⬇️.\n\n## authentication\nWhen using cookies for authorization, the WebSocket connection is authenticated with the HTTP upgrade request.\n\nIf token headers are used, the *first* message from client to server must be:\n\n```\n⬆️ {\n    \"cmd\": \"authorize\",\n    \"idToken\": <string>\n}\n```\n\nIn all cases, clients must wait for the welcome message before sending other messages:\n\n\n```\n⬇️ { \"cmd\": \"authenticated\" }\n```\n\n## ping\nAfter 1 minute of inactivity of a client, the WebSocket connection will be considered stale and will automatically terminated. To prevent this, a ping message can be sent:\n\n```\n ⬆️ {\"cmd\": \"ping\"}\n```\n\nThe server also sends this message regularly. If no message has been received on a WebSocket connection for more than 1 minute, it should be terminated by the client.\n\n```\n ⬇️ {\"cmd\": \"ping\"}\n```\n\n## subscriptions\nSubscriptions can be used to get invalidate events or updates for selected resources. \n\n### invalidate subscriptions\nInvalidation events can be used for the frontend to know when reload requests via the HTTP endpoints are appropriate. Currently only invalidate events can be subscribed, the actual data must then be reloaded using the HTTP endpoints.\n\nTo set up a subscription for an invalidate event, use:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"invalidate\",\n    \"subscriptionId\": 1,\n    \"entity: \"brokersessions\" /* \"positions\" | \"orders\" */,\n    \"portfolioId\": 42 /* required for \"positions\" or \"orders\" */\n}\n```\n\nIf the subscription failed to be set up on the server, an error will be sent for the subscription. This also automatically ends the subscription on the server side:\n\n```\n⬇️ {\n    \"subscriptionId\": 1,\n    \"error\": {\n        \"message\": \"Could not set up invalidation event due to...\"\n    }\n}\n```\n\nIf an invalid `subscriptionId` is provided (or the subscription id is already in use by the connection), an error like this will be sent:\n```\n⬇️ {\n    \"error\": {\n        \"message\": \"Could not add subscription due to invalid subscriptionId\"\n    }\n}\n```\n⚠️ *the connection will then be terminated immediately*.\n\nIf the subscription is sucessfuly set up, whenever an invalidation happens, the server will send a message like this:\n\n```\n⬇️ {\n    \"cmd\": \"invalidate\",\n    \"subscriptionId\": 1\n}\n```\n\nWhen that invalidation event is received, the client should reload the data using the corresponding endpoints.\n\nClients can end their subscription with the `unsubscribe` command:\n\n```\n⬆️ {\n    \"cmd\": \"unsubscribe\",\n    \"subscriptionId\": 1\n}\n```\n\n### subscribe to the state of a decoupled operation\nFor decoupled operations (e.g. authorizing a session TAN using a second factor device), the state of the operation can be subscribed:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"decoupledOperationStatus\",\n    \"subscriptionId\": 1,\n    \"sessionId\": string,\n    \"decoupledOperationId\": string   \n}\n```\n\nError handling as well as unsubscribing works as described for invalidate subscriptions. Example message from the server for updating the state:\n\n```\n⬇️ {\n    \"cmd\": \"updateDecoupledOperationStatus\",\n    \"subscriptionId\": number,\n    \"state\": <DecoupledOperationStatus>\n}\n```\n"
+      responses:
+        "101":
+          description: Upgrading to WebSocket
+servers:
+  - url: https://api-preview.brokerize.com
+    description: Preview environment
+tags:
+  - name: demobroker
+    description: For every brokerize user, demo accounts at the demo broker can be created. Those accounts can be used to test client implementations for correct handling of the API, while *NOT* simulating real trading. In a demobroker portfolio, orders are always handled the way described below. This can be used to test applications both manually and automatically, because the behavior is reproducible (which is obviously not the case in a real trading account).
+  - name: meta
+    description: Meta-data about available brokers and exchanges
+  - name: cancelOrder
+    description: Requests that relate to cancelling open orders
+  - name: changeOrder
+    description: Requests that relate to changing open orders
+  - name: trade
+    description: Requests that relate to creating a new order / trade
+  - name: brokerLogin
+    description: Requests that relate to adding a broker session to the user's account
