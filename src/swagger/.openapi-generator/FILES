@@ -17,6 +17,7 @@ models/AuthMethodChallengeResponse.ts
 models/AuthMethodChallengeResponseSpecifics.ts
 models/AuthMethodDecoupled.ts
 models/AuthMethodDecoupledSpecifics.ts
+models/AuthMethodFlow.ts
 models/AuthMethodTan.ts
 models/AuthMethodTanSpecifics.ts
 models/BrokerEnvironment.ts
@@ -28,6 +29,7 @@ models/CancelOrderChallengeParams.ts
 models/CancelOrderChallengeResponse.ts
 models/CancelOrderChallengeResponseSpecifics.ts
 models/CancelOrderParams.ts
+models/CancelOrderParamsMode.ts
 models/CashQuotation.ts
 models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
@@ -52,6 +54,7 @@ models/EnableSessionTanParamsChallengeResponse.ts
 models/EnableSessionTanParamsChallengeResponseSpecifics.ts
 models/EnableSessionTanParamsDecoupled.ts
 models/EnableSessionTanParamsDecoupledSpecifics.ts
+models/EnableSessionTanParamsKind.ts
 models/EnableSessionTanResponse.ts
 models/EnableSessionTanResponseAnyOf.ts
 models/EndSessionTanResponse.ts
@@ -67,6 +70,7 @@ models/GenericTableRowSubheading.ts
 models/GenericTableRowSubheadingSpecifics.ts
 models/GenericTableRowText.ts
 models/GenericTableRowTextSpecifics.ts
+models/GenericTableRowType.ts
 models/GenericTableRowValue.ts
 models/GenericTableRowValueAmount.ts
 models/GenericTableRowValueAmountSpecifics.ts
@@ -79,8 +83,10 @@ models/GenericTableRowValueLinkSpecifics.ts
 models/GenericTableRowValueLinkUrl.ts
 models/GenericTableRowValueLinkUrlSpecifics.ts
 models/GenericTableRowValueLinkValue.ts
+models/GenericTableRowValueLinkValueType.ts
 models/GenericTableRowValueText.ts
 models/GenericTableRowValueTextSpecifics.ts
+models/GenericTableRowValueType.ts
 models/GetAuthInfoResponse.ts
 models/GetBrokersResponse.ts
 models/GetCostEstimationParams.ts
@@ -97,6 +103,7 @@ models/LoginResponseChallenge.ts
 models/LoginResponseChallengeSpecifics.ts
 models/LoginResponseReady.ts
 models/LoginResponseReadySpecifics.ts
+models/LoginResponseState.ts
 models/MustAcceptHint.ts
 models/NoSessionAvailableForPortfolio.ts
 models/OkResponseBody.ts

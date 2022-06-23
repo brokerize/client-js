@@ -113,7 +113,7 @@ function AuthInfoToJSONRecursive(value?: AuthInfo | null, ignoreParent?: boolean
 
 // @public
 interface AuthMethod {
-    flow: string;
+    flow: AuthMethodFlow;
 }
 
 // @public
@@ -197,6 +197,25 @@ function AuthMethodDecoupledToJSON(value?: AuthMethodDecoupled | null): any;
 
 // @public (undocumented)
 function AuthMethodDecoupledToJSONRecursive(value?: AuthMethodDecoupled | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const AuthMethodFlow: {
+    readonly Tan: "TAN";
+    readonly Decoupled: "DECOUPLED";
+    readonly ChallengeResponse: "CHALLENGE_RESPONSE";
+};
+
+// @public (undocumented)
+type AuthMethodFlow = typeof AuthMethodFlow[keyof typeof AuthMethodFlow];
+
+// @public (undocumented)
+function AuthMethodFlowFromJSON(json: any): AuthMethodFlow;
+
+// @public (undocumented)
+function AuthMethodFlowFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodFlow;
+
+// @public (undocumented)
+function AuthMethodFlowToJSON(value?: AuthMethodFlow | null): any;
 
 // @public (undocumented)
 function AuthMethodFromJSON(json: any): AuthMethod;
@@ -599,7 +618,7 @@ function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChalleng
 
 // @public
 interface CancelOrderParams {
-    mode: string;
+    mode: CancelOrderParamsMode;
 }
 
 // @public (undocumented)
@@ -607,6 +626,24 @@ function CancelOrderParamsFromJSON(json: any): CancelOrderParams;
 
 // @public (undocumented)
 function CancelOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderParams;
+
+// @public (undocumented)
+const CancelOrderParamsMode: {
+    readonly SessionTan: "sessionTan";
+    readonly ChallengeResponse: "challengeResponse";
+};
+
+// @public (undocumented)
+type CancelOrderParamsMode = typeof CancelOrderParamsMode[keyof typeof CancelOrderParamsMode];
+
+// @public (undocumented)
+function CancelOrderParamsModeFromJSON(json: any): CancelOrderParamsMode;
+
+// @public (undocumented)
+function CancelOrderParamsModeFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderParamsMode;
+
+// @public (undocumented)
+function CancelOrderParamsModeToJSON(value?: CancelOrderParamsMode | null): any;
 
 // @public (undocumented)
 function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any;
@@ -1202,7 +1239,7 @@ function DirectionToJSON(value?: Direction | null): any;
 
 // @public
 interface EnableSessionTanParams {
-    kind: string;
+    kind: EnableSessionTanParamsKind;
 }
 
 // @public
@@ -1280,6 +1317,24 @@ function EnableSessionTanParamsFromJSON(json: any): EnableSessionTanParams;
 
 // @public (undocumented)
 function EnableSessionTanParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParams;
+
+// @public (undocumented)
+const EnableSessionTanParamsKind: {
+    readonly ChallengeResponse: "challengeResponse";
+    readonly Decoupled: "decoupled";
+};
+
+// @public (undocumented)
+type EnableSessionTanParamsKind = typeof EnableSessionTanParamsKind[keyof typeof EnableSessionTanParamsKind];
+
+// @public (undocumented)
+function EnableSessionTanParamsKindFromJSON(json: any): EnableSessionTanParamsKind;
+
+// @public (undocumented)
+function EnableSessionTanParamsKindFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsKind;
+
+// @public (undocumented)
+function EnableSessionTanParamsKindToJSON(value?: EnableSessionTanParamsKind | null): any;
 
 // @public (undocumented)
 function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | null): any;
@@ -1460,7 +1515,7 @@ function GenericTableFromJSONTyped(json: any, ignoreDiscriminator: boolean): Gen
 
 // @public
 interface GenericTableRow {
-    type: string;
+    type: GenericTableRowType;
 }
 
 // @public
@@ -1583,9 +1638,28 @@ function GenericTableRowToJSON(value?: GenericTableRow | null): any;
 // @public (undocumented)
 function GenericTableRowToJSONRecursive(value?: GenericTableRow | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+const GenericTableRowType: {
+    readonly Subheading: "subheading";
+    readonly Text: "text";
+    readonly Entry: "entry";
+};
+
+// @public (undocumented)
+type GenericTableRowType = typeof GenericTableRowType[keyof typeof GenericTableRowType];
+
+// @public (undocumented)
+function GenericTableRowTypeFromJSON(json: any): GenericTableRowType;
+
+// @public (undocumented)
+function GenericTableRowTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowType;
+
+// @public (undocumented)
+function GenericTableRowTypeToJSON(value?: GenericTableRowType | null): any;
+
 // @public
 interface GenericTableRowValue {
-    type: string;
+    type: GenericTableRowValueType;
 }
 
 // @public
@@ -1770,7 +1844,7 @@ function GenericTableRowValueLinkUrlToJSONRecursive(value?: GenericTableRowValue
 
 // @public
 interface GenericTableRowValueLinkValue {
-    type: string;
+    type: GenericTableRowValueLinkValueType;
 }
 
 // @public (undocumented)
@@ -1784,6 +1858,24 @@ function GenericTableRowValueLinkValueToJSON(value?: GenericTableRowValueLinkVal
 
 // @public (undocumented)
 function GenericTableRowValueLinkValueToJSONRecursive(value?: GenericTableRowValueLinkValue | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueLinkValueType: {
+    readonly Portfolio: "portfolio";
+    readonly Url: "url";
+};
+
+// @public (undocumented)
+type GenericTableRowValueLinkValueType = typeof GenericTableRowValueLinkValueType[keyof typeof GenericTableRowValueLinkValueType];
+
+// @public (undocumented)
+function GenericTableRowValueLinkValueTypeFromJSON(json: any): GenericTableRowValueLinkValueType;
+
+// @public (undocumented)
+function GenericTableRowValueLinkValueTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkValueType;
+
+// @public (undocumented)
+function GenericTableRowValueLinkValueTypeToJSON(value?: GenericTableRowValueLinkValueType | null): any;
 
 // @public
 interface GenericTableRowValueText extends GenericTableRowValue {
@@ -1824,6 +1916,26 @@ function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any;
 
 // @public (undocumented)
 function GenericTableRowValueToJSONRecursive(value?: GenericTableRowValue | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueType: {
+    readonly Text: "text";
+    readonly Amount: "amount";
+    readonly Datetime: "datetime";
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type GenericTableRowValueType = typeof GenericTableRowValueType[keyof typeof GenericTableRowValueType];
+
+// @public (undocumented)
+function GenericTableRowValueTypeFromJSON(json: any): GenericTableRowValueType;
+
+// @public (undocumented)
+function GenericTableRowValueTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueType;
+
+// @public (undocumented)
+function GenericTableRowValueTypeToJSON(value?: GenericTableRowValueType | null): any;
 
 // @public (undocumented)
 function GenericTableToJSON(value?: GenericTable | null): any;
@@ -2145,7 +2257,7 @@ class JSONApiResponse<T> {
 
 // @public
 interface LoginResponse {
-    state: string;
+    state: LoginResponseState;
 }
 
 // @public
@@ -2221,6 +2333,24 @@ function LoginResponseReadyToJSON(value?: LoginResponseReady | null): any;
 
 // @public (undocumented)
 function LoginResponseReadyToJSONRecursive(value?: LoginResponseReady | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const LoginResponseState: {
+    readonly Ready: "ready";
+    readonly Challenge: "challenge";
+};
+
+// @public (undocumented)
+type LoginResponseState = typeof LoginResponseState[keyof typeof LoginResponseState];
+
+// @public (undocumented)
+function LoginResponseStateFromJSON(json: any): LoginResponseState;
+
+// @public (undocumented)
+function LoginResponseStateFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseState;
+
+// @public (undocumented)
+function LoginResponseStateToJSON(value?: LoginResponseState | null): any;
 
 // @public (undocumented)
 function LoginResponseToJSON(value?: LoginResponse | null): any;
@@ -2303,6 +2433,10 @@ declare namespace Models {
         AuthMethodDecoupledSpecificsToJSONRecursive,
         AuthMethodDecoupledSpecificsToJSON,
         AuthMethodDecoupledSpecifics,
+        AuthMethodFlowFromJSON,
+        AuthMethodFlowFromJSONTyped,
+        AuthMethodFlowToJSON,
+        AuthMethodFlow,
         AuthMethodTanFromJSON,
         AuthMethodTanFromJSONTyped,
         AuthMethodTanToJSONRecursive,
@@ -2358,6 +2492,10 @@ declare namespace Models {
         CancelOrderParamsToJSONRecursive,
         CancelOrderParamsToJSON,
         CancelOrderParams,
+        CancelOrderParamsModeFromJSON,
+        CancelOrderParamsModeFromJSONTyped,
+        CancelOrderParamsModeToJSON,
+        CancelOrderParamsMode,
         CashQuotationFromJSON,
         CashQuotationFromJSONTyped,
         CashQuotationToJSON,
@@ -2476,6 +2614,10 @@ declare namespace Models {
         EnableSessionTanParamsDecoupledSpecificsToJSONRecursive,
         EnableSessionTanParamsDecoupledSpecificsToJSON,
         EnableSessionTanParamsDecoupledSpecifics,
+        EnableSessionTanParamsKindFromJSON,
+        EnableSessionTanParamsKindFromJSONTyped,
+        EnableSessionTanParamsKindToJSON,
+        EnableSessionTanParamsKind,
         EnableSessionTanResponseFromJSON,
         EnableSessionTanResponseFromJSONTyped,
         EnableSessionTanResponseToJSONRecursive,
@@ -2551,6 +2693,10 @@ declare namespace Models {
         GenericTableRowTextSpecificsToJSONRecursive,
         GenericTableRowTextSpecificsToJSON,
         GenericTableRowTextSpecifics,
+        GenericTableRowTypeFromJSON,
+        GenericTableRowTypeFromJSONTyped,
+        GenericTableRowTypeToJSON,
+        GenericTableRowType,
         GenericTableRowValueFromJSON,
         GenericTableRowValueFromJSONTyped,
         GenericTableRowValueToJSONRecursive,
@@ -2611,6 +2757,10 @@ declare namespace Models {
         GenericTableRowValueLinkValueToJSONRecursive,
         GenericTableRowValueLinkValueToJSON,
         GenericTableRowValueLinkValue,
+        GenericTableRowValueLinkValueTypeFromJSON,
+        GenericTableRowValueLinkValueTypeFromJSONTyped,
+        GenericTableRowValueLinkValueTypeToJSON,
+        GenericTableRowValueLinkValueType,
         GenericTableRowValueTextFromJSON,
         GenericTableRowValueTextFromJSONTyped,
         GenericTableRowValueTextToJSONRecursive,
@@ -2621,6 +2771,10 @@ declare namespace Models {
         GenericTableRowValueTextSpecificsToJSONRecursive,
         GenericTableRowValueTextSpecificsToJSON,
         GenericTableRowValueTextSpecifics,
+        GenericTableRowValueTypeFromJSON,
+        GenericTableRowValueTypeFromJSONTyped,
+        GenericTableRowValueTypeToJSON,
+        GenericTableRowValueType,
         GetAuthInfoResponseFromJSON,
         GetAuthInfoResponseFromJSONTyped,
         GetAuthInfoResponseToJSONRecursive,
@@ -2701,6 +2855,10 @@ declare namespace Models {
         LoginResponseReadySpecificsToJSONRecursive,
         LoginResponseReadySpecificsToJSON,
         LoginResponseReadySpecifics,
+        LoginResponseStateFromJSON,
+        LoginResponseStateFromJSONTyped,
+        LoginResponseStateToJSON,
+        LoginResponseState,
         MustAcceptHintFromJSON,
         MustAcceptHintFromJSONTyped,
         MustAcceptHintToJSONRecursive,

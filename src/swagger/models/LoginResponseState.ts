@@ -12,59 +12,27 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+
 /**
  * 
  * @export
- * @interface SyncError
  */
-export interface SyncError {
-    /**
-     * 
-     * @type {string}
-     * @memberof SyncError
-     */
-    message: string;
-    /**
-     * 
-     * @type {Date}
-     * @memberof SyncError
-     */
-    date: Date;
+export const LoginResponseState = {
+    Ready: 'ready',
+    Challenge: 'challenge'
+} as const;
+export type LoginResponseState = typeof LoginResponseState[keyof typeof LoginResponseState];
+
+
+export function LoginResponseStateFromJSON(json: any): LoginResponseState {
+    return LoginResponseStateFromJSONTyped(json, false);
 }
 
-export function SyncErrorFromJSON(json: any): SyncError {
-    return SyncErrorFromJSONTyped(json, false);
+export function LoginResponseStateFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseState {
+    return json as LoginResponseState;
 }
 
-export function SyncErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): SyncError {
-    if ((json === undefined) || (json === null)) {
-        return json;
-    }
-    return {
-        
-        'message': json['message'],
-        'date': (new Date(json['date'])),
-    };
+export function LoginResponseStateToJSON(value?: LoginResponseState | null): any {
+    return value as any;
 }
 
-export function SyncErrorToJSONRecursive(value?: SyncError | null, ignoreParent = false): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
-    }
-
-    return {
-        
-
-
-        'message': value.message,
-        'date': (value.date.toISOString()),
-    };
-}
-
-export function SyncErrorToJSON(value?: SyncError | null): any {
-    return SyncErrorToJSONRecursive(value, false);
-}

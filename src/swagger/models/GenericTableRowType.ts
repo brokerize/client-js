@@ -12,59 +12,28 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+
 /**
  * 
  * @export
- * @interface SyncError
  */
-export interface SyncError {
-    /**
-     * 
-     * @type {string}
-     * @memberof SyncError
-     */
-    message: string;
-    /**
-     * 
-     * @type {Date}
-     * @memberof SyncError
-     */
-    date: Date;
+export const GenericTableRowType = {
+    Subheading: 'subheading',
+    Text: 'text',
+    Entry: 'entry'
+} as const;
+export type GenericTableRowType = typeof GenericTableRowType[keyof typeof GenericTableRowType];
+
+
+export function GenericTableRowTypeFromJSON(json: any): GenericTableRowType {
+    return GenericTableRowTypeFromJSONTyped(json, false);
 }
 
-export function SyncErrorFromJSON(json: any): SyncError {
-    return SyncErrorFromJSONTyped(json, false);
+export function GenericTableRowTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowType {
+    return json as GenericTableRowType;
 }
 
-export function SyncErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): SyncError {
-    if ((json === undefined) || (json === null)) {
-        return json;
-    }
-    return {
-        
-        'message': json['message'],
-        'date': (new Date(json['date'])),
-    };
+export function GenericTableRowTypeToJSON(value?: GenericTableRowType | null): any {
+    return value as any;
 }
 
-export function SyncErrorToJSONRecursive(value?: SyncError | null, ignoreParent = false): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
-    }
-
-    return {
-        
-
-
-        'message': value.message,
-        'date': (value.date.toISOString()),
-    };
-}
-
-export function SyncErrorToJSON(value?: SyncError | null): any {
-    return SyncErrorToJSONRecursive(value, false);
-}
