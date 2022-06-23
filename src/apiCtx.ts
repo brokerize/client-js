@@ -11,6 +11,7 @@ export interface BrokerizeConfig {
    * Path to the API, e.g. https://api-preview.brokerize.com
    */
   basePath?: string;
+  clientId: string;
 }
 
 export type AuthContextConfiguration =
@@ -36,6 +37,10 @@ export interface Auth {
 }
 
 export function createConfiguration(cfg: BrokerizeConfig) {
+  if (!cfg.clientId) {
+    throw new Error("You must configure a clientId to use the brokerize API.");
+  }
+
   return new Configuration({
     fetchApi: cfg.fetch as any,
     basePath: cfg.basePath

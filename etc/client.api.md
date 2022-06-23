@@ -20,6 +20,9 @@ function AddSessionCompleteChallengeParamsFromJSONTyped(json: any, ignoreDiscrim
 function AddSessionCompleteChallengeParamsToJSON(value?: AddSessionCompleteChallengeParams | null): any;
 
 // @public (undocumented)
+function AddSessionCompleteChallengeParamsToJSONRecursive(value?: AddSessionCompleteChallengeParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface AddSessionCompleteChallengeRequest {
     // (undocumented)
     addSessionCompleteChallengeParams: AddSessionCompleteChallengeParams;
@@ -41,6 +44,9 @@ function AddSessionParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 
 // @public (undocumented)
 function AddSessionParamsToJSON(value?: AddSessionParams | null): any;
+
+// @public (undocumented)
+function AddSessionParamsToJSONRecursive(value?: AddSessionParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface AddSessionRequest {
@@ -67,6 +73,9 @@ function AmountFromJSONTyped(json: any, ignoreDiscriminator: boolean): Amount;
 
 // @public (undocumented)
 function AmountToJSON(value?: Amount | null): any;
+
+// @public (undocumented)
+function AmountToJSONRecursive(value?: Amount | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface ApiResponse<T> {
@@ -99,19 +108,17 @@ function AuthInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthInf
 // @public (undocumented)
 function AuthInfoToJSON(value?: AuthInfo | null): any;
 
-// @public
-type AuthMethod = {
-    flow: 'CHALLENGE_RESPONSE';
-} & AuthMethodChallengeResponse | {
-    flow: 'DECOUPLED';
-} & AuthMethodDecoupled | {
-    flow: 'TAN';
-} & AuthMethodTan;
+// @public (undocumented)
+function AuthInfoToJSONRecursive(value?: AuthInfo | null, ignoreParent?: boolean): any;
 
 // @public
-interface AuthMethodChallengeResponse {
+interface AuthMethod {
+    flow: AuthMethodFlow;
+}
+
+// @public
+interface AuthMethodChallengeResponse extends AuthMethod {
     challengeLabel?: string;
-    flow: AuthMethodChallengeResponseFlowEnum;
     getChallengeLabel: string;
     id: string;
     isDefaultMethod?: boolean;
@@ -120,37 +127,45 @@ interface AuthMethodChallengeResponse {
 }
 
 // @public (undocumented)
-const AuthMethodChallengeResponseFlowEnum: {
-    readonly ChallengeResponse: "CHALLENGE_RESPONSE";
-};
-
-// @public (undocumented)
-type AuthMethodChallengeResponseFlowEnum = typeof AuthMethodChallengeResponseFlowEnum[keyof typeof AuthMethodChallengeResponseFlowEnum];
-
-// @public (undocumented)
 function AuthMethodChallengeResponseFromJSON(json: any): AuthMethodChallengeResponse;
 
 // @public (undocumented)
 function AuthMethodChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodChallengeResponse;
 
+// @public
+interface AuthMethodChallengeResponseSpecifics {
+    challengeLabel?: string;
+    getChallengeLabel?: string;
+    id?: string;
+    isDefaultMethod?: boolean;
+    label?: string;
+    tanFieldLabel?: string;
+}
+
+// @public (undocumented)
+function AuthMethodChallengeResponseSpecificsFromJSON(json: any): AuthMethodChallengeResponseSpecifics;
+
+// @public (undocumented)
+function AuthMethodChallengeResponseSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodChallengeResponseSpecifics;
+
+// @public (undocumented)
+function AuthMethodChallengeResponseSpecificsToJSON(value?: AuthMethodChallengeResponseSpecifics | null): any;
+
+// @public (undocumented)
+function AuthMethodChallengeResponseSpecificsToJSONRecursive(value?: AuthMethodChallengeResponseSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function AuthMethodChallengeResponseToJSON(value?: AuthMethodChallengeResponse | null): any;
 
+// @public (undocumented)
+function AuthMethodChallengeResponseToJSONRecursive(value?: AuthMethodChallengeResponse | null, ignoreParent?: boolean): any;
+
 // @public
-interface AuthMethodDecoupled {
-    flow: AuthMethodDecoupledFlowEnum;
+interface AuthMethodDecoupled extends AuthMethod {
     id: string;
     isDefaultMethod?: boolean;
     label: string;
 }
-
-// @public (undocumented)
-const AuthMethodDecoupledFlowEnum: {
-    readonly Decoupled: "DECOUPLED";
-};
-
-// @public (undocumented)
-type AuthMethodDecoupledFlowEnum = typeof AuthMethodDecoupledFlowEnum[keyof typeof AuthMethodDecoupledFlowEnum];
 
 // @public (undocumented)
 function AuthMethodDecoupledFromJSON(json: any): AuthMethodDecoupled;
@@ -158,8 +173,49 @@ function AuthMethodDecoupledFromJSON(json: any): AuthMethodDecoupled;
 // @public (undocumented)
 function AuthMethodDecoupledFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodDecoupled;
 
+// @public
+interface AuthMethodDecoupledSpecifics {
+    id?: string;
+    isDefaultMethod?: boolean;
+    label?: string;
+}
+
+// @public (undocumented)
+function AuthMethodDecoupledSpecificsFromJSON(json: any): AuthMethodDecoupledSpecifics;
+
+// @public (undocumented)
+function AuthMethodDecoupledSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodDecoupledSpecifics;
+
+// @public (undocumented)
+function AuthMethodDecoupledSpecificsToJSON(value?: AuthMethodDecoupledSpecifics | null): any;
+
+// @public (undocumented)
+function AuthMethodDecoupledSpecificsToJSONRecursive(value?: AuthMethodDecoupledSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function AuthMethodDecoupledToJSON(value?: AuthMethodDecoupled | null): any;
+
+// @public (undocumented)
+function AuthMethodDecoupledToJSONRecursive(value?: AuthMethodDecoupled | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const AuthMethodFlow: {
+    readonly Tan: "TAN";
+    readonly Decoupled: "DECOUPLED";
+    readonly ChallengeResponse: "CHALLENGE_RESPONSE";
+};
+
+// @public (undocumented)
+type AuthMethodFlow = typeof AuthMethodFlow[keyof typeof AuthMethodFlow];
+
+// @public (undocumented)
+function AuthMethodFlowFromJSON(json: any): AuthMethodFlow;
+
+// @public (undocumented)
+function AuthMethodFlowFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodFlow;
+
+// @public (undocumented)
+function AuthMethodFlowToJSON(value?: AuthMethodFlow | null): any;
 
 // @public (undocumented)
 function AuthMethodFromJSON(json: any): AuthMethod;
@@ -168,8 +224,7 @@ function AuthMethodFromJSON(json: any): AuthMethod;
 function AuthMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethod;
 
 // @public
-interface AuthMethodTan {
-    flow: AuthMethodTanFlowEnum;
+interface AuthMethodTan extends AuthMethod {
     id: string;
     isDefaultMethod?: boolean;
     label: string;
@@ -177,24 +232,42 @@ interface AuthMethodTan {
 }
 
 // @public (undocumented)
-const AuthMethodTanFlowEnum: {
-    readonly Tan: "TAN";
-};
-
-// @public (undocumented)
-type AuthMethodTanFlowEnum = typeof AuthMethodTanFlowEnum[keyof typeof AuthMethodTanFlowEnum];
-
-// @public (undocumented)
 function AuthMethodTanFromJSON(json: any): AuthMethodTan;
 
 // @public (undocumented)
 function AuthMethodTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodTan;
 
+// @public
+interface AuthMethodTanSpecifics {
+    id?: string;
+    isDefaultMethod?: boolean;
+    label?: string;
+    tanFieldLabel?: string;
+}
+
+// @public (undocumented)
+function AuthMethodTanSpecificsFromJSON(json: any): AuthMethodTanSpecifics;
+
+// @public (undocumented)
+function AuthMethodTanSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodTanSpecifics;
+
+// @public (undocumented)
+function AuthMethodTanSpecificsToJSON(value?: AuthMethodTanSpecifics | null): any;
+
+// @public (undocumented)
+function AuthMethodTanSpecificsToJSONRecursive(value?: AuthMethodTanSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function AuthMethodTanToJSON(value?: AuthMethodTan | null): any;
 
 // @public (undocumented)
+function AuthMethodTanToJSONRecursive(value?: AuthMethodTan | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 function AuthMethodToJSON(value?: AuthMethod | null): any;
+
+// @public (undocumented)
+function AuthMethodToJSONRecursive(value?: AuthMethod | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 export class AuthorizedApiContext {
@@ -273,6 +346,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     prepareTrade(req: PrepareTradeRequest): Promise<openApiClient.PrepareTradeResponse>;
     // (undocumented)
+    triggerDemoSessionSyncError(sessionId: string): Promise<openApiClient.OkResponseBody>;
+    // (undocumented)
     triggerSessionSync(sessionId: string): Promise<openApiClient.OkResponseBody>;
 }
 
@@ -320,6 +395,9 @@ function BrokerEnvironmentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 function BrokerEnvironmentToJSON(value?: BrokerEnvironment | null): any;
 
 // @public (undocumented)
+function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
     // (undocumented)
@@ -340,6 +418,8 @@ export class Brokerize {
 // @public (undocumented)
 export interface BrokerizeConfig {
     basePath?: string;
+    // (undocumented)
+    clientId: string;
     // (undocumented)
     createAbortController: () => AbortController;
     // (undocumented)
@@ -403,6 +483,9 @@ function BrokerLoginFormFieldFromJSONTyped(json: any, ignoreDiscriminator: boole
 function BrokerLoginFormFieldToJSON(value?: BrokerLoginFormField | null): any;
 
 // @public (undocumented)
+function BrokerLoginFormFieldToJSONRecursive(value?: BrokerLoginFormField | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 const BrokerLoginFormFieldTypeEnum: {
     readonly String: "string";
     readonly Password: "password";
@@ -420,6 +503,9 @@ function BrokerLoginFormFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
 // @public (undocumented)
 function BrokerLoginFormToJSON(value?: BrokerLoginForm | null): any;
 
+// @public (undocumented)
+function BrokerLoginFormToJSONRecursive(value?: BrokerLoginForm | null, ignoreParent?: boolean): any;
+
 // @public
 interface BrokerMeta {
     brokerName: BrokerName;
@@ -436,6 +522,9 @@ function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Broke
 
 // @public (undocumented)
 function BrokerMetaToJSON(value?: BrokerMeta | null): any;
+
+// @public (undocumented)
+function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 export const BrokerName: {
@@ -488,11 +577,13 @@ function CancelOrderChallengeParamsFromJSONTyped(json: any, ignoreDiscriminator:
 // @public (undocumented)
 function CancelOrderChallengeParamsToJSON(value?: CancelOrderChallengeParams | null): any;
 
+// @public (undocumented)
+function CancelOrderChallengeParamsToJSONRecursive(value?: CancelOrderChallengeParams | null, ignoreParent?: boolean): any;
+
 // @public
-interface CancelOrderChallengeResponse {
+interface CancelOrderChallengeResponse extends CancelOrderParams {
     challengeId: string;
     challengeResponse: string;
-    mode: CancelOrderChallengeResponseModeEnum;
 }
 
 // @public (undocumented)
@@ -501,23 +592,34 @@ function CancelOrderChallengeResponseFromJSON(json: any): CancelOrderChallengeRe
 // @public (undocumented)
 function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderChallengeResponse;
 
-// @public (undocumented)
-const CancelOrderChallengeResponseModeEnum: {
-    readonly ChallengeResponse: "challengeResponse";
-};
+// @public
+interface CancelOrderChallengeResponseSpecifics {
+    challengeId?: string;
+    challengeResponse?: string;
+}
 
 // @public (undocumented)
-type CancelOrderChallengeResponseModeEnum = typeof CancelOrderChallengeResponseModeEnum[keyof typeof CancelOrderChallengeResponseModeEnum];
+function CancelOrderChallengeResponseSpecificsFromJSON(json: any): CancelOrderChallengeResponseSpecifics;
+
+// @public (undocumented)
+function CancelOrderChallengeResponseSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderChallengeResponseSpecifics;
+
+// @public (undocumented)
+function CancelOrderChallengeResponseSpecificsToJSON(value?: CancelOrderChallengeResponseSpecifics | null): any;
+
+// @public (undocumented)
+function CancelOrderChallengeResponseSpecificsToJSONRecursive(value?: CancelOrderChallengeResponseSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse | null): any;
 
+// @public (undocumented)
+function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChallengeResponse | null, ignoreParent?: boolean): any;
+
 // @public
-type CancelOrderParams = {
-    mode: 'challengeResponse';
-} & CancelOrderChallengeResponse | {
-    mode: 'sessionTan';
-} & CreateModeSessionTan;
+interface CancelOrderParams {
+    mode: CancelOrderParamsMode;
+}
 
 // @public (undocumented)
 function CancelOrderParamsFromJSON(json: any): CancelOrderParams;
@@ -526,7 +628,28 @@ function CancelOrderParamsFromJSON(json: any): CancelOrderParams;
 function CancelOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderParams;
 
 // @public (undocumented)
+const CancelOrderParamsMode: {
+    readonly SessionTan: "sessionTan";
+    readonly ChallengeResponse: "challengeResponse";
+};
+
+// @public (undocumented)
+type CancelOrderParamsMode = typeof CancelOrderParamsMode[keyof typeof CancelOrderParamsMode];
+
+// @public (undocumented)
+function CancelOrderParamsModeFromJSON(json: any): CancelOrderParamsMode;
+
+// @public (undocumented)
+function CancelOrderParamsModeFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderParamsMode;
+
+// @public (undocumented)
+function CancelOrderParamsModeToJSON(value?: CancelOrderParamsMode | null): any;
+
+// @public (undocumented)
 function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any;
+
+// @public (undocumented)
+function CancelOrderParamsToJSONRecursive(value?: CancelOrderParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface CancelOrderRequest {
@@ -585,6 +708,9 @@ function ChallengeFromJSONTyped(json: any, ignoreDiscriminator: boolean): Challe
 function ChallengeToJSON(value?: Challenge | null): any;
 
 // @public (undocumented)
+function ChallengeToJSONRecursive(value?: Challenge | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 class ChangeOrderApi extends runtime.BaseAPI {
     changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
@@ -609,6 +735,9 @@ function ChangeOrderChallengeParamsFromJSONTyped(json: any, ignoreDiscriminator:
 // @public (undocumented)
 function ChangeOrderChallengeParamsToJSON(value?: ChangeOrderChallengeParams | null): any;
 
+// @public (undocumented)
+function ChangeOrderChallengeParamsToJSONRecursive(value?: ChangeOrderChallengeParams | null, ignoreParent?: boolean): any;
+
 // @public
 interface ChangeOrderParams {
     challengeId: string;
@@ -624,6 +753,9 @@ function ChangeOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 
 // @public (undocumented)
 function ChangeOrderParamsToJSON(value?: ChangeOrderParams | null): any;
+
+// @public (undocumented)
+function ChangeOrderParamsToJSONRecursive(value?: ChangeOrderParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface ChangeOrderRequest {
@@ -708,6 +840,9 @@ function ConfirmOAuthParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean
 function ConfirmOAuthParamsToJSON(value?: ConfirmOAuthParams | null): any;
 
 // @public (undocumented)
+function ConfirmOAuthParamsToJSONRecursive(value?: ConfirmOAuthParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface ConfirmOAuthRequest {
     // (undocumented)
     confirmOAuthParams: ConfirmOAuthParams;
@@ -726,6 +861,9 @@ function ConfirmOAuthResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
 
 // @public (undocumented)
 function ConfirmOAuthResponseToJSON(value?: ConfirmOAuthResponse | null): any;
+
+// @public (undocumented)
+function ConfirmOAuthResponseToJSONRecursive(value?: ConfirmOAuthResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface Consume {
@@ -748,6 +886,9 @@ function CostDetailsLinkFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
 
 // @public (undocumented)
 function CostDetailsLinkToJSON(value?: CostDetailsLink | null): any;
+
+// @public (undocumented)
+function CostDetailsLinkToJSONRecursive(value?: CostDetailsLink | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface CreateCancelOrderChallengeRequest {
@@ -779,6 +920,9 @@ function CreatedResponseBodyFromJSONTyped(json: any, ignoreDiscriminator: boolea
 // @public (undocumented)
 function CreatedResponseBodyToJSON(value?: CreatedResponseBody | null): any;
 
+// @public (undocumented)
+function CreatedResponseBodyToJSONRecursive(value?: CreatedResponseBody | null, ignoreParent?: boolean): any;
+
 // @public
 interface CreateGuestUserResponse {
     idToken: string;
@@ -793,9 +937,11 @@ function CreateGuestUserResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
 // @public (undocumented)
 function CreateGuestUserResponseToJSON(value?: CreateGuestUserResponse | null): any;
 
+// @public (undocumented)
+function CreateGuestUserResponseToJSONRecursive(value?: CreateGuestUserResponse | null, ignoreParent?: boolean): any;
+
 // @public
-interface CreateModeSessionTan {
-    mode: CreateModeSessionTanModeEnum;
+interface CreateModeSessionTan extends CancelOrderParams {
 }
 
 // @public (undocumented)
@@ -805,15 +951,10 @@ function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan;
 function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan;
 
 // @public (undocumented)
-const CreateModeSessionTanModeEnum: {
-    readonly SessionTan: "sessionTan";
-};
-
-// @public (undocumented)
-type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
-
-// @public (undocumented)
 function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any;
+
+// @public (undocumented)
+function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent?: boolean): any;
 
 // @public
 interface CreateOrderChallengeParams {
@@ -830,6 +971,9 @@ function CreateOrderChallengeParamsFromJSONTyped(json: any, ignoreDiscriminator:
 
 // @public (undocumented)
 function CreateOrderChallengeParamsToJSON(value?: CreateOrderChallengeParams | null): any;
+
+// @public (undocumented)
+function CreateOrderChallengeParamsToJSONRecursive(value?: CreateOrderChallengeParams | null, ignoreParent?: boolean): any;
 
 // @public
 interface CreateOrderParams {
@@ -848,6 +992,9 @@ function CreateOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 
 // @public (undocumented)
 function CreateOrderParamsToJSON(value?: CreateOrderParams | null): any;
+
+// @public (undocumented)
+function CreateOrderParamsToJSONRecursive(value?: CreateOrderParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface CreateSessionTanChallengeRequest {
@@ -872,6 +1019,9 @@ function CreateTanChallengeParamsFromJSONTyped(json: any, ignoreDiscriminator: b
 function CreateTanChallengeParamsToJSON(value?: CreateTanChallengeParams | null): any;
 
 // @public (undocumented)
+function CreateTanChallengeParamsToJSONRecursive(value?: CreateTanChallengeParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface CreateTradeChallengeRequest {
     // (undocumented)
     createOrderChallengeParams: CreateOrderChallengeParams;
@@ -885,7 +1035,7 @@ interface CreateTradeRequest {
 
 // @public
 interface CreateTradeResponse {
-    orderId: string;
+    orderId?: string;
 }
 
 // @public (undocumented)
@@ -896,6 +1046,9 @@ function CreateTradeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
 
 // @public (undocumented)
 function CreateTradeResponseToJSON(value?: CreateTradeResponse | null): any;
+
+// @public (undocumented)
+function CreateTradeResponseToJSONRecursive(value?: CreateTradeResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 const DecoupledOperationState: {
@@ -1005,6 +1158,9 @@ function DefaultOrderValidityByOrderModelFromJSONTyped(json: any, ignoreDiscrimi
 function DefaultOrderValidityByOrderModelToJSON(value?: DefaultOrderValidityByOrderModel | null): any;
 
 // @public (undocumented)
+function DefaultOrderValidityByOrderModelToJSONRecursive(value?: DefaultOrderValidityByOrderModel | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface DeleteDemoAccountRequest {
     // (undocumented)
     accountId: string;
@@ -1043,7 +1199,13 @@ function DemoAccountsResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
 function DemoAccountsResponseToJSON(value?: DemoAccountsResponse | null): any;
 
 // @public (undocumented)
+function DemoAccountsResponseToJSONRecursive(value?: DemoAccountsResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 function DemoAccountToJSON(value?: DemoAccount | null): any;
+
+// @public (undocumented)
+function DemoAccountToJSONRecursive(value?: DemoAccount | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 class DemobrokerApi extends runtime.BaseAPI {
@@ -1053,6 +1215,8 @@ class DemobrokerApi extends runtime.BaseAPI {
     deleteDemoAccountRaw(requestParameters: DeleteDemoAccountRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
     getDemoAccounts(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DemoAccountsResponse>;
     getDemoAccountsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DemoAccountsResponse>>;
+    triggerDemoSessionSyncError(requestParameters: TriggerDemoSessionSyncErrorRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
+    triggerDemoSessionSyncErrorRaw(requestParameters: TriggerDemoSessionSyncErrorRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
 }
 
 // @public (undocumented)
@@ -1074,17 +1238,14 @@ function DirectionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Direct
 function DirectionToJSON(value?: Direction | null): any;
 
 // @public
-type EnableSessionTanParams = {
-    kind: 'challengeResponse';
-} & EnableSessionTanParamsChallengeResponse | {
-    kind: 'decoupled';
-} & EnableSessionTanParamsDecoupled;
+interface EnableSessionTanParams {
+    kind: EnableSessionTanParamsKind;
+}
 
 // @public
-interface EnableSessionTanParamsChallengeResponse {
+interface EnableSessionTanParamsChallengeResponse extends EnableSessionTanParams {
     challengeId: string;
     challengeResponse: string;
-    kind: EnableSessionTanParamsChallengeResponseKindEnum;
 }
 
 // @public (undocumented)
@@ -1093,21 +1254,33 @@ function EnableSessionTanParamsChallengeResponseFromJSON(json: any): EnableSessi
 // @public (undocumented)
 function EnableSessionTanParamsChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsChallengeResponse;
 
-// @public (undocumented)
-const EnableSessionTanParamsChallengeResponseKindEnum: {
-    readonly ChallengeResponse: "challengeResponse";
-};
+// @public
+interface EnableSessionTanParamsChallengeResponseSpecifics {
+    challengeId?: string;
+    challengeResponse?: string;
+}
 
 // @public (undocumented)
-type EnableSessionTanParamsChallengeResponseKindEnum = typeof EnableSessionTanParamsChallengeResponseKindEnum[keyof typeof EnableSessionTanParamsChallengeResponseKindEnum];
+function EnableSessionTanParamsChallengeResponseSpecificsFromJSON(json: any): EnableSessionTanParamsChallengeResponseSpecifics;
+
+// @public (undocumented)
+function EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsChallengeResponseSpecifics;
+
+// @public (undocumented)
+function EnableSessionTanParamsChallengeResponseSpecificsToJSON(value?: EnableSessionTanParamsChallengeResponseSpecifics | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive(value?: EnableSessionTanParamsChallengeResponseSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function EnableSessionTanParamsChallengeResponseToJSON(value?: EnableSessionTanParamsChallengeResponse | null): any;
 
+// @public (undocumented)
+function EnableSessionTanParamsChallengeResponseToJSONRecursive(value?: EnableSessionTanParamsChallengeResponse | null, ignoreParent?: boolean): any;
+
 // @public
-interface EnableSessionTanParamsDecoupled {
+interface EnableSessionTanParamsDecoupled extends EnableSessionTanParams {
     authMethod: string;
-    kind: EnableSessionTanParamsDecoupledKindEnum;
 }
 
 // @public (undocumented)
@@ -1116,16 +1289,28 @@ function EnableSessionTanParamsDecoupledFromJSON(json: any): EnableSessionTanPar
 // @public (undocumented)
 function EnableSessionTanParamsDecoupledFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsDecoupled;
 
-// @public (undocumented)
-const EnableSessionTanParamsDecoupledKindEnum: {
-    readonly Decoupled: "decoupled";
-};
+// @public
+interface EnableSessionTanParamsDecoupledSpecifics {
+    authMethod?: string;
+}
 
 // @public (undocumented)
-type EnableSessionTanParamsDecoupledKindEnum = typeof EnableSessionTanParamsDecoupledKindEnum[keyof typeof EnableSessionTanParamsDecoupledKindEnum];
+function EnableSessionTanParamsDecoupledSpecificsFromJSON(json: any): EnableSessionTanParamsDecoupledSpecifics;
+
+// @public (undocumented)
+function EnableSessionTanParamsDecoupledSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsDecoupledSpecifics;
+
+// @public (undocumented)
+function EnableSessionTanParamsDecoupledSpecificsToJSON(value?: EnableSessionTanParamsDecoupledSpecifics | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsDecoupledSpecificsToJSONRecursive(value?: EnableSessionTanParamsDecoupledSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function EnableSessionTanParamsDecoupledToJSON(value?: EnableSessionTanParamsDecoupled | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsDecoupledToJSONRecursive(value?: EnableSessionTanParamsDecoupled | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function EnableSessionTanParamsFromJSON(json: any): EnableSessionTanParams;
@@ -1134,7 +1319,28 @@ function EnableSessionTanParamsFromJSON(json: any): EnableSessionTanParams;
 function EnableSessionTanParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParams;
 
 // @public (undocumented)
+const EnableSessionTanParamsKind: {
+    readonly ChallengeResponse: "challengeResponse";
+    readonly Decoupled: "decoupled";
+};
+
+// @public (undocumented)
+type EnableSessionTanParamsKind = typeof EnableSessionTanParamsKind[keyof typeof EnableSessionTanParamsKind];
+
+// @public (undocumented)
+function EnableSessionTanParamsKindFromJSON(json: any): EnableSessionTanParamsKind;
+
+// @public (undocumented)
+function EnableSessionTanParamsKindFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsKind;
+
+// @public (undocumented)
+function EnableSessionTanParamsKindToJSON(value?: EnableSessionTanParamsKind | null): any;
+
+// @public (undocumented)
 function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsToJSONRecursive(value?: EnableSessionTanParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface EnableSessionTanRequest {
@@ -1147,7 +1353,25 @@ interface EnableSessionTanRequest {
 // @public
 interface EnableSessionTanResponse {
     decoupledOperationId?: string;
+    msg: string;
 }
+
+// @public
+interface EnableSessionTanResponseAnyOf {
+    decoupledOperationId?: string;
+}
+
+// @public (undocumented)
+function EnableSessionTanResponseAnyOfFromJSON(json: any): EnableSessionTanResponseAnyOf;
+
+// @public (undocumented)
+function EnableSessionTanResponseAnyOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanResponseAnyOf;
+
+// @public (undocumented)
+function EnableSessionTanResponseAnyOfToJSON(value?: EnableSessionTanResponseAnyOf | null): any;
+
+// @public (undocumented)
+function EnableSessionTanResponseAnyOfToJSONRecursive(value?: EnableSessionTanResponseAnyOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function EnableSessionTanResponseFromJSON(json: any): EnableSessionTanResponse;
@@ -1157,6 +1381,9 @@ function EnableSessionTanResponseFromJSONTyped(json: any, ignoreDiscriminator: b
 
 // @public (undocumented)
 function EnableSessionTanResponseToJSON(value?: EnableSessionTanResponse | null): any;
+
+// @public (undocumented)
+function EnableSessionTanResponseToJSONRecursive(value?: EnableSessionTanResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface EndSessionTanRequest {
@@ -1178,6 +1405,9 @@ function EndSessionTanResponseFromJSONTyped(json: any, ignoreDiscriminator: bool
 // @public (undocumented)
 function EndSessionTanResponseToJSON(value?: EndSessionTanResponse | null): any;
 
+// @public (undocumented)
+function EndSessionTanResponseToJSONRecursive(value?: EndSessionTanResponse | null, ignoreParent?: boolean): any;
+
 // @public
 interface EstimateChangeOrderCostsParams {
     changes: OrderChanges;
@@ -1191,6 +1421,9 @@ function EstimateChangeOrderCostsParamsFromJSONTyped(json: any, ignoreDiscrimina
 
 // @public (undocumented)
 function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrderCostsParams | null): any;
+
+// @public (undocumented)
+function EstimateChangeOrderCostsParamsToJSONRecursive(value?: EstimateChangeOrderCostsParams | null, ignoreParent?: boolean): any;
 
 // @public
 interface Exchange {
@@ -1227,6 +1460,9 @@ function ExchangeMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Exc
 // @public (undocumented)
 function ExchangeMetaToJSON(value?: ExchangeMeta | null): any;
 
+// @public (undocumented)
+function ExchangeMetaToJSONRecursive(value?: ExchangeMeta | null, ignoreParent?: boolean): any;
+
 // @public
 interface ExchangesResponse {
     exchanges: Array<ExchangeMeta>;
@@ -1242,7 +1478,13 @@ function ExchangesResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 function ExchangesResponseToJSON(value?: ExchangesResponse | null): any;
 
 // @public (undocumented)
+function ExchangesResponseToJSONRecursive(value?: ExchangesResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 function ExchangeToJSON(value?: Exchange | null): any;
+
+// @public (undocumented)
+function ExchangeToJSONRecursive(value?: Exchange | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function exists(json: any, key: string): boolean;
@@ -1272,21 +1514,16 @@ function GenericTableFromJSON(json: any): GenericTable;
 function GenericTableFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTable;
 
 // @public
-type GenericTableRow = {
-    type: 'entry';
-} & GenericTableRowEntry | {
-    type: 'subheading';
-} & GenericTableRowSubheading | {
-    type: 'text';
-} & GenericTableRowText;
+interface GenericTableRow {
+    type: GenericTableRowType;
+}
 
 // @public
-interface GenericTableRowEntry {
+interface GenericTableRowEntry extends GenericTableRow {
     caption: string;
     id?: string;
     isImportant?: boolean;
-    type: GenericTableRowEntryTypeEnum;
-    value: GenericTableRowValue;
+    value?: GenericTableRowValue;
 }
 
 // @public (undocumented)
@@ -1295,16 +1532,31 @@ function GenericTableRowEntryFromJSON(json: any): GenericTableRowEntry;
 // @public (undocumented)
 function GenericTableRowEntryFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowEntry;
 
+// @public
+interface GenericTableRowEntrySpecifics {
+    caption?: string;
+    id?: string;
+    isImportant?: boolean;
+    value?: GenericTableRowValue;
+}
+
+// @public (undocumented)
+function GenericTableRowEntrySpecificsFromJSON(json: any): GenericTableRowEntrySpecifics;
+
+// @public (undocumented)
+function GenericTableRowEntrySpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowEntrySpecifics;
+
+// @public (undocumented)
+function GenericTableRowEntrySpecificsToJSON(value?: GenericTableRowEntrySpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowEntrySpecificsToJSONRecursive(value?: GenericTableRowEntrySpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function GenericTableRowEntryToJSON(value?: GenericTableRowEntry | null): any;
 
 // @public (undocumented)
-const GenericTableRowEntryTypeEnum: {
-    readonly Entry: "entry";
-};
-
-// @public (undocumented)
-type GenericTableRowEntryTypeEnum = typeof GenericTableRowEntryTypeEnum[keyof typeof GenericTableRowEntryTypeEnum];
+function GenericTableRowEntryToJSONRecursive(value?: GenericTableRowEntry | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function GenericTableRowFromJSON(json: any): GenericTableRow;
@@ -1313,9 +1565,8 @@ function GenericTableRowFromJSON(json: any): GenericTableRow;
 function GenericTableRowFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRow;
 
 // @public
-interface GenericTableRowSubheading {
+interface GenericTableRowSubheading extends GenericTableRow {
     subheading: string;
-    type: GenericTableRowSubheadingTypeEnum;
 }
 
 // @public (undocumented)
@@ -1324,21 +1575,32 @@ function GenericTableRowSubheadingFromJSON(json: any): GenericTableRowSubheading
 // @public (undocumented)
 function GenericTableRowSubheadingFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowSubheading;
 
+// @public
+interface GenericTableRowSubheadingSpecifics {
+    subheading?: string;
+}
+
+// @public (undocumented)
+function GenericTableRowSubheadingSpecificsFromJSON(json: any): GenericTableRowSubheadingSpecifics;
+
+// @public (undocumented)
+function GenericTableRowSubheadingSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowSubheadingSpecifics;
+
+// @public (undocumented)
+function GenericTableRowSubheadingSpecificsToJSON(value?: GenericTableRowSubheadingSpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowSubheadingSpecificsToJSONRecursive(value?: GenericTableRowSubheadingSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function GenericTableRowSubheadingToJSON(value?: GenericTableRowSubheading | null): any;
 
 // @public (undocumented)
-const GenericTableRowSubheadingTypeEnum: {
-    readonly Subheading: "subheading";
-};
-
-// @public (undocumented)
-type GenericTableRowSubheadingTypeEnum = typeof GenericTableRowSubheadingTypeEnum[keyof typeof GenericTableRowSubheadingTypeEnum];
+function GenericTableRowSubheadingToJSONRecursive(value?: GenericTableRowSubheading | null, ignoreParent?: boolean): any;
 
 // @public
-interface GenericTableRowText {
+interface GenericTableRowText extends GenericTableRow {
     text: string;
-    type: GenericTableRowTextTypeEnum;
 }
 
 // @public (undocumented)
@@ -1347,34 +1609,61 @@ function GenericTableRowTextFromJSON(json: any): GenericTableRowText;
 // @public (undocumented)
 function GenericTableRowTextFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowText;
 
+// @public
+interface GenericTableRowTextSpecifics {
+    text?: string;
+}
+
+// @public (undocumented)
+function GenericTableRowTextSpecificsFromJSON(json: any): GenericTableRowTextSpecifics;
+
+// @public (undocumented)
+function GenericTableRowTextSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowTextSpecifics;
+
+// @public (undocumented)
+function GenericTableRowTextSpecificsToJSON(value?: GenericTableRowTextSpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowTextSpecificsToJSONRecursive(value?: GenericTableRowTextSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function GenericTableRowTextToJSON(value?: GenericTableRowText | null): any;
 
 // @public (undocumented)
-const GenericTableRowTextTypeEnum: {
-    readonly Text: "text";
-};
-
-// @public (undocumented)
-type GenericTableRowTextTypeEnum = typeof GenericTableRowTextTypeEnum[keyof typeof GenericTableRowTextTypeEnum];
+function GenericTableRowTextToJSONRecursive(value?: GenericTableRowText | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function GenericTableRowToJSON(value?: GenericTableRow | null): any;
 
-// @public
-type GenericTableRowValue = {
-    type: 'amount';
-} & GenericTableRowValueAmount | {
-    type: 'datetime';
-} & GenericTableRowValueDatetime | {
-    type: 'link';
-} & GenericTableRowValueLink | {
-    type: 'text';
-} & GenericTableRowValueText;
+// @public (undocumented)
+function GenericTableRowToJSONRecursive(value?: GenericTableRow | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowType: {
+    readonly Subheading: "subheading";
+    readonly Text: "text";
+    readonly Entry: "entry";
+};
+
+// @public (undocumented)
+type GenericTableRowType = typeof GenericTableRowType[keyof typeof GenericTableRowType];
+
+// @public (undocumented)
+function GenericTableRowTypeFromJSON(json: any): GenericTableRowType;
+
+// @public (undocumented)
+function GenericTableRowTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowType;
+
+// @public (undocumented)
+function GenericTableRowTypeToJSON(value?: GenericTableRowType | null): any;
 
 // @public
-interface GenericTableRowValueAmount {
-    type: GenericTableRowValueAmountTypeEnum;
+interface GenericTableRowValue {
+    type: GenericTableRowValueType;
+}
+
+// @public
+interface GenericTableRowValueAmount extends GenericTableRowValue {
     value: Amount;
 }
 
@@ -1384,20 +1673,31 @@ function GenericTableRowValueAmountFromJSON(json: any): GenericTableRowValueAmou
 // @public (undocumented)
 function GenericTableRowValueAmountFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueAmount;
 
+// @public
+interface GenericTableRowValueAmountSpecifics {
+    value?: Amount;
+}
+
+// @public (undocumented)
+function GenericTableRowValueAmountSpecificsFromJSON(json: any): GenericTableRowValueAmountSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueAmountSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueAmountSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueAmountSpecificsToJSON(value?: GenericTableRowValueAmountSpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueAmountSpecificsToJSONRecursive(value?: GenericTableRowValueAmountSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function GenericTableRowValueAmountToJSON(value?: GenericTableRowValueAmount | null): any;
 
 // @public (undocumented)
-const GenericTableRowValueAmountTypeEnum: {
-    readonly Amount: "amount";
-};
-
-// @public (undocumented)
-type GenericTableRowValueAmountTypeEnum = typeof GenericTableRowValueAmountTypeEnum[keyof typeof GenericTableRowValueAmountTypeEnum];
+function GenericTableRowValueAmountToJSONRecursive(value?: GenericTableRowValueAmount | null, ignoreParent?: boolean): any;
 
 // @public
-interface GenericTableRowValueDatetime {
-    type: GenericTableRowValueDatetimeTypeEnum;
+interface GenericTableRowValueDatetime extends GenericTableRowValue {
     value: number;
 }
 
@@ -1407,16 +1707,28 @@ function GenericTableRowValueDatetimeFromJSON(json: any): GenericTableRowValueDa
 // @public (undocumented)
 function GenericTableRowValueDatetimeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueDatetime;
 
+// @public
+interface GenericTableRowValueDatetimeSpecifics {
+    value?: number;
+}
+
+// @public (undocumented)
+function GenericTableRowValueDatetimeSpecificsFromJSON(json: any): GenericTableRowValueDatetimeSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueDatetimeSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueDatetimeSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueDatetimeSpecificsToJSON(value?: GenericTableRowValueDatetimeSpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueDatetimeSpecificsToJSONRecursive(value?: GenericTableRowValueDatetimeSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function GenericTableRowValueDatetimeToJSON(value?: GenericTableRowValueDatetime | null): any;
 
 // @public (undocumented)
-const GenericTableRowValueDatetimeTypeEnum: {
-    readonly Datetime: "datetime";
-};
-
-// @public (undocumented)
-type GenericTableRowValueDatetimeTypeEnum = typeof GenericTableRowValueDatetimeTypeEnum[keyof typeof GenericTableRowValueDatetimeTypeEnum];
+function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTableRowValueDatetime | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function GenericTableRowValueFromJSON(json: any): GenericTableRowValue;
@@ -1425,8 +1737,7 @@ function GenericTableRowValueFromJSON(json: any): GenericTableRowValue;
 function GenericTableRowValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValue;
 
 // @public
-interface GenericTableRowValueLink {
-    type: GenericTableRowValueLinkTypeEnum;
+interface GenericTableRowValueLink extends GenericTableRowValue {
     value: GenericTableRowValueLinkValue;
 }
 
@@ -1437,10 +1748,9 @@ function GenericTableRowValueLinkFromJSON(json: any): GenericTableRowValueLink;
 function GenericTableRowValueLinkFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLink;
 
 // @public
-interface GenericTableRowValueLinkPortfolio {
+interface GenericTableRowValueLinkPortfolio extends GenericTableRowValueLinkValue {
     portfolioId: string;
     text: string;
-    type: GenericTableRowValueLinkPortfolioTypeEnum;
 }
 
 // @public (undocumented)
@@ -1449,32 +1759,56 @@ function GenericTableRowValueLinkPortfolioFromJSON(json: any): GenericTableRowVa
 // @public (undocumented)
 function GenericTableRowValueLinkPortfolioFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkPortfolio;
 
+// @public
+interface GenericTableRowValueLinkPortfolioSpecifics {
+    portfolioId?: string;
+    text?: string;
+}
+
+// @public (undocumented)
+function GenericTableRowValueLinkPortfolioSpecificsFromJSON(json: any): GenericTableRowValueLinkPortfolioSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueLinkPortfolioSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkPortfolioSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueLinkPortfolioSpecificsToJSON(value?: GenericTableRowValueLinkPortfolioSpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueLinkPortfolioSpecificsToJSONRecursive(value?: GenericTableRowValueLinkPortfolioSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function GenericTableRowValueLinkPortfolioToJSON(value?: GenericTableRowValueLinkPortfolio | null): any;
 
 // @public (undocumented)
-const GenericTableRowValueLinkPortfolioTypeEnum: {
-    readonly Portfolio: "portfolio";
-};
+function GenericTableRowValueLinkPortfolioToJSONRecursive(value?: GenericTableRowValueLinkPortfolio | null, ignoreParent?: boolean): any;
+
+// @public
+interface GenericTableRowValueLinkSpecifics {
+    value?: GenericTableRowValueLinkValue;
+}
 
 // @public (undocumented)
-type GenericTableRowValueLinkPortfolioTypeEnum = typeof GenericTableRowValueLinkPortfolioTypeEnum[keyof typeof GenericTableRowValueLinkPortfolioTypeEnum];
+function GenericTableRowValueLinkSpecificsFromJSON(json: any): GenericTableRowValueLinkSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueLinkSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueLinkSpecificsToJSON(value?: GenericTableRowValueLinkSpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueLinkSpecificsToJSONRecursive(value?: GenericTableRowValueLinkSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function GenericTableRowValueLinkToJSON(value?: GenericTableRowValueLink | null): any;
 
 // @public (undocumented)
-const GenericTableRowValueLinkTypeEnum: {
-    readonly Link: "link";
-};
-
-// @public (undocumented)
-type GenericTableRowValueLinkTypeEnum = typeof GenericTableRowValueLinkTypeEnum[keyof typeof GenericTableRowValueLinkTypeEnum];
+function GenericTableRowValueLinkToJSONRecursive(value?: GenericTableRowValueLink | null, ignoreParent?: boolean): any;
 
 // @public
-interface GenericTableRowValueLinkUrl {
+interface GenericTableRowValueLinkUrl extends GenericTableRowValueLinkValue {
     text: string;
-    type: GenericTableRowValueLinkUrlTypeEnum;
     url: string;
 }
 
@@ -1484,23 +1818,34 @@ function GenericTableRowValueLinkUrlFromJSON(json: any): GenericTableRowValueLin
 // @public (undocumented)
 function GenericTableRowValueLinkUrlFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkUrl;
 
+// @public
+interface GenericTableRowValueLinkUrlSpecifics {
+    text?: string;
+    url?: string;
+}
+
+// @public (undocumented)
+function GenericTableRowValueLinkUrlSpecificsFromJSON(json: any): GenericTableRowValueLinkUrlSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueLinkUrlSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkUrlSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueLinkUrlSpecificsToJSON(value?: GenericTableRowValueLinkUrlSpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueLinkUrlSpecificsToJSONRecursive(value?: GenericTableRowValueLinkUrlSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function GenericTableRowValueLinkUrlToJSON(value?: GenericTableRowValueLinkUrl | null): any;
 
 // @public (undocumented)
-const GenericTableRowValueLinkUrlTypeEnum: {
-    readonly Url: "url";
-};
-
-// @public (undocumented)
-type GenericTableRowValueLinkUrlTypeEnum = typeof GenericTableRowValueLinkUrlTypeEnum[keyof typeof GenericTableRowValueLinkUrlTypeEnum];
+function GenericTableRowValueLinkUrlToJSONRecursive(value?: GenericTableRowValueLinkUrl | null, ignoreParent?: boolean): any;
 
 // @public
-type GenericTableRowValueLinkValue = {
-    type: 'portfolio';
-} & GenericTableRowValueLinkPortfolio | {
-    type: 'url';
-} & GenericTableRowValueLinkUrl;
+interface GenericTableRowValueLinkValue {
+    type: GenericTableRowValueLinkValueType;
+}
 
 // @public (undocumented)
 function GenericTableRowValueLinkValueFromJSON(json: any): GenericTableRowValueLinkValue;
@@ -1511,9 +1856,29 @@ function GenericTableRowValueLinkValueFromJSONTyped(json: any, ignoreDiscriminat
 // @public (undocumented)
 function GenericTableRowValueLinkValueToJSON(value?: GenericTableRowValueLinkValue | null): any;
 
+// @public (undocumented)
+function GenericTableRowValueLinkValueToJSONRecursive(value?: GenericTableRowValueLinkValue | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueLinkValueType: {
+    readonly Portfolio: "portfolio";
+    readonly Url: "url";
+};
+
+// @public (undocumented)
+type GenericTableRowValueLinkValueType = typeof GenericTableRowValueLinkValueType[keyof typeof GenericTableRowValueLinkValueType];
+
+// @public (undocumented)
+function GenericTableRowValueLinkValueTypeFromJSON(json: any): GenericTableRowValueLinkValueType;
+
+// @public (undocumented)
+function GenericTableRowValueLinkValueTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkValueType;
+
+// @public (undocumented)
+function GenericTableRowValueLinkValueTypeToJSON(value?: GenericTableRowValueLinkValueType | null): any;
+
 // @public
-interface GenericTableRowValueText {
-    type: GenericTableRowValueTextTypeEnum;
+interface GenericTableRowValueText extends GenericTableRowValue {
     value: string;
 }
 
@@ -1523,22 +1888,60 @@ function GenericTableRowValueTextFromJSON(json: any): GenericTableRowValueText;
 // @public (undocumented)
 function GenericTableRowValueTextFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueText;
 
+// @public
+interface GenericTableRowValueTextSpecifics {
+    value?: string;
+}
+
+// @public (undocumented)
+function GenericTableRowValueTextSpecificsFromJSON(json: any): GenericTableRowValueTextSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueTextSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueTextSpecifics;
+
+// @public (undocumented)
+function GenericTableRowValueTextSpecificsToJSON(value?: GenericTableRowValueTextSpecifics | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueTextSpecificsToJSONRecursive(value?: GenericTableRowValueTextSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function GenericTableRowValueTextToJSON(value?: GenericTableRowValueText | null): any;
 
 // @public (undocumented)
-const GenericTableRowValueTextTypeEnum: {
-    readonly Text: "text";
-};
-
-// @public (undocumented)
-type GenericTableRowValueTextTypeEnum = typeof GenericTableRowValueTextTypeEnum[keyof typeof GenericTableRowValueTextTypeEnum];
+function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowValueText | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any;
 
 // @public (undocumented)
+function GenericTableRowValueToJSONRecursive(value?: GenericTableRowValue | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueType: {
+    readonly Text: "text";
+    readonly Amount: "amount";
+    readonly Datetime: "datetime";
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type GenericTableRowValueType = typeof GenericTableRowValueType[keyof typeof GenericTableRowValueType];
+
+// @public (undocumented)
+function GenericTableRowValueTypeFromJSON(json: any): GenericTableRowValueType;
+
+// @public (undocumented)
+function GenericTableRowValueTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueType;
+
+// @public (undocumented)
+function GenericTableRowValueTypeToJSON(value?: GenericTableRowValueType | null): any;
+
+// @public (undocumented)
 function GenericTableToJSON(value?: GenericTable | null): any;
+
+// @public (undocumented)
+function GenericTableToJSONRecursive(value?: GenericTable | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface GetAuthInfoRequest {
@@ -1560,6 +1963,9 @@ function GetAuthInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
 // @public (undocumented)
 function GetAuthInfoResponseToJSON(value?: GetAuthInfoResponse | null): any;
 
+// @public (undocumented)
+function GetAuthInfoResponseToJSONRecursive(value?: GetAuthInfoResponse | null, ignoreParent?: boolean): any;
+
 // @public
 interface GetBrokersResponse {
     brokers: Array<BrokerMeta>;
@@ -1573,6 +1979,9 @@ function GetBrokersResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean
 
 // @public (undocumented)
 function GetBrokersResponseToJSON(value?: GetBrokersResponse | null): any;
+
+// @public (undocumented)
+function GetBrokersResponseToJSONRecursive(value?: GetBrokersResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface GetChangeOrderCostEstimationRequest {
@@ -1595,6 +2004,9 @@ function GetCostEstimationParamsFromJSONTyped(json: any, ignoreDiscriminator: bo
 
 // @public (undocumented)
 function GetCostEstimationParamsToJSON(value?: GetCostEstimationParams | null): any;
+
+// @public (undocumented)
+function GetCostEstimationParamsToJSONRecursive(value?: GetCostEstimationParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface GetCostEstimationRequest {
@@ -1631,6 +2043,9 @@ function GetOrderResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 function GetOrderResponseToJSON(value?: GetOrderResponse | null): any;
 
 // @public (undocumented)
+function GetOrderResponseToJSONRecursive(value?: GetOrderResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface GetPortfolioOrdersRequest {
     // (undocumented)
     isin?: string;
@@ -1662,6 +2077,9 @@ function GetPortfolioOrdersResponseFromJSONTyped(json: any, ignoreDiscriminator:
 function GetPortfolioOrdersResponseToJSON(value?: GetPortfolioOrdersResponse | null): any;
 
 // @public (undocumented)
+function GetPortfolioOrdersResponseToJSONRecursive(value?: GetPortfolioOrdersResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface GetPortfolioPositionsRequest {
     // (undocumented)
     portfolioId: string;
@@ -1682,6 +2100,9 @@ function GetPortfolioPositionsResponseFromJSONTyped(json: any, ignoreDiscriminat
 function GetPortfolioPositionsResponseToJSON(value?: GetPortfolioPositionsResponse | null): any;
 
 // @public (undocumented)
+function GetPortfolioPositionsResponseToJSONRecursive(value?: GetPortfolioPositionsResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface GetPortfolioQuotesRequest {
     // (undocumented)
     portfolioId: string;
@@ -1689,7 +2110,7 @@ interface GetPortfolioQuotesRequest {
 
 // @public
 interface GetPortfolioQuotesResponse {
-    quotes: PortfolioQuotes;
+    quotes?: PortfolioQuotes;
 }
 
 // @public (undocumented)
@@ -1700,6 +2121,9 @@ function GetPortfolioQuotesResponseFromJSONTyped(json: any, ignoreDiscriminator:
 
 // @public (undocumented)
 function GetPortfolioQuotesResponseToJSON(value?: GetPortfolioQuotesResponse | null): any;
+
+// @public (undocumented)
+function GetPortfolioQuotesResponseToJSONRecursive(value?: GetPortfolioQuotesResponse | null, ignoreParent?: boolean): any;
 
 // @public
 interface GetQuoteParams {
@@ -1719,6 +2143,9 @@ function GetQuoteParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): G
 function GetQuoteParamsToJSON(value?: GetQuoteParams | null): any;
 
 // @public (undocumented)
+function GetQuoteParamsToJSONRecursive(value?: GetQuoteParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface GetQuoteRequest {
     // (undocumented)
     getQuoteParams: GetQuoteParams;
@@ -1731,11 +2158,11 @@ interface GetQuoteResponse {
     costEstimation?: OrderCostEstimation;
     costEstimationToken?: string;
     direction: Direction;
-    expiration: QuoteExpiration;
+    expiration?: QuoteExpiration;
     isin: string;
     quotation: Amount;
     quoteId: string;
-    size: number;
+    size?: number;
     sourceName?: string;
 }
 
@@ -1747,6 +2174,9 @@ function GetQuoteResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 
 // @public (undocumented)
 function GetQuoteResponseToJSON(value?: GetQuoteResponse | null): any;
+
+// @public (undocumented)
+function GetQuoteResponseToJSONRecursive(value?: GetQuoteResponse | null, ignoreParent?: boolean): any;
 
 // @public
 interface GetUserResponse {
@@ -1762,6 +2192,9 @@ function GetUserResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
 // @public (undocumented)
 function GetUserResponseToJSON(value?: GetUserResponse | null): any;
 
+// @public (undocumented)
+function GetUserResponseToJSONRecursive(value?: GetUserResponse | null, ignoreParent?: boolean): any;
+
 // @public
 interface Hint {
     id: string;
@@ -1776,6 +2209,9 @@ function HintFromJSONTyped(json: any, ignoreDiscriminator: boolean): Hint;
 
 // @public (undocumented)
 function HintToJSON(value?: Hint | null): any;
+
+// @public (undocumented)
+function HintToJSONRecursive(value?: Hint | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 type HTTPBody = Json | FormData | URLSearchParams;
@@ -1820,16 +2256,13 @@ class JSONApiResponse<T> {
 }
 
 // @public
-type LoginResponse = {
-    state: 'challenge';
-} & LoginResponseChallenge | {
-    state: 'ready';
-} & LoginResponseReady;
+interface LoginResponse {
+    state: LoginResponseState;
+}
 
 // @public
-interface LoginResponseChallenge {
+interface LoginResponseChallenge extends LoginResponse {
     challenge: Challenge;
-    state: LoginResponseChallengeStateEnum;
 }
 
 // @public (undocumented)
@@ -1838,16 +2271,28 @@ function LoginResponseChallengeFromJSON(json: any): LoginResponseChallenge;
 // @public (undocumented)
 function LoginResponseChallengeFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseChallenge;
 
-// @public (undocumented)
-const LoginResponseChallengeStateEnum: {
-    readonly Challenge: "challenge";
-};
+// @public
+interface LoginResponseChallengeSpecifics {
+    challenge?: Challenge;
+}
 
 // @public (undocumented)
-type LoginResponseChallengeStateEnum = typeof LoginResponseChallengeStateEnum[keyof typeof LoginResponseChallengeStateEnum];
+function LoginResponseChallengeSpecificsFromJSON(json: any): LoginResponseChallengeSpecifics;
+
+// @public (undocumented)
+function LoginResponseChallengeSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseChallengeSpecifics;
+
+// @public (undocumented)
+function LoginResponseChallengeSpecificsToJSON(value?: LoginResponseChallengeSpecifics | null): any;
+
+// @public (undocumented)
+function LoginResponseChallengeSpecificsToJSONRecursive(value?: LoginResponseChallengeSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function LoginResponseChallengeToJSON(value?: LoginResponseChallenge | null): any;
+
+// @public (undocumented)
+function LoginResponseChallengeToJSONRecursive(value?: LoginResponseChallenge | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function LoginResponseFromJSON(json: any): LoginResponse;
@@ -1856,9 +2301,8 @@ function LoginResponseFromJSON(json: any): LoginResponse;
 function LoginResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponse;
 
 // @public
-interface LoginResponseReady {
+interface LoginResponseReady extends LoginResponse {
     sessionId: string;
-    state: LoginResponseReadyStateEnum;
 }
 
 // @public (undocumented)
@@ -1867,19 +2311,52 @@ function LoginResponseReadyFromJSON(json: any): LoginResponseReady;
 // @public (undocumented)
 function LoginResponseReadyFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseReady;
 
-// @public (undocumented)
-const LoginResponseReadyStateEnum: {
-    readonly Ready: "ready";
-};
+// @public
+interface LoginResponseReadySpecifics {
+    sessionId?: string;
+}
 
 // @public (undocumented)
-type LoginResponseReadyStateEnum = typeof LoginResponseReadyStateEnum[keyof typeof LoginResponseReadyStateEnum];
+function LoginResponseReadySpecificsFromJSON(json: any): LoginResponseReadySpecifics;
+
+// @public (undocumented)
+function LoginResponseReadySpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseReadySpecifics;
+
+// @public (undocumented)
+function LoginResponseReadySpecificsToJSON(value?: LoginResponseReadySpecifics | null): any;
+
+// @public (undocumented)
+function LoginResponseReadySpecificsToJSONRecursive(value?: LoginResponseReadySpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function LoginResponseReadyToJSON(value?: LoginResponseReady | null): any;
 
 // @public (undocumented)
+function LoginResponseReadyToJSONRecursive(value?: LoginResponseReady | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const LoginResponseState: {
+    readonly Ready: "ready";
+    readonly Challenge: "challenge";
+};
+
+// @public (undocumented)
+type LoginResponseState = typeof LoginResponseState[keyof typeof LoginResponseState];
+
+// @public (undocumented)
+function LoginResponseStateFromJSON(json: any): LoginResponseState;
+
+// @public (undocumented)
+function LoginResponseStateFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseState;
+
+// @public (undocumented)
+function LoginResponseStateToJSON(value?: LoginResponseState | null): any;
+
+// @public (undocumented)
 function LoginResponseToJSON(value?: LoginResponse | null): any;
+
+// @public (undocumented)
+function LoginResponseToJSONRecursive(value?: LoginResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface LogoutSessionRequest {
@@ -1913,54 +2390,82 @@ declare namespace Models {
     export {
         AddSessionCompleteChallengeParamsFromJSON,
         AddSessionCompleteChallengeParamsFromJSONTyped,
+        AddSessionCompleteChallengeParamsToJSONRecursive,
         AddSessionCompleteChallengeParamsToJSON,
         AddSessionCompleteChallengeParams,
         AddSessionParamsFromJSON,
         AddSessionParamsFromJSONTyped,
+        AddSessionParamsToJSONRecursive,
         AddSessionParamsToJSON,
         AddSessionParams,
         AmountFromJSON,
         AmountFromJSONTyped,
+        AmountToJSONRecursive,
         AmountToJSON,
         Amount,
         AuthInfoFromJSON,
         AuthInfoFromJSONTyped,
+        AuthInfoToJSONRecursive,
         AuthInfoToJSON,
         AuthInfo,
         AuthMethodFromJSON,
         AuthMethodFromJSONTyped,
+        AuthMethodToJSONRecursive,
         AuthMethodToJSON,
         AuthMethod,
         AuthMethodChallengeResponseFromJSON,
         AuthMethodChallengeResponseFromJSONTyped,
+        AuthMethodChallengeResponseToJSONRecursive,
         AuthMethodChallengeResponseToJSON,
         AuthMethodChallengeResponse,
-        AuthMethodChallengeResponseFlowEnum,
+        AuthMethodChallengeResponseSpecificsFromJSON,
+        AuthMethodChallengeResponseSpecificsFromJSONTyped,
+        AuthMethodChallengeResponseSpecificsToJSONRecursive,
+        AuthMethodChallengeResponseSpecificsToJSON,
+        AuthMethodChallengeResponseSpecifics,
         AuthMethodDecoupledFromJSON,
         AuthMethodDecoupledFromJSONTyped,
+        AuthMethodDecoupledToJSONRecursive,
         AuthMethodDecoupledToJSON,
         AuthMethodDecoupled,
-        AuthMethodDecoupledFlowEnum,
+        AuthMethodDecoupledSpecificsFromJSON,
+        AuthMethodDecoupledSpecificsFromJSONTyped,
+        AuthMethodDecoupledSpecificsToJSONRecursive,
+        AuthMethodDecoupledSpecificsToJSON,
+        AuthMethodDecoupledSpecifics,
+        AuthMethodFlowFromJSON,
+        AuthMethodFlowFromJSONTyped,
+        AuthMethodFlowToJSON,
+        AuthMethodFlow,
         AuthMethodTanFromJSON,
         AuthMethodTanFromJSONTyped,
+        AuthMethodTanToJSONRecursive,
         AuthMethodTanToJSON,
         AuthMethodTan,
-        AuthMethodTanFlowEnum,
+        AuthMethodTanSpecificsFromJSON,
+        AuthMethodTanSpecificsFromJSONTyped,
+        AuthMethodTanSpecificsToJSONRecursive,
+        AuthMethodTanSpecificsToJSON,
+        AuthMethodTanSpecifics,
         BrokerEnvironmentFromJSON,
         BrokerEnvironmentFromJSONTyped,
+        BrokerEnvironmentToJSONRecursive,
         BrokerEnvironmentToJSON,
         BrokerEnvironment,
         BrokerLoginFormFromJSON,
         BrokerLoginFormFromJSONTyped,
+        BrokerLoginFormToJSONRecursive,
         BrokerLoginFormToJSON,
         BrokerLoginForm,
         BrokerLoginFormFieldFromJSON,
         BrokerLoginFormFieldFromJSONTyped,
+        BrokerLoginFormFieldToJSONRecursive,
         BrokerLoginFormFieldToJSON,
         BrokerLoginFormField,
         BrokerLoginFormFieldTypeEnum,
         BrokerMetaFromJSON,
         BrokerMetaFromJSONTyped,
+        BrokerMetaToJSONRecursive,
         BrokerMetaToJSON,
         BrokerMeta,
         BrokerNameFromJSON,
@@ -1969,73 +2474,96 @@ declare namespace Models {
         BrokerName,
         CancelOrderChallengeParamsFromJSON,
         CancelOrderChallengeParamsFromJSONTyped,
+        CancelOrderChallengeParamsToJSONRecursive,
         CancelOrderChallengeParamsToJSON,
         CancelOrderChallengeParams,
         CancelOrderChallengeResponseFromJSON,
         CancelOrderChallengeResponseFromJSONTyped,
+        CancelOrderChallengeResponseToJSONRecursive,
         CancelOrderChallengeResponseToJSON,
         CancelOrderChallengeResponse,
-        CancelOrderChallengeResponseModeEnum,
+        CancelOrderChallengeResponseSpecificsFromJSON,
+        CancelOrderChallengeResponseSpecificsFromJSONTyped,
+        CancelOrderChallengeResponseSpecificsToJSONRecursive,
+        CancelOrderChallengeResponseSpecificsToJSON,
+        CancelOrderChallengeResponseSpecifics,
         CancelOrderParamsFromJSON,
         CancelOrderParamsFromJSONTyped,
+        CancelOrderParamsToJSONRecursive,
         CancelOrderParamsToJSON,
         CancelOrderParams,
+        CancelOrderParamsModeFromJSON,
+        CancelOrderParamsModeFromJSONTyped,
+        CancelOrderParamsModeToJSON,
+        CancelOrderParamsMode,
         CashQuotationFromJSON,
         CashQuotationFromJSONTyped,
         CashQuotationToJSON,
         CashQuotation,
         ChallengeFromJSON,
         ChallengeFromJSONTyped,
+        ChallengeToJSONRecursive,
         ChallengeToJSON,
         Challenge,
         ChallengeChallengePromptTypeEnum,
         ChangeOrderChallengeParamsFromJSON,
         ChangeOrderChallengeParamsFromJSONTyped,
+        ChangeOrderChallengeParamsToJSONRecursive,
         ChangeOrderChallengeParamsToJSON,
         ChangeOrderChallengeParams,
         ChangeOrderParamsFromJSON,
         ChangeOrderParamsFromJSONTyped,
+        ChangeOrderParamsToJSONRecursive,
         ChangeOrderParamsToJSON,
         ChangeOrderParams,
         ConfirmOAuthParamsFromJSON,
         ConfirmOAuthParamsFromJSONTyped,
+        ConfirmOAuthParamsToJSONRecursive,
         ConfirmOAuthParamsToJSON,
         ConfirmOAuthParams,
         ConfirmOAuthResponseFromJSON,
         ConfirmOAuthResponseFromJSONTyped,
+        ConfirmOAuthResponseToJSONRecursive,
         ConfirmOAuthResponseToJSON,
         ConfirmOAuthResponse,
         CostDetailsLinkFromJSON,
         CostDetailsLinkFromJSONTyped,
+        CostDetailsLinkToJSONRecursive,
         CostDetailsLinkToJSON,
         CostDetailsLink,
         CreateGuestUserResponseFromJSON,
         CreateGuestUserResponseFromJSONTyped,
+        CreateGuestUserResponseToJSONRecursive,
         CreateGuestUserResponseToJSON,
         CreateGuestUserResponse,
         CreateModeSessionTanFromJSON,
         CreateModeSessionTanFromJSONTyped,
+        CreateModeSessionTanToJSONRecursive,
         CreateModeSessionTanToJSON,
         CreateModeSessionTan,
-        CreateModeSessionTanModeEnum,
         CreateOrderChallengeParamsFromJSON,
         CreateOrderChallengeParamsFromJSONTyped,
+        CreateOrderChallengeParamsToJSONRecursive,
         CreateOrderChallengeParamsToJSON,
         CreateOrderChallengeParams,
         CreateOrderParamsFromJSON,
         CreateOrderParamsFromJSONTyped,
+        CreateOrderParamsToJSONRecursive,
         CreateOrderParamsToJSON,
         CreateOrderParams,
         CreateTanChallengeParamsFromJSON,
         CreateTanChallengeParamsFromJSONTyped,
+        CreateTanChallengeParamsToJSONRecursive,
         CreateTanChallengeParamsToJSON,
         CreateTanChallengeParams,
         CreateTradeResponseFromJSON,
         CreateTradeResponseFromJSONTyped,
+        CreateTradeResponseToJSONRecursive,
         CreateTradeResponseToJSON,
         CreateTradeResponse,
         CreatedResponseBodyFromJSON,
         CreatedResponseBodyFromJSONTyped,
+        CreatedResponseBodyToJSONRecursive,
         CreatedResponseBodyToJSON,
         CreatedResponseBody,
         DecoupledOperationStateFromJSON,
@@ -2044,14 +2572,17 @@ declare namespace Models {
         DecoupledOperationState,
         DefaultOrderValidityByOrderModelFromJSON,
         DefaultOrderValidityByOrderModelFromJSONTyped,
+        DefaultOrderValidityByOrderModelToJSONRecursive,
         DefaultOrderValidityByOrderModelToJSON,
         DefaultOrderValidityByOrderModel,
         DemoAccountFromJSON,
         DemoAccountFromJSONTyped,
+        DemoAccountToJSONRecursive,
         DemoAccountToJSON,
         DemoAccount,
         DemoAccountsResponseFromJSON,
         DemoAccountsResponseFromJSONTyped,
+        DemoAccountsResponseToJSONRecursive,
         DemoAccountsResponseToJSON,
         DemoAccountsResponse,
         DirectionFromJSON,
@@ -2060,193 +2591,314 @@ declare namespace Models {
         Direction,
         EnableSessionTanParamsFromJSON,
         EnableSessionTanParamsFromJSONTyped,
+        EnableSessionTanParamsToJSONRecursive,
         EnableSessionTanParamsToJSON,
         EnableSessionTanParams,
         EnableSessionTanParamsChallengeResponseFromJSON,
         EnableSessionTanParamsChallengeResponseFromJSONTyped,
+        EnableSessionTanParamsChallengeResponseToJSONRecursive,
         EnableSessionTanParamsChallengeResponseToJSON,
         EnableSessionTanParamsChallengeResponse,
-        EnableSessionTanParamsChallengeResponseKindEnum,
+        EnableSessionTanParamsChallengeResponseSpecificsFromJSON,
+        EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped,
+        EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive,
+        EnableSessionTanParamsChallengeResponseSpecificsToJSON,
+        EnableSessionTanParamsChallengeResponseSpecifics,
         EnableSessionTanParamsDecoupledFromJSON,
         EnableSessionTanParamsDecoupledFromJSONTyped,
+        EnableSessionTanParamsDecoupledToJSONRecursive,
         EnableSessionTanParamsDecoupledToJSON,
         EnableSessionTanParamsDecoupled,
-        EnableSessionTanParamsDecoupledKindEnum,
+        EnableSessionTanParamsDecoupledSpecificsFromJSON,
+        EnableSessionTanParamsDecoupledSpecificsFromJSONTyped,
+        EnableSessionTanParamsDecoupledSpecificsToJSONRecursive,
+        EnableSessionTanParamsDecoupledSpecificsToJSON,
+        EnableSessionTanParamsDecoupledSpecifics,
+        EnableSessionTanParamsKindFromJSON,
+        EnableSessionTanParamsKindFromJSONTyped,
+        EnableSessionTanParamsKindToJSON,
+        EnableSessionTanParamsKind,
         EnableSessionTanResponseFromJSON,
         EnableSessionTanResponseFromJSONTyped,
+        EnableSessionTanResponseToJSONRecursive,
         EnableSessionTanResponseToJSON,
         EnableSessionTanResponse,
+        EnableSessionTanResponseAnyOfFromJSON,
+        EnableSessionTanResponseAnyOfFromJSONTyped,
+        EnableSessionTanResponseAnyOfToJSONRecursive,
+        EnableSessionTanResponseAnyOfToJSON,
+        EnableSessionTanResponseAnyOf,
         EndSessionTanResponseFromJSON,
         EndSessionTanResponseFromJSONTyped,
+        EndSessionTanResponseToJSONRecursive,
         EndSessionTanResponseToJSON,
         EndSessionTanResponse,
         EstimateChangeOrderCostsParamsFromJSON,
         EstimateChangeOrderCostsParamsFromJSONTyped,
+        EstimateChangeOrderCostsParamsToJSONRecursive,
         EstimateChangeOrderCostsParamsToJSON,
         EstimateChangeOrderCostsParams,
         ExchangeFromJSON,
         ExchangeFromJSONTyped,
+        ExchangeToJSONRecursive,
         ExchangeToJSON,
         Exchange,
         ExchangeMetaFromJSON,
         ExchangeMetaFromJSONTyped,
+        ExchangeMetaToJSONRecursive,
         ExchangeMetaToJSON,
         ExchangeMeta,
         ExchangesResponseFromJSON,
         ExchangesResponseFromJSONTyped,
+        ExchangesResponseToJSONRecursive,
         ExchangesResponseToJSON,
         ExchangesResponse,
         GenericTableFromJSON,
         GenericTableFromJSONTyped,
+        GenericTableToJSONRecursive,
         GenericTableToJSON,
         GenericTable,
         GenericTableRowFromJSON,
         GenericTableRowFromJSONTyped,
+        GenericTableRowToJSONRecursive,
         GenericTableRowToJSON,
         GenericTableRow,
         GenericTableRowEntryFromJSON,
         GenericTableRowEntryFromJSONTyped,
+        GenericTableRowEntryToJSONRecursive,
         GenericTableRowEntryToJSON,
         GenericTableRowEntry,
-        GenericTableRowEntryTypeEnum,
+        GenericTableRowEntrySpecificsFromJSON,
+        GenericTableRowEntrySpecificsFromJSONTyped,
+        GenericTableRowEntrySpecificsToJSONRecursive,
+        GenericTableRowEntrySpecificsToJSON,
+        GenericTableRowEntrySpecifics,
         GenericTableRowSubheadingFromJSON,
         GenericTableRowSubheadingFromJSONTyped,
+        GenericTableRowSubheadingToJSONRecursive,
         GenericTableRowSubheadingToJSON,
         GenericTableRowSubheading,
-        GenericTableRowSubheadingTypeEnum,
+        GenericTableRowSubheadingSpecificsFromJSON,
+        GenericTableRowSubheadingSpecificsFromJSONTyped,
+        GenericTableRowSubheadingSpecificsToJSONRecursive,
+        GenericTableRowSubheadingSpecificsToJSON,
+        GenericTableRowSubheadingSpecifics,
         GenericTableRowTextFromJSON,
         GenericTableRowTextFromJSONTyped,
+        GenericTableRowTextToJSONRecursive,
         GenericTableRowTextToJSON,
         GenericTableRowText,
-        GenericTableRowTextTypeEnum,
+        GenericTableRowTextSpecificsFromJSON,
+        GenericTableRowTextSpecificsFromJSONTyped,
+        GenericTableRowTextSpecificsToJSONRecursive,
+        GenericTableRowTextSpecificsToJSON,
+        GenericTableRowTextSpecifics,
+        GenericTableRowTypeFromJSON,
+        GenericTableRowTypeFromJSONTyped,
+        GenericTableRowTypeToJSON,
+        GenericTableRowType,
         GenericTableRowValueFromJSON,
         GenericTableRowValueFromJSONTyped,
+        GenericTableRowValueToJSONRecursive,
         GenericTableRowValueToJSON,
         GenericTableRowValue,
         GenericTableRowValueAmountFromJSON,
         GenericTableRowValueAmountFromJSONTyped,
+        GenericTableRowValueAmountToJSONRecursive,
         GenericTableRowValueAmountToJSON,
         GenericTableRowValueAmount,
-        GenericTableRowValueAmountTypeEnum,
+        GenericTableRowValueAmountSpecificsFromJSON,
+        GenericTableRowValueAmountSpecificsFromJSONTyped,
+        GenericTableRowValueAmountSpecificsToJSONRecursive,
+        GenericTableRowValueAmountSpecificsToJSON,
+        GenericTableRowValueAmountSpecifics,
         GenericTableRowValueDatetimeFromJSON,
         GenericTableRowValueDatetimeFromJSONTyped,
+        GenericTableRowValueDatetimeToJSONRecursive,
         GenericTableRowValueDatetimeToJSON,
         GenericTableRowValueDatetime,
-        GenericTableRowValueDatetimeTypeEnum,
+        GenericTableRowValueDatetimeSpecificsFromJSON,
+        GenericTableRowValueDatetimeSpecificsFromJSONTyped,
+        GenericTableRowValueDatetimeSpecificsToJSONRecursive,
+        GenericTableRowValueDatetimeSpecificsToJSON,
+        GenericTableRowValueDatetimeSpecifics,
         GenericTableRowValueLinkFromJSON,
         GenericTableRowValueLinkFromJSONTyped,
+        GenericTableRowValueLinkToJSONRecursive,
         GenericTableRowValueLinkToJSON,
         GenericTableRowValueLink,
-        GenericTableRowValueLinkTypeEnum,
         GenericTableRowValueLinkPortfolioFromJSON,
         GenericTableRowValueLinkPortfolioFromJSONTyped,
+        GenericTableRowValueLinkPortfolioToJSONRecursive,
         GenericTableRowValueLinkPortfolioToJSON,
         GenericTableRowValueLinkPortfolio,
-        GenericTableRowValueLinkPortfolioTypeEnum,
+        GenericTableRowValueLinkPortfolioSpecificsFromJSON,
+        GenericTableRowValueLinkPortfolioSpecificsFromJSONTyped,
+        GenericTableRowValueLinkPortfolioSpecificsToJSONRecursive,
+        GenericTableRowValueLinkPortfolioSpecificsToJSON,
+        GenericTableRowValueLinkPortfolioSpecifics,
+        GenericTableRowValueLinkSpecificsFromJSON,
+        GenericTableRowValueLinkSpecificsFromJSONTyped,
+        GenericTableRowValueLinkSpecificsToJSONRecursive,
+        GenericTableRowValueLinkSpecificsToJSON,
+        GenericTableRowValueLinkSpecifics,
         GenericTableRowValueLinkUrlFromJSON,
         GenericTableRowValueLinkUrlFromJSONTyped,
+        GenericTableRowValueLinkUrlToJSONRecursive,
         GenericTableRowValueLinkUrlToJSON,
         GenericTableRowValueLinkUrl,
-        GenericTableRowValueLinkUrlTypeEnum,
+        GenericTableRowValueLinkUrlSpecificsFromJSON,
+        GenericTableRowValueLinkUrlSpecificsFromJSONTyped,
+        GenericTableRowValueLinkUrlSpecificsToJSONRecursive,
+        GenericTableRowValueLinkUrlSpecificsToJSON,
+        GenericTableRowValueLinkUrlSpecifics,
         GenericTableRowValueLinkValueFromJSON,
         GenericTableRowValueLinkValueFromJSONTyped,
+        GenericTableRowValueLinkValueToJSONRecursive,
         GenericTableRowValueLinkValueToJSON,
         GenericTableRowValueLinkValue,
+        GenericTableRowValueLinkValueTypeFromJSON,
+        GenericTableRowValueLinkValueTypeFromJSONTyped,
+        GenericTableRowValueLinkValueTypeToJSON,
+        GenericTableRowValueLinkValueType,
         GenericTableRowValueTextFromJSON,
         GenericTableRowValueTextFromJSONTyped,
+        GenericTableRowValueTextToJSONRecursive,
         GenericTableRowValueTextToJSON,
         GenericTableRowValueText,
-        GenericTableRowValueTextTypeEnum,
+        GenericTableRowValueTextSpecificsFromJSON,
+        GenericTableRowValueTextSpecificsFromJSONTyped,
+        GenericTableRowValueTextSpecificsToJSONRecursive,
+        GenericTableRowValueTextSpecificsToJSON,
+        GenericTableRowValueTextSpecifics,
+        GenericTableRowValueTypeFromJSON,
+        GenericTableRowValueTypeFromJSONTyped,
+        GenericTableRowValueTypeToJSON,
+        GenericTableRowValueType,
         GetAuthInfoResponseFromJSON,
         GetAuthInfoResponseFromJSONTyped,
+        GetAuthInfoResponseToJSONRecursive,
         GetAuthInfoResponseToJSON,
         GetAuthInfoResponse,
         GetBrokersResponseFromJSON,
         GetBrokersResponseFromJSONTyped,
+        GetBrokersResponseToJSONRecursive,
         GetBrokersResponseToJSON,
         GetBrokersResponse,
         GetCostEstimationParamsFromJSON,
         GetCostEstimationParamsFromJSONTyped,
+        GetCostEstimationParamsToJSONRecursive,
         GetCostEstimationParamsToJSON,
         GetCostEstimationParams,
         GetOrderResponseFromJSON,
         GetOrderResponseFromJSONTyped,
+        GetOrderResponseToJSONRecursive,
         GetOrderResponseToJSON,
         GetOrderResponse,
         GetPortfolioOrdersResponseFromJSON,
         GetPortfolioOrdersResponseFromJSONTyped,
+        GetPortfolioOrdersResponseToJSONRecursive,
         GetPortfolioOrdersResponseToJSON,
         GetPortfolioOrdersResponse,
         GetPortfolioPositionsResponseFromJSON,
         GetPortfolioPositionsResponseFromJSONTyped,
+        GetPortfolioPositionsResponseToJSONRecursive,
         GetPortfolioPositionsResponseToJSON,
         GetPortfolioPositionsResponse,
         GetPortfolioQuotesResponseFromJSON,
         GetPortfolioQuotesResponseFromJSONTyped,
+        GetPortfolioQuotesResponseToJSONRecursive,
         GetPortfolioQuotesResponseToJSON,
         GetPortfolioQuotesResponse,
         GetQuoteParamsFromJSON,
         GetQuoteParamsFromJSONTyped,
+        GetQuoteParamsToJSONRecursive,
         GetQuoteParamsToJSON,
         GetQuoteParams,
         GetQuoteResponseFromJSON,
         GetQuoteResponseFromJSONTyped,
+        GetQuoteResponseToJSONRecursive,
         GetQuoteResponseToJSON,
         GetQuoteResponse,
         GetUserResponseFromJSON,
         GetUserResponseFromJSONTyped,
+        GetUserResponseToJSONRecursive,
         GetUserResponseToJSON,
         GetUserResponse,
         HintFromJSON,
         HintFromJSONTyped,
+        HintToJSONRecursive,
         HintToJSON,
         Hint,
         LoginResponseFromJSON,
         LoginResponseFromJSONTyped,
+        LoginResponseToJSONRecursive,
         LoginResponseToJSON,
         LoginResponse,
         LoginResponseChallengeFromJSON,
         LoginResponseChallengeFromJSONTyped,
+        LoginResponseChallengeToJSONRecursive,
         LoginResponseChallengeToJSON,
         LoginResponseChallenge,
-        LoginResponseChallengeStateEnum,
+        LoginResponseChallengeSpecificsFromJSON,
+        LoginResponseChallengeSpecificsFromJSONTyped,
+        LoginResponseChallengeSpecificsToJSONRecursive,
+        LoginResponseChallengeSpecificsToJSON,
+        LoginResponseChallengeSpecifics,
         LoginResponseReadyFromJSON,
         LoginResponseReadyFromJSONTyped,
+        LoginResponseReadyToJSONRecursive,
         LoginResponseReadyToJSON,
         LoginResponseReady,
-        LoginResponseReadyStateEnum,
+        LoginResponseReadySpecificsFromJSON,
+        LoginResponseReadySpecificsFromJSONTyped,
+        LoginResponseReadySpecificsToJSONRecursive,
+        LoginResponseReadySpecificsToJSON,
+        LoginResponseReadySpecifics,
+        LoginResponseStateFromJSON,
+        LoginResponseStateFromJSONTyped,
+        LoginResponseStateToJSON,
+        LoginResponseState,
         MustAcceptHintFromJSON,
         MustAcceptHintFromJSONTyped,
+        MustAcceptHintToJSONRecursive,
         MustAcceptHintToJSON,
         MustAcceptHint,
         MustAcceptHintCodeEnum,
         NoSessionAvailableForPortfolioFromJSON,
         NoSessionAvailableForPortfolioFromJSONTyped,
+        NoSessionAvailableForPortfolioToJSONRecursive,
         NoSessionAvailableForPortfolioToJSON,
         NoSessionAvailableForPortfolio,
         NoSessionAvailableForPortfolioCodeEnum,
         OkResponseBodyFromJSON,
         OkResponseBodyFromJSONTyped,
+        OkResponseBodyToJSONRecursive,
         OkResponseBodyToJSON,
         OkResponseBody,
         OrderFromJSON,
         OrderFromJSONTyped,
+        OrderToJSONRecursive,
         OrderToJSON,
         Order,
         OrderChangesFromJSON,
         OrderChangesFromJSONTyped,
+        OrderChangesToJSONRecursive,
         OrderChangesToJSON,
         OrderChanges,
         OrderCostEstimationFromJSON,
         OrderCostEstimationFromJSONTyped,
+        OrderCostEstimationToJSONRecursive,
         OrderCostEstimationToJSON,
         OrderCostEstimation,
         OrderCreateFromJSON,
         OrderCreateFromJSONTyped,
+        OrderCreateToJSONRecursive,
         OrderCreateToJSON,
         OrderCreate,
         OrderExecutionFromJSON,
         OrderExecutionFromJSONTyped,
+        OrderExecutionToJSONRecursive,
         OrderExecutionToJSON,
         OrderExecution,
         OrderExtensionFromJSON,
@@ -2263,6 +2915,7 @@ declare namespace Models {
         OrderStatus,
         OrderValidityFromJSON,
         OrderValidityFromJSONTyped,
+        OrderValidityToJSONRecursive,
         OrderValidityToJSON,
         OrderValidity,
         OrderValidityTypeFromJSON,
@@ -2271,71 +2924,93 @@ declare namespace Models {
         OrderValidityType,
         OrderValidityTypeByOrderModelFromJSON,
         OrderValidityTypeByOrderModelFromJSONTyped,
+        OrderValidityTypeByOrderModelToJSONRecursive,
         OrderValidityTypeByOrderModelToJSON,
         OrderValidityTypeByOrderModel,
         PortfolioFromJSON,
         PortfolioFromJSONTyped,
+        PortfolioToJSONRecursive,
         PortfolioToJSON,
         Portfolio,
         PortfolioQuotesFromJSON,
         PortfolioQuotesFromJSONTyped,
+        PortfolioQuotesToJSONRecursive,
         PortfolioQuotesToJSON,
         PortfolioQuotes,
         PortfoliosResponseFromJSON,
         PortfoliosResponseFromJSONTyped,
+        PortfoliosResponseToJSONRecursive,
         PortfoliosResponseToJSON,
         PortfoliosResponse,
         PositionFromJSON,
         PositionFromJSONTyped,
+        PositionToJSONRecursive,
         PositionToJSON,
         Position,
         PositionValuationFromJSON,
         PositionValuationFromJSONTyped,
+        PositionValuationToJSONRecursive,
         PositionValuationToJSON,
         PositionValuation,
         PrepareOAuthRedirectParamsFromJSON,
         PrepareOAuthRedirectParamsFromJSONTyped,
+        PrepareOAuthRedirectParamsToJSONRecursive,
         PrepareOAuthRedirectParamsToJSON,
         PrepareOAuthRedirectParams,
         PrepareOAuthRedirectResponseFromJSON,
         PrepareOAuthRedirectResponseFromJSONTyped,
+        PrepareOAuthRedirectResponseToJSONRecursive,
         PrepareOAuthRedirectResponseToJSON,
         PrepareOAuthRedirectResponse,
         PrepareTradeResponseFromJSON,
         PrepareTradeResponseFromJSONTyped,
+        PrepareTradeResponseToJSONRecursive,
         PrepareTradeResponseToJSON,
         PrepareTradeResponse,
         PreparedTradeFromJSON,
         PreparedTradeFromJSONTyped,
+        PreparedTradeToJSONRecursive,
         PreparedTradeToJSON,
         PreparedTrade,
         QuoteExpirationFromJSON,
         QuoteExpirationFromJSONTyped,
+        QuoteExpirationToJSONRecursive,
         QuoteExpirationToJSON,
         QuoteExpiration,
         RiskClassInfoFromJSON,
         RiskClassInfoFromJSONTyped,
+        RiskClassInfoToJSONRecursive,
         RiskClassInfoToJSON,
         RiskClassInfo,
         SecurityFromJSON,
         SecurityFromJSONTyped,
+        SecurityToJSONRecursive,
         SecurityToJSON,
         Security,
         SecurityNotAvailableForTradingFromJSON,
         SecurityNotAvailableForTradingFromJSONTyped,
+        SecurityNotAvailableForTradingToJSONRecursive,
         SecurityNotAvailableForTradingToJSON,
         SecurityNotAvailableForTrading,
         SecurityNotAvailableForTradingCodeEnum,
         SessionFromJSON,
         SessionFromJSONTyped,
+        SessionToJSONRecursive,
         SessionToJSON,
         Session,
         SessionResponseFromJSON,
         SessionResponseFromJSONTyped,
+        SessionResponseToJSONRecursive,
         SessionResponseToJSON,
         SessionResponse,
+        SyncErrorFromJSON,
+        SyncErrorFromJSONTyped,
+        SyncErrorToJSONRecursive,
+        SyncErrorToJSON,
+        SyncError,
         TrailingDistanceFromJSON,
         TrailingDistanceFromJSONTyped,
+        TrailingDistanceToJSONRecursive,
         TrailingDistanceToJSON,
         TrailingDistance,
         TrailingDistanceModeEnum
@@ -2366,6 +3041,9 @@ function MustAcceptHintFromJSONTyped(json: any, ignoreDiscriminator: boolean): M
 // @public (undocumented)
 function MustAcceptHintToJSON(value?: MustAcceptHint | null): any;
 
+// @public (undocumented)
+function MustAcceptHintToJSONRecursive(value?: MustAcceptHint | null, ignoreParent?: boolean): any;
+
 // @public
 interface NoSessionAvailableForPortfolio {
     code: NoSessionAvailableForPortfolioCodeEnum;
@@ -2388,6 +3066,9 @@ function NoSessionAvailableForPortfolioFromJSONTyped(json: any, ignoreDiscrimina
 // @public (undocumented)
 function NoSessionAvailableForPortfolioToJSON(value?: NoSessionAvailableForPortfolio | null): any;
 
+// @public (undocumented)
+function NoSessionAvailableForPortfolioToJSONRecursive(value?: NoSessionAvailableForPortfolio | null, ignoreParent?: boolean): any;
+
 // @public
 interface OkResponseBody {
     msg: string;
@@ -2401,6 +3082,9 @@ function OkResponseBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): O
 
 // @public (undocumented)
 function OkResponseBodyToJSON(value?: OkResponseBody | null): any;
+
+// @public (undocumented)
+function OkResponseBodyToJSONRecursive(value?: OkResponseBody | null, ignoreParent?: boolean): any;
 
 // @public
 interface Order {
@@ -2422,7 +3106,7 @@ interface Order {
     currentStop?: Amount;
     direction: Direction;
     displayNo?: string;
-    exchangeId: number;
+    exchangeId?: number;
     exchangeName?: string;
     executedAt?: Date;
     executedSize?: number;
@@ -2449,14 +3133,14 @@ interface Order {
     sizeDecimals?: number;
     sourceData?: string;
     status: OrderStatus;
-    statusText: string;
+    statusText?: string;
     stop?: number;
     stopLimit?: number;
     stopLoss?: number;
     takeProfit?: number;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
-    validity: OrderValidity;
+    validity?: OrderValidity;
 }
 
 // @public
@@ -2479,6 +3163,9 @@ function OrderChangesFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
 // @public (undocumented)
 function OrderChangesToJSON(value?: OrderChanges | null): any;
 
+// @public (undocumented)
+function OrderChangesToJSONRecursive(value?: OrderChanges | null, ignoreParent?: boolean): any;
+
 // @public
 interface OrderCostEstimation {
     costAcceptancePrompt?: string;
@@ -2500,6 +3187,9 @@ function OrderCostEstimationFromJSONTyped(json: any, ignoreDiscriminator: boolea
 
 // @public (undocumented)
 function OrderCostEstimationToJSON(value?: OrderCostEstimation | null): any;
+
+// @public (undocumented)
+function OrderCostEstimationToJSONRecursive(value?: OrderCostEstimation | null, ignoreParent?: boolean): any;
 
 // @public
 interface OrderCreate {
@@ -2534,6 +3224,9 @@ function OrderCreateFromJSONTyped(json: any, ignoreDiscriminator: boolean): Orde
 // @public (undocumented)
 function OrderCreateToJSON(value?: OrderCreate | null): any;
 
+// @public (undocumented)
+function OrderCreateToJSONRecursive(value?: OrderCreate | null, ignoreParent?: boolean): any;
+
 // @public
 interface OrderExecution {
     amount?: Amount;
@@ -2556,6 +3249,9 @@ function OrderExecutionFromJSONTyped(json: any, ignoreDiscriminator: boolean): O
 
 // @public (undocumented)
 function OrderExecutionToJSON(value?: OrderExecution | null): any;
+
+// @public (undocumented)
+function OrderExecutionToJSONRecursive(value?: OrderExecution | null, ignoreParent?: boolean): any;
 
 // @public
 const OrderExtension: {
@@ -2634,6 +3330,9 @@ function OrderStatusToJSON(value?: OrderStatus | null): any;
 // @public (undocumented)
 function OrderToJSON(value?: Order | null): any;
 
+// @public (undocumented)
+function OrderToJSONRecursive(value?: Order | null, ignoreParent?: boolean): any;
+
 // @public
 interface OrderValidity {
     date?: string;
@@ -2649,6 +3348,9 @@ function OrderValidityFromJSONTyped(json: any, ignoreDiscriminator: boolean): Or
 
 // @public (undocumented)
 function OrderValidityToJSON(value?: OrderValidity | null): any;
+
+// @public (undocumented)
+function OrderValidityToJSONRecursive(value?: OrderValidity | null, ignoreParent?: boolean): any;
 
 // @public
 const OrderValidityType: {
@@ -2688,6 +3390,9 @@ function OrderValidityTypeByOrderModelFromJSONTyped(json: any, ignoreDiscriminat
 function OrderValidityTypeByOrderModelToJSON(value?: OrderValidityTypeByOrderModel | null): any;
 
 // @public (undocumented)
+function OrderValidityTypeByOrderModelToJSONRecursive(value?: OrderValidityTypeByOrderModel | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 function OrderValidityTypeFromJSON(json: any): OrderValidityType;
 
 // @public (undocumented)
@@ -2714,12 +3419,10 @@ function PortfolioFromJSONTyped(json: any, ignoreDiscriminator: boolean): Portfo
 interface PortfolioQuotes {
     availableCash?: Amount;
     cashAccountBalance?: Amount;
-    positionValue: Amount;
+    positionValue?: Amount;
     profitLossAbs?: Amount;
-    profitLossAbsAllTime?: Amount;
     profitLossAbsPrevClose?: Amount;
     profitLossRel?: number;
-    profitLossRelAllTime?: number;
     profitLossRelPrevClose?: number;
     totalValue?: Amount;
 }
@@ -2732,6 +3435,9 @@ function PortfolioQuotesFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
 
 // @public (undocumented)
 function PortfolioQuotesToJSON(value?: PortfolioQuotes | null): any;
+
+// @public (undocumented)
+function PortfolioQuotesToJSONRecursive(value?: PortfolioQuotes | null, ignoreParent?: boolean): any;
 
 // @public
 interface PortfoliosResponse {
@@ -2748,7 +3454,13 @@ function PortfoliosResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean
 function PortfoliosResponseToJSON(value?: PortfoliosResponse | null): any;
 
 // @public (undocumented)
+function PortfoliosResponseToJSONRecursive(value?: PortfoliosResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 function PortfolioToJSON(value?: Portfolio | null): any;
+
+// @public (undocumented)
+function PortfolioToJSONRecursive(value?: Portfolio | null, ignoreParent?: boolean): any;
 
 // @public
 interface Position {
@@ -2757,7 +3469,7 @@ interface Position {
     comment?: string;
     commentIsEditable?: boolean;
     currentValuation?: PositionValuation;
-    exchangeId: number;
+    exchangeId?: number;
     id: string;
     prevCloseValuation?: PositionValuation;
     profitLossAbs?: Amount;
@@ -2784,6 +3496,9 @@ function PositionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Positio
 // @public (undocumented)
 function PositionToJSON(value?: Position | null): any;
 
+// @public (undocumented)
+function PositionToJSONRecursive(value?: Position | null, ignoreParent?: boolean): any;
+
 // @public
 interface PositionValuation {
     crossRate?: number;
@@ -2801,11 +3516,14 @@ function PositionValuationFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 // @public (undocumented)
 function PositionValuationToJSON(value?: PositionValuation | null): any;
 
+// @public (undocumented)
+function PositionValuationToJSONRecursive(value?: PositionValuation | null, ignoreParent?: boolean): any;
+
 // @public
 interface PreparedTrade {
     costEstimationMustBeShown: boolean;
     exchanges: Array<Exchange>;
-    riskClassInfo: RiskClassInfo;
+    riskClassInfo?: RiskClassInfo;
     security: Security;
     sizeUnit: string;
     strikingHint?: string;
@@ -2819,6 +3537,9 @@ function PreparedTradeFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pr
 
 // @public (undocumented)
 function PreparedTradeToJSON(value?: PreparedTrade | null): any;
+
+// @public (undocumented)
+function PreparedTradeToJSONRecursive(value?: PreparedTrade | null, ignoreParent?: boolean): any;
 
 // @public
 interface PrepareOAuthRedirectParams {
@@ -2835,6 +3556,9 @@ function PrepareOAuthRedirectParamsFromJSONTyped(json: any, ignoreDiscriminator:
 
 // @public (undocumented)
 function PrepareOAuthRedirectParamsToJSON(value?: PrepareOAuthRedirectParams | null): any;
+
+// @public (undocumented)
+function PrepareOAuthRedirectParamsToJSONRecursive(value?: PrepareOAuthRedirectParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface PrepareOAuthRedirectRequest {
@@ -2855,6 +3579,9 @@ function PrepareOAuthRedirectResponseFromJSONTyped(json: any, ignoreDiscriminato
 
 // @public (undocumented)
 function PrepareOAuthRedirectResponseToJSON(value?: PrepareOAuthRedirectResponse | null): any;
+
+// @public (undocumented)
+function PrepareOAuthRedirectResponseToJSONRecursive(value?: PrepareOAuthRedirectResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface PrepareTradeRequest {
@@ -2879,6 +3606,9 @@ function PrepareTradeResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
 function PrepareTradeResponseToJSON(value?: PrepareTradeResponse | null): any;
 
 // @public (undocumented)
+function PrepareTradeResponseToJSONRecursive(value?: PrepareTradeResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 function querystring(params: HTTPQuery, prefix?: string): string;
 
 // @public
@@ -2895,6 +3625,9 @@ function QuoteExpirationFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
 
 // @public (undocumented)
 function QuoteExpirationToJSON(value?: QuoteExpiration | null): any;
+
+// @public (undocumented)
+function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface RequestContext {
@@ -2959,7 +3692,7 @@ interface ResponseTransformer<T> {
 // @public
 interface RiskClassInfo {
     legalHint?: string;
-    msg: string;
+    msg?: string;
     onlySellAllowed?: boolean;
 }
 
@@ -2971,6 +3704,9 @@ function RiskClassInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ri
 
 // @public (undocumented)
 function RiskClassInfoToJSON(value?: RiskClassInfo | null): any;
+
+// @public (undocumented)
+function RiskClassInfoToJSONRecursive(value?: RiskClassInfo | null, ignoreParent?: boolean): any;
 
 // @public
 interface Security {
@@ -3009,7 +3745,13 @@ function SecurityNotAvailableForTradingFromJSONTyped(json: any, ignoreDiscrimina
 function SecurityNotAvailableForTradingToJSON(value?: SecurityNotAvailableForTrading | null): any;
 
 // @public (undocumented)
+function SecurityNotAvailableForTradingToJSONRecursive(value?: SecurityNotAvailableForTrading | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 function SecurityToJSON(value?: Security | null): any;
+
+// @public (undocumented)
+function SecurityToJSONRecursive(value?: Security | null, ignoreParent?: boolean): any;
 
 // @public
 interface Session {
@@ -3017,7 +3759,7 @@ interface Session {
     brokerName: string;
     id: string;
     lastSuccessfulSync?: Date;
-    syncError?: any | null;
+    syncError?: SyncError;
 }
 
 // @public (undocumented)
@@ -3041,7 +3783,31 @@ function SessionResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
 function SessionResponseToJSON(value?: SessionResponse | null): any;
 
 // @public (undocumented)
+function SessionResponseToJSONRecursive(value?: SessionResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 function SessionToJSON(value?: Session | null): any;
+
+// @public (undocumented)
+function SessionToJSONRecursive(value?: Session | null, ignoreParent?: boolean): any;
+
+// @public
+interface SyncError {
+    date: Date;
+    message: string;
+}
+
+// @public (undocumented)
+function SyncErrorFromJSON(json: any): SyncError;
+
+// @public (undocumented)
+function SyncErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): SyncError;
+
+// @public (undocumented)
+function SyncErrorToJSON(value?: SyncError | null): any;
+
+// @public (undocumented)
+function SyncErrorToJSONRecursive(value?: SyncError | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 class TextApiResponse {
@@ -3091,6 +3857,15 @@ type TrailingDistanceModeEnum = typeof TrailingDistanceModeEnum[keyof typeof Tra
 
 // @public (undocumented)
 function TrailingDistanceToJSON(value?: TrailingDistance | null): any;
+
+// @public (undocumented)
+function TrailingDistanceToJSONRecursive(value?: TrailingDistance | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface TriggerDemoSessionSyncErrorRequest {
+    // (undocumented)
+    sessionId: string;
+}
 
 // @public (undocumented)
 interface TriggerSessionSyncRequest {

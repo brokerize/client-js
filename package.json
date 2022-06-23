@@ -9,10 +9,11 @@
     "download-spec": "curl https://api-preview.brokerize.com/openapi.json > openapi.json && npm run format-openapi",
     "clean-swagger": "rm -rf ./src/swagger",
     "format-openapi": "mv openapi.json openapi_dl.json && node -e 'console.log(JSON.stringify(JSON.parse(require(\"fs\").readFileSync(\"openapi_dl.json\").toString()),null,4))' > openapi.json && rm openapi_dl.json",
-    "generate": "npm run clean-swagger & npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-fetch -o ./src/swagger",
+    "generate": "npm run clean-swagger & npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-fetch -t ./generator-tpl -o ./src/swagger",
     "download-and-generate": "npm run download-spec && npm run generate",
     "api-extractor": "npx api-extractor run --local",
-    "full-update": "npm run download-and-generate && npm run build"
+    "full-update": "npm run download-and-generate && npm run build",
+    "openapi-generator-extract-templates": "npx openapi-generator-cli author template -g typescript-fetch -o generator-tpl"
   },
   "repository": {
     "type": "git",
