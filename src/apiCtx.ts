@@ -38,7 +38,6 @@ export interface Auth {
 
 export function createConfiguration(cfg: BrokerizeConfig) {
   if (!cfg.clientId) {
-    debugger
     throw new Error("You must configure a clientId to use the brokerize API.");
   }
 
