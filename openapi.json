@@ -2288,10 +2288,6 @@
             },
             "CancelOrderParamsMode": {
                 "type": "string",
-                "enum": [
-                    "sessionTan",
-                    "challengeResponse"
-                ],
                 "nullable": false
             },
             "GenericTableRowValueLinkPortfolioSpecifics": {
@@ -2316,10 +2312,6 @@
             },
             "GenericTableRowValueLinkValueType": {
                 "type": "string",
-                "enum": [
-                    "portfolio",
-                    "url"
-                ],
                 "nullable": false
             },
             "GenericTableRowValueTextSpecifics": {
@@ -2354,12 +2346,6 @@
             },
             "GenericTableRowValueType": {
                 "type": "string",
-                "enum": [
-                    "text",
-                    "amount",
-                    "datetime",
-                    "link"
-                ],
                 "nullable": false
             },
             "GenericTableRowSubheadingSpecifics": {
@@ -2394,11 +2380,6 @@
             },
             "GenericTableRowType": {
                 "type": "string",
-                "enum": [
-                    "subheading",
-                    "text",
-                    "entry"
-                ],
                 "nullable": false
             },
             "AuthMethodTanSpecifics": {
@@ -2454,11 +2435,6 @@
             },
             "AuthMethodFlow": {
                 "type": "string",
-                "enum": [
-                    "TAN",
-                    "DECOUPLED",
-                    "CHALLENGE_RESPONSE"
-                ],
                 "nullable": false
             },
             "LoginResponseReadySpecifics": {
@@ -2477,10 +2453,6 @@
             },
             "LoginResponseState": {
                 "type": "string",
-                "enum": [
-                    "ready",
-                    "challenge"
-                ],
                 "nullable": false
             },
             "EnableSessionTanParamsChallengeResponseSpecifics": {
@@ -2502,10 +2474,6 @@
             },
             "EnableSessionTanParamsKind": {
                 "type": "string",
-                "enum": [
-                    "challengeResponse",
-                    "decoupled"
-                ],
                 "nullable": false
             }
         },

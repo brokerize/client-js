@@ -16,8 +16,14 @@
 import * as runtime from '../runtime';
 import {
     CreatedResponseBody,
+    CreatedResponseBodyFromJSON,
+    CreatedResponseBodyToJSON,
     DemoAccountsResponse,
+    DemoAccountsResponseFromJSON,
+    DemoAccountsResponseToJSON,
     OkResponseBody,
+    OkResponseBodyFromJSON,
+    OkResponseBodyToJSON,
 } from '../models';
 
 export interface DeleteDemoAccountRequest {
@@ -56,7 +62,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreatedResponseBodyFromJSON(jsonValue));
     }
 
     /**
@@ -94,7 +100,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => OkResponseBodyFromJSON(jsonValue));
     }
 
     /**
@@ -128,7 +134,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => DemoAccountsResponseFromJSON(jsonValue));
     }
 
     /**
@@ -166,7 +172,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => OkResponseBodyFromJSON(jsonValue));
     }
 
     /**

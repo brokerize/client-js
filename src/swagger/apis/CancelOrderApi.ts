@@ -16,8 +16,14 @@
 import * as runtime from '../runtime';
 import {
     CancelOrderChallengeParams,
+    CancelOrderChallengeParamsFromJSON,
+    CancelOrderChallengeParamsToJSON,
     CancelOrderParams,
+    CancelOrderParamsFromJSON,
+    CancelOrderParamsToJSON,
     Challenge,
+    ChallengeFromJSON,
+    ChallengeToJSON,
 } from '../models';
 
 export interface CancelOrderRequest {
@@ -66,7 +72,7 @@ export class CancelOrderApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.cancelOrderParams,
+            body: CancelOrderParamsToJSON(requestParameters.cancelOrderParams),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -110,10 +116,10 @@ export class CancelOrderApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.cancelOrderChallengeParams,
+            body: CancelOrderChallengeParamsToJSON(requestParameters.cancelOrderChallengeParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChallengeFromJSON(jsonValue));
     }
 
     /**

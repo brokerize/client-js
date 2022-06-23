@@ -16,13 +16,29 @@
 import * as runtime from '../runtime';
 import {
     AddSessionCompleteChallengeParams,
+    AddSessionCompleteChallengeParamsFromJSON,
+    AddSessionCompleteChallengeParamsToJSON,
     AddSessionParams,
+    AddSessionParamsFromJSON,
+    AddSessionParamsToJSON,
     ConfirmOAuthParams,
+    ConfirmOAuthParamsFromJSON,
+    ConfirmOAuthParamsToJSON,
     ConfirmOAuthResponse,
+    ConfirmOAuthResponseFromJSON,
+    ConfirmOAuthResponseToJSON,
     LoginResponse,
+    LoginResponseFromJSON,
+    LoginResponseToJSON,
     LoginResponseReady,
+    LoginResponseReadyFromJSON,
+    LoginResponseReadyToJSON,
     PrepareOAuthRedirectParams,
+    PrepareOAuthRedirectParamsFromJSON,
+    PrepareOAuthRedirectParamsToJSON,
     PrepareOAuthRedirectResponse,
+    PrepareOAuthRedirectResponseFromJSON,
+    PrepareOAuthRedirectResponseToJSON,
 } from '../models';
 
 export interface AddSessionRequest {
@@ -72,10 +88,10 @@ export class BrokerLoginApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.addSessionParams,
+            body: AddSessionParamsToJSON(requestParameters.addSessionParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => LoginResponseFromJSON(jsonValue));
     }
 
     /**
@@ -112,10 +128,10 @@ export class BrokerLoginApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.addSessionCompleteChallengeParams,
+            body: AddSessionCompleteChallengeParamsToJSON(requestParameters.addSessionCompleteChallengeParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => LoginResponseReadyFromJSON(jsonValue));
     }
 
     /**
@@ -153,10 +169,10 @@ export class BrokerLoginApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.confirmOAuthParams,
+            body: ConfirmOAuthParamsToJSON(requestParameters.confirmOAuthParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ConfirmOAuthResponseFromJSON(jsonValue));
     }
 
     /**
@@ -194,10 +210,10 @@ export class BrokerLoginApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.prepareOAuthRedirectParams,
+            body: PrepareOAuthRedirectParamsToJSON(requestParameters.prepareOAuthRedirectParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => PrepareOAuthRedirectResponseFromJSON(jsonValue));
     }
 
     /**

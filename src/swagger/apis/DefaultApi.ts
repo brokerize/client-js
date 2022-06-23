@@ -16,21 +16,53 @@
 import * as runtime from '../runtime';
 import {
     Challenge,
+    ChallengeFromJSON,
+    ChallengeToJSON,
     CreateGuestUserResponse,
+    CreateGuestUserResponseFromJSON,
+    CreateGuestUserResponseToJSON,
     CreateTanChallengeParams,
+    CreateTanChallengeParamsFromJSON,
+    CreateTanChallengeParamsToJSON,
     DecoupledOperationState,
+    DecoupledOperationStateFromJSON,
+    DecoupledOperationStateToJSON,
     EnableSessionTanParams,
+    EnableSessionTanParamsFromJSON,
+    EnableSessionTanParamsToJSON,
     EnableSessionTanResponse,
+    EnableSessionTanResponseFromJSON,
+    EnableSessionTanResponseToJSON,
     EndSessionTanResponse,
+    EndSessionTanResponseFromJSON,
+    EndSessionTanResponseToJSON,
     GetAuthInfoResponse,
+    GetAuthInfoResponseFromJSON,
+    GetAuthInfoResponseToJSON,
     GetOrderResponse,
+    GetOrderResponseFromJSON,
+    GetOrderResponseToJSON,
     GetPortfolioOrdersResponse,
+    GetPortfolioOrdersResponseFromJSON,
+    GetPortfolioOrdersResponseToJSON,
     GetPortfolioPositionsResponse,
+    GetPortfolioPositionsResponseFromJSON,
+    GetPortfolioPositionsResponseToJSON,
     GetPortfolioQuotesResponse,
+    GetPortfolioQuotesResponseFromJSON,
+    GetPortfolioQuotesResponseToJSON,
     GetUserResponse,
+    GetUserResponseFromJSON,
+    GetUserResponseToJSON,
     OkResponseBody,
+    OkResponseBodyFromJSON,
+    OkResponseBodyToJSON,
     PortfoliosResponse,
+    PortfoliosResponseFromJSON,
+    PortfoliosResponseToJSON,
     SessionResponse,
+    SessionResponseFromJSON,
+    SessionResponseToJSON,
 } from '../models';
 
 export interface CancelDecoupledOperationRequest {
@@ -157,7 +189,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreateGuestUserResponseFromJSON(jsonValue));
     }
 
     /**
@@ -198,10 +230,10 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.createTanChallengeParams,
+            body: CreateTanChallengeParamsToJSON(requestParameters.createTanChallengeParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChallengeFromJSON(jsonValue));
     }
 
     /**
@@ -237,7 +269,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => OkResponseBodyFromJSON(jsonValue));
     }
 
     /**
@@ -277,10 +309,10 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.enableSessionTanParams,
+            body: EnableSessionTanParamsToJSON(requestParameters.enableSessionTanParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => EnableSessionTanResponseFromJSON(jsonValue));
     }
 
     /**
@@ -317,7 +349,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => EndSessionTanResponseFromJSON(jsonValue));
     }
 
     /**
@@ -355,7 +387,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetAuthInfoResponseFromJSON(jsonValue));
     }
 
     /**
@@ -396,7 +428,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => DecoupledOperationStateFromJSON(jsonValue));
     }
 
     /**
@@ -432,7 +464,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetOrderResponseFromJSON(jsonValue));
     }
 
     /**
@@ -488,7 +520,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetPortfolioOrdersResponseFromJSON(jsonValue));
     }
 
     /**
@@ -524,7 +556,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetPortfolioPositionsResponseFromJSON(jsonValue));
     }
 
     /**
@@ -560,7 +592,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetPortfolioQuotesResponseFromJSON(jsonValue));
     }
 
     /**
@@ -592,7 +624,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => PortfoliosResponseFromJSON(jsonValue));
     }
 
     /**
@@ -625,7 +657,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => SessionResponseFromJSON(jsonValue));
     }
 
     /**
@@ -659,7 +691,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetUserResponseFromJSON(jsonValue));
     }
 
     /**
@@ -697,7 +729,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => OkResponseBodyFromJSON(jsonValue));
     }
 
     /**
@@ -735,7 +767,7 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => OkResponseBodyFromJSON(jsonValue));
     }
 
     /**

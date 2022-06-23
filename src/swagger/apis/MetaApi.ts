@@ -16,7 +16,11 @@
 import * as runtime from '../runtime';
 import {
     ExchangesResponse,
+    ExchangesResponseFromJSON,
+    ExchangesResponseToJSON,
     GetBrokersResponse,
+    GetBrokersResponseFromJSON,
+    GetBrokersResponseToJSON,
 } from '../models';
 
 /**
@@ -47,7 +51,7 @@ export class MetaApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetBrokersResponseFromJSON(jsonValue));
     }
 
     /**
@@ -81,7 +85,7 @@ export class MetaApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ExchangesResponseFromJSON(jsonValue));
     }
 
     /**

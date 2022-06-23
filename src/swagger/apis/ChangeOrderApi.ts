@@ -16,10 +16,20 @@
 import * as runtime from '../runtime';
 import {
     Challenge,
+    ChallengeFromJSON,
+    ChallengeToJSON,
     ChangeOrderChallengeParams,
+    ChangeOrderChallengeParamsFromJSON,
+    ChangeOrderChallengeParamsToJSON,
     ChangeOrderParams,
+    ChangeOrderParamsFromJSON,
+    ChangeOrderParamsToJSON,
     EstimateChangeOrderCostsParams,
+    EstimateChangeOrderCostsParamsFromJSON,
+    EstimateChangeOrderCostsParamsToJSON,
     OrderCostEstimation,
+    OrderCostEstimationFromJSON,
+    OrderCostEstimationToJSON,
 } from '../models';
 
 export interface ChangeOrderRequest {
@@ -73,7 +83,7 @@ export class ChangeOrderApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.changeOrderParams,
+            body: ChangeOrderParamsToJSON(requestParameters.changeOrderParams),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -117,10 +127,10 @@ export class ChangeOrderApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.changeOrderChallengeParams,
+            body: ChangeOrderChallengeParamsToJSON(requestParameters.changeOrderChallengeParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChallengeFromJSON(jsonValue));
     }
 
     /**
@@ -162,10 +172,10 @@ export class ChangeOrderApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.estimateChangeOrderCostsParams,
+            body: EstimateChangeOrderCostsParamsToJSON(requestParameters.estimateChangeOrderCostsParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => OrderCostEstimationFromJSON(jsonValue));
     }
 
     /**

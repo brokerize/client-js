@@ -257,6 +257,10 @@ export interface RequestOpts {
     body?: HTTPBody;
 }
 
+export function exists(json: any, key: string) {
+    const value = json[key];
+    return value !== null && value !== undefined;
+}
 
 export function querystring(params: HTTPQuery, prefix: string = ''): string {
     return Object.keys(params)
@@ -285,6 +289,12 @@ function querystringSingleKey(key: string, value: string | number | null | boole
     return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
 }
 
+export function mapValues(data: any, fn: (item: any) => any) {
+  return Object.keys(data).reduce(
+    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
+    {}
+  );
+}
 
 export function canConsumeForm(consumes: Consume[]): boolean {
     for (const consume of consumes) {

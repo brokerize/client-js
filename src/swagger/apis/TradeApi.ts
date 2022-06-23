@@ -16,17 +16,41 @@
 import * as runtime from '../runtime';
 import {
     Challenge,
+    ChallengeFromJSON,
+    ChallengeToJSON,
     CreateOrderChallengeParams,
+    CreateOrderChallengeParamsFromJSON,
+    CreateOrderChallengeParamsToJSON,
     CreateOrderParams,
+    CreateOrderParamsFromJSON,
+    CreateOrderParamsToJSON,
     CreateTradeResponse,
+    CreateTradeResponseFromJSON,
+    CreateTradeResponseToJSON,
     GetCostEstimationParams,
+    GetCostEstimationParamsFromJSON,
+    GetCostEstimationParamsToJSON,
     GetQuoteParams,
+    GetQuoteParamsFromJSON,
+    GetQuoteParamsToJSON,
     GetQuoteResponse,
+    GetQuoteResponseFromJSON,
+    GetQuoteResponseToJSON,
     MustAcceptHint,
+    MustAcceptHintFromJSON,
+    MustAcceptHintToJSON,
     NoSessionAvailableForPortfolio,
+    NoSessionAvailableForPortfolioFromJSON,
+    NoSessionAvailableForPortfolioToJSON,
     OrderCostEstimation,
+    OrderCostEstimationFromJSON,
+    OrderCostEstimationToJSON,
     PrepareTradeResponse,
+    PrepareTradeResponseFromJSON,
+    PrepareTradeResponseToJSON,
     SecurityNotAvailableForTrading,
+    SecurityNotAvailableForTradingFromJSON,
+    SecurityNotAvailableForTradingToJSON,
 } from '../models';
 
 export interface CreateTradeRequest {
@@ -83,10 +107,10 @@ export class TradeApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.createOrderParams,
+            body: CreateOrderParamsToJSON(requestParameters.createOrderParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreateTradeResponseFromJSON(jsonValue));
     }
 
     /**
@@ -124,10 +148,10 @@ export class TradeApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.createOrderChallengeParams,
+            body: CreateOrderChallengeParamsToJSON(requestParameters.createOrderChallengeParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChallengeFromJSON(jsonValue));
     }
 
     /**
@@ -164,10 +188,10 @@ export class TradeApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.getCostEstimationParams,
+            body: GetCostEstimationParamsToJSON(requestParameters.getCostEstimationParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => OrderCostEstimationFromJSON(jsonValue));
     }
 
     /**
@@ -212,10 +236,10 @@ export class TradeApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.getQuoteParams,
+            body: GetQuoteParamsToJSON(requestParameters.getQuoteParams),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetQuoteResponseFromJSON(jsonValue));
     }
 
     /**
@@ -265,7 +289,7 @@ export class TradeApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => PrepareTradeResponseFromJSON(jsonValue));
     }
 
     /**
