@@ -6,7 +6,7 @@
   "types": "dist/client.d.ts",
   "scripts": {
     "build": "npx tsc && npm run api-extractor",
-    "download-spec": "curl http://localhost:3333/openapi.json > openapi.json && npm run format-openapi",
+    "download-spec": "curl https://api-preview.brokerize.com/openapi.json > openapi.json && npm run format-openapi",
     "clean-swagger": "rm -rf ./src/swagger",
     "format-openapi": "mv openapi.json openapi_dl.json && node -e 'console.log(JSON.stringify(JSON.parse(require(\"fs\").readFileSync(\"openapi_dl.json\").toString()),null,4))' > openapi.json && rm openapi_dl.json",
     "generate": "npm run clean-swagger & npx @openapitools/openapi-generator-cli generate -i openapi.json -g typescript-fetch -t ./generator-tpl -o ./src/swagger",
