@@ -125,7 +125,7 @@ export function ExchangeFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function ExchangeToJSON(value?: Exchange | null): any {
+export function ExchangeToJSONRecursive(value?: Exchange | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -150,3 +150,6 @@ export function ExchangeToJSON(value?: Exchange | null): any {
     };
 }
 
+export function ExchangeToJSON(value?: Exchange | null): any {
+    return ExchangeToJSONRecursive(value, false);
+}

@@ -48,7 +48,7 @@ export function QuoteExpirationFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function QuoteExpirationToJSON(value?: QuoteExpiration | null): any {
+export function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function QuoteExpirationToJSON(value?: QuoteExpiration | null): any {
     };
 }
 
+export function QuoteExpirationToJSON(value?: QuoteExpiration | null): any {
+    return QuoteExpirationToJSONRecursive(value, false);
+}

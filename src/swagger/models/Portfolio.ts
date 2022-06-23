@@ -69,7 +69,7 @@ export function PortfolioFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function PortfolioToJSON(value?: Portfolio | null): any {
+export function PortfolioToJSONRecursive(value?: Portfolio | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,3 +88,6 @@ export function PortfolioToJSON(value?: Portfolio | null): any {
     };
 }
 
+export function PortfolioToJSON(value?: Portfolio | null): any {
+    return PortfolioToJSONRecursive(value, false);
+}

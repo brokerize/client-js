@@ -62,7 +62,7 @@ export function PrepareOAuthRedirectParamsFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function PrepareOAuthRedirectParamsToJSON(value?: PrepareOAuthRedirectParams | null): any {
+export function PrepareOAuthRedirectParamsToJSONRecursive(value?: PrepareOAuthRedirectParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,3 +80,6 @@ export function PrepareOAuthRedirectParamsToJSON(value?: PrepareOAuthRedirectPar
     };
 }
 
+export function PrepareOAuthRedirectParamsToJSON(value?: PrepareOAuthRedirectParams | null): any {
+    return PrepareOAuthRedirectParamsToJSONRecursive(value, false);
+}

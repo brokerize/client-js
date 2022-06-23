@@ -55,7 +55,7 @@ export function BrokerEnvironmentFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function BrokerEnvironmentToJSON(value?: BrokerEnvironment | null): any {
+export function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -73,3 +73,6 @@ export function BrokerEnvironmentToJSON(value?: BrokerEnvironment | null): any {
     };
 }
 
+export function BrokerEnvironmentToJSON(value?: BrokerEnvironment | null): any {
+    return BrokerEnvironmentToJSONRecursive(value, false);
+}

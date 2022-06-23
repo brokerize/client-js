@@ -13,7 +13,7 @@ import {
 {{#discriminator}}
 import {
 {{#discriminator.mappedModels}}
-     {{modelName}}ToJSON,
+     {{modelName}}ToJSONRecursive,
      {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
 {{/discriminator.mappedModels}}
 } from './';
@@ -89,7 +89,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/hasVars}}
 }
 
-export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+export function {{classname}}ToJSONRecursive(value?: {{classname}} | null, ignoreParent = false): any {
     {{#hasVars}}
     if (value === undefined) {
         return undefined;
@@ -99,11 +99,11 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     }
 
     return {
-        {{#parent}}...{{{.}}}ToJSON(value),{{/parent}}
+        {{#parent}}...ignoreParent ? {} : {{{.}}}ToJSON(value),{{/parent}}
 
         {{#discriminator}}
         {{#discriminator.mappedModels}}
-          ...value['{{discriminator.propertyName}}'] === '{{mappingName}}' ? {{modelName}}ToJSON(value as any) : {},
+          ...value['{{discriminator.propertyName}}'] === '{{mappingName}}' ? {{modelName}}ToJSONRecursive(value as any, true) : {},
         {{/discriminator.mappedModels}}
         {{/discriminator}}
 
@@ -145,4 +145,8 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     {{^hasVars}}
     return value;
     {{/hasVars}}
+}
+
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+    return {{classname}}ToJSONRecursive(value, false);
 }

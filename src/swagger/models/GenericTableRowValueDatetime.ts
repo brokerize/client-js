@@ -54,7 +54,7 @@ export function GenericTableRowValueDatetimeFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function GenericTableRowValueDatetimeToJSON(value?: GenericTableRowValueDatetime | null): any {
+export function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTableRowValueDatetime | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -63,10 +63,13 @@ export function GenericTableRowValueDatetimeToJSON(value?: GenericTableRowValueD
     }
 
     return {
-        ...GenericTableRowValueToJSON(value),
+        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
 
 
         'value': value.value,
     };
 }
 
+export function GenericTableRowValueDatetimeToJSON(value?: GenericTableRowValueDatetime | null): any {
+    return GenericTableRowValueDatetimeToJSONRecursive(value, false);
+}

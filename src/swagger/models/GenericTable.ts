@@ -68,7 +68,7 @@ export function GenericTableFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function GenericTableToJSON(value?: GenericTable | null): any {
+export function GenericTableToJSONRecursive(value?: GenericTable | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -86,3 +86,6 @@ export function GenericTableToJSON(value?: GenericTable | null): any {
     };
 }
 
+export function GenericTableToJSON(value?: GenericTable | null): any {
+    return GenericTableToJSONRecursive(value, false);
+}

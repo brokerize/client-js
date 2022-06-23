@@ -60,7 +60,7 @@ export function GenericTableRowValueAmountFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function GenericTableRowValueAmountToJSON(value?: GenericTableRowValueAmount | null): any {
+export function GenericTableRowValueAmountToJSONRecursive(value?: GenericTableRowValueAmount | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,10 +69,13 @@ export function GenericTableRowValueAmountToJSON(value?: GenericTableRowValueAmo
     }
 
     return {
-        ...GenericTableRowValueToJSON(value),
+        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
 
 
         'value': AmountToJSON(value.value),
     };
 }
 
+export function GenericTableRowValueAmountToJSON(value?: GenericTableRowValueAmount | null): any {
+    return GenericTableRowValueAmountToJSONRecursive(value, false);
+}

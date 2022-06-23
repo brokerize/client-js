@@ -14,11 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-     GenericTableRowEntryToJSON,
+     GenericTableRowEntryToJSONRecursive,
      GenericTableRowEntryFromJSONTyped,
-     GenericTableRowSubheadingToJSON,
+     GenericTableRowSubheadingToJSONRecursive,
      GenericTableRowSubheadingFromJSONTyped,
-     GenericTableRowTextToJSON,
+     GenericTableRowTextToJSONRecursive,
      GenericTableRowTextFromJSONTyped
 } from './';
 
@@ -61,7 +61,7 @@ export function GenericTableRowFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function GenericTableRowToJSON(value?: GenericTableRow | null): any {
+export function GenericTableRowToJSONRecursive(value?: GenericTableRow | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -72,11 +72,14 @@ export function GenericTableRowToJSON(value?: GenericTableRow | null): any {
     return {
         
 
-          ...value['type'] === 'entry' ? GenericTableRowEntryToJSON(value as any) : {},
-          ...value['type'] === 'subheading' ? GenericTableRowSubheadingToJSON(value as any) : {},
-          ...value['type'] === 'text' ? GenericTableRowTextToJSON(value as any) : {},
+          ...value['type'] === 'entry' ? GenericTableRowEntryToJSONRecursive(value as any, true) : {},
+          ...value['type'] === 'subheading' ? GenericTableRowSubheadingToJSONRecursive(value as any, true) : {},
+          ...value['type'] === 'text' ? GenericTableRowTextToJSONRecursive(value as any, true) : {},
 
         'type': value.type,
     };
 }
 
+export function GenericTableRowToJSON(value?: GenericTableRow | null): any {
+    return GenericTableRowToJSONRecursive(value, false);
+}

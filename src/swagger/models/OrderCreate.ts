@@ -219,7 +219,7 @@ export function OrderCreateFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function OrderCreateToJSON(value?: OrderCreate | null): any {
+export function OrderCreateToJSONRecursive(value?: OrderCreate | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -254,3 +254,6 @@ export function OrderCreateToJSON(value?: OrderCreate | null): any {
     };
 }
 
+export function OrderCreateToJSON(value?: OrderCreate | null): any {
+    return OrderCreateToJSONRecursive(value, false);
+}

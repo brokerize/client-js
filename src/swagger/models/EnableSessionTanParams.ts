@@ -14,9 +14,9 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-     EnableSessionTanParamsChallengeResponseToJSON,
+     EnableSessionTanParamsChallengeResponseToJSONRecursive,
      EnableSessionTanParamsChallengeResponseFromJSONTyped,
-     EnableSessionTanParamsDecoupledToJSON,
+     EnableSessionTanParamsDecoupledToJSONRecursive,
      EnableSessionTanParamsDecoupledFromJSONTyped
 } from './';
 
@@ -56,7 +56,7 @@ export function EnableSessionTanParamsFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | null): any {
+export function EnableSessionTanParamsToJSONRecursive(value?: EnableSessionTanParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -67,10 +67,13 @@ export function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | nu
     return {
         
 
-          ...value['kind'] === 'challengeResponse' ? EnableSessionTanParamsChallengeResponseToJSON(value as any) : {},
-          ...value['kind'] === 'decoupled' ? EnableSessionTanParamsDecoupledToJSON(value as any) : {},
+          ...value['kind'] === 'challengeResponse' ? EnableSessionTanParamsChallengeResponseToJSONRecursive(value as any, true) : {},
+          ...value['kind'] === 'decoupled' ? EnableSessionTanParamsDecoupledToJSONRecursive(value as any, true) : {},
 
         'kind': value.kind,
     };
 }
 
+export function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | null): any {
+    return EnableSessionTanParamsToJSONRecursive(value, false);
+}

@@ -41,7 +41,7 @@ export function CreateTanChallengeParamsFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function CreateTanChallengeParamsToJSON(value?: CreateTanChallengeParams | null): any {
+export function CreateTanChallengeParamsToJSONRecursive(value?: CreateTanChallengeParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function CreateTanChallengeParamsToJSON(value?: CreateTanChallengeParams 
     };
 }
 
+export function CreateTanChallengeParamsToJSON(value?: CreateTanChallengeParams | null): any {
+    return CreateTanChallengeParamsToJSONRecursive(value, false);
+}

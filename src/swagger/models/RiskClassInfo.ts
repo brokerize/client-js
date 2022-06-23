@@ -56,7 +56,7 @@ export function RiskClassInfoFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function RiskClassInfoToJSON(value?: RiskClassInfo | null): any {
+export function RiskClassInfoToJSONRecursive(value?: RiskClassInfo | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -74,3 +74,6 @@ export function RiskClassInfoToJSON(value?: RiskClassInfo | null): any {
     };
 }
 
+export function RiskClassInfoToJSON(value?: RiskClassInfo | null): any {
+    return RiskClassInfoToJSONRecursive(value, false);
+}

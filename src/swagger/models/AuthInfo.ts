@@ -70,7 +70,7 @@ export function AuthInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function AuthInfoToJSON(value?: AuthInfo | null): any {
+export function AuthInfoToJSONRecursive(value?: AuthInfo | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,3 +89,6 @@ export function AuthInfoToJSON(value?: AuthInfo | null): any {
     };
 }
 
+export function AuthInfoToJSON(value?: AuthInfo | null): any {
+    return AuthInfoToJSONRecursive(value, false);
+}

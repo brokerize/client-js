@@ -61,7 +61,7 @@ export function EnableSessionTanParamsChallengeResponseFromJSONTyped(json: any, 
     };
 }
 
-export function EnableSessionTanParamsChallengeResponseToJSON(value?: EnableSessionTanParamsChallengeResponse | null): any {
+export function EnableSessionTanParamsChallengeResponseToJSONRecursive(value?: EnableSessionTanParamsChallengeResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,7 +70,7 @@ export function EnableSessionTanParamsChallengeResponseToJSON(value?: EnableSess
     }
 
     return {
-        ...EnableSessionTanParamsToJSON(value),
+        ...ignoreParent ? {} : EnableSessionTanParamsToJSON(value),
 
 
         'challengeResponse': value.challengeResponse,
@@ -78,3 +78,6 @@ export function EnableSessionTanParamsChallengeResponseToJSON(value?: EnableSess
     };
 }
 
+export function EnableSessionTanParamsChallengeResponseToJSON(value?: EnableSessionTanParamsChallengeResponse | null): any {
+    return EnableSessionTanParamsChallengeResponseToJSONRecursive(value, false);
+}

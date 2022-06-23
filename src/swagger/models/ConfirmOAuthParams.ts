@@ -48,7 +48,7 @@ export function ConfirmOAuthParamsFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function ConfirmOAuthParamsToJSON(value?: ConfirmOAuthParams | null): any {
+export function ConfirmOAuthParamsToJSONRecursive(value?: ConfirmOAuthParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function ConfirmOAuthParamsToJSON(value?: ConfirmOAuthParams | null): any
     };
 }
 
+export function ConfirmOAuthParamsToJSON(value?: ConfirmOAuthParams | null): any {
+    return ConfirmOAuthParamsToJSONRecursive(value, false);
+}

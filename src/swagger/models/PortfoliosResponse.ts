@@ -48,7 +48,7 @@ export function PortfoliosResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function PortfoliosResponseToJSON(value?: PortfoliosResponse | null): any {
+export function PortfoliosResponseToJSONRecursive(value?: PortfoliosResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function PortfoliosResponseToJSON(value?: PortfoliosResponse | null): any
     };
 }
 
+export function PortfoliosResponseToJSON(value?: PortfoliosResponse | null): any {
+    return PortfoliosResponseToJSONRecursive(value, false);
+}

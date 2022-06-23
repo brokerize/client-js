@@ -60,7 +60,7 @@ export function LoginResponseChallengeFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function LoginResponseChallengeToJSON(value?: LoginResponseChallenge | null): any {
+export function LoginResponseChallengeToJSONRecursive(value?: LoginResponseChallenge | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,10 +69,13 @@ export function LoginResponseChallengeToJSON(value?: LoginResponseChallenge | nu
     }
 
     return {
-        ...LoginResponseToJSON(value),
+        ...ignoreParent ? {} : LoginResponseToJSON(value),
 
 
         'challenge': ChallengeToJSON(value.challenge),
     };
 }
 
+export function LoginResponseChallengeToJSON(value?: LoginResponseChallenge | null): any {
+    return LoginResponseChallengeToJSONRecursive(value, false);
+}

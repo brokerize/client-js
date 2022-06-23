@@ -108,7 +108,7 @@ export function OrderChangesFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function OrderChangesToJSON(value?: OrderChanges | null): any {
+export function OrderChangesToJSONRecursive(value?: OrderChanges | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -130,3 +130,6 @@ export function OrderChangesToJSON(value?: OrderChanges | null): any {
     };
 }
 
+export function OrderChangesToJSON(value?: OrderChanges | null): any {
+    return OrderChangesToJSONRecursive(value, false);
+}

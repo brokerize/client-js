@@ -48,7 +48,7 @@ export function DemoAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function DemoAccountToJSON(value?: DemoAccount | null): any {
+export function DemoAccountToJSONRecursive(value?: DemoAccount | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function DemoAccountToJSON(value?: DemoAccount | null): any {
     };
 }
 
+export function DemoAccountToJSON(value?: DemoAccount | null): any {
+    return DemoAccountToJSONRecursive(value, false);
+}

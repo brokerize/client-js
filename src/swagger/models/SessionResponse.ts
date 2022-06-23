@@ -48,7 +48,7 @@ export function SessionResponseFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function SessionResponseToJSON(value?: SessionResponse | null): any {
+export function SessionResponseToJSONRecursive(value?: SessionResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function SessionResponseToJSON(value?: SessionResponse | null): any {
     };
 }
 
+export function SessionResponseToJSON(value?: SessionResponse | null): any {
+    return SessionResponseToJSONRecursive(value, false);
+}

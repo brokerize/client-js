@@ -483,7 +483,7 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
     };
 }
 
-export function OrderToJSON(value?: Order | null): any {
+export function OrderToJSONRecursive(value?: Order | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -551,3 +551,6 @@ export function OrderToJSON(value?: Order | null): any {
     };
 }
 
+export function OrderToJSON(value?: Order | null): any {
+    return OrderToJSONRecursive(value, false);
+}

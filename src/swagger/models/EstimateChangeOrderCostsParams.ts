@@ -48,7 +48,7 @@ export function EstimateChangeOrderCostsParamsFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrderCostsParams | null): any {
+export function EstimateChangeOrderCostsParamsToJSONRecursive(value?: EstimateChangeOrderCostsParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrder
     };
 }
 
+export function EstimateChangeOrderCostsParamsToJSON(value?: EstimateChangeOrderCostsParams | null): any {
+    return EstimateChangeOrderCostsParamsToJSONRecursive(value, false);
+}

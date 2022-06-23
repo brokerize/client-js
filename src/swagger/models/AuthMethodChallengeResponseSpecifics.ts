@@ -76,7 +76,7 @@ export function AuthMethodChallengeResponseSpecificsFromJSONTyped(json: any, ign
     };
 }
 
-export function AuthMethodChallengeResponseSpecificsToJSON(value?: AuthMethodChallengeResponseSpecifics | null): any {
+export function AuthMethodChallengeResponseSpecificsToJSONRecursive(value?: AuthMethodChallengeResponseSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -97,3 +97,6 @@ export function AuthMethodChallengeResponseSpecificsToJSON(value?: AuthMethodCha
     };
 }
 
+export function AuthMethodChallengeResponseSpecificsToJSON(value?: AuthMethodChallengeResponseSpecifics | null): any {
+    return AuthMethodChallengeResponseSpecificsToJSONRecursive(value, false);
+}

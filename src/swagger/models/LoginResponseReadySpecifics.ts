@@ -41,7 +41,7 @@ export function LoginResponseReadySpecificsFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function LoginResponseReadySpecificsToJSON(value?: LoginResponseReadySpecifics | null): any {
+export function LoginResponseReadySpecificsToJSONRecursive(value?: LoginResponseReadySpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function LoginResponseReadySpecificsToJSON(value?: LoginResponseReadySpec
     };
 }
 
+export function LoginResponseReadySpecificsToJSON(value?: LoginResponseReadySpecifics | null): any {
+    return LoginResponseReadySpecificsToJSONRecursive(value, false);
+}

@@ -14,11 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-     AuthMethodChallengeResponseToJSON,
+     AuthMethodChallengeResponseToJSONRecursive,
      AuthMethodChallengeResponseFromJSONTyped,
-     AuthMethodDecoupledToJSON,
+     AuthMethodDecoupledToJSONRecursive,
      AuthMethodDecoupledFromJSONTyped,
-     AuthMethodTanToJSON,
+     AuthMethodTanToJSONRecursive,
      AuthMethodTanFromJSONTyped
 } from './';
 
@@ -61,7 +61,7 @@ export function AuthMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function AuthMethodToJSON(value?: AuthMethod | null): any {
+export function AuthMethodToJSONRecursive(value?: AuthMethod | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -72,11 +72,14 @@ export function AuthMethodToJSON(value?: AuthMethod | null): any {
     return {
         
 
-          ...value['flow'] === 'CHALLENGE_RESPONSE' ? AuthMethodChallengeResponseToJSON(value as any) : {},
-          ...value['flow'] === 'DECOUPLED' ? AuthMethodDecoupledToJSON(value as any) : {},
-          ...value['flow'] === 'TAN' ? AuthMethodTanToJSON(value as any) : {},
+          ...value['flow'] === 'CHALLENGE_RESPONSE' ? AuthMethodChallengeResponseToJSONRecursive(value as any, true) : {},
+          ...value['flow'] === 'DECOUPLED' ? AuthMethodDecoupledToJSONRecursive(value as any, true) : {},
+          ...value['flow'] === 'TAN' ? AuthMethodTanToJSONRecursive(value as any, true) : {},
 
         'flow': value.flow,
     };
 }
 
+export function AuthMethodToJSON(value?: AuthMethod | null): any {
+    return AuthMethodToJSONRecursive(value, false);
+}

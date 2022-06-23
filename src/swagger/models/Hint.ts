@@ -48,7 +48,7 @@ export function HintFromJSONTyped(json: any, ignoreDiscriminator: boolean): Hint
     };
 }
 
-export function HintToJSON(value?: Hint | null): any {
+export function HintToJSONRecursive(value?: Hint | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function HintToJSON(value?: Hint | null): any {
     };
 }
 
+export function HintToJSON(value?: Hint | null): any {
+    return HintToJSONRecursive(value, false);
+}

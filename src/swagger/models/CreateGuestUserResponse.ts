@@ -41,7 +41,7 @@ export function CreateGuestUserResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function CreateGuestUserResponseToJSON(value?: CreateGuestUserResponse | null): any {
+export function CreateGuestUserResponseToJSONRecursive(value?: CreateGuestUserResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function CreateGuestUserResponseToJSON(value?: CreateGuestUserResponse | 
     };
 }
 
+export function CreateGuestUserResponseToJSON(value?: CreateGuestUserResponse | null): any {
+    return CreateGuestUserResponseToJSONRecursive(value, false);
+}

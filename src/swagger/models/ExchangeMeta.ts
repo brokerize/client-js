@@ -48,7 +48,7 @@ export function ExchangeMetaFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function ExchangeMetaToJSON(value?: ExchangeMeta | null): any {
+export function ExchangeMetaToJSONRecursive(value?: ExchangeMeta | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function ExchangeMetaToJSON(value?: ExchangeMeta | null): any {
     };
 }
 
+export function ExchangeMetaToJSON(value?: ExchangeMeta | null): any {
+    return ExchangeMetaToJSONRecursive(value, false);
+}

@@ -54,7 +54,7 @@ export function LoginResponseReadyFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function LoginResponseReadyToJSON(value?: LoginResponseReady | null): any {
+export function LoginResponseReadyToJSONRecursive(value?: LoginResponseReady | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -63,10 +63,13 @@ export function LoginResponseReadyToJSON(value?: LoginResponseReady | null): any
     }
 
     return {
-        ...LoginResponseToJSON(value),
+        ...ignoreParent ? {} : LoginResponseToJSON(value),
 
 
         'sessionId': value.sessionId,
     };
 }
 
+export function LoginResponseReadyToJSON(value?: LoginResponseReady | null): any {
+    return LoginResponseReadyToJSONRecursive(value, false);
+}

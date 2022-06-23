@@ -90,7 +90,7 @@ export function AmountFromJSONTyped(json: any, ignoreDiscriminator: boolean): Am
     };
 }
 
-export function AmountToJSON(value?: Amount | null): any {
+export function AmountToJSONRecursive(value?: Amount | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -112,3 +112,6 @@ export function AmountToJSON(value?: Amount | null): any {
     };
 }
 
+export function AmountToJSON(value?: Amount | null): any {
+    return AmountToJSONRecursive(value, false);
+}

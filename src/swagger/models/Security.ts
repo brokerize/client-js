@@ -62,7 +62,7 @@ export function SecurityFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function SecurityToJSON(value?: Security | null): any {
+export function SecurityToJSONRecursive(value?: Security | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -81,3 +81,6 @@ export function SecurityToJSON(value?: Security | null): any {
     };
 }
 
+export function SecurityToJSON(value?: Security | null): any {
+    return SecurityToJSONRecursive(value, false);
+}

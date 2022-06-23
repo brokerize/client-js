@@ -62,7 +62,7 @@ export function AuthMethodTanSpecificsFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function AuthMethodTanSpecificsToJSON(value?: AuthMethodTanSpecifics | null): any {
+export function AuthMethodTanSpecificsToJSONRecursive(value?: AuthMethodTanSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -81,3 +81,6 @@ export function AuthMethodTanSpecificsToJSON(value?: AuthMethodTanSpecifics | nu
     };
 }
 
+export function AuthMethodTanSpecificsToJSON(value?: AuthMethodTanSpecifics | null): any {
+    return AuthMethodTanSpecificsToJSONRecursive(value, false);
+}

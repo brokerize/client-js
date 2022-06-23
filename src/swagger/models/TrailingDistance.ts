@@ -60,7 +60,7 @@ export function TrailingDistanceFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function TrailingDistanceToJSON(value?: TrailingDistance | null): any {
+export function TrailingDistanceToJSONRecursive(value?: TrailingDistance | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -77,3 +77,6 @@ export function TrailingDistanceToJSON(value?: TrailingDistance | null): any {
     };
 }
 
+export function TrailingDistanceToJSON(value?: TrailingDistance | null): any {
+    return TrailingDistanceToJSONRecursive(value, false);
+}

@@ -48,7 +48,7 @@ export function ExchangesResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ExchangesResponseToJSON(value?: ExchangesResponse | null): any {
+export function ExchangesResponseToJSONRecursive(value?: ExchangesResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function ExchangesResponseToJSON(value?: ExchangesResponse | null): any {
     };
 }
 
+export function ExchangesResponseToJSON(value?: ExchangesResponse | null): any {
+    return ExchangesResponseToJSONRecursive(value, false);
+}

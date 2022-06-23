@@ -65,7 +65,7 @@ export function MustAcceptHintFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function MustAcceptHintToJSON(value?: MustAcceptHint | null): any {
+export function MustAcceptHintToJSONRecursive(value?: MustAcceptHint | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -82,3 +82,6 @@ export function MustAcceptHintToJSON(value?: MustAcceptHint | null): any {
     };
 }
 
+export function MustAcceptHintToJSON(value?: MustAcceptHint | null): any {
+    return MustAcceptHintToJSONRecursive(value, false);
+}

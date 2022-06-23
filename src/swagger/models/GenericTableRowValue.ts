@@ -14,13 +14,13 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-     GenericTableRowValueAmountToJSON,
+     GenericTableRowValueAmountToJSONRecursive,
      GenericTableRowValueAmountFromJSONTyped,
-     GenericTableRowValueDatetimeToJSON,
+     GenericTableRowValueDatetimeToJSONRecursive,
      GenericTableRowValueDatetimeFromJSONTyped,
-     GenericTableRowValueLinkToJSON,
+     GenericTableRowValueLinkToJSONRecursive,
      GenericTableRowValueLinkFromJSONTyped,
-     GenericTableRowValueTextToJSON,
+     GenericTableRowValueTextToJSONRecursive,
      GenericTableRowValueTextFromJSONTyped
 } from './';
 
@@ -66,7 +66,7 @@ export function GenericTableRowValueFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any {
+export function GenericTableRowValueToJSONRecursive(value?: GenericTableRowValue | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -77,12 +77,15 @@ export function GenericTableRowValueToJSON(value?: GenericTableRowValue | null):
     return {
         
 
-          ...value['type'] === 'amount' ? GenericTableRowValueAmountToJSON(value as any) : {},
-          ...value['type'] === 'datetime' ? GenericTableRowValueDatetimeToJSON(value as any) : {},
-          ...value['type'] === 'link' ? GenericTableRowValueLinkToJSON(value as any) : {},
-          ...value['type'] === 'text' ? GenericTableRowValueTextToJSON(value as any) : {},
+          ...value['type'] === 'amount' ? GenericTableRowValueAmountToJSONRecursive(value as any, true) : {},
+          ...value['type'] === 'datetime' ? GenericTableRowValueDatetimeToJSONRecursive(value as any, true) : {},
+          ...value['type'] === 'link' ? GenericTableRowValueLinkToJSONRecursive(value as any, true) : {},
+          ...value['type'] === 'text' ? GenericTableRowValueTextToJSONRecursive(value as any, true) : {},
 
         'type': value.type,
     };
 }
 
+export function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any {
+    return GenericTableRowValueToJSONRecursive(value, false);
+}

@@ -14,9 +14,9 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-     LoginResponseChallengeToJSON,
+     LoginResponseChallengeToJSONRecursive,
      LoginResponseChallengeFromJSONTyped,
-     LoginResponseReadyToJSON,
+     LoginResponseReadyToJSONRecursive,
      LoginResponseReadyFromJSONTyped
 } from './';
 
@@ -56,7 +56,7 @@ export function LoginResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function LoginResponseToJSON(value?: LoginResponse | null): any {
+export function LoginResponseToJSONRecursive(value?: LoginResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -67,10 +67,13 @@ export function LoginResponseToJSON(value?: LoginResponse | null): any {
     return {
         
 
-          ...value['state'] === 'challenge' ? LoginResponseChallengeToJSON(value as any) : {},
-          ...value['state'] === 'ready' ? LoginResponseReadyToJSON(value as any) : {},
+          ...value['state'] === 'challenge' ? LoginResponseChallengeToJSONRecursive(value as any, true) : {},
+          ...value['state'] === 'ready' ? LoginResponseReadyToJSONRecursive(value as any, true) : {},
 
         'state': value.state,
     };
 }
 
+export function LoginResponseToJSON(value?: LoginResponse | null): any {
+    return LoginResponseToJSONRecursive(value, false);
+}

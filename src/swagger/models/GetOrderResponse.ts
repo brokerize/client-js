@@ -48,7 +48,7 @@ export function GetOrderResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function GetOrderResponseToJSON(value?: GetOrderResponse | null): any {
+export function GetOrderResponseToJSONRecursive(value?: GetOrderResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function GetOrderResponseToJSON(value?: GetOrderResponse | null): any {
     };
 }
 
+export function GetOrderResponseToJSON(value?: GetOrderResponse | null): any {
+    return GetOrderResponseToJSONRecursive(value, false);
+}

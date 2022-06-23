@@ -41,7 +41,7 @@ export function EnableSessionTanParamsDecoupledSpecificsFromJSONTyped(json: any,
     };
 }
 
-export function EnableSessionTanParamsDecoupledSpecificsToJSON(value?: EnableSessionTanParamsDecoupledSpecifics | null): any {
+export function EnableSessionTanParamsDecoupledSpecificsToJSONRecursive(value?: EnableSessionTanParamsDecoupledSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function EnableSessionTanParamsDecoupledSpecificsToJSON(value?: EnableSes
     };
 }
 
+export function EnableSessionTanParamsDecoupledSpecificsToJSON(value?: EnableSessionTanParamsDecoupledSpecifics | null): any {
+    return EnableSessionTanParamsDecoupledSpecificsToJSONRecursive(value, false);
+}

@@ -48,7 +48,7 @@ export function GetBrokersResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function GetBrokersResponseToJSON(value?: GetBrokersResponse | null): any {
+export function GetBrokersResponseToJSONRecursive(value?: GetBrokersResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function GetBrokersResponseToJSON(value?: GetBrokersResponse | null): any
     };
 }
 
+export function GetBrokersResponseToJSON(value?: GetBrokersResponse | null): any {
+    return GetBrokersResponseToJSONRecursive(value, false);
+}

@@ -51,7 +51,7 @@ export function NoSessionAvailableForPortfolioFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function NoSessionAvailableForPortfolioToJSON(value?: NoSessionAvailableForPortfolio | null): any {
+export function NoSessionAvailableForPortfolioToJSONRecursive(value?: NoSessionAvailableForPortfolio | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -67,3 +67,6 @@ export function NoSessionAvailableForPortfolioToJSON(value?: NoSessionAvailableF
     };
 }
 
+export function NoSessionAvailableForPortfolioToJSON(value?: NoSessionAvailableForPortfolio | null): any {
+    return NoSessionAvailableForPortfolioToJSONRecursive(value, false);
+}

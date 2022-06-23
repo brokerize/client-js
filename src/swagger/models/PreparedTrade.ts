@@ -102,7 +102,7 @@ export function PreparedTradeFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function PreparedTradeToJSON(value?: PreparedTrade | null): any {
+export function PreparedTradeToJSONRecursive(value?: PreparedTrade | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -123,3 +123,6 @@ export function PreparedTradeToJSON(value?: PreparedTrade | null): any {
     };
 }
 
+export function PreparedTradeToJSON(value?: PreparedTrade | null): any {
+    return PreparedTradeToJSONRecursive(value, false);
+}

@@ -69,7 +69,7 @@ export function GenericTableRowEntrySpecificsFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function GenericTableRowEntrySpecificsToJSON(value?: GenericTableRowEntrySpecifics | null): any {
+export function GenericTableRowEntrySpecificsToJSONRecursive(value?: GenericTableRowEntrySpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,3 +88,6 @@ export function GenericTableRowEntrySpecificsToJSON(value?: GenericTableRowEntry
     };
 }
 
+export function GenericTableRowEntrySpecificsToJSON(value?: GenericTableRowEntrySpecifics | null): any {
+    return GenericTableRowEntrySpecificsToJSONRecursive(value, false);
+}

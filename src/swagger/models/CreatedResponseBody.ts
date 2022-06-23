@@ -41,7 +41,7 @@ export function CreatedResponseBodyFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function CreatedResponseBodyToJSON(value?: CreatedResponseBody | null): any {
+export function CreatedResponseBodyToJSONRecursive(value?: CreatedResponseBody | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function CreatedResponseBodyToJSON(value?: CreatedResponseBody | null): a
     };
 }
 
+export function CreatedResponseBodyToJSON(value?: CreatedResponseBody | null): any {
+    return CreatedResponseBodyToJSONRecursive(value, false);
+}

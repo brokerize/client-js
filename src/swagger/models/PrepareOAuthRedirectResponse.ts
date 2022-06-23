@@ -41,7 +41,7 @@ export function PrepareOAuthRedirectResponseFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function PrepareOAuthRedirectResponseToJSON(value?: PrepareOAuthRedirectResponse | null): any {
+export function PrepareOAuthRedirectResponseToJSONRecursive(value?: PrepareOAuthRedirectResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function PrepareOAuthRedirectResponseToJSON(value?: PrepareOAuthRedirectR
     };
 }
 
+export function PrepareOAuthRedirectResponseToJSON(value?: PrepareOAuthRedirectResponse | null): any {
+    return PrepareOAuthRedirectResponseToJSONRecursive(value, false);
+}

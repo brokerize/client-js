@@ -69,7 +69,7 @@ export function PositionValuationFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function PositionValuationToJSON(value?: PositionValuation | null): any {
+export function PositionValuationToJSONRecursive(value?: PositionValuation | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,3 +88,6 @@ export function PositionValuationToJSON(value?: PositionValuation | null): any {
     };
 }
 
+export function PositionValuationToJSON(value?: PositionValuation | null): any {
+    return PositionValuationToJSONRecursive(value, false);
+}

@@ -48,7 +48,7 @@ export function AddSessionCompleteChallengeParamsFromJSONTyped(json: any, ignore
     };
 }
 
-export function AddSessionCompleteChallengeParamsToJSON(value?: AddSessionCompleteChallengeParams | null): any {
+export function AddSessionCompleteChallengeParamsToJSONRecursive(value?: AddSessionCompleteChallengeParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function AddSessionCompleteChallengeParamsToJSON(value?: AddSessionComple
     };
 }
 
+export function AddSessionCompleteChallengeParamsToJSON(value?: AddSessionCompleteChallengeParams | null): any {
+    return AddSessionCompleteChallengeParamsToJSONRecursive(value, false);
+}

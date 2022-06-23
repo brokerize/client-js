@@ -111,7 +111,7 @@ export function OrderExecutionFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function OrderExecutionToJSON(value?: OrderExecution | null): any {
+export function OrderExecutionToJSONRecursive(value?: OrderExecution | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -136,3 +136,6 @@ export function OrderExecutionToJSON(value?: OrderExecution | null): any {
     };
 }
 
+export function OrderExecutionToJSON(value?: OrderExecution | null): any {
+    return OrderExecutionToJSONRecursive(value, false);
+}

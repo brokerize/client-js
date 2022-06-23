@@ -118,7 +118,7 @@ export function DefaultOrderValidityByOrderModelFromJSONTyped(json: any, ignoreD
     };
 }
 
-export function DefaultOrderValidityByOrderModelToJSON(value?: DefaultOrderValidityByOrderModel | null): any {
+export function DefaultOrderValidityByOrderModelToJSONRecursive(value?: DefaultOrderValidityByOrderModel | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -144,3 +144,6 @@ export function DefaultOrderValidityByOrderModelToJSON(value?: DefaultOrderValid
     };
 }
 
+export function DefaultOrderValidityByOrderModelToJSON(value?: DefaultOrderValidityByOrderModel | null): any {
+    return DefaultOrderValidityByOrderModelToJSONRecursive(value, false);
+}

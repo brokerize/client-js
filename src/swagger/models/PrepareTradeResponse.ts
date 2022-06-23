@@ -48,7 +48,7 @@ export function PrepareTradeResponseFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function PrepareTradeResponseToJSON(value?: PrepareTradeResponse | null): any {
+export function PrepareTradeResponseToJSONRecursive(value?: PrepareTradeResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function PrepareTradeResponseToJSON(value?: PrepareTradeResponse | null):
     };
 }
 
+export function PrepareTradeResponseToJSON(value?: PrepareTradeResponse | null): any {
+    return PrepareTradeResponseToJSONRecursive(value, false);
+}

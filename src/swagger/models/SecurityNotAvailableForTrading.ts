@@ -51,7 +51,7 @@ export function SecurityNotAvailableForTradingFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function SecurityNotAvailableForTradingToJSON(value?: SecurityNotAvailableForTrading | null): any {
+export function SecurityNotAvailableForTradingToJSONRecursive(value?: SecurityNotAvailableForTrading | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -67,3 +67,6 @@ export function SecurityNotAvailableForTradingToJSON(value?: SecurityNotAvailabl
     };
 }
 
+export function SecurityNotAvailableForTradingToJSON(value?: SecurityNotAvailableForTrading | null): any {
+    return SecurityNotAvailableForTradingToJSONRecursive(value, false);
+}

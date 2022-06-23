@@ -61,7 +61,7 @@ export function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse | null): any {
+export function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChallengeResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,7 +70,7 @@ export function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeR
     }
 
     return {
-        ...CancelOrderParamsToJSON(value),
+        ...ignoreParent ? {} : CancelOrderParamsToJSON(value),
 
 
         'challengeId': value.challengeId,
@@ -78,3 +78,6 @@ export function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeR
     };
 }
 
+export function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse | null): any {
+    return CancelOrderChallengeResponseToJSONRecursive(value, false);
+}

@@ -73,7 +73,7 @@ export function ChallengeFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ChallengeToJSON(value?: Challenge | null): any {
+export function ChallengeToJSONRecursive(value?: Challenge | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -92,3 +92,6 @@ export function ChallengeToJSON(value?: Challenge | null): any {
     };
 }
 
+export function ChallengeToJSON(value?: Challenge | null): any {
+    return ChallengeToJSONRecursive(value, false);
+}

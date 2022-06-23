@@ -61,7 +61,7 @@ export function GenericTableRowValueLinkPortfolioFromJSONTyped(json: any, ignore
     };
 }
 
-export function GenericTableRowValueLinkPortfolioToJSON(value?: GenericTableRowValueLinkPortfolio | null): any {
+export function GenericTableRowValueLinkPortfolioToJSONRecursive(value?: GenericTableRowValueLinkPortfolio | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,7 +70,7 @@ export function GenericTableRowValueLinkPortfolioToJSON(value?: GenericTableRowV
     }
 
     return {
-        ...GenericTableRowValueLinkValueToJSON(value),
+        ...ignoreParent ? {} : GenericTableRowValueLinkValueToJSON(value),
 
 
         'text': value.text,
@@ -78,3 +78,6 @@ export function GenericTableRowValueLinkPortfolioToJSON(value?: GenericTableRowV
     };
 }
 
+export function GenericTableRowValueLinkPortfolioToJSON(value?: GenericTableRowValueLinkPortfolio | null): any {
+    return GenericTableRowValueLinkPortfolioToJSONRecursive(value, false);
+}

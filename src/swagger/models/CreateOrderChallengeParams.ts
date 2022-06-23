@@ -63,7 +63,7 @@ export function CreateOrderChallengeParamsFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function CreateOrderChallengeParamsToJSON(value?: CreateOrderChallengeParams | null): any {
+export function CreateOrderChallengeParamsToJSONRecursive(value?: CreateOrderChallengeParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -81,3 +81,6 @@ export function CreateOrderChallengeParamsToJSON(value?: CreateOrderChallengePar
     };
 }
 
+export function CreateOrderChallengeParamsToJSON(value?: CreateOrderChallengeParams | null): any {
+    return CreateOrderChallengeParamsToJSONRecursive(value, false);
+}

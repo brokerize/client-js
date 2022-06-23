@@ -71,7 +71,7 @@ export function AuthMethodDecoupledFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function AuthMethodDecoupledToJSON(value?: AuthMethodDecoupled | null): any {
+export function AuthMethodDecoupledToJSONRecursive(value?: AuthMethodDecoupled | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,7 +80,7 @@ export function AuthMethodDecoupledToJSON(value?: AuthMethodDecoupled | null): a
     }
 
     return {
-        ...AuthMethodToJSON(value),
+        ...ignoreParent ? {} : AuthMethodToJSON(value),
 
 
         'isDefaultMethod': value.isDefaultMethod,
@@ -89,3 +89,6 @@ export function AuthMethodDecoupledToJSON(value?: AuthMethodDecoupled | null): a
     };
 }
 
+export function AuthMethodDecoupledToJSON(value?: AuthMethodDecoupled | null): any {
+    return AuthMethodDecoupledToJSONRecursive(value, false);
+}

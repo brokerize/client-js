@@ -14,9 +14,9 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-     GenericTableRowValueLinkPortfolioToJSON,
+     GenericTableRowValueLinkPortfolioToJSONRecursive,
      GenericTableRowValueLinkPortfolioFromJSONTyped,
-     GenericTableRowValueLinkUrlToJSON,
+     GenericTableRowValueLinkUrlToJSONRecursive,
      GenericTableRowValueLinkUrlFromJSONTyped
 } from './';
 
@@ -56,7 +56,7 @@ export function GenericTableRowValueLinkValueFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function GenericTableRowValueLinkValueToJSON(value?: GenericTableRowValueLinkValue | null): any {
+export function GenericTableRowValueLinkValueToJSONRecursive(value?: GenericTableRowValueLinkValue | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -67,10 +67,13 @@ export function GenericTableRowValueLinkValueToJSON(value?: GenericTableRowValue
     return {
         
 
-          ...value['type'] === 'portfolio' ? GenericTableRowValueLinkPortfolioToJSON(value as any) : {},
-          ...value['type'] === 'url' ? GenericTableRowValueLinkUrlToJSON(value as any) : {},
+          ...value['type'] === 'portfolio' ? GenericTableRowValueLinkPortfolioToJSONRecursive(value as any, true) : {},
+          ...value['type'] === 'url' ? GenericTableRowValueLinkUrlToJSONRecursive(value as any, true) : {},
 
         'type': value.type,
     };
 }
 
+export function GenericTableRowValueLinkValueToJSON(value?: GenericTableRowValueLinkValue | null): any {
+    return GenericTableRowValueLinkValueToJSONRecursive(value, false);
+}

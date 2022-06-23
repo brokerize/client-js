@@ -41,7 +41,7 @@ export function GetUserResponseFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function GetUserResponseToJSON(value?: GetUserResponse | null): any {
+export function GetUserResponseToJSONRecursive(value?: GetUserResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function GetUserResponseToJSON(value?: GetUserResponse | null): any {
     };
 }
 
+export function GetUserResponseToJSON(value?: GetUserResponse | null): any {
+    return GetUserResponseToJSONRecursive(value, false);
+}

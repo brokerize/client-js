@@ -36,7 +36,10 @@ export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator
     return json;
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
+export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
     return value;
 }
 
+export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
+    return CreateModeSessionTanToJSONRecursive(value, false);
+}

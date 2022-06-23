@@ -123,7 +123,7 @@ export function GetQuoteResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function GetQuoteResponseToJSON(value?: GetQuoteResponse | null): any {
+export function GetQuoteResponseToJSONRecursive(value?: GetQuoteResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -147,3 +147,6 @@ export function GetQuoteResponseToJSON(value?: GetQuoteResponse | null): any {
     };
 }
 
+export function GetQuoteResponseToJSON(value?: GetQuoteResponse | null): any {
+    return GetQuoteResponseToJSONRecursive(value, false);
+}

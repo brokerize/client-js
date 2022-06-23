@@ -97,7 +97,7 @@ export function PortfolioQuotesFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function PortfolioQuotesToJSON(value?: PortfolioQuotes | null): any {
+export function PortfolioQuotesToJSONRecursive(value?: PortfolioQuotes | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -120,3 +120,6 @@ export function PortfolioQuotesToJSON(value?: PortfolioQuotes | null): any {
     };
 }
 
+export function PortfolioQuotesToJSON(value?: PortfolioQuotes | null): any {
+    return PortfolioQuotesToJSONRecursive(value, false);
+}

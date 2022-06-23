@@ -48,7 +48,7 @@ export function LoginResponseChallengeSpecificsFromJSONTyped(json: any, ignoreDi
     };
 }
 
-export function LoginResponseChallengeSpecificsToJSON(value?: LoginResponseChallengeSpecifics | null): any {
+export function LoginResponseChallengeSpecificsToJSONRecursive(value?: LoginResponseChallengeSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function LoginResponseChallengeSpecificsToJSON(value?: LoginResponseChall
     };
 }
 
+export function LoginResponseChallengeSpecificsToJSON(value?: LoginResponseChallengeSpecifics | null): any {
+    return LoginResponseChallengeSpecificsToJSONRecursive(value, false);
+}

@@ -14,9 +14,9 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-     CancelOrderChallengeResponseToJSON,
+     CancelOrderChallengeResponseToJSONRecursive,
      CancelOrderChallengeResponseFromJSONTyped,
-     CreateModeSessionTanToJSON,
+     CreateModeSessionTanToJSONRecursive,
      CreateModeSessionTanFromJSONTyped
 } from './';
 
@@ -56,7 +56,7 @@ export function CancelOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any {
+export function CancelOrderParamsToJSONRecursive(value?: CancelOrderParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -67,10 +67,13 @@ export function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any {
     return {
         
 
-          ...value['mode'] === 'challengeResponse' ? CancelOrderChallengeResponseToJSON(value as any) : {},
-          ...value['mode'] === 'sessionTan' ? CreateModeSessionTanToJSON(value as any) : {},
+          ...value['mode'] === 'challengeResponse' ? CancelOrderChallengeResponseToJSONRecursive(value as any, true) : {},
+          ...value['mode'] === 'sessionTan' ? CreateModeSessionTanToJSONRecursive(value as any, true) : {},
 
         'mode': value.mode,
     };
 }
 
+export function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any {
+    return CancelOrderParamsToJSONRecursive(value, false);
+}

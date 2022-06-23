@@ -55,7 +55,7 @@ export function GetPortfolioOrdersResponseFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function GetPortfolioOrdersResponseToJSON(value?: GetPortfolioOrdersResponse | null): any {
+export function GetPortfolioOrdersResponseToJSONRecursive(value?: GetPortfolioOrdersResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -72,3 +72,6 @@ export function GetPortfolioOrdersResponseToJSON(value?: GetPortfolioOrdersRespo
     };
 }
 
+export function GetPortfolioOrdersResponseToJSON(value?: GetPortfolioOrdersResponse | null): any {
+    return GetPortfolioOrdersResponseToJSONRecursive(value, false);
+}

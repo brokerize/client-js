@@ -61,7 +61,7 @@ export function GenericTableRowValueLinkUrlFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function GenericTableRowValueLinkUrlToJSON(value?: GenericTableRowValueLinkUrl | null): any {
+export function GenericTableRowValueLinkUrlToJSONRecursive(value?: GenericTableRowValueLinkUrl | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,7 +70,7 @@ export function GenericTableRowValueLinkUrlToJSON(value?: GenericTableRowValueLi
     }
 
     return {
-        ...GenericTableRowValueLinkValueToJSON(value),
+        ...ignoreParent ? {} : GenericTableRowValueLinkValueToJSON(value),
 
 
         'url': value.url,
@@ -78,3 +78,6 @@ export function GenericTableRowValueLinkUrlToJSON(value?: GenericTableRowValueLi
     };
 }
 
+export function GenericTableRowValueLinkUrlToJSON(value?: GenericTableRowValueLinkUrl | null): any {
+    return GenericTableRowValueLinkUrlToJSONRecursive(value, false);
+}

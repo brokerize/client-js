@@ -62,7 +62,7 @@ export function OrderValidityFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function OrderValidityToJSON(value?: OrderValidity | null): any {
+export function OrderValidityToJSONRecursive(value?: OrderValidity | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,3 +80,6 @@ export function OrderValidityToJSON(value?: OrderValidity | null): any {
     };
 }
 
+export function OrderValidityToJSON(value?: OrderValidity | null): any {
+    return OrderValidityToJSONRecursive(value, false);
+}

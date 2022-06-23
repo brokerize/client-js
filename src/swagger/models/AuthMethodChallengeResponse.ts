@@ -93,7 +93,7 @@ export function AuthMethodChallengeResponseFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function AuthMethodChallengeResponseToJSON(value?: AuthMethodChallengeResponse | null): any {
+export function AuthMethodChallengeResponseToJSONRecursive(value?: AuthMethodChallengeResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -102,7 +102,7 @@ export function AuthMethodChallengeResponseToJSON(value?: AuthMethodChallengeRes
     }
 
     return {
-        ...AuthMethodToJSON(value),
+        ...ignoreParent ? {} : AuthMethodToJSON(value),
 
 
         'tanFieldLabel': value.tanFieldLabel,
@@ -114,3 +114,6 @@ export function AuthMethodChallengeResponseToJSON(value?: AuthMethodChallengeRes
     };
 }
 
+export function AuthMethodChallengeResponseToJSON(value?: AuthMethodChallengeResponse | null): any {
+    return AuthMethodChallengeResponseToJSONRecursive(value, false);
+}

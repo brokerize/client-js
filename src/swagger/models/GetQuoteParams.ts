@@ -69,7 +69,7 @@ export function GetQuoteParamsFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function GetQuoteParamsToJSON(value?: GetQuoteParams | null): any {
+export function GetQuoteParamsToJSONRecursive(value?: GetQuoteParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,3 +88,6 @@ export function GetQuoteParamsToJSON(value?: GetQuoteParams | null): any {
     };
 }
 
+export function GetQuoteParamsToJSON(value?: GetQuoteParams | null): any {
+    return GetQuoteParamsToJSONRecursive(value, false);
+}

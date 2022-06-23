@@ -48,7 +48,7 @@ export function GetAuthInfoResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function GetAuthInfoResponseToJSON(value?: GetAuthInfoResponse | null): any {
+export function GetAuthInfoResponseToJSONRecursive(value?: GetAuthInfoResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function GetAuthInfoResponseToJSON(value?: GetAuthInfoResponse | null): a
     };
 }
 
+export function GetAuthInfoResponseToJSON(value?: GetAuthInfoResponse | null): any {
+    return GetAuthInfoResponseToJSONRecursive(value, false);
+}

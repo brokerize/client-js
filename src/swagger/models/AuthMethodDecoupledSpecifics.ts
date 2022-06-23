@@ -55,7 +55,7 @@ export function AuthMethodDecoupledSpecificsFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function AuthMethodDecoupledSpecificsToJSON(value?: AuthMethodDecoupledSpecifics | null): any {
+export function AuthMethodDecoupledSpecificsToJSONRecursive(value?: AuthMethodDecoupledSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -73,3 +73,6 @@ export function AuthMethodDecoupledSpecificsToJSON(value?: AuthMethodDecoupledSp
     };
 }
 
+export function AuthMethodDecoupledSpecificsToJSON(value?: AuthMethodDecoupledSpecifics | null): any {
+    return AuthMethodDecoupledSpecificsToJSONRecursive(value, false);
+}

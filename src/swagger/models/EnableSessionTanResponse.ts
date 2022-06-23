@@ -61,7 +61,7 @@ export function EnableSessionTanResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function EnableSessionTanResponseToJSON(value?: EnableSessionTanResponse | null): any {
+export function EnableSessionTanResponseToJSONRecursive(value?: EnableSessionTanResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -78,3 +78,6 @@ export function EnableSessionTanResponseToJSON(value?: EnableSessionTanResponse 
     };
 }
 
+export function EnableSessionTanResponseToJSON(value?: EnableSessionTanResponse | null): any {
+    return EnableSessionTanResponseToJSONRecursive(value, false);
+}

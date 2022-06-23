@@ -55,7 +55,7 @@ export function CostDetailsLinkFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function CostDetailsLinkToJSON(value?: CostDetailsLink | null): any {
+export function CostDetailsLinkToJSONRecursive(value?: CostDetailsLink | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -73,3 +73,6 @@ export function CostDetailsLinkToJSON(value?: CostDetailsLink | null): any {
     };
 }
 
+export function CostDetailsLinkToJSON(value?: CostDetailsLink | null): any {
+    return CostDetailsLinkToJSONRecursive(value, false);
+}

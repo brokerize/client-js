@@ -81,7 +81,7 @@ export function GenericTableRowEntryFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function GenericTableRowEntryToJSON(value?: GenericTableRowEntry | null): any {
+export function GenericTableRowEntryToJSONRecursive(value?: GenericTableRowEntry | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -90,7 +90,7 @@ export function GenericTableRowEntryToJSON(value?: GenericTableRowEntry | null):
     }
 
     return {
-        ...GenericTableRowToJSON(value),
+        ...ignoreParent ? {} : GenericTableRowToJSON(value),
 
 
         'value': GenericTableRowValueToJSON(value.value),
@@ -100,3 +100,6 @@ export function GenericTableRowEntryToJSON(value?: GenericTableRowEntry | null):
     };
 }
 
+export function GenericTableRowEntryToJSON(value?: GenericTableRowEntry | null): any {
+    return GenericTableRowEntryToJSONRecursive(value, false);
+}

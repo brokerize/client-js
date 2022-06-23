@@ -48,7 +48,7 @@ export function GenericTableRowValueLinkUrlSpecificsFromJSONTyped(json: any, ign
     };
 }
 
-export function GenericTableRowValueLinkUrlSpecificsToJSON(value?: GenericTableRowValueLinkUrlSpecifics | null): any {
+export function GenericTableRowValueLinkUrlSpecificsToJSONRecursive(value?: GenericTableRowValueLinkUrlSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function GenericTableRowValueLinkUrlSpecificsToJSON(value?: GenericTableR
     };
 }
 
+export function GenericTableRowValueLinkUrlSpecificsToJSON(value?: GenericTableRowValueLinkUrlSpecifics | null): any {
+    return GenericTableRowValueLinkUrlSpecificsToJSONRecursive(value, false);
+}

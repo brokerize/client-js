@@ -118,7 +118,7 @@ export function OrderCostEstimationFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function OrderCostEstimationToJSON(value?: OrderCostEstimation | null): any {
+export function OrderCostEstimationToJSONRecursive(value?: OrderCostEstimation | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -142,3 +142,6 @@ export function OrderCostEstimationToJSON(value?: OrderCostEstimation | null): a
     };
 }
 
+export function OrderCostEstimationToJSON(value?: OrderCostEstimation | null): any {
+    return OrderCostEstimationToJSONRecursive(value, false);
+}

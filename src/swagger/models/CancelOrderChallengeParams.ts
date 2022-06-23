@@ -41,7 +41,7 @@ export function CancelOrderChallengeParamsFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function CancelOrderChallengeParamsToJSON(value?: CancelOrderChallengeParams | null): any {
+export function CancelOrderChallengeParamsToJSONRecursive(value?: CancelOrderChallengeParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function CancelOrderChallengeParamsToJSON(value?: CancelOrderChallengePar
     };
 }
 
+export function CancelOrderChallengeParamsToJSON(value?: CancelOrderChallengeParams | null): any {
+    return CancelOrderChallengeParamsToJSONRecursive(value, false);
+}

@@ -81,7 +81,7 @@ export function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function BrokerMetaToJSON(value?: BrokerMeta | null): any {
+export function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -100,3 +100,6 @@ export function BrokerMetaToJSON(value?: BrokerMeta | null): any {
     };
 }
 
+export function BrokerMetaToJSON(value?: BrokerMeta | null): any {
+    return BrokerMetaToJSONRecursive(value, false);
+}

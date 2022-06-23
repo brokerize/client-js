@@ -48,7 +48,7 @@ export function GetPortfolioPositionsResponseFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function GetPortfolioPositionsResponseToJSON(value?: GetPortfolioPositionsResponse | null): any {
+export function GetPortfolioPositionsResponseToJSONRecursive(value?: GetPortfolioPositionsResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function GetPortfolioPositionsResponseToJSON(value?: GetPortfolioPosition
     };
 }
 
+export function GetPortfolioPositionsResponseToJSON(value?: GetPortfolioPositionsResponse | null): any {
+    return GetPortfolioPositionsResponseToJSONRecursive(value, false);
+}

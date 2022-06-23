@@ -77,7 +77,7 @@ export function AuthMethodTanFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function AuthMethodTanToJSON(value?: AuthMethodTan | null): any {
+export function AuthMethodTanToJSONRecursive(value?: AuthMethodTan | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -86,7 +86,7 @@ export function AuthMethodTanToJSON(value?: AuthMethodTan | null): any {
     }
 
     return {
-        ...AuthMethodToJSON(value),
+        ...ignoreParent ? {} : AuthMethodToJSON(value),
 
 
         'tanFieldLabel': value.tanFieldLabel,
@@ -96,3 +96,6 @@ export function AuthMethodTanToJSON(value?: AuthMethodTan | null): any {
     };
 }
 
+export function AuthMethodTanToJSON(value?: AuthMethodTan | null): any {
+    return AuthMethodTanToJSONRecursive(value, false);
+}

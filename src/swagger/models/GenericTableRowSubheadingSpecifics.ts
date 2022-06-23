@@ -41,7 +41,7 @@ export function GenericTableRowSubheadingSpecificsFromJSONTyped(json: any, ignor
     };
 }
 
-export function GenericTableRowSubheadingSpecificsToJSON(value?: GenericTableRowSubheadingSpecifics | null): any {
+export function GenericTableRowSubheadingSpecificsToJSONRecursive(value?: GenericTableRowSubheadingSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function GenericTableRowSubheadingSpecificsToJSON(value?: GenericTableRow
     };
 }
 
+export function GenericTableRowSubheadingSpecificsToJSON(value?: GenericTableRowSubheadingSpecifics | null): any {
+    return GenericTableRowSubheadingSpecificsToJSONRecursive(value, false);
+}

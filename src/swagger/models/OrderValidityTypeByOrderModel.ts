@@ -118,7 +118,7 @@ export function OrderValidityTypeByOrderModelFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function OrderValidityTypeByOrderModelToJSON(value?: OrderValidityTypeByOrderModel | null): any {
+export function OrderValidityTypeByOrderModelToJSONRecursive(value?: OrderValidityTypeByOrderModel | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -144,3 +144,6 @@ export function OrderValidityTypeByOrderModelToJSON(value?: OrderValidityTypeByO
     };
 }
 
+export function OrderValidityTypeByOrderModelToJSON(value?: OrderValidityTypeByOrderModel | null): any {
+    return OrderValidityTypeByOrderModelToJSONRecursive(value, false);
+}

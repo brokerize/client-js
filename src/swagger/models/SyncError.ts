@@ -48,7 +48,7 @@ export function SyncErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function SyncErrorToJSON(value?: SyncError | null): any {
+export function SyncErrorToJSONRecursive(value?: SyncError | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function SyncErrorToJSON(value?: SyncError | null): any {
     };
 }
 
+export function SyncErrorToJSON(value?: SyncError | null): any {
+    return SyncErrorToJSONRecursive(value, false);
+}

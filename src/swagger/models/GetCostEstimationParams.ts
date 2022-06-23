@@ -48,7 +48,7 @@ export function GetCostEstimationParamsFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function GetCostEstimationParamsToJSON(value?: GetCostEstimationParams | null): any {
+export function GetCostEstimationParamsToJSONRecursive(value?: GetCostEstimationParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function GetCostEstimationParamsToJSON(value?: GetCostEstimationParams | 
     };
 }
 
+export function GetCostEstimationParamsToJSON(value?: GetCostEstimationParams | null): any {
+    return GetCostEstimationParamsToJSONRecursive(value, false);
+}

@@ -41,7 +41,7 @@ export function EnableSessionTanResponseAnyOfFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function EnableSessionTanResponseAnyOfToJSON(value?: EnableSessionTanResponseAnyOf | null): any {
+export function EnableSessionTanResponseAnyOfToJSONRecursive(value?: EnableSessionTanResponseAnyOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function EnableSessionTanResponseAnyOfToJSON(value?: EnableSessionTanResp
     };
 }
 
+export function EnableSessionTanResponseAnyOfToJSON(value?: EnableSessionTanResponseAnyOf | null): any {
+    return EnableSessionTanResponseAnyOfToJSONRecursive(value, false);
+}

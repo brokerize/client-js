@@ -48,7 +48,7 @@ export function GenericTableRowValueLinkPortfolioSpecificsFromJSONTyped(json: an
     };
 }
 
-export function GenericTableRowValueLinkPortfolioSpecificsToJSON(value?: GenericTableRowValueLinkPortfolioSpecifics | null): any {
+export function GenericTableRowValueLinkPortfolioSpecificsToJSONRecursive(value?: GenericTableRowValueLinkPortfolioSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function GenericTableRowValueLinkPortfolioSpecificsToJSON(value?: Generic
     };
 }
 
+export function GenericTableRowValueLinkPortfolioSpecificsToJSON(value?: GenericTableRowValueLinkPortfolioSpecifics | null): any {
+    return GenericTableRowValueLinkPortfolioSpecificsToJSONRecursive(value, false);
+}

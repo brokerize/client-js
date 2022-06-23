@@ -48,7 +48,7 @@ export function GetPortfolioQuotesResponseFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function GetPortfolioQuotesResponseToJSON(value?: GetPortfolioQuotesResponse | null): any {
+export function GetPortfolioQuotesResponseToJSONRecursive(value?: GetPortfolioQuotesResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function GetPortfolioQuotesResponseToJSON(value?: GetPortfolioQuotesRespo
     };
 }
 
+export function GetPortfolioQuotesResponseToJSON(value?: GetPortfolioQuotesResponse | null): any {
+    return GetPortfolioQuotesResponseToJSONRecursive(value, false);
+}

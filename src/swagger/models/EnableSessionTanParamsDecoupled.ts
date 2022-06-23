@@ -54,7 +54,7 @@ export function EnableSessionTanParamsDecoupledFromJSONTyped(json: any, ignoreDi
     };
 }
 
-export function EnableSessionTanParamsDecoupledToJSON(value?: EnableSessionTanParamsDecoupled | null): any {
+export function EnableSessionTanParamsDecoupledToJSONRecursive(value?: EnableSessionTanParamsDecoupled | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -63,10 +63,13 @@ export function EnableSessionTanParamsDecoupledToJSON(value?: EnableSessionTanPa
     }
 
     return {
-        ...EnableSessionTanParamsToJSON(value),
+        ...ignoreParent ? {} : EnableSessionTanParamsToJSON(value),
 
 
         'authMethod': value.authMethod,
     };
 }
 
+export function EnableSessionTanParamsDecoupledToJSON(value?: EnableSessionTanParamsDecoupled | null): any {
+    return EnableSessionTanParamsDecoupledToJSONRecursive(value, false);
+}

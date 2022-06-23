@@ -48,7 +48,7 @@ export function DemoAccountsResponseFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function DemoAccountsResponseToJSON(value?: DemoAccountsResponse | null): any {
+export function DemoAccountsResponseToJSONRecursive(value?: DemoAccountsResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,3 +64,6 @@ export function DemoAccountsResponseToJSON(value?: DemoAccountsResponse | null):
     };
 }
 
+export function DemoAccountsResponseToJSON(value?: DemoAccountsResponse | null): any {
+    return DemoAccountsResponseToJSONRecursive(value, false);
+}

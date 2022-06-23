@@ -41,7 +41,7 @@ export function OkResponseBodyFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function OkResponseBodyToJSON(value?: OkResponseBody | null): any {
+export function OkResponseBodyToJSONRecursive(value?: OkResponseBody | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,3 +57,6 @@ export function OkResponseBodyToJSON(value?: OkResponseBody | null): any {
     };
 }
 
+export function OkResponseBodyToJSON(value?: OkResponseBody | null): any {
+    return OkResponseBodyToJSONRecursive(value, false);
+}

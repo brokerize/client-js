@@ -48,7 +48,7 @@ export function CancelOrderChallengeResponseSpecificsFromJSONTyped(json: any, ig
     };
 }
 
-export function CancelOrderChallengeResponseSpecificsToJSON(value?: CancelOrderChallengeResponseSpecifics | null): any {
+export function CancelOrderChallengeResponseSpecificsToJSONRecursive(value?: CancelOrderChallengeResponseSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function CancelOrderChallengeResponseSpecificsToJSON(value?: CancelOrderC
     };
 }
 
+export function CancelOrderChallengeResponseSpecificsToJSON(value?: CancelOrderChallengeResponseSpecifics | null): any {
+    return CancelOrderChallengeResponseSpecificsToJSONRecursive(value, false);
+}

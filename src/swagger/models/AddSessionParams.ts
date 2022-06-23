@@ -69,7 +69,7 @@ export function AddSessionParamsFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function AddSessionParamsToJSON(value?: AddSessionParams | null): any {
+export function AddSessionParamsToJSONRecursive(value?: AddSessionParams | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,3 +88,6 @@ export function AddSessionParamsToJSON(value?: AddSessionParams | null): any {
     };
 }
 
+export function AddSessionParamsToJSON(value?: AddSessionParams | null): any {
+    return AddSessionParamsToJSONRecursive(value, false);
+}

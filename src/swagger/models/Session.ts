@@ -82,7 +82,7 @@ export function SessionFromJSONTyped(json: any, ignoreDiscriminator: boolean): S
     };
 }
 
-export function SessionToJSON(value?: Session | null): any {
+export function SessionToJSONRecursive(value?: Session | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -102,3 +102,6 @@ export function SessionToJSON(value?: Session | null): any {
     };
 }
 
+export function SessionToJSON(value?: Session | null): any {
+    return SessionToJSONRecursive(value, false);
+}

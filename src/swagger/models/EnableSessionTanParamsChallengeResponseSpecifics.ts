@@ -48,7 +48,7 @@ export function EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped(js
     };
 }
 
-export function EnableSessionTanParamsChallengeResponseSpecificsToJSON(value?: EnableSessionTanParamsChallengeResponseSpecifics | null): any {
+export function EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive(value?: EnableSessionTanParamsChallengeResponseSpecifics | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -65,3 +65,6 @@ export function EnableSessionTanParamsChallengeResponseSpecificsToJSON(value?: E
     };
 }
 
+export function EnableSessionTanParamsChallengeResponseSpecificsToJSON(value?: EnableSessionTanParamsChallengeResponseSpecifics | null): any {
+    return EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive(value, false);
+}
