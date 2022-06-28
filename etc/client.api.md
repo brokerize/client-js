@@ -345,6 +345,11 @@ export class AuthorizedApiContext {
     prepareOAuthRedirect(p: PrepareOAuthRedirectParams): Promise<openApiClient.PrepareOAuthRedirectResponse>;
     // (undocumented)
     prepareTrade(req: PrepareTradeRequest): Promise<openApiClient.PrepareTradeResponse>;
+    // Warning: (ae-forgotten-export) The symbol "Callback" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    subscribeLogout(callback: Callback): Subscription;
     // (undocumented)
     triggerDemoSessionSyncError(sessionId: string): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
@@ -433,17 +438,16 @@ export interface BrokerizeConfig {
 // @public (undocumented)
 export class BrokerizeWebSocketClient {
     constructor(websocketUrl: string, auth: Auth);
-    // Warning: (ae-forgotten-export) The symbol "SubscribeDecoupledOperation" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     subscribeDecoupledOperation(subscribe: Pick<SubscribeDecoupledOperation, "sessionId" | "decoupledOperationId">, callback: Callback): Subscription;
-    // Warning: (ae-forgotten-export) The symbol "SubscribeInvalidateDetails" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "Callback" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     subscribeInvalidate(subscribe: SubscribeInvalidateDetails, callback: Callback): Subscription;
 }
+
+// @public (undocumented)
+type BrokerizeWebSocketError = {
+    message: string;
+};
 
 // Warning: (ae-forgotten-export) The symbol "runtime" needs to be exported by the entry point index.d.ts
 //
@@ -1060,6 +1064,9 @@ const DecoupledOperationState: {
 
 // @public (undocumented)
 type DecoupledOperationState = typeof DecoupledOperationState[keyof typeof DecoupledOperationState];
+
+// @public (undocumented)
+type DecoupledOperationState_2 = 'AUTHORIZATION_ABORTED' | 'AUTHORIZATION_INITIAL' | 'AUTHORIZATION_USER_ACCEPTED' | 'AUTHORIZATION_USER_CANCELED';
 
 // @public (undocumented)
 function DecoupledOperationStateFromJSON(json: any): DecoupledOperationState;
@@ -2242,6 +2249,12 @@ type InitOverideFunction = (requestContext: {
     init: HTTPRequestInit;
     context: RequestOpts;
 }) => Promise<RequestInit>;
+
+// @public (undocumented)
+type InvalidateMessage = {
+    cmd: 'invalidate';
+    subscriptionId: number;
+};
 
 // @public (undocumented)
 type Json = any;
@@ -3791,6 +3804,22 @@ function SessionToJSON(value?: Session | null): any;
 // @public (undocumented)
 function SessionToJSONRecursive(value?: Session | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+type SubscribeDecoupledOperation = {
+    cmd: 'subscribe';
+    type: 'decoupledOperationStatus';
+    subscriptionId: number;
+    sessionId: string;
+    decoupledOperationId: string;
+};
+
+// Warning: (ae-forgotten-export) The symbol "SubscribeSessions" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SubscribePositions" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SubscribeOrders" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+type SubscribeInvalidateDetails = SubscribeSessions | SubscribePositions | SubscribeOrders;
+
 // @public
 interface SyncError {
     date: Date;
@@ -3874,6 +3903,13 @@ interface TriggerSessionSyncRequest {
 }
 
 // @public (undocumented)
+type UpdateDecoupledOperationMessage = {
+    cmd: 'updateDecoupledOperationStatus';
+    subscriptionId: number;
+    state: DecoupledOperationState_2;
+};
+
+// @public (undocumented)
 class VoidApiResponse {
     constructor(raw: Response);
     // (undocumented)
@@ -3881,6 +3917,69 @@ class VoidApiResponse {
     // (undocumented)
     value(): Promise<void>;
 }
+
+// @public (undocumented)
+type WebSocketAuthenticatedMessage = {
+    cmd: 'authenticated';
+};
+
+// Warning: (ae-forgotten-export) The symbol "WebSocketCommandAuthorize" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "WebSocketCommandPing" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+type WebSocketCommand = WebSocketCommandAuthorize | WebSocketCommandPing | WebSocketCommandSubscribe | WebSocketCommandUnsubscribe;
+
+// Warning: (ae-forgotten-export) The symbol "InvalidateBase" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+type WebSocketCommandSubscribe = (InvalidateBase & SubscribeInvalidateDetails) | SubscribeDecoupledOperation;
+
+// @public (undocumented)
+type WebSocketCommandUnsubscribe = {
+    cmd: 'unsubscribe';
+    subscriptionId: number;
+};
+
+// @public (undocumented)
+type WebSocketError = {
+    error: BrokerizeWebSocketError;
+};
+
+// @public (undocumented)
+type WebSocketMessage = WebSocketSubscriptionMessage | WebSocketError | WebSocketAuthenticatedMessage;
+
+// @public (undocumented)
+type WebSocketMessageErrorOnSubscription = {
+    subscriptionId: number;
+    error: BrokerizeWebSocketError;
+};
+
+// @public (undocumented)
+type WebSocketSubscriptionMessage = WebSocketMessageErrorOnSubscription | WebSocketSubscriptionSuccessfulMessage;
+
+// @public (undocumented)
+type WebSocketSubscriptionSuccessfulMessage = InvalidateMessage | UpdateDecoupledOperationMessage;
+
+declare namespace WebSocketTypes {
+    export {
+        WebSocketCommand,
+        WebSocketCommandUnsubscribe,
+        WebSocketCommandSubscribe,
+        SubscribeInvalidateDetails,
+        SubscribeDecoupledOperation,
+        WebSocketMessage,
+        WebSocketSubscriptionMessage,
+        WebSocketSubscriptionSuccessfulMessage,
+        WebSocketAuthenticatedMessage,
+        WebSocketMessageErrorOnSubscription,
+        InvalidateMessage,
+        UpdateDecoupledOperationMessage,
+        BrokerizeWebSocketError,
+        WebSocketError,
+        DecoupledOperationState_2 as DecoupledOperationState
+    }
+}
+export { WebSocketTypes }
 
 // (No @packageDocumentation comment for this package)
 

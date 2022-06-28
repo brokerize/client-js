@@ -12,7 +12,13 @@ import {
   PrepareOAuthRedirectParams,
   PrepareTradeRequest,
 } from "./swagger";
-import { BrokerizeWebSocketClient } from "./websocketClient";
+import {
+  BrokerizeWebSocketClient,
+  Callback,
+  Subscription,
+} from "./websocketClient";
+import { Subject } from "rxjs";
+import { SubscribeDecoupledOperation } from "./websocketTypes";
 
 export class AuthorizedApiContext {
   private _cfg: BrokerizeConfig;
@@ -26,22 +32,43 @@ export class AuthorizedApiContext {
   private _brokerLoginApi: openApiClient.BrokerLoginApi;
   private _cancelOrderApi: openApiClient.CancelOrderApi;
   private _changeOrderApi: openApiClient.ChangeOrderApi;
+  private _logoutSubject: Subject<void>;
   constructor(cfg: BrokerizeConfig, auth: Auth) {
     this._cfg = cfg;
     this._auth = auth;
 
     const apiConfig = createConfiguration(cfg);
-    this._defaultApi = new openApiClient.DefaultApi(apiConfig);
+    this._logoutSubject = new Subject<void>();
+    const postMiddleware = async (
+      r: openApiClient.ResponseContext
+    ): Promise<void> => {
+      if (r.response.status == 401) {
+        this._logoutSubject.error(new Error("Status 401"));
+      }
+    };
+
+    this._defaultApi = new openApiClient.DefaultApi(
+      apiConfig
+    ).withPostMiddleware(postMiddleware);
     this._demoBrokerApi = new openApiClient.DemobrokerApi(
       apiConfig
+    ).withPostMiddleware(postMiddleware);
+    this._tradeApi = new openApiClient.TradeApi(apiConfig).withPostMiddleware(
+      postMiddleware
     );
-    this._tradeApi = new openApiClient.TradeApi(apiConfig);
-    this._metaApi = new openApiClient.MetaApi(apiConfig);
-    this._brokerLoginApi = new openApiClient.BrokerLoginApi(apiConfig);
-    this._cancelOrderApi = new openApiClient.CancelOrderApi(apiConfig);
-    this._changeOrderApi = new openApiClient.ChangeOrderApi(apiConfig);
+    this._metaApi = new openApiClient.MetaApi(apiConfig).withPostMiddleware(
+      postMiddleware
+    );
+    this._brokerLoginApi = new openApiClient.BrokerLoginApi(
+      apiConfig
+    ).withPostMiddleware(postMiddleware);
+    this._cancelOrderApi = new openApiClient.CancelOrderApi(
+      apiConfig
+    ).withPostMiddleware(postMiddleware);
+    this._changeOrderApi = new openApiClient.ChangeOrderApi(
+      apiConfig
+    ).withPostMiddleware(postMiddleware);
     this._abortController = cfg.createAbortController();
-
   }
   private async _initRequestInit() {
     if (this._isDestroyed) {
@@ -51,15 +78,13 @@ export class AuthorizedApiContext {
     return {
       signal: this._abortController.signal,
       headers: {
-        'x-brkrz-client-id': this._cfg.clientId, 
+        "x-brkrz-client-id": this._cfg.clientId,
         "x-access-token": tok.idToken,
         "Content-Type": "application/json",
       },
     };
   }
   async getBrokers() {
-
-
     return this._metaApi.getBrokers(await this._initRequestInit());
   }
   async getExchanges() {
@@ -261,5 +286,17 @@ export class AuthorizedApiContext {
   destroy() {
     this._isDestroyed = true;
     this._abortController.abort();
+  }
+  subscribeLogout(callback: Callback): Subscription {
+    const s = this._logoutSubject.subscribe({
+      error(err) {
+        callback(err, null);
+      },
+    });
+    return {
+      unsubscribe() {
+        s.unsubscribe();
+      },
+    };
   }
 }
