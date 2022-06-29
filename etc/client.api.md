@@ -345,9 +345,6 @@ export class AuthorizedApiContext {
     prepareOAuthRedirect(p: PrepareOAuthRedirectParams): Promise<openApiClient.PrepareOAuthRedirectResponse>;
     // (undocumented)
     prepareTrade(req: PrepareTradeRequest): Promise<openApiClient.PrepareTradeResponse>;
-    // Warning: (ae-forgotten-export) The symbol "Callback" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "Subscription" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     subscribeLogout(callback: Callback): Subscription;
     // (undocumented)
@@ -550,6 +547,9 @@ function BrokerNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Broke
 
 // @public (undocumented)
 function BrokerNameToJSON(value?: BrokerName | null): any;
+
+// @public (undocumented)
+export type Callback = (err: any, data: any) => void;
 
 // @public (undocumented)
 interface CancelDecoupledOperationRequest {
@@ -3819,6 +3819,11 @@ type SubscribeDecoupledOperation = {
 //
 // @public (undocumented)
 type SubscribeInvalidateDetails = SubscribeSessions | SubscribePositions | SubscribeOrders;
+
+// @public (undocumented)
+export type Subscription = {
+    unsubscribe: () => void;
+};
 
 // @public
 interface SyncError {

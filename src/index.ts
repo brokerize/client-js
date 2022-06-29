@@ -9,7 +9,11 @@ import {
 } from "./apiCtx";
 import { AuthorizedApiContext } from "./authorizedApiContext";
 import * as openApiClient from "./swagger";
-import { BrokerizeWebSocketClient } from "./websocketClient";
+import {
+  BrokerizeWebSocketClient,
+  Callback,
+  Subscription,
+} from "./websocketClient";
 export { BrokerName } from "./swagger";
 
 async function sha256(s: string) {
@@ -120,6 +124,15 @@ export class Brokerize {
   }
 }
 
-import * as Models from './swagger/models';
-import * as WebSocketTypes from './websocketTypes';
-export { BrokerizeConfig, AuthContextConfiguration, AuthorizedApiContext, BrokerizeWebSocketClient, Models, WebSocketTypes };
+import * as Models from "./swagger/models";
+import * as WebSocketTypes from "./websocketTypes";
+export {
+  BrokerizeConfig,
+  AuthContextConfiguration,
+  AuthorizedApiContext,
+  BrokerizeWebSocketClient,
+  Models,
+  WebSocketTypes,
+  Subscription,
+  Callback,
+};
