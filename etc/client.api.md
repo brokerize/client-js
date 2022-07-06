@@ -290,6 +290,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     createChangeOrderChallenge(req: openApiClient.CreateChangeOrderChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
+    createChildContext(): AuthorizedApiContext;
+    // (undocumented)
     createDemoAccount(): Promise<openApiClient.CreatedResponseBody>;
     // (undocumented)
     createSessionTanChallenge(req: openApiClient.CreateSessionTanChallengeRequest): Promise<openApiClient.Challenge>;
@@ -3866,6 +3868,25 @@ class TradeApi extends runtime.BaseAPI {
     getQuoteRaw(requestParameters: GetQuoteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetQuoteResponse>>;
     prepareTrade(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PrepareTradeResponse>;
     prepareTradeRaw(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PrepareTradeResponse>>;
+}
+
+// @public (undocumented)
+export class TradingError extends Error {
+    // Warning: (ae-forgotten-export) The symbol "ErrorParams" needs to be exported by the entry point index.d.ts
+    constructor({ msg, code, brokerCode, brokerError, msgBrokerName, httpStatusCode, hint, }: ErrorParams);
+    // (undocumented)
+    brokerCode?: string | number;
+    // (undocumented)
+    brokerError?: any;
+    // (undocumented)
+    code?: string;
+    // Warning: (ae-forgotten-export) The symbol "Hint" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    hint?: Hint_2;
+    // (undocumented)
+    httpStatusCode: number;
+    msgBrokerName?: string;
 }
 
 // @public

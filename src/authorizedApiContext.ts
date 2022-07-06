@@ -1,4 +1,6 @@
+import { Subject } from "rxjs";
 import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
+import { TradingError } from "./errors";
 import * as openApiClient from "./swagger";
 import {
   AddSessionParams,
@@ -6,20 +8,15 @@ import {
   CreateTradeChallengeRequest,
   CreateTradeRequest,
   DeleteDemoAccountRequest,
-  GetCostEstimationParams,
-  GetQuoteParams,
-  GetQuoteRequest,
+  GetCostEstimationParams, GetQuoteRequest,
   PrepareOAuthRedirectParams,
-  PrepareTradeRequest,
+  PrepareTradeRequest
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
   Callback,
-  Subscription,
+  Subscription
 } from "./websocketClient";
-import { Subject } from "rxjs";
-import { SubscribeDecoupledOperation } from "./websocketTypes";
-import { TradingError } from "./errors";
 
 export class AuthorizedApiContext {
   private _cfg: BrokerizeConfig;
@@ -34,9 +31,11 @@ export class AuthorizedApiContext {
   private _cancelOrderApi: openApiClient.CancelOrderApi;
   private _changeOrderApi: openApiClient.ChangeOrderApi;
   private _logoutSubject: Subject<void>;
+  private _childContexts: AuthorizedApiContext[];
   constructor(cfg: BrokerizeConfig, auth: Auth) {
     this._cfg = cfg;
     this._auth = auth;
+    this._childContexts = [];
 
     const apiConfig = createConfiguration(cfg);
     this._logoutSubject = new Subject<void>();
@@ -53,6 +52,8 @@ export class AuthorizedApiContext {
           throw new TradingError(decJson);
         }
       }
+
+      
     };
 
     this._defaultApi = new openApiClient.DefaultApi(
@@ -77,6 +78,17 @@ export class AuthorizedApiContext {
       apiConfig
     ).withPostMiddleware(postMiddleware);
     this._abortController = cfg.createAbortController();
+  }
+  createChildContext() {
+    const result = new AuthorizedApiContext(this._cfg, this._auth);
+    const childContexts = this._childContexts;
+    childContexts.push(result);
+    const origDestroy = result.destroy;
+    result.destroy = () => {
+      origDestroy.call(result);
+      this._childContexts = this._childContexts.filter(ctx=>ctx!=result);
+    }
+    return result;
   }
   private async _initRequestInit() {
     if (this._isDestroyed) {
