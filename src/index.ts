@@ -126,6 +126,7 @@ export class Brokerize {
 
 import * as Models from "./swagger/models";
 import * as WebSocketTypes from "./websocketTypes";
+import { TradingError } from "./errors";
 export {
   BrokerizeConfig,
   AuthContextConfiguration,
@@ -135,4 +136,5 @@ export {
   WebSocketTypes,
   Subscription,
   Callback,
+  TradingError
 };

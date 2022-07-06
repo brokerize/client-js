@@ -19,6 +19,7 @@ import {
 } from "./websocketClient";
 import { Subject } from "rxjs";
 import { SubscribeDecoupledOperation } from "./websocketTypes";
+import { TradingError } from "./errors";
 
 export class AuthorizedApiContext {
   private _cfg: BrokerizeConfig;
@@ -44,6 +45,13 @@ export class AuthorizedApiContext {
     ): Promise<void> => {
       if (r.response.status == 401) {
         this._logoutSubject.error(new Error("Status 401"));
+      }
+
+      if (r.response.status >= 400) {
+        const decJson = await r.response.json();
+        if (decJson.name == 'TradingError') {
+          throw new TradingError(decJson);
+        }
       }
     };
 
