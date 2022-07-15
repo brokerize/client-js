@@ -3536,8 +3536,10 @@ function PositionValuationToJSONRecursive(value?: PositionValuation | null, igno
 
 // @public
 interface PreparedTrade {
+    costEstimationIsOnlyDetailedTable?: boolean;
     costEstimationMustBeShown: boolean;
     exchanges: Array<Exchange>;
+    noExchangeDefault?: boolean;
     riskClassInfo?: RiskClassInfo;
     security: Security;
     sizeUnit: string;
