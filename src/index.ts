@@ -16,35 +16,23 @@ import {
 } from "./websocketClient";
 export { BrokerName } from "./swagger";
 
-async function sha256(s: string) {
-  return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
-}
-
-async function generateNonce() {
-  const hash = await sha256(
-    crypto.getRandomValues(new Uint32Array(4)).toString()
-  );
-  // https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
-  const hashArray = Array.from(new Uint8Array(hash));
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-async function base64URLEncode(s: ArrayBuffer) {
-  return btoa(String.fromCharCode.apply(null, new Uint8Array(s as any) as any))
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-}
-
-const clientId = "3a5sb9u5uoprplso87dsv2qom0";
 
 export class Brokerize {
   private _cfg: BrokerizeConfig;
   private _defaultApi: openApiClient.DefaultApi;
+  private _cognito?: Cognito;
 
   constructor(cfg: BrokerizeConfig) {
     this._cfg = cfg;
     this._defaultApi = new openApiClient.DefaultApi(createConfiguration(cfg));
+  }
+
+  private getCognito() {
+    if (!this._cognito) {
+      this._cognito = new Cognito(this._cfg);
+    }
+
+    return this._cognito;
   }
 
   async createGuestUser(): Promise<AuthContextConfiguration> {
@@ -56,7 +44,7 @@ export class Brokerize {
   }
 
   createAuthorizedContext(authCtxCfg: AuthContextConfiguration) {
-    return new AuthorizedApiContext(this._cfg, createAuth(authCtxCfg));
+    return new AuthorizedApiContext(this._cfg, createAuth(authCtxCfg, this._cfg));
   }
 
   /**
@@ -67,14 +55,7 @@ export class Brokerize {
    * to your application happens, the URL parameters `state` and `code` will be set.
    */
   async prepareLoginRedirect(redirectUri: string) {
-    const state = await generateNonce();
-    const codeVerifier = await generateNonce();
-    const codeChallenge = await base64URLEncode(await sha256(codeVerifier));
-    return {
-      state,
-      codeVerifier,
-      url: `https://berg7.auth.eu-central-1.amazoncognito.com/authorize?response_type=code&client_id=${clientId}&state=${state}&code_challenge_method=S256&code_challenge=${codeChallenge}&redirect_uri=${redirectUri}`,
-    };
+    return this.getCognito().prepareLoginRedirect(redirectUri);
   }
 
   /**
@@ -91,42 +72,15 @@ export class Brokerize {
     codeVerifier: string;
     code: string;
   }): Promise<RegisteredUserAuthContextConfiguration> {
-    const res = await this._cfg.fetch(
-      `https://berg7.auth.eu-central-1.amazoncognito.com/oauth2/token`,
-      {
-        method: "POST",
-        headers: new Headers({
-          "content-type": "application/x-www-form-urlencoded",
-        }),
-        body: Object.entries({
-          grant_type: "authorization_code",
-          client_id: clientId,
-          code: code,
-          code_verifier: codeVerifier,
-          redirect_uri: window.location.origin,
-        })
-          .map(([k, v]) => `${k}=${v}`)
-          .join("&"),
-      }
-    );
-    if (!res.ok) {
-      throw new Error(await res.json());
-    }
-    const tokens = await res.json();
-    return {
-      type: "registered",
-      tokens: {
-        idToken: tokens.id_token,
-        refreshToken: tokens.refresh_token,
-        expiresAt: Date.now() + tokens.expires_in * 1000,
-      },
-    };
+    const cognito = this.getCognito();
+    return cognito.createRegisteredUserAuthConfigurationFromLoginRedirect({code, codeVerifier});
   }
 }
 
 import * as Models from "./swagger/models";
 import * as WebSocketTypes from "./websocketTypes";
 import { TradingError } from "./errors";
+import { Cognito } from "./cognito";
 export {
   BrokerizeConfig,
   AuthContextConfiguration,

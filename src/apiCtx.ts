@@ -1,5 +1,6 @@
 /* Import/Export the DOM parts we rely on. Those are partial copies from the official TypeScript DOM library definitions (https://github.com/microsoft/TypeScript/blob/master/lib/lib.dom.d.ts),
    but reduced to the parts actually used by bg-trading. */
+import { Cognito } from "./cognito";
 import { WhatWgFetch } from "./dependencyDefinitions/fetch";
 import { Configuration } from "./swagger";
 
@@ -20,12 +21,14 @@ export type AuthContextConfiguration =
 
 export type RegisteredUserAuthContextConfiguration = {
   type: "registered";
-  tokens: {
-    idToken: string;
-    refreshToken: string;
-    expiresAt: number;
-  };
+  tokens: TokenSet;
 };
+
+export type TokenSet = {
+  idToken: string;
+  refreshToken: string;
+  expiresAt: number;
+}
 
 export interface GuestAuthContextConfiguration {
   type: "guest";
@@ -47,7 +50,7 @@ export function createConfiguration(cfg: BrokerizeConfig) {
   });
 }
 
-export function createAuth(authCfg: AuthContextConfiguration): Auth {
+export function createAuth(authCfg: AuthContextConfiguration, cfg: BrokerizeConfig): Auth {
   if (authCfg.type == "guest") {
     return {
       async getToken() {
@@ -55,10 +58,11 @@ export function createAuth(authCfg: AuthContextConfiguration): Auth {
       },
     };
   } else if (authCfg.type == "registered") {
+    const cognito = new Cognito(cfg);
     return {
       async getToken() {
-        // TODO implement refresh token
-        return { idToken: authCfg.tokens.idToken };
+        const tokens = await cognito.getFreshTokens(authCfg);
+        return { idToken: tokens.idToken };
       },
     };
   } else {
