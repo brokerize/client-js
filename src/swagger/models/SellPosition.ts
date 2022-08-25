@@ -13,54 +13,42 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
-import {
-    GenericTableRowValueTextSpecifics,
-    GenericTableRowValueTextSpecificsFromJSON,
-    GenericTableRowValueTextSpecificsFromJSONTyped,
-    GenericTableRowValueTextSpecificsToJSON,
-} from './GenericTableRowValueTextSpecifics';
-import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
-
 /**
  * 
  * @export
- * @interface GenericTableRowValueText
+ * @interface SellPosition
  */
-export interface GenericTableRowValueText extends GenericTableRowValue {
+export interface SellPosition {
     /**
      * 
      * @type {string}
-     * @memberof GenericTableRowValueText
+     * @memberof SellPosition
      */
-    value: string;
+    label: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SellPosition
+     */
+    id: string;
 }
 
-export function GenericTableRowValueTextFromJSON(json: any): GenericTableRowValueText {
-    return GenericTableRowValueTextFromJSONTyped(json, false);
+export function SellPositionFromJSON(json: any): SellPosition {
+    return SellPositionFromJSONTyped(json, false);
 }
 
-export function GenericTableRowValueTextFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueText {
+export function SellPositionFromJSONTyped(json: any, ignoreDiscriminator: boolean): SellPosition {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
-        'value': json['value'],
+        
+        'label': json['label'],
+        'id': json['id'],
     };
 }
 
-export function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowValueText | null, ignoreParent = false): any {
+export function SellPositionToJSONRecursive(value?: SellPosition | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,13 +57,14 @@ export function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowV
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        
 
 
-        'value': value.value,
+        'label': value.label,
+        'id': value.id,
     };
 }
 
-export function GenericTableRowValueTextToJSON(value?: GenericTableRowValueText | null): any {
-    return GenericTableRowValueTextToJSONRecursive(value, false);
+export function SellPositionToJSON(value?: SellPosition | null): any {
+    return SellPositionToJSONRecursive(value, false);
 }

@@ -14,53 +14,60 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
+    EnableSessionTanParams,
+    EnableSessionTanParamsFromJSON,
+    EnableSessionTanParamsFromJSONTyped,
+    EnableSessionTanParamsToJSON,
+} from './EnableSessionTanParams';
 import {
-    GenericTableRowValueTextSpecifics,
-    GenericTableRowValueTextSpecificsFromJSON,
-    GenericTableRowValueTextSpecificsFromJSONTyped,
-    GenericTableRowValueTextSpecificsToJSON,
-} from './GenericTableRowValueTextSpecifics';
+    EnableSessionTanParamsKind,
+    EnableSessionTanParamsKindFromJSON,
+    EnableSessionTanParamsKindFromJSONTyped,
+    EnableSessionTanParamsKindToJSON,
+} from './EnableSessionTanParamsKind';
 import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
+    EnableSessionTanParamsTanSpecifics,
+    EnableSessionTanParamsTanSpecificsFromJSON,
+    EnableSessionTanParamsTanSpecificsFromJSONTyped,
+    EnableSessionTanParamsTanSpecificsToJSON,
+} from './EnableSessionTanParamsTanSpecifics';
 
 /**
  * 
  * @export
- * @interface GenericTableRowValueText
+ * @interface EnableSessionTanParamsTan
  */
-export interface GenericTableRowValueText extends GenericTableRowValue {
+export interface EnableSessionTanParamsTan extends EnableSessionTanParams {
     /**
      * 
      * @type {string}
-     * @memberof GenericTableRowValueText
+     * @memberof EnableSessionTanParamsTan
      */
-    value: string;
+    tan: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EnableSessionTanParamsTan
+     */
+    authMethod: string;
 }
 
-export function GenericTableRowValueTextFromJSON(json: any): GenericTableRowValueText {
-    return GenericTableRowValueTextFromJSONTyped(json, false);
+export function EnableSessionTanParamsTanFromJSON(json: any): EnableSessionTanParamsTan {
+    return EnableSessionTanParamsTanFromJSONTyped(json, false);
 }
 
-export function GenericTableRowValueTextFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueText {
+export function EnableSessionTanParamsTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsTan {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
-        'value': json['value'],
+        ...EnableSessionTanParamsFromJSONTyped(json, ignoreDiscriminator),
+        'tan': json['tan'],
+        'authMethod': json['authMethod'],
     };
 }
 
-export function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowValueText | null, ignoreParent = false): any {
+export function EnableSessionTanParamsTanToJSONRecursive(value?: EnableSessionTanParamsTan | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,13 +76,14 @@ export function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowV
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        ...ignoreParent ? {} : EnableSessionTanParamsToJSON(value),
 
 
-        'value': value.value,
+        'tan': value.tan,
+        'authMethod': value.authMethod,
     };
 }
 
-export function GenericTableRowValueTextToJSON(value?: GenericTableRowValueText | null): any {
-    return GenericTableRowValueTextToJSONRecursive(value, false);
+export function EnableSessionTanParamsTanToJSON(value?: EnableSessionTanParamsTan | null): any {
+    return EnableSessionTanParamsTanToJSONRecursive(value, false);
 }

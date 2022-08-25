@@ -71,7 +71,6 @@ export class Cognito {
   }
 
   async getFreshTokens(toks: RegisteredUserAuthContextConfiguration): Promise<TokenSet> {
-    debugger
     if (Date.now() < toks.tokens.expiresAt) {
         return toks.tokens;
     }

@@ -55,6 +55,8 @@ models/EnableSessionTanParamsChallengeResponseSpecifics.ts
 models/EnableSessionTanParamsDecoupled.ts
 models/EnableSessionTanParamsDecoupledSpecifics.ts
 models/EnableSessionTanParamsKind.ts
+models/EnableSessionTanParamsTan.ts
+models/EnableSessionTanParamsTanSpecifics.ts
 models/EnableSessionTanResponse.ts
 models/EnableSessionTanResponseAnyOf.ts
 models/EndSessionTanResponse.ts
@@ -118,6 +120,7 @@ models/OrderStatus.ts
 models/OrderValidity.ts
 models/OrderValidityType.ts
 models/OrderValidityTypeByOrderModel.ts
+models/PartialRecordOrderModelString.ts
 models/Portfolio.ts
 models/PortfolioQuotes.ts
 models/PortfoliosResponse.ts
@@ -131,6 +134,7 @@ models/QuoteExpiration.ts
 models/RiskClassInfo.ts
 models/Security.ts
 models/SecurityNotAvailableForTrading.ts
+models/SellPosition.ts
 models/Session.ts
 models/SessionResponse.ts
 models/SyncError.ts

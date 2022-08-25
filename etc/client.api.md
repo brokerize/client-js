@@ -1331,6 +1331,7 @@ function EnableSessionTanParamsFromJSONTyped(json: any, ignoreDiscriminator: boo
 const EnableSessionTanParamsKind: {
     readonly ChallengeResponse: "challengeResponse";
     readonly Decoupled: "decoupled";
+    readonly Tan: "tan";
 };
 
 // @public (undocumented)
@@ -1344,6 +1345,42 @@ function EnableSessionTanParamsKindFromJSONTyped(json: any, ignoreDiscriminator:
 
 // @public (undocumented)
 function EnableSessionTanParamsKindToJSON(value?: EnableSessionTanParamsKind | null): any;
+
+// @public
+interface EnableSessionTanParamsTan extends EnableSessionTanParams {
+    authMethod: string;
+    tan: string;
+}
+
+// @public (undocumented)
+function EnableSessionTanParamsTanFromJSON(json: any): EnableSessionTanParamsTan;
+
+// @public (undocumented)
+function EnableSessionTanParamsTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsTan;
+
+// @public
+interface EnableSessionTanParamsTanSpecifics {
+    authMethod?: string;
+    tan?: string;
+}
+
+// @public (undocumented)
+function EnableSessionTanParamsTanSpecificsFromJSON(json: any): EnableSessionTanParamsTanSpecifics;
+
+// @public (undocumented)
+function EnableSessionTanParamsTanSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsTanSpecifics;
+
+// @public (undocumented)
+function EnableSessionTanParamsTanSpecificsToJSON(value?: EnableSessionTanParamsTanSpecifics | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsTanSpecificsToJSONRecursive(value?: EnableSessionTanParamsTanSpecifics | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsTanToJSON(value?: EnableSessionTanParamsTan | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsTanToJSONRecursive(value?: EnableSessionTanParamsTan | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | null): any;
@@ -1438,11 +1475,13 @@ function EstimateChangeOrderCostsParamsToJSONRecursive(value?: EstimateChangeOrd
 interface Exchange {
     allowsIfDoneLimit?: boolean;
     allowsQuoteModeLimit?: boolean;
+    brokerizeExchangeId?: number;
     currencyIso: string;
     defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
     hideOrderModel?: boolean;
     id: string;
     label: string;
+    legalMessagesToConfirmByOrderModel?: PartialRecordOrderModelString;
     orderModelsBuy: Array<OrderModel>;
     orderModelsSell: Array<OrderModel>;
     validityTypesByOrderModel?: OrderValidityTypeByOrderModel;
@@ -2633,6 +2672,16 @@ declare namespace Models {
         EnableSessionTanParamsKindFromJSONTyped,
         EnableSessionTanParamsKindToJSON,
         EnableSessionTanParamsKind,
+        EnableSessionTanParamsTanFromJSON,
+        EnableSessionTanParamsTanFromJSONTyped,
+        EnableSessionTanParamsTanToJSONRecursive,
+        EnableSessionTanParamsTanToJSON,
+        EnableSessionTanParamsTan,
+        EnableSessionTanParamsTanSpecificsFromJSON,
+        EnableSessionTanParamsTanSpecificsFromJSONTyped,
+        EnableSessionTanParamsTanSpecificsToJSONRecursive,
+        EnableSessionTanParamsTanSpecificsToJSON,
+        EnableSessionTanParamsTanSpecifics,
         EnableSessionTanResponseFromJSON,
         EnableSessionTanResponseFromJSONTyped,
         EnableSessionTanResponseToJSONRecursive,
@@ -2942,6 +2991,11 @@ declare namespace Models {
         OrderValidityTypeByOrderModelToJSONRecursive,
         OrderValidityTypeByOrderModelToJSON,
         OrderValidityTypeByOrderModel,
+        PartialRecordOrderModelStringFromJSON,
+        PartialRecordOrderModelStringFromJSONTyped,
+        PartialRecordOrderModelStringToJSONRecursive,
+        PartialRecordOrderModelStringToJSON,
+        PartialRecordOrderModelString,
         PortfolioFromJSON,
         PortfolioFromJSONTyped,
         PortfolioToJSONRecursive,
@@ -3008,6 +3062,11 @@ declare namespace Models {
         SecurityNotAvailableForTradingToJSON,
         SecurityNotAvailableForTrading,
         SecurityNotAvailableForTradingCodeEnum,
+        SellPositionFromJSON,
+        SellPositionFromJSONTyped,
+        SellPositionToJSONRecursive,
+        SellPositionToJSON,
+        SellPosition,
         SessionFromJSON,
         SessionFromJSONTyped,
         SessionToJSONRecursive,
@@ -3220,6 +3279,7 @@ interface OrderCreate {
     portfolioId: string;
     quoteId?: string;
     quoteLimit?: number;
+    sellPositionId?: string;
     size: number;
     stop?: number;
     stopLimit?: number;
@@ -3417,6 +3477,33 @@ function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
 
 // @public
+interface PartialRecordOrderModelString {
+    fraction?: string;
+    limit?: string;
+    market?: string;
+    ocoStopLimit?: string;
+    ocoStopMarket?: string;
+    quote?: string;
+    savingsPlan?: string;
+    stopLimit?: string;
+    stopMarket?: string;
+    trailingStopLimit?: string;
+    trailingStopMarket?: string;
+}
+
+// @public (undocumented)
+function PartialRecordOrderModelStringFromJSON(json: any): PartialRecordOrderModelString;
+
+// @public (undocumented)
+function PartialRecordOrderModelStringFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialRecordOrderModelString;
+
+// @public (undocumented)
+function PartialRecordOrderModelStringToJSON(value?: PartialRecordOrderModelString | null): any;
+
+// @public (undocumented)
+function PartialRecordOrderModelStringToJSONRecursive(value?: PartialRecordOrderModelString | null, ignoreParent?: boolean): any;
+
+// @public
 interface Portfolio {
     brokerName: BrokerName;
     id: string;
@@ -3542,6 +3629,7 @@ interface PreparedTrade {
     noExchangeDefault?: boolean;
     riskClassInfo?: RiskClassInfo;
     security: Security;
+    sellPositions?: Array<SellPosition>;
     sizeUnit: string;
     strikingHint?: string;
 }
@@ -3769,6 +3857,24 @@ function SecurityToJSON(value?: Security | null): any;
 
 // @public (undocumented)
 function SecurityToJSONRecursive(value?: Security | null, ignoreParent?: boolean): any;
+
+// @public
+interface SellPosition {
+    id: string;
+    label: string;
+}
+
+// @public (undocumented)
+function SellPositionFromJSON(json: any): SellPosition;
+
+// @public (undocumented)
+function SellPositionFromJSONTyped(json: any, ignoreDiscriminator: boolean): SellPosition;
+
+// @public (undocumented)
+function SellPositionToJSON(value?: SellPosition | null): any;
+
+// @public (undocumented)
+function SellPositionToJSONRecursive(value?: SellPosition | null, ignoreParent?: boolean): any;
 
 // @public
 interface Session {

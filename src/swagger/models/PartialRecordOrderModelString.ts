@@ -13,54 +13,105 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
-import {
-    GenericTableRowValueTextSpecifics,
-    GenericTableRowValueTextSpecificsFromJSON,
-    GenericTableRowValueTextSpecificsFromJSONTyped,
-    GenericTableRowValueTextSpecificsToJSON,
-} from './GenericTableRowValueTextSpecifics';
-import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
-
 /**
- * 
+ * Make all properties in T optional
  * @export
- * @interface GenericTableRowValueText
+ * @interface PartialRecordOrderModelString
  */
-export interface GenericTableRowValueText extends GenericTableRowValue {
+export interface PartialRecordOrderModelString {
     /**
      * 
      * @type {string}
-     * @memberof GenericTableRowValueText
+     * @memberof PartialRecordOrderModelString
      */
-    value: string;
+    quote?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    fraction?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    savingsPlan?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    market?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    limit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    stopMarket?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    stopLimit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    trailingStopMarket?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    trailingStopLimit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    ocoStopMarket?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PartialRecordOrderModelString
+     */
+    ocoStopLimit?: string;
 }
 
-export function GenericTableRowValueTextFromJSON(json: any): GenericTableRowValueText {
-    return GenericTableRowValueTextFromJSONTyped(json, false);
+export function PartialRecordOrderModelStringFromJSON(json: any): PartialRecordOrderModelString {
+    return PartialRecordOrderModelStringFromJSONTyped(json, false);
 }
 
-export function GenericTableRowValueTextFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueText {
+export function PartialRecordOrderModelStringFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialRecordOrderModelString {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
-        'value': json['value'],
+        
+        'quote': !exists(json, 'quote') ? undefined : json['quote'],
+        'fraction': !exists(json, 'fraction') ? undefined : json['fraction'],
+        'savingsPlan': !exists(json, 'savingsPlan') ? undefined : json['savingsPlan'],
+        'market': !exists(json, 'market') ? undefined : json['market'],
+        'limit': !exists(json, 'limit') ? undefined : json['limit'],
+        'stopMarket': !exists(json, 'stopMarket') ? undefined : json['stopMarket'],
+        'stopLimit': !exists(json, 'stopLimit') ? undefined : json['stopLimit'],
+        'trailingStopMarket': !exists(json, 'trailingStopMarket') ? undefined : json['trailingStopMarket'],
+        'trailingStopLimit': !exists(json, 'trailingStopLimit') ? undefined : json['trailingStopLimit'],
+        'ocoStopMarket': !exists(json, 'ocoStopMarket') ? undefined : json['ocoStopMarket'],
+        'ocoStopLimit': !exists(json, 'ocoStopLimit') ? undefined : json['ocoStopLimit'],
     };
 }
 
-export function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowValueText | null, ignoreParent = false): any {
+export function PartialRecordOrderModelStringToJSONRecursive(value?: PartialRecordOrderModelString | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,13 +120,23 @@ export function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowV
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        
 
 
-        'value': value.value,
+        'quote': value.quote,
+        'fraction': value.fraction,
+        'savingsPlan': value.savingsPlan,
+        'market': value.market,
+        'limit': value.limit,
+        'stopMarket': value.stopMarket,
+        'stopLimit': value.stopLimit,
+        'trailingStopMarket': value.trailingStopMarket,
+        'trailingStopLimit': value.trailingStopLimit,
+        'ocoStopMarket': value.ocoStopMarket,
+        'ocoStopLimit': value.ocoStopLimit,
     };
 }
 
-export function GenericTableRowValueTextToJSON(value?: GenericTableRowValueText | null): any {
-    return GenericTableRowValueTextToJSONRecursive(value, false);
+export function PartialRecordOrderModelStringToJSON(value?: PartialRecordOrderModelString | null): any {
+    return PartialRecordOrderModelStringToJSONRecursive(value, false);
 }
