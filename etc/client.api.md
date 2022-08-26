@@ -320,7 +320,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     getCostEstimation(p: GetCostEstimationParams): Promise<openApiClient.OrderCostEstimation>;
     // (undocumented)
-    getDecoupledOperationStatus(req: openApiClient.GetDecoupledOperationStatusRequest): Promise<openApiClient.DecoupledOperationState>;
+    getDecoupledOperationStatus(req: openApiClient.GetDecoupledOperationStatusRequest): Promise<openApiClient.DecoupledOperationStatus>;
     // (undocumented)
     getDemoAccounts(): Promise<openApiClient.DemoAccountsResponse>;
     // (undocumented)
@@ -337,6 +337,8 @@ export class AuthorizedApiContext {
     getPortfolios(): Promise<openApiClient.PortfoliosResponse>;
     // (undocumented)
     getQuote(p: GetQuoteRequest): Promise<openApiClient.GetQuoteResponse>;
+    // (undocumented)
+    GetSecurityDetailedInfo(token: string): Promise<openApiClient.GenericTable>;
     // (undocumented)
     getSessions(): Promise<openApiClient.SessionResponse>;
     // (undocumented)
@@ -1079,6 +1081,30 @@ function DecoupledOperationStateFromJSONTyped(json: any, ignoreDiscriminator: bo
 // @public (undocumented)
 function DecoupledOperationStateToJSON(value?: DecoupledOperationState | null): any;
 
+// @public
+interface DecoupledOperationStatus {
+    state: DecoupledOperationState;
+    text?: string;
+}
+
+// @public (undocumented)
+type DecoupledOperationStatus_2 = {
+    text?: string;
+    state: DecoupledOperationState_2;
+};
+
+// @public (undocumented)
+function DecoupledOperationStatusFromJSON(json: any): DecoupledOperationStatus;
+
+// @public (undocumented)
+function DecoupledOperationStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): DecoupledOperationStatus;
+
+// @public (undocumented)
+function DecoupledOperationStatusToJSON(value?: DecoupledOperationStatus | null): any;
+
+// @public (undocumented)
+function DecoupledOperationStatusToJSONRecursive(value?: DecoupledOperationStatus | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 class DefaultApi extends runtime.BaseAPI {
     // (undocumented)
@@ -1104,9 +1130,9 @@ class DefaultApi extends runtime.BaseAPI {
     getAuthInfo(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAuthInfoResponse>;
     getAuthInfoRaw(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAuthInfoResponse>>;
     // (undocumented)
-    getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationState>;
+    getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationStatus>;
     // (undocumented)
-    getDecoupledOperationStatusRaw(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationState>>;
+    getDecoupledOperationStatusRaw(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationStatus>>;
     // (undocumented)
     getOrder(requestParameters: GetOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetOrderResponse>;
     // (undocumented)
@@ -2226,6 +2252,12 @@ function GetQuoteResponseToJSON(value?: GetQuoteResponse | null): any;
 // @public (undocumented)
 function GetQuoteResponseToJSONRecursive(value?: GetQuoteResponse | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+interface GetSecurityDetailedInfoRequest {
+    // (undocumented)
+    token: string;
+}
+
 // @public
 interface GetUserResponse {
     userId: string;
@@ -2624,6 +2656,11 @@ declare namespace Models {
         DecoupledOperationStateFromJSONTyped,
         DecoupledOperationStateToJSON,
         DecoupledOperationState,
+        DecoupledOperationStatusFromJSON,
+        DecoupledOperationStatusFromJSONTyped,
+        DecoupledOperationStatusToJSONRecursive,
+        DecoupledOperationStatusToJSON,
+        DecoupledOperationStatus,
         DefaultOrderValidityByOrderModelFromJSON,
         DefaultOrderValidityByOrderModelFromJSONTyped,
         DefaultOrderValidityByOrderModelToJSONRecursive,
@@ -3056,6 +3093,11 @@ declare namespace Models {
         SecurityToJSONRecursive,
         SecurityToJSON,
         Security,
+        SecurityDetailedInfoFromJSON,
+        SecurityDetailedInfoFromJSONTyped,
+        SecurityDetailedInfoToJSONRecursive,
+        SecurityDetailedInfoToJSON,
+        SecurityDetailedInfo,
         SecurityNotAvailableForTradingFromJSON,
         SecurityNotAvailableForTradingFromJSONTyped,
         SecurityNotAvailableForTradingToJSONRecursive,
@@ -3623,12 +3665,14 @@ function PositionValuationToJSONRecursive(value?: PositionValuation | null, igno
 
 // @public
 interface PreparedTrade {
+    costEstimationIsNotAvailable?: boolean;
     costEstimationIsOnlyDetailedTable?: boolean;
     costEstimationMustBeShown: boolean;
     exchanges: Array<Exchange>;
     noExchangeDefault?: boolean;
     riskClassInfo?: RiskClassInfo;
     security: Security;
+    securityDetailedInfo?: SecurityDetailedInfo;
     sellPositions?: Array<SellPosition>;
     sizeUnit: string;
     strikingHint?: string;
@@ -3821,6 +3865,24 @@ interface Security {
     wkn?: string;
 }
 
+// @public
+interface SecurityDetailedInfo {
+    label: string;
+    token: string;
+}
+
+// @public (undocumented)
+function SecurityDetailedInfoFromJSON(json: any): SecurityDetailedInfo;
+
+// @public (undocumented)
+function SecurityDetailedInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecurityDetailedInfo;
+
+// @public (undocumented)
+function SecurityDetailedInfoToJSON(value?: SecurityDetailedInfo | null): any;
+
+// @public (undocumented)
+function SecurityDetailedInfoToJSONRecursive(value?: SecurityDetailedInfo | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function SecurityFromJSON(json: any): Security;
 
@@ -3974,6 +4036,10 @@ class TradeApi extends runtime.BaseAPI {
     getCostEstimationRaw(requestParameters: GetCostEstimationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OrderCostEstimation>>;
     getQuote(requestParameters: GetQuoteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetQuoteResponse>;
     getQuoteRaw(requestParameters: GetQuoteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetQuoteResponse>>;
+    // (undocumented)
+    getSecurityDetailedInfo(requestParameters: GetSecurityDetailedInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GenericTable>;
+    // (undocumented)
+    getSecurityDetailedInfoRaw(requestParameters: GetSecurityDetailedInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GenericTable>>;
     prepareTrade(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PrepareTradeResponse>;
     prepareTradeRaw(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PrepareTradeResponse>>;
 }
@@ -4040,7 +4106,7 @@ interface TriggerSessionSyncRequest {
 type UpdateDecoupledOperationMessage = {
     cmd: 'updateDecoupledOperationStatus';
     subscriptionId: number;
-    state: DecoupledOperationState_2;
+    status: DecoupledOperationStatus_2;
 };
 
 // @public (undocumented)
@@ -4110,7 +4176,8 @@ declare namespace WebSocketTypes {
         UpdateDecoupledOperationMessage,
         BrokerizeWebSocketError,
         WebSocketError,
-        DecoupledOperationState_2 as DecoupledOperationState
+        DecoupledOperationState_2 as DecoupledOperationState,
+        DecoupledOperationStatus_2 as DecoupledOperationStatus
     }
 }
 export { WebSocketTypes }

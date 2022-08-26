@@ -45,6 +45,7 @@ models/CreateTanChallengeParams.ts
 models/CreateTradeResponse.ts
 models/CreatedResponseBody.ts
 models/DecoupledOperationState.ts
+models/DecoupledOperationStatus.ts
 models/DefaultOrderValidityByOrderModel.ts
 models/DemoAccount.ts
 models/DemoAccountsResponse.ts
@@ -133,6 +134,7 @@ models/PreparedTrade.ts
 models/QuoteExpiration.ts
 models/RiskClassInfo.ts
 models/Security.ts
+models/SecurityDetailedInfo.ts
 models/SecurityNotAvailableForTrading.ts
 models/SellPosition.ts
 models/Session.ts

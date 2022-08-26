@@ -71,7 +71,7 @@ export type InvalidateMessage = {
 export type UpdateDecoupledOperationMessage = {
     cmd: 'updateDecoupledOperationStatus';
     subscriptionId: number;
-    state: DecoupledOperationState;
+    status: DecoupledOperationStatus;
 };
 
 export type BrokerizeWebSocketError = {
@@ -87,3 +87,8 @@ export type DecoupledOperationState =
     | 'AUTHORIZATION_INITIAL'
     | 'AUTHORIZATION_USER_ACCEPTED'
     | 'AUTHORIZATION_USER_CANCELED';
+
+export type DecoupledOperationStatus = {
+    text?: string;
+    state: DecoupledOperationState;
+};

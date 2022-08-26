@@ -13,147 +13,43 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    Exchange,
-    ExchangeFromJSON,
-    ExchangeFromJSONTyped,
-    ExchangeToJSON,
-} from './Exchange';
-import {
-    RiskClassInfo,
-    RiskClassInfoFromJSON,
-    RiskClassInfoFromJSONTyped,
-    RiskClassInfoToJSON,
-} from './RiskClassInfo';
-import {
-    Security,
-    SecurityFromJSON,
-    SecurityFromJSONTyped,
-    SecurityToJSON,
-} from './Security';
-import {
-    SecurityDetailedInfo,
-    SecurityDetailedInfoFromJSON,
-    SecurityDetailedInfoFromJSONTyped,
-    SecurityDetailedInfoToJSON,
-} from './SecurityDetailedInfo';
-import {
-    SellPosition,
-    SellPositionFromJSON,
-    SellPositionFromJSONTyped,
-    SellPositionToJSON,
-} from './SellPosition';
-
 /**
- * 
+ * If available, contains more specific details about the security which might be relevant for trading (e.g. a link to a product information table).
+ * If `securityDetailedInfo.token` is available, the details can be retrieved using the `getSecurityDetailedInfo` endpoint.
  * @export
- * @interface PreparedTrade
+ * @interface SecurityDetailedInfo
  */
-export interface PreparedTrade {
-    /**
-     * If this is true, frontends are not allowed to set an exchange default. Users must select an exchange explicitly.
-     * @type {boolean}
-     * @memberof PreparedTrade
-     */
-    noExchangeDefault?: boolean;
-    /**
-     * True if not cost estimation is available at all for this instrument.
-     * @type {boolean}
-     * @memberof PreparedTrade
-     */
-    costEstimationIsNotAvailable?: boolean;
-    /**
-     * If this is true, cost estimations are expected to only have the detailed table property, so that
-     * they will usually not be displayed embedded into the order form.
-     * @type {boolean}
-     * @memberof PreparedTrade
-     */
-    costEstimationIsOnlyDetailedTable?: boolean;
-    /**
-     * If this is true, the estimated order costs must be shown before the user can create the order.
-     * If this is false, showing the order costs is optional.
-     * @type {boolean}
-     * @memberof PreparedTrade
-     */
-    costEstimationMustBeShown: boolean;
+export interface SecurityDetailedInfo {
     /**
      * 
-     * @type {Array<Exchange>}
-     * @memberof PreparedTrade
-     */
-    exchanges: Array<Exchange>;
-    /**
-     * If present, this hint must be displayed in the order form. It should be visible during the order
-     * creation process, but does not need to be accepted by the user explicitly.
      * @type {string}
-     * @memberof PreparedTrade
+     * @memberof SecurityDetailedInfo
      */
-    strikingHint?: string;
+    token: string;
     /**
-     * - ISO code (e.g. EUR for Euro), if it is a monetary amount
-     * - or 'USDT' if its Tether (https://en.wikipedia.org/wiki/Tether_(cryptocurrency)
-     * - or 'XXX' if it is pieces
-     * - or 'PRC' if it is a percentage
-     * - or 'PRM' if it is permil
-     * - or 'XXP' if it is points (as for indices)
+     * 
      * @type {string}
-     * @memberof PreparedTrade
+     * @memberof SecurityDetailedInfo
      */
-    sizeUnit: string;
-    /**
-     * 
-     * @type {RiskClassInfo}
-     * @memberof PreparedTrade
-     */
-    riskClassInfo?: RiskClassInfo;
-    /**
-     * If this is set, the user has to select a position to sell from. This may be the case if a position is
-     * stored in different locations or sub-positions are blocked until some date.
-     * If the user does not need to specify the position, this is left undefined.
-     * If it is set, user interfaces should be a dropdown for selecting the position.
-     * @type {Array<SellPosition>}
-     * @memberof PreparedTrade
-     */
-    sellPositions?: Array<SellPosition>;
-    /**
-     * 
-     * @type {SecurityDetailedInfo}
-     * @memberof PreparedTrade
-     */
-    securityDetailedInfo?: SecurityDetailedInfo;
-    /**
-     * 
-     * @type {Security}
-     * @memberof PreparedTrade
-     */
-    security: Security;
+    label: string;
 }
 
-export function PreparedTradeFromJSON(json: any): PreparedTrade {
-    return PreparedTradeFromJSONTyped(json, false);
+export function SecurityDetailedInfoFromJSON(json: any): SecurityDetailedInfo {
+    return SecurityDetailedInfoFromJSONTyped(json, false);
 }
 
-export function PreparedTradeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PreparedTrade {
+export function SecurityDetailedInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecurityDetailedInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'noExchangeDefault': !exists(json, 'noExchangeDefault') ? undefined : json['noExchangeDefault'],
-        'costEstimationIsNotAvailable': !exists(json, 'costEstimationIsNotAvailable') ? undefined : json['costEstimationIsNotAvailable'],
-        'costEstimationIsOnlyDetailedTable': !exists(json, 'costEstimationIsOnlyDetailedTable') ? undefined : json['costEstimationIsOnlyDetailedTable'],
-        'costEstimationMustBeShown': json['costEstimationMustBeShown'],
-        'exchanges': ((json['exchanges'] as Array<any>).map(ExchangeFromJSON)),
-        'strikingHint': !exists(json, 'strikingHint') ? undefined : json['strikingHint'],
-        'sizeUnit': json['sizeUnit'],
-        'riskClassInfo': !exists(json, 'riskClassInfo') ? undefined : RiskClassInfoFromJSON(json['riskClassInfo']),
-        'sellPositions': !exists(json, 'sellPositions') ? undefined : ((json['sellPositions'] as Array<any>).map(SellPositionFromJSON)),
-        'securityDetailedInfo': !exists(json, 'securityDetailedInfo') ? undefined : SecurityDetailedInfoFromJSON(json['securityDetailedInfo']),
-        'security': SecurityFromJSON(json['security']),
+        'token': json['token'],
+        'label': json['label'],
     };
 }
 
-export function PreparedTradeToJSONRecursive(value?: PreparedTrade | null, ignoreParent = false): any {
+export function SecurityDetailedInfoToJSONRecursive(value?: SecurityDetailedInfo | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -165,20 +61,11 @@ export function PreparedTradeToJSONRecursive(value?: PreparedTrade | null, ignor
         
 
 
-        'noExchangeDefault': value.noExchangeDefault,
-        'costEstimationIsNotAvailable': value.costEstimationIsNotAvailable,
-        'costEstimationIsOnlyDetailedTable': value.costEstimationIsOnlyDetailedTable,
-        'costEstimationMustBeShown': value.costEstimationMustBeShown,
-        'exchanges': ((value.exchanges as Array<any>).map(ExchangeToJSON)),
-        'strikingHint': value.strikingHint,
-        'sizeUnit': value.sizeUnit,
-        'riskClassInfo': RiskClassInfoToJSON(value.riskClassInfo),
-        'sellPositions': value.sellPositions === undefined ? undefined : ((value.sellPositions as Array<any>).map(SellPositionToJSON)),
-        'securityDetailedInfo': SecurityDetailedInfoToJSON(value.securityDetailedInfo),
-        'security': SecurityToJSON(value.security),
+        'token': value.token,
+        'label': value.label,
     };
 }
 
-export function PreparedTradeToJSON(value?: PreparedTrade | null): any {
-    return PreparedTradeToJSONRecursive(value, false);
+export function SecurityDetailedInfoToJSON(value?: SecurityDetailedInfo | null): any {
+    return SecurityDetailedInfoToJSONRecursive(value, false);
 }

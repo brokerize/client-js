@@ -27,6 +27,9 @@ import {
     CreateTradeResponse,
     CreateTradeResponseFromJSON,
     CreateTradeResponseToJSON,
+    GenericTable,
+    GenericTableFromJSON,
+    GenericTableToJSON,
     GetCostEstimationParams,
     GetCostEstimationParamsFromJSON,
     GetCostEstimationParamsToJSON,
@@ -68,6 +71,10 @@ export interface GetCostEstimationRequest {
 export interface GetQuoteRequest {
     portfolioId: string;
     getQuoteParams: GetQuoteParams;
+}
+
+export interface GetSecurityDetailedInfoRequest {
+    token: string;
 }
 
 export interface PrepareTradeRequest {
@@ -247,6 +254,46 @@ export class TradeApi extends runtime.BaseAPI {
      */
     async getQuote(requestParameters: GetQuoteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetQuoteResponse> {
         const response = await this.getQuoteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getSecurityDetailedInfoRaw(requestParameters: GetSecurityDetailedInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GenericTable>> {
+        if (requestParameters.token === null || requestParameters.token === undefined) {
+            throw new runtime.RequiredError('token','Required parameter requestParameters.token was null or undefined when calling getSecurityDetailedInfo.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.token !== undefined) {
+            queryParameters['token'] = requestParameters.token;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-brkrz-client-id"] = this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/trade/securityDetails`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GenericTableFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getSecurityDetailedInfo(requestParameters: GetSecurityDetailedInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GenericTable> {
+        const response = await this.getSecurityDetailedInfoRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

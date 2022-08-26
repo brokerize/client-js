@@ -24,9 +24,9 @@ import {
     CreateTanChallengeParams,
     CreateTanChallengeParamsFromJSON,
     CreateTanChallengeParamsToJSON,
-    DecoupledOperationState,
-    DecoupledOperationStateFromJSON,
-    DecoupledOperationStateToJSON,
+    DecoupledOperationStatus,
+    DecoupledOperationStatusFromJSON,
+    DecoupledOperationStatusToJSON,
     EnableSessionTanParams,
     EnableSessionTanParamsFromJSON,
     EnableSessionTanParamsToJSON,
@@ -400,7 +400,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async getDecoupledOperationStatusRaw(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationState>> {
+    async getDecoupledOperationStatusRaw(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationStatus>> {
         if (requestParameters.sessionId === null || requestParameters.sessionId === undefined) {
             throw new runtime.RequiredError('sessionId','Required parameter requestParameters.sessionId was null or undefined when calling getDecoupledOperationStatus.');
         }
@@ -428,12 +428,12 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => DecoupledOperationStateFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DecoupledOperationStatusFromJSON(jsonValue));
     }
 
     /**
      */
-    async getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationState> {
+    async getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationStatus> {
         const response = await this.getDecoupledOperationStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }

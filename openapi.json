@@ -1736,6 +1736,20 @@
                     "AUTHORIZATION_USER_CANCELED"
                 ]
             },
+            "DecoupledOperationStatus": {
+                "properties": {
+                    "text": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/DecoupledOperationState"
+                    }
+                },
+                "required": [
+                    "state"
+                ],
+                "type": "object"
+            },
             "EndSessionTanResponse": {
                 "properties": {
                     "message": {
@@ -1743,6 +1757,22 @@
                     }
                 },
                 "type": "object"
+            },
+            "SecurityDetailedInfo": {
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "token",
+                    "label"
+                ],
+                "type": "object",
+                "description": "If available, contains more specific details about the security which might be relevant for trading (e.g. a link to a product information table).\nIf `securityDetailedInfo.token` is available, the details can be retrieved using the `getSecurityDetailedInfo` endpoint."
             },
             "SellPosition": {
                 "properties": {
@@ -2002,6 +2032,10 @@
                         "type": "boolean",
                         "description": "If this is true, frontends are not allowed to set an exchange default. Users must select an exchange explicitly."
                     },
+                    "costEstimationIsNotAvailable": {
+                        "type": "boolean",
+                        "description": "True if not cost estimation is available at all for this instrument."
+                    },
                     "costEstimationIsOnlyDetailedTable": {
                         "type": "boolean",
                         "description": "If this is true, cost estimations are expected to only have the detailed table property, so that\nthey will usually not be displayed embedded into the order form."
@@ -2033,6 +2067,10 @@
                         },
                         "type": "array",
                         "description": "If this is set, the user has to select a position to sell from. This may be the case if a position is\nstored in different locations or sub-positions are blocked until some date.\nIf the user does not need to specify the position, this is left undefined.\nIf it is set, user interfaces should be a dropdown for selecting the position."
+                    },
+                    "securityDetailedInfo": {
+                        "$ref": "#/components/schemas/SecurityDetailedInfo",
+                        "description": "If available, contains more specific details about the security which might be relevant for trading (e.g. a link to a product information table).\nIf `securityDetailedInfo.token` is available, the details can be retrieved using the `getSecurityDetailedInfo` endpoint."
                     },
                     "security": {
                         "$ref": "#/components/schemas/Security"
@@ -2707,7 +2745,7 @@
                         }
                     }
                 },
-                "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - limit and market orders (both buy and sell) are supported on on exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.",
+                "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - limit and market orders (both buy and sell) are supported on on exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.",
                 "tags": [
                     "demobroker"
                 ],
@@ -3699,7 +3737,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/DecoupledOperationState"
+                                    "$ref": "#/components/schemas/DecoupledOperationStatus"
                                 }
                             }
                         }
@@ -4048,6 +4086,46 @@
                         }
                     }
                 }
+            }
+        },
+        "/trade/securityDetails": {
+            "get": {
+                "operationId": "GetSecurityDetailedInfo",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericTable"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "trade"
+                ],
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "clientId": []
+                    },
+                    {
+                        "idToken": [],
+                        "clientId": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         },
         "/trade/costEstimation": {

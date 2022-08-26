@@ -8,14 +8,16 @@ import {
   CreateTradeChallengeRequest,
   CreateTradeRequest,
   DeleteDemoAccountRequest,
-  GetCostEstimationParams, GetQuoteRequest,
+  GetCostEstimationParams,
+  GetQuoteRequest,
+  HintToJSON,
   PrepareOAuthRedirectParams,
-  PrepareTradeRequest
+  PrepareTradeRequest,
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
   Callback,
-  Subscription
+  Subscription,
 } from "./websocketClient";
 
 export class AuthorizedApiContext {
@@ -48,12 +50,10 @@ export class AuthorizedApiContext {
 
       if (r.response.status >= 400) {
         const decJson = await r.response.json();
-        if (decJson.name == 'TradingError') {
+        if (decJson.name == "TradingError") {
           throw new TradingError(decJson);
         }
       }
-
-      
     };
 
     this._defaultApi = new openApiClient.DefaultApi(
@@ -86,8 +86,8 @@ export class AuthorizedApiContext {
     const origDestroy = result.destroy;
     result.destroy = () => {
       origDestroy.call(result);
-      this._childContexts = this._childContexts.filter(ctx=>ctx!=result);
-    }
+      this._childContexts = this._childContexts.filter((ctx) => ctx != result);
+    };
     return result;
   }
   private async _initRequestInit() {
@@ -291,6 +291,14 @@ export class AuthorizedApiContext {
   async confirmOAuth(p: ConfirmOAuthParams) {
     return this._brokerLoginApi.confirmOAuth(
       { confirmOAuthParams: p },
+      await this._initRequestInit()
+    );
+  }
+  async GetSecurityDetailedInfo(token: string) {
+    return this._tradeApi.getSecurityDetailedInfo(
+      {
+        token,
+      },
       await this._initRequestInit()
     );
   }
