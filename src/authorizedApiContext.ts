@@ -1,6 +1,6 @@
 import { Subject } from "rxjs";
 import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
-import { TradingError } from "./errors";
+import { TradingError, ValidationError } from "./errors";
 import * as openApiClient from "./swagger";
 import {
   AddSessionParams,
@@ -10,12 +10,12 @@ import {
   DeleteDemoAccountRequest,
   GetCostEstimationParams,
   GetQuoteRequest,
-  HintToJSON,
   PrepareOAuthRedirectParams,
   PrepareTradeRequest,
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
+  BrokerizeWebSocketClientImpl,
   Callback,
   Subscription,
 } from "./websocketClient";
@@ -34,7 +34,12 @@ export class AuthorizedApiContext {
   private _changeOrderApi: openApiClient.ChangeOrderApi;
   private _logoutSubject: Subject<void>;
   private _childContexts: AuthorizedApiContext[];
-  constructor(cfg: BrokerizeConfig, auth: Auth) {
+  private _wsClient: BrokerizeWebSocketClientImpl;
+  constructor(
+    cfg: BrokerizeConfig,
+    auth: Auth,
+    wsClient?: BrokerizeWebSocketClientImpl
+  ) {
     this._cfg = cfg;
     this._auth = auth;
     this._childContexts = [];
@@ -44,15 +49,25 @@ export class AuthorizedApiContext {
     const postMiddleware = async (
       r: openApiClient.ResponseContext
     ): Promise<void> => {
-      if (r.response.status == 401) {
+      const statusCode = r.response.status;
+
+      if (statusCode == 401) {
         this._logoutSubject.error(new Error("Status 401"));
       }
 
-      if (r.response.status >= 400) {
+      if (statusCode >= 400) {
         const decJson = await r.response.json();
         if (decJson.name == "TradingError") {
           throw new TradingError(decJson);
+        } else if (statusCode == 422) {
+          /* validation error. */
+          throw new ValidationError({
+            msg: "Validation Error (HTTP 422)",
+            details: decJson,
+          });
         }
+
+        /* other errors will be a generic ResponseError to be handled by clients. */
       }
     };
 
@@ -78,9 +93,14 @@ export class AuthorizedApiContext {
       apiConfig
     ).withPostMiddleware(postMiddleware);
     this._abortController = cfg.createAbortController();
+    this._wsClient = wsClient || this._initInternalWebSocketClient();
   }
   createChildContext() {
-    const result = new AuthorizedApiContext(this._cfg, this._auth);
+    const result = new AuthorizedApiContext(
+      this._cfg,
+      this._auth,
+      this._wsClient
+    );
     const childContexts = this._childContexts;
     childContexts.push(result);
     const origDestroy = result.destroy;
@@ -303,13 +323,24 @@ export class AuthorizedApiContext {
     );
   }
 
-  createWebSocketClient() {
+  private _initInternalWebSocketClient() {
     const basePath = this._cfg.basePath || "https://api-preview.brokerize.com";
     const websocketPath =
       (basePath.startsWith("https")
         ? "wss://" + basePath.substring(8)
         : "ws://" + basePath.substring(7)) + "/websocket";
-    return new BrokerizeWebSocketClient(websocketPath, this._auth);
+    console.log("INIT CLIENT");
+    return new BrokerizeWebSocketClientImpl(websocketPath, this._auth);
+  }
+  createWebSocketClient() {
+    const wrappedClient: BrokerizeWebSocketClient = {
+      subscribeDecoupledOperation:
+        this._wsClient.subscribeDecoupledOperation.bind(this._wsClient),
+      subscribeInvalidate: this._wsClient.subscribeInvalidate.bind(
+        this._wsClient
+      ),
+    };
+    return wrappedClient;
   }
   destroy() {
     this._isDestroyed = true;

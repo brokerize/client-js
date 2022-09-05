@@ -43,7 +43,7 @@ export interface CancelOrderChallengeResponse extends CancelOrderParams {
      * @type {string}
      * @memberof CancelOrderChallengeResponse
      */
-    challengeId: string;
+    challengeId?: string;
     /**
      * 
      * @type {string}
@@ -62,7 +62,7 @@ export function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         ...CancelOrderParamsFromJSONTyped(json, ignoreDiscriminator),
-        'challengeId': json['challengeId'],
+        'challengeId': !exists(json, 'challengeId') ? undefined : json['challengeId'],
         'challengeResponse': json['challengeResponse'],
     };
 }

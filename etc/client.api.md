@@ -272,7 +272,8 @@ function AuthMethodToJSONRecursive(value?: AuthMethod | null, ignoreParent?: boo
 // @public (undocumented)
 export class AuthorizedApiContext {
     // Warning: (ae-forgotten-export) The symbol "Auth" needs to be exported by the entry point index.d.ts
-    constructor(cfg: BrokerizeConfig, auth: Auth);
+    // Warning: (ae-forgotten-export) The symbol "BrokerizeWebSocketClientImpl" needs to be exported by the entry point index.d.ts
+    constructor(cfg: BrokerizeConfig, auth: Auth, wsClient?: BrokerizeWebSocketClientImpl);
     // (undocumented)
     addSession(params: AddSessionParams): Promise<openApiClient.LoginResponse>;
     // (undocumented)
@@ -437,12 +438,11 @@ export interface BrokerizeConfig {
 }
 
 // @public (undocumented)
-export class BrokerizeWebSocketClient {
-    constructor(websocketUrl: string, auth: Auth);
+export interface BrokerizeWebSocketClient {
     // (undocumented)
-    subscribeDecoupledOperation(subscribe: Pick<SubscribeDecoupledOperation, "sessionId" | "decoupledOperationId">, callback: Callback): Subscription;
+    subscribeDecoupledOperation: (subscribe: Pick<SubscribeDecoupledOperation, "sessionId" | "decoupledOperationId">, callback: Callback) => Subscription;
     // (undocumented)
-    subscribeInvalidate(subscribe: SubscribeInvalidateDetails, callback: Callback): Subscription;
+    subscribeInvalidate: (subscribe: SubscribeInvalidateDetails, callback: Callback) => Subscription;
 }
 
 // @public (undocumented)
@@ -590,7 +590,7 @@ function CancelOrderChallengeParamsToJSONRecursive(value?: CancelOrderChallengeP
 
 // @public
 interface CancelOrderChallengeResponse extends CancelOrderParams {
-    challengeId: string;
+    challengeId?: string;
     challengeResponse: string;
 }
 
@@ -3614,6 +3614,7 @@ interface Position {
     commentIsEditable?: boolean;
     currentValuation?: PositionValuation;
     exchangeId?: number;
+    exchangeName?: string;
     id: string;
     prevCloseValuation?: PositionValuation;
     profitLossAbs?: Amount;

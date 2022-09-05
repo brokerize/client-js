@@ -45,3 +45,13 @@ export type Hint = {
   id: string;
   text: string;
 };
+
+export class ValidationError extends Error {
+  details: any;
+  constructor(opts: {msg: string, details: any}) {
+    super(opts.msg);
+    Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain (https://stackoverflow.com/questions/41102060/typescript-extending-error-class)
+    this.name = "ValidationError";
+    this.details = opts.details;
+  }
+}

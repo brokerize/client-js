@@ -5,16 +5,26 @@ import {
   BrokerizeConfig,
   createAuth,
   createConfiguration,
-  RegisteredUserAuthContextConfiguration,
+  RegisteredUserAuthContextConfiguration
 } from "./apiCtx";
 import { AuthorizedApiContext } from "./authorizedApiContext";
 import * as openApiClient from "./swagger";
 import {
-  BrokerizeWebSocketClient,
-  Callback,
-  Subscription,
+  BrokerizeWebSocketClient, Callback,
+  Subscription
 } from "./websocketClient";
 export { BrokerName } from "./swagger";
+export {
+  BrokerizeConfig,
+  AuthContextConfiguration,
+  AuthorizedApiContext,
+  BrokerizeWebSocketClient,
+  Models,
+  WebSocketTypes,
+  Subscription,
+  Callback,
+  TradingError
+};
 
 
 export class Brokerize {
@@ -77,18 +87,8 @@ export class Brokerize {
   }
 }
 
+import { Cognito } from "./cognito";
+import { TradingError } from "./errors";
 import * as Models from "./swagger/models";
 import * as WebSocketTypes from "./websocketTypes";
-import { TradingError } from "./errors";
-import { Cognito } from "./cognito";
-export {
-  BrokerizeConfig,
-  AuthContextConfiguration,
-  AuthorizedApiContext,
-  BrokerizeWebSocketClient,
-  Models,
-  WebSocketTypes,
-  Subscription,
-  Callback,
-  TradingError
-};
+

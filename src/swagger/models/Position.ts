@@ -129,6 +129,12 @@ export interface Position {
      */
     availableSize: number;
     /**
+     * Name of the exchange, as provided by the broker.
+     * @type {string}
+     * @memberof Position
+     */
+    exchangeName?: string;
+    /**
      * The exchange id as defined by the broker.
      * @type {string}
      * @memberof Position
@@ -196,6 +202,7 @@ export function PositionFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'purchaseDateTime': !exists(json, 'purchaseDateTime') ? undefined : (new Date(json['purchaseDateTime'])),
         'purchaseValuation': !exists(json, 'purchaseValuation') ? undefined : PositionValuationFromJSON(json['purchaseValuation']),
         'availableSize': json['availableSize'],
+        'exchangeName': !exists(json, 'exchangeName') ? undefined : json['exchangeName'],
         'brokerExchangeId': !exists(json, 'brokerExchangeId') ? undefined : json['brokerExchangeId'],
         'exchangeId': !exists(json, 'exchangeId') ? undefined : json['exchangeId'],
         'security': SecurityFromJSON(json['security']),
@@ -232,6 +239,7 @@ export function PositionToJSONRecursive(value?: Position | null, ignoreParent = 
         'purchaseDateTime': value.purchaseDateTime === undefined ? undefined : (value.purchaseDateTime.toISOString()),
         'purchaseValuation': PositionValuationToJSON(value.purchaseValuation),
         'availableSize': value.availableSize,
+        'exchangeName': value.exchangeName,
         'brokerExchangeId': value.brokerExchangeId,
         'exchangeId': value.exchangeId,
         'security': SecurityToJSON(value.security),

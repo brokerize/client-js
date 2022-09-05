@@ -13,7 +13,7 @@ import type {
   WebSocketSubscriptionMessage,
 } from "./websocketTypes";
 
-export class BrokerizeWebSocketClient {
+export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _url: string;
   private _map: Record<string, SubscriptionEntry> = {};
   private _id: number;
@@ -75,7 +75,7 @@ export class BrokerizeWebSocketClient {
     const cmd: WebSocketCommandSubscribe = {
       cmd: "subscribe",
       type: "invalidate",
-      subscriptionId: (null as any) as number,
+      subscriptionId: null as any as number,
       ...subscribe,
     };
     return this.subscribe(cmd, callback);
@@ -91,7 +91,7 @@ export class BrokerizeWebSocketClient {
     const cmd: WebSocketCommandSubscribe = {
       cmd: "subscribe",
       type: "decoupledOperationStatus",
-      subscriptionId: (null as any) as number,
+      subscriptionId: null as any as number,
       ...subscribe,
     };
     return this.subscribe(cmd, callback);
@@ -145,8 +145,6 @@ export class BrokerizeWebSocketClient {
     }
 
     this._authenticatedCallback = null;
-
-    console.log("CONNECT");
 
     this._socket = new WebSocket(this._url);
     this._socket.onmessage = (msg) => {
@@ -233,7 +231,7 @@ export class BrokerizeWebSocketClient {
       this._sendWs({
         cmd: "ping",
       });
-    }, 5000);
+    }, 30000);
   }
 
   private _findSubscriptionEntry(subscriptionId: number) {
@@ -245,6 +243,21 @@ export class BrokerizeWebSocketClient {
 
     return null;
   }
+}
+
+export interface BrokerizeWebSocketClient {
+  subscribeInvalidate: (
+    subscribe: SubscribeInvalidateDetails,
+    callback: Callback
+  ) => Subscription;
+
+  subscribeDecoupledOperation: (
+    subscribe: Pick<
+      SubscribeDecoupledOperation,
+      "sessionId" | "decoupledOperationId"
+    >,
+    callback: Callback
+  ) => Subscription;
 }
 
 export type Callback = (err: any, data: any) => void;
