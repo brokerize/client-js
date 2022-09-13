@@ -30,6 +30,7 @@ models/CancelOrderChallengeResponse.ts
 models/CancelOrderChallengeResponseSpecifics.ts
 models/CancelOrderParams.ts
 models/CancelOrderParamsMode.ts
+models/CashAccount.ts
 models/CashQuotation.ts
 models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
@@ -121,7 +122,6 @@ models/OrderStatus.ts
 models/OrderValidity.ts
 models/OrderValidityType.ts
 models/OrderValidityTypeByOrderModel.ts
-models/PartialRecordOrderModelString.ts
 models/Portfolio.ts
 models/PortfolioQuotes.ts
 models/PortfoliosResponse.ts
@@ -139,6 +139,7 @@ models/SecurityNotAvailableForTrading.ts
 models/SellPosition.ts
 models/Session.ts
 models/SessionResponse.ts
+models/StringMapByOrderModel.ts
 models/SyncError.ts
 models/TrailingDistance.ts
 models/index.ts

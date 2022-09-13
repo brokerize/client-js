@@ -538,6 +538,9 @@ export const BrokerName: {
     readonly Finanzen: "finanzen";
     readonly Justtrade: "justtrade";
     readonly Comdirect: "comdirect";
+    readonly FlatexDe: "flatex_de";
+    readonly FlatexAt: "flatex_at";
+    readonly Vitrade: "vitrade";
 };
 
 // @public (undocumented)
@@ -590,6 +593,7 @@ function CancelOrderChallengeParamsToJSONRecursive(value?: CancelOrderChallengeP
 
 // @public
 interface CancelOrderChallengeResponse extends CancelOrderParams {
+    authMethod?: string;
     challengeId?: string;
     challengeResponse: string;
 }
@@ -602,6 +606,7 @@ function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscriminato
 
 // @public
 interface CancelOrderChallengeResponseSpecifics {
+    authMethod?: string;
     challengeId?: string;
     challengeResponse?: string;
 }
@@ -669,6 +674,26 @@ interface CancelOrderRequest {
 
 // @public (undocumented)
 function canConsumeForm(consumes: Consume[]): boolean;
+
+// @public
+interface CashAccount {
+    currency: string;
+    displayName: string;
+    id: string;
+    isHiddenDefaultAccount: boolean;
+}
+
+// @public (undocumented)
+function CashAccountFromJSON(json: any): CashAccount;
+
+// @public (undocumented)
+function CashAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): CashAccount;
+
+// @public (undocumented)
+function CashAccountToJSON(value?: CashAccount | null): any;
+
+// @public (undocumented)
+function CashAccountToJSONRecursive(value?: CashAccount | null, ignoreParent?: boolean): any;
 
 // @public
 const CashQuotation: {
@@ -748,8 +773,9 @@ function ChangeOrderChallengeParamsToJSONRecursive(value?: ChangeOrderChallengeP
 
 // @public
 interface ChangeOrderParams {
-    challengeId: string;
-    challengeResponse: string;
+    authMethod?: string;
+    challengeId?: string;
+    challengeResponse?: string;
     changes: OrderChanges;
 }
 
@@ -1279,6 +1305,7 @@ interface EnableSessionTanParams {
 
 // @public
 interface EnableSessionTanParamsChallengeResponse extends EnableSessionTanParams {
+    authMethod: string;
     challengeId: string;
     challengeResponse: string;
 }
@@ -1291,6 +1318,7 @@ function EnableSessionTanParamsChallengeResponseFromJSONTyped(json: any, ignoreD
 
 // @public
 interface EnableSessionTanParamsChallengeResponseSpecifics {
+    authMethod?: string;
     challengeId?: string;
     challengeResponse?: string;
 }
@@ -1507,7 +1535,7 @@ interface Exchange {
     hideOrderModel?: boolean;
     id: string;
     label: string;
-    legalMessagesToConfirmByOrderModel?: PartialRecordOrderModelString;
+    legalMessagesToConfirmByOrderModel?: StringMapByOrderModel;
     orderModelsBuy: Array<OrderModel>;
     orderModelsSell: Array<OrderModel>;
     validityTypesByOrderModel?: OrderValidityTypeByOrderModel;
@@ -2184,6 +2212,7 @@ interface GetPortfolioQuotesRequest {
 
 // @public
 interface GetPortfolioQuotesResponse {
+    cashAccounts?: object;
     quotes?: PortfolioQuotes;
 }
 
@@ -2582,6 +2611,11 @@ declare namespace Models {
         CancelOrderParamsModeFromJSONTyped,
         CancelOrderParamsModeToJSON,
         CancelOrderParamsMode,
+        CashAccountFromJSON,
+        CashAccountFromJSONTyped,
+        CashAccountToJSONRecursive,
+        CashAccountToJSON,
+        CashAccount,
         CashQuotationFromJSON,
         CashQuotationFromJSONTyped,
         CashQuotationToJSON,
@@ -3028,11 +3062,6 @@ declare namespace Models {
         OrderValidityTypeByOrderModelToJSONRecursive,
         OrderValidityTypeByOrderModelToJSON,
         OrderValidityTypeByOrderModel,
-        PartialRecordOrderModelStringFromJSON,
-        PartialRecordOrderModelStringFromJSONTyped,
-        PartialRecordOrderModelStringToJSONRecursive,
-        PartialRecordOrderModelStringToJSON,
-        PartialRecordOrderModelString,
         PortfolioFromJSON,
         PortfolioFromJSONTyped,
         PortfolioToJSONRecursive,
@@ -3119,6 +3148,11 @@ declare namespace Models {
         SessionResponseToJSONRecursive,
         SessionResponseToJSON,
         SessionResponse,
+        StringMapByOrderModelFromJSON,
+        StringMapByOrderModelFromJSONTyped,
+        StringMapByOrderModelToJSONRecursive,
+        StringMapByOrderModelToJSON,
+        StringMapByOrderModel,
         SyncErrorFromJSON,
         SyncErrorFromJSONTyped,
         SyncErrorToJSONRecursive,
@@ -3310,6 +3344,7 @@ function OrderCostEstimationToJSONRecursive(value?: OrderCostEstimation | null, 
 // @public
 interface OrderCreate {
     brokerExchangeId: string;
+    cashAccountId?: string;
     cashQuotation?: CashQuotation;
     direction: Direction;
     ifDoneLimit?: number;
@@ -3519,35 +3554,9 @@ function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
 
 // @public
-interface PartialRecordOrderModelString {
-    fraction?: string;
-    limit?: string;
-    market?: string;
-    ocoStopLimit?: string;
-    ocoStopMarket?: string;
-    quote?: string;
-    savingsPlan?: string;
-    stopLimit?: string;
-    stopMarket?: string;
-    trailingStopLimit?: string;
-    trailingStopMarket?: string;
-}
-
-// @public (undocumented)
-function PartialRecordOrderModelStringFromJSON(json: any): PartialRecordOrderModelString;
-
-// @public (undocumented)
-function PartialRecordOrderModelStringFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialRecordOrderModelString;
-
-// @public (undocumented)
-function PartialRecordOrderModelStringToJSON(value?: PartialRecordOrderModelString | null): any;
-
-// @public (undocumented)
-function PartialRecordOrderModelStringToJSONRecursive(value?: PartialRecordOrderModelString | null, ignoreParent?: boolean): any;
-
-// @public
 interface Portfolio {
     brokerName: BrokerName;
+    cashAccountIds: Array<string>;
     id: string;
     portfolioName: string;
     sessionIds: Array<string>;
@@ -3585,6 +3594,7 @@ function PortfolioQuotesToJSONRecursive(value?: PortfolioQuotes | null, ignorePa
 
 // @public
 interface PortfoliosResponse {
+    cashAccounts: Array<CashAccount>;
     portfolios: Array<Portfolio>;
 }
 
@@ -3976,6 +3986,33 @@ function SessionToJSON(value?: Session | null): any;
 
 // @public (undocumented)
 function SessionToJSONRecursive(value?: Session | null, ignoreParent?: boolean): any;
+
+// @public
+interface StringMapByOrderModel {
+    fraction?: string;
+    limit?: string;
+    market?: string;
+    ocoStopLimit?: string;
+    ocoStopMarket?: string;
+    quote?: string;
+    savingsPlan?: string;
+    stopLimit?: string;
+    stopMarket?: string;
+    trailingStopLimit?: string;
+    trailingStopMarket?: string;
+}
+
+// @public (undocumented)
+function StringMapByOrderModelFromJSON(json: any): StringMapByOrderModel;
+
+// @public (undocumented)
+function StringMapByOrderModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): StringMapByOrderModel;
+
+// @public (undocumented)
+function StringMapByOrderModelToJSON(value?: StringMapByOrderModel | null): any;
+
+// @public (undocumented)
+function StringMapByOrderModelToJSONRecursive(value?: StringMapByOrderModel | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 type SubscribeDecoupledOperation = {

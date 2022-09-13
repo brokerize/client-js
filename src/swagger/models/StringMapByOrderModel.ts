@@ -13,68 +13,105 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CancelOrderChallengeResponseSpecifics,
-    CancelOrderChallengeResponseSpecificsFromJSON,
-    CancelOrderChallengeResponseSpecificsFromJSONTyped,
-    CancelOrderChallengeResponseSpecificsToJSON,
-} from './CancelOrderChallengeResponseSpecifics';
-import {
-    CancelOrderParams,
-    CancelOrderParamsFromJSON,
-    CancelOrderParamsFromJSONTyped,
-    CancelOrderParamsToJSON,
-} from './CancelOrderParams';
-import {
-    CancelOrderParamsMode,
-    CancelOrderParamsModeFromJSON,
-    CancelOrderParamsModeFromJSONTyped,
-    CancelOrderParamsModeToJSON,
-} from './CancelOrderParamsMode';
-
 /**
  * 
  * @export
- * @interface CancelOrderChallengeResponse
+ * @interface StringMapByOrderModel
  */
-export interface CancelOrderChallengeResponse extends CancelOrderParams {
+export interface StringMapByOrderModel {
     /**
      * 
      * @type {string}
-     * @memberof CancelOrderChallengeResponse
+     * @memberof StringMapByOrderModel
      */
-    authMethod?: string;
+    quote?: string;
     /**
      * 
      * @type {string}
-     * @memberof CancelOrderChallengeResponse
+     * @memberof StringMapByOrderModel
      */
-    challengeId?: string;
+    fraction?: string;
     /**
      * 
      * @type {string}
-     * @memberof CancelOrderChallengeResponse
+     * @memberof StringMapByOrderModel
      */
-    challengeResponse: string;
+    savingsPlan?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringMapByOrderModel
+     */
+    market?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringMapByOrderModel
+     */
+    limit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringMapByOrderModel
+     */
+    stopMarket?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringMapByOrderModel
+     */
+    stopLimit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringMapByOrderModel
+     */
+    trailingStopMarket?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringMapByOrderModel
+     */
+    trailingStopLimit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringMapByOrderModel
+     */
+    ocoStopMarket?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof StringMapByOrderModel
+     */
+    ocoStopLimit?: string;
 }
 
-export function CancelOrderChallengeResponseFromJSON(json: any): CancelOrderChallengeResponse {
-    return CancelOrderChallengeResponseFromJSONTyped(json, false);
+export function StringMapByOrderModelFromJSON(json: any): StringMapByOrderModel {
+    return StringMapByOrderModelFromJSONTyped(json, false);
 }
 
-export function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderChallengeResponse {
+export function StringMapByOrderModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): StringMapByOrderModel {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
-        ...CancelOrderParamsFromJSONTyped(json, ignoreDiscriminator),
-        'authMethod': !exists(json, 'authMethod') ? undefined : json['authMethod'],
-        'challengeId': !exists(json, 'challengeId') ? undefined : json['challengeId'],
-        'challengeResponse': json['challengeResponse'],
+        
+        'quote': !exists(json, 'quote') ? undefined : json['quote'],
+        'fraction': !exists(json, 'fraction') ? undefined : json['fraction'],
+        'savingsPlan': !exists(json, 'savingsPlan') ? undefined : json['savingsPlan'],
+        'market': !exists(json, 'market') ? undefined : json['market'],
+        'limit': !exists(json, 'limit') ? undefined : json['limit'],
+        'stopMarket': !exists(json, 'stopMarket') ? undefined : json['stopMarket'],
+        'stopLimit': !exists(json, 'stopLimit') ? undefined : json['stopLimit'],
+        'trailingStopMarket': !exists(json, 'trailingStopMarket') ? undefined : json['trailingStopMarket'],
+        'trailingStopLimit': !exists(json, 'trailingStopLimit') ? undefined : json['trailingStopLimit'],
+        'ocoStopMarket': !exists(json, 'ocoStopMarket') ? undefined : json['ocoStopMarket'],
+        'ocoStopLimit': !exists(json, 'ocoStopLimit') ? undefined : json['ocoStopLimit'],
     };
 }
 
-export function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChallengeResponse | null, ignoreParent = false): any {
+export function StringMapByOrderModelToJSONRecursive(value?: StringMapByOrderModel | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -83,15 +120,23 @@ export function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderC
     }
 
     return {
-        ...ignoreParent ? {} : CancelOrderParamsToJSON(value),
+        
 
 
-        'authMethod': value.authMethod,
-        'challengeId': value.challengeId,
-        'challengeResponse': value.challengeResponse,
+        'quote': value.quote,
+        'fraction': value.fraction,
+        'savingsPlan': value.savingsPlan,
+        'market': value.market,
+        'limit': value.limit,
+        'stopMarket': value.stopMarket,
+        'stopLimit': value.stopLimit,
+        'trailingStopMarket': value.trailingStopMarket,
+        'trailingStopLimit': value.trailingStopLimit,
+        'ocoStopMarket': value.ocoStopMarket,
+        'ocoStopLimit': value.ocoStopLimit,
     };
 }
 
-export function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse | null): any {
-    return CancelOrderChallengeResponseToJSONRecursive(value, false);
+export function StringMapByOrderModelToJSON(value?: StringMapByOrderModel | null): any {
+    return StringMapByOrderModelToJSONRecursive(value, false);
 }

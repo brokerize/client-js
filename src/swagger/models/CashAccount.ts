@@ -13,68 +13,61 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CancelOrderChallengeResponseSpecifics,
-    CancelOrderChallengeResponseSpecificsFromJSON,
-    CancelOrderChallengeResponseSpecificsFromJSONTyped,
-    CancelOrderChallengeResponseSpecificsToJSON,
-} from './CancelOrderChallengeResponseSpecifics';
-import {
-    CancelOrderParams,
-    CancelOrderParamsFromJSON,
-    CancelOrderParamsFromJSONTyped,
-    CancelOrderParamsToJSON,
-} from './CancelOrderParams';
-import {
-    CancelOrderParamsMode,
-    CancelOrderParamsModeFromJSON,
-    CancelOrderParamsModeFromJSONTyped,
-    CancelOrderParamsModeToJSON,
-} from './CancelOrderParamsMode';
-
 /**
  * 
  * @export
- * @interface CancelOrderChallengeResponse
+ * @interface CashAccount
  */
-export interface CancelOrderChallengeResponse extends CancelOrderParams {
+export interface CashAccount {
+    /**
+     * - ISO code (e.g. EUR for Euro), if it is a monetary amount
+     * - or 'USDT' if its Tether (https://en.wikipedia.org/wiki/Tether_(cryptocurrency)
+     * - or 'XXX' if it is pieces
+     * - or 'PRC' if it is a percentage
+     * - or 'PRM' if it is permil
+     * - or 'XXP' if it is points (as for indices)
+     * @type {string}
+     * @memberof CashAccount
+     */
+    currency: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CashAccount
+     */
+    isHiddenDefaultAccount: boolean;
     /**
      * 
      * @type {string}
-     * @memberof CancelOrderChallengeResponse
+     * @memberof CashAccount
      */
-    authMethod?: string;
+    displayName: string;
     /**
      * 
      * @type {string}
-     * @memberof CancelOrderChallengeResponse
+     * @memberof CashAccount
      */
-    challengeId?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CancelOrderChallengeResponse
-     */
-    challengeResponse: string;
+    id: string;
 }
 
-export function CancelOrderChallengeResponseFromJSON(json: any): CancelOrderChallengeResponse {
-    return CancelOrderChallengeResponseFromJSONTyped(json, false);
+export function CashAccountFromJSON(json: any): CashAccount {
+    return CashAccountFromJSONTyped(json, false);
 }
 
-export function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderChallengeResponse {
+export function CashAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): CashAccount {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
-        ...CancelOrderParamsFromJSONTyped(json, ignoreDiscriminator),
-        'authMethod': !exists(json, 'authMethod') ? undefined : json['authMethod'],
-        'challengeId': !exists(json, 'challengeId') ? undefined : json['challengeId'],
-        'challengeResponse': json['challengeResponse'],
+        
+        'currency': json['currency'],
+        'isHiddenDefaultAccount': json['isHiddenDefaultAccount'],
+        'displayName': json['displayName'],
+        'id': json['id'],
     };
 }
 
-export function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChallengeResponse | null, ignoreParent = false): any {
+export function CashAccountToJSONRecursive(value?: CashAccount | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -83,15 +76,16 @@ export function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderC
     }
 
     return {
-        ...ignoreParent ? {} : CancelOrderParamsToJSON(value),
+        
 
 
-        'authMethod': value.authMethod,
-        'challengeId': value.challengeId,
-        'challengeResponse': value.challengeResponse,
+        'currency': value.currency,
+        'isHiddenDefaultAccount': value.isHiddenDefaultAccount,
+        'displayName': value.displayName,
+        'id': value.id,
     };
 }
 
-export function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse | null): any {
-    return CancelOrderChallengeResponseToJSONRecursive(value, false);
+export function CashAccountToJSON(value?: CashAccount | null): any {
+    return CashAccountToJSONRecursive(value, false);
 }

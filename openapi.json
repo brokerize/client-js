@@ -13,7 +13,10 @@
                     "consors",
                     "finanzen",
                     "justtrade",
-                    "comdirect"
+                    "comdirect",
+                    "flatex_de",
+                    "flatex_at",
+                    "vitrade"
                 ]
             },
             "BrokerEnvironment": {
@@ -1086,17 +1089,24 @@
                     },
                     "challengeId": {
                         "type": "string"
+                    },
+                    "authMethod": {
+                        "type": "string"
                     }
                 },
                 "required": [
-                    "changes",
-                    "challengeResponse",
-                    "challengeId"
+                    "changes"
                 ],
                 "type": "object"
             },
             "Portfolio": {
                 "properties": {
+                    "cashAccountIds": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
                     "sessionIds": {
                         "items": {
                             "type": "string"
@@ -1114,6 +1124,7 @@
                     }
                 },
                 "required": [
+                    "cashAccountIds",
                     "sessionIds",
                     "portfolioName",
                     "brokerName",
@@ -1121,8 +1132,37 @@
                 ],
                 "type": "object"
             },
+            "CashAccount": {
+                "properties": {
+                    "currency": {
+                        "$ref": "#/components/schemas/CurrencyCode"
+                    },
+                    "isHiddenDefaultAccount": {
+                        "type": "boolean"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "currency",
+                    "isHiddenDefaultAccount",
+                    "displayName",
+                    "id"
+                ],
+                "type": "object"
+            },
             "PortfoliosResponse": {
                 "properties": {
+                    "cashAccounts": {
+                        "items": {
+                            "$ref": "#/components/schemas/CashAccount"
+                        },
+                        "type": "array"
+                    },
                     "portfolios": {
                         "items": {
                             "$ref": "#/components/schemas/Portfolio"
@@ -1131,6 +1171,7 @@
                     }
                 },
                 "required": [
+                    "cashAccounts",
                     "portfolios"
                 ],
                 "type": "object"
@@ -1174,8 +1215,17 @@
                 },
                 "type": "object"
             },
+            "CashAccountQuotesById": {
+                "description": "Quotes each cash account, mapped by the account's id.",
+                "properties": {},
+                "type": "object",
+                "additionalProperties": false
+            },
             "GetPortfolioQuotesResponse": {
                 "properties": {
+                    "cashAccounts": {
+                        "$ref": "#/components/schemas/CashAccountQuotesById"
+                    },
                     "quotes": {
                         "$ref": "#/components/schemas/PortfolioQuotes"
                     }
@@ -1668,6 +1718,7 @@
                 "required": [
                     "challengeResponse",
                     "challengeId",
+                    "authMethod",
                     "kind"
                 ],
                 "type": "object",
@@ -1921,7 +1972,7 @@
                 "type": "object",
                 "additionalProperties": false
             },
-            "Partial_Record_OrderModel.string__": {
+            "StringMapByOrderModel": {
                 "properties": {
                     "quote": {
                         "type": "string"
@@ -1958,7 +2009,7 @@
                     }
                 },
                 "type": "object",
-                "description": "Make all properties in T optional"
+                "additionalProperties": false
             },
             "Exchange": {
                 "description": "An `Exchange` describes the order possibilites for a security at one exchange.",
@@ -2011,7 +2062,7 @@
                         "description": "If present, contains default values for validity based on the orderModel."
                     },
                     "legalMessagesToConfirmByOrderModel": {
-                        "$ref": "#/components/schemas/Partial_Record_OrderModel.string__",
+                        "$ref": "#/components/schemas/StringMapByOrderModel",
                         "description": "Legal messages that have to be confirmed by the user actively before creating an order, by orderModel."
                     },
                     "currencyIso": {
@@ -2281,6 +2332,10 @@
                     "sellPositionId": {
                         "type": "string",
                         "description": "If a list of sellPositions has been provided in `PrepareTrade`, this must contain the selected position id to sell from"
+                    },
+                    "cashAccountId": {
+                        "type": "string",
+                        "description": "If a list of cash accounts is provided for the portfolio, this should contain the selected account."
                     }
                 },
                 "required": [
@@ -2418,6 +2473,9 @@
             },
             "CancelOrderChallengeResponseSpecifics": {
                 "properties": {
+                    "authMethod": {
+                        "type": "string"
+                    },
                     "challengeId": {
                         "type": "string"
                     },
@@ -2630,6 +2688,9 @@
                     },
                     "challengeId": {
                         "type": "string"
+                    },
+                    "authMethod": {
+                        "type": "string"
                     }
                 }
             },
@@ -2685,7 +2746,7 @@
         "title": "brokerize",
         "version": "0.0.1-preview",
         "contact": {},
-        "description": "The brokerize API allows clients to implement multi-brokerage easily with a unified interface.\n\n# user accounts & temporary guest sessions\n\nUsers either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nActions can be performed in portfolios that have online sessions.\n\nIn order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).\n\nThe following actions are implemented:\n\n-   Session TAN handling (for performing other actions in portfolios without further per-case authorization)\n    -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.\n    -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.\n    -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN.\n-   Create a trade\n    -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.\n    -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.\n    -   [CreateTrade](#operation/CreateTrade) to perform the trade.\n-   Edit an order\n    -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.\n    -   [ChangeOrder](#operation/ChangeOrder) to change an order.\n-   Cancel an order\n    -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.\n    -   [CancelOrder](#operation/CancelOrder) to cancel an order.\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. The `CreateGuestUser` endpoint is accessible without a token, so *for that endpoint* an IP-based limiting (1 guest user creation per 10 seconds) is implemented. These rate limits are subject to change and will be refined in the future.\n\nClients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior.\n\n| `flow`               | requires challenge? | Description                                                                                                                                                                                                          |\n| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |\n| `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |\n| `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |\n\n# request ids\nThe brokerize backend assigns a requestId to each request and returns it in the `x-request-id` header. The ID can be used to research error details, so it may be displayed to the user in the case of unexpected errors. In the case of internal server errors, the id will also be part of the JSON body; for example:\n```\n{\n    \"message\": \"An internal server error occured.\",\n    \"requestId\": \"9KzqMpRvVrQHDkFo\"\n}\n```",
+        "description": "The brokerize API allows clients to implement multi-brokerage easily with a unified interface.\n\n# user accounts & temporary guest sessions\n\nUsers either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is ended. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nActions can be performed in portfolios that have online sessions.\n\nIn order to figure out how actions can be authorized, the [GetAuthInfo](#operation/GetAuthInfo) must be used. If a _Session TAN_ is active, actions can be executed right away without further authorization. If not, depending on the selected `AuthMethod`s `flow` property, a challenge has to be created before the operation can actually be executed. For example, this can be an mTAN that is sent to the user or a QR code users have to scan with their smartphone to retrieve a TAN. Find our whether challenges are required in the documentation of [GetAuthInfo](#operation/GetAuthInfo).\n\nThe following actions are implemented:\n\n-   Session TAN handling (for performing other actions in portfolios without further per-case authorization)\n    -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.\n    -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.\n    -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN.\n-   Create a trade\n    -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.\n    -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.\n    -   [CreateTrade](#operation/CreateTrade) to perform the trade.\n-   Edit an order\n    -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.\n    -   [ChangeOrder](#operation/ChangeOrder) to change an order.\n-   Cancel an order\n    -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.\n    -   [CancelOrder](#operation/CancelOrder) to cancel an order.\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. The `CreateGuestUser` endpoint is accessible without a token, so *for that endpoint* an IP-based limiting (1 guest user creation per 10 seconds) is implemented. These rate limits are subject to change and will be refined in the future.\n\nClients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior.\n\n| `flow`               | requires challenge? | Description                                                                                                                                                                                                          |\n| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |\n| `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |\n| `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app)   |\n\n# request ids\nThe brokerize backend assigns a requestId to each request and returns it in the `x-request-id` header. The ID can be used to research error details, so it may be displayed to the user in the case of unexpected errors. In the case of internal server errors, the id will also be part of the JSON body; for example:\n```\n{\n    \"message\": \"An internal server error occured.\",\n    \"requestId\": \"9KzqMpRvVrQHDkFo\"\n}\n```\n\n API build data: <pre>{\n    \"buildTime\": \"2022-09-12T13:44:26.893Z\"\n}</pre>",
         "x-logo": {
             "url": "/logo.svg",
             "backgroundColor": "#FFFFFF",
@@ -4304,10 +4365,6 @@
         {
             "url": "https://api-preview.brokerize.com",
             "description": "Preview environment"
-        },
-        {
-            "url": "http://localhost:3333",
-            "description": "This API instance"
         }
     ],
     "tags": [
