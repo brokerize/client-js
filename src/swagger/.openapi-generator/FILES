@@ -31,6 +31,7 @@ models/CancelOrderChallengeResponseSpecifics.ts
 models/CancelOrderParams.ts
 models/CancelOrderParamsMode.ts
 models/CashAccount.ts
+models/CashAccountQuotes.ts
 models/CashQuotation.ts
 models/Challenge.ts
 models/ChangeOrderChallengeParams.ts

@@ -689,6 +689,24 @@ function CashAccountFromJSON(json: any): CashAccount;
 // @public (undocumented)
 function CashAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): CashAccount;
 
+// @public
+interface CashAccountQuotes {
+    balance?: Amount;
+    buyingPower?: Amount;
+}
+
+// @public (undocumented)
+function CashAccountQuotesFromJSON(json: any): CashAccountQuotes;
+
+// @public (undocumented)
+function CashAccountQuotesFromJSONTyped(json: any, ignoreDiscriminator: boolean): CashAccountQuotes;
+
+// @public (undocumented)
+function CashAccountQuotesToJSON(value?: CashAccountQuotes | null): any;
+
+// @public (undocumented)
+function CashAccountQuotesToJSONRecursive(value?: CashAccountQuotes | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function CashAccountToJSON(value?: CashAccount | null): any;
 
@@ -2212,7 +2230,9 @@ interface GetPortfolioQuotesRequest {
 
 // @public
 interface GetPortfolioQuotesResponse {
-    cashAccounts?: object;
+    cashAccounts?: {
+        [key: string]: CashAccountQuotes;
+    };
     quotes?: PortfolioQuotes;
 }
 
@@ -2616,6 +2636,11 @@ declare namespace Models {
         CashAccountToJSONRecursive,
         CashAccountToJSON,
         CashAccount,
+        CashAccountQuotesFromJSON,
+        CashAccountQuotesFromJSONTyped,
+        CashAccountQuotesToJSONRecursive,
+        CashAccountQuotesToJSON,
+        CashAccountQuotes,
         CashQuotationFromJSON,
         CashQuotationFromJSONTyped,
         CashQuotationToJSON,

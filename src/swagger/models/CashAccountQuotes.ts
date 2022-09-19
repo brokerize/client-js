@@ -14,41 +14,48 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Challenge,
-    ChallengeFromJSON,
-    ChallengeFromJSONTyped,
-    ChallengeToJSON,
-} from './Challenge';
+    Amount,
+    AmountFromJSON,
+    AmountFromJSONTyped,
+    AmountToJSON,
+} from './Amount';
 
 /**
  * 
  * @export
- * @interface LoginResponseChallengeSpecifics
+ * @interface CashAccountQuotes
  */
-export interface LoginResponseChallengeSpecifics {
+export interface CashAccountQuotes {
     /**
      * 
-     * @type {Challenge}
-     * @memberof LoginResponseChallengeSpecifics
+     * @type {Amount}
+     * @memberof CashAccountQuotes
      */
-    challenge?: Challenge;
+    buyingPower?: Amount;
+    /**
+     * 
+     * @type {Amount}
+     * @memberof CashAccountQuotes
+     */
+    balance?: Amount;
 }
 
-export function LoginResponseChallengeSpecificsFromJSON(json: any): LoginResponseChallengeSpecifics {
-    return LoginResponseChallengeSpecificsFromJSONTyped(json, false);
+export function CashAccountQuotesFromJSON(json: any): CashAccountQuotes {
+    return CashAccountQuotesFromJSONTyped(json, false);
 }
 
-export function LoginResponseChallengeSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseChallengeSpecifics {
+export function CashAccountQuotesFromJSONTyped(json: any, ignoreDiscriminator: boolean): CashAccountQuotes {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'challenge': !exists(json, 'challenge') ? undefined : ChallengeFromJSON(json['challenge']),
+        'buyingPower': !exists(json, 'buyingPower') ? undefined : AmountFromJSON(json['buyingPower']),
+        'balance': !exists(json, 'balance') ? undefined : AmountFromJSON(json['balance']),
     };
 }
 
-export function LoginResponseChallengeSpecificsToJSONRecursive(value?: LoginResponseChallengeSpecifics | null, ignoreParent = false): any {
+export function CashAccountQuotesToJSONRecursive(value?: CashAccountQuotes | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -60,10 +67,11 @@ export function LoginResponseChallengeSpecificsToJSONRecursive(value?: LoginResp
         
 
 
-        'challenge': ChallengeToJSON(value.challenge),
+        'buyingPower': AmountToJSON(value.buyingPower),
+        'balance': AmountToJSON(value.balance),
     };
 }
 
-export function LoginResponseChallengeSpecificsToJSON(value?: LoginResponseChallengeSpecifics | null): any {
-    return LoginResponseChallengeSpecificsToJSONRecursive(value, false);
+export function CashAccountQuotesToJSON(value?: CashAccountQuotes | null): any {
+    return CashAccountQuotesToJSONRecursive(value, false);
 }

@@ -46,7 +46,12 @@ export class Brokerize {
   }
 
   async createGuestUser(): Promise<AuthContextConfiguration> {
-    const user = await this._defaultApi.createGuestUser();
+    const user = await this._defaultApi.createGuestUser({
+      headers: {
+        "x-brkrz-client-id": this._cfg.clientId,
+        "Content-Type": "application/json",
+      },
+    });
     return {
       type: "guest",
       idToken: user.idToken,

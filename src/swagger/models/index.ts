@@ -23,6 +23,7 @@ export * from './CancelOrderChallengeResponseSpecifics';
 export * from './CancelOrderParams';
 export * from './CancelOrderParamsMode';
 export * from './CashAccount';
+export * from './CashAccountQuotes';
 export * from './CashQuotation';
 export * from './Challenge';
 export * from './ChangeOrderChallengeParams';
