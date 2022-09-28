@@ -13,54 +13,42 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
-import {
-    GenericTableRowValueDatetimeSpecifics,
-    GenericTableRowValueDatetimeSpecificsFromJSON,
-    GenericTableRowValueDatetimeSpecificsFromJSONTyped,
-    GenericTableRowValueDatetimeSpecificsToJSON,
-} from './GenericTableRowValueDatetimeSpecifics';
-import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
-
 /**
  * 
  * @export
- * @interface GenericTableRowValueDatetime
+ * @interface FieldErrorsValue
  */
-export interface GenericTableRowValueDatetime extends GenericTableRowValue {
+export interface FieldErrorsValue {
     /**
-     * *Milliseconds* since *the epoch*.
-     * @type {number}
-     * @memberof GenericTableRowValueDatetime
+     * 
+     * @type {any}
+     * @memberof FieldErrorsValue
      */
-    value: number;
+    value?: any | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof FieldErrorsValue
+     */
+    message: string;
 }
 
-export function GenericTableRowValueDatetimeFromJSON(json: any): GenericTableRowValueDatetime {
-    return GenericTableRowValueDatetimeFromJSONTyped(json, false);
+export function FieldErrorsValueFromJSON(json: any): FieldErrorsValue {
+    return FieldErrorsValueFromJSONTyped(json, false);
 }
 
-export function GenericTableRowValueDatetimeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueDatetime {
+export function FieldErrorsValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldErrorsValue {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
-        'value': json['value'],
+        
+        'value': !exists(json, 'value') ? undefined : json['value'],
+        'message': json['message'],
     };
 }
 
-export function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTableRowValueDatetime | null, ignoreParent = false): any {
+export function FieldErrorsValueToJSONRecursive(value?: FieldErrorsValue | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,13 +57,14 @@ export function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTable
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        
 
 
         'value': value.value,
+        'message': value.message,
     };
 }
 
-export function GenericTableRowValueDatetimeToJSON(value?: GenericTableRowValueDatetime | null): any {
-    return GenericTableRowValueDatetimeToJSONRecursive(value, false);
+export function FieldErrorsValueToJSON(value?: FieldErrorsValue | null): any {
+    return FieldErrorsValueToJSONRecursive(value, false);
 }

@@ -14,53 +14,105 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
+    BrokerName,
+    BrokerNameFromJSON,
+    BrokerNameFromJSONTyped,
+    BrokerNameToJSON,
+} from './BrokerName';
 import {
-    GenericTableRowValueDatetimeSpecifics,
-    GenericTableRowValueDatetimeSpecificsFromJSON,
-    GenericTableRowValueDatetimeSpecificsFromJSONTyped,
-    GenericTableRowValueDatetimeSpecificsToJSON,
-} from './GenericTableRowValueDatetimeSpecifics';
+    ErrorResponseBrokerCode,
+    ErrorResponseBrokerCodeFromJSON,
+    ErrorResponseBrokerCodeFromJSONTyped,
+    ErrorResponseBrokerCodeToJSON,
+} from './ErrorResponseBrokerCode';
 import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
+    FieldErrorsValue,
+    FieldErrorsValueFromJSON,
+    FieldErrorsValueFromJSONTyped,
+    FieldErrorsValueToJSON,
+} from './FieldErrorsValue';
+import {
+    Hint,
+    HintFromJSON,
+    HintFromJSONTyped,
+    HintToJSON,
+} from './Hint';
 
 /**
  * 
  * @export
- * @interface GenericTableRowValueDatetime
+ * @interface ErrorResponse
  */
-export interface GenericTableRowValueDatetime extends GenericTableRowValue {
+export interface ErrorResponse {
     /**
-     * *Milliseconds* since *the epoch*.
-     * @type {number}
-     * @memberof GenericTableRowValueDatetime
+     * 
+     * @type {{ [key: string]: FieldErrorsValue; }}
+     * @memberof ErrorResponse
      */
-    value: number;
+    validationDetails?: { [key: string]: FieldErrorsValue; };
+    /**
+     * 
+     * @type {Hint}
+     * @memberof ErrorResponse
+     */
+    hint?: Hint;
+    /**
+     * If there is an underlying broker error information, this is included here.
+     * @type {any}
+     * @memberof ErrorResponse
+     */
+    brokerError?: any | null;
+    /**
+     * 
+     * @type {ErrorResponseBrokerCode}
+     * @memberof ErrorResponse
+     */
+    brokerCode?: ErrorResponseBrokerCode;
+    /**
+     * 
+     * @type {BrokerName}
+     * @memberof ErrorResponse
+     */
+    msgBrokerName?: BrokerName;
+    /**
+     * The human-readable error message. If available, translated to the users's language.
+     * This can always be displayed in frontends (if no specific error code handling is available).
+     * @type {string}
+     * @memberof ErrorResponse
+     */
+    msg: string;
+    /**
+     * The error code.
+     * Currently the following codes are implemented:
+     * 'TRADING_ERROR', 'AUTH', 'RATE_LIMITED', 'VALIDATION_FAILED', 'MUST_ACCEPT_HINT', 'NO_SESSION_AVAILABLE_FOR_PORTFOLIO',
+     *  'SECURITY_NOT_FOUND', 'SECURITY_NOT_TRADABLE_AT_EXCHANGE', 'ORDER_REJECTED', 'INTERNAL_SERVER_ERROR'
+     * @type {string}
+     * @memberof ErrorResponse
+     */
+    code: string;
 }
 
-export function GenericTableRowValueDatetimeFromJSON(json: any): GenericTableRowValueDatetime {
-    return GenericTableRowValueDatetimeFromJSONTyped(json, false);
+export function ErrorResponseFromJSON(json: any): ErrorResponse {
+    return ErrorResponseFromJSONTyped(json, false);
 }
 
-export function GenericTableRowValueDatetimeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueDatetime {
+export function ErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
-        'value': json['value'],
+        
+        'validationDetails': !exists(json, 'validationDetails') ? undefined : (mapValues(json['validationDetails'], FieldErrorsValueFromJSON)),
+        'hint': !exists(json, 'hint') ? undefined : HintFromJSON(json['hint']),
+        'brokerError': !exists(json, 'brokerError') ? undefined : json['brokerError'],
+        'brokerCode': !exists(json, 'brokerCode') ? undefined : ErrorResponseBrokerCodeFromJSON(json['brokerCode']),
+        'msgBrokerName': !exists(json, 'msgBrokerName') ? undefined : BrokerNameFromJSON(json['msgBrokerName']),
+        'msg': json['msg'],
+        'code': json['code'],
     };
 }
 
-export function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTableRowValueDatetime | null, ignoreParent = false): any {
+export function ErrorResponseToJSONRecursive(value?: ErrorResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -69,13 +121,19 @@ export function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTable
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        
 
 
-        'value': value.value,
+        'validationDetails': value.validationDetails === undefined ? undefined : (mapValues(value.validationDetails, FieldErrorsValueToJSON)),
+        'hint': HintToJSON(value.hint),
+        'brokerError': value.brokerError,
+        'brokerCode': ErrorResponseBrokerCodeToJSON(value.brokerCode),
+        'msgBrokerName': BrokerNameToJSON(value.msgBrokerName),
+        'msg': value.msg,
+        'code': value.code,
     };
 }
 
-export function GenericTableRowValueDatetimeToJSON(value?: GenericTableRowValueDatetime | null): any {
-    return GenericTableRowValueDatetimeToJSONRecursive(value, false);
+export function ErrorResponseToJSON(value?: ErrorResponse | null): any {
+    return ErrorResponseToJSONRecursive(value, false);
 }

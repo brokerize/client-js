@@ -13,69 +13,26 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
-import {
-    GenericTableRowValueDatetimeSpecifics,
-    GenericTableRowValueDatetimeSpecificsFromJSON,
-    GenericTableRowValueDatetimeSpecificsFromJSONTyped,
-    GenericTableRowValueDatetimeSpecificsToJSON,
-} from './GenericTableRowValueDatetimeSpecifics';
-import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
-
 /**
- * 
+ * If the broker provided an error code, this is included here.
  * @export
- * @interface GenericTableRowValueDatetime
+ * @interface ErrorResponseBrokerCode
  */
-export interface GenericTableRowValueDatetime extends GenericTableRowValue {
-    /**
-     * *Milliseconds* since *the epoch*.
-     * @type {number}
-     * @memberof GenericTableRowValueDatetime
-     */
-    value: number;
+export interface ErrorResponseBrokerCode {
 }
 
-export function GenericTableRowValueDatetimeFromJSON(json: any): GenericTableRowValueDatetime {
-    return GenericTableRowValueDatetimeFromJSONTyped(json, false);
+export function ErrorResponseBrokerCodeFromJSON(json: any): ErrorResponseBrokerCode {
+    return ErrorResponseBrokerCodeFromJSONTyped(json, false);
 }
 
-export function GenericTableRowValueDatetimeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueDatetime {
-    if ((json === undefined) || (json === null)) {
-        return json;
-    }
-    return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
-        'value': json['value'],
-    };
+export function ErrorResponseBrokerCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorResponseBrokerCode {
+    return json;
 }
 
-export function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTableRowValueDatetime | null, ignoreParent = false): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
-    }
-
-    return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
-
-
-        'value': value.value,
-    };
+export function ErrorResponseBrokerCodeToJSONRecursive(value?: ErrorResponseBrokerCode | null, ignoreParent = false): any {
+    return value;
 }
 
-export function GenericTableRowValueDatetimeToJSON(value?: GenericTableRowValueDatetime | null): any {
-    return GenericTableRowValueDatetimeToJSONRecursive(value, false);
+export function ErrorResponseBrokerCodeToJSON(value?: ErrorResponseBrokerCode | null): any {
+    return ErrorResponseBrokerCodeToJSONRecursive(value, false);
 }

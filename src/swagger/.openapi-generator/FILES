@@ -63,10 +63,13 @@ models/EnableSessionTanParamsTanSpecifics.ts
 models/EnableSessionTanResponse.ts
 models/EnableSessionTanResponseAnyOf.ts
 models/EndSessionTanResponse.ts
+models/ErrorResponse.ts
+models/ErrorResponseBrokerCode.ts
 models/EstimateChangeOrderCostsParams.ts
 models/Exchange.ts
 models/ExchangeMeta.ts
 models/ExchangesResponse.ts
+models/FieldErrorsValue.ts
 models/GenericTable.ts
 models/GenericTableRow.ts
 models/GenericTableRowEntry.ts
@@ -109,8 +112,6 @@ models/LoginResponseChallengeSpecifics.ts
 models/LoginResponseReady.ts
 models/LoginResponseReadySpecifics.ts
 models/LoginResponseState.ts
-models/MustAcceptHint.ts
-models/NoSessionAvailableForPortfolio.ts
 models/OkResponseBody.ts
 models/Order.ts
 models/OrderChanges.ts
@@ -136,7 +137,6 @@ models/QuoteExpiration.ts
 models/RiskClassInfo.ts
 models/Security.ts
 models/SecurityDetailedInfo.ts
-models/SecurityNotAvailableForTrading.ts
 models/SellPosition.ts
 models/Session.ts
 models/SessionResponse.ts

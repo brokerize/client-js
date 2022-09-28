@@ -1,3 +1,10 @@
+import {
+  BrokerName,
+  ErrorResponse,
+  ErrorResponseBrokerCode,
+  FieldErrorsValue,
+} from "./swagger";
+
 export class TradingError extends Error {
   public code?: string;
   public brokerCode?: string | number;
@@ -46,12 +53,66 @@ export type Hint = {
   text: string;
 };
 
-export class ValidationError extends Error {
-  details: any;
-  constructor(opts: {msg: string, details: any}) {
-    super(opts.msg);
-    Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain (https://stackoverflow.com/questions/41102060/typescript-extending-error-class)
-    this.name = "ValidationError";
-    this.details = opts.details;
+export class BrokerizeError extends Error {
+  /**
+   *
+   * @type {{ [key: string]: FieldErrorsValue; }}
+   * @memberof ErrorResponse
+   */
+  validationDetails?: { [key: string]: FieldErrorsValue };
+  /**
+   *
+   * @type {Hint}
+   * @memberof ErrorResponse
+   */
+  hint?: Hint;
+  /**
+   * If there is an underlying broker error information, this is included here.
+   * @type {any}
+   * @memberof ErrorResponse
+   */
+  brokerError?: any | null;
+  /**
+   *
+   * @type {ErrorResponseBrokerCode}
+   * @memberof ErrorResponse
+   */
+  brokerCode?: ErrorResponseBrokerCode;
+  /**
+   *
+   * @type {BrokerName}
+   * @memberof ErrorResponse
+   */
+  msgBrokerName?: BrokerName;
+  /**
+   * The human-readable error message. If available, translated to the users's language.
+   * This can always be displayed in frontends (if no specific error code handling is available).
+   * @type {string}
+   * @memberof ErrorResponse
+   */
+  msg: string;
+  /**
+   * The error code.
+   * Currently the following codes are implemented:
+   * 'TRADING_ERROR', 'AUTH', 'RATE_LIMITED', 'VALIDATION_FAILED', 'MUST_ACCEPT_HINT', 'NO_SESSION_AVAILABLE_FOR_PORTFOLIO',
+   *  'SECURITY_NOT_FOUND', 'SECURITY_NOT_TRADABLE_AT_EXCHANGE', 'ORDER_REJECTED', 'INTERNAL_SERVER_ERROR'
+   * @type {string}
+   * @memberof ErrorResponse
+   */
+  code: string;
+
+  httpStatusCode: number;
+
+  constructor(statusCode: number, body: ErrorResponse) {
+    super(body.msg);
+    this.httpStatusCode = statusCode;
+    this.name = "BrokerizeError";
+    this.msg = body.msg;
+    this.code = body.code;
+    this.brokerCode = body.brokerCode;
+    this.brokerError = body.brokerError;
+    this.validationDetails = body.validationDetails;
+    this.hint = body.hint;
+    this.msgBrokerName = body.msgBrokerName;
   }
 }
