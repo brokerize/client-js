@@ -440,8 +440,6 @@ export interface BrokerizeConfig {
 // @public (undocumented)
 export class BrokerizeError extends Error {
     constructor(statusCode: number, body: ErrorResponse);
-    brokerCode?: ErrorResponseBrokerCode;
-    brokerError?: any | null;
     code: string;
     // Warning: (ae-forgotten-export) The symbol "Hint" needs to be exported by the entry point index.d.ts
     hint?: Hint_2;
@@ -450,7 +448,7 @@ export class BrokerizeError extends Error {
     msg: string;
     msgBrokerName?: BrokerName;
     validationDetails?: {
-        [key: string]: FieldErrorsValue;
+        [key: string]: ValidationDetail;
     };
 }
 
@@ -1543,32 +1541,14 @@ function EndSessionTanResponseToJSONRecursive(value?: EndSessionTanResponse | nu
 
 // @public
 interface ErrorResponse {
-    brokerCode?: ErrorResponseBrokerCode;
-    brokerError?: any | null;
     code: string;
     hint?: Hint;
     msg: string;
     msgBrokerName?: BrokerName;
     validationDetails?: {
-        [key: string]: FieldErrorsValue;
+        [key: string]: ValidationDetail;
     };
 }
-
-// @public
-interface ErrorResponseBrokerCode {
-}
-
-// @public (undocumented)
-function ErrorResponseBrokerCodeFromJSON(json: any): ErrorResponseBrokerCode;
-
-// @public (undocumented)
-function ErrorResponseBrokerCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorResponseBrokerCode;
-
-// @public (undocumented)
-function ErrorResponseBrokerCodeToJSON(value?: ErrorResponseBrokerCode | null): any;
-
-// @public (undocumented)
-function ErrorResponseBrokerCodeToJSONRecursive(value?: ErrorResponseBrokerCode | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function ErrorResponseFromJSON(json: any): ErrorResponse;
@@ -1675,24 +1655,6 @@ interface FetchParams {
     // (undocumented)
     url: string;
 }
-
-// @public
-interface FieldErrorsValue {
-    message: string;
-    value?: any | null;
-}
-
-// @public (undocumented)
-function FieldErrorsValueFromJSON(json: any): FieldErrorsValue;
-
-// @public (undocumented)
-function FieldErrorsValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): FieldErrorsValue;
-
-// @public (undocumented)
-function FieldErrorsValueToJSON(value?: FieldErrorsValue | null): any;
-
-// @public (undocumented)
-function FieldErrorsValueToJSONRecursive(value?: FieldErrorsValue | null, ignoreParent?: boolean): any;
 
 // @public
 interface GenericTable {
@@ -2872,11 +2834,6 @@ declare namespace Models {
         ErrorResponseToJSONRecursive,
         ErrorResponseToJSON,
         ErrorResponse,
-        ErrorResponseBrokerCodeFromJSON,
-        ErrorResponseBrokerCodeFromJSONTyped,
-        ErrorResponseBrokerCodeToJSONRecursive,
-        ErrorResponseBrokerCodeToJSON,
-        ErrorResponseBrokerCode,
         EstimateChangeOrderCostsParamsFromJSON,
         EstimateChangeOrderCostsParamsFromJSONTyped,
         EstimateChangeOrderCostsParamsToJSONRecursive,
@@ -2897,11 +2854,6 @@ declare namespace Models {
         ExchangesResponseToJSONRecursive,
         ExchangesResponseToJSON,
         ExchangesResponse,
-        FieldErrorsValueFromJSON,
-        FieldErrorsValueFromJSONTyped,
-        FieldErrorsValueToJSONRecursive,
-        FieldErrorsValueToJSON,
-        FieldErrorsValue,
         GenericTableFromJSON,
         GenericTableFromJSONTyped,
         GenericTableToJSONRecursive,
@@ -3259,7 +3211,12 @@ declare namespace Models {
         TrailingDistanceToJSONRecursive,
         TrailingDistanceToJSON,
         TrailingDistance,
-        TrailingDistanceModeEnum
+        TrailingDistanceModeEnum,
+        ValidationDetailFromJSON,
+        ValidationDetailFromJSONTyped,
+        ValidationDetailToJSONRecursive,
+        ValidationDetailToJSON,
+        ValidationDetail
     }
 }
 export { Models }
@@ -4147,6 +4104,24 @@ type UpdateDecoupledOperationMessage = {
     subscriptionId: number;
     status: DecoupledOperationStatus_2;
 };
+
+// @public
+interface ValidationDetail {
+    debugData: string;
+    message: string;
+}
+
+// @public (undocumented)
+function ValidationDetailFromJSON(json: any): ValidationDetail;
+
+// @public (undocumented)
+function ValidationDetailFromJSONTyped(json: any, ignoreDiscriminator: boolean): ValidationDetail;
+
+// @public (undocumented)
+function ValidationDetailToJSON(value?: ValidationDetail | null): any;
+
+// @public (undocumented)
+function ValidationDetailToJSONRecursive(value?: ValidationDetail | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 class VoidApiResponse {

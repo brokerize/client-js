@@ -20,23 +20,17 @@ import {
     BrokerNameToJSON,
 } from './BrokerName';
 import {
-    ErrorResponseBrokerCode,
-    ErrorResponseBrokerCodeFromJSON,
-    ErrorResponseBrokerCodeFromJSONTyped,
-    ErrorResponseBrokerCodeToJSON,
-} from './ErrorResponseBrokerCode';
-import {
-    FieldErrorsValue,
-    FieldErrorsValueFromJSON,
-    FieldErrorsValueFromJSONTyped,
-    FieldErrorsValueToJSON,
-} from './FieldErrorsValue';
-import {
     Hint,
     HintFromJSON,
     HintFromJSONTyped,
     HintToJSON,
 } from './Hint';
+import {
+    ValidationDetail,
+    ValidationDetailFromJSON,
+    ValidationDetailFromJSONTyped,
+    ValidationDetailToJSON,
+} from './ValidationDetail';
 
 /**
  * 
@@ -45,29 +39,18 @@ import {
  */
 export interface ErrorResponse {
     /**
-     * 
-     * @type {{ [key: string]: FieldErrorsValue; }}
+     * For validation errors (error code `VALIDATION_FAILED`), a map with the affected field as key and ValidationDetail
+     * as value.
+     * @type {{ [key: string]: ValidationDetail; }}
      * @memberof ErrorResponse
      */
-    validationDetails?: { [key: string]: FieldErrorsValue; };
+    validationDetails?: { [key: string]: ValidationDetail; };
     /**
      * 
      * @type {Hint}
      * @memberof ErrorResponse
      */
     hint?: Hint;
-    /**
-     * If there is an underlying broker error information, this is included here.
-     * @type {any}
-     * @memberof ErrorResponse
-     */
-    brokerError?: any | null;
-    /**
-     * 
-     * @type {ErrorResponseBrokerCode}
-     * @memberof ErrorResponse
-     */
-    brokerCode?: ErrorResponseBrokerCode;
     /**
      * 
      * @type {BrokerName}
@@ -102,10 +85,8 @@ export function ErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'validationDetails': !exists(json, 'validationDetails') ? undefined : (mapValues(json['validationDetails'], FieldErrorsValueFromJSON)),
+        'validationDetails': !exists(json, 'validationDetails') ? undefined : (mapValues(json['validationDetails'], ValidationDetailFromJSON)),
         'hint': !exists(json, 'hint') ? undefined : HintFromJSON(json['hint']),
-        'brokerError': !exists(json, 'brokerError') ? undefined : json['brokerError'],
-        'brokerCode': !exists(json, 'brokerCode') ? undefined : ErrorResponseBrokerCodeFromJSON(json['brokerCode']),
         'msgBrokerName': !exists(json, 'msgBrokerName') ? undefined : BrokerNameFromJSON(json['msgBrokerName']),
         'msg': json['msg'],
         'code': json['code'],
@@ -124,10 +105,8 @@ export function ErrorResponseToJSONRecursive(value?: ErrorResponse | null, ignor
         
 
 
-        'validationDetails': value.validationDetails === undefined ? undefined : (mapValues(value.validationDetails, FieldErrorsValueToJSON)),
+        'validationDetails': value.validationDetails === undefined ? undefined : (mapValues(value.validationDetails, ValidationDetailToJSON)),
         'hint': HintToJSON(value.hint),
-        'brokerError': value.brokerError,
-        'brokerCode': ErrorResponseBrokerCodeToJSON(value.brokerCode),
         'msgBrokerName': BrokerNameToJSON(value.msgBrokerName),
         'msg': value.msg,
         'code': value.code,

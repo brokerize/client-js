@@ -64,12 +64,10 @@ models/EnableSessionTanResponse.ts
 models/EnableSessionTanResponseAnyOf.ts
 models/EndSessionTanResponse.ts
 models/ErrorResponse.ts
-models/ErrorResponseBrokerCode.ts
 models/EstimateChangeOrderCostsParams.ts
 models/Exchange.ts
 models/ExchangeMeta.ts
 models/ExchangesResponse.ts
-models/FieldErrorsValue.ts
 models/GenericTable.ts
 models/GenericTableRow.ts
 models/GenericTableRowEntry.ts
@@ -143,5 +141,6 @@ models/SessionResponse.ts
 models/StringMapByOrderModel.ts
 models/SyncError.ts
 models/TrailingDistance.ts
+models/ValidationDetail.ts
 models/index.ts
 runtime.ts

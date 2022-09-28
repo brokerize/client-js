@@ -1,8 +1,7 @@
 import {
   BrokerName,
   ErrorResponse,
-  ErrorResponseBrokerCode,
-  FieldErrorsValue,
+  ValidationDetail
 } from "./swagger";
 
 export class TradingError extends Error {
@@ -59,25 +58,13 @@ export class BrokerizeError extends Error {
    * @type {{ [key: string]: FieldErrorsValue; }}
    * @memberof ErrorResponse
    */
-  validationDetails?: { [key: string]: FieldErrorsValue };
+  validationDetails?: { [key: string]: ValidationDetail };
   /**
    *
    * @type {Hint}
    * @memberof ErrorResponse
    */
   hint?: Hint;
-  /**
-   * If there is an underlying broker error information, this is included here.
-   * @type {any}
-   * @memberof ErrorResponse
-   */
-  brokerError?: any | null;
-  /**
-   *
-   * @type {ErrorResponseBrokerCode}
-   * @memberof ErrorResponse
-   */
-  brokerCode?: ErrorResponseBrokerCode;
   /**
    *
    * @type {BrokerName}
@@ -109,8 +96,6 @@ export class BrokerizeError extends Error {
     this.name = "BrokerizeError";
     this.msg = body.msg;
     this.code = body.code;
-    this.brokerCode = body.brokerCode;
-    this.brokerError = body.brokerError;
     this.validationDetails = body.validationDetails;
     this.hint = body.hint;
     this.msgBrokerName = body.msgBrokerName;

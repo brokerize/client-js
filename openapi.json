@@ -123,46 +123,38 @@
                 ],
                 "type": "object"
             },
-            "FieldErrors": {
-                "properties": {},
-                "type": "object",
-                "additionalProperties": {
-                    "properties": {
-                        "value": {},
-                        "message": {
-                            "type": "string"
-                        }
+            "ValidationDetail": {
+                "properties": {
+                    "debugData": {
+                        "type": "string"
                     },
-                    "required": [
-                        "message"
-                    ],
-                    "type": "object"
-                }
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "debugData",
+                    "message"
+                ],
+                "type": "object"
+            },
+            "ValidationDetails": {
+                "properties": {},
+                "additionalProperties": {
+                    "$ref": "#/components/schemas/ValidationDetail"
+                },
+                "type": "object",
+                "description": "For validation errors (error code `VALIDATION_FAILED`), a map with the affected field as key and ValidationDetail\nas value."
             },
             "ErrorResponse": {
                 "properties": {
                     "validationDetails": {
-                        "$ref": "#/components/schemas/FieldErrors",
-                        "description": "For validation errors (error code `VALIDATION_FAILED`)"
+                        "$ref": "#/components/schemas/ValidationDetails",
+                        "description": "For validation errors (error code `VALIDATION_FAILED`), a map with the affected field as key and ValidationDetail\nas value."
                     },
                     "hint": {
                         "$ref": "#/components/schemas/Hint",
                         "description": "When users have to accept hints (code `MUST_ACCEPT_HINT`, this describes the hint to accept)."
-                    },
-                    "brokerError": {
-                        "description": "If there is an underlying broker error information, this is included here."
-                    },
-                    "brokerCode": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "number",
-                                "format": "double"
-                            }
-                        ],
-                        "description": "If the broker provided an error code, this is included here."
                     },
                     "msgBrokerName": {
                         "$ref": "#/components/schemas/BrokerName",
@@ -3370,10 +3362,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -3510,10 +3502,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -3657,10 +3649,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -3804,10 +3796,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -3944,10 +3936,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -4055,10 +4047,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -4161,10 +4153,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -4276,10 +4268,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -4391,10 +4383,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -4506,10 +4498,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -4668,10 +4660,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -6081,10 +6073,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -6208,10 +6200,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -6355,10 +6347,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -6569,10 +6561,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }
@@ -6692,10 +6684,10 @@
                                         "value": {
                                             "code": "VALIDATION_FAILED",
                                             "msg": "Validation failed",
-                                            "details": {
+                                            "validationDetails": {
                                                 "requestBody.order.size": {
                                                     "message": "invalid float number",
-                                                    "value": ""
+                                                    "debugData": "{\"value\":\"ABC\"}"
                                                 }
                                             }
                                         }

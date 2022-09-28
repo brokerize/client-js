@@ -14,25 +14,57 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * If the broker provided an error code, this is included here.
+ * 
  * @export
- * @interface ErrorResponseBrokerCode
+ * @interface ValidationDetail
  */
-export interface ErrorResponseBrokerCode {
+export interface ValidationDetail {
+    /**
+     * 
+     * @type {string}
+     * @memberof ValidationDetail
+     */
+    debugData: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ValidationDetail
+     */
+    message: string;
 }
 
-export function ErrorResponseBrokerCodeFromJSON(json: any): ErrorResponseBrokerCode {
-    return ErrorResponseBrokerCodeFromJSONTyped(json, false);
+export function ValidationDetailFromJSON(json: any): ValidationDetail {
+    return ValidationDetailFromJSONTyped(json, false);
 }
 
-export function ErrorResponseBrokerCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorResponseBrokerCode {
-    return json;
+export function ValidationDetailFromJSONTyped(json: any, ignoreDiscriminator: boolean): ValidationDetail {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'debugData': json['debugData'],
+        'message': json['message'],
+    };
 }
 
-export function ErrorResponseBrokerCodeToJSONRecursive(value?: ErrorResponseBrokerCode | null, ignoreParent = false): any {
-    return value;
+export function ValidationDetailToJSONRecursive(value?: ValidationDetail | null, ignoreParent = false): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+
+    return {
+        
+
+
+        'debugData': value.debugData,
+        'message': value.message,
+    };
 }
 
-export function ErrorResponseBrokerCodeToJSON(value?: ErrorResponseBrokerCode | null): any {
-    return ErrorResponseBrokerCodeToJSONRecursive(value, false);
+export function ValidationDetailToJSON(value?: ValidationDetail | null): any {
+    return ValidationDetailToJSONRecursive(value, false);
 }
