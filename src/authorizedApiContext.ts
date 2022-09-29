@@ -1,6 +1,6 @@
 import { Subject } from "rxjs";
 import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
-import { TradingError, ValidationError } from "./errors";
+import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
 import {
   AddSessionParams,
@@ -8,16 +8,17 @@ import {
   CreateTradeChallengeRequest,
   CreateTradeRequest,
   DeleteDemoAccountRequest,
+  ErrorResponse,
   GetCostEstimationParams,
   GetQuoteRequest,
   PrepareOAuthRedirectParams,
-  PrepareTradeRequest,
+  PrepareTradeRequest
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
   BrokerizeWebSocketClientImpl,
   Callback,
-  Subscription,
+  Subscription
 } from "./websocketClient";
 
 export class AuthorizedApiContext {
@@ -50,24 +51,13 @@ export class AuthorizedApiContext {
       r: openApiClient.ResponseContext
     ): Promise<void> => {
       const statusCode = r.response.status;
-
-      if (statusCode == 401) {
-        this._logoutSubject.error(new Error("Status 401"));
-      }
-
       if (statusCode >= 400) {
-        const decJson = await r.response.json();
-        if (decJson.name == "TradingError") {
-          throw new TradingError(decJson);
-        } else if (statusCode == 422) {
-          /* validation error. */
-          throw new ValidationError({
-            msg: "Validation Error (HTTP 422)",
-            details: decJson,
-          });
+        const decJson = (await r.response.json()) as ErrorResponse;
+        const err = new BrokerizeError(statusCode, decJson);
+        if (statusCode == 401) {
+          this._logoutSubject.error(err);
         }
-
-        /* other errors will be a generic ResponseError to be handled by clients. */
+        throw err;
       }
     };
 

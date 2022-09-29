@@ -438,6 +438,21 @@ export interface BrokerizeConfig {
 }
 
 // @public (undocumented)
+export class BrokerizeError extends Error {
+    constructor(statusCode: number, body: ErrorResponse);
+    code: string;
+    // Warning: (ae-forgotten-export) The symbol "Hint" needs to be exported by the entry point index.d.ts
+    hint?: Hint_2;
+    // (undocumented)
+    httpStatusCode: number;
+    msg: string;
+    msgBrokerName?: BrokerName;
+    validationDetails?: {
+        [key: string]: ValidationDetail;
+    };
+}
+
+// @public (undocumented)
 export interface BrokerizeWebSocketClient {
     // (undocumented)
     subscribeDecoupledOperation: (subscribe: Pick<SubscribeDecoupledOperation, "sessionId" | "decoupledOperationId">, callback: Callback) => Subscription;
@@ -1157,9 +1172,7 @@ class DefaultApi extends runtime.BaseAPI {
     cancelDecoupledOperationRaw(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     createGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateGuestUserResponse>;
     createGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateGuestUserResponse>>;
-    // (undocumented)
     createSessionTanChallenge(requestParameters: CreateSessionTanChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
-    // (undocumented)
     createSessionTanChallengeRaw(requestParameters: CreateSessionTanChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
     // (undocumented)
     deletePortfolio(requestParameters: DeletePortfolioRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
@@ -1525,6 +1538,29 @@ function EndSessionTanResponseToJSON(value?: EndSessionTanResponse | null): any;
 
 // @public (undocumented)
 function EndSessionTanResponseToJSONRecursive(value?: EndSessionTanResponse | null, ignoreParent?: boolean): any;
+
+// @public
+interface ErrorResponse {
+    code: string;
+    hint?: Hint;
+    msg: string;
+    msgBrokerName?: BrokerName;
+    validationDetails?: {
+        [key: string]: ValidationDetail;
+    };
+}
+
+// @public (undocumented)
+function ErrorResponseFromJSON(json: any): ErrorResponse;
+
+// @public (undocumented)
+function ErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorResponse;
+
+// @public (undocumented)
+function ErrorResponseToJSON(value?: ErrorResponse | null): any;
+
+// @public (undocumented)
+function ErrorResponseToJSONRecursive(value?: ErrorResponse | null, ignoreParent?: boolean): any;
 
 // @public
 interface EstimateChangeOrderCostsParams {
@@ -2793,6 +2829,11 @@ declare namespace Models {
         EndSessionTanResponseToJSONRecursive,
         EndSessionTanResponseToJSON,
         EndSessionTanResponse,
+        ErrorResponseFromJSON,
+        ErrorResponseFromJSONTyped,
+        ErrorResponseToJSONRecursive,
+        ErrorResponseToJSON,
+        ErrorResponse,
         EstimateChangeOrderCostsParamsFromJSON,
         EstimateChangeOrderCostsParamsFromJSONTyped,
         EstimateChangeOrderCostsParamsToJSONRecursive,
@@ -3019,18 +3060,6 @@ declare namespace Models {
         LoginResponseStateFromJSONTyped,
         LoginResponseStateToJSON,
         LoginResponseState,
-        MustAcceptHintFromJSON,
-        MustAcceptHintFromJSONTyped,
-        MustAcceptHintToJSONRecursive,
-        MustAcceptHintToJSON,
-        MustAcceptHint,
-        MustAcceptHintCodeEnum,
-        NoSessionAvailableForPortfolioFromJSON,
-        NoSessionAvailableForPortfolioFromJSONTyped,
-        NoSessionAvailableForPortfolioToJSONRecursive,
-        NoSessionAvailableForPortfolioToJSON,
-        NoSessionAvailableForPortfolio,
-        NoSessionAvailableForPortfolioCodeEnum,
         OkResponseBodyFromJSON,
         OkResponseBodyFromJSONTyped,
         OkResponseBodyToJSONRecursive,
@@ -3152,12 +3181,6 @@ declare namespace Models {
         SecurityDetailedInfoToJSONRecursive,
         SecurityDetailedInfoToJSON,
         SecurityDetailedInfo,
-        SecurityNotAvailableForTradingFromJSON,
-        SecurityNotAvailableForTradingFromJSONTyped,
-        SecurityNotAvailableForTradingToJSONRecursive,
-        SecurityNotAvailableForTradingToJSON,
-        SecurityNotAvailableForTrading,
-        SecurityNotAvailableForTradingCodeEnum,
         SellPositionFromJSON,
         SellPositionFromJSONTyped,
         SellPositionToJSONRecursive,
@@ -3188,61 +3211,15 @@ declare namespace Models {
         TrailingDistanceToJSONRecursive,
         TrailingDistanceToJSON,
         TrailingDistance,
-        TrailingDistanceModeEnum
+        TrailingDistanceModeEnum,
+        ValidationDetailFromJSON,
+        ValidationDetailFromJSONTyped,
+        ValidationDetailToJSONRecursive,
+        ValidationDetailToJSON,
+        ValidationDetail
     }
 }
 export { Models }
-
-// @public
-interface MustAcceptHint {
-    code: MustAcceptHintCodeEnum;
-    hint: Hint;
-}
-
-// @public (undocumented)
-const MustAcceptHintCodeEnum: {
-    readonly MustAcceptHint: "MUST_ACCEPT_HINT";
-};
-
-// @public (undocumented)
-type MustAcceptHintCodeEnum = typeof MustAcceptHintCodeEnum[keyof typeof MustAcceptHintCodeEnum];
-
-// @public (undocumented)
-function MustAcceptHintFromJSON(json: any): MustAcceptHint;
-
-// @public (undocumented)
-function MustAcceptHintFromJSONTyped(json: any, ignoreDiscriminator: boolean): MustAcceptHint;
-
-// @public (undocumented)
-function MustAcceptHintToJSON(value?: MustAcceptHint | null): any;
-
-// @public (undocumented)
-function MustAcceptHintToJSONRecursive(value?: MustAcceptHint | null, ignoreParent?: boolean): any;
-
-// @public
-interface NoSessionAvailableForPortfolio {
-    code: NoSessionAvailableForPortfolioCodeEnum;
-}
-
-// @public (undocumented)
-const NoSessionAvailableForPortfolioCodeEnum: {
-    readonly NoSessionAvailableForPortfolio: "NO_SESSION_AVAILABLE_FOR_PORTFOLIO";
-};
-
-// @public (undocumented)
-type NoSessionAvailableForPortfolioCodeEnum = typeof NoSessionAvailableForPortfolioCodeEnum[keyof typeof NoSessionAvailableForPortfolioCodeEnum];
-
-// @public (undocumented)
-function NoSessionAvailableForPortfolioFromJSON(json: any): NoSessionAvailableForPortfolio;
-
-// @public (undocumented)
-function NoSessionAvailableForPortfolioFromJSONTyped(json: any, ignoreDiscriminator: boolean): NoSessionAvailableForPortfolio;
-
-// @public (undocumented)
-function NoSessionAvailableForPortfolioToJSON(value?: NoSessionAvailableForPortfolio | null): any;
-
-// @public (undocumented)
-function NoSessionAvailableForPortfolioToJSONRecursive(value?: NoSessionAvailableForPortfolio | null, ignoreParent?: boolean): any;
 
 // @public
 interface OkResponseBody {
@@ -3925,31 +3902,6 @@ function SecurityFromJSON(json: any): Security;
 // @public (undocumented)
 function SecurityFromJSONTyped(json: any, ignoreDiscriminator: boolean): Security;
 
-// @public
-interface SecurityNotAvailableForTrading {
-    code: SecurityNotAvailableForTradingCodeEnum;
-}
-
-// @public (undocumented)
-const SecurityNotAvailableForTradingCodeEnum: {
-    readonly SecurityNotFound: "SECURITY_NOT_FOUND";
-};
-
-// @public (undocumented)
-type SecurityNotAvailableForTradingCodeEnum = typeof SecurityNotAvailableForTradingCodeEnum[keyof typeof SecurityNotAvailableForTradingCodeEnum];
-
-// @public (undocumented)
-function SecurityNotAvailableForTradingFromJSON(json: any): SecurityNotAvailableForTrading;
-
-// @public (undocumented)
-function SecurityNotAvailableForTradingFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecurityNotAvailableForTrading;
-
-// @public (undocumented)
-function SecurityNotAvailableForTradingToJSON(value?: SecurityNotAvailableForTrading | null): any;
-
-// @public (undocumented)
-function SecurityNotAvailableForTradingToJSONRecursive(value?: SecurityNotAvailableForTrading | null, ignoreParent?: boolean): any;
-
 // @public (undocumented)
 function SecurityToJSON(value?: Security | null): any;
 
@@ -4107,25 +4059,6 @@ class TradeApi extends runtime.BaseAPI {
     prepareTradeRaw(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PrepareTradeResponse>>;
 }
 
-// @public (undocumented)
-export class TradingError extends Error {
-    // Warning: (ae-forgotten-export) The symbol "ErrorParams" needs to be exported by the entry point index.d.ts
-    constructor({ msg, code, brokerCode, brokerError, msgBrokerName, httpStatusCode, hint, }: ErrorParams);
-    // (undocumented)
-    brokerCode?: string | number;
-    // (undocumented)
-    brokerError?: any;
-    // (undocumented)
-    code?: string;
-    // Warning: (ae-forgotten-export) The symbol "Hint" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    hint?: Hint_2;
-    // (undocumented)
-    httpStatusCode: number;
-    msgBrokerName?: string;
-}
-
 // @public
 interface TrailingDistance {
     mode: TrailingDistanceModeEnum;
@@ -4171,6 +4104,24 @@ type UpdateDecoupledOperationMessage = {
     subscriptionId: number;
     status: DecoupledOperationStatus_2;
 };
+
+// @public
+interface ValidationDetail {
+    debugData: string;
+    message: string;
+}
+
+// @public (undocumented)
+function ValidationDetailFromJSON(json: any): ValidationDetail;
+
+// @public (undocumented)
+function ValidationDetailFromJSONTyped(json: any, ignoreDiscriminator: boolean): ValidationDetail;
+
+// @public (undocumented)
+function ValidationDetailToJSON(value?: ValidationDetail | null): any;
+
+// @public (undocumented)
+function ValidationDetailToJSONRecursive(value?: ValidationDetail | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 class VoidApiResponse {

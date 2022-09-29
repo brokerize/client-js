@@ -13,54 +13,87 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    BrokerName,
+    BrokerNameFromJSON,
+    BrokerNameFromJSONTyped,
+    BrokerNameToJSON,
+} from './BrokerName';
+import {
+    Hint,
+    HintFromJSON,
+    HintFromJSONTyped,
+    HintToJSON,
+} from './Hint';
+import {
+    ValidationDetail,
+    ValidationDetailFromJSON,
+    ValidationDetailFromJSONTyped,
+    ValidationDetailToJSON,
+} from './ValidationDetail';
+
 /**
- * For orderModels `trailingStopMarket` and `trailingStopLimit`: the distance between the security's quote and the
- * stop value to calculate.
+ * 
  * @export
- * @interface TrailingDistance
+ * @interface ErrorResponse
  */
-export interface TrailingDistance {
+export interface ErrorResponse {
     /**
-     * 
-     * @type {number}
-     * @memberof TrailingDistance
+     * For validation errors (error code `VALIDATION_FAILED`), a map with the affected field as key and ValidationDetail
+     * as value.
+     * @type {{ [key: string]: ValidationDetail; }}
+     * @memberof ErrorResponse
      */
-    value: number;
+    validationDetails?: { [key: string]: ValidationDetail; };
     /**
      * 
+     * @type {Hint}
+     * @memberof ErrorResponse
+     */
+    hint?: Hint;
+    /**
+     * 
+     * @type {BrokerName}
+     * @memberof ErrorResponse
+     */
+    msgBrokerName?: BrokerName;
+    /**
+     * The human-readable error message. If available, translated to the users's language.
+     * This can always be displayed in frontends (if no specific error code handling is available).
      * @type {string}
-     * @memberof TrailingDistance
+     * @memberof ErrorResponse
      */
-    mode: TrailingDistanceModeEnum;
+    msg: string;
+    /**
+     * The error code.
+     * Currently the following codes are implemented:
+     * 'TRADING_ERROR', 'AUTH', 'RATE_LIMITED', 'VALIDATION_FAILED', 'MUST_ACCEPT_HINT', 'NO_SESSION_AVAILABLE_FOR_PORTFOLIO',
+     *  'SECURITY_NOT_FOUND', 'SECURITY_NOT_TRADABLE_AT_EXCHANGE', 'ORDER_REJECTED', 'INTERNAL_SERVER_ERROR'
+     * @type {string}
+     * @memberof ErrorResponse
+     */
+    code: string;
 }
 
-
-/**
- * @export
- */
-export const TrailingDistanceModeEnum = {
-    Abs: 'abs',
-    Rel: 'rel'
-} as const;
-export type TrailingDistanceModeEnum = typeof TrailingDistanceModeEnum[keyof typeof TrailingDistanceModeEnum];
-
-
-export function TrailingDistanceFromJSON(json: any): TrailingDistance {
-    return TrailingDistanceFromJSONTyped(json, false);
+export function ErrorResponseFromJSON(json: any): ErrorResponse {
+    return ErrorResponseFromJSONTyped(json, false);
 }
 
-export function TrailingDistanceFromJSONTyped(json: any, ignoreDiscriminator: boolean): TrailingDistance {
+export function ErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ErrorResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'value': json['value'],
-        'mode': json['mode'],
+        'validationDetails': !exists(json, 'validationDetails') ? undefined : (mapValues(json['validationDetails'], ValidationDetailFromJSON)),
+        'hint': !exists(json, 'hint') ? undefined : HintFromJSON(json['hint']),
+        'msgBrokerName': !exists(json, 'msgBrokerName') ? undefined : BrokerNameFromJSON(json['msgBrokerName']),
+        'msg': json['msg'],
+        'code': json['code'],
     };
 }
 
-export function TrailingDistanceToJSONRecursive(value?: TrailingDistance | null, ignoreParent = false): any {
+export function ErrorResponseToJSONRecursive(value?: ErrorResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -72,11 +105,14 @@ export function TrailingDistanceToJSONRecursive(value?: TrailingDistance | null,
         
 
 
-        'value': value.value,
-        'mode': value.mode,
+        'validationDetails': value.validationDetails === undefined ? undefined : (mapValues(value.validationDetails, ValidationDetailToJSON)),
+        'hint': HintToJSON(value.hint),
+        'msgBrokerName': BrokerNameToJSON(value.msgBrokerName),
+        'msg': value.msg,
+        'code': value.code,
     };
 }
 
-export function TrailingDistanceToJSON(value?: TrailingDistance | null): any {
-    return TrailingDistanceToJSONRecursive(value, false);
+export function ErrorResponseToJSON(value?: ErrorResponse | null): any {
+    return ErrorResponseToJSONRecursive(value, false);
 }

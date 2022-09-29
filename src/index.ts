@@ -8,11 +8,17 @@ import {
   RegisteredUserAuthContextConfiguration
 } from "./apiCtx";
 import { AuthorizedApiContext } from "./authorizedApiContext";
+import { Cognito } from "./cognito";
+import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
+import * as Models from "./swagger/models";
 import {
-  BrokerizeWebSocketClient, Callback,
+  BrokerizeWebSocketClient,
+  Callback,
   Subscription
 } from "./websocketClient";
+import * as WebSocketTypes from "./websocketTypes";
+
 export { BrokerName } from "./swagger";
 export {
   BrokerizeConfig,
@@ -23,9 +29,8 @@ export {
   WebSocketTypes,
   Subscription,
   Callback,
-  TradingError
+  BrokerizeError,
 };
-
 
 export class Brokerize {
   private _cfg: BrokerizeConfig;
@@ -59,7 +64,10 @@ export class Brokerize {
   }
 
   createAuthorizedContext(authCtxCfg: AuthContextConfiguration) {
-    return new AuthorizedApiContext(this._cfg, createAuth(authCtxCfg, this._cfg));
+    return new AuthorizedApiContext(
+      this._cfg,
+      createAuth(authCtxCfg, this._cfg)
+    );
   }
 
   /**
@@ -88,12 +96,9 @@ export class Brokerize {
     code: string;
   }): Promise<RegisteredUserAuthContextConfiguration> {
     const cognito = this.getCognito();
-    return cognito.createRegisteredUserAuthConfigurationFromLoginRedirect({code, codeVerifier});
+    return cognito.createRegisteredUserAuthConfigurationFromLoginRedirect({
+      code,
+      codeVerifier,
+    });
   }
 }
-
-import { Cognito } from "./cognito";
-import { TradingError } from "./errors";
-import * as Models from "./swagger/models";
-import * as WebSocketTypes from "./websocketTypes";
-

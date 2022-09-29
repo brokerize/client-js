@@ -14,53 +14,41 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * For orderModels `trailingStopMarket` and `trailingStopLimit`: the distance between the security's quote and the
- * stop value to calculate.
+ * 
  * @export
- * @interface TrailingDistance
+ * @interface ValidationDetail
  */
-export interface TrailingDistance {
-    /**
-     * 
-     * @type {number}
-     * @memberof TrailingDistance
-     */
-    value: number;
+export interface ValidationDetail {
     /**
      * 
      * @type {string}
-     * @memberof TrailingDistance
+     * @memberof ValidationDetail
      */
-    mode: TrailingDistanceModeEnum;
+    debugData: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ValidationDetail
+     */
+    message: string;
 }
 
-
-/**
- * @export
- */
-export const TrailingDistanceModeEnum = {
-    Abs: 'abs',
-    Rel: 'rel'
-} as const;
-export type TrailingDistanceModeEnum = typeof TrailingDistanceModeEnum[keyof typeof TrailingDistanceModeEnum];
-
-
-export function TrailingDistanceFromJSON(json: any): TrailingDistance {
-    return TrailingDistanceFromJSONTyped(json, false);
+export function ValidationDetailFromJSON(json: any): ValidationDetail {
+    return ValidationDetailFromJSONTyped(json, false);
 }
 
-export function TrailingDistanceFromJSONTyped(json: any, ignoreDiscriminator: boolean): TrailingDistance {
+export function ValidationDetailFromJSONTyped(json: any, ignoreDiscriminator: boolean): ValidationDetail {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'value': json['value'],
-        'mode': json['mode'],
+        'debugData': json['debugData'],
+        'message': json['message'],
     };
 }
 
-export function TrailingDistanceToJSONRecursive(value?: TrailingDistance | null, ignoreParent = false): any {
+export function ValidationDetailToJSONRecursive(value?: ValidationDetail | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -72,11 +60,11 @@ export function TrailingDistanceToJSONRecursive(value?: TrailingDistance | null,
         
 
 
-        'value': value.value,
-        'mode': value.mode,
+        'debugData': value.debugData,
+        'message': value.message,
     };
 }
 
-export function TrailingDistanceToJSON(value?: TrailingDistance | null): any {
-    return TrailingDistanceToJSONRecursive(value, false);
+export function ValidationDetailToJSON(value?: ValidationDetail | null): any {
+    return ValidationDetailToJSONRecursive(value, false);
 }
