@@ -6,6 +6,8 @@ const ENDPOINT = 'https://berg7.auth.eu-central-1.amazoncognito.com';
 
 const refreshedTokens: Record<string, TokenSet> = {};
 
+import { decodeJwt } from 'jose';
+
 export class Cognito {
     private _cfg: BrokerizeConfig;
 
@@ -20,6 +22,7 @@ export class Cognito {
         codeVerifier: string;
         code: string;
       }): Promise<RegisteredUserAuthContextConfiguration> {
+        debugger
         const res = await this._cfg.fetch(
           `${ENDPOINT}/oauth2/token`,
           {
@@ -42,8 +45,13 @@ export class Cognito {
           throw new Error(await res.json());
         }
         const tokens = await res.json();
+        
+        const decoded = decodeJwt(tokens.id_token);
+        const username = decoded['cognito:username'] as string;
+
         return {
           type: "registered",
+          username,
           tokens: {
             idToken: tokens.id_token,
             refreshToken: tokens.refresh_token,

@@ -21,6 +21,7 @@ export type AuthContextConfiguration =
 
 export type RegisteredUserAuthContextConfiguration = {
   type: "registered";
+  username: string;
   tokens: TokenSet;
 };
 
