@@ -16,6 +16,7 @@ export * from './BrokerEnvironment';
 export * from './BrokerLoginForm';
 export * from './BrokerLoginFormField';
 export * from './BrokerMeta';
+export * from './BrokerMetaImages';
 export * from './BrokerName';
 export * from './CancelOrderChallengeParams';
 export * from './CancelOrderChallengeResponse';

@@ -13,71 +13,42 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    AuthMethod,
-    AuthMethodFromJSON,
-    AuthMethodFromJSONTyped,
-    AuthMethodToJSON,
-} from './AuthMethod';
-import {
-    AuthMethodDecoupledSpecifics,
-    AuthMethodDecoupledSpecificsFromJSON,
-    AuthMethodDecoupledSpecificsFromJSONTyped,
-    AuthMethodDecoupledSpecificsToJSON,
-} from './AuthMethodDecoupledSpecifics';
-import {
-    AuthMethodFlow,
-    AuthMethodFlowFromJSON,
-    AuthMethodFlowFromJSONTyped,
-    AuthMethodFlowToJSON,
-} from './AuthMethodFlow';
-
 /**
- * With the `DECOUPLED` flow, the operation is created right away wiuthout creating a challenge first. The operation's
- * response will include a `decoupledOperationId` which can be subscribed to using `GetDecoupledOperationStatus` and via
- * a WebSocket subscription. Also, the operation can be cancelled by the user using `CancelDecoupledOperation`. Currently
- * this flow is only implemented for `EnableSessionTan`.
+ * 
  * @export
- * @interface AuthMethodDecoupled
+ * @interface BrokerMetaImages
  */
-export interface AuthMethodDecoupled extends AuthMethod {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof AuthMethodDecoupled
-     */
-    isDefaultMethod?: boolean;
+export interface BrokerMetaImages {
     /**
      * 
      * @type {string}
-     * @memberof AuthMethodDecoupled
+     * @memberof BrokerMetaImages
      */
-    label: string;
+    light: string;
     /**
      * 
      * @type {string}
-     * @memberof AuthMethodDecoupled
+     * @memberof BrokerMetaImages
      */
-    id: string;
+    dark: string;
 }
 
-export function AuthMethodDecoupledFromJSON(json: any): AuthMethodDecoupled {
-    return AuthMethodDecoupledFromJSONTyped(json, false);
+export function BrokerMetaImagesFromJSON(json: any): BrokerMetaImages {
+    return BrokerMetaImagesFromJSONTyped(json, false);
 }
 
-export function AuthMethodDecoupledFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodDecoupled {
+export function BrokerMetaImagesFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerMetaImages {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
-        ...AuthMethodFromJSONTyped(json, ignoreDiscriminator),
-        'isDefaultMethod': !exists(json, 'isDefaultMethod') ? undefined : json['isDefaultMethod'],
-        'label': json['label'],
-        'id': json['id'],
+        
+        'light': json['light'],
+        'dark': json['dark'],
     };
 }
 
-export function AuthMethodDecoupledToJSONRecursive(value?: AuthMethodDecoupled | null, ignoreParent = false): any {
+export function BrokerMetaImagesToJSONRecursive(value?: BrokerMetaImages | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -86,15 +57,14 @@ export function AuthMethodDecoupledToJSONRecursive(value?: AuthMethodDecoupled |
     }
 
     return {
-        ...ignoreParent ? {} : AuthMethodToJSON(value),
+        
 
 
-        'isDefaultMethod': value.isDefaultMethod,
-        'label': value.label,
-        'id': value.id,
+        'light': value.light,
+        'dark': value.dark,
     };
 }
 
-export function AuthMethodDecoupledToJSON(value?: AuthMethodDecoupled | null): any {
-    return AuthMethodDecoupledToJSONRecursive(value, false);
+export function BrokerMetaImagesToJSON(value?: BrokerMetaImages | null): any {
+    return BrokerMetaImagesToJSONRecursive(value, false);
 }

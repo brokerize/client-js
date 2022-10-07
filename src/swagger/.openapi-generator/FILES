@@ -24,6 +24,7 @@ models/BrokerEnvironment.ts
 models/BrokerLoginForm.ts
 models/BrokerLoginFormField.ts
 models/BrokerMeta.ts
+models/BrokerMetaImages.ts
 models/BrokerName.ts
 models/CancelOrderChallengeParams.ts
 models/CancelOrderChallengeResponse.ts

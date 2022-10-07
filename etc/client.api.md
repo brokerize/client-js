@@ -529,7 +529,9 @@ function BrokerLoginFormToJSONRecursive(value?: BrokerLoginForm | null, ignorePa
 // @public
 interface BrokerMeta {
     brokerName: BrokerName;
+    displayName: string;
     envs: Array<BrokerEnvironment>;
+    images: BrokerMetaImages;
     loginForm?: BrokerLoginForm;
     supportsOAuthLogin?: boolean;
 }
@@ -539,6 +541,24 @@ function BrokerMetaFromJSON(json: any): BrokerMeta;
 
 // @public (undocumented)
 function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerMeta;
+
+// @public
+interface BrokerMetaImages {
+    dark: string;
+    light: string;
+}
+
+// @public (undocumented)
+function BrokerMetaImagesFromJSON(json: any): BrokerMetaImages;
+
+// @public (undocumented)
+function BrokerMetaImagesFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerMetaImages;
+
+// @public (undocumented)
+function BrokerMetaImagesToJSON(value?: BrokerMetaImages | null): any;
+
+// @public (undocumented)
+function BrokerMetaImagesToJSONRecursive(value?: BrokerMetaImages | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function BrokerMetaToJSON(value?: BrokerMeta | null): any;
@@ -2639,6 +2659,11 @@ declare namespace Models {
         BrokerMetaToJSONRecursive,
         BrokerMetaToJSON,
         BrokerMeta,
+        BrokerMetaImagesFromJSON,
+        BrokerMetaImagesFromJSONTyped,
+        BrokerMetaImagesToJSONRecursive,
+        BrokerMetaImagesToJSON,
+        BrokerMetaImages,
         BrokerNameFromJSON,
         BrokerNameFromJSONTyped,
         BrokerNameToJSON,
