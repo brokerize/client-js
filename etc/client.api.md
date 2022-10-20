@@ -427,6 +427,8 @@ export interface BrokerizeConfig {
     basePath?: string;
     // (undocumented)
     clientId: string;
+    // Warning: (ae-forgotten-export) The symbol "CognitoConfig" needs to be exported by the entry point index.d.ts
+    cognito?: CognitoConfig;
     // (undocumented)
     createAbortController: () => AbortController;
     // (undocumented)
