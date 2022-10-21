@@ -417,8 +417,6 @@ export class Brokerize {
         codeVerifier: string;
         code: string;
     }): Promise<RegisteredUserAuthContextConfiguration>;
-    // Warning: (ae-forgotten-export) The symbol "CognitoWrapper" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getCognitoWrapper(): CognitoWrapper;
     prepareLoginRedirect(redirectUri: string): Promise<{
@@ -433,7 +431,6 @@ export interface BrokerizeConfig {
     basePath?: string;
     // (undocumented)
     clientId: string;
-    // Warning: (ae-forgotten-export) The symbol "CognitoConfig" needs to be exported by the entry point index.d.ts
     cognito?: CognitoConfig;
     // (undocumented)
     createAbortController: () => AbortController;
@@ -858,6 +855,38 @@ interface ChangeOrderRequest {
     changeOrderParams: ChangeOrderParams;
     // (undocumented)
     id: string;
+}
+
+// @public (undocumented)
+export type CognitoConfig = {
+    UserPoolId: string;
+    ClientId: string;
+    Endpoint: string;
+};
+
+// @public (undocumented)
+export class CognitoWrapper {
+    constructor(brokerizeCfg: BrokerizeConfig);
+    // (undocumented)
+    createAuthenticationDetails(a: Cognito.IAuthenticationDetailsData): Cognito.AuthenticationDetails;
+    // (undocumented)
+    createCognitoUserAttribute(attr: Cognito.ICognitoUserAttributeData): Cognito.CognitoUserAttribute;
+    // (undocumented)
+    createCognitoUserPool(): Cognito.CognitoUserPool;
+    // (undocumented)
+    createRegisteredUserAuthConfigurationFromLoginRedirect({ codeVerifier, code, }: {
+        codeVerifier: string;
+        code: string;
+    }): Promise<RegisteredUserAuthContextConfiguration>;
+    // (undocumented)
+    getCognitoUser(username: string): Cognito.CognitoUser;
+    // (undocumented)
+    getCognitoUserByAuthCfg(cfg: RegisteredUserAuthContextConfiguration): Promise<Cognito.CognitoUser>;
+    prepareLoginRedirect(redirectUri: string): Promise<{
+        state: string;
+        codeVerifier: string;
+        url: string;
+    }>;
 }
 
 // @public (undocumented)

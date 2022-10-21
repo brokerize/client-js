@@ -3,9 +3,10 @@
 import {
   AuthContextConfiguration,
   BrokerizeConfig,
+  CognitoConfig,
   createAuth,
   createConfiguration,
-  RegisteredUserAuthContextConfiguration
+  RegisteredUserAuthContextConfiguration,
 } from "./apiCtx";
 import { AuthorizedApiContext } from "./authorizedApiContext";
 import { CognitoWrapper } from "./awsCognitoIdentityWrapper";
@@ -15,7 +16,7 @@ import * as Models from "./swagger/models";
 import {
   BrokerizeWebSocketClient,
   Callback,
-  Subscription
+  Subscription,
 } from "./websocketClient";
 import * as WebSocketTypes from "./websocketTypes";
 
@@ -102,3 +103,5 @@ export class Brokerize {
     return this._cognito;
   }
 }
+
+export { CognitoWrapper, CognitoConfig };

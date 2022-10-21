@@ -1,9 +1,11 @@
 /* Import/Export the DOM parts we rely on. Those are partial copies from the official TypeScript DOM library definitions (https://github.com/microsoft/TypeScript/blob/master/lib/lib.dom.d.ts),
    but reduced to the parts actually used by bg-trading. */
 import {
-  CognitoConfig as CognitoCfg, CognitoRefreshToken, CognitoUserSession,
+  CognitoRefreshToken,
+  CognitoUserSession,
   createCognitoUser,
-  createCognitoUserPool, Storage
+  createCognitoUserPool,
+  Storage,
 } from "./awsCognitoIdentityWrapper";
 import { WhatWgFetch } from "./dependencyDefinitions/fetch";
 import { Configuration } from "./swagger";
@@ -23,7 +25,11 @@ export interface BrokerizeConfig {
   cognito?: CognitoConfig;
 }
 
-export type CognitoConfig = CognitoCfg;
+export type CognitoConfig = {
+  UserPoolId: string;
+  ClientId: string;
+  Endpoint: string;
+};
 
 export type AuthContextConfiguration =
   | GuestAuthContextConfiguration

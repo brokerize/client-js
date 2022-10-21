@@ -8,14 +8,10 @@ import * as Cognito from "amazon-cognito-identity-js/dist/amazon-cognito-identit
 import { decodeJwt } from "jose";
 import {
   BrokerizeConfig,
+  CognitoConfig,
   RegisteredUserAuthContextConfiguration,
 } from "./apiCtx";
 
-export type CognitoConfig = {
-  UserPoolId: string;
-  ClientId: string;
-  Endpoint: string;
-};
 
 export class CognitoWrapper {
   private _cfg: BrokerizeConfig;
