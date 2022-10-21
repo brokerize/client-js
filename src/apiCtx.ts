@@ -88,7 +88,6 @@ export function createAuth(
     let session: Promise<CognitoUserSession> | null = null;
 
     async function forceRefreshSession(): Promise<CognitoUserSession> {
-      console.log('forceRefreshSession');
       return new Promise((resolve, reject) => {
         user.refreshSession(
           new CognitoRefreshToken({
@@ -123,7 +122,7 @@ export function createAuth(
     return {
       async getToken() {
         const session = await getFreshSession();
-        const result = { idToken: session!.getIdToken().getJwtToken() };
+        const result = { idToken: session.getIdToken().getJwtToken() };
         return result;
       },
     };

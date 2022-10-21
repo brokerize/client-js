@@ -8,7 +8,7 @@ import {
   RegisteredUserAuthContextConfiguration
 } from "./apiCtx";
 import { AuthorizedApiContext } from "./authorizedApiContext";
-import { Cognito } from "./cognito";
+import { CognitoWrapper } from "./awsCognitoIdentityWrapper";
 import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
 import * as Models from "./swagger/models";
@@ -35,19 +35,11 @@ export {
 export class Brokerize {
   private _cfg: BrokerizeConfig;
   private _defaultApi: openApiClient.DefaultApi;
-  private _cognito?: Cognito;
+  private _cognito?: CognitoWrapper;
 
   constructor(cfg: BrokerizeConfig) {
     this._cfg = cfg;
     this._defaultApi = new openApiClient.DefaultApi(createConfiguration(cfg));
-  }
-
-  private getCognito() {
-    if (!this._cognito) {
-      this._cognito = new Cognito(this._cfg);
-    }
-
-    return this._cognito;
   }
 
   async createGuestUser(): Promise<AuthContextConfiguration> {
@@ -78,7 +70,7 @@ export class Brokerize {
    * to your application happens, the URL parameters `state` and `code` will be set.
    */
   async prepareLoginRedirect(redirectUri: string) {
-    return this.getCognito().prepareLoginRedirect(redirectUri);
+    return this.getCognitoWrapper().prepareLoginRedirect(redirectUri);
   }
 
   /**
@@ -95,10 +87,18 @@ export class Brokerize {
     codeVerifier: string;
     code: string;
   }): Promise<RegisteredUserAuthContextConfiguration> {
-    const cognito = this.getCognito();
+    const cognito = this.getCognitoWrapper();
     return cognito.createRegisteredUserAuthConfigurationFromLoginRedirect({
       code,
       codeVerifier,
     });
+  }
+
+  getCognitoWrapper() {
+    if (!this._cognito) {
+      this._cognito = new CognitoWrapper(this._cfg);
+    }
+
+    return this._cognito;
   }
 }

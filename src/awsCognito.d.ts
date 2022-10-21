@@ -1,3 +1,5 @@
+// XXX these are copied types from amazon-cognito-identity-js/index.d.ts - this is a workaround so that we can import the full build.
+
 declare module 'amazon-cognito-identity-js/dist/amazon-cognito-identity.js' {
 	export type NodeCallback<E, T> = (err?: E, result?: T) => void;
 	export namespace NodeCallback {

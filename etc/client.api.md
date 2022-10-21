@@ -4,6 +4,8 @@
 
 ```ts
 
+import * as Cognito from 'amazon-cognito-identity-js/dist/amazon-cognito-identity.js';
+
 // @public
 interface AddSessionCompleteChallengeParams {
     challengeId: string;
@@ -415,6 +417,10 @@ export class Brokerize {
         codeVerifier: string;
         code: string;
     }): Promise<RegisteredUserAuthContextConfiguration>;
+    // Warning: (ae-forgotten-export) The symbol "CognitoWrapper" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getCognitoWrapper(): CognitoWrapper;
     prepareLoginRedirect(redirectUri: string): Promise<{
         state: string;
         codeVerifier: string;
