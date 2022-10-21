@@ -4,6 +4,8 @@
 
 ```ts
 
+import * as Cognito from 'amazon-cognito-identity-js/dist/amazon-cognito-identity.js';
+
 // @public
 interface AddSessionCompleteChallengeParams {
     challengeId: string;
@@ -415,6 +417,8 @@ export class Brokerize {
         codeVerifier: string;
         code: string;
     }): Promise<RegisteredUserAuthContextConfiguration>;
+    // (undocumented)
+    getCognitoWrapper(): CognitoWrapper;
     prepareLoginRedirect(redirectUri: string): Promise<{
         state: string;
         codeVerifier: string;
@@ -427,6 +431,7 @@ export interface BrokerizeConfig {
     basePath?: string;
     // (undocumented)
     clientId: string;
+    cognito?: CognitoConfig;
     // (undocumented)
     createAbortController: () => AbortController;
     // (undocumented)
@@ -850,6 +855,38 @@ interface ChangeOrderRequest {
     changeOrderParams: ChangeOrderParams;
     // (undocumented)
     id: string;
+}
+
+// @public (undocumented)
+export type CognitoConfig = {
+    UserPoolId: string;
+    ClientId: string;
+    Endpoint: string;
+};
+
+// @public (undocumented)
+export class CognitoWrapper {
+    constructor(brokerizeCfg: BrokerizeConfig);
+    // (undocumented)
+    createAuthenticationDetails(a: Cognito.IAuthenticationDetailsData): Cognito.AuthenticationDetails;
+    // (undocumented)
+    createCognitoUserAttribute(attr: Cognito.ICognitoUserAttributeData): Cognito.CognitoUserAttribute;
+    // (undocumented)
+    createCognitoUserPool(): Cognito.CognitoUserPool;
+    // (undocumented)
+    createRegisteredUserAuthConfigurationFromLoginRedirect({ codeVerifier, code, }: {
+        codeVerifier: string;
+        code: string;
+    }): Promise<RegisteredUserAuthContextConfiguration>;
+    // (undocumented)
+    getCognitoUser(username: string): Cognito.CognitoUser;
+    // (undocumented)
+    getCognitoUserByAuthCfg(cfg: RegisteredUserAuthContextConfiguration): Promise<Cognito.CognitoUser>;
+    prepareLoginRedirect(redirectUri: string): Promise<{
+        state: string;
+        codeVerifier: string;
+        url: string;
+    }>;
 }
 
 // @public (undocumented)
