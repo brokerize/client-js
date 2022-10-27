@@ -2267,6 +2267,8 @@ interface GetPortfolioOrdersRequest {
     // (undocumented)
     portfolioId: string;
     // (undocumented)
+    search?: string;
+    // (undocumented)
     skip?: number;
     // (undocumented)
     statuses?: string;
@@ -3575,7 +3577,6 @@ const OrderValidityType: {
     readonly Gtc: "GTC";
     readonly Gtu: "GTU";
     readonly Gtd: "GTD";
-    readonly Eom: "EOM";
 };
 
 // @public (undocumented)
