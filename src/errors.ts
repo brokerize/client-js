@@ -1,8 +1,4 @@
-import {
-  BrokerName,
-  ErrorResponse,
-  ValidationDetail
-} from "./swagger";
+import { ErrorResponse, ValidationDetail } from "./swagger";
 
 export class TradingError extends Error {
   public code?: string;
@@ -67,10 +63,10 @@ export class BrokerizeError extends Error {
   hint?: Hint;
   /**
    *
-   * @type {BrokerName}
+   * @type {string}
    * @memberof ErrorResponse
    */
-  msgBrokerName?: BrokerName;
+  msgBrokerName?: string;
   /**
    * The human-readable error message. If available, translated to the users's language.
    * This can always be displayed in frontends (if no specific error code handling is available).

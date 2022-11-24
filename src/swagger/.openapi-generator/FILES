@@ -25,7 +25,6 @@ models/BrokerLoginForm.ts
 models/BrokerLoginFormField.ts
 models/BrokerMeta.ts
 models/BrokerMetaImages.ts
-models/BrokerName.ts
 models/CancelOrderChallengeParams.ts
 models/CancelOrderChallengeResponse.ts
 models/CancelOrderChallengeResponseSpecifics.ts
@@ -105,6 +104,7 @@ models/GetQuoteParams.ts
 models/GetQuoteResponse.ts
 models/GetUserResponse.ts
 models/Hint.ts
+models/LegalTermsResponse.ts
 models/LoginResponse.ts
 models/LoginResponseChallenge.ts
 models/LoginResponseChallengeSpecifics.ts

@@ -32,7 +32,7 @@ interface AddSessionCompleteChallengeRequest {
 
 // @public
 interface AddSessionParams {
-    brokerName: BrokerName;
+    brokerName: string;
     env: string;
     password: string;
     username: string;
@@ -98,6 +98,7 @@ interface AuthInfo {
     allOperationsRequireSessionTan?: boolean;
     authMethods?: Array<AuthMethod>;
     sessionTanActive?: boolean;
+    sessionTanCanBeEnded: boolean;
     sessionTanSupported?: boolean;
 }
 
@@ -451,7 +452,7 @@ export class BrokerizeError extends Error {
     // (undocumented)
     httpStatusCode: number;
     msg: string;
-    msgBrokerName?: BrokerName;
+    msgBrokerName?: string;
     validationDetails?: {
         [key: string]: ValidationDetail;
     };
@@ -533,7 +534,7 @@ function BrokerLoginFormToJSONRecursive(value?: BrokerLoginForm | null, ignorePa
 
 // @public
 interface BrokerMeta {
-    brokerName: BrokerName;
+    brokerName: string;
     displayName: string;
     envs: Array<BrokerEnvironment>;
     images: BrokerMetaImages;
@@ -570,30 +571,6 @@ function BrokerMetaToJSON(value?: BrokerMeta | null): any;
 
 // @public (undocumented)
 function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParent?: boolean): any;
-
-// @public (undocumented)
-export const BrokerName: {
-    readonly Demo: "demo";
-    readonly Consors: "consors";
-    readonly Finanzen: "finanzen";
-    readonly Justtrade: "justtrade";
-    readonly Comdirect: "comdirect";
-    readonly FlatexDe: "flatex_de";
-    readonly FlatexAt: "flatex_at";
-    readonly Vitrade: "vitrade";
-};
-
-// @public (undocumented)
-export type BrokerName = typeof BrokerName[keyof typeof BrokerName];
-
-// @public (undocumented)
-function BrokerNameFromJSON(json: any): BrokerName;
-
-// @public (undocumented)
-function BrokerNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerName;
-
-// @public (undocumented)
-function BrokerNameToJSON(value?: BrokerName | null): any;
 
 // @public (undocumented)
 export type Callback = (err: any, data: any) => void;
@@ -1601,7 +1578,7 @@ interface ErrorResponse {
     code: string;
     hint?: Hint;
     msg: string;
-    msgBrokerName?: BrokerName;
+    msgBrokerName?: string;
     validationDetails?: {
         [key: string]: ValidationDetail;
     };
@@ -2486,6 +2463,24 @@ class JSONApiResponse<T> {
 }
 
 // @public
+interface LegalTermsResponse {
+    checkboxesHtml: Array<string>;
+    disclaimerHtml: string;
+}
+
+// @public (undocumented)
+function LegalTermsResponseFromJSON(json: any): LegalTermsResponse;
+
+// @public (undocumented)
+function LegalTermsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): LegalTermsResponse;
+
+// @public (undocumented)
+function LegalTermsResponseToJSON(value?: LegalTermsResponse | null): any;
+
+// @public (undocumented)
+function LegalTermsResponseToJSONRecursive(value?: LegalTermsResponse | null, ignoreParent?: boolean): any;
+
+// @public
 interface LoginResponse {
     state: LoginResponseState;
 }
@@ -2603,6 +2598,8 @@ class MetaApi extends runtime.BaseAPI {
     getBrokersRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetBrokersResponse>>;
     getExchanges(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ExchangesResponse>;
     getExchangesRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ExchangesResponse>>;
+    getLegalTerms(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LegalTermsResponse>;
+    getLegalTermsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LegalTermsResponse>>;
 }
 
 // @public (undocumented)
@@ -2703,10 +2700,6 @@ declare namespace Models {
         BrokerMetaImagesToJSONRecursive,
         BrokerMetaImagesToJSON,
         BrokerMetaImages,
-        BrokerNameFromJSON,
-        BrokerNameFromJSONTyped,
-        BrokerNameToJSON,
-        BrokerName,
         CancelOrderChallengeParamsFromJSON,
         CancelOrderChallengeParamsFromJSONTyped,
         CancelOrderChallengeParamsToJSONRecursive,
@@ -3095,6 +3088,11 @@ declare namespace Models {
         HintToJSONRecursive,
         HintToJSON,
         Hint,
+        LegalTermsResponseFromJSON,
+        LegalTermsResponseFromJSONTyped,
+        LegalTermsResponseToJSONRecursive,
+        LegalTermsResponseToJSON,
+        LegalTermsResponse,
         LoginResponseFromJSON,
         LoginResponseFromJSONTyped,
         LoginResponseToJSONRecursive,
@@ -3367,6 +3365,7 @@ interface OrderChanges {
     stop?: number;
     stopLimit?: number;
     trailingDistance?: TrailingDistance;
+    trailingLimitTolerance?: number;
     validity: OrderValidity;
 }
 
@@ -3620,7 +3619,7 @@ function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
 
 // @public
 interface Portfolio {
-    brokerName: BrokerName;
+    brokerName: string;
     cashAccountIds: Array<string>;
     id: string;
     portfolioName: string;
@@ -3768,7 +3767,7 @@ function PreparedTradeToJSONRecursive(value?: PreparedTrade | null, ignoreParent
 
 // @public
 interface PrepareOAuthRedirectParams {
-    brokerName: BrokerName;
+    brokerName: string;
     env: string;
     returnToUrl: string;
 }

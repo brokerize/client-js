@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface QuoteExpiration
+ * @interface LegalTermsResponse
  */
-export interface QuoteExpiration {
+export interface LegalTermsResponse {
     /**
      * 
-     * @type {Date}
-     * @memberof QuoteExpiration
+     * @type {Array<string>}
+     * @memberof LegalTermsResponse
      */
-    expires: Date;
+    checkboxesHtml: Array<string>;
     /**
      * 
-     * @type {Date}
-     * @memberof QuoteExpiration
+     * @type {string}
+     * @memberof LegalTermsResponse
      */
-    started: Date;
+    disclaimerHtml: string;
 }
 
-export function QuoteExpirationFromJSON(json: any): QuoteExpiration {
-    return QuoteExpirationFromJSONTyped(json, false);
+export function LegalTermsResponseFromJSON(json: any): LegalTermsResponse {
+    return LegalTermsResponseFromJSONTyped(json, false);
 }
 
-export function QuoteExpirationFromJSONTyped(json: any, ignoreDiscriminator: boolean): QuoteExpiration {
+export function LegalTermsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): LegalTermsResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'expires': (new Date(json['expires'])),
-        'started': (new Date(json['started'])),
+        'checkboxesHtml': json['checkboxesHtml'],
+        'disclaimerHtml': json['disclaimerHtml'],
     };
 }
 
-export function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent = false): any {
+export function LegalTermsResponseToJSONRecursive(value?: LegalTermsResponse | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -60,11 +60,11 @@ export function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, i
         
 
 
-        'expires': (value.expires.toISOString()),
-        'started': (value.started.toISOString()),
+        'checkboxesHtml': value.checkboxesHtml,
+        'disclaimerHtml': value.disclaimerHtml,
     };
 }
 
-export function QuoteExpirationToJSON(value?: QuoteExpiration | null): any {
-    return QuoteExpirationToJSONRecursive(value, false);
+export function LegalTermsResponseToJSON(value?: LegalTermsResponse | null): any {
+    return LegalTermsResponseToJSONRecursive(value, false);
 }

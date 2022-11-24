@@ -20,7 +20,6 @@ import {
 } from "./websocketClient";
 import * as WebSocketTypes from "./websocketTypes";
 
-export { BrokerName } from "./swagger";
 export {
   BrokerizeConfig,
   AuthContextConfiguration,
