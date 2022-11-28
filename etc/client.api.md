@@ -330,6 +330,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     getExchanges(): Promise<openApiClient.ExchangesResponse>;
     // (undocumented)
+    getLegalTerms(): Promise<openApiClient.LegalTermsResponse>;
+    // (undocumented)
     getOrder(orderId: string): Promise<openApiClient.GetOrderResponse>;
     // (undocumented)
     getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest): Promise<openApiClient.GetPortfolioOrdersResponse>;
@@ -1620,13 +1622,14 @@ interface Exchange {
     brokerizeExchangeId?: number;
     currencyIso: string;
     defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
+    // @deprecated
     hideOrderModel?: boolean;
     id: string;
     label: string;
     legalMessagesToConfirmByOrderModel?: StringMapByOrderModel;
     orderModelsBuy: Array<OrderModel>;
     orderModelsSell: Array<OrderModel>;
-    validityTypesByOrderModel?: OrderValidityTypeByOrderModel;
+    validityTypesByOrderModel: OrderValidityTypeByOrderModel;
 }
 
 // @public (undocumented)
@@ -3366,7 +3369,7 @@ interface OrderChanges {
     stopLimit?: number;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
-    validity: OrderValidity;
+    validity?: OrderValidity;
 }
 
 // @public (undocumented)
@@ -3429,7 +3432,7 @@ interface OrderCreate {
     takeProfit?: number;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
-    validity: OrderValidity;
+    validity?: OrderValidity;
 }
 
 // @public (undocumented)

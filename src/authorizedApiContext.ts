@@ -117,6 +117,9 @@ export class AuthorizedApiContext {
   async getBrokers() {
     return this._metaApi.getBrokers(await this._initRequestInit());
   }
+  async getLegalTerms() {
+    return this._metaApi.getLegalTerms(await this._initRequestInit());
+  }
   async getExchanges() {
     return this._metaApi.getExchanges(await this._initRequestInit());
   }
