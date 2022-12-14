@@ -103,6 +103,7 @@ export * from './LoginResponseChallengeSpecifics';
 export * from './LoginResponseReady';
 export * from './LoginResponseReadySpecifics';
 export * from './LoginResponseState';
+export * from './MaintenanceStatus';
 export * from './OkResponseBody';
 export * from './Order';
 export * from './OrderChanges';

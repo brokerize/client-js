@@ -16,46 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface BrokerEnvironment
+ * @interface MaintenanceStatus
  */
-export interface BrokerEnvironment {
+export interface MaintenanceStatus {
     /**
      * 
-     * @type {boolean}
-     * @memberof BrokerEnvironment
+     * @type {Date}
+     * @memberof MaintenanceStatus
      */
-    isTestingEnvironment: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof BrokerEnvironment
-     */
-    label: string;
+    expectedEnd?: Date;
     /**
      * 
      * @type {string}
-     * @memberof BrokerEnvironment
+     * @memberof MaintenanceStatus
      */
-    id: string;
+    msg: string;
 }
 
-export function BrokerEnvironmentFromJSON(json: any): BrokerEnvironment {
-    return BrokerEnvironmentFromJSONTyped(json, false);
+export function MaintenanceStatusFromJSON(json: any): MaintenanceStatus {
+    return MaintenanceStatusFromJSONTyped(json, false);
 }
 
-export function BrokerEnvironmentFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerEnvironment {
+export function MaintenanceStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): MaintenanceStatus {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'isTestingEnvironment': json['isTestingEnvironment'],
-        'label': json['label'],
-        'id': json['id'],
+        'expectedEnd': !exists(json, 'expectedEnd') ? undefined : (new Date(json['expectedEnd'])),
+        'msg': json['msg'],
     };
 }
 
-export function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, ignoreParent = false): any {
+export function MaintenanceStatusToJSONRecursive(value?: MaintenanceStatus | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -67,12 +60,11 @@ export function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | nul
         
 
 
-        'isTestingEnvironment': value.isTestingEnvironment,
-        'label': value.label,
-        'id': value.id,
+        'expectedEnd': value.expectedEnd === undefined ? undefined : (value.expectedEnd.toISOString()),
+        'msg': value.msg,
     };
 }
 
-export function BrokerEnvironmentToJSON(value?: BrokerEnvironment | null): any {
-    return BrokerEnvironmentToJSONRecursive(value, false);
+export function MaintenanceStatusToJSON(value?: MaintenanceStatus | null): any {
+    return MaintenanceStatusToJSONRecursive(value, false);
 }

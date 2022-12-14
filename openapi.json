@@ -86,6 +86,10 @@
                     "loginForm": {
                         "$ref": "#/components/schemas/BrokerLoginForm"
                     },
+                    "envLabel": {
+                        "type": "string",
+                        "description": "If the user may choose the environment, it should usually be displayed as a select box in UIs.\nThe field's label explains what the meaning of environment is in the broker's context."
+                    },
                     "envs": {
                         "items": {
                             "$ref": "#/components/schemas/BrokerEnvironment"
@@ -99,6 +103,7 @@
                 "required": [
                     "images",
                     "displayName",
+                    "envLabel",
                     "envs",
                     "brokerName"
                 ],
@@ -133,6 +138,21 @@
                 ],
                 "type": "object"
             },
+            "MaintenanceStatus": {
+                "properties": {
+                    "expectedEnd": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "msg": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "msg"
+                ],
+                "type": "object"
+            },
             "ValidationDetail": {
                 "properties": {
                     "debugData": {
@@ -162,9 +182,13 @@
                         "$ref": "#/components/schemas/ValidationDetails",
                         "description": "For validation errors (error code `VALIDATION_FAILED`), a map with the affected field as key and ValidationDetail\nas value."
                     },
+                    "maintenanceStatus": {
+                        "$ref": "#/components/schemas/MaintenanceStatus",
+                        "description": "For code MAINTENANCE: details about the ongoing maintenance."
+                    },
                     "hint": {
                         "$ref": "#/components/schemas/Hint",
-                        "description": "When users have to accept hints (code `MUST_ACCEPT_HINT`, this describes the hint to accept)."
+                        "description": "Only for error code MUST_ACCEPT_HINT:\nWhen users have to accept hints (code `MUST_ACCEPT_HINT`, this describes the hint to accept)."
                     },
                     "msgBrokerName": {
                         "$ref": "#/components/schemas/BrokerName",
@@ -176,7 +200,7 @@
                     },
                     "code": {
                         "type": "string",
-                        "description": "The error code.\nCurrently the following codes are implemented:\n'TRADING_ERROR', 'AUTH', 'RATE_LIMITED', 'VALIDATION_FAILED', 'MUST_ACCEPT_HINT', 'NO_SESSION_AVAILABLE_FOR_PORTFOLIO',\n 'SECURITY_NOT_FOUND', 'SECURITY_NOT_TRADABLE_AT_EXCHANGE', 'ORDER_REJECTED', 'INTERNAL_SERVER_ERROR'"
+                        "description": "The error code.\nCurrently the following codes are implemented:\n'TRADING_ERROR', 'AUTH', 'RATE_LIMITED', 'VALIDATION_FAILED', 'MUST_ACCEPT_HINT', 'NO_SESSION_AVAILABLE_FOR_PORTFOLIO',\n 'SECURITY_NOT_FOUND', 'SECURITY_NOT_TRADABLE_AT_EXCHANGE', 'ORDER_REJECTED', 'INTERNAL_SERVER_ERROR', 'MAINTENANCE'"
                     }
                 },
                 "required": [
@@ -2801,7 +2825,7 @@
         "title": "brokerize",
         "version": "0.0.1-preview",
         "contact": {},
-        "description": "# brokerize API\n\nThe brokerize API allows clients to implement multi-brokerage with a unified interface. While our partner brokers have different feature sets and legal constraints, our abstractions make it easy to build a consistent trading experience for your users. We provide an accessible demo broker for development and quality assurance purposes that allows you to test the different behaviours without the need to log in to the actual brokers.\n\n# user accounts & temporary guest sessions\n\nAll API calls act on behalf of a specific end-user that interacts with your application. It is recommended to directly call the API from frontends (for web applications, this will involve a CORS configuration, which can be attached easily to your client id).\n\nEnd users either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is terminated. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\nAfter retrieving a token for the user, interaction with the API is the same for both cases. All features are available for guest and registered users.\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nSee [GetAuthInfo](#operation/GetAuthInfo) to get an overview on the available operations like creation, change and cancellation of orders.\n\n# deviceId\n\nClients can add the header `x-brkrz-device-id` to requests. If this header is present, it may be used for internal tracking (e.g. counting how many unique users create trades etc.). The device id must be generated on the client (for example, it can be a uuid stored in the user's browser).\n\nThe header is optional. Be aware that this must not contain personal information about your user.\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. The `CreateGuestUser` endpoint is accessible without a token, so _for that endpoint_ an IP-based limiting (1 guest user creation per 10 seconds) is implemented. These rate limits are subject to change and will be refined in the future.\n\nClients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior.\n\n# privileged clients with client secrets\n\nOur API is designed to be publicly accessible in order to be used directly from browsers and apps. However this comes with relatively strict rate limiting (for example) for the guest user creation.\n\nIf a client only calls the API from a secured backend, the limit may be increased.\n\nIn order to authenticate as a priviliged client, the header `x-brkrz-client-secret` must be added to requests (a client secret is provided manually in that case).\n\n# request ids\n\nThe brokerize backend assigns a requestId to each request and returns it in the `x-request-id` header. The ID can be used to research error details, so it may be displayed to the user in the case of unexpected errors. In the case of internal server errors, the id will also be part of the JSON body; for example:\n\n```\n{\n    \"message\": \"An internal server error occured.\",\n    \"requestId\": \"9KzqMpRvVrQHDkFo\"\n}\n```\n\n# tradable securities\n\nIn this API, all tradable securities are identified by their ISIN. However, some securities do not have an ISIN. In these cases, we however still use the ISIN field for some special values. Currently frontends should manually map the securities to their security database if suitable.\n\nThe following special values for ISIN are currently supported (of course, the actual availability depends on the specific broker implementations):\n\n| `ISIN`  | Description |\n| ------- | ----------- |\n| `BTC`   | BTC/EUR     |\n| `ETH`   | ETH/EUR     |\n| `LTC`   | LTC/EUR     |\n| `XRP`   | XRP/EUR     |\n| `BCH`   | BCH/EUR     |\n| `EOS`   | EOS/EUR     |\n| `LINK`  | LINK/EUR    |\n| `XLM`   | XLM/EUR     |\n| `DOT`   | DOT/EUR     |\n| `UNI`   | UNI/EUR     |\n| `DOGE`  | DOGE/EUR    |\n| `ETC`   | ETC/EUR     |\n| `ADA`   | ADA/EUR     |\n| `SOL`   | SOL/EUR     |\n| `AAVE`  | AAVE/EUR    |\n| `ALGO`  | ALGO/EUR    |\n| `CRV`   | CRV/EUR     |\n| `LUNA`  | LUNA/EUR    |\n| `MANA`  | MANA/EUR    |\n| `MATIC` | MATIC/EUR   |\n| `XTZ`   | XTZ/EUR     |\n\n\n API build data: <pre>{\n    \"buildTime\": \"2022-11-28T08:56:29.261Z\"\n}</pre>",
+        "description": "# brokerize API\n\nThe brokerize API allows clients to implement multi-brokerage with a unified interface. While our partner brokers have different feature sets and legal constraints, our abstractions make it easy to build a consistent trading experience for your users. We provide an accessible demo broker for development and quality assurance purposes that allows you to test the different behaviours without the need to log in to the actual brokers.\n\n# user accounts & temporary guest sessions\n\nAll API calls act on behalf of a specific end-user that interacts with your application. It is recommended to directly call the API from frontends (for web applications, this will involve a CORS configuration, which can be attached easily to your client id).\n\nEnd users either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is terminated. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\nAfter retrieving a token for the user, interaction with the API is the same for both cases. All features are available for guest and registered users.\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nSee [GetAuthInfo](#operation/GetAuthInfo) to get an overview on the available operations like creation, change and cancellation of orders.\n\n# deviceId\n\nClients can add the header `x-brkrz-device-id` to requests. If this header is present, it may be used for internal tracking (e.g. counting how many unique users create trades etc.). The device id must be generated on the client (for example, it can be a uuid stored in the user's browser).\n\nThe header is optional. Be aware that this must not contain personal information about your user.\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. The `CreateGuestUser` endpoint is accessible without a token, so _for that endpoint_ an IP-based limiting (1 guest user creation per 10 seconds) is implemented. These rate limits are subject to change and will be refined in the future.\n\nClients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior.\n\n# privileged clients with client secrets\n\nOur API is designed to be publicly accessible in order to be used directly from browsers and apps. However this comes with relatively strict rate limiting (for example) for the guest user creation.\n\nIf a client only calls the API from a secured backend, the limit may be increased.\n\nIn order to authenticate as a priviliged client, the header `x-brkrz-client-secret` must be added to requests (a client secret is provided manually in that case).\n\n# request ids\n\nThe brokerize backend assigns a requestId to each request and returns it in the `x-request-id` header. The ID can be used to research error details, so it may be displayed to the user in the case of unexpected errors. In the case of internal server errors, the id will also be part of the JSON body; for example:\n\n```\n{\n    \"message\": \"An internal server error occured.\",\n    \"requestId\": \"9KzqMpRvVrQHDkFo\"\n}\n```\n\n# tradable securities\n\nIn this API, all tradable securities are identified by their ISIN. However, some securities do not have an ISIN. In these cases, we however still use the ISIN field for some special values. Currently frontends should manually map the securities to their security database if suitable.\n\nThe following special values for ISIN are currently supported (of course, the actual availability depends on the specific broker implementations):\n\n| `ISIN`  | Description |\n| ------- | ----------- |\n| `BTC`   | BTC/EUR     |\n| `ETH`   | ETH/EUR     |\n| `LTC`   | LTC/EUR     |\n| `XRP`   | XRP/EUR     |\n| `BCH`   | BCH/EUR     |\n| `EOS`   | EOS/EUR     |\n| `LINK`  | LINK/EUR    |\n| `XLM`   | XLM/EUR     |\n| `DOT`   | DOT/EUR     |\n| `UNI`   | UNI/EUR     |\n| `DOGE`  | DOGE/EUR    |\n| `ETC`   | ETC/EUR     |\n| `ADA`   | ADA/EUR     |\n| `SOL`   | SOL/EUR     |\n| `AAVE`  | AAVE/EUR    |\n| `ALGO`  | ALGO/EUR    |\n| `CRV`   | CRV/EUR     |\n| `LUNA`  | LUNA/EUR    |\n| `MANA`  | MANA/EUR    |\n| `MATIC` | MATIC/EUR   |\n| `XTZ`   | XTZ/EUR     |\n\n\n API build data: <pre>{\n    \"buildTime\": \"2022-12-13T16:24:53.307Z\"\n}</pre>",
         "x-logo": {
             "url": "/logo.svg",
             "backgroundColor": "#FFFFFF",
@@ -2839,6 +2863,7 @@
                                                             "label": "A test environment"
                                                         }
                                                     ],
+                                                    "envLabel": "Environment",
                                                     "loginForm": {
                                                         "passwordField": {
                                                             "label": "Password",
@@ -2888,6 +2913,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -2968,9 +3011,27 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
-                "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN DE000MD96WE8 (a knock out with DAX as underlying)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - quote, limit and market orders (both buy and sell) are supported on on exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- ISIN DE000PAH0038 (Porsche)\n  - one exchange with only market order\n  - all orders will be canceled\n  - `GetCostEstimation` contains (only) a link to a PDF document. This can be used to test whether linking to a PDF works.\n- ISIN DE0008404005 (Allianz)\n  - one exchange with all available orderModels\n  - orders are executed immediately\n- ISIN FR0000120321 (L'Oréal)\n  - one exchange with all available orderModels\n  - orders stay open\n- ISIN US5949181045 (Microsoft)\n  - one exchange with all available orderModels\n  - if size is even, a partial execution with size 1 is executed, the remaining part stays open\n  - if size is odd, a partial execution with size 1 is executed, the remaining part is canceled\n- ISIN US2546871060 (Disney)\n  - one exchange with all available orderModels\n  - all orders are canceled after 3s\n  - `costEstimationMustBeShown` is false and `costEstimationIsOnlyDetailedTable` is true (frontends must only show a link to the cost estimation table)\n\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.\n\nBehavior of `PortfolioQuotes` in the demo broker:\n- portfolios start with 100.000€ cash\n- each open buy order reserves 10€ cash from the availableCash\n- profit loss of the portfolio is the sum of the position's profit loss",
+                "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge with type text will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- with the password `7`, a challenge with type base64png will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN DE000MD96WE8 (a knock out with DAX as underlying)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes do *NOT* have an expiration\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - quote, limit and market orders (both buy and sell) are supported on on exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- ISIN DE000PAH0038 (Porsche)\n  - one exchange with only market order\n  - all orders will be canceled\n  - `GetCostEstimation` contains (only) a link to a PDF document. This can be used to test whether linking to a PDF works.\n- ISIN DE0008404005 (Allianz)\n  - one exchange with all available orderModels\n  - orders are executed immediately\n- ISIN FR0000120321 (L'Oréal)\n  - one exchange with all available orderModels\n  - orders stay open\n- ISIN US5949181045 (Microsoft)\n  - one exchange with all available orderModels\n  - if size is even, a partial execution with size 1 is executed, the remaining part stays open\n  - if size is odd, a partial execution with size 1 is executed, the remaining part is canceled\n- ISIN US2546871060 (Disney)\n  - one exchange with all available orderModels\n  - all orders are canceled after 3s\n  - `costEstimationMustBeShown` is false and `costEstimationIsOnlyDetailedTable` is true (frontends must only show a link to the cost estimation table)\n\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.\n\nBehavior of `PortfolioQuotes` in the demo broker:\n- portfolios start with 100.000€ cash\n- each open buy order reserves 10€ cash from the availableCash\n- profit loss of the portfolio is the sum of the position's profit loss",
                 "tags": [
                     "demobroker"
                 ],
@@ -3029,6 +3090,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -3104,6 +3183,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -3206,6 +3303,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "List all exchanges mapped in brokerize.\n\nBrokers provide their own list of exchanges with any order preparation request, so there\nmay be cases where a broker exchange is not mapped to this brokerize exchange list. This is\ntotally valid: this list serves as a known subset of exchanges to facilitate switching between\nbrokers or mapping to your own exchange database.",
@@ -3280,6 +3395,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -3366,6 +3499,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -3514,6 +3665,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "If the user chose an auth method from `GetAuthInfo` with the flow `CHALLENGE_RESPONSE`, before\ncancelling an order, a challenge must be requested first. If any other flow is used, a challenge\n*must not* be requested and `CancelOrder` is used right away.",
@@ -3649,6 +3818,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -3801,6 +3988,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "If the user chose an auth method from `GetAuthInfo` with the flow `CHALLENGE_RESPONSE`, before\nchanging an order, a challenge must be requested first. If any other flow is used, a challenge\n*must not* be requested and `ChangeOrder` is used right away.",
@@ -3948,6 +4153,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "Get an order cost estimation for an order change.",
@@ -4088,6 +4311,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "Perform an order change.",
@@ -4199,6 +4440,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -4300,6 +4559,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -4420,6 +4697,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -4535,6 +4830,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -4645,6 +4958,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -4821,6 +5152,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "Get the AuthInfo for the given portfolio.\n\nIf the portfolio does not have an online session, this will return a 400 status code.\n\nIf it does, the response describes whether session TAN is available or active and which auth methods are available for the given portfolio\n(this information depends on the broker and the user's account settings).\n\nThe response determines which of the following operations can be used and which are required to successfully perform an\noperation in a portfolio:\n\n-   Session TAN handling (for performing other actions in portfolios without further per-case authorization)\n    -   [CreateSessionTanChallenge](#operation/CreateSessionTanChallenge) to request a challenge for s TAN activation.\n    -   [EnableSessionTan](#operation/EnableSessionTan) to enable the session TAN.\n    -   [EndSessionTan](#operation/EndSessionTan) to end the session TAN.\n-   Create a trade\n    -   [PrepareTrade](#operation/PrepareTrade) to figure out how a given security can be traded in a portfolio.\n    -   [CreateTradeChallenge](#operation/CreateTradeChallenge) to (for example) request a TAN for a trade.\n    -   [CreateTrade](#operation/CreateTrade) to perform the trade.\n-   Edit an order\n    -   [CreateChangeOrderChallenge](#operation/CreateChangeOrderChallenge) to request a challenge for an order change.\n    -   [ChangeOrder](#operation/ChangeOrder) to change an order.\n-   Cancel an order\n    -   [CreateCancelOrderChallenge](#operation/CreateCancelOrderChallenge) to request a Challenge for an order cancellation.\n    -   [CancelOrder](#operation/CancelOrder) to cancel an order.\n\nThe list of available AuthMethods should only be presented to the user if session TAN is not active (yet). The list and names are defined by our partner brokers.\nAll auth methods are generally categorized using the `flow` attribute:\n\n| `flow`               | requires challenge? | Description                                                                                                                                                                                                          |\n| -------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `TAN`                | no                  | the simplest flow: no challenge is required to perform the operation. the TAN is simply sent as parameter `tan` (_not yet implemented_)                                                                              |\n| `CHALLENGE_RESPONSE` | yes                 | a challenge must be created using the `createXYZChallenge` operations and the challenge must be presented to the user. The user can then execute the action using the `challengeId` and `challengeResponse` rameters |\n| `DECOUPLED`          | no                  | the operation is executed without any TAN, but returns a `decoupledOperationId` which can be used to read the action's status. Users will authorize the action in another frontend (usually in their broker's app). Note that currently `DECOUPLED` auth methods only work for enabling session TAN.   |\n\n- If `sessionTanActive` is `true`: Session TAN has been enabled for the session that\ncurrently backs the portfolio. In this case, all operations like `CreateTrade` can be executed right away\nwithout an `authMethod`. The UI should *not* show a dropdown with the auth methods in this case.\n- If `sessionTanActive` is `false` but `sessionTanSupported` is `true`: the user can enable session TAN\nusing `CreateSessionTanChallenge` / `EnableSessionTan`.\n- If `allOperationsRequireSessionTan` is `true`, the auth methods can *ONLY* be used for enabling session TAN.\n- Otherwise, the `authMethods` can be used to perform individual operations.\n\n| sessionTanActive | sessionTanSupported | allOperationsRequireSessionTan | Description                                                                                                                                                                                                                                                 |\n| ---------------- | ------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `true`           | `true`              | -                              | Session TAN has been enabled for the session that currently backs the portfolio. In this case, all operations like `CreateTrade`, `ChangeOrder`, `CancelOrder` can be executed right away without an `authMethod`. The UI should _not_ show a dropdown with the auth methods in this case. |\n| `false`          | `true`              | `true`                         | the user can enable session TAN using the provided auth methods via `CreateSessionTanChallenge` / `EnableSessionTan`. All other operations can only take place after session TAN has been enabled.                                                          |\n| `false`          | `true`              | `false`                        | the user can enable any operation (enable session tan, create trade, cancel order, change order) using the provided auth methods                                                                                                                            |",
@@ -4890,6 +5239,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -5013,6 +5380,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": [
@@ -5103,6 +5488,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -5206,6 +5609,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -5325,6 +5746,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "If login returns the state `challenge`, the login must be completed by providing a challenge response first.",
@@ -5408,6 +5847,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -5510,6 +5967,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -5632,6 +6107,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "End Session TAN for the given broker session.\n\nIf applicable, the broker may return a message with a confirmation code which can be looked up in the initial activation SMS.\nIf message is present in the response, it should be displayed to the user.",
@@ -5719,6 +6212,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -5832,6 +6343,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -5931,6 +6460,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "Trigger a background sync process for the given broker session. This means that a sync will be\nscheduled as soon as possible. All data related to the portfolio (e.g. positions and orders) will\nbe loaded into the brokerize database.",
@@ -6018,6 +6565,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -6113,6 +6678,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -6252,6 +6835,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "Prepare a trade of `isin` in the given portfolio `portfolioId`. This describes what kind of orders are supported by the broker for the security.\nThis requires the portfolio to have at least one active broker session.",
@@ -6374,6 +6975,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -6622,6 +7241,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": [
@@ -6735,6 +7372,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }
@@ -6863,6 +7518,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "Create a trade.\n\nIt is possible that the broker rejects the order because of some extra hints that the user must accept (which can not be figured\nout in `prepareTrade`, e.g. because the order volume has to be determined first). In thise case, the `MUST_ACCEPT_HINT` error\ncode is returned. The user can choose to accept that hint. If that is the case, the request can be\nretried with the `acceptHintId` parameter.",
@@ -6941,6 +7614,24 @@
                                 }
                             }
                         }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 "description": "Checks the provided authentication and returns the logged-in user.",
@@ -6983,6 +7674,24 @@
                                         "value": {
                                             "code": "RATE_LIMITED",
                                             "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
                                         }
                                     }
                                 }

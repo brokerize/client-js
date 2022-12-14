@@ -538,6 +538,7 @@ function BrokerLoginFormToJSONRecursive(value?: BrokerLoginForm | null, ignorePa
 interface BrokerMeta {
     brokerName: string;
     displayName: string;
+    envLabel: string;
     envs: Array<BrokerEnvironment>;
     images: BrokerMetaImages;
     loginForm?: BrokerLoginForm;
@@ -1579,6 +1580,7 @@ function EndSessionTanResponseToJSONRecursive(value?: EndSessionTanResponse | nu
 interface ErrorResponse {
     code: string;
     hint?: Hint;
+    maintenanceStatus?: MaintenanceStatus;
     msg: string;
     msgBrokerName?: string;
     validationDetails?: {
@@ -2592,6 +2594,24 @@ interface LogoutSessionRequest {
     sessionId: string;
 }
 
+// @public
+interface MaintenanceStatus {
+    expectedEnd?: Date;
+    msg: string;
+}
+
+// @public (undocumented)
+function MaintenanceStatusFromJSON(json: any): MaintenanceStatus;
+
+// @public (undocumented)
+function MaintenanceStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): MaintenanceStatus;
+
+// @public (undocumented)
+function MaintenanceStatusToJSON(value?: MaintenanceStatus | null): any;
+
+// @public (undocumented)
+function MaintenanceStatusToJSONRecursive(value?: MaintenanceStatus | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function mapValues(data: any, fn: (item: any) => any): {};
 
@@ -3125,6 +3145,11 @@ declare namespace Models {
         LoginResponseStateFromJSONTyped,
         LoginResponseStateToJSON,
         LoginResponseState,
+        MaintenanceStatusFromJSON,
+        MaintenanceStatusFromJSONTyped,
+        MaintenanceStatusToJSONRecursive,
+        MaintenanceStatusToJSON,
+        MaintenanceStatus,
         OkResponseBodyFromJSON,
         OkResponseBodyFromJSONTyped,
         OkResponseBodyToJSONRecursive,

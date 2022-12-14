@@ -111,6 +111,7 @@ models/LoginResponseChallengeSpecifics.ts
 models/LoginResponseReady.ts
 models/LoginResponseReadySpecifics.ts
 models/LoginResponseState.ts
+models/MaintenanceStatus.ts
 models/OkResponseBody.ts
 models/Order.ts
 models/OrderChanges.ts
