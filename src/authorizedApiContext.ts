@@ -12,13 +12,13 @@ import {
   GetCostEstimationParams,
   GetQuoteRequest,
   PrepareOAuthRedirectParams,
-  PrepareTradeRequest
+  PrepareTradeRequest,
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
   BrokerizeWebSocketClientImpl,
   Callback,
-  Subscription
+  Subscription,
 } from "./websocketClient";
 
 export class AuthorizedApiContext {
@@ -36,6 +36,7 @@ export class AuthorizedApiContext {
   private _logoutSubject: Subject<void>;
   private _childContexts: AuthorizedApiContext[];
   private _wsClient: BrokerizeWebSocketClientImpl;
+  private _cache: { getBrokers?: Promise<openApiClient.GetBrokersResponse> };
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
@@ -84,6 +85,7 @@ export class AuthorizedApiContext {
     ).withPostMiddleware(postMiddleware);
     this._abortController = cfg.createAbortController();
     this._wsClient = wsClient || this._initInternalWebSocketClient();
+    this._cache = {};
   }
   createChildContext() {
     const result = new AuthorizedApiContext(
@@ -115,7 +117,15 @@ export class AuthorizedApiContext {
     };
   }
   async getBrokers() {
-    return this._metaApi.getBrokers(await this._initRequestInit());
+    if (!this._cache.getBrokers) {
+      this._cache.getBrokers = this._metaApi
+        .getBrokers(await this._initRequestInit())
+        .catch((err) => {
+          delete this._cache.getBrokers;
+          throw err;
+        });
+    }
+    return this._cache.getBrokers;
   }
   async getLegalTerms() {
     return this._metaApi.getLegalTerms(await this._initRequestInit());

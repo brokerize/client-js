@@ -491,8 +491,8 @@ class BrokerLoginApi extends runtime.BaseAPI {
 
 // @public
 interface BrokerLoginForm {
-    passwordField?: BrokerLoginFormField;
-    usernameField?: BrokerLoginFormField;
+    passwordField: BrokerLoginFormField;
+    usernameField: BrokerLoginFormField;
 }
 
 // @public
@@ -2356,6 +2356,7 @@ interface GetQuoteRequest {
 // @public
 interface GetQuoteResponse {
     costEstimation?: OrderCostEstimation;
+    // @deprecated
     costEstimationToken?: string;
     direction: Direction;
     expiration?: QuoteExpiration;
@@ -3216,6 +3217,50 @@ declare namespace Models {
         PortfolioQuotesToJSONRecursive,
         PortfolioQuotesToJSON,
         PortfolioQuotes,
+        PortfolioSyncInfoFromJSON,
+        PortfolioSyncInfoFromJSONTyped,
+        PortfolioSyncInfoToJSONRecursive,
+        PortfolioSyncInfoToJSON,
+        PortfolioSyncInfo,
+        PortfolioSyncInfoCompleteFromJSON,
+        PortfolioSyncInfoCompleteFromJSONTyped,
+        PortfolioSyncInfoCompleteToJSONRecursive,
+        PortfolioSyncInfoCompleteToJSON,
+        PortfolioSyncInfoComplete,
+        PortfolioSyncInfoCompleteSpecificsFromJSON,
+        PortfolioSyncInfoCompleteSpecificsFromJSONTyped,
+        PortfolioSyncInfoCompleteSpecificsToJSONRecursive,
+        PortfolioSyncInfoCompleteSpecificsToJSON,
+        PortfolioSyncInfoCompleteSpecifics,
+        PortfolioSyncInfoErrorFromJSON,
+        PortfolioSyncInfoErrorFromJSONTyped,
+        PortfolioSyncInfoErrorToJSONRecursive,
+        PortfolioSyncInfoErrorToJSON,
+        PortfolioSyncInfoError,
+        PortfolioSyncInfoErrorSpecificsFromJSON,
+        PortfolioSyncInfoErrorSpecificsFromJSONTyped,
+        PortfolioSyncInfoErrorSpecificsToJSONRecursive,
+        PortfolioSyncInfoErrorSpecificsToJSON,
+        PortfolioSyncInfoErrorSpecifics,
+        PortfolioSyncInfoIncompleteFromJSON,
+        PortfolioSyncInfoIncompleteFromJSONTyped,
+        PortfolioSyncInfoIncompleteToJSONRecursive,
+        PortfolioSyncInfoIncompleteToJSON,
+        PortfolioSyncInfoIncomplete,
+        PortfolioSyncInfoIncompleteSpecificsFromJSON,
+        PortfolioSyncInfoIncompleteSpecificsFromJSONTyped,
+        PortfolioSyncInfoIncompleteSpecificsToJSONRecursive,
+        PortfolioSyncInfoIncompleteSpecificsToJSON,
+        PortfolioSyncInfoIncompleteSpecifics,
+        PortfolioSyncInfoPendingFromJSON,
+        PortfolioSyncInfoPendingFromJSONTyped,
+        PortfolioSyncInfoPendingToJSONRecursive,
+        PortfolioSyncInfoPendingToJSON,
+        PortfolioSyncInfoPending,
+        PortfolioSyncInfoStatusFromJSON,
+        PortfolioSyncInfoStatusFromJSONTyped,
+        PortfolioSyncInfoStatusToJSON,
+        PortfolioSyncInfoStatus,
         PortfoliosResponseFromJSON,
         PortfoliosResponseFromJSONTyped,
         PortfoliosResponseToJSONRecursive,
@@ -3286,6 +3331,40 @@ declare namespace Models {
         SessionResponseToJSONRecursive,
         SessionResponseToJSON,
         SessionResponse,
+        SessionSyncInfoFromJSON,
+        SessionSyncInfoFromJSONTyped,
+        SessionSyncInfoToJSONRecursive,
+        SessionSyncInfoToJSON,
+        SessionSyncInfo,
+        SessionSyncInfoErrorFromJSON,
+        SessionSyncInfoErrorFromJSONTyped,
+        SessionSyncInfoErrorToJSONRecursive,
+        SessionSyncInfoErrorToJSON,
+        SessionSyncInfoError,
+        SessionSyncInfoErrorSpecificsFromJSON,
+        SessionSyncInfoErrorSpecificsFromJSONTyped,
+        SessionSyncInfoErrorSpecificsToJSONRecursive,
+        SessionSyncInfoErrorSpecificsToJSON,
+        SessionSyncInfoErrorSpecifics,
+        SessionSyncInfoPendingFromJSON,
+        SessionSyncInfoPendingFromJSONTyped,
+        SessionSyncInfoPendingToJSONRecursive,
+        SessionSyncInfoPendingToJSON,
+        SessionSyncInfoPending,
+        SessionSyncInfoStatusFromJSON,
+        SessionSyncInfoStatusFromJSONTyped,
+        SessionSyncInfoStatusToJSON,
+        SessionSyncInfoStatus,
+        SessionSyncInfoSyncedFromJSON,
+        SessionSyncInfoSyncedFromJSONTyped,
+        SessionSyncInfoSyncedToJSONRecursive,
+        SessionSyncInfoSyncedToJSON,
+        SessionSyncInfoSynced,
+        SessionSyncInfoSyncedSpecificsFromJSON,
+        SessionSyncInfoSyncedSpecificsFromJSONTyped,
+        SessionSyncInfoSyncedSpecificsToJSONRecursive,
+        SessionSyncInfoSyncedSpecificsToJSON,
+        SessionSyncInfoSyncedSpecifics,
         StringMapByOrderModelFromJSON,
         StringMapByOrderModelFromJSONTyped,
         StringMapByOrderModelToJSONRecursive,
@@ -3652,6 +3731,7 @@ interface Portfolio {
     id: string;
     portfolioName: string;
     sessionIds: Array<string>;
+    syncInfo: PortfolioSyncInfo;
 }
 
 // @public (undocumented)
@@ -3701,6 +3781,161 @@ function PortfoliosResponseToJSON(value?: PortfoliosResponse | null): any;
 
 // @public (undocumented)
 function PortfoliosResponseToJSONRecursive(value?: PortfoliosResponse | null, ignoreParent?: boolean): any;
+
+// @public
+interface PortfolioSyncInfo {
+    status: PortfolioSyncInfoStatus;
+}
+
+// @public
+interface PortfolioSyncInfoComplete extends PortfolioSyncInfo {
+    lastSync: Date;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteFromJSON(json: any): PortfolioSyncInfoComplete;
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoComplete;
+
+// @public
+interface PortfolioSyncInfoCompleteSpecifics {
+    lastSync?: Date;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteSpecificsFromJSON(json: any): PortfolioSyncInfoCompleteSpecifics;
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoCompleteSpecifics;
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteSpecificsToJSON(value?: PortfolioSyncInfoCompleteSpecifics | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteSpecificsToJSONRecursive(value?: PortfolioSyncInfoCompleteSpecifics | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteToJSON(value?: PortfolioSyncInfoComplete | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteToJSONRecursive(value?: PortfolioSyncInfoComplete | null, ignoreParent?: boolean): any;
+
+// @public
+interface PortfolioSyncInfoError extends PortfolioSyncInfo {
+    error: SyncError;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorFromJSON(json: any): PortfolioSyncInfoError;
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoError;
+
+// @public
+interface PortfolioSyncInfoErrorSpecifics {
+    error?: SyncError;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorSpecificsFromJSON(json: any): PortfolioSyncInfoErrorSpecifics;
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoErrorSpecifics;
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorSpecificsToJSON(value?: PortfolioSyncInfoErrorSpecifics | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorSpecificsToJSONRecursive(value?: PortfolioSyncInfoErrorSpecifics | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorToJSON(value?: PortfolioSyncInfoError | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorToJSONRecursive(value?: PortfolioSyncInfoError | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoFromJSON(json: any): PortfolioSyncInfo;
+
+// @public (undocumented)
+function PortfolioSyncInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfo;
+
+// @public
+interface PortfolioSyncInfoIncomplete extends PortfolioSyncInfo {
+    lastSync: Date;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteFromJSON(json: any): PortfolioSyncInfoIncomplete;
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoIncomplete;
+
+// @public
+interface PortfolioSyncInfoIncompleteSpecifics {
+    lastSync?: Date;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteSpecificsFromJSON(json: any): PortfolioSyncInfoIncompleteSpecifics;
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoIncompleteSpecifics;
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteSpecificsToJSON(value?: PortfolioSyncInfoIncompleteSpecifics | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteSpecificsToJSONRecursive(value?: PortfolioSyncInfoIncompleteSpecifics | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteToJSON(value?: PortfolioSyncInfoIncomplete | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteToJSONRecursive(value?: PortfolioSyncInfoIncomplete | null, ignoreParent?: boolean): any;
+
+// @public
+interface PortfolioSyncInfoPending extends PortfolioSyncInfo {
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoPendingFromJSON(json: any): PortfolioSyncInfoPending;
+
+// @public (undocumented)
+function PortfolioSyncInfoPendingFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoPending;
+
+// @public (undocumented)
+function PortfolioSyncInfoPendingToJSON(value?: PortfolioSyncInfoPending | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoPendingToJSONRecursive(value?: PortfolioSyncInfoPending | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const PortfolioSyncInfoStatus: {
+    readonly Pending: "PENDING";
+    readonly Incomplete: "INCOMPLETE";
+    readonly Complete: "COMPLETE";
+    readonly Error: "ERROR";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoStatus = typeof PortfolioSyncInfoStatus[keyof typeof PortfolioSyncInfoStatus];
+
+// @public (undocumented)
+function PortfolioSyncInfoStatusFromJSON(json: any): PortfolioSyncInfoStatus;
+
+// @public (undocumented)
+function PortfolioSyncInfoStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoStatus;
+
+// @public (undocumented)
+function PortfolioSyncInfoStatusToJSON(value?: PortfolioSyncInfoStatus | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoToJSON(value?: PortfolioSyncInfo | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoToJSONRecursive(value?: PortfolioSyncInfo | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function PortfolioToJSON(value?: Portfolio | null): any;
@@ -4021,8 +4256,10 @@ interface Session {
     authInfo?: AuthInfo;
     brokerName: string;
     id: string;
+    // @deprecated
     lastSuccessfulSync?: Date;
     syncError?: SyncError;
+    syncInfo: SessionSyncInfo;
 }
 
 // @public (undocumented)
@@ -4047,6 +4284,126 @@ function SessionResponseToJSON(value?: SessionResponse | null): any;
 
 // @public (undocumented)
 function SessionResponseToJSONRecursive(value?: SessionResponse | null, ignoreParent?: boolean): any;
+
+// @public
+interface SessionSyncInfo {
+    status: SessionSyncInfoStatus;
+}
+
+// @public
+interface SessionSyncInfoError extends SessionSyncInfo {
+    error: SyncError;
+}
+
+// @public (undocumented)
+function SessionSyncInfoErrorFromJSON(json: any): SessionSyncInfoError;
+
+// @public (undocumented)
+function SessionSyncInfoErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoError;
+
+// @public
+interface SessionSyncInfoErrorSpecifics {
+    error?: SyncError;
+}
+
+// @public (undocumented)
+function SessionSyncInfoErrorSpecificsFromJSON(json: any): SessionSyncInfoErrorSpecifics;
+
+// @public (undocumented)
+function SessionSyncInfoErrorSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoErrorSpecifics;
+
+// @public (undocumented)
+function SessionSyncInfoErrorSpecificsToJSON(value?: SessionSyncInfoErrorSpecifics | null): any;
+
+// @public (undocumented)
+function SessionSyncInfoErrorSpecificsToJSONRecursive(value?: SessionSyncInfoErrorSpecifics | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function SessionSyncInfoErrorToJSON(value?: SessionSyncInfoError | null): any;
+
+// @public (undocumented)
+function SessionSyncInfoErrorToJSONRecursive(value?: SessionSyncInfoError | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function SessionSyncInfoFromJSON(json: any): SessionSyncInfo;
+
+// @public (undocumented)
+function SessionSyncInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfo;
+
+// @public
+interface SessionSyncInfoPending extends SessionSyncInfo {
+}
+
+// @public (undocumented)
+function SessionSyncInfoPendingFromJSON(json: any): SessionSyncInfoPending;
+
+// @public (undocumented)
+function SessionSyncInfoPendingFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoPending;
+
+// @public (undocumented)
+function SessionSyncInfoPendingToJSON(value?: SessionSyncInfoPending | null): any;
+
+// @public (undocumented)
+function SessionSyncInfoPendingToJSONRecursive(value?: SessionSyncInfoPending | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const SessionSyncInfoStatus: {
+    readonly Pending: "PENDING";
+    readonly Synced: "SYNCED";
+    readonly Error: "ERROR";
+};
+
+// @public (undocumented)
+type SessionSyncInfoStatus = typeof SessionSyncInfoStatus[keyof typeof SessionSyncInfoStatus];
+
+// @public (undocumented)
+function SessionSyncInfoStatusFromJSON(json: any): SessionSyncInfoStatus;
+
+// @public (undocumented)
+function SessionSyncInfoStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoStatus;
+
+// @public (undocumented)
+function SessionSyncInfoStatusToJSON(value?: SessionSyncInfoStatus | null): any;
+
+// @public
+interface SessionSyncInfoSynced extends SessionSyncInfo {
+    lastSync: Date;
+}
+
+// @public (undocumented)
+function SessionSyncInfoSyncedFromJSON(json: any): SessionSyncInfoSynced;
+
+// @public (undocumented)
+function SessionSyncInfoSyncedFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoSynced;
+
+// @public
+interface SessionSyncInfoSyncedSpecifics {
+    lastSync?: Date;
+}
+
+// @public (undocumented)
+function SessionSyncInfoSyncedSpecificsFromJSON(json: any): SessionSyncInfoSyncedSpecifics;
+
+// @public (undocumented)
+function SessionSyncInfoSyncedSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoSyncedSpecifics;
+
+// @public (undocumented)
+function SessionSyncInfoSyncedSpecificsToJSON(value?: SessionSyncInfoSyncedSpecifics | null): any;
+
+// @public (undocumented)
+function SessionSyncInfoSyncedSpecificsToJSONRecursive(value?: SessionSyncInfoSyncedSpecifics | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function SessionSyncInfoSyncedToJSON(value?: SessionSyncInfoSynced | null): any;
+
+// @public (undocumented)
+function SessionSyncInfoSyncedToJSONRecursive(value?: SessionSyncInfoSynced | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function SessionSyncInfoToJSON(value?: SessionSyncInfo | null): any;
+
+// @public (undocumented)
+function SessionSyncInfoToJSONRecursive(value?: SessionSyncInfo | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function SessionToJSON(value?: Session | null): any;
