@@ -122,6 +122,7 @@ interface AuthMethod {
 // @public
 interface AuthMethodChallengeResponse extends AuthMethod {
     challengeLabel?: string;
+    challengeResponseIsOnlyConfirmation?: boolean;
     getChallengeLabel: string;
     id: string;
     isDefaultMethod?: boolean;
@@ -138,6 +139,7 @@ function AuthMethodChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator
 // @public
 interface AuthMethodChallengeResponseSpecifics {
     challengeLabel?: string;
+    challengeResponseIsOnlyConfirmation?: boolean;
     getChallengeLabel?: string;
     id?: string;
     isDefaultMethod?: boolean;
