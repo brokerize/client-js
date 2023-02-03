@@ -9,6 +9,7 @@ import {
   CreateTradeRequest,
   DeleteDemoAccountRequest,
   ErrorResponse,
+  GenericTable,
   GetCostEstimationParams,
   GetQuoteRequest,
   PrepareOAuthRedirectParams,
@@ -37,6 +38,7 @@ export class AuthorizedApiContext {
   private _childContexts: AuthorizedApiContext[];
   private _wsClient: BrokerizeWebSocketClientImpl;
   private _cache: { getBrokers?: Promise<openApiClient.GetBrokersResponse> };
+  private _exportApi: openApiClient.ExportApi;
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
@@ -83,6 +85,9 @@ export class AuthorizedApiContext {
     this._changeOrderApi = new openApiClient.ChangeOrderApi(
       apiConfig
     ).withPostMiddleware(postMiddleware);
+    this._exportApi = new openApiClient.ExportApi(apiConfig).withPostMiddleware(
+      postMiddleware
+    );
     this._abortController = cfg.createAbortController();
     this._wsClient = wsClient || this._initInternalWebSocketClient();
     this._cache = {};
@@ -325,7 +330,18 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
+  async RenderGenericTablePdf(table: GenericTable): Promise<Blob> {
+    const response = await this._exportApi.renderGenericTableRaw(
+      {
+        renderGenericTableParams: {
+          table,
+        },
+      },
+      await this._initRequestInit()
+    );
 
+    return response.raw.blob();
+  }
   private _initInternalWebSocketClient() {
     const basePath = this._cfg.basePath || "https://api-preview.brokerize.com";
     const websocketPath =

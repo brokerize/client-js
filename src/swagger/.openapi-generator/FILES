@@ -4,6 +4,7 @@ apis/CancelOrderApi.ts
 apis/ChangeOrderApi.ts
 apis/DefaultApi.ts
 apis/DemobrokerApi.ts
+apis/ExportApi.ts
 apis/MetaApi.ts
 apis/TradeApi.ts
 apis/index.ts
@@ -143,6 +144,7 @@ models/PrepareOAuthRedirectResponse.ts
 models/PrepareTradeResponse.ts
 models/PreparedTrade.ts
 models/QuoteExpiration.ts
+models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts
 models/Security.ts
 models/SecurityDetailedInfo.ts

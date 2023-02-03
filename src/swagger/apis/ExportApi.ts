@@ -13,34 +13,64 @@
  */
 
 
+import * as runtime from '../runtime';
+import {
+    ErrorResponse,
+    ErrorResponseFromJSON,
+    ErrorResponseToJSON,
+    RenderGenericTableParams,
+    RenderGenericTableParamsFromJSON,
+    RenderGenericTableParamsToJSON,
+} from '../models';
+
+export interface RenderGenericTableRequest {
+    renderGenericTableParams: RenderGenericTableParams;
+}
+
 /**
- * Order validity:
- * - `AUTO`: choose automatically
- * - `GFD`: good for day (*today/current trading day*)
- * - `GTC`: good til canceled
- * - `GTD` good til given date
- * - `GTU` good til ultimo (end of month)
- * @export
+ * 
  */
-export const OrderValidityType = {
-    Auto: 'AUTO',
-    Gfd: 'GFD',
-    Gtc: 'GTC',
-    Gtu: 'GTU',
-    Gtd: 'GTD'
-} as const;
-export type OrderValidityType = typeof OrderValidityType[keyof typeof OrderValidityType];
+export class ExportApi extends runtime.BaseAPI {
 
+    /**
+     * Render a `GenericTable`, as retrievable from other endpoints. By default, this will return a PDF download. If the header `Accept` is set to `text/html`, output will be an HTML document.
+     */
+    async renderGenericTableRaw(requestParameters: RenderGenericTableRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters.renderGenericTableParams === null || requestParameters.renderGenericTableParams === undefined) {
+            throw new runtime.RequiredError('renderGenericTableParams','Required parameter requestParameters.renderGenericTableParams was null or undefined when calling renderGenericTable.');
+        }
 
-export function OrderValidityTypeFromJSON(json: any): OrderValidityType {
-    return OrderValidityTypeFromJSONTyped(json, false);
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-brkrz-client-id"] = this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/export/renderGenericTable`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RenderGenericTableParamsToJSON(requestParameters.renderGenericTableParams),
+        }, initOverrides);
+
+        return new runtime.TextApiResponse(response) as any;
+    }
+
+    /**
+     * Render a `GenericTable`, as retrievable from other endpoints. By default, this will return a PDF download. If the header `Accept` is set to `text/html`, output will be an HTML document.
+     */
+    async renderGenericTable(requestParameters: RenderGenericTableRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string> {
+        const response = await this.renderGenericTableRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
 }
-
-export function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderValidityType {
-    return json as OrderValidityType;
-}
-
-export function OrderValidityTypeToJSON(value?: OrderValidityType | null): any {
-    return value as any;
-}
-

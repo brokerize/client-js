@@ -12,35 +12,58 @@
  * Do not edit the class manually.
  */
 
+import { exists, mapValues } from '../runtime';
+import {
+    GenericTable,
+    GenericTableFromJSON,
+    GenericTableFromJSONTyped,
+    GenericTableToJSON,
+} from './GenericTable';
 
 /**
- * Order validity:
- * - `AUTO`: choose automatically
- * - `GFD`: good for day (*today/current trading day*)
- * - `GTC`: good til canceled
- * - `GTD` good til given date
- * - `GTU` good til ultimo (end of month)
+ * 
  * @export
+ * @interface RenderGenericTableParams
  */
-export const OrderValidityType = {
-    Auto: 'AUTO',
-    Gfd: 'GFD',
-    Gtc: 'GTC',
-    Gtu: 'GTU',
-    Gtd: 'GTD'
-} as const;
-export type OrderValidityType = typeof OrderValidityType[keyof typeof OrderValidityType];
-
-
-export function OrderValidityTypeFromJSON(json: any): OrderValidityType {
-    return OrderValidityTypeFromJSONTyped(json, false);
+export interface RenderGenericTableParams {
+    /**
+     * 
+     * @type {GenericTable}
+     * @memberof RenderGenericTableParams
+     */
+    table: GenericTable;
 }
 
-export function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderValidityType {
-    return json as OrderValidityType;
+export function RenderGenericTableParamsFromJSON(json: any): RenderGenericTableParams {
+    return RenderGenericTableParamsFromJSONTyped(json, false);
 }
 
-export function OrderValidityTypeToJSON(value?: OrderValidityType | null): any {
-    return value as any;
+export function RenderGenericTableParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenderGenericTableParams {
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'table': GenericTableFromJSON(json['table']),
+    };
 }
 
+export function RenderGenericTableParamsToJSONRecursive(value?: RenderGenericTableParams | null, ignoreParent = false): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+
+    return {
+        
+
+
+        'table': GenericTableToJSON(value.table),
+    };
+}
+
+export function RenderGenericTableParamsToJSON(value?: RenderGenericTableParams | null): any {
+    return RenderGenericTableParamsToJSONRecursive(value, false);
+}

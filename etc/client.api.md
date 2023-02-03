@@ -358,6 +358,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     prepareTrade(req: PrepareTradeRequest): Promise<openApiClient.PrepareTradeResponse>;
     // (undocumented)
+    RenderGenericTablePdf(table: GenericTable): Promise<Blob>;
+    // (undocumented)
     subscribeLogout(callback: Callback): Subscription;
     // (undocumented)
     triggerDemoSessionSyncError(sessionId: string): Promise<openApiClient.OkResponseBody>;
@@ -1685,6 +1687,12 @@ function ExchangeToJSONRecursive(value?: Exchange | null, ignoreParent?: boolean
 
 // @public (undocumented)
 function exists(json: any, key: string): boolean;
+
+// @public (undocumented)
+class ExportApi extends runtime.BaseAPI {
+    renderGenericTable(requestParameters: RenderGenericTableRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string>;
+    renderGenericTableRaw(requestParameters: RenderGenericTableRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>>;
+}
 
 // @public (undocumented)
 type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
@@ -3303,6 +3311,11 @@ declare namespace Models {
         QuoteExpirationToJSONRecursive,
         QuoteExpirationToJSON,
         QuoteExpiration,
+        RenderGenericTableParamsFromJSON,
+        RenderGenericTableParamsFromJSONTyped,
+        RenderGenericTableParamsToJSONRecursive,
+        RenderGenericTableParamsToJSON,
+        RenderGenericTableParams,
         RiskClassInfoFromJSON,
         RiskClassInfoFromJSONTyped,
         RiskClassInfoToJSONRecursive,
@@ -3412,7 +3425,6 @@ function OkResponseBodyToJSONRecursive(value?: OkResponseBody | null, ignorePare
 // @public
 interface Order {
     allowsCancel: boolean;
-    allowsCancelAllOrderParts?: boolean;
     allowsChangeLimit?: boolean;
     allowsChangeOrderModels?: Array<OrderModel>;
     allowsChangeSize: boolean;
@@ -3425,6 +3437,7 @@ interface Order {
     cancellationDateTime?: Date;
     cancelledSize?: number;
     cashQuotation?: CashQuotation;
+    changesHaveCostEstimations?: boolean;
     createdAt?: Date;
     currentStop?: Amount;
     direction: Direction;
@@ -4117,6 +4130,29 @@ function QuoteExpirationToJSON(value?: QuoteExpiration | null): any;
 
 // @public (undocumented)
 function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent?: boolean): any;
+
+// @public
+interface RenderGenericTableParams {
+    table: GenericTable;
+}
+
+// @public (undocumented)
+function RenderGenericTableParamsFromJSON(json: any): RenderGenericTableParams;
+
+// @public (undocumented)
+function RenderGenericTableParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenderGenericTableParams;
+
+// @public (undocumented)
+function RenderGenericTableParamsToJSON(value?: RenderGenericTableParams | null): any;
+
+// @public (undocumented)
+function RenderGenericTableParamsToJSONRecursive(value?: RenderGenericTableParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface RenderGenericTableRequest {
+    // (undocumented)
+    renderGenericTableParams: RenderGenericTableParams;
+}
 
 // @public (undocumented)
 interface RequestContext {
