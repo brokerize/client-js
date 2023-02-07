@@ -9,9 +9,12 @@ import {
   CreateTradeRequest,
   DeleteDemoAccountRequest,
   ErrorResponse,
+  EstimateChangeOrderCostsParams,
   GenericTable,
+  GetChangeOrderCostEstimationRequest,
   GetCostEstimationParams,
   GetQuoteRequest,
+  OrderChanges,
   PrepareOAuthRedirectParams,
   PrepareTradeRequest,
 } from "./swagger";
@@ -307,6 +310,17 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
+  async getChangeOrderCostEstimation(orderId: string, changes: OrderChanges) {
+    return this._changeOrderApi.getChangeOrderCostEstimation(
+      {
+        estimateChangeOrderCostsParams: {
+          changes,
+        },
+        id: orderId,
+      },
+      await this._initRequestInit()
+    );
+  }
   async getQuote(p: GetQuoteRequest) {
     return this._tradeApi.getQuote(p, await this._initRequestInit());
   }
@@ -322,7 +336,7 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
-  async GetSecurityDetailedInfo(token: string) {
+  async getSecurityDetailedInfo(token: string) {
     return this._tradeApi.getSecurityDetailedInfo(
       {
         token,
@@ -330,7 +344,7 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
-  async RenderGenericTablePdf(table: GenericTable): Promise<Blob> {
+  async renderGenericTablePdf(table: GenericTable): Promise<Blob> {
     const response = await this._exportApi.renderGenericTableRaw(
       {
         renderGenericTableParams: {

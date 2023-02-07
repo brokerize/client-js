@@ -324,6 +324,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     getBrokers(): Promise<openApiClient.GetBrokersResponse>;
     // (undocumented)
+    getChangeOrderCostEstimation(orderId: string, changes: OrderChanges): Promise<openApiClient.OrderCostEstimation>;
+    // (undocumented)
     getCostEstimation(p: GetCostEstimationParams): Promise<openApiClient.OrderCostEstimation>;
     // (undocumented)
     getDecoupledOperationStatus(req: openApiClient.GetDecoupledOperationStatusRequest): Promise<openApiClient.DecoupledOperationStatus>;
@@ -346,7 +348,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     getQuote(p: GetQuoteRequest): Promise<openApiClient.GetQuoteResponse>;
     // (undocumented)
-    GetSecurityDetailedInfo(token: string): Promise<openApiClient.GenericTable>;
+    getSecurityDetailedInfo(token: string): Promise<openApiClient.GenericTable>;
     // (undocumented)
     getSessions(): Promise<openApiClient.SessionResponse>;
     // (undocumented)
@@ -358,7 +360,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     prepareTrade(req: PrepareTradeRequest): Promise<openApiClient.PrepareTradeResponse>;
     // (undocumented)
-    RenderGenericTablePdf(table: GenericTable): Promise<Blob>;
+    renderGenericTablePdf(table: GenericTable): Promise<Blob>;
     // (undocumented)
     subscribeLogout(callback: Callback): Subscription;
     // (undocumented)
