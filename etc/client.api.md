@@ -6,6 +6,31 @@
 
 import * as Cognito from 'amazon-cognito-identity-js/dist/amazon-cognito-identity.js';
 
+// @public (undocumented)
+interface AddOriginOperationRequest {
+    // (undocumented)
+    addOriginRequest: AddOriginRequest;
+    // (undocumented)
+    clientId: string;
+}
+
+// @public
+interface AddOriginRequest {
+    origin: string;
+}
+
+// @public (undocumented)
+function AddOriginRequestFromJSON(json: any): AddOriginRequest;
+
+// @public (undocumented)
+function AddOriginRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): AddOriginRequest;
+
+// @public (undocumented)
+function AddOriginRequestToJSON(value?: AddOriginRequest | null): any;
+
+// @public (undocumented)
+function AddOriginRequestToJSONRecursive(value?: AddOriginRequest | null, ignoreParent?: boolean): any;
+
 // @public
 interface AddSessionCompleteChallengeParams {
     challengeId: string;
@@ -54,6 +79,24 @@ function AddSessionParamsToJSONRecursive(value?: AddSessionParams | null, ignore
 interface AddSessionRequest {
     // (undocumented)
     addSessionParams: AddSessionParams;
+}
+
+// Warning: (ae-forgotten-export) The symbol "runtime" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+class AdminApi extends runtime.BaseAPI {
+    addOrigin(requestParameters: AddOriginOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    addOriginRaw(requestParameters: AddOriginOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    createClient(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateClient200Response>;
+    createClientRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateClient200Response>>;
+    getMyClients(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<ClientsResponseInner>>;
+    getMyClientsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<ClientsResponseInner>>>;
+    getOrderReport(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string>;
+    getOrderReportRaw(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>>;
+    // (undocumented)
+    setClientConfig(requestParameters: SetClientConfigOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    // (undocumented)
+    setClientConfigRaw(requestParameters: SetClientConfigOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
 
 // @public
@@ -280,6 +323,8 @@ export class AuthorizedApiContext {
     // Warning: (ae-forgotten-export) The symbol "BrokerizeWebSocketClientImpl" needs to be exported by the entry point index.d.ts
     constructor(cfg: BrokerizeConfig, auth: Auth, wsClient?: BrokerizeWebSocketClientImpl);
     // (undocumented)
+    addClientOrigin(clientId: string, origin: string): Promise<void>;
+    // (undocumented)
     addSession(params: AddSessionParams): Promise<openApiClient.LoginResponse>;
     // (undocumented)
     addSessionCompleteChallenge(req: openApiClient.AddSessionCompleteChallengeRequest): Promise<openApiClient.LoginResponseReady>;
@@ -297,6 +342,8 @@ export class AuthorizedApiContext {
     createChangeOrderChallenge(req: openApiClient.CreateChangeOrderChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
     createChildContext(): AuthorizedApiContext;
+    // (undocumented)
+    createClient(): Promise<openApiClient.CreateClient200Response>;
     // (undocumented)
     createDemoAccount(): Promise<openApiClient.CreatedResponseBody>;
     // (undocumented)
@@ -336,7 +383,11 @@ export class AuthorizedApiContext {
     // (undocumented)
     getLegalTerms(): Promise<openApiClient.LegalTermsResponse>;
     // (undocumented)
+    getMyClients(): Promise<openApiClient.ClientsResponseInner[]>;
+    // (undocumented)
     getOrder(orderId: string): Promise<openApiClient.GetOrderResponse>;
+    // (undocumented)
+    getOrderReport(fromDate: string, toDate: string, clientIds: string[]): Promise<Blob>;
     // (undocumented)
     getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest): Promise<openApiClient.GetPortfolioOrdersResponse>;
     // (undocumented)
@@ -361,6 +412,8 @@ export class AuthorizedApiContext {
     prepareTrade(req: PrepareTradeRequest): Promise<openApiClient.PrepareTradeResponse>;
     // (undocumented)
     renderGenericTablePdf(table: GenericTable): Promise<Blob>;
+    // (undocumented)
+    setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
     // (undocumented)
     subscribeLogout(callback: Callback): Subscription;
     // (undocumented)
@@ -395,6 +448,26 @@ class BlobApiResponse {
     // (undocumented)
     value(): Promise<Blob>;
 }
+
+// @public (undocumented)
+const BrokerEnvFilterType: {
+    readonly None: "NONE";
+    readonly AllAvailable: "ALL_AVAILABLE";
+    readonly TestingOnly: "TESTING_ONLY";
+    readonly ProductionOnly: "PRODUCTION_ONLY";
+};
+
+// @public (undocumented)
+type BrokerEnvFilterType = typeof BrokerEnvFilterType[keyof typeof BrokerEnvFilterType];
+
+// @public (undocumented)
+function BrokerEnvFilterTypeFromJSON(json: any): BrokerEnvFilterType;
+
+// @public (undocumented)
+function BrokerEnvFilterTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerEnvFilterType;
+
+// @public (undocumented)
+function BrokerEnvFilterTypeToJSON(value?: BrokerEnvFilterType | null): any;
 
 // @public
 interface BrokerEnvironment {
@@ -479,8 +552,6 @@ type BrokerizeWebSocketError = {
     message: string;
 };
 
-// Warning: (ae-forgotten-export) The symbol "runtime" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 class BrokerLoginApi extends runtime.BaseAPI {
     // (undocumented)
@@ -843,6 +914,90 @@ interface ChangeOrderRequest {
     id: string;
 }
 
+// @public
+interface ClientConfig {
+    allowedOrigins?: Array<string>;
+    allowRequestsWithoutOrigin?: boolean;
+    brokerEnvFilter?: PartialBrokerEnvFilter;
+    clientSecrets?: Array<string>;
+    cognitoClientIds?: Array<string>;
+    managingUserIds?: Array<number>;
+    name: string;
+    oAuthReturnToRegularExpressions?: Array<string>;
+    oAuthReturnToUrls?: Array<string>;
+    rateLimitPointsToConsume?: ClientConfigRateLimitPointsToConsume;
+}
+
+// @public (undocumented)
+function ClientConfigFromJSON(json: any): ClientConfig;
+
+// @public (undocumented)
+function ClientConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfig;
+
+// @public
+interface ClientConfigRateLimitPointsToConsume {
+    guestUser?: number;
+}
+
+// @public (undocumented)
+function ClientConfigRateLimitPointsToConsumeFromJSON(json: any): ClientConfigRateLimitPointsToConsume;
+
+// @public (undocumented)
+function ClientConfigRateLimitPointsToConsumeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigRateLimitPointsToConsume;
+
+// @public (undocumented)
+function ClientConfigRateLimitPointsToConsumeToJSON(value?: ClientConfigRateLimitPointsToConsume | null): any;
+
+// @public (undocumented)
+function ClientConfigRateLimitPointsToConsumeToJSONRecursive(value?: ClientConfigRateLimitPointsToConsume | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function ClientConfigToJSON(value?: ClientConfig | null): any;
+
+// @public (undocumented)
+function ClientConfigToJSONRecursive(value?: ClientConfig | null, ignoreParent?: boolean): any;
+
+// @public
+interface ClientsResponseInner {
+    clientId: string;
+    config: ClientsResponseInnerConfig;
+}
+
+// @public
+interface ClientsResponseInnerConfig {
+    allowedOrigins: Array<string>;
+    allowRequestsWithoutOrigin: boolean;
+    brokerEnvFilter: RecordBrokerNameEnumBrokerEnvFilterType;
+    cognitoClientIds: Array<string>;
+    name: string;
+    oAuthReturnToRegularExpressions: Array<string>;
+    oAuthReturnToUrls: Array<string>;
+}
+
+// @public (undocumented)
+function ClientsResponseInnerConfigFromJSON(json: any): ClientsResponseInnerConfig;
+
+// @public (undocumented)
+function ClientsResponseInnerConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfig;
+
+// @public (undocumented)
+function ClientsResponseInnerConfigToJSON(value?: ClientsResponseInnerConfig | null): any;
+
+// @public (undocumented)
+function ClientsResponseInnerConfigToJSONRecursive(value?: ClientsResponseInnerConfig | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function ClientsResponseInnerFromJSON(json: any): ClientsResponseInner;
+
+// @public (undocumented)
+function ClientsResponseInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInner;
+
+// @public (undocumented)
+function ClientsResponseInnerToJSON(value?: ClientsResponseInner | null): any;
+
+// @public (undocumented)
+function ClientsResponseInnerToJSONRecursive(value?: ClientsResponseInner | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 export type CognitoConfig = {
     UserPoolId: string;
@@ -1015,6 +1170,24 @@ interface CreateChangeOrderChallengeRequest {
     // (undocumented)
     id: string;
 }
+
+// @public
+interface CreateClient200Response {
+    id: string;
+    name: string;
+}
+
+// @public (undocumented)
+function CreateClient200ResponseFromJSON(json: any): CreateClient200Response;
+
+// @public (undocumented)
+function CreateClient200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateClient200Response;
+
+// @public (undocumented)
+function CreateClient200ResponseToJSON(value?: CreateClient200Response | null): any;
+
+// @public (undocumented)
+function CreateClient200ResponseToJSONRecursive(value?: CreateClient200Response | null, ignoreParent?: boolean): any;
 
 // @public
 interface CreatedResponseBody {
@@ -2230,6 +2403,16 @@ interface GetDecoupledOperationStatusRequest {
 }
 
 // @public (undocumented)
+interface GetOrderReportRequest {
+    // (undocumented)
+    clientIds?: string;
+    // (undocumented)
+    from: string;
+    // (undocumented)
+    to: string;
+}
+
+// @public (undocumented)
 interface GetOrderRequest {
     // (undocumented)
     id: string;
@@ -2651,6 +2834,11 @@ type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original
 
 declare namespace Models {
     export {
+        AddOriginRequestFromJSON,
+        AddOriginRequestFromJSONTyped,
+        AddOriginRequestToJSONRecursive,
+        AddOriginRequestToJSON,
+        AddOriginRequest,
         AddSessionCompleteChallengeParamsFromJSON,
         AddSessionCompleteChallengeParamsFromJSONTyped,
         AddSessionCompleteChallengeParamsToJSONRecursive,
@@ -2710,6 +2898,10 @@ declare namespace Models {
         AuthMethodTanSpecificsToJSONRecursive,
         AuthMethodTanSpecificsToJSON,
         AuthMethodTanSpecifics,
+        BrokerEnvFilterTypeFromJSON,
+        BrokerEnvFilterTypeFromJSONTyped,
+        BrokerEnvFilterTypeToJSON,
+        BrokerEnvFilterType,
         BrokerEnvironmentFromJSON,
         BrokerEnvironmentFromJSONTyped,
         BrokerEnvironmentToJSONRecursive,
@@ -2790,6 +2982,26 @@ declare namespace Models {
         ChangeOrderParamsToJSONRecursive,
         ChangeOrderParamsToJSON,
         ChangeOrderParams,
+        ClientConfigFromJSON,
+        ClientConfigFromJSONTyped,
+        ClientConfigToJSONRecursive,
+        ClientConfigToJSON,
+        ClientConfig,
+        ClientConfigRateLimitPointsToConsumeFromJSON,
+        ClientConfigRateLimitPointsToConsumeFromJSONTyped,
+        ClientConfigRateLimitPointsToConsumeToJSONRecursive,
+        ClientConfigRateLimitPointsToConsumeToJSON,
+        ClientConfigRateLimitPointsToConsume,
+        ClientsResponseInnerFromJSON,
+        ClientsResponseInnerFromJSONTyped,
+        ClientsResponseInnerToJSONRecursive,
+        ClientsResponseInnerToJSON,
+        ClientsResponseInner,
+        ClientsResponseInnerConfigFromJSON,
+        ClientsResponseInnerConfigFromJSONTyped,
+        ClientsResponseInnerConfigToJSONRecursive,
+        ClientsResponseInnerConfigToJSON,
+        ClientsResponseInnerConfig,
         ConfirmOAuthParamsFromJSON,
         ConfirmOAuthParamsFromJSONTyped,
         ConfirmOAuthParamsToJSONRecursive,
@@ -2805,6 +3017,11 @@ declare namespace Models {
         CostDetailsLinkToJSONRecursive,
         CostDetailsLinkToJSON,
         CostDetailsLink,
+        CreateClient200ResponseFromJSON,
+        CreateClient200ResponseFromJSONTyped,
+        CreateClient200ResponseToJSONRecursive,
+        CreateClient200ResponseToJSON,
+        CreateClient200Response,
         CreateGuestUserResponseFromJSON,
         CreateGuestUserResponseFromJSONTyped,
         CreateGuestUserResponseToJSONRecursive,
@@ -3219,6 +3436,11 @@ declare namespace Models {
         OrderValidityTypeByOrderModelToJSONRecursive,
         OrderValidityTypeByOrderModelToJSON,
         OrderValidityTypeByOrderModel,
+        PartialBrokerEnvFilterFromJSON,
+        PartialBrokerEnvFilterFromJSONTyped,
+        PartialBrokerEnvFilterToJSONRecursive,
+        PartialBrokerEnvFilterToJSON,
+        PartialBrokerEnvFilter,
         PortfolioFromJSON,
         PortfolioFromJSONTyped,
         PortfolioToJSONRecursive,
@@ -3313,6 +3535,11 @@ declare namespace Models {
         QuoteExpirationToJSONRecursive,
         QuoteExpirationToJSON,
         QuoteExpiration,
+        RecordBrokerNameEnumBrokerEnvFilterTypeFromJSON,
+        RecordBrokerNameEnumBrokerEnvFilterTypeFromJSONTyped,
+        RecordBrokerNameEnumBrokerEnvFilterTypeToJSONRecursive,
+        RecordBrokerNameEnumBrokerEnvFilterTypeToJSON,
+        RecordBrokerNameEnumBrokerEnvFilterType,
         RenderGenericTableParamsFromJSON,
         RenderGenericTableParamsFromJSONTyped,
         RenderGenericTableParamsToJSONRecursive,
@@ -3382,6 +3609,11 @@ declare namespace Models {
         SessionSyncInfoSyncedSpecificsToJSONRecursive,
         SessionSyncInfoSyncedSpecificsToJSON,
         SessionSyncInfoSyncedSpecifics,
+        SetClientConfigRequestFromJSON,
+        SetClientConfigRequestFromJSONTyped,
+        SetClientConfigRequestToJSONRecursive,
+        SetClientConfigRequestToJSON,
+        SetClientConfigRequest,
         StringMapByOrderModelFromJSON,
         StringMapByOrderModelFromJSONTyped,
         StringMapByOrderModelToJSONRecursive,
@@ -3740,6 +3972,29 @@ function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 
 // @public (undocumented)
 function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
+
+// @public
+interface PartialBrokerEnvFilter {
+    comdirect?: BrokerEnvFilterType;
+    consors?: BrokerEnvFilterType;
+    demo?: BrokerEnvFilterType;
+    finanzen?: BrokerEnvFilterType;
+    flatex?: BrokerEnvFilterType;
+    justtrade?: BrokerEnvFilterType;
+    vitrade?: BrokerEnvFilterType;
+}
+
+// @public (undocumented)
+function PartialBrokerEnvFilterFromJSON(json: any): PartialBrokerEnvFilter;
+
+// @public (undocumented)
+function PartialBrokerEnvFilterFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialBrokerEnvFilter;
+
+// @public (undocumented)
+function PartialBrokerEnvFilterToJSON(value?: PartialBrokerEnvFilter | null): any;
+
+// @public (undocumented)
+function PartialBrokerEnvFilterToJSONRecursive(value?: PartialBrokerEnvFilter | null, ignoreParent?: boolean): any;
 
 // @public
 interface Portfolio {
@@ -4134,6 +4389,29 @@ function QuoteExpirationToJSON(value?: QuoteExpiration | null): any;
 function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent?: boolean): any;
 
 // @public
+interface RecordBrokerNameEnumBrokerEnvFilterType {
+    comdirect?: BrokerEnvFilterType;
+    consors?: BrokerEnvFilterType;
+    demo?: BrokerEnvFilterType;
+    finanzen?: BrokerEnvFilterType;
+    flatex?: BrokerEnvFilterType;
+    justtrade?: BrokerEnvFilterType;
+    vitrade?: BrokerEnvFilterType;
+}
+
+// @public (undocumented)
+function RecordBrokerNameEnumBrokerEnvFilterTypeFromJSON(json: any): RecordBrokerNameEnumBrokerEnvFilterType;
+
+// @public (undocumented)
+function RecordBrokerNameEnumBrokerEnvFilterTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): RecordBrokerNameEnumBrokerEnvFilterType;
+
+// @public (undocumented)
+function RecordBrokerNameEnumBrokerEnvFilterTypeToJSON(value?: RecordBrokerNameEnumBrokerEnvFilterType | null): any;
+
+// @public (undocumented)
+function RecordBrokerNameEnumBrokerEnvFilterTypeToJSONRecursive(value?: RecordBrokerNameEnumBrokerEnvFilterType | null, ignoreParent?: boolean): any;
+
+// @public
 interface RenderGenericTableParams {
     table: GenericTable;
 }
@@ -4450,6 +4728,31 @@ function SessionToJSON(value?: Session | null): any;
 
 // @public (undocumented)
 function SessionToJSONRecursive(value?: Session | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface SetClientConfigOperationRequest {
+    // (undocumented)
+    clientId: string;
+    // (undocumented)
+    setClientConfigRequest: SetClientConfigRequest;
+}
+
+// @public
+interface SetClientConfigRequest {
+    config: ClientConfig;
+}
+
+// @public (undocumented)
+function SetClientConfigRequestFromJSON(json: any): SetClientConfigRequest;
+
+// @public (undocumented)
+function SetClientConfigRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): SetClientConfigRequest;
+
+// @public (undocumented)
+function SetClientConfigRequestToJSON(value?: SetClientConfigRequest | null): any;
+
+// @public (undocumented)
+function SetClientConfigRequestToJSONRecursive(value?: SetClientConfigRequest | null, ignoreParent?: boolean): any;
 
 // @public
 interface StringMapByOrderModel {

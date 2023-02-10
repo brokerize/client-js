@@ -42,6 +42,7 @@ export class AuthorizedApiContext {
   private _wsClient: BrokerizeWebSocketClientImpl;
   private _cache: { getBrokers?: Promise<openApiClient.GetBrokersResponse> };
   private _exportApi: openApiClient.ExportApi;
+  private _adminApi: openApiClient.AdminApi;
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
@@ -89,6 +90,9 @@ export class AuthorizedApiContext {
       apiConfig
     ).withPostMiddleware(postMiddleware);
     this._exportApi = new openApiClient.ExportApi(apiConfig).withPostMiddleware(
+      postMiddleware
+    );
+    this._adminApi = new openApiClient.AdminApi(apiConfig).withPostMiddleware(
       postMiddleware
     );
     this._abortController = cfg.createAbortController();
@@ -354,6 +358,45 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
 
+    return response.raw.blob();
+  }
+  async getMyClients() {
+    return this._adminApi.getMyClients(await this._initRequestInit());
+  }
+  async createClient() {
+    return this._adminApi.createClient(await this._initRequestInit());
+  }
+  async addClientOrigin(clientId: string, origin: string) {
+    return this._adminApi.addOrigin(
+      {
+        clientId,
+        addOriginRequest: {
+          origin,
+        },
+      },
+      await this._initRequestInit()
+    );
+  }
+  async setClientConfig(clientId: string, config: openApiClient.ClientConfig) {
+    return this._adminApi.setClientConfig(
+      {
+        clientId,
+        setClientConfigRequest: {
+          config,
+        },
+      },
+      await this._initRequestInit()
+    );
+  }
+  async getOrderReport(fromDate: string, toDate: string, clientIds: string[]) {
+    const response = await this._adminApi.getOrderReportRaw(
+      {
+        from: fromDate,
+        to: toDate,
+        clientIds: clientIds?.length ? clientIds.join(",") : undefined,
+      },
+      await this._initRequestInit()
+    );
     return response.raw.blob();
   }
   private _initInternalWebSocketClient() {
