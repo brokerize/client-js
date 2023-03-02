@@ -14,109 +14,48 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    BrokerEnvironment,
-    BrokerEnvironmentFromJSON,
-    BrokerEnvironmentFromJSONTyped,
-    BrokerEnvironmentToJSON,
-} from './BrokerEnvironment';
-import {
-    BrokerLoginForm,
-    BrokerLoginFormFromJSON,
-    BrokerLoginFormFromJSONTyped,
-    BrokerLoginFormToJSON,
-} from './BrokerLoginForm';
-import {
-    BrokerMetaFeatures,
-    BrokerMetaFeaturesFromJSON,
-    BrokerMetaFeaturesFromJSONTyped,
-    BrokerMetaFeaturesToJSON,
-} from './BrokerMetaFeatures';
-import {
-    BrokerMetaImages,
-    BrokerMetaImagesFromJSON,
-    BrokerMetaImagesFromJSONTyped,
-    BrokerMetaImagesToJSON,
-} from './BrokerMetaImages';
+    MaintenanceStatus,
+    MaintenanceStatusFromJSON,
+    MaintenanceStatusFromJSONTyped,
+    MaintenanceStatusToJSON,
+} from './MaintenanceStatus';
 
 /**
  * 
  * @export
- * @interface BrokerMeta
+ * @interface ClientsResponseInnerConfigMaintenanceStatus
  */
-export interface BrokerMeta {
+export interface ClientsResponseInnerConfigMaintenanceStatus {
     /**
      * 
-     * @type {BrokerMetaFeatures}
-     * @memberof BrokerMeta
+     * @type {Date}
+     * @memberof ClientsResponseInnerConfigMaintenanceStatus
      */
-    features: BrokerMetaFeatures;
-    /**
-     * 
-     * @type {BrokerMetaImages}
-     * @memberof BrokerMeta
-     */
-    images: BrokerMetaImages;
+    expectedEnd?: Date;
     /**
      * 
      * @type {string}
-     * @memberof BrokerMeta
+     * @memberof ClientsResponseInnerConfigMaintenanceStatus
      */
-    displayName: string;
-    /**
-     * If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.
-     * @type {boolean}
-     * @memberof BrokerMeta
-     */
-    supportsOAuthLogin?: boolean;
-    /**
-     * 
-     * @type {BrokerLoginForm}
-     * @memberof BrokerMeta
-     */
-    loginForm?: BrokerLoginForm;
-    /**
-     * If the user may choose the environment, it should usually be displayed as a select box in UIs.
-     * The field's label explains what the meaning of environment is in the broker's context.
-     * @type {string}
-     * @memberof BrokerMeta
-     */
-    envLabel: string;
-    /**
-     * 
-     * @type {Array<BrokerEnvironment>}
-     * @memberof BrokerMeta
-     */
-    envs: Array<BrokerEnvironment>;
-    /**
-     * 
-     * @type {string}
-     * @memberof BrokerMeta
-     */
-    brokerName: string;
+    msg: string;
 }
 
-export function BrokerMetaFromJSON(json: any): BrokerMeta {
-    return BrokerMetaFromJSONTyped(json, false);
+export function ClientsResponseInnerConfigMaintenanceStatusFromJSON(json: any): ClientsResponseInnerConfigMaintenanceStatus {
+    return ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped(json, false);
 }
 
-export function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerMeta {
+export function ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfigMaintenanceStatus {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'features': BrokerMetaFeaturesFromJSON(json['features']),
-        'images': BrokerMetaImagesFromJSON(json['images']),
-        'displayName': json['displayName'],
-        'supportsOAuthLogin': !exists(json, 'supportsOAuthLogin') ? undefined : json['supportsOAuthLogin'],
-        'loginForm': !exists(json, 'loginForm') ? undefined : BrokerLoginFormFromJSON(json['loginForm']),
-        'envLabel': json['envLabel'],
-        'envs': ((json['envs'] as Array<any>).map(BrokerEnvironmentFromJSON)),
-        'brokerName': json['brokerName'],
+        'expectedEnd': !exists(json, 'expectedEnd') ? undefined : (new Date(json['expectedEnd'])),
+        'msg': json['msg'],
     };
 }
 
-export function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParent = false): any {
+export function ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive(value?: ClientsResponseInnerConfigMaintenanceStatus | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -128,17 +67,11 @@ export function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParen
         
 
 
-        'features': BrokerMetaFeaturesToJSON(value.features),
-        'images': BrokerMetaImagesToJSON(value.images),
-        'displayName': value.displayName,
-        'supportsOAuthLogin': value.supportsOAuthLogin,
-        'loginForm': BrokerLoginFormToJSON(value.loginForm),
-        'envLabel': value.envLabel,
-        'envs': ((value.envs as Array<any>).map(BrokerEnvironmentToJSON)),
-        'brokerName': value.brokerName,
+        'expectedEnd': value.expectedEnd === undefined ? undefined : (value.expectedEnd.toISOString()),
+        'msg': value.msg,
     };
 }
 
-export function BrokerMetaToJSON(value?: BrokerMeta | null): any {
-    return BrokerMetaToJSONRecursive(value, false);
+export function ClientsResponseInnerConfigMaintenanceStatusToJSON(value?: ClientsResponseInnerConfigMaintenanceStatus | null): any {
+    return ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive(value, false);
 }

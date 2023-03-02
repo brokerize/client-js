@@ -45,11 +45,37 @@
             "BrokerEnvFilter": {
                 "$ref": "#/components/schemas/Record_BrokerNameEnum.BrokerEnvFilterType_"
             },
+            "MaintenanceStatus": {
+                "properties": {
+                    "expectedEnd": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "msg": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "msg"
+                ],
+                "type": "object"
+            },
             "ClientsResponse": {
                 "items": {
                     "properties": {
                         "config": {
                             "properties": {
+                                "maintenanceStatus": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/MaintenanceStatus"
+                                        }
+                                    ],
+                                    "nullable": true
+                                },
+                                "enabled": {
+                                    "type": "boolean"
+                                },
                                 "oAuthReturnToRegularExpressions": {
                                     "items": {
                                         "type": "string"
@@ -80,17 +106,23 @@
                                     },
                                     "type": "array"
                                 },
+                                "legalEntityName": {
+                                    "type": "string"
+                                },
                                 "name": {
                                     "type": "string"
                                 }
                             },
                             "required": [
+                                "maintenanceStatus",
+                                "enabled",
                                 "oAuthReturnToRegularExpressions",
                                 "oAuthReturnToUrls",
                                 "cognitoClientIds",
                                 "brokerEnvFilter",
                                 "allowRequestsWithoutOrigin",
                                 "allowedOrigins",
+                                "legalEntityName",
                                 "name"
                             ],
                             "type": "object"
@@ -122,21 +154,6 @@
                 "required": [
                     "text",
                     "id"
-                ],
-                "type": "object"
-            },
-            "MaintenanceStatus": {
-                "properties": {
-                    "expectedEnd": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "msg": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "msg"
                 ],
                 "type": "object"
             },
@@ -225,6 +242,17 @@
             },
             "ClientConfig": {
                 "properties": {
+                    "maintenanceStatus": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MaintenanceStatus"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
                     "oAuthReturnToRegularExpressions": {
                         "items": {
                             "type": "string"
@@ -277,13 +305,13 @@
                         },
                         "type": "array"
                     },
+                    "legalEntityName": {
+                        "type": "string"
+                    },
                     "name": {
                         "type": "string"
                     }
                 },
-                "required": [
-                    "name"
-                ],
                 "type": "object"
             },
             "BrokerEnvironment": {
@@ -342,6 +370,19 @@
             },
             "BrokerMeta": {
                 "properties": {
+                    "features": {
+                        "properties": {
+                            "positionProfitLossRelPrevClose": {
+                                "type": "boolean",
+                                "description": "If set and `true`, `Position.profitLossRelPrevClose` is generally available for positions of this broker."
+                            },
+                            "positionProfitLossAbsPrevClose": {
+                                "type": "boolean",
+                                "description": "If set and `true`, `Position.profitLossAbsPrevClose` is generally available for positions of this broker."
+                            }
+                        },
+                        "type": "object"
+                    },
                     "images": {
                         "properties": {
                             "light": {
@@ -382,6 +423,7 @@
                     }
                 },
                 "required": [
+                    "features",
                     "images",
                     "displayName",
                     "envLabel",
@@ -1922,6 +1964,7 @@
                     }
                 },
                 "required": [
+                    "authMethods",
                     "sessionTanCanBeEnded"
                 ],
                 "type": "object"
@@ -3080,6 +3123,10 @@
             },
             "AuthMethodTanSpecifics": {
                 "properties": {
+                    "hideOnPhones": {
+                        "type": "boolean",
+                        "description": "If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to\nbe scanned with a phone)."
+                    },
                     "tanFieldLabel": {
                         "type": "string"
                     },
@@ -3096,6 +3143,10 @@
             },
             "AuthMethodDecoupledSpecifics": {
                 "properties": {
+                    "hideOnPhones": {
+                        "type": "boolean",
+                        "description": "If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to\nbe scanned with a phone)."
+                    },
                     "isDefaultMethod": {
                         "type": "boolean"
                     },
@@ -3109,6 +3160,10 @@
             },
             "AuthMethodChallengeResponseSpecifics": {
                 "properties": {
+                    "hideOnPhones": {
+                        "type": "boolean",
+                        "description": "If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to\nbe scanned with a phone)."
+                    },
                     "tanFieldLabel": {
                         "type": "string"
                     },
@@ -3350,6 +3405,94 @@
                 "parameters": []
             }
         },
+        "/admin/client/{clientId}": {
+            "delete": {
+                "operationId": "DeleteClient",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "AUTH",
+                                            "msg": "Authentication is not present or invalid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Rate-limit exceeded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "RATE_LIMITED",
+                                            "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Show all clients that the current user may administrate.",
+                "tags": [
+                    "admin"
+                ],
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "clientId": []
+                    },
+                    {
+                        "idToken": [],
+                        "clientId": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "clientId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
         "/admin/clients/{clientId}/config": {
             "post": {
                 "operationId": "SetClientConfig",
@@ -3499,6 +3642,320 @@
                                 },
                                 "required": [
                                     "origin"
+                                ],
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "RemoveOrigin",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "AUTH",
+                                            "msg": "Authentication is not present or invalid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Rate-limit exceeded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "RATE_LIMITED",
+                                            "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Remove an origin from the client config.",
+                "tags": [
+                    "admin"
+                ],
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "clientId": []
+                    },
+                    {
+                        "idToken": [],
+                        "clientId": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "clientId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "origin": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "origin"
+                                ],
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/clients/{clientId}/oauthReturnTo": {
+            "post": {
+                "operationId": "AddOAuthReturnToUrl",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "AUTH",
+                                            "msg": "Authentication is not present or invalid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Rate-limit exceeded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "RATE_LIMITED",
+                                            "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Add an OAuth return to URL to the client config.",
+                "tags": [
+                    "admin"
+                ],
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "clientId": []
+                    },
+                    {
+                        "idToken": [],
+                        "clientId": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "clientId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "url": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "url"
+                                ],
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "RemoveOAuthReturnToUrl",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "AUTH",
+                                            "msg": "Authentication is not present or invalid"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Rate-limit exceeded",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "RATE_LIMITED",
+                                            "msg": "Rate limit exceeded."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Maintenance active",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "code": "MAINTENANCE",
+                                            "msg": "API is in maintenance mode. Please try again after 11:30."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Remove an OAuth return to URL from the client config.",
+                "tags": [
+                    "admin"
+                ],
+                "security": [
+                    {
+                        "cookieAuth": [],
+                        "clientId": []
+                    },
+                    {
+                        "idToken": [],
+                        "clientId": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "clientId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "url": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "url"
                                 ],
                                 "type": "object"
                             }
@@ -3782,7 +4239,8 @@
                                                             "type": "string"
                                                         }
                                                     },
-                                                    "supportsOAuthLogin": true
+                                                    "supportsOAuthLogin": true,
+                                                    "features": {}
                                                 }
                                             ]
                                         }
@@ -3939,7 +4397,7 @@
                         }
                     }
                 },
-                "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge with type text will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- with the password `7`, a challenge with type base64png will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy or stop loss order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN DE000MD96WE8 (a knock out with DAX as underlying)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes do *NOT* have an expiration\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - quote, limit and market orders (both buy and sell) are supported on on exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set (`legalMessagesToConfirmByOrderModel`)\n- ISIN US64110L1061 (Netflix Inc.)\n  - one exchange with only quote order\n  - creating the quote order will return an error (quote expired)\n - ISIN US67066G1040 (NVIDIA)\n   - one exchange with only quote order, allowsQuoteModeLimit=true\n   - quote orders are executed immediately.\n     - if a quoteLimit is provided, execution happen at quoteLimit value\n     - otherwise, a random execution quote will be used\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- ISIN DE000PAH0038 (Porsche)\n  - one exchange with only market order\n  - all orders will be canceled\n  - `GetCostEstimation` contains (only) a link to a PDF document. This can be used to test whether linking to a PDF works.\n  - the instrument has both a `riskClassInfo.legalHint` as well as a `strikingHint`. Both should be visible in the order form.\n- ISIN DE0008404005 (Allianz)\n  - one exchange with all available orderModels\n  - orders are executed immediately\n- ISIN FR0000120321 (L'Oréal)\n  - one exchange with all available orderModels\n  - orders stay open\n  - changesHaveCostEstimations is `true` for orders with this ISIN\n- ISIN US5949181045 (Microsoft)\n  - one exchange with all available orderModels\n  - if size is even, a partial execution with size 1 is executed, the remaining part stays open\n  - if size is odd, a partial execution with size 1 is executed, the remaining part is canceled\n- ISIN US2546871060 (Disney)\n  - one exchange with all available orderModels\n  - all orders are canceled after 3s\n  - `costEstimationMustBeShown` is false and `costEstimationIsOnlyDetailedTable` is true (frontends must only show a link to the cost estimation table)\n- ISIN XX1234567890 (example of an ISIN that can never be mapped by frontends)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007472060 (Wirecard)\n  - test instrument for `empty orderModelsBuy` / `onlySellAllowed`\n\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.\n\nBehavior of `PortfolioQuotes` in the demo broker:\n- portfolios start with 100.000€ cash\n- each open buy order reserves 10€ cash from the availableCash\n- profit loss of the portfolio is the sum of the position's profit loss",
+                "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge with type text will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- with the password `7`, a challenge with type base64png will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy or stop loss order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN DE000MD96WE8 (a knock out with DAX as underlying)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes do *NOT* have an expiration\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - quote, limit and market orders (both buy and sell) are supported on on exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set (`legalMessagesToConfirmByOrderModel`)\n- ISIN US64110L1061 (Netflix Inc.)\n  - one exchange with only quote order\n  - creating the quote order will return an error (quote expired)\n - ISIN US67066G1040 (NVIDIA)\n   - one exchange with only quote order, allowsQuoteModeLimit=true\n   - quote orders are executed immediately.\n     - if a quoteLimit is provided, execution happen at quoteLimit value\n     - otherwise, a random execution quote will be used\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- ISIN DE000PAH0038 (Porsche)\n  - one exchange with only market order\n  - all orders will be canceled\n  - `GetCostEstimation` contains (only) a link to a PDF document. This can be used to test whether linking to a PDF works.\n  - the instrument has both a `riskClassInfo.legalHint` as well as a `strikingHint`. Both should be visible in the order form.\n- ISIN DE0008404005 (Allianz)\n  - one exchange with all available orderModels\n  - orders are executed immediately\n- ISIN FR0000120321 (L'Oréal)\n  - one exchange with all available orderModels\n  - orders stay open\n  - changesHaveCostEstimations is `true` for orders with this ISIN\n- ISIN US5949181045 (Microsoft)\n  - one exchange with all available orderModels\n  - if size is even, a partial execution with size 1 is executed, the remaining part stays open\n  - if size is odd, a partial execution with size 1 is executed, the remaining part is canceled\n- ISIN US30303M1027 (Meta)\n  - one exchange with all available orderModels\n  - for each piece of the order size, there will be one execution with size 1 (so e.g. 10 executions for size 10)\n  - sizes > 30 are not accepted\n- ISIN US2546871060 (Disney)\n  - one exchange with all available orderModels\n  - all orders are canceled after 3s\n  - `costEstimationMustBeShown` is false and `costEstimationIsOnlyDetailedTable` is true (frontends must only show a link to the cost estimation table)\n- ISIN XX1234567890 (example of an ISIN that can never be mapped by frontends)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007472060 (Wirecard)\n  - test instrument for `empty orderModelsBuy` / `onlySellAllowed`\n\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.\n\nBehavior of `PortfolioQuotes` in the demo broker:\n- portfolios start with 100.000€ cash\n- each open buy order reserves 10€ cash from the availableCash\n- profit loss of the portfolio is the sum of the position's profit loss",
                 "tags": [
                     "demobroker"
                 ],

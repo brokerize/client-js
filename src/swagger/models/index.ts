@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AddOAuthReturnToUrlRequest';
 export * from './AddOriginRequest';
 export * from './AddSessionCompleteChallengeParams';
 export * from './AddSessionParams';
@@ -18,6 +19,7 @@ export * from './BrokerEnvironment';
 export * from './BrokerLoginForm';
 export * from './BrokerLoginFormField';
 export * from './BrokerMeta';
+export * from './BrokerMetaFeatures';
 export * from './BrokerMetaImages';
 export * from './CancelOrderChallengeParams';
 export * from './CancelOrderChallengeResponse';
@@ -34,6 +36,7 @@ export * from './ClientConfig';
 export * from './ClientConfigRateLimitPointsToConsume';
 export * from './ClientsResponseInner';
 export * from './ClientsResponseInnerConfig';
+export * from './ClientsResponseInnerConfigMaintenanceStatus';
 export * from './ConfirmOAuthParams';
 export * from './ConfirmOAuthResponse';
 export * from './CostDetailsLink';

@@ -20,6 +20,13 @@ import { exists, mapValues } from '../runtime';
  */
 export interface AuthMethodChallengeResponseSpecifics {
     /**
+     * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
+     * be scanned with a phone).
+     * @type {boolean}
+     * @memberof AuthMethodChallengeResponseSpecifics
+     */
+    hideOnPhones?: boolean;
+    /**
      * 
      * @type {string}
      * @memberof AuthMethodChallengeResponseSpecifics
@@ -73,6 +80,7 @@ export function AuthMethodChallengeResponseSpecificsFromJSONTyped(json: any, ign
     }
     return {
         
+        'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'tanFieldLabel': !exists(json, 'tanFieldLabel') ? undefined : json['tanFieldLabel'],
         'challengeResponseIsOnlyConfirmation': !exists(json, 'challengeResponseIsOnlyConfirmation') ? undefined : json['challengeResponseIsOnlyConfirmation'],
         'challengeLabel': !exists(json, 'challengeLabel') ? undefined : json['challengeLabel'],
@@ -95,6 +103,7 @@ export function AuthMethodChallengeResponseSpecificsToJSONRecursive(value?: Auth
         
 
 
+        'hideOnPhones': value.hideOnPhones,
         'tanFieldLabel': value.tanFieldLabel,
         'challengeResponseIsOnlyConfirmation': value.challengeResponseIsOnlyConfirmation,
         'challengeLabel': value.challengeLabel,

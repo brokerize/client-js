@@ -13,110 +13,42 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    BrokerEnvironment,
-    BrokerEnvironmentFromJSON,
-    BrokerEnvironmentFromJSONTyped,
-    BrokerEnvironmentToJSON,
-} from './BrokerEnvironment';
-import {
-    BrokerLoginForm,
-    BrokerLoginFormFromJSON,
-    BrokerLoginFormFromJSONTyped,
-    BrokerLoginFormToJSON,
-} from './BrokerLoginForm';
-import {
-    BrokerMetaFeatures,
-    BrokerMetaFeaturesFromJSON,
-    BrokerMetaFeaturesFromJSONTyped,
-    BrokerMetaFeaturesToJSON,
-} from './BrokerMetaFeatures';
-import {
-    BrokerMetaImages,
-    BrokerMetaImagesFromJSON,
-    BrokerMetaImagesFromJSONTyped,
-    BrokerMetaImagesToJSON,
-} from './BrokerMetaImages';
-
 /**
  * 
  * @export
- * @interface BrokerMeta
+ * @interface BrokerMetaFeatures
  */
-export interface BrokerMeta {
+export interface BrokerMetaFeatures {
     /**
-     * 
-     * @type {BrokerMetaFeatures}
-     * @memberof BrokerMeta
-     */
-    features: BrokerMetaFeatures;
-    /**
-     * 
-     * @type {BrokerMetaImages}
-     * @memberof BrokerMeta
-     */
-    images: BrokerMetaImages;
-    /**
-     * 
-     * @type {string}
-     * @memberof BrokerMeta
-     */
-    displayName: string;
-    /**
-     * If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.
+     * If set and `true`, `Position.profitLossRelPrevClose` is generally available for positions of this broker.
      * @type {boolean}
-     * @memberof BrokerMeta
+     * @memberof BrokerMetaFeatures
      */
-    supportsOAuthLogin?: boolean;
+    positionProfitLossRelPrevClose?: boolean;
     /**
-     * 
-     * @type {BrokerLoginForm}
-     * @memberof BrokerMeta
+     * If set and `true`, `Position.profitLossAbsPrevClose` is generally available for positions of this broker.
+     * @type {boolean}
+     * @memberof BrokerMetaFeatures
      */
-    loginForm?: BrokerLoginForm;
-    /**
-     * If the user may choose the environment, it should usually be displayed as a select box in UIs.
-     * The field's label explains what the meaning of environment is in the broker's context.
-     * @type {string}
-     * @memberof BrokerMeta
-     */
-    envLabel: string;
-    /**
-     * 
-     * @type {Array<BrokerEnvironment>}
-     * @memberof BrokerMeta
-     */
-    envs: Array<BrokerEnvironment>;
-    /**
-     * 
-     * @type {string}
-     * @memberof BrokerMeta
-     */
-    brokerName: string;
+    positionProfitLossAbsPrevClose?: boolean;
 }
 
-export function BrokerMetaFromJSON(json: any): BrokerMeta {
-    return BrokerMetaFromJSONTyped(json, false);
+export function BrokerMetaFeaturesFromJSON(json: any): BrokerMetaFeatures {
+    return BrokerMetaFeaturesFromJSONTyped(json, false);
 }
 
-export function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerMeta {
+export function BrokerMetaFeaturesFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerMetaFeatures {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'features': BrokerMetaFeaturesFromJSON(json['features']),
-        'images': BrokerMetaImagesFromJSON(json['images']),
-        'displayName': json['displayName'],
-        'supportsOAuthLogin': !exists(json, 'supportsOAuthLogin') ? undefined : json['supportsOAuthLogin'],
-        'loginForm': !exists(json, 'loginForm') ? undefined : BrokerLoginFormFromJSON(json['loginForm']),
-        'envLabel': json['envLabel'],
-        'envs': ((json['envs'] as Array<any>).map(BrokerEnvironmentFromJSON)),
-        'brokerName': json['brokerName'],
+        'positionProfitLossRelPrevClose': !exists(json, 'positionProfitLossRelPrevClose') ? undefined : json['positionProfitLossRelPrevClose'],
+        'positionProfitLossAbsPrevClose': !exists(json, 'positionProfitLossAbsPrevClose') ? undefined : json['positionProfitLossAbsPrevClose'],
     };
 }
 
-export function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParent = false): any {
+export function BrokerMetaFeaturesToJSONRecursive(value?: BrokerMetaFeatures | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -128,17 +60,11 @@ export function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParen
         
 
 
-        'features': BrokerMetaFeaturesToJSON(value.features),
-        'images': BrokerMetaImagesToJSON(value.images),
-        'displayName': value.displayName,
-        'supportsOAuthLogin': value.supportsOAuthLogin,
-        'loginForm': BrokerLoginFormToJSON(value.loginForm),
-        'envLabel': value.envLabel,
-        'envs': ((value.envs as Array<any>).map(BrokerEnvironmentToJSON)),
-        'brokerName': value.brokerName,
+        'positionProfitLossRelPrevClose': value.positionProfitLossRelPrevClose,
+        'positionProfitLossAbsPrevClose': value.positionProfitLossAbsPrevClose,
     };
 }
 
-export function BrokerMetaToJSON(value?: BrokerMeta | null): any {
-    return BrokerMetaToJSONRecursive(value, false);
+export function BrokerMetaFeaturesToJSON(value?: BrokerMetaFeatures | null): any {
+    return BrokerMetaFeaturesToJSONRecursive(value, false);
 }

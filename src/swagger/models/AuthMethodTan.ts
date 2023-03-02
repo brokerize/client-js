@@ -41,6 +41,13 @@ import {
  */
 export interface AuthMethodTan extends AuthMethod {
     /**
+     * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
+     * be scanned with a phone).
+     * @type {boolean}
+     * @memberof AuthMethodTan
+     */
+    hideOnPhones?: boolean;
+    /**
      * 
      * @type {string}
      * @memberof AuthMethodTan
@@ -76,6 +83,7 @@ export function AuthMethodTanFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         ...AuthMethodFromJSONTyped(json, ignoreDiscriminator),
+        'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'tanFieldLabel': json['tanFieldLabel'],
         'isDefaultMethod': !exists(json, 'isDefaultMethod') ? undefined : json['isDefaultMethod'],
         'label': json['label'],
@@ -95,6 +103,7 @@ export function AuthMethodTanToJSONRecursive(value?: AuthMethodTan | null, ignor
         ...ignoreParent ? {} : AuthMethodToJSON(value),
 
 
+        'hideOnPhones': value.hideOnPhones,
         'tanFieldLabel': value.tanFieldLabel,
         'isDefaultMethod': value.isDefaultMethod,
         'label': value.label,

@@ -20,6 +20,12 @@ import {
     ClientConfigRateLimitPointsToConsumeToJSON,
 } from './ClientConfigRateLimitPointsToConsume';
 import {
+    ClientsResponseInnerConfigMaintenanceStatus,
+    ClientsResponseInnerConfigMaintenanceStatusFromJSON,
+    ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped,
+    ClientsResponseInnerConfigMaintenanceStatusToJSON,
+} from './ClientsResponseInnerConfigMaintenanceStatus';
+import {
     PartialBrokerEnvFilter,
     PartialBrokerEnvFilterFromJSON,
     PartialBrokerEnvFilterFromJSONTyped,
@@ -32,6 +38,18 @@ import {
  * @interface ClientConfig
  */
 export interface ClientConfig {
+    /**
+     * 
+     * @type {ClientsResponseInnerConfigMaintenanceStatus}
+     * @memberof ClientConfig
+     */
+    maintenanceStatus?: ClientsResponseInnerConfigMaintenanceStatus | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ClientConfig
+     */
+    enabled?: boolean;
     /**
      * 
      * @type {Array<string>}
@@ -91,7 +109,13 @@ export interface ClientConfig {
      * @type {string}
      * @memberof ClientConfig
      */
-    name: string;
+    legalEntityName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientConfig
+     */
+    name?: string;
 }
 
 export function ClientConfigFromJSON(json: any): ClientConfig {
@@ -104,6 +128,8 @@ export function ClientConfigFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
+        'maintenanceStatus': !exists(json, 'maintenanceStatus') ? undefined : ClientsResponseInnerConfigMaintenanceStatusFromJSON(json['maintenanceStatus']),
+        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'oAuthReturnToRegularExpressions': !exists(json, 'oAuthReturnToRegularExpressions') ? undefined : json['oAuthReturnToRegularExpressions'],
         'managingUserIds': !exists(json, 'managingUserIds') ? undefined : json['managingUserIds'],
         'brokerEnvFilter': !exists(json, 'brokerEnvFilter') ? undefined : PartialBrokerEnvFilterFromJSON(json['brokerEnvFilter']),
@@ -113,7 +139,8 @@ export function ClientConfigFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'allowRequestsWithoutOrigin': !exists(json, 'allowRequestsWithoutOrigin') ? undefined : json['allowRequestsWithoutOrigin'],
         'allowedOrigins': !exists(json, 'allowedOrigins') ? undefined : json['allowedOrigins'],
         'cognitoClientIds': !exists(json, 'cognitoClientIds') ? undefined : json['cognitoClientIds'],
-        'name': json['name'],
+        'legalEntityName': !exists(json, 'legalEntityName') ? undefined : json['legalEntityName'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
     };
 }
 
@@ -129,6 +156,8 @@ export function ClientConfigToJSONRecursive(value?: ClientConfig | null, ignoreP
         
 
 
+        'maintenanceStatus': ClientsResponseInnerConfigMaintenanceStatusToJSON(value.maintenanceStatus),
+        'enabled': value.enabled,
         'oAuthReturnToRegularExpressions': value.oAuthReturnToRegularExpressions,
         'managingUserIds': value.managingUserIds,
         'brokerEnvFilter': PartialBrokerEnvFilterToJSON(value.brokerEnvFilter),
@@ -138,6 +167,7 @@ export function ClientConfigToJSONRecursive(value?: ClientConfig | null, ignoreP
         'allowRequestsWithoutOrigin': value.allowRequestsWithoutOrigin,
         'allowedOrigins': value.allowedOrigins,
         'cognitoClientIds': value.cognitoClientIds,
+        'legalEntityName': value.legalEntityName,
         'name': value.name,
     };
 }

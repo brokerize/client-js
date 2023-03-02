@@ -7,6 +7,31 @@
 import * as Cognito from 'amazon-cognito-identity-js/dist/amazon-cognito-identity.js';
 
 // @public (undocumented)
+interface AddOAuthReturnToUrlOperationRequest {
+    // (undocumented)
+    addOAuthReturnToUrlRequest: AddOAuthReturnToUrlRequest;
+    // (undocumented)
+    clientId: string;
+}
+
+// @public
+interface AddOAuthReturnToUrlRequest {
+    url: string;
+}
+
+// @public (undocumented)
+function AddOAuthReturnToUrlRequestFromJSON(json: any): AddOAuthReturnToUrlRequest;
+
+// @public (undocumented)
+function AddOAuthReturnToUrlRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): AddOAuthReturnToUrlRequest;
+
+// @public (undocumented)
+function AddOAuthReturnToUrlRequestToJSON(value?: AddOAuthReturnToUrlRequest | null): any;
+
+// @public (undocumented)
+function AddOAuthReturnToUrlRequestToJSONRecursive(value?: AddOAuthReturnToUrlRequest | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface AddOriginOperationRequest {
     // (undocumented)
     addOriginRequest: AddOriginRequest;
@@ -85,14 +110,22 @@ interface AddSessionRequest {
 //
 // @public (undocumented)
 class AdminApi extends runtime.BaseAPI {
+    addOAuthReturnToUrl(requestParameters: AddOAuthReturnToUrlOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    addOAuthReturnToUrlRaw(requestParameters: AddOAuthReturnToUrlOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     addOrigin(requestParameters: AddOriginOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     addOriginRaw(requestParameters: AddOriginOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     createClient(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateClient200Response>;
     createClientRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateClient200Response>>;
+    deleteClient(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     getMyClients(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<ClientsResponseInner>>;
     getMyClientsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<ClientsResponseInner>>>;
     getOrderReport(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string>;
     getOrderReportRaw(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>>;
+    removeOAuthReturnToUrl(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    removeOAuthReturnToUrlRaw(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    removeOrigin(requestParameters: RemoveOriginRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    removeOriginRaw(requestParameters: RemoveOriginRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     // (undocumented)
     setClientConfig(requestParameters: SetClientConfigOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     // (undocumented)
@@ -139,7 +172,7 @@ export type AuthContextConfiguration = GuestAuthContextConfiguration | Registere
 // @public
 interface AuthInfo {
     allOperationsRequireSessionTan?: boolean;
-    authMethods?: Array<AuthMethod>;
+    authMethods: Array<AuthMethod>;
     sessionTanActive?: boolean;
     sessionTanCanBeEnded: boolean;
     sessionTanSupported?: boolean;
@@ -167,6 +200,7 @@ interface AuthMethodChallengeResponse extends AuthMethod {
     challengeLabel?: string;
     challengeResponseIsOnlyConfirmation?: boolean;
     getChallengeLabel: string;
+    hideOnPhones?: boolean;
     id: string;
     isDefaultMethod?: boolean;
     label: string;
@@ -184,6 +218,7 @@ interface AuthMethodChallengeResponseSpecifics {
     challengeLabel?: string;
     challengeResponseIsOnlyConfirmation?: boolean;
     getChallengeLabel?: string;
+    hideOnPhones?: boolean;
     id?: string;
     isDefaultMethod?: boolean;
     label?: string;
@@ -210,6 +245,7 @@ function AuthMethodChallengeResponseToJSONRecursive(value?: AuthMethodChallengeR
 
 // @public
 interface AuthMethodDecoupled extends AuthMethod {
+    hideOnPhones?: boolean;
     id: string;
     isDefaultMethod?: boolean;
     label: string;
@@ -223,6 +259,7 @@ function AuthMethodDecoupledFromJSONTyped(json: any, ignoreDiscriminator: boolea
 
 // @public
 interface AuthMethodDecoupledSpecifics {
+    hideOnPhones?: boolean;
     id?: string;
     isDefaultMethod?: boolean;
     label?: string;
@@ -273,6 +310,7 @@ function AuthMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthM
 
 // @public
 interface AuthMethodTan extends AuthMethod {
+    hideOnPhones?: boolean;
     id: string;
     isDefaultMethod?: boolean;
     label: string;
@@ -287,6 +325,7 @@ function AuthMethodTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): Au
 
 // @public
 interface AuthMethodTanSpecifics {
+    hideOnPhones?: boolean;
     id?: string;
     isDefaultMethod?: boolean;
     label?: string;
@@ -323,6 +362,8 @@ export class AuthorizedApiContext {
     // Warning: (ae-forgotten-export) The symbol "BrokerizeWebSocketClientImpl" needs to be exported by the entry point index.d.ts
     constructor(cfg: BrokerizeConfig, auth: Auth, wsClient?: BrokerizeWebSocketClientImpl);
     // (undocumented)
+    addClientOAuthReturnToUrl(clientId: string, url: string): Promise<void>;
+    // (undocumented)
     addClientOrigin(clientId: string, origin: string): Promise<void>;
     // (undocumented)
     addSession(params: AddSessionParams): Promise<openApiClient.LoginResponse>;
@@ -354,6 +395,8 @@ export class AuthorizedApiContext {
     createTradeChallenge(req: CreateTradeChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
     createWebSocketClient(): BrokerizeWebSocketClient;
+    // (undocumented)
+    deleteClient(clientId: string): Promise<void>;
     // (undocumented)
     deleteDemoAccount(del: DeleteDemoAccountRequest): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
@@ -410,6 +453,10 @@ export class AuthorizedApiContext {
     prepareOAuthRedirect(p: PrepareOAuthRedirectParams): Promise<openApiClient.PrepareOAuthRedirectResponse>;
     // (undocumented)
     prepareTrade(req: PrepareTradeRequest): Promise<openApiClient.PrepareTradeResponse>;
+    // (undocumented)
+    removeClientOAuthReturnToUrl(clientId: string, url: string): Promise<void>;
+    // (undocumented)
+    removeClientOrigin(clientId: string, origin: string): Promise<void>;
     // (undocumented)
     renderGenericTablePdf(table: GenericTable): Promise<Blob>;
     // (undocumented)
@@ -617,10 +664,29 @@ interface BrokerMeta {
     displayName: string;
     envLabel: string;
     envs: Array<BrokerEnvironment>;
+    features: BrokerMetaFeatures;
     images: BrokerMetaImages;
     loginForm?: BrokerLoginForm;
     supportsOAuthLogin?: boolean;
 }
+
+// @public
+interface BrokerMetaFeatures {
+    positionProfitLossAbsPrevClose?: boolean;
+    positionProfitLossRelPrevClose?: boolean;
+}
+
+// @public (undocumented)
+function BrokerMetaFeaturesFromJSON(json: any): BrokerMetaFeatures;
+
+// @public (undocumented)
+function BrokerMetaFeaturesFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerMetaFeatures;
+
+// @public (undocumented)
+function BrokerMetaFeaturesToJSON(value?: BrokerMetaFeatures | null): any;
+
+// @public (undocumented)
+function BrokerMetaFeaturesToJSONRecursive(value?: BrokerMetaFeatures | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function BrokerMetaFromJSON(json: any): BrokerMeta;
@@ -921,8 +987,11 @@ interface ClientConfig {
     brokerEnvFilter?: PartialBrokerEnvFilter;
     clientSecrets?: Array<string>;
     cognitoClientIds?: Array<string>;
+    enabled?: boolean;
+    legalEntityName?: string;
+    maintenanceStatus?: ClientsResponseInnerConfigMaintenanceStatus | null;
     managingUserIds?: Array<number>;
-    name: string;
+    name?: string;
     oAuthReturnToRegularExpressions?: Array<string>;
     oAuthReturnToUrls?: Array<string>;
     rateLimitPointsToConsume?: ClientConfigRateLimitPointsToConsume;
@@ -969,6 +1038,9 @@ interface ClientsResponseInnerConfig {
     allowRequestsWithoutOrigin: boolean;
     brokerEnvFilter: RecordBrokerNameEnumBrokerEnvFilterType;
     cognitoClientIds: Array<string>;
+    enabled: boolean;
+    legalEntityName: string;
+    maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatus | null;
     name: string;
     oAuthReturnToRegularExpressions: Array<string>;
     oAuthReturnToUrls: Array<string>;
@@ -979,6 +1051,24 @@ function ClientsResponseInnerConfigFromJSON(json: any): ClientsResponseInnerConf
 
 // @public (undocumented)
 function ClientsResponseInnerConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfig;
+
+// @public
+interface ClientsResponseInnerConfigMaintenanceStatus {
+    expectedEnd?: Date;
+    msg: string;
+}
+
+// @public (undocumented)
+function ClientsResponseInnerConfigMaintenanceStatusFromJSON(json: any): ClientsResponseInnerConfigMaintenanceStatus;
+
+// @public (undocumented)
+function ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfigMaintenanceStatus;
+
+// @public (undocumented)
+function ClientsResponseInnerConfigMaintenanceStatusToJSON(value?: ClientsResponseInnerConfigMaintenanceStatus | null): any;
+
+// @public (undocumented)
+function ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive(value?: ClientsResponseInnerConfigMaintenanceStatus | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function ClientsResponseInnerConfigToJSON(value?: ClientsResponseInnerConfig | null): any;
@@ -1467,6 +1557,12 @@ function DefaultOrderValidityByOrderModelToJSON(value?: DefaultOrderValidityByOr
 
 // @public (undocumented)
 function DefaultOrderValidityByOrderModelToJSONRecursive(value?: DefaultOrderValidityByOrderModel | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface DeleteClientRequest {
+    // (undocumented)
+    clientId: string;
+}
 
 // @public (undocumented)
 interface DeleteDemoAccountRequest {
@@ -2834,6 +2930,11 @@ type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original
 
 declare namespace Models {
     export {
+        AddOAuthReturnToUrlRequestFromJSON,
+        AddOAuthReturnToUrlRequestFromJSONTyped,
+        AddOAuthReturnToUrlRequestToJSONRecursive,
+        AddOAuthReturnToUrlRequestToJSON,
+        AddOAuthReturnToUrlRequest,
         AddOriginRequestFromJSON,
         AddOriginRequestFromJSONTyped,
         AddOriginRequestToJSONRecursive,
@@ -2923,6 +3024,11 @@ declare namespace Models {
         BrokerMetaToJSONRecursive,
         BrokerMetaToJSON,
         BrokerMeta,
+        BrokerMetaFeaturesFromJSON,
+        BrokerMetaFeaturesFromJSONTyped,
+        BrokerMetaFeaturesToJSONRecursive,
+        BrokerMetaFeaturesToJSON,
+        BrokerMetaFeatures,
         BrokerMetaImagesFromJSON,
         BrokerMetaImagesFromJSONTyped,
         BrokerMetaImagesToJSONRecursive,
@@ -3002,6 +3108,11 @@ declare namespace Models {
         ClientsResponseInnerConfigToJSONRecursive,
         ClientsResponseInnerConfigToJSON,
         ClientsResponseInnerConfig,
+        ClientsResponseInnerConfigMaintenanceStatusFromJSON,
+        ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped,
+        ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive,
+        ClientsResponseInnerConfigMaintenanceStatusToJSON,
+        ClientsResponseInnerConfigMaintenanceStatus,
         ConfirmOAuthParamsFromJSON,
         ConfirmOAuthParamsFromJSONTyped,
         ConfirmOAuthParamsToJSONRecursive,
@@ -4410,6 +4521,22 @@ function RecordBrokerNameEnumBrokerEnvFilterTypeToJSON(value?: RecordBrokerNameE
 
 // @public (undocumented)
 function RecordBrokerNameEnumBrokerEnvFilterTypeToJSONRecursive(value?: RecordBrokerNameEnumBrokerEnvFilterType | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface RemoveOAuthReturnToUrlRequest {
+    // (undocumented)
+    addOAuthReturnToUrlRequest: AddOAuthReturnToUrlRequest;
+    // (undocumented)
+    clientId: string;
+}
+
+// @public (undocumented)
+interface RemoveOriginRequest {
+    // (undocumented)
+    addOriginRequest: AddOriginRequest;
+    // (undocumented)
+    clientId: string;
+}
 
 // @public
 interface RenderGenericTableParams {

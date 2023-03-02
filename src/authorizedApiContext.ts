@@ -9,9 +9,7 @@ import {
   CreateTradeRequest,
   DeleteDemoAccountRequest,
   ErrorResponse,
-  EstimateChangeOrderCostsParams,
   GenericTable,
-  GetChangeOrderCostEstimationRequest,
   GetCostEstimationParams,
   GetQuoteRequest,
   OrderChanges,
@@ -366,12 +364,53 @@ export class AuthorizedApiContext {
   async createClient() {
     return this._adminApi.createClient(await this._initRequestInit());
   }
+  async deleteClient(clientId: string) {
+    return this._adminApi.deleteClient(
+      {
+        clientId,
+      },
+      await this._initRequestInit()
+    );
+  }
   async addClientOrigin(clientId: string, origin: string) {
     return this._adminApi.addOrigin(
       {
         clientId,
         addOriginRequest: {
           origin,
+        },
+      },
+      await this._initRequestInit()
+    );
+  }
+  async removeClientOrigin(clientId: string, origin: string) {
+    return this._adminApi.removeOrigin(
+      {
+        clientId,
+        addOriginRequest: {
+          origin,
+        },
+      },
+      await this._initRequestInit()
+    );
+  }
+  async addClientOAuthReturnToUrl(clientId: string, url: string) {
+    return this._adminApi.addOAuthReturnToUrl(
+      {
+        clientId,
+        addOAuthReturnToUrlRequest: {
+          url,
+        },
+      },
+      await this._initRequestInit()
+    );
+  }
+  async removeClientOAuthReturnToUrl(clientId: string, url: string) {
+    return this._adminApi.removeOAuthReturnToUrl(
+      {
+        clientId,
+        addOAuthReturnToUrlRequest: {
+          url,
         },
       },
       await this._initRequestInit()

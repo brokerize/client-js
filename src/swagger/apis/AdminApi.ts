@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    AddOAuthReturnToUrlRequest,
+    AddOAuthReturnToUrlRequestFromJSON,
+    AddOAuthReturnToUrlRequestToJSON,
     AddOriginRequest,
     AddOriginRequestFromJSON,
     AddOriginRequestToJSON,
@@ -32,15 +35,34 @@ import {
     SetClientConfigRequestToJSON,
 } from '../models';
 
+export interface AddOAuthReturnToUrlOperationRequest {
+    clientId: string;
+    addOAuthReturnToUrlRequest: AddOAuthReturnToUrlRequest;
+}
+
 export interface AddOriginOperationRequest {
     clientId: string;
     addOriginRequest: AddOriginRequest;
+}
+
+export interface DeleteClientRequest {
+    clientId: string;
 }
 
 export interface GetOrderReportRequest {
     from: string;
     to: string;
     clientIds?: string;
+}
+
+export interface RemoveOAuthReturnToUrlRequest {
+    clientId: string;
+    addOAuthReturnToUrlRequest: AddOAuthReturnToUrlRequest;
+}
+
+export interface RemoveOriginRequest {
+    clientId: string;
+    addOriginRequest: AddOriginRequest;
 }
 
 export interface SetClientConfigOperationRequest {
@@ -52,6 +74,50 @@ export interface SetClientConfigOperationRequest {
  * 
  */
 export class AdminApi extends runtime.BaseAPI {
+
+    /**
+     * Add an OAuth return to URL to the client config.
+     */
+    async addOAuthReturnToUrlRaw(requestParameters: AddOAuthReturnToUrlOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
+            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling addOAuthReturnToUrl.');
+        }
+
+        if (requestParameters.addOAuthReturnToUrlRequest === null || requestParameters.addOAuthReturnToUrlRequest === undefined) {
+            throw new runtime.RequiredError('addOAuthReturnToUrlRequest','Required parameter requestParameters.addOAuthReturnToUrlRequest was null or undefined when calling addOAuthReturnToUrl.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-brkrz-client-id"] = this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/admin/clients/{clientId}/oauthReturnTo`.replace(`{${"clientId"}}`, encodeURIComponent(String(requestParameters.clientId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddOAuthReturnToUrlRequestToJSON(requestParameters.addOAuthReturnToUrlRequest),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Add an OAuth return to URL to the client config.
+     */
+    async addOAuthReturnToUrl(requestParameters: AddOAuthReturnToUrlOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.addOAuthReturnToUrlRaw(requestParameters, initOverrides);
+    }
 
     /**
      * Add an origin to the client config.
@@ -129,6 +195,43 @@ export class AdminApi extends runtime.BaseAPI {
     async createClient(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateClient200Response> {
         const response = await this.createClientRaw(initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Show all clients that the current user may administrate.
+     */
+    async deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
+            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling deleteClient.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-brkrz-client-id"] = this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/admin/client/{clientId}`.replace(`{${"clientId"}}`, encodeURIComponent(String(requestParameters.clientId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Show all clients that the current user may administrate.
+     */
+    async deleteClient(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.deleteClientRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -217,6 +320,94 @@ export class AdminApi extends runtime.BaseAPI {
     async getOrderReport(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string> {
         const response = await this.getOrderReportRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * Remove an OAuth return to URL from the client config.
+     */
+    async removeOAuthReturnToUrlRaw(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
+            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling removeOAuthReturnToUrl.');
+        }
+
+        if (requestParameters.addOAuthReturnToUrlRequest === null || requestParameters.addOAuthReturnToUrlRequest === undefined) {
+            throw new runtime.RequiredError('addOAuthReturnToUrlRequest','Required parameter requestParameters.addOAuthReturnToUrlRequest was null or undefined when calling removeOAuthReturnToUrl.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-brkrz-client-id"] = this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/admin/clients/{clientId}/oauthReturnTo`.replace(`{${"clientId"}}`, encodeURIComponent(String(requestParameters.clientId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddOAuthReturnToUrlRequestToJSON(requestParameters.addOAuthReturnToUrlRequest),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Remove an OAuth return to URL from the client config.
+     */
+    async removeOAuthReturnToUrl(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.removeOAuthReturnToUrlRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Remove an origin from the client config.
+     */
+    async removeOriginRaw(requestParameters: RemoveOriginRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
+            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling removeOrigin.');
+        }
+
+        if (requestParameters.addOriginRequest === null || requestParameters.addOriginRequest === undefined) {
+            throw new runtime.RequiredError('addOriginRequest','Required parameter requestParameters.addOriginRequest was null or undefined when calling removeOrigin.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-brkrz-client-id"] = this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-access-token"] = this.configuration.apiKey("x-access-token"); // idToken authentication
+        }
+
+        const response = await this.request({
+            path: `/admin/clients/{clientId}/origin`.replace(`{${"clientId"}}`, encodeURIComponent(String(requestParameters.clientId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddOriginRequestToJSON(requestParameters.addOriginRequest),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Remove an origin from the client config.
+     */
+    async removeOrigin(requestParameters: RemoveOriginRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.removeOriginRaw(requestParameters, initOverrides);
     }
 
     /**

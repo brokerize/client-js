@@ -20,6 +20,13 @@ import { exists, mapValues } from '../runtime';
  */
 export interface AuthMethodDecoupledSpecifics {
     /**
+     * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
+     * be scanned with a phone).
+     * @type {boolean}
+     * @memberof AuthMethodDecoupledSpecifics
+     */
+    hideOnPhones?: boolean;
+    /**
      * 
      * @type {boolean}
      * @memberof AuthMethodDecoupledSpecifics
@@ -49,6 +56,7 @@ export function AuthMethodDecoupledSpecificsFromJSONTyped(json: any, ignoreDiscr
     }
     return {
         
+        'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'isDefaultMethod': !exists(json, 'isDefaultMethod') ? undefined : json['isDefaultMethod'],
         'label': !exists(json, 'label') ? undefined : json['label'],
         'id': !exists(json, 'id') ? undefined : json['id'],
@@ -67,6 +75,7 @@ export function AuthMethodDecoupledSpecificsToJSONRecursive(value?: AuthMethodDe
         
 
 
+        'hideOnPhones': value.hideOnPhones,
         'isDefaultMethod': value.isDefaultMethod,
         'label': value.label,
         'id': value.id,

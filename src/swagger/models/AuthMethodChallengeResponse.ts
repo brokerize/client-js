@@ -50,6 +50,13 @@ import {
  */
 export interface AuthMethodChallengeResponse extends AuthMethod {
     /**
+     * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
+     * be scanned with a phone).
+     * @type {boolean}
+     * @memberof AuthMethodChallengeResponse
+     */
+    hideOnPhones?: boolean;
+    /**
      * 
      * @type {string}
      * @memberof AuthMethodChallengeResponse
@@ -103,6 +110,7 @@ export function AuthMethodChallengeResponseFromJSONTyped(json: any, ignoreDiscri
     }
     return {
         ...AuthMethodFromJSONTyped(json, ignoreDiscriminator),
+        'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'tanFieldLabel': json['tanFieldLabel'],
         'challengeResponseIsOnlyConfirmation': !exists(json, 'challengeResponseIsOnlyConfirmation') ? undefined : json['challengeResponseIsOnlyConfirmation'],
         'challengeLabel': !exists(json, 'challengeLabel') ? undefined : json['challengeLabel'],
@@ -125,6 +133,7 @@ export function AuthMethodChallengeResponseToJSONRecursive(value?: AuthMethodCha
         ...ignoreParent ? {} : AuthMethodToJSON(value),
 
 
+        'hideOnPhones': value.hideOnPhones,
         'tanFieldLabel': value.tanFieldLabel,
         'challengeResponseIsOnlyConfirmation': value.challengeResponseIsOnlyConfirmation,
         'challengeLabel': value.challengeLabel,

@@ -10,6 +10,7 @@ apis/MetaApi.ts
 apis/TradeApi.ts
 apis/index.ts
 index.ts
+models/AddOAuthReturnToUrlRequest.ts
 models/AddOriginRequest.ts
 models/AddSessionCompleteChallengeParams.ts
 models/AddSessionParams.ts
@@ -28,6 +29,7 @@ models/BrokerEnvironment.ts
 models/BrokerLoginForm.ts
 models/BrokerLoginFormField.ts
 models/BrokerMeta.ts
+models/BrokerMetaFeatures.ts
 models/BrokerMetaImages.ts
 models/CancelOrderChallengeParams.ts
 models/CancelOrderChallengeResponse.ts
@@ -44,6 +46,7 @@ models/ClientConfig.ts
 models/ClientConfigRateLimitPointsToConsume.ts
 models/ClientsResponseInner.ts
 models/ClientsResponseInnerConfig.ts
+models/ClientsResponseInnerConfigMaintenanceStatus.ts
 models/ConfirmOAuthParams.ts
 models/ConfirmOAuthResponse.ts
 models/CostDetailsLink.ts

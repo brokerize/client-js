@@ -13,110 +13,35 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    BrokerEnvironment,
-    BrokerEnvironmentFromJSON,
-    BrokerEnvironmentFromJSONTyped,
-    BrokerEnvironmentToJSON,
-} from './BrokerEnvironment';
-import {
-    BrokerLoginForm,
-    BrokerLoginFormFromJSON,
-    BrokerLoginFormFromJSONTyped,
-    BrokerLoginFormToJSON,
-} from './BrokerLoginForm';
-import {
-    BrokerMetaFeatures,
-    BrokerMetaFeaturesFromJSON,
-    BrokerMetaFeaturesFromJSONTyped,
-    BrokerMetaFeaturesToJSON,
-} from './BrokerMetaFeatures';
-import {
-    BrokerMetaImages,
-    BrokerMetaImagesFromJSON,
-    BrokerMetaImagesFromJSONTyped,
-    BrokerMetaImagesToJSON,
-} from './BrokerMetaImages';
-
 /**
  * 
  * @export
- * @interface BrokerMeta
+ * @interface AddOAuthReturnToUrlRequest
  */
-export interface BrokerMeta {
-    /**
-     * 
-     * @type {BrokerMetaFeatures}
-     * @memberof BrokerMeta
-     */
-    features: BrokerMetaFeatures;
-    /**
-     * 
-     * @type {BrokerMetaImages}
-     * @memberof BrokerMeta
-     */
-    images: BrokerMetaImages;
+export interface AddOAuthReturnToUrlRequest {
     /**
      * 
      * @type {string}
-     * @memberof BrokerMeta
+     * @memberof AddOAuthReturnToUrlRequest
      */
-    displayName: string;
-    /**
-     * If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.
-     * @type {boolean}
-     * @memberof BrokerMeta
-     */
-    supportsOAuthLogin?: boolean;
-    /**
-     * 
-     * @type {BrokerLoginForm}
-     * @memberof BrokerMeta
-     */
-    loginForm?: BrokerLoginForm;
-    /**
-     * If the user may choose the environment, it should usually be displayed as a select box in UIs.
-     * The field's label explains what the meaning of environment is in the broker's context.
-     * @type {string}
-     * @memberof BrokerMeta
-     */
-    envLabel: string;
-    /**
-     * 
-     * @type {Array<BrokerEnvironment>}
-     * @memberof BrokerMeta
-     */
-    envs: Array<BrokerEnvironment>;
-    /**
-     * 
-     * @type {string}
-     * @memberof BrokerMeta
-     */
-    brokerName: string;
+    url: string;
 }
 
-export function BrokerMetaFromJSON(json: any): BrokerMeta {
-    return BrokerMetaFromJSONTyped(json, false);
+export function AddOAuthReturnToUrlRequestFromJSON(json: any): AddOAuthReturnToUrlRequest {
+    return AddOAuthReturnToUrlRequestFromJSONTyped(json, false);
 }
 
-export function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerMeta {
+export function AddOAuthReturnToUrlRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): AddOAuthReturnToUrlRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'features': BrokerMetaFeaturesFromJSON(json['features']),
-        'images': BrokerMetaImagesFromJSON(json['images']),
-        'displayName': json['displayName'],
-        'supportsOAuthLogin': !exists(json, 'supportsOAuthLogin') ? undefined : json['supportsOAuthLogin'],
-        'loginForm': !exists(json, 'loginForm') ? undefined : BrokerLoginFormFromJSON(json['loginForm']),
-        'envLabel': json['envLabel'],
-        'envs': ((json['envs'] as Array<any>).map(BrokerEnvironmentFromJSON)),
-        'brokerName': json['brokerName'],
+        'url': json['url'],
     };
 }
 
-export function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParent = false): any {
+export function AddOAuthReturnToUrlRequestToJSONRecursive(value?: AddOAuthReturnToUrlRequest | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -128,17 +53,10 @@ export function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParen
         
 
 
-        'features': BrokerMetaFeaturesToJSON(value.features),
-        'images': BrokerMetaImagesToJSON(value.images),
-        'displayName': value.displayName,
-        'supportsOAuthLogin': value.supportsOAuthLogin,
-        'loginForm': BrokerLoginFormToJSON(value.loginForm),
-        'envLabel': value.envLabel,
-        'envs': ((value.envs as Array<any>).map(BrokerEnvironmentToJSON)),
-        'brokerName': value.brokerName,
+        'url': value.url,
     };
 }
 
-export function BrokerMetaToJSON(value?: BrokerMeta | null): any {
-    return BrokerMetaToJSONRecursive(value, false);
+export function AddOAuthReturnToUrlRequestToJSON(value?: AddOAuthReturnToUrlRequest | null): any {
+    return AddOAuthReturnToUrlRequestToJSONRecursive(value, false);
 }

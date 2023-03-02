@@ -14,6 +14,12 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    ClientsResponseInnerConfigMaintenanceStatus,
+    ClientsResponseInnerConfigMaintenanceStatusFromJSON,
+    ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped,
+    ClientsResponseInnerConfigMaintenanceStatusToJSON,
+} from './ClientsResponseInnerConfigMaintenanceStatus';
+import {
     RecordBrokerNameEnumBrokerEnvFilterType,
     RecordBrokerNameEnumBrokerEnvFilterTypeFromJSON,
     RecordBrokerNameEnumBrokerEnvFilterTypeFromJSONTyped,
@@ -26,6 +32,18 @@ import {
  * @interface ClientsResponseInnerConfig
  */
 export interface ClientsResponseInnerConfig {
+    /**
+     * 
+     * @type {ClientsResponseInnerConfigMaintenanceStatus}
+     * @memberof ClientsResponseInnerConfig
+     */
+    maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatus | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ClientsResponseInnerConfig
+     */
+    enabled: boolean;
     /**
      * 
      * @type {Array<string>}
@@ -67,6 +85,12 @@ export interface ClientsResponseInnerConfig {
      * @type {string}
      * @memberof ClientsResponseInnerConfig
      */
+    legalEntityName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientsResponseInnerConfig
+     */
     name: string;
 }
 
@@ -80,12 +104,15 @@ export function ClientsResponseInnerConfigFromJSONTyped(json: any, ignoreDiscrim
     }
     return {
         
+        'maintenanceStatus': ClientsResponseInnerConfigMaintenanceStatusFromJSON(json['maintenanceStatus']),
+        'enabled': json['enabled'],
         'oAuthReturnToRegularExpressions': json['oAuthReturnToRegularExpressions'],
         'oAuthReturnToUrls': json['oAuthReturnToUrls'],
         'cognitoClientIds': json['cognitoClientIds'],
         'brokerEnvFilter': RecordBrokerNameEnumBrokerEnvFilterTypeFromJSON(json['brokerEnvFilter']),
         'allowRequestsWithoutOrigin': json['allowRequestsWithoutOrigin'],
         'allowedOrigins': json['allowedOrigins'],
+        'legalEntityName': json['legalEntityName'],
         'name': json['name'],
     };
 }
@@ -102,12 +129,15 @@ export function ClientsResponseInnerConfigToJSONRecursive(value?: ClientsRespons
         
 
 
+        'maintenanceStatus': ClientsResponseInnerConfigMaintenanceStatusToJSON(value.maintenanceStatus),
+        'enabled': value.enabled,
         'oAuthReturnToRegularExpressions': value.oAuthReturnToRegularExpressions,
         'oAuthReturnToUrls': value.oAuthReturnToUrls,
         'cognitoClientIds': value.cognitoClientIds,
         'brokerEnvFilter': RecordBrokerNameEnumBrokerEnvFilterTypeToJSON(value.brokerEnvFilter),
         'allowRequestsWithoutOrigin': value.allowRequestsWithoutOrigin,
         'allowedOrigins': value.allowedOrigins,
+        'legalEntityName': value.legalEntityName,
         'name': value.name,
     };
 }

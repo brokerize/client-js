@@ -42,6 +42,13 @@ import {
  */
 export interface AuthMethodDecoupled extends AuthMethod {
     /**
+     * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
+     * be scanned with a phone).
+     * @type {boolean}
+     * @memberof AuthMethodDecoupled
+     */
+    hideOnPhones?: boolean;
+    /**
      * 
      * @type {boolean}
      * @memberof AuthMethodDecoupled
@@ -71,6 +78,7 @@ export function AuthMethodDecoupledFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         ...AuthMethodFromJSONTyped(json, ignoreDiscriminator),
+        'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'isDefaultMethod': !exists(json, 'isDefaultMethod') ? undefined : json['isDefaultMethod'],
         'label': json['label'],
         'id': json['id'],
@@ -89,6 +97,7 @@ export function AuthMethodDecoupledToJSONRecursive(value?: AuthMethodDecoupled |
         ...ignoreParent ? {} : AuthMethodToJSON(value),
 
 
+        'hideOnPhones': value.hideOnPhones,
         'isDefaultMethod': value.isDefaultMethod,
         'label': value.label,
         'id': value.id,

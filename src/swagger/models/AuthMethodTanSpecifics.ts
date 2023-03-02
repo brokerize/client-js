@@ -20,6 +20,13 @@ import { exists, mapValues } from '../runtime';
  */
 export interface AuthMethodTanSpecifics {
     /**
+     * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
+     * be scanned with a phone).
+     * @type {boolean}
+     * @memberof AuthMethodTanSpecifics
+     */
+    hideOnPhones?: boolean;
+    /**
      * 
      * @type {string}
      * @memberof AuthMethodTanSpecifics
@@ -55,6 +62,7 @@ export function AuthMethodTanSpecificsFromJSONTyped(json: any, ignoreDiscriminat
     }
     return {
         
+        'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'tanFieldLabel': !exists(json, 'tanFieldLabel') ? undefined : json['tanFieldLabel'],
         'isDefaultMethod': !exists(json, 'isDefaultMethod') ? undefined : json['isDefaultMethod'],
         'label': !exists(json, 'label') ? undefined : json['label'],
@@ -74,6 +82,7 @@ export function AuthMethodTanSpecificsToJSONRecursive(value?: AuthMethodTanSpeci
         
 
 
+        'hideOnPhones': value.hideOnPhones,
         'tanFieldLabel': value.tanFieldLabel,
         'isDefaultMethod': value.isDefaultMethod,
         'label': value.label,
