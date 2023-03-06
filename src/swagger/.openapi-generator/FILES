@@ -1,4 +1,5 @@
 .openapi-generator-ignore
+apis/AdminApi.ts
 apis/BrokerLoginApi.ts
 apis/CancelOrderApi.ts
 apis/ChangeOrderApi.ts
@@ -9,6 +10,8 @@ apis/MetaApi.ts
 apis/TradeApi.ts
 apis/index.ts
 index.ts
+models/AddOAuthReturnToUrlRequest.ts
+models/AddOriginRequest.ts
 models/AddSessionCompleteChallengeParams.ts
 models/AddSessionParams.ts
 models/Amount.ts
@@ -21,10 +24,12 @@ models/AuthMethodDecoupledSpecifics.ts
 models/AuthMethodFlow.ts
 models/AuthMethodTan.ts
 models/AuthMethodTanSpecifics.ts
+models/BrokerEnvFilterType.ts
 models/BrokerEnvironment.ts
 models/BrokerLoginForm.ts
 models/BrokerLoginFormField.ts
 models/BrokerMeta.ts
+models/BrokerMetaFeatures.ts
 models/BrokerMetaImages.ts
 models/CancelOrderChallengeParams.ts
 models/CancelOrderChallengeResponse.ts
@@ -37,9 +42,15 @@ models/CashQuotation.ts
 models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
+models/ClientConfig.ts
+models/ClientConfigRateLimitPointsToConsume.ts
+models/ClientsResponseInner.ts
+models/ClientsResponseInnerConfig.ts
+models/ClientsResponseInnerConfigMaintenanceStatus.ts
 models/ConfirmOAuthParams.ts
 models/ConfirmOAuthResponse.ts
 models/CostDetailsLink.ts
+models/CreateClient200Response.ts
 models/CreateGuestUserResponse.ts
 models/CreateModeSessionTan.ts
 models/CreateOrderChallengeParams.ts
@@ -158,6 +169,7 @@ models/SessionSyncInfoPending.ts
 models/SessionSyncInfoStatus.ts
 models/SessionSyncInfoSynced.ts
 models/SessionSyncInfoSyncedSpecifics.ts
+models/SetClientConfigRequest.ts
 models/StringMapByOrderModel.ts
 models/SyncError.ts
 models/TrailingDistance.ts
