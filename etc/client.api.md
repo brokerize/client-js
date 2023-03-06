@@ -126,9 +126,7 @@ class AdminApi extends runtime.BaseAPI {
     removeOAuthReturnToUrlRaw(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     removeOrigin(requestParameters: RemoveOriginRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     removeOriginRaw(requestParameters: RemoveOriginRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-    // (undocumented)
     setClientConfig(requestParameters: SetClientConfigOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    // (undocumented)
     setClientConfigRaw(requestParameters: SetClientConfigOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
 
@@ -984,7 +982,9 @@ interface ChangeOrderRequest {
 interface ClientConfig {
     allowedOrigins?: Array<string>;
     allowRequestsWithoutOrigin?: boolean;
-    brokerEnvFilter?: PartialBrokerEnvFilter;
+    brokerEnvFilter?: {
+        [key: string]: BrokerEnvFilterType;
+    };
     clientSecrets?: Array<string>;
     cognitoClientIds?: Array<string>;
     enabled?: boolean;
@@ -1036,7 +1036,9 @@ interface ClientsResponseInner {
 interface ClientsResponseInnerConfig {
     allowedOrigins: Array<string>;
     allowRequestsWithoutOrigin: boolean;
-    brokerEnvFilter: RecordBrokerNameEnumBrokerEnvFilterType;
+    brokerEnvFilter: {
+        [key: string]: BrokerEnvFilterType;
+    };
     cognitoClientIds: Array<string>;
     enabled: boolean;
     legalEntityName: string;
@@ -3547,11 +3549,6 @@ declare namespace Models {
         OrderValidityTypeByOrderModelToJSONRecursive,
         OrderValidityTypeByOrderModelToJSON,
         OrderValidityTypeByOrderModel,
-        PartialBrokerEnvFilterFromJSON,
-        PartialBrokerEnvFilterFromJSONTyped,
-        PartialBrokerEnvFilterToJSONRecursive,
-        PartialBrokerEnvFilterToJSON,
-        PartialBrokerEnvFilter,
         PortfolioFromJSON,
         PortfolioFromJSONTyped,
         PortfolioToJSONRecursive,
@@ -3646,11 +3643,6 @@ declare namespace Models {
         QuoteExpirationToJSONRecursive,
         QuoteExpirationToJSON,
         QuoteExpiration,
-        RecordBrokerNameEnumBrokerEnvFilterTypeFromJSON,
-        RecordBrokerNameEnumBrokerEnvFilterTypeFromJSONTyped,
-        RecordBrokerNameEnumBrokerEnvFilterTypeToJSONRecursive,
-        RecordBrokerNameEnumBrokerEnvFilterTypeToJSON,
-        RecordBrokerNameEnumBrokerEnvFilterType,
         RenderGenericTableParamsFromJSON,
         RenderGenericTableParamsFromJSONTyped,
         RenderGenericTableParamsToJSONRecursive,
@@ -4085,29 +4077,6 @@ function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
 
 // @public
-interface PartialBrokerEnvFilter {
-    comdirect?: BrokerEnvFilterType;
-    consors?: BrokerEnvFilterType;
-    demo?: BrokerEnvFilterType;
-    finanzen?: BrokerEnvFilterType;
-    flatex?: BrokerEnvFilterType;
-    justtrade?: BrokerEnvFilterType;
-    vitrade?: BrokerEnvFilterType;
-}
-
-// @public (undocumented)
-function PartialBrokerEnvFilterFromJSON(json: any): PartialBrokerEnvFilter;
-
-// @public (undocumented)
-function PartialBrokerEnvFilterFromJSONTyped(json: any, ignoreDiscriminator: boolean): PartialBrokerEnvFilter;
-
-// @public (undocumented)
-function PartialBrokerEnvFilterToJSON(value?: PartialBrokerEnvFilter | null): any;
-
-// @public (undocumented)
-function PartialBrokerEnvFilterToJSONRecursive(value?: PartialBrokerEnvFilter | null, ignoreParent?: boolean): any;
-
-// @public
 interface Portfolio {
     brokerName: string;
     cashAccountIds: Array<string>;
@@ -4498,29 +4467,6 @@ function QuoteExpirationToJSON(value?: QuoteExpiration | null): any;
 
 // @public (undocumented)
 function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent?: boolean): any;
-
-// @public
-interface RecordBrokerNameEnumBrokerEnvFilterType {
-    comdirect?: BrokerEnvFilterType;
-    consors?: BrokerEnvFilterType;
-    demo?: BrokerEnvFilterType;
-    finanzen?: BrokerEnvFilterType;
-    flatex?: BrokerEnvFilterType;
-    justtrade?: BrokerEnvFilterType;
-    vitrade?: BrokerEnvFilterType;
-}
-
-// @public (undocumented)
-function RecordBrokerNameEnumBrokerEnvFilterTypeFromJSON(json: any): RecordBrokerNameEnumBrokerEnvFilterType;
-
-// @public (undocumented)
-function RecordBrokerNameEnumBrokerEnvFilterTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): RecordBrokerNameEnumBrokerEnvFilterType;
-
-// @public (undocumented)
-function RecordBrokerNameEnumBrokerEnvFilterTypeToJSON(value?: RecordBrokerNameEnumBrokerEnvFilterType | null): any;
-
-// @public (undocumented)
-function RecordBrokerNameEnumBrokerEnvFilterTypeToJSONRecursive(value?: RecordBrokerNameEnumBrokerEnvFilterType | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface RemoveOAuthReturnToUrlRequest {

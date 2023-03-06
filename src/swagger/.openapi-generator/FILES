@@ -136,7 +136,6 @@ models/OrderStatus.ts
 models/OrderValidity.ts
 models/OrderValidityType.ts
 models/OrderValidityTypeByOrderModel.ts
-models/PartialBrokerEnvFilter.ts
 models/Portfolio.ts
 models/PortfolioQuotes.ts
 models/PortfolioSyncInfo.ts
@@ -156,7 +155,6 @@ models/PrepareOAuthRedirectResponse.ts
 models/PrepareTradeResponse.ts
 models/PreparedTrade.ts
 models/QuoteExpiration.ts
-models/RecordBrokerNameEnumBrokerEnvFilterType.ts
 models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts
 models/Security.ts
