@@ -398,6 +398,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     deleteDemoAccount(del: DeleteDemoAccountRequest): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
+    deleteGuestUser(): Promise<void>;
+    // (undocumented)
     deletePortfolio(portfolioId: string): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
     destroy(): void;
@@ -1482,6 +1484,8 @@ class DefaultApi extends runtime.BaseAPI {
     createGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateGuestUserResponse>>;
     createSessionTanChallenge(requestParameters: CreateSessionTanChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
     createSessionTanChallengeRaw(requestParameters: CreateSessionTanChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
+    deleteGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deleteGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     // (undocumented)
     deletePortfolio(requestParameters: DeletePortfolioRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     // (undocumented)

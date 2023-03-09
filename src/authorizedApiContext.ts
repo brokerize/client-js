@@ -292,6 +292,9 @@ export class AuthorizedApiContext {
   async getUser() {
     return this._defaultApi.getUser(await this._initRequestInit());
   }
+  async deleteGuestUser() {
+    return this._defaultApi.deleteGuestUser(await this._initRequestInit());
+  }
   async prepareTrade(req: PrepareTradeRequest) {
     return this._tradeApi.prepareTrade(req, await this._initRequestInit());
   }
