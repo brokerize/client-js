@@ -4,7 +4,7 @@
 
 ```ts
 
-import * as Cognito from 'amazon-cognito-identity-js/dist/amazon-cognito-identity.js';
+import * as Cognito from 'amazon-cognito-identity-js';
 
 // @public
 interface AddSessionCompleteChallengeParams {

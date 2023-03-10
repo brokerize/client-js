@@ -4,7 +4,7 @@
  */
 
 // must import types separately as bundling does not work with the main bundle
-import * as Cognito from "amazon-cognito-identity-js/dist/amazon-cognito-identity.js";
+import * as Cognito from "amazon-cognito-identity-js";
 import { decodeJwt } from "jose";
 import {
   BrokerizeConfig,
