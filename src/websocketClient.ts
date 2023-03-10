@@ -10,6 +10,7 @@ import type {
   WebSocketError,
   WebSocketMessage,
   WebSocketMessageErrorOnSubscription,
+  WebSocketPingMessage,
   WebSocketSubscriptionMessage,
 } from "./websocketTypes";
 
@@ -178,6 +179,10 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       ) {
         this._authenticatedCallback && this._authenticatedCallback();
         this._authenticatedCallback = null;
+      } else if (
+        (message as WebSocketPingMessage).cmd == "ping"
+      ) {
+        // NOP
       } else if (message as WebSocketError) {
         console.error((message as WebSocketError).error);
       }
