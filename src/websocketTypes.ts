@@ -48,7 +48,7 @@ export type SubscribeDecoupledOperation = {
     decoupledOperationId: string;
 };
 
-export type WebSocketMessage = WebSocketSubscriptionMessage | WebSocketError | WebSocketAuthenticatedMessage;
+export type WebSocketMessage = WebSocketSubscriptionMessage | WebSocketError | WebSocketAuthenticatedMessage | WebSocketPingMessage;
 
 export type WebSocketSubscriptionMessage = WebSocketMessageErrorOnSubscription | WebSocketSubscriptionSuccessfulMessage;
 
@@ -66,6 +66,10 @@ export type WebSocketMessageErrorOnSubscription = {
 export type InvalidateMessage = {
     cmd: 'invalidate';
     subscriptionId: number;
+};
+
+export type WebSocketPingMessage = {
+    cmd: 'ping';
 };
 
 export type UpdateDecoupledOperationMessage = {
