@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "jose": "4.10.0",
-    "amazon-cognito-identity-js": "5.2.11"
+    "amazon-cognito-identity-js": "6.1.2"
   },
   "type": "module"
 }
