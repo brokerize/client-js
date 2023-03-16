@@ -38,7 +38,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "jose": "4.10.0",
+    "jose": "4.13.1",
     "amazon-cognito-identity-js": "5.2.11"
   },
   "type": "module"
