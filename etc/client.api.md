@@ -5027,12 +5027,17 @@ type WebSocketError = {
 };
 
 // @public (undocumented)
-type WebSocketMessage = WebSocketSubscriptionMessage | WebSocketError | WebSocketAuthenticatedMessage;
+type WebSocketMessage = WebSocketSubscriptionMessage | WebSocketError | WebSocketAuthenticatedMessage | WebSocketPingMessage;
 
 // @public (undocumented)
 type WebSocketMessageErrorOnSubscription = {
     subscriptionId: number;
     error: BrokerizeWebSocketError;
+};
+
+// @public (undocumented)
+type WebSocketPingMessage = {
+    cmd: 'ping';
 };
 
 // @public (undocumented)
@@ -5054,6 +5059,7 @@ declare namespace WebSocketTypes {
         WebSocketAuthenticatedMessage,
         WebSocketMessageErrorOnSubscription,
         InvalidateMessage,
+        WebSocketPingMessage,
         UpdateDecoupledOperationMessage,
         BrokerizeWebSocketError,
         WebSocketError,
