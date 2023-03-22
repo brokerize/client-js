@@ -2,7 +2,7 @@ import { Subject } from "rxjs";
 import {
   Auth,
   BrokerizeConfig,
-  CognitoConfig,
+  CognitoPoolConfig,
   createConfiguration,
   RegisteredUserAuthContextConfiguration,
 } from "./apiCtx";
@@ -485,16 +485,16 @@ export class AuthorizedApiContext {
 }
 
 export type AuthorizedApiContextOptions = {
-  cognitoAuth: CognitoAuth;
+  cognitoAuth?: CognitoAuth;
 };
 
-type CognitoAuth = {
+export type CognitoAuth = {
   createSession: (
-    cognitoCfg: CognitoConfig,
+    cognitoCfg: CognitoPoolConfig,
     authCfg: RegisteredUserAuthContextConfiguration
   ) => CognitoSession;
 };
 
-type CognitoSession = {
+export type CognitoSession = {
   getToken: () => Promise<{ idToken: string }>;
 };

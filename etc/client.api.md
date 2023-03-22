@@ -160,7 +160,6 @@ interface ApiResponse<T> {
 }
 
 // Warning: (ae-forgotten-export) The symbol "GuestAuthContextConfiguration" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "RegisteredUserAuthContextConfiguration" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
 export type AuthContextConfiguration = GuestAuthContextConfiguration | RegisteredUserAuthContextConfiguration;
@@ -639,12 +638,12 @@ function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, igno
 // @public (undocumented)
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
-    // Warning: (ae-forgotten-export) The symbol "AuthorizedApiContextOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    createAuthorizedContext(authCtxCfg: AuthContextConfiguration, options?: AuthorizedApiContextOptions): AuthorizedApiContext;
+    createAuthorizedContext(authCtxCfg: AuthContextConfiguration): AuthorizedApiContext;
     // (undocumented)
     createGuestUser(): Promise<AuthContextConfiguration>;
+    // (undocumented)
+    getCognitoConfig(): CognitoPoolConfig | undefined;
 }
 
 // @public (undocumented)
@@ -652,6 +651,7 @@ export interface BrokerizeConfig {
     basePath?: string;
     // (undocumented)
     clientId: string;
+    // Warning: (ae-forgotten-export) The symbol "CognitoConfig" needs to be exported by the entry point index.d.ts
     cognito?: CognitoConfig;
     // (undocumented)
     createAbortController: () => AbortController;
@@ -1218,10 +1218,22 @@ function ClientsResponseInnerToJSON(value?: ClientsResponseInner | null): any;
 function ClientsResponseInnerToJSONRecursive(value?: ClientsResponseInner | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
-export type CognitoConfig = {
+export type CognitoAuth = {
+    createSession: (cognitoCfg: CognitoPoolConfig, authCfg: RegisteredUserAuthContextConfiguration) => CognitoSession;
+};
+
+// @public (undocumented)
+export type CognitoPoolConfig = {
     UserPoolId: string;
     ClientId: string;
     Endpoint: string;
+};
+
+// @public (undocumented)
+export type CognitoSession = {
+    getToken: () => Promise<{
+        idToken: string;
+    }>;
 };
 
 // @public (undocumented)
@@ -5355,6 +5367,13 @@ function QuoteExpirationToJSON(value?: QuoteExpiration | null): any;
 function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+export type RegisteredUserAuthContextConfiguration = {
+    type: "registered";
+    username: string;
+    tokens: TokenSet;
+};
+
+// @public (undocumented)
 interface RemoveOAuthReturnToUrlRequest {
     // (undocumented)
     addOAuthReturnToUrlRequest: AddOAuthReturnToUrlRequest;
@@ -6003,6 +6022,10 @@ declare namespace WebSocketTypes {
     }
 }
 export { WebSocketTypes }
+
+// Warnings were encountered during analysis:
+//
+// dist/apiCtx.d.ts:31:5 - (ae-forgotten-export) The symbol "TokenSet" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
