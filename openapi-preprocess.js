@@ -53,4 +53,4 @@ for (const [schemaName, schema] of Object.entries(openApi.components.schemas)) {
     }
 }
 
-await promises.writeFile('openapi.json', JSON.stringify(openApi, null, "    "));
+await promises.writeFile('temp/openapi.json', JSON.stringify(openApi, null, "    "));

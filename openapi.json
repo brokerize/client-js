@@ -485,14 +485,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "subheading"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRow"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowSubheadingSpecifics"
@@ -507,14 +500,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "text"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRow"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowTextSpecifics"
@@ -529,14 +515,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "text"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRowValue"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowValueTextSpecifics"
@@ -592,14 +571,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "amount"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRowValue"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowValueAmountSpecifics"
@@ -614,14 +586,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "datetime"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRowValue"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowValueDatetimeSpecifics"
@@ -637,14 +602,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "portfolio"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkValue"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowValueLinkPortfolioSpecifics"
@@ -660,14 +618,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "url"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRowValueLinkValue"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowValueLinkUrlSpecifics"
@@ -690,15 +641,7 @@
                         "portfolio": "#/components/schemas/GenericTableRowValueLinkPortfolio",
                         "url": "#/components/schemas/GenericTableRowValueLinkUrl"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueLinkPortfolio"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueLinkUrl"
-                    }
-                ]
+                }
             },
             "GenericTableRowValueLink": {
                 "required": [
@@ -708,14 +651,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "link"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRowValue"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowValueLinkSpecifics"
@@ -740,21 +676,7 @@
                         "datetime": "#/components/schemas/GenericTableRowValueDatetime",
                         "link": "#/components/schemas/GenericTableRowValueLink"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueText"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueAmount"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueDatetime"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowValueLink"
-                    }
-                ]
+                }
             },
             "GenericTableRowEntry": {
                 "required": [
@@ -764,14 +686,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "type": {
-                                "type": "string",
-                                "enum": [
-                                    "entry"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/GenericTableRow"
                     },
                     {
                         "$ref": "#/components/schemas/GenericTableRowEntrySpecifics"
@@ -795,18 +710,7 @@
                         "text": "#/components/schemas/GenericTableRowText",
                         "entry": "#/components/schemas/GenericTableRowEntry"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowSubheading"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowText"
-                    },
-                    {
-                        "$ref": "#/components/schemas/GenericTableRowEntry"
-                    }
-                ]
+                }
             },
             "CostDetailsLink": {
                 "properties": {
@@ -1348,14 +1252,7 @@
                 "additionalProperties": false,
                 "allOf": [
                     {
-                        "properties": {
-                            "mode": {
-                                "type": "string",
-                                "enum": [
-                                    "sessionTan"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/CancelOrderParams"
                     },
                     {
                         "$ref": "#/components/schemas/CreateModeSessionTanSpecifics"
@@ -1371,14 +1268,7 @@
                 "additionalProperties": false,
                 "allOf": [
                     {
-                        "properties": {
-                            "mode": {
-                                "type": "string",
-                                "enum": [
-                                    "challengeResponse"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/CancelOrderParams"
                     },
                     {
                         "$ref": "#/components/schemas/CancelOrderChallengeResponseSpecifics"
@@ -1401,15 +1291,7 @@
                         "sessionTan": "#/components/schemas/CreateModeSessionTan",
                         "challengeResponse": "#/components/schemas/CancelOrderChallengeResponse"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/CreateModeSessionTan"
-                    },
-                    {
-                        "$ref": "#/components/schemas/CancelOrderChallengeResponse"
-                    }
-                ]
+                }
             },
             "OrderChanges": {
                 "properties": {
@@ -1543,14 +1425,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "status": {
-                                "type": "string",
-                                "enum": [
-                                    "PENDING"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/PortfolioSyncInfo"
                     },
                     {
                         "$ref": "#/components/schemas/PortfolioSyncInfoPendingSpecifics"
@@ -1565,14 +1440,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "status": {
-                                "type": "string",
-                                "enum": [
-                                    "INCOMPLETE"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/PortfolioSyncInfo"
                     },
                     {
                         "$ref": "#/components/schemas/PortfolioSyncInfoIncompleteSpecifics"
@@ -1587,14 +1455,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "status": {
-                                "type": "string",
-                                "enum": [
-                                    "COMPLETE"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/PortfolioSyncInfo"
                     },
                     {
                         "$ref": "#/components/schemas/PortfolioSyncInfoCompleteSpecifics"
@@ -1625,14 +1486,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "status": {
-                                "type": "string",
-                                "enum": [
-                                    "ERROR"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/PortfolioSyncInfo"
                     },
                     {
                         "$ref": "#/components/schemas/PortfolioSyncInfoErrorSpecifics"
@@ -1657,21 +1511,7 @@
                         "COMPLETE": "#/components/schemas/PortfolioSyncInfoComplete",
                         "ERROR": "#/components/schemas/PortfolioSyncInfoError"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/PortfolioSyncInfoPending"
-                    },
-                    {
-                        "$ref": "#/components/schemas/PortfolioSyncInfoIncomplete"
-                    },
-                    {
-                        "$ref": "#/components/schemas/PortfolioSyncInfoComplete"
-                    },
-                    {
-                        "$ref": "#/components/schemas/PortfolioSyncInfoError"
-                    }
-                ]
+                }
             },
             "Portfolio": {
                 "properties": {
@@ -1988,14 +1828,7 @@
                 "description": "With the `TAN` flow, a TAN can be sent with the operation right away, i.e. without creating a challenge first.\nThis may be the case for brokers that provide a fixed trading password or a list of TANs where the user\nmay select an arbitrary TAN from the list.",
                 "allOf": [
                     {
-                        "properties": {
-                            "flow": {
-                                "type": "string",
-                                "enum": [
-                                    "TAN"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/AuthMethod"
                     },
                     {
                         "$ref": "#/components/schemas/AuthMethodTanSpecifics"
@@ -2012,14 +1845,7 @@
                 "description": "With the `DECOUPLED` flow, the operation is created right away wiuthout creating a challenge first. The operation's\nresponse will include a `decoupledOperationId` which can be subscribed to using `GetDecoupledOperationStatus` and via\na WebSocket subscription. Also, the operation can be cancelled by the user using `CancelDecoupledOperation`. Currently\nthis flow is only implemented for `EnableSessionTan`.",
                 "allOf": [
                     {
-                        "properties": {
-                            "flow": {
-                                "type": "string",
-                                "enum": [
-                                    "DECOUPLED"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/AuthMethod"
                     },
                     {
                         "$ref": "#/components/schemas/AuthMethodDecoupledSpecifics"
@@ -2038,14 +1864,7 @@
                 "description": "With the `CHALLENGE_RESPONSE` flow, to execute an operation, a challenge has to be created as the first step\nand the response to the challenge will be provided with the actual operation as a second API call:\n\n1) The end user requests challenge with a button labelled `getChallengeLabel`, which triggers the `createXYZChallenge` endpoint (e.g. `CreateSessionTanChallenge`)\n2) The challenge is then presented to the user. It may be a code to look up from a sheet of paper, a photoTAN to scan with the\n   broker's mobile app or anything else (details are described in `Challenge`).\n3) `AuthMethod.challengeResponseIsOnlyConfirmation` determines if and how the user must actually enter a response text:\n   - If `challengeResponseIsOnlyConfirmation=true`: the final API call (e.g. `EnableSessionTan`) is only a confirmation of some second factor (i.e. the user tells us they\n     have allowed the action in their broker's mobile app). In this case, the `challengeResponse` must be sent as an empty string once\n     the user clicks the corresponding confirm button.\n   - Otherwise, the user is expected to provide a textual `challengeResponse`. In this case, a text field for the `challengeResponse` must be displayed\n     and labelled with `tanFieldLabel`. The  `challengeResponse` is sent as entered by the user to the actual action endpoint (e.g. `EnableSessionTan`)",
                 "allOf": [
                     {
-                        "properties": {
-                            "flow": {
-                                "type": "string",
-                                "enum": [
-                                    "CHALLENGE_RESPONSE"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/AuthMethod"
                     },
                     {
                         "$ref": "#/components/schemas/AuthMethodChallengeResponseSpecifics"
@@ -2069,18 +1888,7 @@
                         "DECOUPLED": "#/components/schemas/AuthMethodDecoupled",
                         "CHALLENGE_RESPONSE": "#/components/schemas/AuthMethodChallengeResponse"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/AuthMethodTan"
-                    },
-                    {
-                        "$ref": "#/components/schemas/AuthMethodDecoupled"
-                    },
-                    {
-                        "$ref": "#/components/schemas/AuthMethodChallengeResponse"
-                    }
-                ]
+                }
             },
             "AuthInfo": {
                 "properties": {
@@ -2129,14 +1937,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "status": {
-                                "type": "string",
-                                "enum": [
-                                    "PENDING"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/SessionSyncInfo"
                     },
                     {
                         "$ref": "#/components/schemas/SessionSyncInfoPendingSpecifics"
@@ -2151,14 +1952,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "status": {
-                                "type": "string",
-                                "enum": [
-                                    "SYNCED"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/SessionSyncInfo"
                     },
                     {
                         "$ref": "#/components/schemas/SessionSyncInfoSyncedSpecifics"
@@ -2173,14 +1967,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "status": {
-                                "type": "string",
-                                "enum": [
-                                    "ERROR"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/SessionSyncInfo"
                     },
                     {
                         "$ref": "#/components/schemas/SessionSyncInfoErrorSpecifics"
@@ -2204,18 +1991,7 @@
                         "SYNCED": "#/components/schemas/SessionSyncInfoSynced",
                         "ERROR": "#/components/schemas/SessionSyncInfoError"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/SessionSyncInfoPending"
-                    },
-                    {
-                        "$ref": "#/components/schemas/SessionSyncInfoSynced"
-                    },
-                    {
-                        "$ref": "#/components/schemas/SessionSyncInfoError"
-                    }
-                ]
+                }
             },
             "Session": {
                 "properties": {
@@ -2326,14 +2102,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "state": {
-                                "type": "string",
-                                "enum": [
-                                    "ready"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/LoginResponse"
                     },
                     {
                         "$ref": "#/components/schemas/LoginResponseReadySpecifics"
@@ -2348,14 +2117,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "state": {
-                                "type": "string",
-                                "enum": [
-                                    "challenge"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/LoginResponse"
                     },
                     {
                         "$ref": "#/components/schemas/LoginResponseChallengeSpecifics"
@@ -2378,15 +2140,7 @@
                         "ready": "#/components/schemas/LoginResponseReady",
                         "challenge": "#/components/schemas/LoginResponseChallenge"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/LoginResponseReady"
-                    },
-                    {
-                        "$ref": "#/components/schemas/LoginResponseChallenge"
-                    }
-                ]
+                }
             },
             "AddSessionParams": {
                 "properties": {
@@ -2462,14 +2216,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "kind": {
-                                "type": "string",
-                                "enum": [
-                                    "challengeResponse"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/EnableSessionTanParams"
                     },
                     {
                         "$ref": "#/components/schemas/EnableSessionTanParamsChallengeResponseSpecifics"
@@ -2484,14 +2231,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "kind": {
-                                "type": "string",
-                                "enum": [
-                                    "decoupled"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/EnableSessionTanParams"
                     },
                     {
                         "$ref": "#/components/schemas/EnableSessionTanParamsDecoupledSpecifics"
@@ -2507,14 +2247,7 @@
                 "type": "object",
                 "allOf": [
                     {
-                        "properties": {
-                            "kind": {
-                                "type": "string",
-                                "enum": [
-                                    "tan"
-                                ]
-                            }
-                        }
+                        "$ref": "#/components/schemas/EnableSessionTanParams"
                     },
                     {
                         "$ref": "#/components/schemas/EnableSessionTanParamsTanSpecifics"
@@ -2538,18 +2271,7 @@
                         "decoupled": "#/components/schemas/EnableSessionTanParamsDecoupled",
                         "tan": "#/components/schemas/EnableSessionTanParamsTan"
                     }
-                },
-                "oneOf": [
-                    {
-                        "$ref": "#/components/schemas/EnableSessionTanParamsChallengeResponse"
-                    },
-                    {
-                        "$ref": "#/components/schemas/EnableSessionTanParamsDecoupled"
-                    },
-                    {
-                        "$ref": "#/components/schemas/EnableSessionTanParamsTan"
-                    }
-                ]
+                }
             },
             "DecoupledOperationState": {
                 "type": "string",
