@@ -19,7 +19,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _map: Record<string, SubscriptionEntry> = {};
   private _id: number;
   private _socket: WebSocket | null;
-  private _pingIntvl: NodeJS.Timeout | null;
+  private _pingIntvl: any | null;
   private _authenticatedCallback: any = null;
   private _isOpen: boolean = false;
   private _auth: Auth;

@@ -4,8 +4,6 @@
 
 ```ts
 
-import * as Cognito from 'amazon-cognito-identity-js/dist/amazon-cognito-identity.js';
-
 // @public (undocumented)
 interface AddOAuthReturnToUrlOperationRequest {
     // (undocumented)
@@ -641,21 +639,12 @@ function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, igno
 // @public (undocumented)
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
+    // Warning: (ae-forgotten-export) The symbol "AuthorizedApiContextOptions" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    createAuthorizedContext(authCtxCfg: AuthContextConfiguration): AuthorizedApiContext;
+    createAuthorizedContext(authCtxCfg: AuthContextConfiguration, options?: AuthorizedApiContextOptions): AuthorizedApiContext;
     // (undocumented)
     createGuestUser(): Promise<AuthContextConfiguration>;
-    createRegisteredUserAuthConfigurationFromLoginRedirect({ codeVerifier, code, }: {
-        codeVerifier: string;
-        code: string;
-    }): Promise<RegisteredUserAuthContextConfiguration>;
-    // (undocumented)
-    getCognitoWrapper(): CognitoWrapper;
-    prepareLoginRedirect(redirectUri: string): Promise<{
-        state: string;
-        codeVerifier: string;
-        url: string;
-    }>;
 }
 
 // @public (undocumented)
@@ -1234,31 +1223,6 @@ export type CognitoConfig = {
     ClientId: string;
     Endpoint: string;
 };
-
-// @public (undocumented)
-export class CognitoWrapper {
-    constructor(brokerizeCfg: BrokerizeConfig);
-    // (undocumented)
-    createAuthenticationDetails(a: Cognito.IAuthenticationDetailsData): Cognito.AuthenticationDetails;
-    // (undocumented)
-    createCognitoUserAttribute(attr: Cognito.ICognitoUserAttributeData): Cognito.CognitoUserAttribute;
-    // (undocumented)
-    createCognitoUserPool(): Cognito.CognitoUserPool;
-    // (undocumented)
-    createRegisteredUserAuthConfigurationFromLoginRedirect({ codeVerifier, code, }: {
-        codeVerifier: string;
-        code: string;
-    }): Promise<RegisteredUserAuthContextConfiguration>;
-    // (undocumented)
-    getCognitoUser(username: string): Cognito.CognitoUser;
-    // (undocumented)
-    getCognitoUserByAuthCfg(cfg: RegisteredUserAuthContextConfiguration): Promise<Cognito.CognitoUser>;
-    prepareLoginRedirect(redirectUri: string): Promise<{
-        state: string;
-        codeVerifier: string;
-        url: string;
-    }>;
-}
 
 // @public (undocumented)
 const COLLECTION_FORMATS: {

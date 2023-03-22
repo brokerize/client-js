@@ -1,5 +1,11 @@
 import { Subject } from "rxjs";
-import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
+import {
+  Auth,
+  BrokerizeConfig,
+  CognitoConfig,
+  createConfiguration,
+  RegisteredUserAuthContextConfiguration,
+} from "./apiCtx";
 import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
 import {
@@ -477,3 +483,18 @@ export class AuthorizedApiContext {
     };
   }
 }
+
+export type AuthorizedApiContextOptions = {
+  cognitoAuth: CognitoAuth;
+};
+
+type CognitoAuth = {
+  createSession: (
+    cognitoCfg: CognitoConfig,
+    authCfg: RegisteredUserAuthContextConfiguration
+  ) => CognitoSession;
+};
+
+type CognitoSession = {
+  getToken: () => Promise<{ idToken: string }>;
+};
