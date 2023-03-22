@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    GenericTableRowValueLinkPortfolioAllOf,
+    GenericTableRowValueLinkPortfolioAllOfFromJSON,
+    GenericTableRowValueLinkPortfolioAllOfFromJSONTyped,
+    GenericTableRowValueLinkPortfolioAllOfToJSON,
+} from './GenericTableRowValueLinkPortfolioAllOf';
+import {
     GenericTableRowValueLinkPortfolioSpecifics,
     GenericTableRowValueLinkPortfolioSpecificsFromJSON,
     GenericTableRowValueLinkPortfolioSpecificsFromJSONTyped,
     GenericTableRowValueLinkPortfolioSpecificsToJSON,
 } from './GenericTableRowValueLinkPortfolioSpecifics';
-import {
-    GenericTableRowValueLinkValue,
-    GenericTableRowValueLinkValueFromJSON,
-    GenericTableRowValueLinkValueFromJSONTyped,
-    GenericTableRowValueLinkValueToJSON,
-} from './GenericTableRowValueLinkValue';
-import {
-    GenericTableRowValueLinkValueType,
-    GenericTableRowValueLinkValueTypeFromJSON,
-    GenericTableRowValueLinkValueTypeFromJSONTyped,
-    GenericTableRowValueLinkValueTypeToJSON,
-} from './GenericTableRowValueLinkValueType';
 
 /**
  * 
  * @export
  * @interface GenericTableRowValueLinkPortfolio
  */
-export interface GenericTableRowValueLinkPortfolio extends GenericTableRowValueLinkValue {
+export interface GenericTableRowValueLinkPortfolio {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenericTableRowValueLinkPortfolio
+     */
+    type: GenericTableRowValueLinkPortfolioTypeEnum;
     /**
      * 
      * @type {string}
@@ -52,6 +52,16 @@ export interface GenericTableRowValueLinkPortfolio extends GenericTableRowValueL
     portfolioId: string;
 }
 
+
+/**
+ * @export
+ */
+export const GenericTableRowValueLinkPortfolioTypeEnum = {
+    Portfolio: 'portfolio'
+} as const;
+export type GenericTableRowValueLinkPortfolioTypeEnum = typeof GenericTableRowValueLinkPortfolioTypeEnum[keyof typeof GenericTableRowValueLinkPortfolioTypeEnum];
+
+
 export function GenericTableRowValueLinkPortfolioFromJSON(json: any): GenericTableRowValueLinkPortfolio {
     return GenericTableRowValueLinkPortfolioFromJSONTyped(json, false);
 }
@@ -61,7 +71,8 @@ export function GenericTableRowValueLinkPortfolioFromJSONTyped(json: any, ignore
         return json;
     }
     return {
-        ...GenericTableRowValueLinkValueFromJSONTyped(json, ignoreDiscriminator),
+        
+        'type': json['type'],
         'text': json['text'],
         'portfolioId': json['portfolioId'],
     };
@@ -76,9 +87,10 @@ export function GenericTableRowValueLinkPortfolioToJSONRecursive(value?: Generic
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueLinkValueToJSON(value),
+        
 
 
+        'type': value.type,
         'text': value.text,
         'portfolioId': value.portfolioId,
     };

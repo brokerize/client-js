@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    LoginResponse,
-    LoginResponseFromJSON,
-    LoginResponseFromJSONTyped,
-    LoginResponseToJSON,
-} from './LoginResponse';
+    LoginResponseReadyAllOf,
+    LoginResponseReadyAllOfFromJSON,
+    LoginResponseReadyAllOfFromJSONTyped,
+    LoginResponseReadyAllOfToJSON,
+} from './LoginResponseReadyAllOf';
 import {
     LoginResponseReadySpecifics,
     LoginResponseReadySpecificsFromJSON,
     LoginResponseReadySpecificsFromJSONTyped,
     LoginResponseReadySpecificsToJSON,
 } from './LoginResponseReadySpecifics';
-import {
-    LoginResponseState,
-    LoginResponseStateFromJSON,
-    LoginResponseStateFromJSONTyped,
-    LoginResponseStateToJSON,
-} from './LoginResponseState';
 
 /**
  * 
  * @export
  * @interface LoginResponseReady
  */
-export interface LoginResponseReady extends LoginResponse {
+export interface LoginResponseReady {
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResponseReady
+     */
+    state: LoginResponseReadyStateEnum;
     /**
      * 
      * @type {string}
@@ -45,6 +45,16 @@ export interface LoginResponseReady extends LoginResponse {
      */
     sessionId: string;
 }
+
+
+/**
+ * @export
+ */
+export const LoginResponseReadyStateEnum = {
+    Ready: 'ready'
+} as const;
+export type LoginResponseReadyStateEnum = typeof LoginResponseReadyStateEnum[keyof typeof LoginResponseReadyStateEnum];
+
 
 export function LoginResponseReadyFromJSON(json: any): LoginResponseReady {
     return LoginResponseReadyFromJSONTyped(json, false);
@@ -55,7 +65,8 @@ export function LoginResponseReadyFromJSONTyped(json: any, ignoreDiscriminator: 
         return json;
     }
     return {
-        ...LoginResponseFromJSONTyped(json, ignoreDiscriminator),
+        
+        'state': json['state'],
         'sessionId': json['sessionId'],
     };
 }
@@ -69,9 +80,10 @@ export function LoginResponseReadyToJSONRecursive(value?: LoginResponseReady | n
     }
 
     return {
-        ...ignoreParent ? {} : LoginResponseToJSON(value),
+        
 
 
+        'state': value.state,
         'sessionId': value.sessionId,
     };
 }

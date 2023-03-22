@@ -14,23 +14,17 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    PortfolioSyncInfo,
-    PortfolioSyncInfoFromJSON,
-    PortfolioSyncInfoFromJSONTyped,
-    PortfolioSyncInfoToJSON,
-} from './PortfolioSyncInfo';
+    PortfolioSyncInfoErrorAllOf,
+    PortfolioSyncInfoErrorAllOfFromJSON,
+    PortfolioSyncInfoErrorAllOfFromJSONTyped,
+    PortfolioSyncInfoErrorAllOfToJSON,
+} from './PortfolioSyncInfoErrorAllOf';
 import {
     PortfolioSyncInfoErrorSpecifics,
     PortfolioSyncInfoErrorSpecificsFromJSON,
     PortfolioSyncInfoErrorSpecificsFromJSONTyped,
     PortfolioSyncInfoErrorSpecificsToJSON,
 } from './PortfolioSyncInfoErrorSpecifics';
-import {
-    PortfolioSyncInfoStatus,
-    PortfolioSyncInfoStatusFromJSON,
-    PortfolioSyncInfoStatusFromJSONTyped,
-    PortfolioSyncInfoStatusToJSON,
-} from './PortfolioSyncInfoStatus';
 import {
     SyncError,
     SyncErrorFromJSON,
@@ -43,7 +37,13 @@ import {
  * @export
  * @interface PortfolioSyncInfoError
  */
-export interface PortfolioSyncInfoError extends PortfolioSyncInfo {
+export interface PortfolioSyncInfoError {
+    /**
+     * 
+     * @type {string}
+     * @memberof PortfolioSyncInfoError
+     */
+    status: PortfolioSyncInfoErrorStatusEnum;
     /**
      * 
      * @type {SyncError}
@@ -51,6 +51,16 @@ export interface PortfolioSyncInfoError extends PortfolioSyncInfo {
      */
     error: SyncError;
 }
+
+
+/**
+ * @export
+ */
+export const PortfolioSyncInfoErrorStatusEnum = {
+    Error: 'ERROR'
+} as const;
+export type PortfolioSyncInfoErrorStatusEnum = typeof PortfolioSyncInfoErrorStatusEnum[keyof typeof PortfolioSyncInfoErrorStatusEnum];
+
 
 export function PortfolioSyncInfoErrorFromJSON(json: any): PortfolioSyncInfoError {
     return PortfolioSyncInfoErrorFromJSONTyped(json, false);
@@ -61,7 +71,8 @@ export function PortfolioSyncInfoErrorFromJSONTyped(json: any, ignoreDiscriminat
         return json;
     }
     return {
-        ...PortfolioSyncInfoFromJSONTyped(json, ignoreDiscriminator),
+        
+        'status': json['status'],
         'error': SyncErrorFromJSON(json['error']),
     };
 }
@@ -75,9 +86,10 @@ export function PortfolioSyncInfoErrorToJSONRecursive(value?: PortfolioSyncInfoE
     }
 
     return {
-        ...ignoreParent ? {} : PortfolioSyncInfoToJSON(value),
+        
 
 
+        'status': value.status,
         'error': SyncErrorToJSON(value.error),
     };
 }

@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface GenericTableRowValueLinkUrlAllOf
  */
-export interface CreateModeSessionTan {
+export interface GenericTableRowValueLinkUrlAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof GenericTableRowValueLinkUrlAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    type?: GenericTableRowValueLinkUrlAllOfTypeEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const GenericTableRowValueLinkUrlAllOfTypeEnum = {
+    Url: 'url'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type GenericTableRowValueLinkUrlAllOfTypeEnum = typeof GenericTableRowValueLinkUrlAllOfTypeEnum[keyof typeof GenericTableRowValueLinkUrlAllOfTypeEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function GenericTableRowValueLinkUrlAllOfFromJSON(json: any): GenericTableRowValueLinkUrlAllOf {
+    return GenericTableRowValueLinkUrlAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function GenericTableRowValueLinkUrlAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkUrlAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'type': !exists(json, 'type') ? undefined : json['type'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function GenericTableRowValueLinkUrlAllOfToJSONRecursive(value?: GenericTableRowValueLinkUrlAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'type': value.type,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function GenericTableRowValueLinkUrlAllOfToJSON(value?: GenericTableRowValueLinkUrlAllOf | null): any {
+    return GenericTableRowValueLinkUrlAllOfToJSONRecursive(value, false);
 }

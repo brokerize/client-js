@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
+    GenericTableRowTextAllOf,
+    GenericTableRowTextAllOfFromJSON,
+    GenericTableRowTextAllOfFromJSONTyped,
+    GenericTableRowTextAllOfToJSON,
+} from './GenericTableRowTextAllOf';
 import {
     GenericTableRowValueTextSpecifics,
     GenericTableRowValueTextSpecificsFromJSON,
     GenericTableRowValueTextSpecificsFromJSONTyped,
     GenericTableRowValueTextSpecificsToJSON,
 } from './GenericTableRowValueTextSpecifics';
-import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
 
 /**
  * 
  * @export
  * @interface GenericTableRowValueText
  */
-export interface GenericTableRowValueText extends GenericTableRowValue {
+export interface GenericTableRowValueText {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenericTableRowValueText
+     */
+    type: GenericTableRowValueTextTypeEnum;
     /**
      * 
      * @type {string}
@@ -45,6 +45,16 @@ export interface GenericTableRowValueText extends GenericTableRowValue {
      */
     value: string;
 }
+
+
+/**
+ * @export
+ */
+export const GenericTableRowValueTextTypeEnum = {
+    Text: 'text'
+} as const;
+export type GenericTableRowValueTextTypeEnum = typeof GenericTableRowValueTextTypeEnum[keyof typeof GenericTableRowValueTextTypeEnum];
+
 
 export function GenericTableRowValueTextFromJSON(json: any): GenericTableRowValueText {
     return GenericTableRowValueTextFromJSONTyped(json, false);
@@ -55,7 +65,8 @@ export function GenericTableRowValueTextFromJSONTyped(json: any, ignoreDiscrimin
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
+        
+        'type': json['type'],
         'value': json['value'],
     };
 }
@@ -69,9 +80,10 @@ export function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowV
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        
 
 
+        'type': value.type,
         'value': value.value,
     };
 }

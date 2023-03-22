@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface CreateModeSessionTanAllOf
  */
-export interface CreateModeSessionTan {
+export interface CreateModeSessionTanAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof CreateModeSessionTanAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    mode?: CreateModeSessionTanAllOfModeEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
+export const CreateModeSessionTanAllOfModeEnum = {
     SessionTan: 'sessionTan'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type CreateModeSessionTanAllOfModeEnum = typeof CreateModeSessionTanAllOfModeEnum[keyof typeof CreateModeSessionTanAllOfModeEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function CreateModeSessionTanAllOfFromJSON(json: any): CreateModeSessionTanAllOf {
+    return CreateModeSessionTanAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function CreateModeSessionTanAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTanAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'mode': !exists(json, 'mode') ? undefined : json['mode'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function CreateModeSessionTanAllOfToJSONRecursive(value?: CreateModeSessionTanAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -74,6 +67,6 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function CreateModeSessionTanAllOfToJSON(value?: CreateModeSessionTanAllOf | null): any {
+    return CreateModeSessionTanAllOfToJSONRecursive(value, false);
 }

@@ -12,34 +12,25 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRowValueLinkValueType,
-    GenericTableRowValueLinkValueTypeFromJSON,
-    GenericTableRowValueLinkValueTypeFromJSONTyped,
-    GenericTableRowValueLinkValueTypeToJSON,
-} from './GenericTableRowValueLinkValueType';
-
+    GenericTableRowValueLinkPortfolio,
+    GenericTableRowValueLinkPortfolioFromJSON,
+    GenericTableRowValueLinkPortfolioFromJSONTyped,
+    GenericTableRowValueLinkPortfolioToJSON,
+} from './GenericTableRowValueLinkPortfolio';
 import {
-     GenericTableRowValueLinkPortfolioToJSONRecursive,
-     GenericTableRowValueLinkPortfolioFromJSONTyped,
-     GenericTableRowValueLinkUrlToJSONRecursive,
-     GenericTableRowValueLinkUrlFromJSONTyped
-} from './';
+    GenericTableRowValueLinkUrl,
+    GenericTableRowValueLinkUrlFromJSON,
+    GenericTableRowValueLinkUrlFromJSONTyped,
+    GenericTableRowValueLinkUrlToJSON,
+} from './GenericTableRowValueLinkUrl';
 
 /**
+ * @type GenericTableRowValueLinkValue
  * 
  * @export
- * @interface GenericTableRowValueLinkValue
  */
-export interface GenericTableRowValueLinkValue {
-    /**
-     * 
-     * @type {GenericTableRowValueLinkValueType}
-     * @memberof GenericTableRowValueLinkValue
-     */
-    type: GenericTableRowValueLinkValueType;
-}
+export type GenericTableRowValueLinkValue = { type: 'portfolio' } & GenericTableRowValueLinkPortfolio | { type: 'url' } & GenericTableRowValueLinkUrl;
 
 export function GenericTableRowValueLinkValueFromJSON(json: any): GenericTableRowValueLinkValue {
     return GenericTableRowValueLinkValueFromJSONTyped(json, false);
@@ -49,38 +40,30 @@ export function GenericTableRowValueLinkValueFromJSONTyped(json: any, ignoreDisc
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['type'] === 'portfolio') {
-            return GenericTableRowValueLinkPortfolioFromJSONTyped(json, true);
-        }
-        if (json['type'] === 'url') {
-            return GenericTableRowValueLinkUrlFromJSONTyped(json, true);
-        }
+    switch (json['type']) {
+        case 'portfolio':
+            return {...GenericTableRowValueLinkPortfolioFromJSONTyped(json, true), type: 'portfolio'};
+        case 'url':
+            return {...GenericTableRowValueLinkUrlFromJSONTyped(json, true), type: 'url'};
+        default:
+            throw new Error(`No variant of GenericTableRowValueLinkValue exists with 'type=${json['type']}'`);
     }
-    return {
-        
-        'type': GenericTableRowValueLinkValueTypeFromJSON(json['type']),
-    };
 }
 
-export function GenericTableRowValueLinkValueToJSONRecursive(value?: GenericTableRowValueLinkValue | null, ignoreParent = false): any {
+export function GenericTableRowValueLinkValueToJSON(value?: GenericTableRowValueLinkValue | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['type'] === 'portfolio' ? GenericTableRowValueLinkPortfolioToJSONRecursive(value as any, true) : {},
-          ...value['type'] === 'url' ? GenericTableRowValueLinkUrlToJSONRecursive(value as any, true) : {},
-
-        'type': GenericTableRowValueLinkValueTypeToJSON(value.type),
-    };
+    switch (value['type']) {
+        case 'portfolio':
+            return GenericTableRowValueLinkPortfolioToJSON(value);
+        case 'url':
+            return GenericTableRowValueLinkUrlToJSON(value);
+        default:
+            throw new Error(`No variant of GenericTableRowValueLinkValue exists with 'type=${value['type']}'`);
+    }
 }
 
-export function GenericTableRowValueLinkValueToJSON(value?: GenericTableRowValueLinkValue | null): any {
-    return GenericTableRowValueLinkValueToJSONRecursive(value, false);
-}

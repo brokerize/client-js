@@ -12,36 +12,31 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRowType,
-    GenericTableRowTypeFromJSON,
-    GenericTableRowTypeFromJSONTyped,
-    GenericTableRowTypeToJSON,
-} from './GenericTableRowType';
-
+    GenericTableRowEntry,
+    GenericTableRowEntryFromJSON,
+    GenericTableRowEntryFromJSONTyped,
+    GenericTableRowEntryToJSON,
+} from './GenericTableRowEntry';
 import {
-     GenericTableRowEntryToJSONRecursive,
-     GenericTableRowEntryFromJSONTyped,
-     GenericTableRowSubheadingToJSONRecursive,
-     GenericTableRowSubheadingFromJSONTyped,
-     GenericTableRowTextToJSONRecursive,
-     GenericTableRowTextFromJSONTyped
-} from './';
+    GenericTableRowSubheading,
+    GenericTableRowSubheadingFromJSON,
+    GenericTableRowSubheadingFromJSONTyped,
+    GenericTableRowSubheadingToJSON,
+} from './GenericTableRowSubheading';
+import {
+    GenericTableRowText,
+    GenericTableRowTextFromJSON,
+    GenericTableRowTextFromJSONTyped,
+    GenericTableRowTextToJSON,
+} from './GenericTableRowText';
 
 /**
+ * @type GenericTableRow
  * 
  * @export
- * @interface GenericTableRow
  */
-export interface GenericTableRow {
-    /**
-     * 
-     * @type {GenericTableRowType}
-     * @memberof GenericTableRow
-     */
-    type: GenericTableRowType;
-}
+export type GenericTableRow = { type: 'entry' } & GenericTableRowEntry | { type: 'subheading' } & GenericTableRowSubheading | { type: 'text' } & GenericTableRowText;
 
 export function GenericTableRowFromJSON(json: any): GenericTableRow {
     return GenericTableRowFromJSONTyped(json, false);
@@ -51,42 +46,34 @@ export function GenericTableRowFromJSONTyped(json: any, ignoreDiscriminator: boo
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['type'] === 'entry') {
-            return GenericTableRowEntryFromJSONTyped(json, true);
-        }
-        if (json['type'] === 'subheading') {
-            return GenericTableRowSubheadingFromJSONTyped(json, true);
-        }
-        if (json['type'] === 'text') {
-            return GenericTableRowTextFromJSONTyped(json, true);
-        }
+    switch (json['type']) {
+        case 'entry':
+            return {...GenericTableRowEntryFromJSONTyped(json, true), type: 'entry'};
+        case 'subheading':
+            return {...GenericTableRowSubheadingFromJSONTyped(json, true), type: 'subheading'};
+        case 'text':
+            return {...GenericTableRowTextFromJSONTyped(json, true), type: 'text'};
+        default:
+            throw new Error(`No variant of GenericTableRow exists with 'type=${json['type']}'`);
     }
-    return {
-        
-        'type': GenericTableRowTypeFromJSON(json['type']),
-    };
 }
 
-export function GenericTableRowToJSONRecursive(value?: GenericTableRow | null, ignoreParent = false): any {
+export function GenericTableRowToJSON(value?: GenericTableRow | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['type'] === 'entry' ? GenericTableRowEntryToJSONRecursive(value as any, true) : {},
-          ...value['type'] === 'subheading' ? GenericTableRowSubheadingToJSONRecursive(value as any, true) : {},
-          ...value['type'] === 'text' ? GenericTableRowTextToJSONRecursive(value as any, true) : {},
-
-        'type': GenericTableRowTypeToJSON(value.type),
-    };
+    switch (value['type']) {
+        case 'entry':
+            return GenericTableRowEntryToJSON(value);
+        case 'subheading':
+            return GenericTableRowSubheadingToJSON(value);
+        case 'text':
+            return GenericTableRowTextToJSON(value);
+        default:
+            throw new Error(`No variant of GenericTableRow exists with 'type=${value['type']}'`);
+    }
 }
 
-export function GenericTableRowToJSON(value?: GenericTableRow | null): any {
-    return GenericTableRowToJSONRecursive(value, false);
-}

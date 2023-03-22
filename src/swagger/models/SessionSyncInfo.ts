@@ -12,36 +12,31 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    SessionSyncInfoStatus,
-    SessionSyncInfoStatusFromJSON,
-    SessionSyncInfoStatusFromJSONTyped,
-    SessionSyncInfoStatusToJSON,
-} from './SessionSyncInfoStatus';
-
+    SessionSyncInfoError,
+    SessionSyncInfoErrorFromJSON,
+    SessionSyncInfoErrorFromJSONTyped,
+    SessionSyncInfoErrorToJSON,
+} from './SessionSyncInfoError';
 import {
-     SessionSyncInfoErrorToJSONRecursive,
-     SessionSyncInfoErrorFromJSONTyped,
-     SessionSyncInfoPendingToJSONRecursive,
-     SessionSyncInfoPendingFromJSONTyped,
-     SessionSyncInfoSyncedToJSONRecursive,
-     SessionSyncInfoSyncedFromJSONTyped
-} from './';
+    SessionSyncInfoPending,
+    SessionSyncInfoPendingFromJSON,
+    SessionSyncInfoPendingFromJSONTyped,
+    SessionSyncInfoPendingToJSON,
+} from './SessionSyncInfoPending';
+import {
+    SessionSyncInfoSynced,
+    SessionSyncInfoSyncedFromJSON,
+    SessionSyncInfoSyncedFromJSONTyped,
+    SessionSyncInfoSyncedToJSON,
+} from './SessionSyncInfoSynced';
 
 /**
+ * @type SessionSyncInfo
  * 
  * @export
- * @interface SessionSyncInfo
  */
-export interface SessionSyncInfo {
-    /**
-     * 
-     * @type {SessionSyncInfoStatus}
-     * @memberof SessionSyncInfo
-     */
-    status: SessionSyncInfoStatus;
-}
+export type SessionSyncInfo = { status: 'ERROR' } & SessionSyncInfoError | { status: 'PENDING' } & SessionSyncInfoPending | { status: 'SYNCED' } & SessionSyncInfoSynced;
 
 export function SessionSyncInfoFromJSON(json: any): SessionSyncInfo {
     return SessionSyncInfoFromJSONTyped(json, false);
@@ -51,42 +46,34 @@ export function SessionSyncInfoFromJSONTyped(json: any, ignoreDiscriminator: boo
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['status'] === 'ERROR') {
-            return SessionSyncInfoErrorFromJSONTyped(json, true);
-        }
-        if (json['status'] === 'PENDING') {
-            return SessionSyncInfoPendingFromJSONTyped(json, true);
-        }
-        if (json['status'] === 'SYNCED') {
-            return SessionSyncInfoSyncedFromJSONTyped(json, true);
-        }
+    switch (json['status']) {
+        case 'ERROR':
+            return {...SessionSyncInfoErrorFromJSONTyped(json, true), status: 'ERROR'};
+        case 'PENDING':
+            return {...SessionSyncInfoPendingFromJSONTyped(json, true), status: 'PENDING'};
+        case 'SYNCED':
+            return {...SessionSyncInfoSyncedFromJSONTyped(json, true), status: 'SYNCED'};
+        default:
+            throw new Error(`No variant of SessionSyncInfo exists with 'status=${json['status']}'`);
     }
-    return {
-        
-        'status': SessionSyncInfoStatusFromJSON(json['status']),
-    };
 }
 
-export function SessionSyncInfoToJSONRecursive(value?: SessionSyncInfo | null, ignoreParent = false): any {
+export function SessionSyncInfoToJSON(value?: SessionSyncInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['status'] === 'ERROR' ? SessionSyncInfoErrorToJSONRecursive(value as any, true) : {},
-          ...value['status'] === 'PENDING' ? SessionSyncInfoPendingToJSONRecursive(value as any, true) : {},
-          ...value['status'] === 'SYNCED' ? SessionSyncInfoSyncedToJSONRecursive(value as any, true) : {},
-
-        'status': SessionSyncInfoStatusToJSON(value.status),
-    };
+    switch (value['status']) {
+        case 'ERROR':
+            return SessionSyncInfoErrorToJSON(value);
+        case 'PENDING':
+            return SessionSyncInfoPendingToJSON(value);
+        case 'SYNCED':
+            return SessionSyncInfoSyncedToJSON(value);
+        default:
+            throw new Error(`No variant of SessionSyncInfo exists with 'status=${value['status']}'`);
+    }
 }
 
-export function SessionSyncInfoToJSON(value?: SessionSyncInfo | null): any {
-    return SessionSyncInfoToJSONRecursive(value, false);
-}

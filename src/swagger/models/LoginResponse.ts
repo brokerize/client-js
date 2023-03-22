@@ -12,34 +12,25 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    LoginResponseState,
-    LoginResponseStateFromJSON,
-    LoginResponseStateFromJSONTyped,
-    LoginResponseStateToJSON,
-} from './LoginResponseState';
-
+    LoginResponseChallenge,
+    LoginResponseChallengeFromJSON,
+    LoginResponseChallengeFromJSONTyped,
+    LoginResponseChallengeToJSON,
+} from './LoginResponseChallenge';
 import {
-     LoginResponseChallengeToJSONRecursive,
-     LoginResponseChallengeFromJSONTyped,
-     LoginResponseReadyToJSONRecursive,
-     LoginResponseReadyFromJSONTyped
-} from './';
+    LoginResponseReady,
+    LoginResponseReadyFromJSON,
+    LoginResponseReadyFromJSONTyped,
+    LoginResponseReadyToJSON,
+} from './LoginResponseReady';
 
 /**
+ * @type LoginResponse
  * 
  * @export
- * @interface LoginResponse
  */
-export interface LoginResponse {
-    /**
-     * 
-     * @type {LoginResponseState}
-     * @memberof LoginResponse
-     */
-    state: LoginResponseState;
-}
+export type LoginResponse = { state: 'challenge' } & LoginResponseChallenge | { state: 'ready' } & LoginResponseReady;
 
 export function LoginResponseFromJSON(json: any): LoginResponse {
     return LoginResponseFromJSONTyped(json, false);
@@ -49,38 +40,30 @@ export function LoginResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['state'] === 'challenge') {
-            return LoginResponseChallengeFromJSONTyped(json, true);
-        }
-        if (json['state'] === 'ready') {
-            return LoginResponseReadyFromJSONTyped(json, true);
-        }
+    switch (json['state']) {
+        case 'challenge':
+            return {...LoginResponseChallengeFromJSONTyped(json, true), state: 'challenge'};
+        case 'ready':
+            return {...LoginResponseReadyFromJSONTyped(json, true), state: 'ready'};
+        default:
+            throw new Error(`No variant of LoginResponse exists with 'state=${json['state']}'`);
     }
-    return {
-        
-        'state': LoginResponseStateFromJSON(json['state']),
-    };
 }
 
-export function LoginResponseToJSONRecursive(value?: LoginResponse | null, ignoreParent = false): any {
+export function LoginResponseToJSON(value?: LoginResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['state'] === 'challenge' ? LoginResponseChallengeToJSONRecursive(value as any, true) : {},
-          ...value['state'] === 'ready' ? LoginResponseReadyToJSONRecursive(value as any, true) : {},
-
-        'state': LoginResponseStateToJSON(value.state),
-    };
+    switch (value['state']) {
+        case 'challenge':
+            return LoginResponseChallengeToJSON(value);
+        case 'ready':
+            return LoginResponseReadyToJSON(value);
+        default:
+            throw new Error(`No variant of LoginResponse exists with 'state=${value['state']}'`);
+    }
 }
 
-export function LoginResponseToJSON(value?: LoginResponse | null): any {
-    return LoginResponseToJSONRecursive(value, false);
-}

@@ -14,17 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AuthMethod,
-    AuthMethodFromJSON,
-    AuthMethodFromJSONTyped,
-    AuthMethodToJSON,
-} from './AuthMethod';
-import {
-    AuthMethodFlow,
-    AuthMethodFlowFromJSON,
-    AuthMethodFlowFromJSONTyped,
-    AuthMethodFlowToJSON,
-} from './AuthMethodFlow';
+    AuthMethodTanAllOf,
+    AuthMethodTanAllOfFromJSON,
+    AuthMethodTanAllOfFromJSONTyped,
+    AuthMethodTanAllOfToJSON,
+} from './AuthMethodTanAllOf';
 import {
     AuthMethodTanSpecifics,
     AuthMethodTanSpecificsFromJSON,
@@ -39,7 +33,13 @@ import {
  * @export
  * @interface AuthMethodTan
  */
-export interface AuthMethodTan extends AuthMethod {
+export interface AuthMethodTan {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthMethodTan
+     */
+    flow: AuthMethodTanFlowEnum;
     /**
      * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
      * be scanned with a phone).
@@ -73,6 +73,16 @@ export interface AuthMethodTan extends AuthMethod {
     id: string;
 }
 
+
+/**
+ * @export
+ */
+export const AuthMethodTanFlowEnum = {
+    Tan: 'TAN'
+} as const;
+export type AuthMethodTanFlowEnum = typeof AuthMethodTanFlowEnum[keyof typeof AuthMethodTanFlowEnum];
+
+
 export function AuthMethodTanFromJSON(json: any): AuthMethodTan {
     return AuthMethodTanFromJSONTyped(json, false);
 }
@@ -82,7 +92,8 @@ export function AuthMethodTanFromJSONTyped(json: any, ignoreDiscriminator: boole
         return json;
     }
     return {
-        ...AuthMethodFromJSONTyped(json, ignoreDiscriminator),
+        
+        'flow': json['flow'],
         'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'tanFieldLabel': json['tanFieldLabel'],
         'isDefaultMethod': !exists(json, 'isDefaultMethod') ? undefined : json['isDefaultMethod'],
@@ -100,9 +111,10 @@ export function AuthMethodTanToJSONRecursive(value?: AuthMethodTan | null, ignor
     }
 
     return {
-        ...ignoreParent ? {} : AuthMethodToJSON(value),
+        
 
 
+        'flow': value.flow,
         'hideOnPhones': value.hideOnPhones,
         'tanFieldLabel': value.tanFieldLabel,
         'isDefaultMethod': value.isDefaultMethod,

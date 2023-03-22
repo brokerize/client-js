@@ -20,30 +20,30 @@ import {
     ChallengeToJSON,
 } from './Challenge';
 import {
-    LoginResponse,
-    LoginResponseFromJSON,
-    LoginResponseFromJSONTyped,
-    LoginResponseToJSON,
-} from './LoginResponse';
+    LoginResponseChallengeAllOf,
+    LoginResponseChallengeAllOfFromJSON,
+    LoginResponseChallengeAllOfFromJSONTyped,
+    LoginResponseChallengeAllOfToJSON,
+} from './LoginResponseChallengeAllOf';
 import {
     LoginResponseChallengeSpecifics,
     LoginResponseChallengeSpecificsFromJSON,
     LoginResponseChallengeSpecificsFromJSONTyped,
     LoginResponseChallengeSpecificsToJSON,
 } from './LoginResponseChallengeSpecifics';
-import {
-    LoginResponseState,
-    LoginResponseStateFromJSON,
-    LoginResponseStateFromJSONTyped,
-    LoginResponseStateToJSON,
-} from './LoginResponseState';
 
 /**
  * 
  * @export
  * @interface LoginResponseChallenge
  */
-export interface LoginResponseChallenge extends LoginResponse {
+export interface LoginResponseChallenge {
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginResponseChallenge
+     */
+    state: LoginResponseChallengeStateEnum;
     /**
      * 
      * @type {Challenge}
@@ -51,6 +51,16 @@ export interface LoginResponseChallenge extends LoginResponse {
      */
     challenge: Challenge;
 }
+
+
+/**
+ * @export
+ */
+export const LoginResponseChallengeStateEnum = {
+    Challenge: 'challenge'
+} as const;
+export type LoginResponseChallengeStateEnum = typeof LoginResponseChallengeStateEnum[keyof typeof LoginResponseChallengeStateEnum];
+
 
 export function LoginResponseChallengeFromJSON(json: any): LoginResponseChallenge {
     return LoginResponseChallengeFromJSONTyped(json, false);
@@ -61,7 +71,8 @@ export function LoginResponseChallengeFromJSONTyped(json: any, ignoreDiscriminat
         return json;
     }
     return {
-        ...LoginResponseFromJSONTyped(json, ignoreDiscriminator),
+        
+        'state': json['state'],
         'challenge': ChallengeFromJSON(json['challenge']),
     };
 }
@@ -75,9 +86,10 @@ export function LoginResponseChallengeToJSONRecursive(value?: LoginResponseChall
     }
 
     return {
-        ...ignoreParent ? {} : LoginResponseToJSON(value),
+        
 
 
+        'state': value.state,
         'challenge': ChallengeToJSON(value.challenge),
     };
 }

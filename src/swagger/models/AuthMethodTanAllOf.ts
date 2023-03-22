@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface AuthMethodTanAllOf
  */
-export interface CreateModeSessionTan {
+export interface AuthMethodTanAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof AuthMethodTanAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    flow?: AuthMethodTanAllOfFlowEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const AuthMethodTanAllOfFlowEnum = {
+    Tan: 'TAN'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type AuthMethodTanAllOfFlowEnum = typeof AuthMethodTanAllOfFlowEnum[keyof typeof AuthMethodTanAllOfFlowEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function AuthMethodTanAllOfFromJSON(json: any): AuthMethodTanAllOf {
+    return AuthMethodTanAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function AuthMethodTanAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodTanAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'flow': !exists(json, 'flow') ? undefined : json['flow'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function AuthMethodTanAllOfToJSONRecursive(value?: AuthMethodTanAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'flow': value.flow,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function AuthMethodTanAllOfToJSON(value?: AuthMethodTanAllOf | null): any {
+    return AuthMethodTanAllOfToJSONRecursive(value, false);
 }

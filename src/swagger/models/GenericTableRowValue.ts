@@ -12,38 +12,37 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
-
+    GenericTableRowValueAmount,
+    GenericTableRowValueAmountFromJSON,
+    GenericTableRowValueAmountFromJSONTyped,
+    GenericTableRowValueAmountToJSON,
+} from './GenericTableRowValueAmount';
 import {
-     GenericTableRowValueAmountToJSONRecursive,
-     GenericTableRowValueAmountFromJSONTyped,
-     GenericTableRowValueDatetimeToJSONRecursive,
-     GenericTableRowValueDatetimeFromJSONTyped,
-     GenericTableRowValueLinkToJSONRecursive,
-     GenericTableRowValueLinkFromJSONTyped,
-     GenericTableRowValueTextToJSONRecursive,
-     GenericTableRowValueTextFromJSONTyped
-} from './';
+    GenericTableRowValueDatetime,
+    GenericTableRowValueDatetimeFromJSON,
+    GenericTableRowValueDatetimeFromJSONTyped,
+    GenericTableRowValueDatetimeToJSON,
+} from './GenericTableRowValueDatetime';
+import {
+    GenericTableRowValueLink,
+    GenericTableRowValueLinkFromJSON,
+    GenericTableRowValueLinkFromJSONTyped,
+    GenericTableRowValueLinkToJSON,
+} from './GenericTableRowValueLink';
+import {
+    GenericTableRowValueText,
+    GenericTableRowValueTextFromJSON,
+    GenericTableRowValueTextFromJSONTyped,
+    GenericTableRowValueTextToJSON,
+} from './GenericTableRowValueText';
 
 /**
+ * @type GenericTableRowValue
  * 
  * @export
- * @interface GenericTableRowValue
  */
-export interface GenericTableRowValue {
-    /**
-     * 
-     * @type {GenericTableRowValueType}
-     * @memberof GenericTableRowValue
-     */
-    type: GenericTableRowValueType;
-}
+export type GenericTableRowValue = { type: 'amount' } & GenericTableRowValueAmount | { type: 'datetime' } & GenericTableRowValueDatetime | { type: 'link' } & GenericTableRowValueLink | { type: 'text' } & GenericTableRowValueText;
 
 export function GenericTableRowValueFromJSON(json: any): GenericTableRowValue {
     return GenericTableRowValueFromJSONTyped(json, false);
@@ -53,46 +52,38 @@ export function GenericTableRowValueFromJSONTyped(json: any, ignoreDiscriminator
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['type'] === 'amount') {
-            return GenericTableRowValueAmountFromJSONTyped(json, true);
-        }
-        if (json['type'] === 'datetime') {
-            return GenericTableRowValueDatetimeFromJSONTyped(json, true);
-        }
-        if (json['type'] === 'link') {
-            return GenericTableRowValueLinkFromJSONTyped(json, true);
-        }
-        if (json['type'] === 'text') {
-            return GenericTableRowValueTextFromJSONTyped(json, true);
-        }
+    switch (json['type']) {
+        case 'amount':
+            return {...GenericTableRowValueAmountFromJSONTyped(json, true), type: 'amount'};
+        case 'datetime':
+            return {...GenericTableRowValueDatetimeFromJSONTyped(json, true), type: 'datetime'};
+        case 'link':
+            return {...GenericTableRowValueLinkFromJSONTyped(json, true), type: 'link'};
+        case 'text':
+            return {...GenericTableRowValueTextFromJSONTyped(json, true), type: 'text'};
+        default:
+            throw new Error(`No variant of GenericTableRowValue exists with 'type=${json['type']}'`);
     }
-    return {
-        
-        'type': GenericTableRowValueTypeFromJSON(json['type']),
-    };
 }
 
-export function GenericTableRowValueToJSONRecursive(value?: GenericTableRowValue | null, ignoreParent = false): any {
+export function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['type'] === 'amount' ? GenericTableRowValueAmountToJSONRecursive(value as any, true) : {},
-          ...value['type'] === 'datetime' ? GenericTableRowValueDatetimeToJSONRecursive(value as any, true) : {},
-          ...value['type'] === 'link' ? GenericTableRowValueLinkToJSONRecursive(value as any, true) : {},
-          ...value['type'] === 'text' ? GenericTableRowValueTextToJSONRecursive(value as any, true) : {},
-
-        'type': GenericTableRowValueTypeToJSON(value.type),
-    };
+    switch (value['type']) {
+        case 'amount':
+            return GenericTableRowValueAmountToJSON(value);
+        case 'datetime':
+            return GenericTableRowValueDatetimeToJSON(value);
+        case 'link':
+            return GenericTableRowValueLinkToJSON(value);
+        case 'text':
+            return GenericTableRowValueTextToJSON(value);
+        default:
+            throw new Error(`No variant of GenericTableRowValue exists with 'type=${value['type']}'`);
+    }
 }
 
-export function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any {
-    return GenericTableRowValueToJSONRecursive(value, false);
-}

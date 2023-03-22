@@ -14,23 +14,17 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRow,
-    GenericTableRowFromJSON,
-    GenericTableRowFromJSONTyped,
-    GenericTableRowToJSON,
-} from './GenericTableRow';
+    GenericTableRowEntryAllOf,
+    GenericTableRowEntryAllOfFromJSON,
+    GenericTableRowEntryAllOfFromJSONTyped,
+    GenericTableRowEntryAllOfToJSON,
+} from './GenericTableRowEntryAllOf';
 import {
     GenericTableRowEntrySpecifics,
     GenericTableRowEntrySpecificsFromJSON,
     GenericTableRowEntrySpecificsFromJSONTyped,
     GenericTableRowEntrySpecificsToJSON,
 } from './GenericTableRowEntrySpecifics';
-import {
-    GenericTableRowType,
-    GenericTableRowTypeFromJSON,
-    GenericTableRowTypeFromJSONTyped,
-    GenericTableRowTypeToJSON,
-} from './GenericTableRowType';
 import {
     GenericTableRowValue,
     GenericTableRowValueFromJSON,
@@ -43,7 +37,13 @@ import {
  * @export
  * @interface GenericTableRowEntry
  */
-export interface GenericTableRowEntry extends GenericTableRow {
+export interface GenericTableRowEntry {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenericTableRowEntry
+     */
+    type: GenericTableRowEntryTypeEnum;
     /**
      * 
      * @type {GenericTableRowValue}
@@ -70,6 +70,16 @@ export interface GenericTableRowEntry extends GenericTableRow {
     id?: string;
 }
 
+
+/**
+ * @export
+ */
+export const GenericTableRowEntryTypeEnum = {
+    Entry: 'entry'
+} as const;
+export type GenericTableRowEntryTypeEnum = typeof GenericTableRowEntryTypeEnum[keyof typeof GenericTableRowEntryTypeEnum];
+
+
 export function GenericTableRowEntryFromJSON(json: any): GenericTableRowEntry {
     return GenericTableRowEntryFromJSONTyped(json, false);
 }
@@ -79,7 +89,8 @@ export function GenericTableRowEntryFromJSONTyped(json: any, ignoreDiscriminator
         return json;
     }
     return {
-        ...GenericTableRowFromJSONTyped(json, ignoreDiscriminator),
+        
+        'type': json['type'],
         'value': !exists(json, 'value') ? undefined : GenericTableRowValueFromJSON(json['value']),
         'isImportant': !exists(json, 'isImportant') ? undefined : json['isImportant'],
         'caption': json['caption'],
@@ -96,9 +107,10 @@ export function GenericTableRowEntryToJSONRecursive(value?: GenericTableRowEntry
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowToJSON(value),
+        
 
 
+        'type': value.type,
         'value': GenericTableRowValueToJSON(value.value),
         'isImportant': value.isImportant,
         'caption': value.caption,

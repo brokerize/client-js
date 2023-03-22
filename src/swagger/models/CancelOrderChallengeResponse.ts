@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    CancelOrderChallengeResponseAllOf,
+    CancelOrderChallengeResponseAllOfFromJSON,
+    CancelOrderChallengeResponseAllOfFromJSONTyped,
+    CancelOrderChallengeResponseAllOfToJSON,
+} from './CancelOrderChallengeResponseAllOf';
+import {
     CancelOrderChallengeResponseSpecifics,
     CancelOrderChallengeResponseSpecificsFromJSON,
     CancelOrderChallengeResponseSpecificsFromJSONTyped,
     CancelOrderChallengeResponseSpecificsToJSON,
 } from './CancelOrderChallengeResponseSpecifics';
-import {
-    CancelOrderParams,
-    CancelOrderParamsFromJSON,
-    CancelOrderParamsFromJSONTyped,
-    CancelOrderParamsToJSON,
-} from './CancelOrderParams';
-import {
-    CancelOrderParamsMode,
-    CancelOrderParamsModeFromJSON,
-    CancelOrderParamsModeFromJSONTyped,
-    CancelOrderParamsModeToJSON,
-} from './CancelOrderParamsMode';
 
 /**
  * 
  * @export
  * @interface CancelOrderChallengeResponse
  */
-export interface CancelOrderChallengeResponse extends CancelOrderParams {
+export interface CancelOrderChallengeResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof CancelOrderChallengeResponse
+     */
+    mode: CancelOrderChallengeResponseModeEnum;
     /**
      * 
      * @type {string}
@@ -58,6 +58,16 @@ export interface CancelOrderChallengeResponse extends CancelOrderParams {
     challengeResponse: string;
 }
 
+
+/**
+ * @export
+ */
+export const CancelOrderChallengeResponseModeEnum = {
+    ChallengeResponse: 'challengeResponse'
+} as const;
+export type CancelOrderChallengeResponseModeEnum = typeof CancelOrderChallengeResponseModeEnum[keyof typeof CancelOrderChallengeResponseModeEnum];
+
+
 export function CancelOrderChallengeResponseFromJSON(json: any): CancelOrderChallengeResponse {
     return CancelOrderChallengeResponseFromJSONTyped(json, false);
 }
@@ -67,7 +77,8 @@ export function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscr
         return json;
     }
     return {
-        ...CancelOrderParamsFromJSONTyped(json, ignoreDiscriminator),
+        
+        'mode': json['mode'],
         'authMethod': !exists(json, 'authMethod') ? undefined : json['authMethod'],
         'challengeId': !exists(json, 'challengeId') ? undefined : json['challengeId'],
         'challengeResponse': json['challengeResponse'],
@@ -83,9 +94,10 @@ export function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderC
     }
 
     return {
-        ...ignoreParent ? {} : CancelOrderParamsToJSON(value),
+        
 
 
+        'mode': value.mode,
         'authMethod': value.authMethod,
         'challengeId': value.challengeId,
         'challengeResponse': value.challengeResponse,
