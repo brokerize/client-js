@@ -189,14 +189,19 @@ function AuthInfoToJSON(value?: AuthInfo | null): any;
 function AuthInfoToJSONRecursive(value?: AuthInfo | null, ignoreParent?: boolean): any;
 
 // @public
-interface AuthMethod {
-    flow: AuthMethodFlow;
-}
+type AuthMethod = {
+    flow: 'CHALLENGE_RESPONSE';
+} & AuthMethodChallengeResponse | {
+    flow: 'DECOUPLED';
+} & AuthMethodDecoupled | {
+    flow: 'TAN';
+} & AuthMethodTan;
 
 // @public
-interface AuthMethodChallengeResponse extends AuthMethod {
+interface AuthMethodChallengeResponse {
     challengeLabel?: string;
     challengeResponseIsOnlyConfirmation?: boolean;
+    flow: AuthMethodChallengeResponseFlowEnum;
     getChallengeLabel: string;
     hideOnPhones?: boolean;
     id: string;
@@ -204,6 +209,39 @@ interface AuthMethodChallengeResponse extends AuthMethod {
     label: string;
     tanFieldLabel: string;
 }
+
+// @public
+interface AuthMethodChallengeResponseAllOf {
+    flow?: AuthMethodChallengeResponseAllOfFlowEnum;
+}
+
+// @public (undocumented)
+const AuthMethodChallengeResponseAllOfFlowEnum: {
+    readonly ChallengeResponse: "CHALLENGE_RESPONSE";
+};
+
+// @public (undocumented)
+type AuthMethodChallengeResponseAllOfFlowEnum = typeof AuthMethodChallengeResponseAllOfFlowEnum[keyof typeof AuthMethodChallengeResponseAllOfFlowEnum];
+
+// @public (undocumented)
+function AuthMethodChallengeResponseAllOfFromJSON(json: any): AuthMethodChallengeResponseAllOf;
+
+// @public (undocumented)
+function AuthMethodChallengeResponseAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodChallengeResponseAllOf;
+
+// @public (undocumented)
+function AuthMethodChallengeResponseAllOfToJSON(value?: AuthMethodChallengeResponseAllOf | null): any;
+
+// @public (undocumented)
+function AuthMethodChallengeResponseAllOfToJSONRecursive(value?: AuthMethodChallengeResponseAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const AuthMethodChallengeResponseFlowEnum: {
+    readonly ChallengeResponse: "CHALLENGE_RESPONSE";
+};
+
+// @public (undocumented)
+type AuthMethodChallengeResponseFlowEnum = typeof AuthMethodChallengeResponseFlowEnum[keyof typeof AuthMethodChallengeResponseFlowEnum];
 
 // @public (undocumented)
 function AuthMethodChallengeResponseFromJSON(json: any): AuthMethodChallengeResponse;
@@ -242,12 +280,46 @@ function AuthMethodChallengeResponseToJSON(value?: AuthMethodChallengeResponse |
 function AuthMethodChallengeResponseToJSONRecursive(value?: AuthMethodChallengeResponse | null, ignoreParent?: boolean): any;
 
 // @public
-interface AuthMethodDecoupled extends AuthMethod {
+interface AuthMethodDecoupled {
+    flow: AuthMethodDecoupledFlowEnum;
     hideOnPhones?: boolean;
     id: string;
     isDefaultMethod?: boolean;
     label: string;
 }
+
+// @public
+interface AuthMethodDecoupledAllOf {
+    flow?: AuthMethodDecoupledAllOfFlowEnum;
+}
+
+// @public (undocumented)
+const AuthMethodDecoupledAllOfFlowEnum: {
+    readonly Decoupled: "DECOUPLED";
+};
+
+// @public (undocumented)
+type AuthMethodDecoupledAllOfFlowEnum = typeof AuthMethodDecoupledAllOfFlowEnum[keyof typeof AuthMethodDecoupledAllOfFlowEnum];
+
+// @public (undocumented)
+function AuthMethodDecoupledAllOfFromJSON(json: any): AuthMethodDecoupledAllOf;
+
+// @public (undocumented)
+function AuthMethodDecoupledAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodDecoupledAllOf;
+
+// @public (undocumented)
+function AuthMethodDecoupledAllOfToJSON(value?: AuthMethodDecoupledAllOf | null): any;
+
+// @public (undocumented)
+function AuthMethodDecoupledAllOfToJSONRecursive(value?: AuthMethodDecoupledAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const AuthMethodDecoupledFlowEnum: {
+    readonly Decoupled: "DECOUPLED";
+};
+
+// @public (undocumented)
+type AuthMethodDecoupledFlowEnum = typeof AuthMethodDecoupledFlowEnum[keyof typeof AuthMethodDecoupledFlowEnum];
 
 // @public (undocumented)
 function AuthMethodDecoupledFromJSON(json: any): AuthMethodDecoupled;
@@ -307,13 +379,47 @@ function AuthMethodFromJSON(json: any): AuthMethod;
 function AuthMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethod;
 
 // @public
-interface AuthMethodTan extends AuthMethod {
+interface AuthMethodTan {
+    flow: AuthMethodTanFlowEnum;
     hideOnPhones?: boolean;
     id: string;
     isDefaultMethod?: boolean;
     label: string;
     tanFieldLabel: string;
 }
+
+// @public
+interface AuthMethodTanAllOf {
+    flow?: AuthMethodTanAllOfFlowEnum;
+}
+
+// @public (undocumented)
+const AuthMethodTanAllOfFlowEnum: {
+    readonly Tan: "TAN";
+};
+
+// @public (undocumented)
+type AuthMethodTanAllOfFlowEnum = typeof AuthMethodTanAllOfFlowEnum[keyof typeof AuthMethodTanAllOfFlowEnum];
+
+// @public (undocumented)
+function AuthMethodTanAllOfFromJSON(json: any): AuthMethodTanAllOf;
+
+// @public (undocumented)
+function AuthMethodTanAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthMethodTanAllOf;
+
+// @public (undocumented)
+function AuthMethodTanAllOfToJSON(value?: AuthMethodTanAllOf | null): any;
+
+// @public (undocumented)
+function AuthMethodTanAllOfToJSONRecursive(value?: AuthMethodTanAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const AuthMethodTanFlowEnum: {
+    readonly Tan: "TAN";
+};
+
+// @public (undocumented)
+type AuthMethodTanFlowEnum = typeof AuthMethodTanFlowEnum[keyof typeof AuthMethodTanFlowEnum];
 
 // @public (undocumented)
 function AuthMethodTanFromJSON(json: any): AuthMethodTan;
@@ -350,9 +456,6 @@ function AuthMethodTanToJSONRecursive(value?: AuthMethodTan | null, ignoreParent
 
 // @public (undocumented)
 function AuthMethodToJSON(value?: AuthMethod | null): any;
-
-// @public (undocumented)
-function AuthMethodToJSONRecursive(value?: AuthMethod | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 export class AuthorizedApiContext {
@@ -755,17 +858,51 @@ function CancelOrderChallengeParamsToJSON(value?: CancelOrderChallengeParams | n
 function CancelOrderChallengeParamsToJSONRecursive(value?: CancelOrderChallengeParams | null, ignoreParent?: boolean): any;
 
 // @public
-interface CancelOrderChallengeResponse extends CancelOrderParams {
+interface CancelOrderChallengeResponse {
     authMethod?: string;
     challengeId?: string;
     challengeResponse: string;
+    mode: CancelOrderChallengeResponseModeEnum;
 }
+
+// @public
+interface CancelOrderChallengeResponseAllOf {
+    mode?: CancelOrderChallengeResponseAllOfModeEnum;
+}
+
+// @public (undocumented)
+function CancelOrderChallengeResponseAllOfFromJSON(json: any): CancelOrderChallengeResponseAllOf;
+
+// @public (undocumented)
+function CancelOrderChallengeResponseAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderChallengeResponseAllOf;
+
+// @public (undocumented)
+const CancelOrderChallengeResponseAllOfModeEnum: {
+    readonly ChallengeResponse: "challengeResponse";
+};
+
+// @public (undocumented)
+type CancelOrderChallengeResponseAllOfModeEnum = typeof CancelOrderChallengeResponseAllOfModeEnum[keyof typeof CancelOrderChallengeResponseAllOfModeEnum];
+
+// @public (undocumented)
+function CancelOrderChallengeResponseAllOfToJSON(value?: CancelOrderChallengeResponseAllOf | null): any;
+
+// @public (undocumented)
+function CancelOrderChallengeResponseAllOfToJSONRecursive(value?: CancelOrderChallengeResponseAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function CancelOrderChallengeResponseFromJSON(json: any): CancelOrderChallengeResponse;
 
 // @public (undocumented)
 function CancelOrderChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderChallengeResponse;
+
+// @public (undocumented)
+const CancelOrderChallengeResponseModeEnum: {
+    readonly ChallengeResponse: "challengeResponse";
+};
+
+// @public (undocumented)
+type CancelOrderChallengeResponseModeEnum = typeof CancelOrderChallengeResponseModeEnum[keyof typeof CancelOrderChallengeResponseModeEnum];
 
 // @public
 interface CancelOrderChallengeResponseSpecifics {
@@ -793,9 +930,11 @@ function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse
 function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChallengeResponse | null, ignoreParent?: boolean): any;
 
 // @public
-interface CancelOrderParams {
-    mode: CancelOrderParamsMode;
-}
+type CancelOrderParams = {
+    mode: 'challengeResponse';
+} & CancelOrderChallengeResponse | {
+    mode: 'sessionTan';
+} & CreateModeSessionTan;
 
 // @public (undocumented)
 function CancelOrderParamsFromJSON(json: any): CancelOrderParams;
@@ -823,9 +962,6 @@ function CancelOrderParamsModeToJSON(value?: CancelOrderParamsMode | null): any;
 
 // @public (undocumented)
 function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any;
-
-// @public (undocumented)
-function CancelOrderParamsToJSONRecursive(value?: CancelOrderParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface CancelOrderRequest {
@@ -1318,14 +1454,48 @@ function CreateGuestUserResponseToJSON(value?: CreateGuestUserResponse | null): 
 function CreateGuestUserResponseToJSONRecursive(value?: CreateGuestUserResponse | null, ignoreParent?: boolean): any;
 
 // @public
-interface CreateModeSessionTan extends CancelOrderParams {
+interface CreateModeSessionTan {
+    mode: CreateModeSessionTanModeEnum;
 }
+
+// @public
+interface CreateModeSessionTanAllOf {
+    mode?: CreateModeSessionTanAllOfModeEnum;
+}
+
+// @public (undocumented)
+function CreateModeSessionTanAllOfFromJSON(json: any): CreateModeSessionTanAllOf;
+
+// @public (undocumented)
+function CreateModeSessionTanAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTanAllOf;
+
+// @public (undocumented)
+const CreateModeSessionTanAllOfModeEnum: {
+    readonly SessionTan: "sessionTan";
+};
+
+// @public (undocumented)
+type CreateModeSessionTanAllOfModeEnum = typeof CreateModeSessionTanAllOfModeEnum[keyof typeof CreateModeSessionTanAllOfModeEnum];
+
+// @public (undocumented)
+function CreateModeSessionTanAllOfToJSON(value?: CreateModeSessionTanAllOf | null): any;
+
+// @public (undocumented)
+function CreateModeSessionTanAllOfToJSONRecursive(value?: CreateModeSessionTanAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan;
 
 // @public (undocumented)
 function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan;
+
+// @public (undocumented)
+const CreateModeSessionTanModeEnum: {
+    readonly SessionTan: "sessionTan";
+};
+
+// @public (undocumented)
+type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
 
 // @public (undocumented)
 function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any;
@@ -1648,22 +1818,60 @@ function DirectionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Direct
 function DirectionToJSON(value?: Direction | null): any;
 
 // @public
-interface EnableSessionTanParams {
-    kind: EnableSessionTanParamsKind;
-}
+type EnableSessionTanParams = {
+    kind: 'challengeResponse';
+} & EnableSessionTanParamsChallengeResponse | {
+    kind: 'decoupled';
+} & EnableSessionTanParamsDecoupled | {
+    kind: 'tan';
+} & EnableSessionTanParamsTan;
 
 // @public
-interface EnableSessionTanParamsChallengeResponse extends EnableSessionTanParams {
+interface EnableSessionTanParamsChallengeResponse {
     authMethod: string;
     challengeId: string;
     challengeResponse: string;
+    kind: EnableSessionTanParamsChallengeResponseKindEnum;
 }
+
+// @public
+interface EnableSessionTanParamsChallengeResponseAllOf {
+    kind?: EnableSessionTanParamsChallengeResponseAllOfKindEnum;
+}
+
+// @public (undocumented)
+function EnableSessionTanParamsChallengeResponseAllOfFromJSON(json: any): EnableSessionTanParamsChallengeResponseAllOf;
+
+// @public (undocumented)
+function EnableSessionTanParamsChallengeResponseAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsChallengeResponseAllOf;
+
+// @public (undocumented)
+const EnableSessionTanParamsChallengeResponseAllOfKindEnum: {
+    readonly ChallengeResponse: "challengeResponse";
+};
+
+// @public (undocumented)
+type EnableSessionTanParamsChallengeResponseAllOfKindEnum = typeof EnableSessionTanParamsChallengeResponseAllOfKindEnum[keyof typeof EnableSessionTanParamsChallengeResponseAllOfKindEnum];
+
+// @public (undocumented)
+function EnableSessionTanParamsChallengeResponseAllOfToJSON(value?: EnableSessionTanParamsChallengeResponseAllOf | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsChallengeResponseAllOfToJSONRecursive(value?: EnableSessionTanParamsChallengeResponseAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function EnableSessionTanParamsChallengeResponseFromJSON(json: any): EnableSessionTanParamsChallengeResponse;
 
 // @public (undocumented)
 function EnableSessionTanParamsChallengeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsChallengeResponse;
+
+// @public (undocumented)
+const EnableSessionTanParamsChallengeResponseKindEnum: {
+    readonly ChallengeResponse: "challengeResponse";
+};
+
+// @public (undocumented)
+type EnableSessionTanParamsChallengeResponseKindEnum = typeof EnableSessionTanParamsChallengeResponseKindEnum[keyof typeof EnableSessionTanParamsChallengeResponseKindEnum];
 
 // @public
 interface EnableSessionTanParamsChallengeResponseSpecifics {
@@ -1691,15 +1899,49 @@ function EnableSessionTanParamsChallengeResponseToJSON(value?: EnableSessionTanP
 function EnableSessionTanParamsChallengeResponseToJSONRecursive(value?: EnableSessionTanParamsChallengeResponse | null, ignoreParent?: boolean): any;
 
 // @public
-interface EnableSessionTanParamsDecoupled extends EnableSessionTanParams {
+interface EnableSessionTanParamsDecoupled {
     authMethod: string;
+    kind: EnableSessionTanParamsDecoupledKindEnum;
 }
+
+// @public
+interface EnableSessionTanParamsDecoupledAllOf {
+    kind?: EnableSessionTanParamsDecoupledAllOfKindEnum;
+}
+
+// @public (undocumented)
+function EnableSessionTanParamsDecoupledAllOfFromJSON(json: any): EnableSessionTanParamsDecoupledAllOf;
+
+// @public (undocumented)
+function EnableSessionTanParamsDecoupledAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsDecoupledAllOf;
+
+// @public (undocumented)
+const EnableSessionTanParamsDecoupledAllOfKindEnum: {
+    readonly Decoupled: "decoupled";
+};
+
+// @public (undocumented)
+type EnableSessionTanParamsDecoupledAllOfKindEnum = typeof EnableSessionTanParamsDecoupledAllOfKindEnum[keyof typeof EnableSessionTanParamsDecoupledAllOfKindEnum];
+
+// @public (undocumented)
+function EnableSessionTanParamsDecoupledAllOfToJSON(value?: EnableSessionTanParamsDecoupledAllOf | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsDecoupledAllOfToJSONRecursive(value?: EnableSessionTanParamsDecoupledAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function EnableSessionTanParamsDecoupledFromJSON(json: any): EnableSessionTanParamsDecoupled;
 
 // @public (undocumented)
 function EnableSessionTanParamsDecoupledFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsDecoupled;
+
+// @public (undocumented)
+const EnableSessionTanParamsDecoupledKindEnum: {
+    readonly Decoupled: "decoupled";
+};
+
+// @public (undocumented)
+type EnableSessionTanParamsDecoupledKindEnum = typeof EnableSessionTanParamsDecoupledKindEnum[keyof typeof EnableSessionTanParamsDecoupledKindEnum];
 
 // @public
 interface EnableSessionTanParamsDecoupledSpecifics {
@@ -1750,16 +1992,50 @@ function EnableSessionTanParamsKindFromJSONTyped(json: any, ignoreDiscriminator:
 function EnableSessionTanParamsKindToJSON(value?: EnableSessionTanParamsKind | null): any;
 
 // @public
-interface EnableSessionTanParamsTan extends EnableSessionTanParams {
+interface EnableSessionTanParamsTan {
     authMethod: string;
+    kind: EnableSessionTanParamsTanKindEnum;
     tan: string;
 }
+
+// @public
+interface EnableSessionTanParamsTanAllOf {
+    kind?: EnableSessionTanParamsTanAllOfKindEnum;
+}
+
+// @public (undocumented)
+function EnableSessionTanParamsTanAllOfFromJSON(json: any): EnableSessionTanParamsTanAllOf;
+
+// @public (undocumented)
+function EnableSessionTanParamsTanAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsTanAllOf;
+
+// @public (undocumented)
+const EnableSessionTanParamsTanAllOfKindEnum: {
+    readonly Tan: "tan";
+};
+
+// @public (undocumented)
+type EnableSessionTanParamsTanAllOfKindEnum = typeof EnableSessionTanParamsTanAllOfKindEnum[keyof typeof EnableSessionTanParamsTanAllOfKindEnum];
+
+// @public (undocumented)
+function EnableSessionTanParamsTanAllOfToJSON(value?: EnableSessionTanParamsTanAllOf | null): any;
+
+// @public (undocumented)
+function EnableSessionTanParamsTanAllOfToJSONRecursive(value?: EnableSessionTanParamsTanAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function EnableSessionTanParamsTanFromJSON(json: any): EnableSessionTanParamsTan;
 
 // @public (undocumented)
 function EnableSessionTanParamsTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsTan;
+
+// @public (undocumented)
+const EnableSessionTanParamsTanKindEnum: {
+    readonly Tan: "tan";
+};
+
+// @public (undocumented)
+type EnableSessionTanParamsTanKindEnum = typeof EnableSessionTanParamsTanKindEnum[keyof typeof EnableSessionTanParamsTanKindEnum];
 
 // @public
 interface EnableSessionTanParamsTanSpecifics {
@@ -1787,9 +2063,6 @@ function EnableSessionTanParamsTanToJSONRecursive(value?: EnableSessionTanParams
 
 // @public (undocumented)
 function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | null): any;
-
-// @public (undocumented)
-function EnableSessionTanParamsToJSONRecursive(value?: EnableSessionTanParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface EnableSessionTanRequest {
@@ -1996,17 +2269,47 @@ function GenericTableFromJSON(json: any): GenericTable;
 function GenericTableFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTable;
 
 // @public
-interface GenericTableRow {
-    type: GenericTableRowType;
-}
+type GenericTableRow = {
+    type: 'entry';
+} & GenericTableRowEntry | {
+    type: 'subheading';
+} & GenericTableRowSubheading | {
+    type: 'text';
+} & GenericTableRowText;
 
 // @public
-interface GenericTableRowEntry extends GenericTableRow {
+interface GenericTableRowEntry {
     caption: string;
     id?: string;
     isImportant?: boolean;
+    type: GenericTableRowEntryTypeEnum;
     value?: GenericTableRowValue;
 }
+
+// @public
+interface GenericTableRowEntryAllOf {
+    type?: GenericTableRowEntryAllOfTypeEnum;
+}
+
+// @public (undocumented)
+function GenericTableRowEntryAllOfFromJSON(json: any): GenericTableRowEntryAllOf;
+
+// @public (undocumented)
+function GenericTableRowEntryAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowEntryAllOf;
+
+// @public (undocumented)
+function GenericTableRowEntryAllOfToJSON(value?: GenericTableRowEntryAllOf | null): any;
+
+// @public (undocumented)
+function GenericTableRowEntryAllOfToJSONRecursive(value?: GenericTableRowEntryAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowEntryAllOfTypeEnum: {
+    readonly Entry: "entry";
+};
+
+// @public (undocumented)
+type GenericTableRowEntryAllOfTypeEnum = typeof GenericTableRowEntryAllOfTypeEnum[keyof typeof GenericTableRowEntryAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowEntryFromJSON(json: any): GenericTableRowEntry;
@@ -2041,15 +2344,49 @@ function GenericTableRowEntryToJSON(value?: GenericTableRowEntry | null): any;
 function GenericTableRowEntryToJSONRecursive(value?: GenericTableRowEntry | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+const GenericTableRowEntryTypeEnum: {
+    readonly Entry: "entry";
+};
+
+// @public (undocumented)
+type GenericTableRowEntryTypeEnum = typeof GenericTableRowEntryTypeEnum[keyof typeof GenericTableRowEntryTypeEnum];
+
+// @public (undocumented)
 function GenericTableRowFromJSON(json: any): GenericTableRow;
 
 // @public (undocumented)
 function GenericTableRowFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRow;
 
 // @public
-interface GenericTableRowSubheading extends GenericTableRow {
+interface GenericTableRowSubheading {
     subheading: string;
+    type: GenericTableRowSubheadingTypeEnum;
 }
+
+// @public
+interface GenericTableRowSubheadingAllOf {
+    type?: GenericTableRowSubheadingAllOfTypeEnum;
+}
+
+// @public (undocumented)
+function GenericTableRowSubheadingAllOfFromJSON(json: any): GenericTableRowSubheadingAllOf;
+
+// @public (undocumented)
+function GenericTableRowSubheadingAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowSubheadingAllOf;
+
+// @public (undocumented)
+function GenericTableRowSubheadingAllOfToJSON(value?: GenericTableRowSubheadingAllOf | null): any;
+
+// @public (undocumented)
+function GenericTableRowSubheadingAllOfToJSONRecursive(value?: GenericTableRowSubheadingAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowSubheadingAllOfTypeEnum: {
+    readonly Subheading: "subheading";
+};
+
+// @public (undocumented)
+type GenericTableRowSubheadingAllOfTypeEnum = typeof GenericTableRowSubheadingAllOfTypeEnum[keyof typeof GenericTableRowSubheadingAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowSubheadingFromJSON(json: any): GenericTableRowSubheading;
@@ -2080,10 +2417,44 @@ function GenericTableRowSubheadingToJSON(value?: GenericTableRowSubheading | nul
 // @public (undocumented)
 function GenericTableRowSubheadingToJSONRecursive(value?: GenericTableRowSubheading | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+const GenericTableRowSubheadingTypeEnum: {
+    readonly Subheading: "subheading";
+};
+
+// @public (undocumented)
+type GenericTableRowSubheadingTypeEnum = typeof GenericTableRowSubheadingTypeEnum[keyof typeof GenericTableRowSubheadingTypeEnum];
+
 // @public
-interface GenericTableRowText extends GenericTableRow {
+interface GenericTableRowText {
     text: string;
+    type: GenericTableRowTextTypeEnum;
 }
+
+// @public
+interface GenericTableRowTextAllOf {
+    type?: GenericTableRowTextAllOfTypeEnum;
+}
+
+// @public (undocumented)
+function GenericTableRowTextAllOfFromJSON(json: any): GenericTableRowTextAllOf;
+
+// @public (undocumented)
+function GenericTableRowTextAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowTextAllOf;
+
+// @public (undocumented)
+function GenericTableRowTextAllOfToJSON(value?: GenericTableRowTextAllOf | null): any;
+
+// @public (undocumented)
+function GenericTableRowTextAllOfToJSONRecursive(value?: GenericTableRowTextAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowTextAllOfTypeEnum: {
+    readonly Text: "text";
+};
+
+// @public (undocumented)
+type GenericTableRowTextAllOfTypeEnum = typeof GenericTableRowTextAllOfTypeEnum[keyof typeof GenericTableRowTextAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowTextFromJSON(json: any): GenericTableRowText;
@@ -2115,10 +2486,15 @@ function GenericTableRowTextToJSON(value?: GenericTableRowText | null): any;
 function GenericTableRowTextToJSONRecursive(value?: GenericTableRowText | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
-function GenericTableRowToJSON(value?: GenericTableRow | null): any;
+const GenericTableRowTextTypeEnum: {
+    readonly Text: "text";
+};
 
 // @public (undocumented)
-function GenericTableRowToJSONRecursive(value?: GenericTableRow | null, ignoreParent?: boolean): any;
+type GenericTableRowTextTypeEnum = typeof GenericTableRowTextTypeEnum[keyof typeof GenericTableRowTextTypeEnum];
+
+// @public (undocumented)
+function GenericTableRowToJSON(value?: GenericTableRow | null): any;
 
 // @public (undocumented)
 const GenericTableRowType: {
@@ -2140,14 +2516,46 @@ function GenericTableRowTypeFromJSONTyped(json: any, ignoreDiscriminator: boolea
 function GenericTableRowTypeToJSON(value?: GenericTableRowType | null): any;
 
 // @public
-interface GenericTableRowValue {
-    type: GenericTableRowValueType;
+type GenericTableRowValue = {
+    type: 'amount';
+} & GenericTableRowValueAmount | {
+    type: 'datetime';
+} & GenericTableRowValueDatetime | {
+    type: 'link';
+} & GenericTableRowValueLink | {
+    type: 'text';
+} & GenericTableRowValueText;
+
+// @public
+interface GenericTableRowValueAmount {
+    type: GenericTableRowValueAmountTypeEnum;
+    value: Amount;
 }
 
 // @public
-interface GenericTableRowValueAmount extends GenericTableRowValue {
-    value: Amount;
+interface GenericTableRowValueAmountAllOf {
+    type?: GenericTableRowValueAmountAllOfTypeEnum;
 }
+
+// @public (undocumented)
+function GenericTableRowValueAmountAllOfFromJSON(json: any): GenericTableRowValueAmountAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueAmountAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueAmountAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueAmountAllOfToJSON(value?: GenericTableRowValueAmountAllOf | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueAmountAllOfToJSONRecursive(value?: GenericTableRowValueAmountAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueAmountAllOfTypeEnum: {
+    readonly Amount: "amount";
+};
+
+// @public (undocumented)
+type GenericTableRowValueAmountAllOfTypeEnum = typeof GenericTableRowValueAmountAllOfTypeEnum[keyof typeof GenericTableRowValueAmountAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueAmountFromJSON(json: any): GenericTableRowValueAmount;
@@ -2178,10 +2586,44 @@ function GenericTableRowValueAmountToJSON(value?: GenericTableRowValueAmount | n
 // @public (undocumented)
 function GenericTableRowValueAmountToJSONRecursive(value?: GenericTableRowValueAmount | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+const GenericTableRowValueAmountTypeEnum: {
+    readonly Amount: "amount";
+};
+
+// @public (undocumented)
+type GenericTableRowValueAmountTypeEnum = typeof GenericTableRowValueAmountTypeEnum[keyof typeof GenericTableRowValueAmountTypeEnum];
+
 // @public
-interface GenericTableRowValueDatetime extends GenericTableRowValue {
+interface GenericTableRowValueDatetime {
+    type: GenericTableRowValueDatetimeTypeEnum;
     value: number;
 }
+
+// @public
+interface GenericTableRowValueDatetimeAllOf {
+    type?: GenericTableRowValueDatetimeAllOfTypeEnum;
+}
+
+// @public (undocumented)
+function GenericTableRowValueDatetimeAllOfFromJSON(json: any): GenericTableRowValueDatetimeAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueDatetimeAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueDatetimeAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueDatetimeAllOfToJSON(value?: GenericTableRowValueDatetimeAllOf | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueDatetimeAllOfToJSONRecursive(value?: GenericTableRowValueDatetimeAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueDatetimeAllOfTypeEnum: {
+    readonly Datetime: "datetime";
+};
+
+// @public (undocumented)
+type GenericTableRowValueDatetimeAllOfTypeEnum = typeof GenericTableRowValueDatetimeAllOfTypeEnum[keyof typeof GenericTableRowValueDatetimeAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueDatetimeFromJSON(json: any): GenericTableRowValueDatetime;
@@ -2213,15 +2655,49 @@ function GenericTableRowValueDatetimeToJSON(value?: GenericTableRowValueDatetime
 function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTableRowValueDatetime | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+const GenericTableRowValueDatetimeTypeEnum: {
+    readonly Datetime: "datetime";
+};
+
+// @public (undocumented)
+type GenericTableRowValueDatetimeTypeEnum = typeof GenericTableRowValueDatetimeTypeEnum[keyof typeof GenericTableRowValueDatetimeTypeEnum];
+
+// @public (undocumented)
 function GenericTableRowValueFromJSON(json: any): GenericTableRowValue;
 
 // @public (undocumented)
 function GenericTableRowValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValue;
 
 // @public
-interface GenericTableRowValueLink extends GenericTableRowValue {
+interface GenericTableRowValueLink {
+    type: GenericTableRowValueLinkTypeEnum;
     value: GenericTableRowValueLinkValue;
 }
+
+// @public
+interface GenericTableRowValueLinkAllOf {
+    type?: GenericTableRowValueLinkAllOfTypeEnum;
+}
+
+// @public (undocumented)
+function GenericTableRowValueLinkAllOfFromJSON(json: any): GenericTableRowValueLinkAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueLinkAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueLinkAllOfToJSON(value?: GenericTableRowValueLinkAllOf | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueLinkAllOfToJSONRecursive(value?: GenericTableRowValueLinkAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueLinkAllOfTypeEnum: {
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type GenericTableRowValueLinkAllOfTypeEnum = typeof GenericTableRowValueLinkAllOfTypeEnum[keyof typeof GenericTableRowValueLinkAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueLinkFromJSON(json: any): GenericTableRowValueLink;
@@ -2230,10 +2706,36 @@ function GenericTableRowValueLinkFromJSON(json: any): GenericTableRowValueLink;
 function GenericTableRowValueLinkFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLink;
 
 // @public
-interface GenericTableRowValueLinkPortfolio extends GenericTableRowValueLinkValue {
+interface GenericTableRowValueLinkPortfolio {
     portfolioId: string;
     text: string;
+    type: GenericTableRowValueLinkPortfolioTypeEnum;
 }
+
+// @public
+interface GenericTableRowValueLinkPortfolioAllOf {
+    type?: GenericTableRowValueLinkPortfolioAllOfTypeEnum;
+}
+
+// @public (undocumented)
+function GenericTableRowValueLinkPortfolioAllOfFromJSON(json: any): GenericTableRowValueLinkPortfolioAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueLinkPortfolioAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkPortfolioAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueLinkPortfolioAllOfToJSON(value?: GenericTableRowValueLinkPortfolioAllOf | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueLinkPortfolioAllOfToJSONRecursive(value?: GenericTableRowValueLinkPortfolioAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueLinkPortfolioAllOfTypeEnum: {
+    readonly Portfolio: "portfolio";
+};
+
+// @public (undocumented)
+type GenericTableRowValueLinkPortfolioAllOfTypeEnum = typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum[keyof typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueLinkPortfolioFromJSON(json: any): GenericTableRowValueLinkPortfolio;
@@ -2265,6 +2767,14 @@ function GenericTableRowValueLinkPortfolioToJSON(value?: GenericTableRowValueLin
 // @public (undocumented)
 function GenericTableRowValueLinkPortfolioToJSONRecursive(value?: GenericTableRowValueLinkPortfolio | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+const GenericTableRowValueLinkPortfolioTypeEnum: {
+    readonly Portfolio: "portfolio";
+};
+
+// @public (undocumented)
+type GenericTableRowValueLinkPortfolioTypeEnum = typeof GenericTableRowValueLinkPortfolioTypeEnum[keyof typeof GenericTableRowValueLinkPortfolioTypeEnum];
+
 // @public
 interface GenericTableRowValueLinkSpecifics {
     value?: GenericTableRowValueLinkValue;
@@ -2288,11 +2798,45 @@ function GenericTableRowValueLinkToJSON(value?: GenericTableRowValueLink | null)
 // @public (undocumented)
 function GenericTableRowValueLinkToJSONRecursive(value?: GenericTableRowValueLink | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+const GenericTableRowValueLinkTypeEnum: {
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type GenericTableRowValueLinkTypeEnum = typeof GenericTableRowValueLinkTypeEnum[keyof typeof GenericTableRowValueLinkTypeEnum];
+
 // @public
-interface GenericTableRowValueLinkUrl extends GenericTableRowValueLinkValue {
+interface GenericTableRowValueLinkUrl {
     text: string;
+    type: GenericTableRowValueLinkUrlTypeEnum;
     url: string;
 }
+
+// @public
+interface GenericTableRowValueLinkUrlAllOf {
+    type?: GenericTableRowValueLinkUrlAllOfTypeEnum;
+}
+
+// @public (undocumented)
+function GenericTableRowValueLinkUrlAllOfFromJSON(json: any): GenericTableRowValueLinkUrlAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueLinkUrlAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkUrlAllOf;
+
+// @public (undocumented)
+function GenericTableRowValueLinkUrlAllOfToJSON(value?: GenericTableRowValueLinkUrlAllOf | null): any;
+
+// @public (undocumented)
+function GenericTableRowValueLinkUrlAllOfToJSONRecursive(value?: GenericTableRowValueLinkUrlAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GenericTableRowValueLinkUrlAllOfTypeEnum: {
+    readonly Url: "url";
+};
+
+// @public (undocumented)
+type GenericTableRowValueLinkUrlAllOfTypeEnum = typeof GenericTableRowValueLinkUrlAllOfTypeEnum[keyof typeof GenericTableRowValueLinkUrlAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueLinkUrlFromJSON(json: any): GenericTableRowValueLinkUrl;
@@ -2324,10 +2868,20 @@ function GenericTableRowValueLinkUrlToJSON(value?: GenericTableRowValueLinkUrl |
 // @public (undocumented)
 function GenericTableRowValueLinkUrlToJSONRecursive(value?: GenericTableRowValueLinkUrl | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+const GenericTableRowValueLinkUrlTypeEnum: {
+    readonly Url: "url";
+};
+
+// @public (undocumented)
+type GenericTableRowValueLinkUrlTypeEnum = typeof GenericTableRowValueLinkUrlTypeEnum[keyof typeof GenericTableRowValueLinkUrlTypeEnum];
+
 // @public
-interface GenericTableRowValueLinkValue {
-    type: GenericTableRowValueLinkValueType;
-}
+type GenericTableRowValueLinkValue = {
+    type: 'portfolio';
+} & GenericTableRowValueLinkPortfolio | {
+    type: 'url';
+} & GenericTableRowValueLinkUrl;
 
 // @public (undocumented)
 function GenericTableRowValueLinkValueFromJSON(json: any): GenericTableRowValueLinkValue;
@@ -2337,9 +2891,6 @@ function GenericTableRowValueLinkValueFromJSONTyped(json: any, ignoreDiscriminat
 
 // @public (undocumented)
 function GenericTableRowValueLinkValueToJSON(value?: GenericTableRowValueLinkValue | null): any;
-
-// @public (undocumented)
-function GenericTableRowValueLinkValueToJSONRecursive(value?: GenericTableRowValueLinkValue | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 const GenericTableRowValueLinkValueType: {
@@ -2360,7 +2911,8 @@ function GenericTableRowValueLinkValueTypeFromJSONTyped(json: any, ignoreDiscrim
 function GenericTableRowValueLinkValueTypeToJSON(value?: GenericTableRowValueLinkValueType | null): any;
 
 // @public
-interface GenericTableRowValueText extends GenericTableRowValue {
+interface GenericTableRowValueText {
+    type: GenericTableRowValueTextTypeEnum;
     value: string;
 }
 
@@ -2394,10 +2946,15 @@ function GenericTableRowValueTextToJSON(value?: GenericTableRowValueText | null)
 function GenericTableRowValueTextToJSONRecursive(value?: GenericTableRowValueText | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
-function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any;
+const GenericTableRowValueTextTypeEnum: {
+    readonly Text: "text";
+};
 
 // @public (undocumented)
-function GenericTableRowValueToJSONRecursive(value?: GenericTableRowValue | null, ignoreParent?: boolean): any;
+type GenericTableRowValueTextTypeEnum = typeof GenericTableRowValueTextTypeEnum[keyof typeof GenericTableRowValueTextTypeEnum];
+
+// @public (undocumented)
+function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any;
 
 // @public (undocumented)
 const GenericTableRowValueType: {
@@ -2784,14 +3341,42 @@ function LegalTermsResponseToJSON(value?: LegalTermsResponse | null): any;
 function LegalTermsResponseToJSONRecursive(value?: LegalTermsResponse | null, ignoreParent?: boolean): any;
 
 // @public
-interface LoginResponse {
-    state: LoginResponseState;
+type LoginResponse = {
+    state: 'challenge';
+} & LoginResponseChallenge | {
+    state: 'ready';
+} & LoginResponseReady;
+
+// @public
+interface LoginResponseChallenge {
+    challenge: Challenge;
+    state: LoginResponseChallengeStateEnum;
 }
 
 // @public
-interface LoginResponseChallenge extends LoginResponse {
-    challenge: Challenge;
+interface LoginResponseChallengeAllOf {
+    state?: LoginResponseChallengeAllOfStateEnum;
 }
+
+// @public (undocumented)
+function LoginResponseChallengeAllOfFromJSON(json: any): LoginResponseChallengeAllOf;
+
+// @public (undocumented)
+function LoginResponseChallengeAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseChallengeAllOf;
+
+// @public (undocumented)
+const LoginResponseChallengeAllOfStateEnum: {
+    readonly Challenge: "challenge";
+};
+
+// @public (undocumented)
+type LoginResponseChallengeAllOfStateEnum = typeof LoginResponseChallengeAllOfStateEnum[keyof typeof LoginResponseChallengeAllOfStateEnum];
+
+// @public (undocumented)
+function LoginResponseChallengeAllOfToJSON(value?: LoginResponseChallengeAllOf | null): any;
+
+// @public (undocumented)
+function LoginResponseChallengeAllOfToJSONRecursive(value?: LoginResponseChallengeAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function LoginResponseChallengeFromJSON(json: any): LoginResponseChallenge;
@@ -2817,6 +3402,14 @@ function LoginResponseChallengeSpecificsToJSON(value?: LoginResponseChallengeSpe
 function LoginResponseChallengeSpecificsToJSONRecursive(value?: LoginResponseChallengeSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+const LoginResponseChallengeStateEnum: {
+    readonly Challenge: "challenge";
+};
+
+// @public (undocumented)
+type LoginResponseChallengeStateEnum = typeof LoginResponseChallengeStateEnum[keyof typeof LoginResponseChallengeStateEnum];
+
+// @public (undocumented)
 function LoginResponseChallengeToJSON(value?: LoginResponseChallenge | null): any;
 
 // @public (undocumented)
@@ -2829,9 +3422,35 @@ function LoginResponseFromJSON(json: any): LoginResponse;
 function LoginResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponse;
 
 // @public
-interface LoginResponseReady extends LoginResponse {
+interface LoginResponseReady {
     sessionId: string;
+    state: LoginResponseReadyStateEnum;
 }
+
+// @public
+interface LoginResponseReadyAllOf {
+    state?: LoginResponseReadyAllOfStateEnum;
+}
+
+// @public (undocumented)
+function LoginResponseReadyAllOfFromJSON(json: any): LoginResponseReadyAllOf;
+
+// @public (undocumented)
+function LoginResponseReadyAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseReadyAllOf;
+
+// @public (undocumented)
+const LoginResponseReadyAllOfStateEnum: {
+    readonly Ready: "ready";
+};
+
+// @public (undocumented)
+type LoginResponseReadyAllOfStateEnum = typeof LoginResponseReadyAllOfStateEnum[keyof typeof LoginResponseReadyAllOfStateEnum];
+
+// @public (undocumented)
+function LoginResponseReadyAllOfToJSON(value?: LoginResponseReadyAllOf | null): any;
+
+// @public (undocumented)
+function LoginResponseReadyAllOfToJSONRecursive(value?: LoginResponseReadyAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function LoginResponseReadyFromJSON(json: any): LoginResponseReady;
@@ -2855,6 +3474,14 @@ function LoginResponseReadySpecificsToJSON(value?: LoginResponseReadySpecifics |
 
 // @public (undocumented)
 function LoginResponseReadySpecificsToJSONRecursive(value?: LoginResponseReadySpecifics | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const LoginResponseReadyStateEnum: {
+    readonly Ready: "ready";
+};
+
+// @public (undocumented)
+type LoginResponseReadyStateEnum = typeof LoginResponseReadyStateEnum[keyof typeof LoginResponseReadyStateEnum];
 
 // @public (undocumented)
 function LoginResponseReadyToJSON(value?: LoginResponseReady | null): any;
@@ -2882,9 +3509,6 @@ function LoginResponseStateToJSON(value?: LoginResponseState | null): any;
 
 // @public (undocumented)
 function LoginResponseToJSON(value?: LoginResponse | null): any;
-
-// @public (undocumented)
-function LoginResponseToJSONRecursive(value?: LoginResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface LogoutSessionRequest {
@@ -2968,7 +3592,6 @@ declare namespace Models {
         AuthInfo,
         AuthMethodFromJSON,
         AuthMethodFromJSONTyped,
-        AuthMethodToJSONRecursive,
         AuthMethodToJSON,
         AuthMethod,
         AuthMethodChallengeResponseFromJSON,
@@ -2976,6 +3599,13 @@ declare namespace Models {
         AuthMethodChallengeResponseToJSONRecursive,
         AuthMethodChallengeResponseToJSON,
         AuthMethodChallengeResponse,
+        AuthMethodChallengeResponseFlowEnum,
+        AuthMethodChallengeResponseAllOfFromJSON,
+        AuthMethodChallengeResponseAllOfFromJSONTyped,
+        AuthMethodChallengeResponseAllOfToJSONRecursive,
+        AuthMethodChallengeResponseAllOfToJSON,
+        AuthMethodChallengeResponseAllOf,
+        AuthMethodChallengeResponseAllOfFlowEnum,
         AuthMethodChallengeResponseSpecificsFromJSON,
         AuthMethodChallengeResponseSpecificsFromJSONTyped,
         AuthMethodChallengeResponseSpecificsToJSONRecursive,
@@ -2986,6 +3616,13 @@ declare namespace Models {
         AuthMethodDecoupledToJSONRecursive,
         AuthMethodDecoupledToJSON,
         AuthMethodDecoupled,
+        AuthMethodDecoupledFlowEnum,
+        AuthMethodDecoupledAllOfFromJSON,
+        AuthMethodDecoupledAllOfFromJSONTyped,
+        AuthMethodDecoupledAllOfToJSONRecursive,
+        AuthMethodDecoupledAllOfToJSON,
+        AuthMethodDecoupledAllOf,
+        AuthMethodDecoupledAllOfFlowEnum,
         AuthMethodDecoupledSpecificsFromJSON,
         AuthMethodDecoupledSpecificsFromJSONTyped,
         AuthMethodDecoupledSpecificsToJSONRecursive,
@@ -3000,6 +3637,13 @@ declare namespace Models {
         AuthMethodTanToJSONRecursive,
         AuthMethodTanToJSON,
         AuthMethodTan,
+        AuthMethodTanFlowEnum,
+        AuthMethodTanAllOfFromJSON,
+        AuthMethodTanAllOfFromJSONTyped,
+        AuthMethodTanAllOfToJSONRecursive,
+        AuthMethodTanAllOfToJSON,
+        AuthMethodTanAllOf,
+        AuthMethodTanAllOfFlowEnum,
         AuthMethodTanSpecificsFromJSON,
         AuthMethodTanSpecificsFromJSONTyped,
         AuthMethodTanSpecificsToJSONRecursive,
@@ -3050,6 +3694,13 @@ declare namespace Models {
         CancelOrderChallengeResponseToJSONRecursive,
         CancelOrderChallengeResponseToJSON,
         CancelOrderChallengeResponse,
+        CancelOrderChallengeResponseModeEnum,
+        CancelOrderChallengeResponseAllOfFromJSON,
+        CancelOrderChallengeResponseAllOfFromJSONTyped,
+        CancelOrderChallengeResponseAllOfToJSONRecursive,
+        CancelOrderChallengeResponseAllOfToJSON,
+        CancelOrderChallengeResponseAllOf,
+        CancelOrderChallengeResponseAllOfModeEnum,
         CancelOrderChallengeResponseSpecificsFromJSON,
         CancelOrderChallengeResponseSpecificsFromJSONTyped,
         CancelOrderChallengeResponseSpecificsToJSONRecursive,
@@ -3057,7 +3708,6 @@ declare namespace Models {
         CancelOrderChallengeResponseSpecifics,
         CancelOrderParamsFromJSON,
         CancelOrderParamsFromJSONTyped,
-        CancelOrderParamsToJSONRecursive,
         CancelOrderParamsToJSON,
         CancelOrderParams,
         CancelOrderParamsModeFromJSON,
@@ -3149,6 +3799,13 @@ declare namespace Models {
         CreateModeSessionTanToJSONRecursive,
         CreateModeSessionTanToJSON,
         CreateModeSessionTan,
+        CreateModeSessionTanModeEnum,
+        CreateModeSessionTanAllOfFromJSON,
+        CreateModeSessionTanAllOfFromJSONTyped,
+        CreateModeSessionTanAllOfToJSONRecursive,
+        CreateModeSessionTanAllOfToJSON,
+        CreateModeSessionTanAllOf,
+        CreateModeSessionTanAllOfModeEnum,
         CreateOrderChallengeParamsFromJSON,
         CreateOrderChallengeParamsFromJSONTyped,
         CreateOrderChallengeParamsToJSONRecursive,
@@ -3204,7 +3861,6 @@ declare namespace Models {
         Direction,
         EnableSessionTanParamsFromJSON,
         EnableSessionTanParamsFromJSONTyped,
-        EnableSessionTanParamsToJSONRecursive,
         EnableSessionTanParamsToJSON,
         EnableSessionTanParams,
         EnableSessionTanParamsChallengeResponseFromJSON,
@@ -3212,6 +3868,13 @@ declare namespace Models {
         EnableSessionTanParamsChallengeResponseToJSONRecursive,
         EnableSessionTanParamsChallengeResponseToJSON,
         EnableSessionTanParamsChallengeResponse,
+        EnableSessionTanParamsChallengeResponseKindEnum,
+        EnableSessionTanParamsChallengeResponseAllOfFromJSON,
+        EnableSessionTanParamsChallengeResponseAllOfFromJSONTyped,
+        EnableSessionTanParamsChallengeResponseAllOfToJSONRecursive,
+        EnableSessionTanParamsChallengeResponseAllOfToJSON,
+        EnableSessionTanParamsChallengeResponseAllOf,
+        EnableSessionTanParamsChallengeResponseAllOfKindEnum,
         EnableSessionTanParamsChallengeResponseSpecificsFromJSON,
         EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped,
         EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive,
@@ -3222,6 +3885,13 @@ declare namespace Models {
         EnableSessionTanParamsDecoupledToJSONRecursive,
         EnableSessionTanParamsDecoupledToJSON,
         EnableSessionTanParamsDecoupled,
+        EnableSessionTanParamsDecoupledKindEnum,
+        EnableSessionTanParamsDecoupledAllOfFromJSON,
+        EnableSessionTanParamsDecoupledAllOfFromJSONTyped,
+        EnableSessionTanParamsDecoupledAllOfToJSONRecursive,
+        EnableSessionTanParamsDecoupledAllOfToJSON,
+        EnableSessionTanParamsDecoupledAllOf,
+        EnableSessionTanParamsDecoupledAllOfKindEnum,
         EnableSessionTanParamsDecoupledSpecificsFromJSON,
         EnableSessionTanParamsDecoupledSpecificsFromJSONTyped,
         EnableSessionTanParamsDecoupledSpecificsToJSONRecursive,
@@ -3236,6 +3906,13 @@ declare namespace Models {
         EnableSessionTanParamsTanToJSONRecursive,
         EnableSessionTanParamsTanToJSON,
         EnableSessionTanParamsTan,
+        EnableSessionTanParamsTanKindEnum,
+        EnableSessionTanParamsTanAllOfFromJSON,
+        EnableSessionTanParamsTanAllOfFromJSONTyped,
+        EnableSessionTanParamsTanAllOfToJSONRecursive,
+        EnableSessionTanParamsTanAllOfToJSON,
+        EnableSessionTanParamsTanAllOf,
+        EnableSessionTanParamsTanAllOfKindEnum,
         EnableSessionTanParamsTanSpecificsFromJSON,
         EnableSessionTanParamsTanSpecificsFromJSONTyped,
         EnableSessionTanParamsTanSpecificsToJSONRecursive,
@@ -3288,7 +3965,6 @@ declare namespace Models {
         GenericTable,
         GenericTableRowFromJSON,
         GenericTableRowFromJSONTyped,
-        GenericTableRowToJSONRecursive,
         GenericTableRowToJSON,
         GenericTableRow,
         GenericTableRowEntryFromJSON,
@@ -3296,6 +3972,13 @@ declare namespace Models {
         GenericTableRowEntryToJSONRecursive,
         GenericTableRowEntryToJSON,
         GenericTableRowEntry,
+        GenericTableRowEntryTypeEnum,
+        GenericTableRowEntryAllOfFromJSON,
+        GenericTableRowEntryAllOfFromJSONTyped,
+        GenericTableRowEntryAllOfToJSONRecursive,
+        GenericTableRowEntryAllOfToJSON,
+        GenericTableRowEntryAllOf,
+        GenericTableRowEntryAllOfTypeEnum,
         GenericTableRowEntrySpecificsFromJSON,
         GenericTableRowEntrySpecificsFromJSONTyped,
         GenericTableRowEntrySpecificsToJSONRecursive,
@@ -3306,6 +3989,13 @@ declare namespace Models {
         GenericTableRowSubheadingToJSONRecursive,
         GenericTableRowSubheadingToJSON,
         GenericTableRowSubheading,
+        GenericTableRowSubheadingTypeEnum,
+        GenericTableRowSubheadingAllOfFromJSON,
+        GenericTableRowSubheadingAllOfFromJSONTyped,
+        GenericTableRowSubheadingAllOfToJSONRecursive,
+        GenericTableRowSubheadingAllOfToJSON,
+        GenericTableRowSubheadingAllOf,
+        GenericTableRowSubheadingAllOfTypeEnum,
         GenericTableRowSubheadingSpecificsFromJSON,
         GenericTableRowSubheadingSpecificsFromJSONTyped,
         GenericTableRowSubheadingSpecificsToJSONRecursive,
@@ -3316,6 +4006,13 @@ declare namespace Models {
         GenericTableRowTextToJSONRecursive,
         GenericTableRowTextToJSON,
         GenericTableRowText,
+        GenericTableRowTextTypeEnum,
+        GenericTableRowTextAllOfFromJSON,
+        GenericTableRowTextAllOfFromJSONTyped,
+        GenericTableRowTextAllOfToJSONRecursive,
+        GenericTableRowTextAllOfToJSON,
+        GenericTableRowTextAllOf,
+        GenericTableRowTextAllOfTypeEnum,
         GenericTableRowTextSpecificsFromJSON,
         GenericTableRowTextSpecificsFromJSONTyped,
         GenericTableRowTextSpecificsToJSONRecursive,
@@ -3327,7 +4024,6 @@ declare namespace Models {
         GenericTableRowType,
         GenericTableRowValueFromJSON,
         GenericTableRowValueFromJSONTyped,
-        GenericTableRowValueToJSONRecursive,
         GenericTableRowValueToJSON,
         GenericTableRowValue,
         GenericTableRowValueAmountFromJSON,
@@ -3335,6 +4031,13 @@ declare namespace Models {
         GenericTableRowValueAmountToJSONRecursive,
         GenericTableRowValueAmountToJSON,
         GenericTableRowValueAmount,
+        GenericTableRowValueAmountTypeEnum,
+        GenericTableRowValueAmountAllOfFromJSON,
+        GenericTableRowValueAmountAllOfFromJSONTyped,
+        GenericTableRowValueAmountAllOfToJSONRecursive,
+        GenericTableRowValueAmountAllOfToJSON,
+        GenericTableRowValueAmountAllOf,
+        GenericTableRowValueAmountAllOfTypeEnum,
         GenericTableRowValueAmountSpecificsFromJSON,
         GenericTableRowValueAmountSpecificsFromJSONTyped,
         GenericTableRowValueAmountSpecificsToJSONRecursive,
@@ -3345,6 +4048,13 @@ declare namespace Models {
         GenericTableRowValueDatetimeToJSONRecursive,
         GenericTableRowValueDatetimeToJSON,
         GenericTableRowValueDatetime,
+        GenericTableRowValueDatetimeTypeEnum,
+        GenericTableRowValueDatetimeAllOfFromJSON,
+        GenericTableRowValueDatetimeAllOfFromJSONTyped,
+        GenericTableRowValueDatetimeAllOfToJSONRecursive,
+        GenericTableRowValueDatetimeAllOfToJSON,
+        GenericTableRowValueDatetimeAllOf,
+        GenericTableRowValueDatetimeAllOfTypeEnum,
         GenericTableRowValueDatetimeSpecificsFromJSON,
         GenericTableRowValueDatetimeSpecificsFromJSONTyped,
         GenericTableRowValueDatetimeSpecificsToJSONRecursive,
@@ -3355,11 +4065,25 @@ declare namespace Models {
         GenericTableRowValueLinkToJSONRecursive,
         GenericTableRowValueLinkToJSON,
         GenericTableRowValueLink,
+        GenericTableRowValueLinkTypeEnum,
+        GenericTableRowValueLinkAllOfFromJSON,
+        GenericTableRowValueLinkAllOfFromJSONTyped,
+        GenericTableRowValueLinkAllOfToJSONRecursive,
+        GenericTableRowValueLinkAllOfToJSON,
+        GenericTableRowValueLinkAllOf,
+        GenericTableRowValueLinkAllOfTypeEnum,
         GenericTableRowValueLinkPortfolioFromJSON,
         GenericTableRowValueLinkPortfolioFromJSONTyped,
         GenericTableRowValueLinkPortfolioToJSONRecursive,
         GenericTableRowValueLinkPortfolioToJSON,
         GenericTableRowValueLinkPortfolio,
+        GenericTableRowValueLinkPortfolioTypeEnum,
+        GenericTableRowValueLinkPortfolioAllOfFromJSON,
+        GenericTableRowValueLinkPortfolioAllOfFromJSONTyped,
+        GenericTableRowValueLinkPortfolioAllOfToJSONRecursive,
+        GenericTableRowValueLinkPortfolioAllOfToJSON,
+        GenericTableRowValueLinkPortfolioAllOf,
+        GenericTableRowValueLinkPortfolioAllOfTypeEnum,
         GenericTableRowValueLinkPortfolioSpecificsFromJSON,
         GenericTableRowValueLinkPortfolioSpecificsFromJSONTyped,
         GenericTableRowValueLinkPortfolioSpecificsToJSONRecursive,
@@ -3375,6 +4099,13 @@ declare namespace Models {
         GenericTableRowValueLinkUrlToJSONRecursive,
         GenericTableRowValueLinkUrlToJSON,
         GenericTableRowValueLinkUrl,
+        GenericTableRowValueLinkUrlTypeEnum,
+        GenericTableRowValueLinkUrlAllOfFromJSON,
+        GenericTableRowValueLinkUrlAllOfFromJSONTyped,
+        GenericTableRowValueLinkUrlAllOfToJSONRecursive,
+        GenericTableRowValueLinkUrlAllOfToJSON,
+        GenericTableRowValueLinkUrlAllOf,
+        GenericTableRowValueLinkUrlAllOfTypeEnum,
         GenericTableRowValueLinkUrlSpecificsFromJSON,
         GenericTableRowValueLinkUrlSpecificsFromJSONTyped,
         GenericTableRowValueLinkUrlSpecificsToJSONRecursive,
@@ -3382,7 +4113,6 @@ declare namespace Models {
         GenericTableRowValueLinkUrlSpecifics,
         GenericTableRowValueLinkValueFromJSON,
         GenericTableRowValueLinkValueFromJSONTyped,
-        GenericTableRowValueLinkValueToJSONRecursive,
         GenericTableRowValueLinkValueToJSON,
         GenericTableRowValueLinkValue,
         GenericTableRowValueLinkValueTypeFromJSON,
@@ -3394,6 +4124,7 @@ declare namespace Models {
         GenericTableRowValueTextToJSONRecursive,
         GenericTableRowValueTextToJSON,
         GenericTableRowValueText,
+        GenericTableRowValueTextTypeEnum,
         GenericTableRowValueTextSpecificsFromJSON,
         GenericTableRowValueTextSpecificsFromJSONTyped,
         GenericTableRowValueTextSpecificsToJSONRecursive,
@@ -3465,7 +4196,6 @@ declare namespace Models {
         LegalTermsResponse,
         LoginResponseFromJSON,
         LoginResponseFromJSONTyped,
-        LoginResponseToJSONRecursive,
         LoginResponseToJSON,
         LoginResponse,
         LoginResponseChallengeFromJSON,
@@ -3473,6 +4203,13 @@ declare namespace Models {
         LoginResponseChallengeToJSONRecursive,
         LoginResponseChallengeToJSON,
         LoginResponseChallenge,
+        LoginResponseChallengeStateEnum,
+        LoginResponseChallengeAllOfFromJSON,
+        LoginResponseChallengeAllOfFromJSONTyped,
+        LoginResponseChallengeAllOfToJSONRecursive,
+        LoginResponseChallengeAllOfToJSON,
+        LoginResponseChallengeAllOf,
+        LoginResponseChallengeAllOfStateEnum,
         LoginResponseChallengeSpecificsFromJSON,
         LoginResponseChallengeSpecificsFromJSONTyped,
         LoginResponseChallengeSpecificsToJSONRecursive,
@@ -3483,6 +4220,13 @@ declare namespace Models {
         LoginResponseReadyToJSONRecursive,
         LoginResponseReadyToJSON,
         LoginResponseReady,
+        LoginResponseReadyStateEnum,
+        LoginResponseReadyAllOfFromJSON,
+        LoginResponseReadyAllOfFromJSONTyped,
+        LoginResponseReadyAllOfToJSONRecursive,
+        LoginResponseReadyAllOfToJSON,
+        LoginResponseReadyAllOf,
+        LoginResponseReadyAllOfStateEnum,
         LoginResponseReadySpecificsFromJSON,
         LoginResponseReadySpecificsFromJSONTyped,
         LoginResponseReadySpecificsToJSONRecursive,
@@ -3565,7 +4309,6 @@ declare namespace Models {
         PortfolioQuotes,
         PortfolioSyncInfoFromJSON,
         PortfolioSyncInfoFromJSONTyped,
-        PortfolioSyncInfoToJSONRecursive,
         PortfolioSyncInfoToJSON,
         PortfolioSyncInfo,
         PortfolioSyncInfoCompleteFromJSON,
@@ -3573,6 +4316,13 @@ declare namespace Models {
         PortfolioSyncInfoCompleteToJSONRecursive,
         PortfolioSyncInfoCompleteToJSON,
         PortfolioSyncInfoComplete,
+        PortfolioSyncInfoCompleteStatusEnum,
+        PortfolioSyncInfoCompleteAllOfFromJSON,
+        PortfolioSyncInfoCompleteAllOfFromJSONTyped,
+        PortfolioSyncInfoCompleteAllOfToJSONRecursive,
+        PortfolioSyncInfoCompleteAllOfToJSON,
+        PortfolioSyncInfoCompleteAllOf,
+        PortfolioSyncInfoCompleteAllOfStatusEnum,
         PortfolioSyncInfoCompleteSpecificsFromJSON,
         PortfolioSyncInfoCompleteSpecificsFromJSONTyped,
         PortfolioSyncInfoCompleteSpecificsToJSONRecursive,
@@ -3583,6 +4333,13 @@ declare namespace Models {
         PortfolioSyncInfoErrorToJSONRecursive,
         PortfolioSyncInfoErrorToJSON,
         PortfolioSyncInfoError,
+        PortfolioSyncInfoErrorStatusEnum,
+        PortfolioSyncInfoErrorAllOfFromJSON,
+        PortfolioSyncInfoErrorAllOfFromJSONTyped,
+        PortfolioSyncInfoErrorAllOfToJSONRecursive,
+        PortfolioSyncInfoErrorAllOfToJSON,
+        PortfolioSyncInfoErrorAllOf,
+        PortfolioSyncInfoErrorAllOfStatusEnum,
         PortfolioSyncInfoErrorSpecificsFromJSON,
         PortfolioSyncInfoErrorSpecificsFromJSONTyped,
         PortfolioSyncInfoErrorSpecificsToJSONRecursive,
@@ -3593,6 +4350,13 @@ declare namespace Models {
         PortfolioSyncInfoIncompleteToJSONRecursive,
         PortfolioSyncInfoIncompleteToJSON,
         PortfolioSyncInfoIncomplete,
+        PortfolioSyncInfoIncompleteStatusEnum,
+        PortfolioSyncInfoIncompleteAllOfFromJSON,
+        PortfolioSyncInfoIncompleteAllOfFromJSONTyped,
+        PortfolioSyncInfoIncompleteAllOfToJSONRecursive,
+        PortfolioSyncInfoIncompleteAllOfToJSON,
+        PortfolioSyncInfoIncompleteAllOf,
+        PortfolioSyncInfoIncompleteAllOfStatusEnum,
         PortfolioSyncInfoIncompleteSpecificsFromJSON,
         PortfolioSyncInfoIncompleteSpecificsFromJSONTyped,
         PortfolioSyncInfoIncompleteSpecificsToJSONRecursive,
@@ -3603,6 +4367,13 @@ declare namespace Models {
         PortfolioSyncInfoPendingToJSONRecursive,
         PortfolioSyncInfoPendingToJSON,
         PortfolioSyncInfoPending,
+        PortfolioSyncInfoPendingStatusEnum,
+        PortfolioSyncInfoPendingAllOfFromJSON,
+        PortfolioSyncInfoPendingAllOfFromJSONTyped,
+        PortfolioSyncInfoPendingAllOfToJSONRecursive,
+        PortfolioSyncInfoPendingAllOfToJSON,
+        PortfolioSyncInfoPendingAllOf,
+        PortfolioSyncInfoPendingAllOfStatusEnum,
         PortfolioSyncInfoStatusFromJSON,
         PortfolioSyncInfoStatusFromJSONTyped,
         PortfolioSyncInfoStatusToJSON,
@@ -3684,7 +4455,6 @@ declare namespace Models {
         SessionResponse,
         SessionSyncInfoFromJSON,
         SessionSyncInfoFromJSONTyped,
-        SessionSyncInfoToJSONRecursive,
         SessionSyncInfoToJSON,
         SessionSyncInfo,
         SessionSyncInfoErrorFromJSON,
@@ -3692,6 +4462,7 @@ declare namespace Models {
         SessionSyncInfoErrorToJSONRecursive,
         SessionSyncInfoErrorToJSON,
         SessionSyncInfoError,
+        SessionSyncInfoErrorStatusEnum,
         SessionSyncInfoErrorSpecificsFromJSON,
         SessionSyncInfoErrorSpecificsFromJSONTyped,
         SessionSyncInfoErrorSpecificsToJSONRecursive,
@@ -3702,6 +4473,7 @@ declare namespace Models {
         SessionSyncInfoPendingToJSONRecursive,
         SessionSyncInfoPendingToJSON,
         SessionSyncInfoPending,
+        SessionSyncInfoPendingStatusEnum,
         SessionSyncInfoStatusFromJSON,
         SessionSyncInfoStatusFromJSONTyped,
         SessionSyncInfoStatusToJSON,
@@ -3711,6 +4483,13 @@ declare namespace Models {
         SessionSyncInfoSyncedToJSONRecursive,
         SessionSyncInfoSyncedToJSON,
         SessionSyncInfoSynced,
+        SessionSyncInfoSyncedStatusEnum,
+        SessionSyncInfoSyncedAllOfFromJSON,
+        SessionSyncInfoSyncedAllOfFromJSONTyped,
+        SessionSyncInfoSyncedAllOfToJSONRecursive,
+        SessionSyncInfoSyncedAllOfToJSON,
+        SessionSyncInfoSyncedAllOf,
+        SessionSyncInfoSyncedAllOfStatusEnum,
         SessionSyncInfoSyncedSpecificsFromJSON,
         SessionSyncInfoSyncedSpecificsFromJSONTyped,
         SessionSyncInfoSyncedSpecificsToJSONRecursive,
@@ -4139,14 +4918,46 @@ function PortfoliosResponseToJSON(value?: PortfoliosResponse | null): any;
 function PortfoliosResponseToJSONRecursive(value?: PortfoliosResponse | null, ignoreParent?: boolean): any;
 
 // @public
-interface PortfolioSyncInfo {
-    status: PortfolioSyncInfoStatus;
+type PortfolioSyncInfo = {
+    status: 'COMPLETE';
+} & PortfolioSyncInfoComplete | {
+    status: 'ERROR';
+} & PortfolioSyncInfoError | {
+    status: 'INCOMPLETE';
+} & PortfolioSyncInfoIncomplete | {
+    status: 'PENDING';
+} & PortfolioSyncInfoPending;
+
+// @public
+interface PortfolioSyncInfoComplete {
+    lastSync: Date;
+    status: PortfolioSyncInfoCompleteStatusEnum;
 }
 
 // @public
-interface PortfolioSyncInfoComplete extends PortfolioSyncInfo {
-    lastSync: Date;
+interface PortfolioSyncInfoCompleteAllOf {
+    status?: PortfolioSyncInfoCompleteAllOfStatusEnum;
 }
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteAllOfFromJSON(json: any): PortfolioSyncInfoCompleteAllOf;
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoCompleteAllOf;
+
+// @public (undocumented)
+const PortfolioSyncInfoCompleteAllOfStatusEnum: {
+    readonly Complete: "COMPLETE";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoCompleteAllOfStatusEnum = typeof PortfolioSyncInfoCompleteAllOfStatusEnum[keyof typeof PortfolioSyncInfoCompleteAllOfStatusEnum];
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteAllOfToJSON(value?: PortfolioSyncInfoCompleteAllOf | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoCompleteAllOfToJSONRecursive(value?: PortfolioSyncInfoCompleteAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function PortfolioSyncInfoCompleteFromJSON(json: any): PortfolioSyncInfoComplete;
@@ -4172,15 +4983,49 @@ function PortfolioSyncInfoCompleteSpecificsToJSON(value?: PortfolioSyncInfoCompl
 function PortfolioSyncInfoCompleteSpecificsToJSONRecursive(value?: PortfolioSyncInfoCompleteSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+const PortfolioSyncInfoCompleteStatusEnum: {
+    readonly Complete: "COMPLETE";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoCompleteStatusEnum = typeof PortfolioSyncInfoCompleteStatusEnum[keyof typeof PortfolioSyncInfoCompleteStatusEnum];
+
+// @public (undocumented)
 function PortfolioSyncInfoCompleteToJSON(value?: PortfolioSyncInfoComplete | null): any;
 
 // @public (undocumented)
 function PortfolioSyncInfoCompleteToJSONRecursive(value?: PortfolioSyncInfoComplete | null, ignoreParent?: boolean): any;
 
 // @public
-interface PortfolioSyncInfoError extends PortfolioSyncInfo {
+interface PortfolioSyncInfoError {
     error: SyncError;
+    status: PortfolioSyncInfoErrorStatusEnum;
 }
+
+// @public
+interface PortfolioSyncInfoErrorAllOf {
+    status?: PortfolioSyncInfoErrorAllOfStatusEnum;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorAllOfFromJSON(json: any): PortfolioSyncInfoErrorAllOf;
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoErrorAllOf;
+
+// @public (undocumented)
+const PortfolioSyncInfoErrorAllOfStatusEnum: {
+    readonly Error: "ERROR";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoErrorAllOfStatusEnum = typeof PortfolioSyncInfoErrorAllOfStatusEnum[keyof typeof PortfolioSyncInfoErrorAllOfStatusEnum];
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorAllOfToJSON(value?: PortfolioSyncInfoErrorAllOf | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoErrorAllOfToJSONRecursive(value?: PortfolioSyncInfoErrorAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function PortfolioSyncInfoErrorFromJSON(json: any): PortfolioSyncInfoError;
@@ -4206,6 +5051,14 @@ function PortfolioSyncInfoErrorSpecificsToJSON(value?: PortfolioSyncInfoErrorSpe
 function PortfolioSyncInfoErrorSpecificsToJSONRecursive(value?: PortfolioSyncInfoErrorSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+const PortfolioSyncInfoErrorStatusEnum: {
+    readonly Error: "ERROR";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoErrorStatusEnum = typeof PortfolioSyncInfoErrorStatusEnum[keyof typeof PortfolioSyncInfoErrorStatusEnum];
+
+// @public (undocumented)
 function PortfolioSyncInfoErrorToJSON(value?: PortfolioSyncInfoError | null): any;
 
 // @public (undocumented)
@@ -4218,9 +5071,35 @@ function PortfolioSyncInfoFromJSON(json: any): PortfolioSyncInfo;
 function PortfolioSyncInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfo;
 
 // @public
-interface PortfolioSyncInfoIncomplete extends PortfolioSyncInfo {
+interface PortfolioSyncInfoIncomplete {
     lastSync: Date;
+    status: PortfolioSyncInfoIncompleteStatusEnum;
 }
+
+// @public
+interface PortfolioSyncInfoIncompleteAllOf {
+    status?: PortfolioSyncInfoIncompleteAllOfStatusEnum;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteAllOfFromJSON(json: any): PortfolioSyncInfoIncompleteAllOf;
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoIncompleteAllOf;
+
+// @public (undocumented)
+const PortfolioSyncInfoIncompleteAllOfStatusEnum: {
+    readonly Incomplete: "INCOMPLETE";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoIncompleteAllOfStatusEnum = typeof PortfolioSyncInfoIncompleteAllOfStatusEnum[keyof typeof PortfolioSyncInfoIncompleteAllOfStatusEnum];
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteAllOfToJSON(value?: PortfolioSyncInfoIncompleteAllOf | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoIncompleteAllOfToJSONRecursive(value?: PortfolioSyncInfoIncompleteAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function PortfolioSyncInfoIncompleteFromJSON(json: any): PortfolioSyncInfoIncomplete;
@@ -4246,20 +5125,62 @@ function PortfolioSyncInfoIncompleteSpecificsToJSON(value?: PortfolioSyncInfoInc
 function PortfolioSyncInfoIncompleteSpecificsToJSONRecursive(value?: PortfolioSyncInfoIncompleteSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+const PortfolioSyncInfoIncompleteStatusEnum: {
+    readonly Incomplete: "INCOMPLETE";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoIncompleteStatusEnum = typeof PortfolioSyncInfoIncompleteStatusEnum[keyof typeof PortfolioSyncInfoIncompleteStatusEnum];
+
+// @public (undocumented)
 function PortfolioSyncInfoIncompleteToJSON(value?: PortfolioSyncInfoIncomplete | null): any;
 
 // @public (undocumented)
 function PortfolioSyncInfoIncompleteToJSONRecursive(value?: PortfolioSyncInfoIncomplete | null, ignoreParent?: boolean): any;
 
 // @public
-interface PortfolioSyncInfoPending extends PortfolioSyncInfo {
+interface PortfolioSyncInfoPending {
+    status: PortfolioSyncInfoPendingStatusEnum;
 }
+
+// @public
+interface PortfolioSyncInfoPendingAllOf {
+    status?: PortfolioSyncInfoPendingAllOfStatusEnum;
+}
+
+// @public (undocumented)
+function PortfolioSyncInfoPendingAllOfFromJSON(json: any): PortfolioSyncInfoPendingAllOf;
+
+// @public (undocumented)
+function PortfolioSyncInfoPendingAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoPendingAllOf;
+
+// @public (undocumented)
+const PortfolioSyncInfoPendingAllOfStatusEnum: {
+    readonly Pending: "PENDING";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoPendingAllOfStatusEnum = typeof PortfolioSyncInfoPendingAllOfStatusEnum[keyof typeof PortfolioSyncInfoPendingAllOfStatusEnum];
+
+// @public (undocumented)
+function PortfolioSyncInfoPendingAllOfToJSON(value?: PortfolioSyncInfoPendingAllOf | null): any;
+
+// @public (undocumented)
+function PortfolioSyncInfoPendingAllOfToJSONRecursive(value?: PortfolioSyncInfoPendingAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function PortfolioSyncInfoPendingFromJSON(json: any): PortfolioSyncInfoPending;
 
 // @public (undocumented)
 function PortfolioSyncInfoPendingFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoPending;
+
+// @public (undocumented)
+const PortfolioSyncInfoPendingStatusEnum: {
+    readonly Pending: "PENDING";
+};
+
+// @public (undocumented)
+type PortfolioSyncInfoPendingStatusEnum = typeof PortfolioSyncInfoPendingStatusEnum[keyof typeof PortfolioSyncInfoPendingStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoPendingToJSON(value?: PortfolioSyncInfoPending | null): any;
@@ -4289,9 +5210,6 @@ function PortfolioSyncInfoStatusToJSON(value?: PortfolioSyncInfoStatus | null): 
 
 // @public (undocumented)
 function PortfolioSyncInfoToJSON(value?: PortfolioSyncInfo | null): any;
-
-// @public (undocumented)
-function PortfolioSyncInfoToJSONRecursive(value?: PortfolioSyncInfo | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function PortfolioToJSON(value?: Portfolio | null): any;
@@ -4681,13 +5599,18 @@ function SessionResponseToJSON(value?: SessionResponse | null): any;
 function SessionResponseToJSONRecursive(value?: SessionResponse | null, ignoreParent?: boolean): any;
 
 // @public
-interface SessionSyncInfo {
-    status: SessionSyncInfoStatus;
-}
+type SessionSyncInfo = {
+    status: 'ERROR';
+} & SessionSyncInfoError | {
+    status: 'PENDING';
+} & SessionSyncInfoPending | {
+    status: 'SYNCED';
+} & SessionSyncInfoSynced;
 
 // @public
-interface SessionSyncInfoError extends SessionSyncInfo {
+interface SessionSyncInfoError {
     error: SyncError;
+    status: SessionSyncInfoErrorStatusEnum;
 }
 
 // @public (undocumented)
@@ -4714,6 +5637,14 @@ function SessionSyncInfoErrorSpecificsToJSON(value?: SessionSyncInfoErrorSpecifi
 function SessionSyncInfoErrorSpecificsToJSONRecursive(value?: SessionSyncInfoErrorSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+const SessionSyncInfoErrorStatusEnum: {
+    readonly Error: "ERROR";
+};
+
+// @public (undocumented)
+type SessionSyncInfoErrorStatusEnum = typeof SessionSyncInfoErrorStatusEnum[keyof typeof SessionSyncInfoErrorStatusEnum];
+
+// @public (undocumented)
 function SessionSyncInfoErrorToJSON(value?: SessionSyncInfoError | null): any;
 
 // @public (undocumented)
@@ -4726,7 +5657,8 @@ function SessionSyncInfoFromJSON(json: any): SessionSyncInfo;
 function SessionSyncInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfo;
 
 // @public
-interface SessionSyncInfoPending extends SessionSyncInfo {
+interface SessionSyncInfoPending {
+    status: SessionSyncInfoPendingStatusEnum;
 }
 
 // @public (undocumented)
@@ -4734,6 +5666,14 @@ function SessionSyncInfoPendingFromJSON(json: any): SessionSyncInfoPending;
 
 // @public (undocumented)
 function SessionSyncInfoPendingFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoPending;
+
+// @public (undocumented)
+const SessionSyncInfoPendingStatusEnum: {
+    readonly Pending: "PENDING";
+};
+
+// @public (undocumented)
+type SessionSyncInfoPendingStatusEnum = typeof SessionSyncInfoPendingStatusEnum[keyof typeof SessionSyncInfoPendingStatusEnum];
 
 // @public (undocumented)
 function SessionSyncInfoPendingToJSON(value?: SessionSyncInfoPending | null): any;
@@ -4761,9 +5701,35 @@ function SessionSyncInfoStatusFromJSONTyped(json: any, ignoreDiscriminator: bool
 function SessionSyncInfoStatusToJSON(value?: SessionSyncInfoStatus | null): any;
 
 // @public
-interface SessionSyncInfoSynced extends SessionSyncInfo {
+interface SessionSyncInfoSynced {
     lastSync: Date;
+    status: SessionSyncInfoSyncedStatusEnum;
 }
+
+// @public
+interface SessionSyncInfoSyncedAllOf {
+    status?: SessionSyncInfoSyncedAllOfStatusEnum;
+}
+
+// @public (undocumented)
+function SessionSyncInfoSyncedAllOfFromJSON(json: any): SessionSyncInfoSyncedAllOf;
+
+// @public (undocumented)
+function SessionSyncInfoSyncedAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoSyncedAllOf;
+
+// @public (undocumented)
+const SessionSyncInfoSyncedAllOfStatusEnum: {
+    readonly Synced: "SYNCED";
+};
+
+// @public (undocumented)
+type SessionSyncInfoSyncedAllOfStatusEnum = typeof SessionSyncInfoSyncedAllOfStatusEnum[keyof typeof SessionSyncInfoSyncedAllOfStatusEnum];
+
+// @public (undocumented)
+function SessionSyncInfoSyncedAllOfToJSON(value?: SessionSyncInfoSyncedAllOf | null): any;
+
+// @public (undocumented)
+function SessionSyncInfoSyncedAllOfToJSONRecursive(value?: SessionSyncInfoSyncedAllOf | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function SessionSyncInfoSyncedFromJSON(json: any): SessionSyncInfoSynced;
@@ -4789,6 +5755,14 @@ function SessionSyncInfoSyncedSpecificsToJSON(value?: SessionSyncInfoSyncedSpeci
 function SessionSyncInfoSyncedSpecificsToJSONRecursive(value?: SessionSyncInfoSyncedSpecifics | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+const SessionSyncInfoSyncedStatusEnum: {
+    readonly Synced: "SYNCED";
+};
+
+// @public (undocumented)
+type SessionSyncInfoSyncedStatusEnum = typeof SessionSyncInfoSyncedStatusEnum[keyof typeof SessionSyncInfoSyncedStatusEnum];
+
+// @public (undocumented)
 function SessionSyncInfoSyncedToJSON(value?: SessionSyncInfoSynced | null): any;
 
 // @public (undocumented)
@@ -4796,9 +5770,6 @@ function SessionSyncInfoSyncedToJSONRecursive(value?: SessionSyncInfoSynced | nu
 
 // @public (undocumented)
 function SessionSyncInfoToJSON(value?: SessionSyncInfo | null): any;
-
-// @public (undocumented)
-function SessionSyncInfoToJSONRecursive(value?: SessionSyncInfo | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function SessionToJSON(value?: Session | null): any;
