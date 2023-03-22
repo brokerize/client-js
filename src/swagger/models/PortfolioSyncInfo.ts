@@ -12,38 +12,37 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    PortfolioSyncInfoStatus,
-    PortfolioSyncInfoStatusFromJSON,
-    PortfolioSyncInfoStatusFromJSONTyped,
-    PortfolioSyncInfoStatusToJSON,
-} from './PortfolioSyncInfoStatus';
-
+    PortfolioSyncInfoComplete,
+    PortfolioSyncInfoCompleteFromJSON,
+    PortfolioSyncInfoCompleteFromJSONTyped,
+    PortfolioSyncInfoCompleteToJSON,
+} from './PortfolioSyncInfoComplete';
 import {
-     PortfolioSyncInfoCompleteToJSONRecursive,
-     PortfolioSyncInfoCompleteFromJSONTyped,
-     PortfolioSyncInfoErrorToJSONRecursive,
-     PortfolioSyncInfoErrorFromJSONTyped,
-     PortfolioSyncInfoIncompleteToJSONRecursive,
-     PortfolioSyncInfoIncompleteFromJSONTyped,
-     PortfolioSyncInfoPendingToJSONRecursive,
-     PortfolioSyncInfoPendingFromJSONTyped
-} from './';
+    PortfolioSyncInfoError,
+    PortfolioSyncInfoErrorFromJSON,
+    PortfolioSyncInfoErrorFromJSONTyped,
+    PortfolioSyncInfoErrorToJSON,
+} from './PortfolioSyncInfoError';
+import {
+    PortfolioSyncInfoIncomplete,
+    PortfolioSyncInfoIncompleteFromJSON,
+    PortfolioSyncInfoIncompleteFromJSONTyped,
+    PortfolioSyncInfoIncompleteToJSON,
+} from './PortfolioSyncInfoIncomplete';
+import {
+    PortfolioSyncInfoPending,
+    PortfolioSyncInfoPendingFromJSON,
+    PortfolioSyncInfoPendingFromJSONTyped,
+    PortfolioSyncInfoPendingToJSON,
+} from './PortfolioSyncInfoPending';
 
 /**
+ * @type PortfolioSyncInfo
  * 
  * @export
- * @interface PortfolioSyncInfo
  */
-export interface PortfolioSyncInfo {
-    /**
-     * 
-     * @type {PortfolioSyncInfoStatus}
-     * @memberof PortfolioSyncInfo
-     */
-    status: PortfolioSyncInfoStatus;
-}
+export type PortfolioSyncInfo = { status: 'COMPLETE' } & PortfolioSyncInfoComplete | { status: 'ERROR' } & PortfolioSyncInfoError | { status: 'INCOMPLETE' } & PortfolioSyncInfoIncomplete | { status: 'PENDING' } & PortfolioSyncInfoPending;
 
 export function PortfolioSyncInfoFromJSON(json: any): PortfolioSyncInfo {
     return PortfolioSyncInfoFromJSONTyped(json, false);
@@ -53,46 +52,38 @@ export function PortfolioSyncInfoFromJSONTyped(json: any, ignoreDiscriminator: b
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['status'] === 'COMPLETE') {
-            return PortfolioSyncInfoCompleteFromJSONTyped(json, true);
-        }
-        if (json['status'] === 'ERROR') {
-            return PortfolioSyncInfoErrorFromJSONTyped(json, true);
-        }
-        if (json['status'] === 'INCOMPLETE') {
-            return PortfolioSyncInfoIncompleteFromJSONTyped(json, true);
-        }
-        if (json['status'] === 'PENDING') {
-            return PortfolioSyncInfoPendingFromJSONTyped(json, true);
-        }
+    switch (json['status']) {
+        case 'COMPLETE':
+            return {...PortfolioSyncInfoCompleteFromJSONTyped(json, true), status: 'COMPLETE'};
+        case 'ERROR':
+            return {...PortfolioSyncInfoErrorFromJSONTyped(json, true), status: 'ERROR'};
+        case 'INCOMPLETE':
+            return {...PortfolioSyncInfoIncompleteFromJSONTyped(json, true), status: 'INCOMPLETE'};
+        case 'PENDING':
+            return {...PortfolioSyncInfoPendingFromJSONTyped(json, true), status: 'PENDING'};
+        default:
+            throw new Error(`No variant of PortfolioSyncInfo exists with 'status=${json['status']}'`);
     }
-    return {
-        
-        'status': PortfolioSyncInfoStatusFromJSON(json['status']),
-    };
 }
 
-export function PortfolioSyncInfoToJSONRecursive(value?: PortfolioSyncInfo | null, ignoreParent = false): any {
+export function PortfolioSyncInfoToJSON(value?: PortfolioSyncInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['status'] === 'COMPLETE' ? PortfolioSyncInfoCompleteToJSONRecursive(value as any, true) : {},
-          ...value['status'] === 'ERROR' ? PortfolioSyncInfoErrorToJSONRecursive(value as any, true) : {},
-          ...value['status'] === 'INCOMPLETE' ? PortfolioSyncInfoIncompleteToJSONRecursive(value as any, true) : {},
-          ...value['status'] === 'PENDING' ? PortfolioSyncInfoPendingToJSONRecursive(value as any, true) : {},
-
-        'status': PortfolioSyncInfoStatusToJSON(value.status),
-    };
+    switch (value['status']) {
+        case 'COMPLETE':
+            return PortfolioSyncInfoCompleteToJSON(value);
+        case 'ERROR':
+            return PortfolioSyncInfoErrorToJSON(value);
+        case 'INCOMPLETE':
+            return PortfolioSyncInfoIncompleteToJSON(value);
+        case 'PENDING':
+            return PortfolioSyncInfoPendingToJSON(value);
+        default:
+            throw new Error(`No variant of PortfolioSyncInfo exists with 'status=${value['status']}'`);
+    }
 }
 
-export function PortfolioSyncInfoToJSON(value?: PortfolioSyncInfo | null): any {
-    return PortfolioSyncInfoToJSONRecursive(value, false);
-}

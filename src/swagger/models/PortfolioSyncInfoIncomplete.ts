@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    PortfolioSyncInfo,
-    PortfolioSyncInfoFromJSON,
-    PortfolioSyncInfoFromJSONTyped,
-    PortfolioSyncInfoToJSON,
-} from './PortfolioSyncInfo';
+    PortfolioSyncInfoIncompleteAllOf,
+    PortfolioSyncInfoIncompleteAllOfFromJSON,
+    PortfolioSyncInfoIncompleteAllOfFromJSONTyped,
+    PortfolioSyncInfoIncompleteAllOfToJSON,
+} from './PortfolioSyncInfoIncompleteAllOf';
 import {
     PortfolioSyncInfoIncompleteSpecifics,
     PortfolioSyncInfoIncompleteSpecificsFromJSON,
     PortfolioSyncInfoIncompleteSpecificsFromJSONTyped,
     PortfolioSyncInfoIncompleteSpecificsToJSON,
 } from './PortfolioSyncInfoIncompleteSpecifics';
-import {
-    PortfolioSyncInfoStatus,
-    PortfolioSyncInfoStatusFromJSON,
-    PortfolioSyncInfoStatusFromJSONTyped,
-    PortfolioSyncInfoStatusToJSON,
-} from './PortfolioSyncInfoStatus';
 
 /**
  * 
  * @export
  * @interface PortfolioSyncInfoIncomplete
  */
-export interface PortfolioSyncInfoIncomplete extends PortfolioSyncInfo {
+export interface PortfolioSyncInfoIncomplete {
+    /**
+     * 
+     * @type {string}
+     * @memberof PortfolioSyncInfoIncomplete
+     */
+    status: PortfolioSyncInfoIncompleteStatusEnum;
     /**
      * 
      * @type {Date}
@@ -45,6 +45,16 @@ export interface PortfolioSyncInfoIncomplete extends PortfolioSyncInfo {
      */
     lastSync: Date;
 }
+
+
+/**
+ * @export
+ */
+export const PortfolioSyncInfoIncompleteStatusEnum = {
+    Incomplete: 'INCOMPLETE'
+} as const;
+export type PortfolioSyncInfoIncompleteStatusEnum = typeof PortfolioSyncInfoIncompleteStatusEnum[keyof typeof PortfolioSyncInfoIncompleteStatusEnum];
+
 
 export function PortfolioSyncInfoIncompleteFromJSON(json: any): PortfolioSyncInfoIncomplete {
     return PortfolioSyncInfoIncompleteFromJSONTyped(json, false);
@@ -55,7 +65,8 @@ export function PortfolioSyncInfoIncompleteFromJSONTyped(json: any, ignoreDiscri
         return json;
     }
     return {
-        ...PortfolioSyncInfoFromJSONTyped(json, ignoreDiscriminator),
+        
+        'status': json['status'],
         'lastSync': (new Date(json['lastSync'])),
     };
 }
@@ -69,9 +80,10 @@ export function PortfolioSyncInfoIncompleteToJSONRecursive(value?: PortfolioSync
     }
 
     return {
-        ...ignoreParent ? {} : PortfolioSyncInfoToJSON(value),
+        
 
 
+        'status': value.status,
         'lastSync': (value.lastSync.toISOString()),
     };
 }

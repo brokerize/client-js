@@ -20,30 +20,30 @@ import {
     AmountToJSON,
 } from './Amount';
 import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
+    GenericTableRowValueAmountAllOf,
+    GenericTableRowValueAmountAllOfFromJSON,
+    GenericTableRowValueAmountAllOfFromJSONTyped,
+    GenericTableRowValueAmountAllOfToJSON,
+} from './GenericTableRowValueAmountAllOf';
 import {
     GenericTableRowValueAmountSpecifics,
     GenericTableRowValueAmountSpecificsFromJSON,
     GenericTableRowValueAmountSpecificsFromJSONTyped,
     GenericTableRowValueAmountSpecificsToJSON,
 } from './GenericTableRowValueAmountSpecifics';
-import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
 
 /**
  * 
  * @export
  * @interface GenericTableRowValueAmount
  */
-export interface GenericTableRowValueAmount extends GenericTableRowValue {
+export interface GenericTableRowValueAmount {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenericTableRowValueAmount
+     */
+    type: GenericTableRowValueAmountTypeEnum;
     /**
      * 
      * @type {Amount}
@@ -51,6 +51,16 @@ export interface GenericTableRowValueAmount extends GenericTableRowValue {
      */
     value: Amount;
 }
+
+
+/**
+ * @export
+ */
+export const GenericTableRowValueAmountTypeEnum = {
+    Amount: 'amount'
+} as const;
+export type GenericTableRowValueAmountTypeEnum = typeof GenericTableRowValueAmountTypeEnum[keyof typeof GenericTableRowValueAmountTypeEnum];
+
 
 export function GenericTableRowValueAmountFromJSON(json: any): GenericTableRowValueAmount {
     return GenericTableRowValueAmountFromJSONTyped(json, false);
@@ -61,7 +71,8 @@ export function GenericTableRowValueAmountFromJSONTyped(json: any, ignoreDiscrim
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
+        
+        'type': json['type'],
         'value': AmountFromJSON(json['value']),
     };
 }
@@ -75,9 +86,10 @@ export function GenericTableRowValueAmountToJSONRecursive(value?: GenericTableRo
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        
 
 
+        'type': value.type,
         'value': AmountToJSON(value.value),
     };
 }

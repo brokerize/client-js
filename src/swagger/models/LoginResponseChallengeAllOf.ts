@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface LoginResponseChallengeAllOf
  */
-export interface CreateModeSessionTan {
+export interface LoginResponseChallengeAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof LoginResponseChallengeAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    state?: LoginResponseChallengeAllOfStateEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const LoginResponseChallengeAllOfStateEnum = {
+    Challenge: 'challenge'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type LoginResponseChallengeAllOfStateEnum = typeof LoginResponseChallengeAllOfStateEnum[keyof typeof LoginResponseChallengeAllOfStateEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function LoginResponseChallengeAllOfFromJSON(json: any): LoginResponseChallengeAllOf {
+    return LoginResponseChallengeAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function LoginResponseChallengeAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): LoginResponseChallengeAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'state': !exists(json, 'state') ? undefined : json['state'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function LoginResponseChallengeAllOfToJSONRecursive(value?: LoginResponseChallengeAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'state': value.state,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function LoginResponseChallengeAllOfToJSON(value?: LoginResponseChallengeAllOf | null): any {
+    return LoginResponseChallengeAllOfToJSONRecursive(value, false);
 }

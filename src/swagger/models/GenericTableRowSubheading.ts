@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRow,
-    GenericTableRowFromJSON,
-    GenericTableRowFromJSONTyped,
-    GenericTableRowToJSON,
-} from './GenericTableRow';
+    GenericTableRowSubheadingAllOf,
+    GenericTableRowSubheadingAllOfFromJSON,
+    GenericTableRowSubheadingAllOfFromJSONTyped,
+    GenericTableRowSubheadingAllOfToJSON,
+} from './GenericTableRowSubheadingAllOf';
 import {
     GenericTableRowSubheadingSpecifics,
     GenericTableRowSubheadingSpecificsFromJSON,
     GenericTableRowSubheadingSpecificsFromJSONTyped,
     GenericTableRowSubheadingSpecificsToJSON,
 } from './GenericTableRowSubheadingSpecifics';
-import {
-    GenericTableRowType,
-    GenericTableRowTypeFromJSON,
-    GenericTableRowTypeFromJSONTyped,
-    GenericTableRowTypeToJSON,
-} from './GenericTableRowType';
 
 /**
  * 
  * @export
  * @interface GenericTableRowSubheading
  */
-export interface GenericTableRowSubheading extends GenericTableRow {
+export interface GenericTableRowSubheading {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenericTableRowSubheading
+     */
+    type: GenericTableRowSubheadingTypeEnum;
     /**
      * 
      * @type {string}
@@ -45,6 +45,16 @@ export interface GenericTableRowSubheading extends GenericTableRow {
      */
     subheading: string;
 }
+
+
+/**
+ * @export
+ */
+export const GenericTableRowSubheadingTypeEnum = {
+    Subheading: 'subheading'
+} as const;
+export type GenericTableRowSubheadingTypeEnum = typeof GenericTableRowSubheadingTypeEnum[keyof typeof GenericTableRowSubheadingTypeEnum];
+
 
 export function GenericTableRowSubheadingFromJSON(json: any): GenericTableRowSubheading {
     return GenericTableRowSubheadingFromJSONTyped(json, false);
@@ -55,7 +65,8 @@ export function GenericTableRowSubheadingFromJSONTyped(json: any, ignoreDiscrimi
         return json;
     }
     return {
-        ...GenericTableRowFromJSONTyped(json, ignoreDiscriminator),
+        
+        'type': json['type'],
         'subheading': json['subheading'],
     };
 }
@@ -69,9 +80,10 @@ export function GenericTableRowSubheadingToJSONRecursive(value?: GenericTableRow
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowToJSON(value),
+        
 
 
+        'type': value.type,
         'subheading': value.subheading,
     };
 }

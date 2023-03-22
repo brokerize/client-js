@@ -12,36 +12,31 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    EnableSessionTanParamsKind,
-    EnableSessionTanParamsKindFromJSON,
-    EnableSessionTanParamsKindFromJSONTyped,
-    EnableSessionTanParamsKindToJSON,
-} from './EnableSessionTanParamsKind';
-
+    EnableSessionTanParamsChallengeResponse,
+    EnableSessionTanParamsChallengeResponseFromJSON,
+    EnableSessionTanParamsChallengeResponseFromJSONTyped,
+    EnableSessionTanParamsChallengeResponseToJSON,
+} from './EnableSessionTanParamsChallengeResponse';
 import {
-     EnableSessionTanParamsChallengeResponseToJSONRecursive,
-     EnableSessionTanParamsChallengeResponseFromJSONTyped,
-     EnableSessionTanParamsDecoupledToJSONRecursive,
-     EnableSessionTanParamsDecoupledFromJSONTyped,
-     EnableSessionTanParamsTanToJSONRecursive,
-     EnableSessionTanParamsTanFromJSONTyped
-} from './';
+    EnableSessionTanParamsDecoupled,
+    EnableSessionTanParamsDecoupledFromJSON,
+    EnableSessionTanParamsDecoupledFromJSONTyped,
+    EnableSessionTanParamsDecoupledToJSON,
+} from './EnableSessionTanParamsDecoupled';
+import {
+    EnableSessionTanParamsTan,
+    EnableSessionTanParamsTanFromJSON,
+    EnableSessionTanParamsTanFromJSONTyped,
+    EnableSessionTanParamsTanToJSON,
+} from './EnableSessionTanParamsTan';
 
 /**
+ * @type EnableSessionTanParams
  * 
  * @export
- * @interface EnableSessionTanParams
  */
-export interface EnableSessionTanParams {
-    /**
-     * 
-     * @type {EnableSessionTanParamsKind}
-     * @memberof EnableSessionTanParams
-     */
-    kind: EnableSessionTanParamsKind;
-}
+export type EnableSessionTanParams = { kind: 'challengeResponse' } & EnableSessionTanParamsChallengeResponse | { kind: 'decoupled' } & EnableSessionTanParamsDecoupled | { kind: 'tan' } & EnableSessionTanParamsTan;
 
 export function EnableSessionTanParamsFromJSON(json: any): EnableSessionTanParams {
     return EnableSessionTanParamsFromJSONTyped(json, false);
@@ -51,42 +46,34 @@ export function EnableSessionTanParamsFromJSONTyped(json: any, ignoreDiscriminat
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['kind'] === 'challengeResponse') {
-            return EnableSessionTanParamsChallengeResponseFromJSONTyped(json, true);
-        }
-        if (json['kind'] === 'decoupled') {
-            return EnableSessionTanParamsDecoupledFromJSONTyped(json, true);
-        }
-        if (json['kind'] === 'tan') {
-            return EnableSessionTanParamsTanFromJSONTyped(json, true);
-        }
+    switch (json['kind']) {
+        case 'challengeResponse':
+            return {...EnableSessionTanParamsChallengeResponseFromJSONTyped(json, true), kind: 'challengeResponse'};
+        case 'decoupled':
+            return {...EnableSessionTanParamsDecoupledFromJSONTyped(json, true), kind: 'decoupled'};
+        case 'tan':
+            return {...EnableSessionTanParamsTanFromJSONTyped(json, true), kind: 'tan'};
+        default:
+            throw new Error(`No variant of EnableSessionTanParams exists with 'kind=${json['kind']}'`);
     }
-    return {
-        
-        'kind': EnableSessionTanParamsKindFromJSON(json['kind']),
-    };
 }
 
-export function EnableSessionTanParamsToJSONRecursive(value?: EnableSessionTanParams | null, ignoreParent = false): any {
+export function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['kind'] === 'challengeResponse' ? EnableSessionTanParamsChallengeResponseToJSONRecursive(value as any, true) : {},
-          ...value['kind'] === 'decoupled' ? EnableSessionTanParamsDecoupledToJSONRecursive(value as any, true) : {},
-          ...value['kind'] === 'tan' ? EnableSessionTanParamsTanToJSONRecursive(value as any, true) : {},
-
-        'kind': EnableSessionTanParamsKindToJSON(value.kind),
-    };
+    switch (value['kind']) {
+        case 'challengeResponse':
+            return EnableSessionTanParamsChallengeResponseToJSON(value);
+        case 'decoupled':
+            return EnableSessionTanParamsDecoupledToJSON(value);
+        case 'tan':
+            return EnableSessionTanParamsTanToJSON(value);
+        default:
+            throw new Error(`No variant of EnableSessionTanParams exists with 'kind=${value['kind']}'`);
+    }
 }
 
-export function EnableSessionTanParamsToJSON(value?: EnableSessionTanParams | null): any {
-    return EnableSessionTanParamsToJSONRecursive(value, false);
-}

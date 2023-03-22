@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface GenericTableRowValueLinkPortfolioAllOf
  */
-export interface CreateModeSessionTan {
+export interface GenericTableRowValueLinkPortfolioAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof GenericTableRowValueLinkPortfolioAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    type?: GenericTableRowValueLinkPortfolioAllOfTypeEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const GenericTableRowValueLinkPortfolioAllOfTypeEnum = {
+    Portfolio: 'portfolio'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type GenericTableRowValueLinkPortfolioAllOfTypeEnum = typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum[keyof typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function GenericTableRowValueLinkPortfolioAllOfFromJSON(json: any): GenericTableRowValueLinkPortfolioAllOf {
+    return GenericTableRowValueLinkPortfolioAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function GenericTableRowValueLinkPortfolioAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueLinkPortfolioAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'type': !exists(json, 'type') ? undefined : json['type'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function GenericTableRowValueLinkPortfolioAllOfToJSONRecursive(value?: GenericTableRowValueLinkPortfolioAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'type': value.type,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function GenericTableRowValueLinkPortfolioAllOfToJSON(value?: GenericTableRowValueLinkPortfolioAllOf | null): any {
+    return GenericTableRowValueLinkPortfolioAllOfToJSONRecursive(value, false);
 }

@@ -14,36 +14,64 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    PortfolioSyncInfo,
-    PortfolioSyncInfoFromJSON,
-    PortfolioSyncInfoFromJSONTyped,
-    PortfolioSyncInfoToJSON,
-} from './PortfolioSyncInfo';
-import {
-    PortfolioSyncInfoStatus,
-    PortfolioSyncInfoStatusFromJSON,
-    PortfolioSyncInfoStatusFromJSONTyped,
-    PortfolioSyncInfoStatusToJSON,
-} from './PortfolioSyncInfoStatus';
+    PortfolioSyncInfoPendingAllOf,
+    PortfolioSyncInfoPendingAllOfFromJSON,
+    PortfolioSyncInfoPendingAllOfFromJSONTyped,
+    PortfolioSyncInfoPendingAllOfToJSON,
+} from './PortfolioSyncInfoPendingAllOf';
 
 /**
  * 
  * @export
  * @interface PortfolioSyncInfoPending
  */
-export interface PortfolioSyncInfoPending extends PortfolioSyncInfo {
+export interface PortfolioSyncInfoPending {
+    /**
+     * 
+     * @type {string}
+     * @memberof PortfolioSyncInfoPending
+     */
+    status: PortfolioSyncInfoPendingStatusEnum;
 }
+
+
+/**
+ * @export
+ */
+export const PortfolioSyncInfoPendingStatusEnum = {
+    Pending: 'PENDING'
+} as const;
+export type PortfolioSyncInfoPendingStatusEnum = typeof PortfolioSyncInfoPendingStatusEnum[keyof typeof PortfolioSyncInfoPendingStatusEnum];
+
 
 export function PortfolioSyncInfoPendingFromJSON(json: any): PortfolioSyncInfoPending {
     return PortfolioSyncInfoPendingFromJSONTyped(json, false);
 }
 
 export function PortfolioSyncInfoPendingFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoPending {
-    return json;
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'status': json['status'],
+    };
 }
 
 export function PortfolioSyncInfoPendingToJSONRecursive(value?: PortfolioSyncInfoPending | null, ignoreParent = false): any {
-    return value;
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+
+    return {
+        
+
+
+        'status': value.status,
+    };
 }
 
 export function PortfolioSyncInfoPendingToJSON(value?: PortfolioSyncInfoPending | null): any {

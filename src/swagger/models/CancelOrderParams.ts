@@ -12,34 +12,25 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    CancelOrderParamsMode,
-    CancelOrderParamsModeFromJSON,
-    CancelOrderParamsModeFromJSONTyped,
-    CancelOrderParamsModeToJSON,
-} from './CancelOrderParamsMode';
-
+    CancelOrderChallengeResponse,
+    CancelOrderChallengeResponseFromJSON,
+    CancelOrderChallengeResponseFromJSONTyped,
+    CancelOrderChallengeResponseToJSON,
+} from './CancelOrderChallengeResponse';
 import {
-     CancelOrderChallengeResponseToJSONRecursive,
-     CancelOrderChallengeResponseFromJSONTyped,
-     CreateModeSessionTanToJSONRecursive,
-     CreateModeSessionTanFromJSONTyped
-} from './';
+    CreateModeSessionTan,
+    CreateModeSessionTanFromJSON,
+    CreateModeSessionTanFromJSONTyped,
+    CreateModeSessionTanToJSON,
+} from './CreateModeSessionTan';
 
 /**
+ * @type CancelOrderParams
  * 
  * @export
- * @interface CancelOrderParams
  */
-export interface CancelOrderParams {
-    /**
-     * 
-     * @type {CancelOrderParamsMode}
-     * @memberof CancelOrderParams
-     */
-    mode: CancelOrderParamsMode;
-}
+export type CancelOrderParams = { mode: 'challengeResponse' } & CancelOrderChallengeResponse | { mode: 'sessionTan' } & CreateModeSessionTan;
 
 export function CancelOrderParamsFromJSON(json: any): CancelOrderParams {
     return CancelOrderParamsFromJSONTyped(json, false);
@@ -49,38 +40,30 @@ export function CancelOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: b
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['mode'] === 'challengeResponse') {
-            return CancelOrderChallengeResponseFromJSONTyped(json, true);
-        }
-        if (json['mode'] === 'sessionTan') {
-            return CreateModeSessionTanFromJSONTyped(json, true);
-        }
+    switch (json['mode']) {
+        case 'challengeResponse':
+            return {...CancelOrderChallengeResponseFromJSONTyped(json, true), mode: 'challengeResponse'};
+        case 'sessionTan':
+            return {...CreateModeSessionTanFromJSONTyped(json, true), mode: 'sessionTan'};
+        default:
+            throw new Error(`No variant of CancelOrderParams exists with 'mode=${json['mode']}'`);
     }
-    return {
-        
-        'mode': CancelOrderParamsModeFromJSON(json['mode']),
-    };
 }
 
-export function CancelOrderParamsToJSONRecursive(value?: CancelOrderParams | null, ignoreParent = false): any {
+export function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['mode'] === 'challengeResponse' ? CancelOrderChallengeResponseToJSONRecursive(value as any, true) : {},
-          ...value['mode'] === 'sessionTan' ? CreateModeSessionTanToJSONRecursive(value as any, true) : {},
-
-        'mode': CancelOrderParamsModeToJSON(value.mode),
-    };
+    switch (value['mode']) {
+        case 'challengeResponse':
+            return CancelOrderChallengeResponseToJSON(value);
+        case 'sessionTan':
+            return CreateModeSessionTanToJSON(value);
+        default:
+            throw new Error(`No variant of CancelOrderParams exists with 'mode=${value['mode']}'`);
+    }
 }
 
-export function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any {
-    return CancelOrderParamsToJSONRecursive(value, false);
-}

@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRow,
-    GenericTableRowFromJSON,
-    GenericTableRowFromJSONTyped,
-    GenericTableRowToJSON,
-} from './GenericTableRow';
+    GenericTableRowTextAllOf,
+    GenericTableRowTextAllOfFromJSON,
+    GenericTableRowTextAllOfFromJSONTyped,
+    GenericTableRowTextAllOfToJSON,
+} from './GenericTableRowTextAllOf';
 import {
     GenericTableRowTextSpecifics,
     GenericTableRowTextSpecificsFromJSON,
     GenericTableRowTextSpecificsFromJSONTyped,
     GenericTableRowTextSpecificsToJSON,
 } from './GenericTableRowTextSpecifics';
-import {
-    GenericTableRowType,
-    GenericTableRowTypeFromJSON,
-    GenericTableRowTypeFromJSONTyped,
-    GenericTableRowTypeToJSON,
-} from './GenericTableRowType';
 
 /**
  * 
  * @export
  * @interface GenericTableRowText
  */
-export interface GenericTableRowText extends GenericTableRow {
+export interface GenericTableRowText {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenericTableRowText
+     */
+    type: GenericTableRowTextTypeEnum;
     /**
      * 
      * @type {string}
@@ -45,6 +45,16 @@ export interface GenericTableRowText extends GenericTableRow {
      */
     text: string;
 }
+
+
+/**
+ * @export
+ */
+export const GenericTableRowTextTypeEnum = {
+    Text: 'text'
+} as const;
+export type GenericTableRowTextTypeEnum = typeof GenericTableRowTextTypeEnum[keyof typeof GenericTableRowTextTypeEnum];
+
 
 export function GenericTableRowTextFromJSON(json: any): GenericTableRowText {
     return GenericTableRowTextFromJSONTyped(json, false);
@@ -55,7 +65,8 @@ export function GenericTableRowTextFromJSONTyped(json: any, ignoreDiscriminator:
         return json;
     }
     return {
-        ...GenericTableRowFromJSONTyped(json, ignoreDiscriminator),
+        
+        'type': json['type'],
         'text': json['text'],
     };
 }
@@ -69,9 +80,10 @@ export function GenericTableRowTextToJSONRecursive(value?: GenericTableRowText |
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowToJSON(value),
+        
 
 
+        'type': value.type,
         'text': value.text,
     };
 }

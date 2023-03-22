@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface CancelOrderChallengeResponseAllOf
  */
-export interface CreateModeSessionTan {
+export interface CancelOrderChallengeResponseAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof CancelOrderChallengeResponseAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    mode?: CancelOrderChallengeResponseAllOfModeEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const CancelOrderChallengeResponseAllOfModeEnum = {
+    ChallengeResponse: 'challengeResponse'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type CancelOrderChallengeResponseAllOfModeEnum = typeof CancelOrderChallengeResponseAllOfModeEnum[keyof typeof CancelOrderChallengeResponseAllOfModeEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function CancelOrderChallengeResponseAllOfFromJSON(json: any): CancelOrderChallengeResponseAllOf {
+    return CancelOrderChallengeResponseAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function CancelOrderChallengeResponseAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderChallengeResponseAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'mode': !exists(json, 'mode') ? undefined : json['mode'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function CancelOrderChallengeResponseAllOfToJSONRecursive(value?: CancelOrderChallengeResponseAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -74,6 +67,6 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function CancelOrderChallengeResponseAllOfToJSON(value?: CancelOrderChallengeResponseAllOf | null): any {
+    return CancelOrderChallengeResponseAllOfToJSONRecursive(value, false);
 }

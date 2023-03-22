@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface PortfolioSyncInfoCompleteAllOf
  */
-export interface CreateModeSessionTan {
+export interface PortfolioSyncInfoCompleteAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof PortfolioSyncInfoCompleteAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    status?: PortfolioSyncInfoCompleteAllOfStatusEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const PortfolioSyncInfoCompleteAllOfStatusEnum = {
+    Complete: 'COMPLETE'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type PortfolioSyncInfoCompleteAllOfStatusEnum = typeof PortfolioSyncInfoCompleteAllOfStatusEnum[keyof typeof PortfolioSyncInfoCompleteAllOfStatusEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function PortfolioSyncInfoCompleteAllOfFromJSON(json: any): PortfolioSyncInfoCompleteAllOf {
+    return PortfolioSyncInfoCompleteAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function PortfolioSyncInfoCompleteAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioSyncInfoCompleteAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'status': !exists(json, 'status') ? undefined : json['status'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function PortfolioSyncInfoCompleteAllOfToJSONRecursive(value?: PortfolioSyncInfoCompleteAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'status': value.status,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function PortfolioSyncInfoCompleteAllOfToJSON(value?: PortfolioSyncInfoCompleteAllOf | null): any {
+    return PortfolioSyncInfoCompleteAllOfToJSONRecursive(value, false);
 }

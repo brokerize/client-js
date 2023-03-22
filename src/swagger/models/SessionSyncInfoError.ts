@@ -14,23 +14,17 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    SessionSyncInfo,
-    SessionSyncInfoFromJSON,
-    SessionSyncInfoFromJSONTyped,
-    SessionSyncInfoToJSON,
-} from './SessionSyncInfo';
+    PortfolioSyncInfoErrorAllOf,
+    PortfolioSyncInfoErrorAllOfFromJSON,
+    PortfolioSyncInfoErrorAllOfFromJSONTyped,
+    PortfolioSyncInfoErrorAllOfToJSON,
+} from './PortfolioSyncInfoErrorAllOf';
 import {
     SessionSyncInfoErrorSpecifics,
     SessionSyncInfoErrorSpecificsFromJSON,
     SessionSyncInfoErrorSpecificsFromJSONTyped,
     SessionSyncInfoErrorSpecificsToJSON,
 } from './SessionSyncInfoErrorSpecifics';
-import {
-    SessionSyncInfoStatus,
-    SessionSyncInfoStatusFromJSON,
-    SessionSyncInfoStatusFromJSONTyped,
-    SessionSyncInfoStatusToJSON,
-} from './SessionSyncInfoStatus';
 import {
     SyncError,
     SyncErrorFromJSON,
@@ -43,7 +37,13 @@ import {
  * @export
  * @interface SessionSyncInfoError
  */
-export interface SessionSyncInfoError extends SessionSyncInfo {
+export interface SessionSyncInfoError {
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionSyncInfoError
+     */
+    status: SessionSyncInfoErrorStatusEnum;
     /**
      * 
      * @type {SyncError}
@@ -51,6 +51,16 @@ export interface SessionSyncInfoError extends SessionSyncInfo {
      */
     error: SyncError;
 }
+
+
+/**
+ * @export
+ */
+export const SessionSyncInfoErrorStatusEnum = {
+    Error: 'ERROR'
+} as const;
+export type SessionSyncInfoErrorStatusEnum = typeof SessionSyncInfoErrorStatusEnum[keyof typeof SessionSyncInfoErrorStatusEnum];
+
 
 export function SessionSyncInfoErrorFromJSON(json: any): SessionSyncInfoError {
     return SessionSyncInfoErrorFromJSONTyped(json, false);
@@ -61,7 +71,8 @@ export function SessionSyncInfoErrorFromJSONTyped(json: any, ignoreDiscriminator
         return json;
     }
     return {
-        ...SessionSyncInfoFromJSONTyped(json, ignoreDiscriminator),
+        
+        'status': json['status'],
         'error': SyncErrorFromJSON(json['error']),
     };
 }
@@ -75,9 +86,10 @@ export function SessionSyncInfoErrorToJSONRecursive(value?: SessionSyncInfoError
     }
 
     return {
-        ...ignoreParent ? {} : SessionSyncInfoToJSON(value),
+        
 
 
+        'status': value.status,
         'error': SyncErrorToJSON(value.error),
     };
 }

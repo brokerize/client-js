@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface EnableSessionTanParamsTanAllOf
  */
-export interface CreateModeSessionTan {
+export interface EnableSessionTanParamsTanAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof EnableSessionTanParamsTanAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    kind?: EnableSessionTanParamsTanAllOfKindEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const EnableSessionTanParamsTanAllOfKindEnum = {
+    Tan: 'tan'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type EnableSessionTanParamsTanAllOfKindEnum = typeof EnableSessionTanParamsTanAllOfKindEnum[keyof typeof EnableSessionTanParamsTanAllOfKindEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function EnableSessionTanParamsTanAllOfFromJSON(json: any): EnableSessionTanParamsTanAllOf {
+    return EnableSessionTanParamsTanAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function EnableSessionTanParamsTanAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsTanAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'kind': !exists(json, 'kind') ? undefined : json['kind'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function EnableSessionTanParamsTanAllOfToJSONRecursive(value?: EnableSessionTanParamsTanAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'kind': value.kind,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function EnableSessionTanParamsTanAllOfToJSON(value?: EnableSessionTanParamsTanAllOf | null): any {
+    return EnableSessionTanParamsTanAllOfToJSONRecursive(value, false);
 }

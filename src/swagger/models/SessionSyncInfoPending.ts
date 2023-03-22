@@ -14,36 +14,64 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    SessionSyncInfo,
-    SessionSyncInfoFromJSON,
-    SessionSyncInfoFromJSONTyped,
-    SessionSyncInfoToJSON,
-} from './SessionSyncInfo';
-import {
-    SessionSyncInfoStatus,
-    SessionSyncInfoStatusFromJSON,
-    SessionSyncInfoStatusFromJSONTyped,
-    SessionSyncInfoStatusToJSON,
-} from './SessionSyncInfoStatus';
+    PortfolioSyncInfoPendingAllOf,
+    PortfolioSyncInfoPendingAllOfFromJSON,
+    PortfolioSyncInfoPendingAllOfFromJSONTyped,
+    PortfolioSyncInfoPendingAllOfToJSON,
+} from './PortfolioSyncInfoPendingAllOf';
 
 /**
  * 
  * @export
  * @interface SessionSyncInfoPending
  */
-export interface SessionSyncInfoPending extends SessionSyncInfo {
+export interface SessionSyncInfoPending {
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionSyncInfoPending
+     */
+    status: SessionSyncInfoPendingStatusEnum;
 }
+
+
+/**
+ * @export
+ */
+export const SessionSyncInfoPendingStatusEnum = {
+    Pending: 'PENDING'
+} as const;
+export type SessionSyncInfoPendingStatusEnum = typeof SessionSyncInfoPendingStatusEnum[keyof typeof SessionSyncInfoPendingStatusEnum];
+
 
 export function SessionSyncInfoPendingFromJSON(json: any): SessionSyncInfoPending {
     return SessionSyncInfoPendingFromJSONTyped(json, false);
 }
 
 export function SessionSyncInfoPendingFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoPending {
-    return json;
+    if ((json === undefined) || (json === null)) {
+        return json;
+    }
+    return {
+        
+        'status': json['status'],
+    };
 }
 
 export function SessionSyncInfoPendingToJSONRecursive(value?: SessionSyncInfoPending | null, ignoreParent = false): any {
-    return value;
+    if (value === undefined) {
+        return undefined;
+    }
+    if (value === null) {
+        return null;
+    }
+
+    return {
+        
+
+
+        'status': value.status,
+    };
 }
 
 export function SessionSyncInfoPendingToJSON(value?: SessionSyncInfoPending | null): any {

@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
+    GenericTableRowValueDatetimeAllOf,
+    GenericTableRowValueDatetimeAllOfFromJSON,
+    GenericTableRowValueDatetimeAllOfFromJSONTyped,
+    GenericTableRowValueDatetimeAllOfToJSON,
+} from './GenericTableRowValueDatetimeAllOf';
 import {
     GenericTableRowValueDatetimeSpecifics,
     GenericTableRowValueDatetimeSpecificsFromJSON,
     GenericTableRowValueDatetimeSpecificsFromJSONTyped,
     GenericTableRowValueDatetimeSpecificsToJSON,
 } from './GenericTableRowValueDatetimeSpecifics';
-import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
 
 /**
  * 
  * @export
  * @interface GenericTableRowValueDatetime
  */
-export interface GenericTableRowValueDatetime extends GenericTableRowValue {
+export interface GenericTableRowValueDatetime {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenericTableRowValueDatetime
+     */
+    type: GenericTableRowValueDatetimeTypeEnum;
     /**
      * *Milliseconds* since *the epoch*.
      * @type {number}
@@ -45,6 +45,16 @@ export interface GenericTableRowValueDatetime extends GenericTableRowValue {
      */
     value: number;
 }
+
+
+/**
+ * @export
+ */
+export const GenericTableRowValueDatetimeTypeEnum = {
+    Datetime: 'datetime'
+} as const;
+export type GenericTableRowValueDatetimeTypeEnum = typeof GenericTableRowValueDatetimeTypeEnum[keyof typeof GenericTableRowValueDatetimeTypeEnum];
+
 
 export function GenericTableRowValueDatetimeFromJSON(json: any): GenericTableRowValueDatetime {
     return GenericTableRowValueDatetimeFromJSONTyped(json, false);
@@ -55,7 +65,8 @@ export function GenericTableRowValueDatetimeFromJSONTyped(json: any, ignoreDiscr
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
+        
+        'type': json['type'],
         'value': json['value'],
     };
 }
@@ -69,9 +80,10 @@ export function GenericTableRowValueDatetimeToJSONRecursive(value?: GenericTable
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        
 
 
+        'type': value.type,
         'value': value.value,
     };
 }

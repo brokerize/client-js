@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface GenericTableRowValueAmountAllOf
  */
-export interface CreateModeSessionTan {
+export interface GenericTableRowValueAmountAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof GenericTableRowValueAmountAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    type?: GenericTableRowValueAmountAllOfTypeEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const GenericTableRowValueAmountAllOfTypeEnum = {
+    Amount: 'amount'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type GenericTableRowValueAmountAllOfTypeEnum = typeof GenericTableRowValueAmountAllOfTypeEnum[keyof typeof GenericTableRowValueAmountAllOfTypeEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function GenericTableRowValueAmountAllOfFromJSON(json: any): GenericTableRowValueAmountAllOf {
+    return GenericTableRowValueAmountAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function GenericTableRowValueAmountAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTableRowValueAmountAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'type': !exists(json, 'type') ? undefined : json['type'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function GenericTableRowValueAmountAllOfToJSONRecursive(value?: GenericTableRowValueAmountAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'type': value.type,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function GenericTableRowValueAmountAllOfToJSON(value?: GenericTableRowValueAmountAllOf | null): any {
+    return GenericTableRowValueAmountAllOfToJSONRecursive(value, false);
 }

@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    EnableSessionTanParams,
-    EnableSessionTanParamsFromJSON,
-    EnableSessionTanParamsFromJSONTyped,
-    EnableSessionTanParamsToJSON,
-} from './EnableSessionTanParams';
+    EnableSessionTanParamsDecoupledAllOf,
+    EnableSessionTanParamsDecoupledAllOfFromJSON,
+    EnableSessionTanParamsDecoupledAllOfFromJSONTyped,
+    EnableSessionTanParamsDecoupledAllOfToJSON,
+} from './EnableSessionTanParamsDecoupledAllOf';
 import {
     EnableSessionTanParamsDecoupledSpecifics,
     EnableSessionTanParamsDecoupledSpecificsFromJSON,
     EnableSessionTanParamsDecoupledSpecificsFromJSONTyped,
     EnableSessionTanParamsDecoupledSpecificsToJSON,
 } from './EnableSessionTanParamsDecoupledSpecifics';
-import {
-    EnableSessionTanParamsKind,
-    EnableSessionTanParamsKindFromJSON,
-    EnableSessionTanParamsKindFromJSONTyped,
-    EnableSessionTanParamsKindToJSON,
-} from './EnableSessionTanParamsKind';
 
 /**
  * 
  * @export
  * @interface EnableSessionTanParamsDecoupled
  */
-export interface EnableSessionTanParamsDecoupled extends EnableSessionTanParams {
+export interface EnableSessionTanParamsDecoupled {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnableSessionTanParamsDecoupled
+     */
+    kind: EnableSessionTanParamsDecoupledKindEnum;
     /**
      * 
      * @type {string}
@@ -45,6 +45,16 @@ export interface EnableSessionTanParamsDecoupled extends EnableSessionTanParams 
      */
     authMethod: string;
 }
+
+
+/**
+ * @export
+ */
+export const EnableSessionTanParamsDecoupledKindEnum = {
+    Decoupled: 'decoupled'
+} as const;
+export type EnableSessionTanParamsDecoupledKindEnum = typeof EnableSessionTanParamsDecoupledKindEnum[keyof typeof EnableSessionTanParamsDecoupledKindEnum];
+
 
 export function EnableSessionTanParamsDecoupledFromJSON(json: any): EnableSessionTanParamsDecoupled {
     return EnableSessionTanParamsDecoupledFromJSONTyped(json, false);
@@ -55,7 +65,8 @@ export function EnableSessionTanParamsDecoupledFromJSONTyped(json: any, ignoreDi
         return json;
     }
     return {
-        ...EnableSessionTanParamsFromJSONTyped(json, ignoreDiscriminator),
+        
+        'kind': json['kind'],
         'authMethod': json['authMethod'],
     };
 }
@@ -69,9 +80,10 @@ export function EnableSessionTanParamsDecoupledToJSONRecursive(value?: EnableSes
     }
 
     return {
-        ...ignoreParent ? {} : EnableSessionTanParamsToJSON(value),
+        
 
 
+        'kind': value.kind,
         'authMethod': value.authMethod,
     };
 }

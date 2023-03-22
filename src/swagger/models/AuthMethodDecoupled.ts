@@ -14,23 +14,17 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AuthMethod,
-    AuthMethodFromJSON,
-    AuthMethodFromJSONTyped,
-    AuthMethodToJSON,
-} from './AuthMethod';
+    AuthMethodDecoupledAllOf,
+    AuthMethodDecoupledAllOfFromJSON,
+    AuthMethodDecoupledAllOfFromJSONTyped,
+    AuthMethodDecoupledAllOfToJSON,
+} from './AuthMethodDecoupledAllOf';
 import {
     AuthMethodDecoupledSpecifics,
     AuthMethodDecoupledSpecificsFromJSON,
     AuthMethodDecoupledSpecificsFromJSONTyped,
     AuthMethodDecoupledSpecificsToJSON,
 } from './AuthMethodDecoupledSpecifics';
-import {
-    AuthMethodFlow,
-    AuthMethodFlowFromJSON,
-    AuthMethodFlowFromJSONTyped,
-    AuthMethodFlowToJSON,
-} from './AuthMethodFlow';
 
 /**
  * With the `DECOUPLED` flow, the operation is created right away wiuthout creating a challenge first. The operation's
@@ -40,7 +34,13 @@ import {
  * @export
  * @interface AuthMethodDecoupled
  */
-export interface AuthMethodDecoupled extends AuthMethod {
+export interface AuthMethodDecoupled {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthMethodDecoupled
+     */
+    flow: AuthMethodDecoupledFlowEnum;
     /**
      * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
      * be scanned with a phone).
@@ -68,6 +68,16 @@ export interface AuthMethodDecoupled extends AuthMethod {
     id: string;
 }
 
+
+/**
+ * @export
+ */
+export const AuthMethodDecoupledFlowEnum = {
+    Decoupled: 'DECOUPLED'
+} as const;
+export type AuthMethodDecoupledFlowEnum = typeof AuthMethodDecoupledFlowEnum[keyof typeof AuthMethodDecoupledFlowEnum];
+
+
 export function AuthMethodDecoupledFromJSON(json: any): AuthMethodDecoupled {
     return AuthMethodDecoupledFromJSONTyped(json, false);
 }
@@ -77,7 +87,8 @@ export function AuthMethodDecoupledFromJSONTyped(json: any, ignoreDiscriminator:
         return json;
     }
     return {
-        ...AuthMethodFromJSONTyped(json, ignoreDiscriminator),
+        
+        'flow': json['flow'],
         'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'isDefaultMethod': !exists(json, 'isDefaultMethod') ? undefined : json['isDefaultMethod'],
         'label': json['label'],
@@ -94,9 +105,10 @@ export function AuthMethodDecoupledToJSONRecursive(value?: AuthMethodDecoupled |
     }
 
     return {
-        ...ignoreParent ? {} : AuthMethodToJSON(value),
+        
 
 
+        'flow': value.flow,
         'hideOnPhones': value.hideOnPhones,
         'isDefaultMethod': value.isDefaultMethod,
         'label': value.label,

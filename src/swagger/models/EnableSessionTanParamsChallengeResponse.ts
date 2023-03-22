@@ -14,30 +14,30 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    EnableSessionTanParams,
-    EnableSessionTanParamsFromJSON,
-    EnableSessionTanParamsFromJSONTyped,
-    EnableSessionTanParamsToJSON,
-} from './EnableSessionTanParams';
+    EnableSessionTanParamsChallengeResponseAllOf,
+    EnableSessionTanParamsChallengeResponseAllOfFromJSON,
+    EnableSessionTanParamsChallengeResponseAllOfFromJSONTyped,
+    EnableSessionTanParamsChallengeResponseAllOfToJSON,
+} from './EnableSessionTanParamsChallengeResponseAllOf';
 import {
     EnableSessionTanParamsChallengeResponseSpecifics,
     EnableSessionTanParamsChallengeResponseSpecificsFromJSON,
     EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped,
     EnableSessionTanParamsChallengeResponseSpecificsToJSON,
 } from './EnableSessionTanParamsChallengeResponseSpecifics';
-import {
-    EnableSessionTanParamsKind,
-    EnableSessionTanParamsKindFromJSON,
-    EnableSessionTanParamsKindFromJSONTyped,
-    EnableSessionTanParamsKindToJSON,
-} from './EnableSessionTanParamsKind';
 
 /**
  * 
  * @export
  * @interface EnableSessionTanParamsChallengeResponse
  */
-export interface EnableSessionTanParamsChallengeResponse extends EnableSessionTanParams {
+export interface EnableSessionTanParamsChallengeResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnableSessionTanParamsChallengeResponse
+     */
+    kind: EnableSessionTanParamsChallengeResponseKindEnum;
     /**
      * 
      * @type {string}
@@ -58,6 +58,16 @@ export interface EnableSessionTanParamsChallengeResponse extends EnableSessionTa
     authMethod: string;
 }
 
+
+/**
+ * @export
+ */
+export const EnableSessionTanParamsChallengeResponseKindEnum = {
+    ChallengeResponse: 'challengeResponse'
+} as const;
+export type EnableSessionTanParamsChallengeResponseKindEnum = typeof EnableSessionTanParamsChallengeResponseKindEnum[keyof typeof EnableSessionTanParamsChallengeResponseKindEnum];
+
+
 export function EnableSessionTanParamsChallengeResponseFromJSON(json: any): EnableSessionTanParamsChallengeResponse {
     return EnableSessionTanParamsChallengeResponseFromJSONTyped(json, false);
 }
@@ -67,7 +77,8 @@ export function EnableSessionTanParamsChallengeResponseFromJSONTyped(json: any, 
         return json;
     }
     return {
-        ...EnableSessionTanParamsFromJSONTyped(json, ignoreDiscriminator),
+        
+        'kind': json['kind'],
         'challengeResponse': json['challengeResponse'],
         'challengeId': json['challengeId'],
         'authMethod': json['authMethod'],
@@ -83,9 +94,10 @@ export function EnableSessionTanParamsChallengeResponseToJSONRecursive(value?: E
     }
 
     return {
-        ...ignoreParent ? {} : EnableSessionTanParamsToJSON(value),
+        
 
 
+        'kind': value.kind,
         'challengeResponse': value.challengeResponse,
         'challengeId': value.challengeId,
         'authMethod': value.authMethod,

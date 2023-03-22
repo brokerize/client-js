@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface SessionSyncInfoSyncedAllOf
  */
-export interface CreateModeSessionTan {
+export interface SessionSyncInfoSyncedAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof SessionSyncInfoSyncedAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    status?: SessionSyncInfoSyncedAllOfStatusEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const SessionSyncInfoSyncedAllOfStatusEnum = {
+    Synced: 'SYNCED'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type SessionSyncInfoSyncedAllOfStatusEnum = typeof SessionSyncInfoSyncedAllOfStatusEnum[keyof typeof SessionSyncInfoSyncedAllOfStatusEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function SessionSyncInfoSyncedAllOfFromJSON(json: any): SessionSyncInfoSyncedAllOf {
+    return SessionSyncInfoSyncedAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function SessionSyncInfoSyncedAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): SessionSyncInfoSyncedAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'status': !exists(json, 'status') ? undefined : json['status'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function SessionSyncInfoSyncedAllOfToJSONRecursive(value?: SessionSyncInfoSyncedAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'status': value.status,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function SessionSyncInfoSyncedAllOfToJSON(value?: SessionSyncInfoSyncedAllOf | null): any {
+    return SessionSyncInfoSyncedAllOfToJSONRecursive(value, false);
 }

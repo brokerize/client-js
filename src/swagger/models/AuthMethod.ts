@@ -12,36 +12,31 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    AuthMethodFlow,
-    AuthMethodFlowFromJSON,
-    AuthMethodFlowFromJSONTyped,
-    AuthMethodFlowToJSON,
-} from './AuthMethodFlow';
-
+    AuthMethodChallengeResponse,
+    AuthMethodChallengeResponseFromJSON,
+    AuthMethodChallengeResponseFromJSONTyped,
+    AuthMethodChallengeResponseToJSON,
+} from './AuthMethodChallengeResponse';
 import {
-     AuthMethodChallengeResponseToJSONRecursive,
-     AuthMethodChallengeResponseFromJSONTyped,
-     AuthMethodDecoupledToJSONRecursive,
-     AuthMethodDecoupledFromJSONTyped,
-     AuthMethodTanToJSONRecursive,
-     AuthMethodTanFromJSONTyped
-} from './';
+    AuthMethodDecoupled,
+    AuthMethodDecoupledFromJSON,
+    AuthMethodDecoupledFromJSONTyped,
+    AuthMethodDecoupledToJSON,
+} from './AuthMethodDecoupled';
+import {
+    AuthMethodTan,
+    AuthMethodTanFromJSON,
+    AuthMethodTanFromJSONTyped,
+    AuthMethodTanToJSON,
+} from './AuthMethodTan';
 
 /**
+ * @type AuthMethod
  * 
  * @export
- * @interface AuthMethod
  */
-export interface AuthMethod {
-    /**
-     * 
-     * @type {AuthMethodFlow}
-     * @memberof AuthMethod
-     */
-    flow: AuthMethodFlow;
-}
+export type AuthMethod = { flow: 'CHALLENGE_RESPONSE' } & AuthMethodChallengeResponse | { flow: 'DECOUPLED' } & AuthMethodDecoupled | { flow: 'TAN' } & AuthMethodTan;
 
 export function AuthMethodFromJSON(json: any): AuthMethod {
     return AuthMethodFromJSONTyped(json, false);
@@ -51,42 +46,34 @@ export function AuthMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    if (!ignoreDiscriminator) {
-        if (json['flow'] === 'CHALLENGE_RESPONSE') {
-            return AuthMethodChallengeResponseFromJSONTyped(json, true);
-        }
-        if (json['flow'] === 'DECOUPLED') {
-            return AuthMethodDecoupledFromJSONTyped(json, true);
-        }
-        if (json['flow'] === 'TAN') {
-            return AuthMethodTanFromJSONTyped(json, true);
-        }
+    switch (json['flow']) {
+        case 'CHALLENGE_RESPONSE':
+            return {...AuthMethodChallengeResponseFromJSONTyped(json, true), flow: 'CHALLENGE_RESPONSE'};
+        case 'DECOUPLED':
+            return {...AuthMethodDecoupledFromJSONTyped(json, true), flow: 'DECOUPLED'};
+        case 'TAN':
+            return {...AuthMethodTanFromJSONTyped(json, true), flow: 'TAN'};
+        default:
+            throw new Error(`No variant of AuthMethod exists with 'flow=${json['flow']}'`);
     }
-    return {
-        
-        'flow': AuthMethodFlowFromJSON(json['flow']),
-    };
 }
 
-export function AuthMethodToJSONRecursive(value?: AuthMethod | null, ignoreParent = false): any {
+export function AuthMethodToJSON(value?: AuthMethod | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
-
-    return {
-        
-
-          ...value['flow'] === 'CHALLENGE_RESPONSE' ? AuthMethodChallengeResponseToJSONRecursive(value as any, true) : {},
-          ...value['flow'] === 'DECOUPLED' ? AuthMethodDecoupledToJSONRecursive(value as any, true) : {},
-          ...value['flow'] === 'TAN' ? AuthMethodTanToJSONRecursive(value as any, true) : {},
-
-        'flow': AuthMethodFlowToJSON(value.flow),
-    };
+    switch (value['flow']) {
+        case 'CHALLENGE_RESPONSE':
+            return AuthMethodChallengeResponseToJSON(value);
+        case 'DECOUPLED':
+            return AuthMethodDecoupledToJSON(value);
+        case 'TAN':
+            return AuthMethodTanToJSON(value);
+        default:
+            throw new Error(`No variant of AuthMethod exists with 'flow=${value['flow']}'`);
+    }
 }
 
-export function AuthMethodToJSON(value?: AuthMethod | null): any {
-    return AuthMethodToJSONRecursive(value, false);
-}

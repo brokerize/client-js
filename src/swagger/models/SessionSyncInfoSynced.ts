@@ -14,17 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    SessionSyncInfo,
-    SessionSyncInfoFromJSON,
-    SessionSyncInfoFromJSONTyped,
-    SessionSyncInfoToJSON,
-} from './SessionSyncInfo';
-import {
-    SessionSyncInfoStatus,
-    SessionSyncInfoStatusFromJSON,
-    SessionSyncInfoStatusFromJSONTyped,
-    SessionSyncInfoStatusToJSON,
-} from './SessionSyncInfoStatus';
+    SessionSyncInfoSyncedAllOf,
+    SessionSyncInfoSyncedAllOfFromJSON,
+    SessionSyncInfoSyncedAllOfFromJSONTyped,
+    SessionSyncInfoSyncedAllOfToJSON,
+} from './SessionSyncInfoSyncedAllOf';
 import {
     SessionSyncInfoSyncedSpecifics,
     SessionSyncInfoSyncedSpecificsFromJSON,
@@ -37,7 +31,13 @@ import {
  * @export
  * @interface SessionSyncInfoSynced
  */
-export interface SessionSyncInfoSynced extends SessionSyncInfo {
+export interface SessionSyncInfoSynced {
+    /**
+     * 
+     * @type {string}
+     * @memberof SessionSyncInfoSynced
+     */
+    status: SessionSyncInfoSyncedStatusEnum;
     /**
      * 
      * @type {Date}
@@ -45,6 +45,16 @@ export interface SessionSyncInfoSynced extends SessionSyncInfo {
      */
     lastSync: Date;
 }
+
+
+/**
+ * @export
+ */
+export const SessionSyncInfoSyncedStatusEnum = {
+    Synced: 'SYNCED'
+} as const;
+export type SessionSyncInfoSyncedStatusEnum = typeof SessionSyncInfoSyncedStatusEnum[keyof typeof SessionSyncInfoSyncedStatusEnum];
+
 
 export function SessionSyncInfoSyncedFromJSON(json: any): SessionSyncInfoSynced {
     return SessionSyncInfoSyncedFromJSONTyped(json, false);
@@ -55,7 +65,8 @@ export function SessionSyncInfoSyncedFromJSONTyped(json: any, ignoreDiscriminato
         return json;
     }
     return {
-        ...SessionSyncInfoFromJSONTyped(json, ignoreDiscriminator),
+        
+        'status': json['status'],
         'lastSync': (new Date(json['lastSync'])),
     };
 }
@@ -69,9 +80,10 @@ export function SessionSyncInfoSyncedToJSONRecursive(value?: SessionSyncInfoSync
     }
 
     return {
-        ...ignoreParent ? {} : SessionSyncInfoToJSON(value),
+        
 
 
+        'status': value.status,
         'lastSync': (value.lastSync.toISOString()),
     };
 }

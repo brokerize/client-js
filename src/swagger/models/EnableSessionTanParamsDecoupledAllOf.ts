@@ -13,52 +13,45 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    CreateModeSessionTanAllOf,
-    CreateModeSessionTanAllOfFromJSON,
-    CreateModeSessionTanAllOfFromJSONTyped,
-    CreateModeSessionTanAllOfToJSON,
-} from './CreateModeSessionTanAllOf';
-
 /**
  * 
  * @export
- * @interface CreateModeSessionTan
+ * @interface EnableSessionTanParamsDecoupledAllOf
  */
-export interface CreateModeSessionTan {
+export interface EnableSessionTanParamsDecoupledAllOf {
     /**
      * 
      * @type {string}
-     * @memberof CreateModeSessionTan
+     * @memberof EnableSessionTanParamsDecoupledAllOf
      */
-    mode: CreateModeSessionTanModeEnum;
+    kind?: EnableSessionTanParamsDecoupledAllOfKindEnum;
 }
 
 
 /**
  * @export
  */
-export const CreateModeSessionTanModeEnum = {
-    SessionTan: 'sessionTan'
+export const EnableSessionTanParamsDecoupledAllOfKindEnum = {
+    Decoupled: 'decoupled'
 } as const;
-export type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+export type EnableSessionTanParamsDecoupledAllOfKindEnum = typeof EnableSessionTanParamsDecoupledAllOfKindEnum[keyof typeof EnableSessionTanParamsDecoupledAllOfKindEnum];
 
 
-export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
-    return CreateModeSessionTanFromJSONTyped(json, false);
+export function EnableSessionTanParamsDecoupledAllOfFromJSON(json: any): EnableSessionTanParamsDecoupledAllOf {
+    return EnableSessionTanParamsDecoupledAllOfFromJSONTyped(json, false);
 }
 
-export function CreateModeSessionTanFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTan {
+export function EnableSessionTanParamsDecoupledAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnableSessionTanParamsDecoupledAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'mode': json['mode'],
+        'kind': !exists(json, 'kind') ? undefined : json['kind'],
     };
 }
 
-export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan | null, ignoreParent = false): any {
+export function EnableSessionTanParamsDecoupledAllOfToJSONRecursive(value?: EnableSessionTanParamsDecoupledAllOf | null, ignoreParent = false): any {
     if (value === undefined) {
         return undefined;
     }
@@ -70,10 +63,10 @@ export function CreateModeSessionTanToJSONRecursive(value?: CreateModeSessionTan
         
 
 
-        'mode': value.mode,
+        'kind': value.kind,
     };
 }
 
-export function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any {
-    return CreateModeSessionTanToJSONRecursive(value, false);
+export function EnableSessionTanParamsDecoupledAllOfToJSON(value?: EnableSessionTanParamsDecoupledAllOf | null): any {
+    return EnableSessionTanParamsDecoupledAllOfToJSONRecursive(value, false);
 }

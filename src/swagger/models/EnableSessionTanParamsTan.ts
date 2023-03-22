@@ -14,17 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    EnableSessionTanParams,
-    EnableSessionTanParamsFromJSON,
-    EnableSessionTanParamsFromJSONTyped,
-    EnableSessionTanParamsToJSON,
-} from './EnableSessionTanParams';
-import {
-    EnableSessionTanParamsKind,
-    EnableSessionTanParamsKindFromJSON,
-    EnableSessionTanParamsKindFromJSONTyped,
-    EnableSessionTanParamsKindToJSON,
-} from './EnableSessionTanParamsKind';
+    EnableSessionTanParamsTanAllOf,
+    EnableSessionTanParamsTanAllOfFromJSON,
+    EnableSessionTanParamsTanAllOfFromJSONTyped,
+    EnableSessionTanParamsTanAllOfToJSON,
+} from './EnableSessionTanParamsTanAllOf';
 import {
     EnableSessionTanParamsTanSpecifics,
     EnableSessionTanParamsTanSpecificsFromJSON,
@@ -37,7 +31,13 @@ import {
  * @export
  * @interface EnableSessionTanParamsTan
  */
-export interface EnableSessionTanParamsTan extends EnableSessionTanParams {
+export interface EnableSessionTanParamsTan {
+    /**
+     * 
+     * @type {string}
+     * @memberof EnableSessionTanParamsTan
+     */
+    kind: EnableSessionTanParamsTanKindEnum;
     /**
      * 
      * @type {string}
@@ -52,6 +52,16 @@ export interface EnableSessionTanParamsTan extends EnableSessionTanParams {
     authMethod: string;
 }
 
+
+/**
+ * @export
+ */
+export const EnableSessionTanParamsTanKindEnum = {
+    Tan: 'tan'
+} as const;
+export type EnableSessionTanParamsTanKindEnum = typeof EnableSessionTanParamsTanKindEnum[keyof typeof EnableSessionTanParamsTanKindEnum];
+
+
 export function EnableSessionTanParamsTanFromJSON(json: any): EnableSessionTanParamsTan {
     return EnableSessionTanParamsTanFromJSONTyped(json, false);
 }
@@ -61,7 +71,8 @@ export function EnableSessionTanParamsTanFromJSONTyped(json: any, ignoreDiscrimi
         return json;
     }
     return {
-        ...EnableSessionTanParamsFromJSONTyped(json, ignoreDiscriminator),
+        
+        'kind': json['kind'],
         'tan': json['tan'],
         'authMethod': json['authMethod'],
     };
@@ -76,9 +87,10 @@ export function EnableSessionTanParamsTanToJSONRecursive(value?: EnableSessionTa
     }
 
     return {
-        ...ignoreParent ? {} : EnableSessionTanParamsToJSON(value),
+        
 
 
+        'kind': value.kind,
         'tan': value.tan,
         'authMethod': value.authMethod,
     };

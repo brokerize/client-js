@@ -14,11 +14,11 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    GenericTableRowValue,
-    GenericTableRowValueFromJSON,
-    GenericTableRowValueFromJSONTyped,
-    GenericTableRowValueToJSON,
-} from './GenericTableRowValue';
+    GenericTableRowValueLinkAllOf,
+    GenericTableRowValueLinkAllOfFromJSON,
+    GenericTableRowValueLinkAllOfFromJSONTyped,
+    GenericTableRowValueLinkAllOfToJSON,
+} from './GenericTableRowValueLinkAllOf';
 import {
     GenericTableRowValueLinkSpecifics,
     GenericTableRowValueLinkSpecificsFromJSON,
@@ -31,19 +31,19 @@ import {
     GenericTableRowValueLinkValueFromJSONTyped,
     GenericTableRowValueLinkValueToJSON,
 } from './GenericTableRowValueLinkValue';
-import {
-    GenericTableRowValueType,
-    GenericTableRowValueTypeFromJSON,
-    GenericTableRowValueTypeFromJSONTyped,
-    GenericTableRowValueTypeToJSON,
-} from './GenericTableRowValueType';
 
 /**
  * 
  * @export
  * @interface GenericTableRowValueLink
  */
-export interface GenericTableRowValueLink extends GenericTableRowValue {
+export interface GenericTableRowValueLink {
+    /**
+     * 
+     * @type {string}
+     * @memberof GenericTableRowValueLink
+     */
+    type: GenericTableRowValueLinkTypeEnum;
     /**
      * 
      * @type {GenericTableRowValueLinkValue}
@@ -51,6 +51,16 @@ export interface GenericTableRowValueLink extends GenericTableRowValue {
      */
     value: GenericTableRowValueLinkValue;
 }
+
+
+/**
+ * @export
+ */
+export const GenericTableRowValueLinkTypeEnum = {
+    Link: 'link'
+} as const;
+export type GenericTableRowValueLinkTypeEnum = typeof GenericTableRowValueLinkTypeEnum[keyof typeof GenericTableRowValueLinkTypeEnum];
+
 
 export function GenericTableRowValueLinkFromJSON(json: any): GenericTableRowValueLink {
     return GenericTableRowValueLinkFromJSONTyped(json, false);
@@ -61,7 +71,8 @@ export function GenericTableRowValueLinkFromJSONTyped(json: any, ignoreDiscrimin
         return json;
     }
     return {
-        ...GenericTableRowValueFromJSONTyped(json, ignoreDiscriminator),
+        
+        'type': json['type'],
         'value': GenericTableRowValueLinkValueFromJSON(json['value']),
     };
 }
@@ -75,9 +86,10 @@ export function GenericTableRowValueLinkToJSONRecursive(value?: GenericTableRowV
     }
 
     return {
-        ...ignoreParent ? {} : GenericTableRowValueToJSON(value),
+        
 
 
+        'type': value.type,
         'value': GenericTableRowValueLinkValueToJSON(value.value),
     };
 }

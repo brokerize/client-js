@@ -14,23 +14,17 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AuthMethod,
-    AuthMethodFromJSON,
-    AuthMethodFromJSONTyped,
-    AuthMethodToJSON,
-} from './AuthMethod';
+    AuthMethodChallengeResponseAllOf,
+    AuthMethodChallengeResponseAllOfFromJSON,
+    AuthMethodChallengeResponseAllOfFromJSONTyped,
+    AuthMethodChallengeResponseAllOfToJSON,
+} from './AuthMethodChallengeResponseAllOf';
 import {
     AuthMethodChallengeResponseSpecifics,
     AuthMethodChallengeResponseSpecificsFromJSON,
     AuthMethodChallengeResponseSpecificsFromJSONTyped,
     AuthMethodChallengeResponseSpecificsToJSON,
 } from './AuthMethodChallengeResponseSpecifics';
-import {
-    AuthMethodFlow,
-    AuthMethodFlowFromJSON,
-    AuthMethodFlowFromJSONTyped,
-    AuthMethodFlowToJSON,
-} from './AuthMethodFlow';
 
 /**
  * With the `CHALLENGE_RESPONSE` flow, to execute an operation, a challenge has to be created as the first step
@@ -48,7 +42,13 @@ import {
  * @export
  * @interface AuthMethodChallengeResponse
  */
-export interface AuthMethodChallengeResponse extends AuthMethod {
+export interface AuthMethodChallengeResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthMethodChallengeResponse
+     */
+    flow: AuthMethodChallengeResponseFlowEnum;
     /**
      * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
      * be scanned with a phone).
@@ -100,6 +100,16 @@ export interface AuthMethodChallengeResponse extends AuthMethod {
     id: string;
 }
 
+
+/**
+ * @export
+ */
+export const AuthMethodChallengeResponseFlowEnum = {
+    ChallengeResponse: 'CHALLENGE_RESPONSE'
+} as const;
+export type AuthMethodChallengeResponseFlowEnum = typeof AuthMethodChallengeResponseFlowEnum[keyof typeof AuthMethodChallengeResponseFlowEnum];
+
+
 export function AuthMethodChallengeResponseFromJSON(json: any): AuthMethodChallengeResponse {
     return AuthMethodChallengeResponseFromJSONTyped(json, false);
 }
@@ -109,7 +119,8 @@ export function AuthMethodChallengeResponseFromJSONTyped(json: any, ignoreDiscri
         return json;
     }
     return {
-        ...AuthMethodFromJSONTyped(json, ignoreDiscriminator),
+        
+        'flow': json['flow'],
         'hideOnPhones': !exists(json, 'hideOnPhones') ? undefined : json['hideOnPhones'],
         'tanFieldLabel': json['tanFieldLabel'],
         'challengeResponseIsOnlyConfirmation': !exists(json, 'challengeResponseIsOnlyConfirmation') ? undefined : json['challengeResponseIsOnlyConfirmation'],
@@ -130,9 +141,10 @@ export function AuthMethodChallengeResponseToJSONRecursive(value?: AuthMethodCha
     }
 
     return {
-        ...ignoreParent ? {} : AuthMethodToJSON(value),
+        
 
 
+        'flow': value.flow,
         'hideOnPhones': value.hideOnPhones,
         'tanFieldLabel': value.tanFieldLabel,
         'challengeResponseIsOnlyConfirmation': value.challengeResponseIsOnlyConfirmation,
