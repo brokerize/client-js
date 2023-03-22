@@ -21,6 +21,8 @@ import { promises } from 'node:fs'
  *     ...
  *   }
  * ```
+ *
+ * also replaces the description-block with a default to avoid updating every file every time it changes
  */
 
 const openApiFile = await promises.readFile('openapi.json', { encoding: 'utf8' });
@@ -53,4 +55,5 @@ for (const [schemaName, schema] of Object.entries(openApi.components.schemas)) {
     }
 }
 
+openApi.info.description = 'The brokerize API allows clients to implement multi-brokerage with a unified interface. For more information, visit brokerize.com';
 await promises.writeFile('temp/openapi.json', JSON.stringify(openApi, null, "    "));
