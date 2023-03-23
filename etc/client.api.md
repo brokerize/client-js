@@ -186,13 +186,13 @@ function AuthInfoToJSON(value?: AuthInfo | null): any;
 function AuthInfoToJSONRecursive(value?: AuthInfo | null, ignoreParent?: boolean): any;
 
 // @public
-type AuthMethod = {
-    flow: 'CHALLENGE_RESPONSE';
-} & AuthMethodChallengeResponse | {
-    flow: 'DECOUPLED';
-} & AuthMethodDecoupled | {
-    flow: 'TAN';
-} & AuthMethodTan;
+type AuthMethod = ({
+    flow: "CHALLENGE_RESPONSE";
+} & AuthMethodChallengeResponse) | ({
+    flow: "DECOUPLED";
+} & AuthMethodDecoupled) | ({
+    flow: "TAN";
+} & AuthMethodTan);
 
 // @public
 interface AuthMethodChallengeResponse {
@@ -218,7 +218,7 @@ const AuthMethodChallengeResponseAllOfFlowEnum: {
 };
 
 // @public (undocumented)
-type AuthMethodChallengeResponseAllOfFlowEnum = typeof AuthMethodChallengeResponseAllOfFlowEnum[keyof typeof AuthMethodChallengeResponseAllOfFlowEnum];
+type AuthMethodChallengeResponseAllOfFlowEnum = (typeof AuthMethodChallengeResponseAllOfFlowEnum)[keyof typeof AuthMethodChallengeResponseAllOfFlowEnum];
 
 // @public (undocumented)
 function AuthMethodChallengeResponseAllOfFromJSON(json: any): AuthMethodChallengeResponseAllOf;
@@ -238,7 +238,7 @@ const AuthMethodChallengeResponseFlowEnum: {
 };
 
 // @public (undocumented)
-type AuthMethodChallengeResponseFlowEnum = typeof AuthMethodChallengeResponseFlowEnum[keyof typeof AuthMethodChallengeResponseFlowEnum];
+type AuthMethodChallengeResponseFlowEnum = (typeof AuthMethodChallengeResponseFlowEnum)[keyof typeof AuthMethodChallengeResponseFlowEnum];
 
 // @public (undocumented)
 function AuthMethodChallengeResponseFromJSON(json: any): AuthMethodChallengeResponse;
@@ -296,7 +296,7 @@ const AuthMethodDecoupledAllOfFlowEnum: {
 };
 
 // @public (undocumented)
-type AuthMethodDecoupledAllOfFlowEnum = typeof AuthMethodDecoupledAllOfFlowEnum[keyof typeof AuthMethodDecoupledAllOfFlowEnum];
+type AuthMethodDecoupledAllOfFlowEnum = (typeof AuthMethodDecoupledAllOfFlowEnum)[keyof typeof AuthMethodDecoupledAllOfFlowEnum];
 
 // @public (undocumented)
 function AuthMethodDecoupledAllOfFromJSON(json: any): AuthMethodDecoupledAllOf;
@@ -316,7 +316,7 @@ const AuthMethodDecoupledFlowEnum: {
 };
 
 // @public (undocumented)
-type AuthMethodDecoupledFlowEnum = typeof AuthMethodDecoupledFlowEnum[keyof typeof AuthMethodDecoupledFlowEnum];
+type AuthMethodDecoupledFlowEnum = (typeof AuthMethodDecoupledFlowEnum)[keyof typeof AuthMethodDecoupledFlowEnum];
 
 // @public (undocumented)
 function AuthMethodDecoupledFromJSON(json: any): AuthMethodDecoupled;
@@ -358,7 +358,7 @@ const AuthMethodFlow: {
 };
 
 // @public (undocumented)
-type AuthMethodFlow = typeof AuthMethodFlow[keyof typeof AuthMethodFlow];
+type AuthMethodFlow = (typeof AuthMethodFlow)[keyof typeof AuthMethodFlow];
 
 // @public (undocumented)
 function AuthMethodFlowFromJSON(json: any): AuthMethodFlow;
@@ -396,7 +396,7 @@ const AuthMethodTanAllOfFlowEnum: {
 };
 
 // @public (undocumented)
-type AuthMethodTanAllOfFlowEnum = typeof AuthMethodTanAllOfFlowEnum[keyof typeof AuthMethodTanAllOfFlowEnum];
+type AuthMethodTanAllOfFlowEnum = (typeof AuthMethodTanAllOfFlowEnum)[keyof typeof AuthMethodTanAllOfFlowEnum];
 
 // @public (undocumented)
 function AuthMethodTanAllOfFromJSON(json: any): AuthMethodTanAllOf;
@@ -416,7 +416,7 @@ const AuthMethodTanFlowEnum: {
 };
 
 // @public (undocumented)
-type AuthMethodTanFlowEnum = typeof AuthMethodTanFlowEnum[keyof typeof AuthMethodTanFlowEnum];
+type AuthMethodTanFlowEnum = (typeof AuthMethodTanFlowEnum)[keyof typeof AuthMethodTanFlowEnum];
 
 // @public (undocumented)
 function AuthMethodTanFromJSON(json: any): AuthMethodTan;
@@ -582,9 +582,9 @@ class BaseAPI {
     // (undocumented)
     withMiddleware<T extends BaseAPI>(this: T, ...middlewares: Middleware[]): T;
     // (undocumented)
-    withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware['post']>): T;
+    withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware["post"]>): T;
     // (undocumented)
-    withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware['pre']>): T;
+    withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware["pre"]>): T;
 }
 
 // @public (undocumented)
@@ -605,7 +605,7 @@ const BrokerEnvFilterType: {
 };
 
 // @public (undocumented)
-type BrokerEnvFilterType = typeof BrokerEnvFilterType[keyof typeof BrokerEnvFilterType];
+type BrokerEnvFilterType = (typeof BrokerEnvFilterType)[keyof typeof BrokerEnvFilterType];
 
 // @public (undocumented)
 function BrokerEnvFilterTypeFromJSON(json: any): BrokerEnvFilterType;
@@ -735,7 +735,7 @@ const BrokerLoginFormFieldTypeEnum: {
 };
 
 // @public (undocumented)
-type BrokerLoginFormFieldTypeEnum = typeof BrokerLoginFormFieldTypeEnum[keyof typeof BrokerLoginFormFieldTypeEnum];
+type BrokerLoginFormFieldTypeEnum = (typeof BrokerLoginFormFieldTypeEnum)[keyof typeof BrokerLoginFormFieldTypeEnum];
 
 // @public (undocumented)
 function BrokerLoginFormFromJSON(json: any): BrokerLoginForm;
@@ -870,7 +870,7 @@ const CancelOrderChallengeResponseAllOfModeEnum: {
 };
 
 // @public (undocumented)
-type CancelOrderChallengeResponseAllOfModeEnum = typeof CancelOrderChallengeResponseAllOfModeEnum[keyof typeof CancelOrderChallengeResponseAllOfModeEnum];
+type CancelOrderChallengeResponseAllOfModeEnum = (typeof CancelOrderChallengeResponseAllOfModeEnum)[keyof typeof CancelOrderChallengeResponseAllOfModeEnum];
 
 // @public (undocumented)
 function CancelOrderChallengeResponseAllOfToJSON(value?: CancelOrderChallengeResponseAllOf | null): any;
@@ -890,7 +890,7 @@ const CancelOrderChallengeResponseModeEnum: {
 };
 
 // @public (undocumented)
-type CancelOrderChallengeResponseModeEnum = typeof CancelOrderChallengeResponseModeEnum[keyof typeof CancelOrderChallengeResponseModeEnum];
+type CancelOrderChallengeResponseModeEnum = (typeof CancelOrderChallengeResponseModeEnum)[keyof typeof CancelOrderChallengeResponseModeEnum];
 
 // @public
 interface CancelOrderChallengeResponseSpecifics {
@@ -918,11 +918,11 @@ function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse
 function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChallengeResponse | null, ignoreParent?: boolean): any;
 
 // @public
-type CancelOrderParams = {
-    mode: 'challengeResponse';
-} & CancelOrderChallengeResponse | {
-    mode: 'sessionTan';
-} & CreateModeSessionTan;
+type CancelOrderParams = ({
+    mode: "challengeResponse";
+} & CancelOrderChallengeResponse) | ({
+    mode: "sessionTan";
+} & CreateModeSessionTan);
 
 // @public (undocumented)
 function CancelOrderParamsFromJSON(json: any): CancelOrderParams;
@@ -937,7 +937,7 @@ const CancelOrderParamsMode: {
 };
 
 // @public (undocumented)
-type CancelOrderParamsMode = typeof CancelOrderParamsMode[keyof typeof CancelOrderParamsMode];
+type CancelOrderParamsMode = (typeof CancelOrderParamsMode)[keyof typeof CancelOrderParamsMode];
 
 // @public (undocumented)
 function CancelOrderParamsModeFromJSON(json: any): CancelOrderParamsMode;
@@ -1008,7 +1008,7 @@ const CashQuotation: {
 };
 
 // @public (undocumented)
-type CashQuotation = typeof CashQuotation[keyof typeof CashQuotation];
+type CashQuotation = (typeof CashQuotation)[keyof typeof CashQuotation];
 
 // @public (undocumented)
 function CashQuotationFromJSON(json: any): CashQuotation;
@@ -1034,7 +1034,7 @@ const ChallengeChallengePromptTypeEnum: {
 };
 
 // @public (undocumented)
-type ChallengeChallengePromptTypeEnum = typeof ChallengeChallengePromptTypeEnum[keyof typeof ChallengeChallengePromptTypeEnum];
+type ChallengeChallengePromptTypeEnum = (typeof ChallengeChallengePromptTypeEnum)[keyof typeof ChallengeChallengePromptTypeEnum];
 
 // @public (undocumented)
 function ChallengeFromJSON(json: any): Challenge;
@@ -1453,7 +1453,7 @@ const CreateModeSessionTanAllOfModeEnum: {
 };
 
 // @public (undocumented)
-type CreateModeSessionTanAllOfModeEnum = typeof CreateModeSessionTanAllOfModeEnum[keyof typeof CreateModeSessionTanAllOfModeEnum];
+type CreateModeSessionTanAllOfModeEnum = (typeof CreateModeSessionTanAllOfModeEnum)[keyof typeof CreateModeSessionTanAllOfModeEnum];
 
 // @public (undocumented)
 function CreateModeSessionTanAllOfToJSON(value?: CreateModeSessionTanAllOf | null): any;
@@ -1473,7 +1473,7 @@ const CreateModeSessionTanModeEnum: {
 };
 
 // @public (undocumented)
-type CreateModeSessionTanModeEnum = typeof CreateModeSessionTanModeEnum[keyof typeof CreateModeSessionTanModeEnum];
+type CreateModeSessionTanModeEnum = (typeof CreateModeSessionTanModeEnum)[keyof typeof CreateModeSessionTanModeEnum];
 
 // @public (undocumented)
 function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any;
@@ -1584,10 +1584,10 @@ const DecoupledOperationState: {
 };
 
 // @public (undocumented)
-type DecoupledOperationState = typeof DecoupledOperationState[keyof typeof DecoupledOperationState];
+type DecoupledOperationState = (typeof DecoupledOperationState)[keyof typeof DecoupledOperationState];
 
 // @public (undocumented)
-type DecoupledOperationState_2 = 'AUTHORIZATION_ABORTED' | 'AUTHORIZATION_INITIAL' | 'AUTHORIZATION_USER_ACCEPTED' | 'AUTHORIZATION_USER_CANCELED';
+type DecoupledOperationState_2 = "AUTHORIZATION_ABORTED" | "AUTHORIZATION_INITIAL" | "AUTHORIZATION_USER_ACCEPTED" | "AUTHORIZATION_USER_CANCELED";
 
 // @public (undocumented)
 function DecoupledOperationStateFromJSON(json: any): DecoupledOperationState;
@@ -1784,7 +1784,7 @@ const Direction: {
 };
 
 // @public (undocumented)
-type Direction = typeof Direction[keyof typeof Direction];
+type Direction = (typeof Direction)[keyof typeof Direction];
 
 // @public (undocumented)
 function DirectionFromJSON(json: any): Direction;
@@ -1796,13 +1796,13 @@ function DirectionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Direct
 function DirectionToJSON(value?: Direction | null): any;
 
 // @public
-type EnableSessionTanParams = {
-    kind: 'challengeResponse';
-} & EnableSessionTanParamsChallengeResponse | {
-    kind: 'decoupled';
-} & EnableSessionTanParamsDecoupled | {
-    kind: 'tan';
-} & EnableSessionTanParamsTan;
+type EnableSessionTanParams = ({
+    kind: "challengeResponse";
+} & EnableSessionTanParamsChallengeResponse) | ({
+    kind: "decoupled";
+} & EnableSessionTanParamsDecoupled) | ({
+    kind: "tan";
+} & EnableSessionTanParamsTan);
 
 // @public
 interface EnableSessionTanParamsChallengeResponse {
@@ -1829,7 +1829,7 @@ const EnableSessionTanParamsChallengeResponseAllOfKindEnum: {
 };
 
 // @public (undocumented)
-type EnableSessionTanParamsChallengeResponseAllOfKindEnum = typeof EnableSessionTanParamsChallengeResponseAllOfKindEnum[keyof typeof EnableSessionTanParamsChallengeResponseAllOfKindEnum];
+type EnableSessionTanParamsChallengeResponseAllOfKindEnum = (typeof EnableSessionTanParamsChallengeResponseAllOfKindEnum)[keyof typeof EnableSessionTanParamsChallengeResponseAllOfKindEnum];
 
 // @public (undocumented)
 function EnableSessionTanParamsChallengeResponseAllOfToJSON(value?: EnableSessionTanParamsChallengeResponseAllOf | null): any;
@@ -1849,7 +1849,7 @@ const EnableSessionTanParamsChallengeResponseKindEnum: {
 };
 
 // @public (undocumented)
-type EnableSessionTanParamsChallengeResponseKindEnum = typeof EnableSessionTanParamsChallengeResponseKindEnum[keyof typeof EnableSessionTanParamsChallengeResponseKindEnum];
+type EnableSessionTanParamsChallengeResponseKindEnum = (typeof EnableSessionTanParamsChallengeResponseKindEnum)[keyof typeof EnableSessionTanParamsChallengeResponseKindEnum];
 
 // @public
 interface EnableSessionTanParamsChallengeResponseSpecifics {
@@ -1899,7 +1899,7 @@ const EnableSessionTanParamsDecoupledAllOfKindEnum: {
 };
 
 // @public (undocumented)
-type EnableSessionTanParamsDecoupledAllOfKindEnum = typeof EnableSessionTanParamsDecoupledAllOfKindEnum[keyof typeof EnableSessionTanParamsDecoupledAllOfKindEnum];
+type EnableSessionTanParamsDecoupledAllOfKindEnum = (typeof EnableSessionTanParamsDecoupledAllOfKindEnum)[keyof typeof EnableSessionTanParamsDecoupledAllOfKindEnum];
 
 // @public (undocumented)
 function EnableSessionTanParamsDecoupledAllOfToJSON(value?: EnableSessionTanParamsDecoupledAllOf | null): any;
@@ -1919,7 +1919,7 @@ const EnableSessionTanParamsDecoupledKindEnum: {
 };
 
 // @public (undocumented)
-type EnableSessionTanParamsDecoupledKindEnum = typeof EnableSessionTanParamsDecoupledKindEnum[keyof typeof EnableSessionTanParamsDecoupledKindEnum];
+type EnableSessionTanParamsDecoupledKindEnum = (typeof EnableSessionTanParamsDecoupledKindEnum)[keyof typeof EnableSessionTanParamsDecoupledKindEnum];
 
 // @public
 interface EnableSessionTanParamsDecoupledSpecifics {
@@ -1958,7 +1958,7 @@ const EnableSessionTanParamsKind: {
 };
 
 // @public (undocumented)
-type EnableSessionTanParamsKind = typeof EnableSessionTanParamsKind[keyof typeof EnableSessionTanParamsKind];
+type EnableSessionTanParamsKind = (typeof EnableSessionTanParamsKind)[keyof typeof EnableSessionTanParamsKind];
 
 // @public (undocumented)
 function EnableSessionTanParamsKindFromJSON(json: any): EnableSessionTanParamsKind;
@@ -1993,7 +1993,7 @@ const EnableSessionTanParamsTanAllOfKindEnum: {
 };
 
 // @public (undocumented)
-type EnableSessionTanParamsTanAllOfKindEnum = typeof EnableSessionTanParamsTanAllOfKindEnum[keyof typeof EnableSessionTanParamsTanAllOfKindEnum];
+type EnableSessionTanParamsTanAllOfKindEnum = (typeof EnableSessionTanParamsTanAllOfKindEnum)[keyof typeof EnableSessionTanParamsTanAllOfKindEnum];
 
 // @public (undocumented)
 function EnableSessionTanParamsTanAllOfToJSON(value?: EnableSessionTanParamsTanAllOf | null): any;
@@ -2013,7 +2013,7 @@ const EnableSessionTanParamsTanKindEnum: {
 };
 
 // @public (undocumented)
-type EnableSessionTanParamsTanKindEnum = typeof EnableSessionTanParamsTanKindEnum[keyof typeof EnableSessionTanParamsTanKindEnum];
+type EnableSessionTanParamsTanKindEnum = (typeof EnableSessionTanParamsTanKindEnum)[keyof typeof EnableSessionTanParamsTanKindEnum];
 
 // @public
 interface EnableSessionTanParamsTanSpecifics {
@@ -2223,7 +2223,7 @@ class ExportApi extends runtime.BaseAPI {
 }
 
 // @public (undocumented)
-type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
+type FetchAPI = WindowOrWorkerGlobalScope["fetch"];
 
 // @public (undocumented)
 interface FetchParams {
@@ -2247,13 +2247,13 @@ function GenericTableFromJSON(json: any): GenericTable;
 function GenericTableFromJSONTyped(json: any, ignoreDiscriminator: boolean): GenericTable;
 
 // @public
-type GenericTableRow = {
-    type: 'entry';
-} & GenericTableRowEntry | {
-    type: 'subheading';
-} & GenericTableRowSubheading | {
-    type: 'text';
-} & GenericTableRowText;
+type GenericTableRow = ({
+    type: "entry";
+} & GenericTableRowEntry) | ({
+    type: "subheading";
+} & GenericTableRowSubheading) | ({
+    type: "text";
+} & GenericTableRowText);
 
 // @public
 interface GenericTableRowEntry {
@@ -2287,7 +2287,7 @@ const GenericTableRowEntryAllOfTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowEntryAllOfTypeEnum = typeof GenericTableRowEntryAllOfTypeEnum[keyof typeof GenericTableRowEntryAllOfTypeEnum];
+type GenericTableRowEntryAllOfTypeEnum = (typeof GenericTableRowEntryAllOfTypeEnum)[keyof typeof GenericTableRowEntryAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowEntryFromJSON(json: any): GenericTableRowEntry;
@@ -2327,7 +2327,7 @@ const GenericTableRowEntryTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowEntryTypeEnum = typeof GenericTableRowEntryTypeEnum[keyof typeof GenericTableRowEntryTypeEnum];
+type GenericTableRowEntryTypeEnum = (typeof GenericTableRowEntryTypeEnum)[keyof typeof GenericTableRowEntryTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowFromJSON(json: any): GenericTableRow;
@@ -2364,7 +2364,7 @@ const GenericTableRowSubheadingAllOfTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowSubheadingAllOfTypeEnum = typeof GenericTableRowSubheadingAllOfTypeEnum[keyof typeof GenericTableRowSubheadingAllOfTypeEnum];
+type GenericTableRowSubheadingAllOfTypeEnum = (typeof GenericTableRowSubheadingAllOfTypeEnum)[keyof typeof GenericTableRowSubheadingAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowSubheadingFromJSON(json: any): GenericTableRowSubheading;
@@ -2401,7 +2401,7 @@ const GenericTableRowSubheadingTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowSubheadingTypeEnum = typeof GenericTableRowSubheadingTypeEnum[keyof typeof GenericTableRowSubheadingTypeEnum];
+type GenericTableRowSubheadingTypeEnum = (typeof GenericTableRowSubheadingTypeEnum)[keyof typeof GenericTableRowSubheadingTypeEnum];
 
 // @public
 interface GenericTableRowText {
@@ -2432,7 +2432,7 @@ const GenericTableRowTextAllOfTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowTextAllOfTypeEnum = typeof GenericTableRowTextAllOfTypeEnum[keyof typeof GenericTableRowTextAllOfTypeEnum];
+type GenericTableRowTextAllOfTypeEnum = (typeof GenericTableRowTextAllOfTypeEnum)[keyof typeof GenericTableRowTextAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowTextFromJSON(json: any): GenericTableRowText;
@@ -2469,7 +2469,7 @@ const GenericTableRowTextTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowTextTypeEnum = typeof GenericTableRowTextTypeEnum[keyof typeof GenericTableRowTextTypeEnum];
+type GenericTableRowTextTypeEnum = (typeof GenericTableRowTextTypeEnum)[keyof typeof GenericTableRowTextTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowToJSON(value?: GenericTableRow | null): any;
@@ -2482,7 +2482,7 @@ const GenericTableRowType: {
 };
 
 // @public (undocumented)
-type GenericTableRowType = typeof GenericTableRowType[keyof typeof GenericTableRowType];
+type GenericTableRowType = (typeof GenericTableRowType)[keyof typeof GenericTableRowType];
 
 // @public (undocumented)
 function GenericTableRowTypeFromJSON(json: any): GenericTableRowType;
@@ -2494,15 +2494,15 @@ function GenericTableRowTypeFromJSONTyped(json: any, ignoreDiscriminator: boolea
 function GenericTableRowTypeToJSON(value?: GenericTableRowType | null): any;
 
 // @public
-type GenericTableRowValue = {
-    type: 'amount';
-} & GenericTableRowValueAmount | {
-    type: 'datetime';
-} & GenericTableRowValueDatetime | {
-    type: 'link';
-} & GenericTableRowValueLink | {
-    type: 'text';
-} & GenericTableRowValueText;
+type GenericTableRowValue = ({
+    type: "amount";
+} & GenericTableRowValueAmount) | ({
+    type: "datetime";
+} & GenericTableRowValueDatetime) | ({
+    type: "link";
+} & GenericTableRowValueLink) | ({
+    type: "text";
+} & GenericTableRowValueText);
 
 // @public
 interface GenericTableRowValueAmount {
@@ -2533,7 +2533,7 @@ const GenericTableRowValueAmountAllOfTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueAmountAllOfTypeEnum = typeof GenericTableRowValueAmountAllOfTypeEnum[keyof typeof GenericTableRowValueAmountAllOfTypeEnum];
+type GenericTableRowValueAmountAllOfTypeEnum = (typeof GenericTableRowValueAmountAllOfTypeEnum)[keyof typeof GenericTableRowValueAmountAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueAmountFromJSON(json: any): GenericTableRowValueAmount;
@@ -2570,7 +2570,7 @@ const GenericTableRowValueAmountTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueAmountTypeEnum = typeof GenericTableRowValueAmountTypeEnum[keyof typeof GenericTableRowValueAmountTypeEnum];
+type GenericTableRowValueAmountTypeEnum = (typeof GenericTableRowValueAmountTypeEnum)[keyof typeof GenericTableRowValueAmountTypeEnum];
 
 // @public
 interface GenericTableRowValueDatetime {
@@ -2601,7 +2601,7 @@ const GenericTableRowValueDatetimeAllOfTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueDatetimeAllOfTypeEnum = typeof GenericTableRowValueDatetimeAllOfTypeEnum[keyof typeof GenericTableRowValueDatetimeAllOfTypeEnum];
+type GenericTableRowValueDatetimeAllOfTypeEnum = (typeof GenericTableRowValueDatetimeAllOfTypeEnum)[keyof typeof GenericTableRowValueDatetimeAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueDatetimeFromJSON(json: any): GenericTableRowValueDatetime;
@@ -2638,7 +2638,7 @@ const GenericTableRowValueDatetimeTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueDatetimeTypeEnum = typeof GenericTableRowValueDatetimeTypeEnum[keyof typeof GenericTableRowValueDatetimeTypeEnum];
+type GenericTableRowValueDatetimeTypeEnum = (typeof GenericTableRowValueDatetimeTypeEnum)[keyof typeof GenericTableRowValueDatetimeTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueFromJSON(json: any): GenericTableRowValue;
@@ -2675,7 +2675,7 @@ const GenericTableRowValueLinkAllOfTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueLinkAllOfTypeEnum = typeof GenericTableRowValueLinkAllOfTypeEnum[keyof typeof GenericTableRowValueLinkAllOfTypeEnum];
+type GenericTableRowValueLinkAllOfTypeEnum = (typeof GenericTableRowValueLinkAllOfTypeEnum)[keyof typeof GenericTableRowValueLinkAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueLinkFromJSON(json: any): GenericTableRowValueLink;
@@ -2713,7 +2713,7 @@ const GenericTableRowValueLinkPortfolioAllOfTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueLinkPortfolioAllOfTypeEnum = typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum[keyof typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum];
+type GenericTableRowValueLinkPortfolioAllOfTypeEnum = (typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum)[keyof typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueLinkPortfolioFromJSON(json: any): GenericTableRowValueLinkPortfolio;
@@ -2751,7 +2751,7 @@ const GenericTableRowValueLinkPortfolioTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueLinkPortfolioTypeEnum = typeof GenericTableRowValueLinkPortfolioTypeEnum[keyof typeof GenericTableRowValueLinkPortfolioTypeEnum];
+type GenericTableRowValueLinkPortfolioTypeEnum = (typeof GenericTableRowValueLinkPortfolioTypeEnum)[keyof typeof GenericTableRowValueLinkPortfolioTypeEnum];
 
 // @public
 interface GenericTableRowValueLinkSpecifics {
@@ -2782,7 +2782,7 @@ const GenericTableRowValueLinkTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueLinkTypeEnum = typeof GenericTableRowValueLinkTypeEnum[keyof typeof GenericTableRowValueLinkTypeEnum];
+type GenericTableRowValueLinkTypeEnum = (typeof GenericTableRowValueLinkTypeEnum)[keyof typeof GenericTableRowValueLinkTypeEnum];
 
 // @public
 interface GenericTableRowValueLinkUrl {
@@ -2814,7 +2814,7 @@ const GenericTableRowValueLinkUrlAllOfTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueLinkUrlAllOfTypeEnum = typeof GenericTableRowValueLinkUrlAllOfTypeEnum[keyof typeof GenericTableRowValueLinkUrlAllOfTypeEnum];
+type GenericTableRowValueLinkUrlAllOfTypeEnum = (typeof GenericTableRowValueLinkUrlAllOfTypeEnum)[keyof typeof GenericTableRowValueLinkUrlAllOfTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueLinkUrlFromJSON(json: any): GenericTableRowValueLinkUrl;
@@ -2852,14 +2852,14 @@ const GenericTableRowValueLinkUrlTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueLinkUrlTypeEnum = typeof GenericTableRowValueLinkUrlTypeEnum[keyof typeof GenericTableRowValueLinkUrlTypeEnum];
+type GenericTableRowValueLinkUrlTypeEnum = (typeof GenericTableRowValueLinkUrlTypeEnum)[keyof typeof GenericTableRowValueLinkUrlTypeEnum];
 
 // @public
-type GenericTableRowValueLinkValue = {
-    type: 'portfolio';
-} & GenericTableRowValueLinkPortfolio | {
-    type: 'url';
-} & GenericTableRowValueLinkUrl;
+type GenericTableRowValueLinkValue = ({
+    type: "portfolio";
+} & GenericTableRowValueLinkPortfolio) | ({
+    type: "url";
+} & GenericTableRowValueLinkUrl);
 
 // @public (undocumented)
 function GenericTableRowValueLinkValueFromJSON(json: any): GenericTableRowValueLinkValue;
@@ -2877,7 +2877,7 @@ const GenericTableRowValueLinkValueType: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueLinkValueType = typeof GenericTableRowValueLinkValueType[keyof typeof GenericTableRowValueLinkValueType];
+type GenericTableRowValueLinkValueType = (typeof GenericTableRowValueLinkValueType)[keyof typeof GenericTableRowValueLinkValueType];
 
 // @public (undocumented)
 function GenericTableRowValueLinkValueTypeFromJSON(json: any): GenericTableRowValueLinkValueType;
@@ -2929,7 +2929,7 @@ const GenericTableRowValueTextTypeEnum: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueTextTypeEnum = typeof GenericTableRowValueTextTypeEnum[keyof typeof GenericTableRowValueTextTypeEnum];
+type GenericTableRowValueTextTypeEnum = (typeof GenericTableRowValueTextTypeEnum)[keyof typeof GenericTableRowValueTextTypeEnum];
 
 // @public (undocumented)
 function GenericTableRowValueToJSON(value?: GenericTableRowValue | null): any;
@@ -2943,7 +2943,7 @@ const GenericTableRowValueType: {
 };
 
 // @public (undocumented)
-type GenericTableRowValueType = typeof GenericTableRowValueType[keyof typeof GenericTableRowValueType];
+type GenericTableRowValueType = (typeof GenericTableRowValueType)[keyof typeof GenericTableRowValueType];
 
 // @public (undocumented)
 function GenericTableRowValueTypeFromJSON(json: any): GenericTableRowValueType;
@@ -3261,7 +3261,7 @@ type HTTPHeaders = {
 };
 
 // @public (undocumented)
-type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';
+type HTTPMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "HEAD";
 
 // @public (undocumented)
 type HTTPQuery = {
@@ -3284,7 +3284,7 @@ type InitOverideFunction = (requestContext: {
 
 // @public (undocumented)
 type InvalidateMessage = {
-    cmd: 'invalidate';
+    cmd: "invalidate";
     subscriptionId: number;
 };
 
@@ -3319,11 +3319,11 @@ function LegalTermsResponseToJSON(value?: LegalTermsResponse | null): any;
 function LegalTermsResponseToJSONRecursive(value?: LegalTermsResponse | null, ignoreParent?: boolean): any;
 
 // @public
-type LoginResponse = {
-    state: 'challenge';
-} & LoginResponseChallenge | {
-    state: 'ready';
-} & LoginResponseReady;
+type LoginResponse = ({
+    state: "challenge";
+} & LoginResponseChallenge) | ({
+    state: "ready";
+} & LoginResponseReady);
 
 // @public
 interface LoginResponseChallenge {
@@ -3348,7 +3348,7 @@ const LoginResponseChallengeAllOfStateEnum: {
 };
 
 // @public (undocumented)
-type LoginResponseChallengeAllOfStateEnum = typeof LoginResponseChallengeAllOfStateEnum[keyof typeof LoginResponseChallengeAllOfStateEnum];
+type LoginResponseChallengeAllOfStateEnum = (typeof LoginResponseChallengeAllOfStateEnum)[keyof typeof LoginResponseChallengeAllOfStateEnum];
 
 // @public (undocumented)
 function LoginResponseChallengeAllOfToJSON(value?: LoginResponseChallengeAllOf | null): any;
@@ -3385,7 +3385,7 @@ const LoginResponseChallengeStateEnum: {
 };
 
 // @public (undocumented)
-type LoginResponseChallengeStateEnum = typeof LoginResponseChallengeStateEnum[keyof typeof LoginResponseChallengeStateEnum];
+type LoginResponseChallengeStateEnum = (typeof LoginResponseChallengeStateEnum)[keyof typeof LoginResponseChallengeStateEnum];
 
 // @public (undocumented)
 function LoginResponseChallengeToJSON(value?: LoginResponseChallenge | null): any;
@@ -3422,7 +3422,7 @@ const LoginResponseReadyAllOfStateEnum: {
 };
 
 // @public (undocumented)
-type LoginResponseReadyAllOfStateEnum = typeof LoginResponseReadyAllOfStateEnum[keyof typeof LoginResponseReadyAllOfStateEnum];
+type LoginResponseReadyAllOfStateEnum = (typeof LoginResponseReadyAllOfStateEnum)[keyof typeof LoginResponseReadyAllOfStateEnum];
 
 // @public (undocumented)
 function LoginResponseReadyAllOfToJSON(value?: LoginResponseReadyAllOf | null): any;
@@ -3459,7 +3459,7 @@ const LoginResponseReadyStateEnum: {
 };
 
 // @public (undocumented)
-type LoginResponseReadyStateEnum = typeof LoginResponseReadyStateEnum[keyof typeof LoginResponseReadyStateEnum];
+type LoginResponseReadyStateEnum = (typeof LoginResponseReadyStateEnum)[keyof typeof LoginResponseReadyStateEnum];
 
 // @public (undocumented)
 function LoginResponseReadyToJSON(value?: LoginResponseReady | null): any;
@@ -3474,7 +3474,7 @@ const LoginResponseState: {
 };
 
 // @public (undocumented)
-type LoginResponseState = typeof LoginResponseState[keyof typeof LoginResponseState];
+type LoginResponseState = (typeof LoginResponseState)[keyof typeof LoginResponseState];
 
 // @public (undocumented)
 function LoginResponseStateFromJSON(json: any): LoginResponseState;
@@ -3534,7 +3534,7 @@ interface Middleware {
 }
 
 // @public (undocumented)
-type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
+type ModelPropertyNaming = "camelCase" | "snake_case" | "PascalCase" | "original";
 
 declare namespace Models {
     export {
@@ -3878,7 +3878,7 @@ const OrderExtension: {
 };
 
 // @public (undocumented)
-type OrderExtension = typeof OrderExtension[keyof typeof OrderExtension];
+type OrderExtension = (typeof OrderExtension)[keyof typeof OrderExtension];
 
 // @public (undocumented)
 function OrderExtensionFromJSON(json: any): OrderExtension;
@@ -3911,7 +3911,7 @@ const OrderModel: {
 };
 
 // @public (undocumented)
-type OrderModel = typeof OrderModel[keyof typeof OrderModel];
+type OrderModel = (typeof OrderModel)[keyof typeof OrderModel];
 
 // @public (undocumented)
 function OrderModelFromJSON(json: any): OrderModel;
@@ -3932,7 +3932,7 @@ const OrderStatus: {
 };
 
 // @public (undocumented)
-type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus];
+type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 // @public (undocumented)
 function OrderStatusFromJSON(json: any): OrderStatus;
@@ -3978,7 +3978,7 @@ const OrderValidityType: {
 };
 
 // @public (undocumented)
-type OrderValidityType = typeof OrderValidityType[keyof typeof OrderValidityType];
+type OrderValidityType = (typeof OrderValidityType)[keyof typeof OrderValidityType];
 
 // @public
 interface OrderValidityTypeByOrderModel {
@@ -4075,15 +4075,15 @@ function PortfoliosResponseToJSON(value?: PortfoliosResponse | null): any;
 function PortfoliosResponseToJSONRecursive(value?: PortfoliosResponse | null, ignoreParent?: boolean): any;
 
 // @public
-type PortfolioSyncInfo = {
-    status: 'COMPLETE';
-} & PortfolioSyncInfoComplete | {
-    status: 'ERROR';
-} & PortfolioSyncInfoError | {
-    status: 'INCOMPLETE';
-} & PortfolioSyncInfoIncomplete | {
-    status: 'PENDING';
-} & PortfolioSyncInfoPending;
+type PortfolioSyncInfo = ({
+    status: "COMPLETE";
+} & PortfolioSyncInfoComplete) | ({
+    status: "ERROR";
+} & PortfolioSyncInfoError) | ({
+    status: "INCOMPLETE";
+} & PortfolioSyncInfoIncomplete) | ({
+    status: "PENDING";
+} & PortfolioSyncInfoPending);
 
 // @public
 interface PortfolioSyncInfoComplete {
@@ -4108,7 +4108,7 @@ const PortfolioSyncInfoCompleteAllOfStatusEnum: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoCompleteAllOfStatusEnum = typeof PortfolioSyncInfoCompleteAllOfStatusEnum[keyof typeof PortfolioSyncInfoCompleteAllOfStatusEnum];
+type PortfolioSyncInfoCompleteAllOfStatusEnum = (typeof PortfolioSyncInfoCompleteAllOfStatusEnum)[keyof typeof PortfolioSyncInfoCompleteAllOfStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoCompleteAllOfToJSON(value?: PortfolioSyncInfoCompleteAllOf | null): any;
@@ -4145,7 +4145,7 @@ const PortfolioSyncInfoCompleteStatusEnum: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoCompleteStatusEnum = typeof PortfolioSyncInfoCompleteStatusEnum[keyof typeof PortfolioSyncInfoCompleteStatusEnum];
+type PortfolioSyncInfoCompleteStatusEnum = (typeof PortfolioSyncInfoCompleteStatusEnum)[keyof typeof PortfolioSyncInfoCompleteStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoCompleteToJSON(value?: PortfolioSyncInfoComplete | null): any;
@@ -4176,7 +4176,7 @@ const PortfolioSyncInfoErrorAllOfStatusEnum: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoErrorAllOfStatusEnum = typeof PortfolioSyncInfoErrorAllOfStatusEnum[keyof typeof PortfolioSyncInfoErrorAllOfStatusEnum];
+type PortfolioSyncInfoErrorAllOfStatusEnum = (typeof PortfolioSyncInfoErrorAllOfStatusEnum)[keyof typeof PortfolioSyncInfoErrorAllOfStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoErrorAllOfToJSON(value?: PortfolioSyncInfoErrorAllOf | null): any;
@@ -4213,7 +4213,7 @@ const PortfolioSyncInfoErrorStatusEnum: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoErrorStatusEnum = typeof PortfolioSyncInfoErrorStatusEnum[keyof typeof PortfolioSyncInfoErrorStatusEnum];
+type PortfolioSyncInfoErrorStatusEnum = (typeof PortfolioSyncInfoErrorStatusEnum)[keyof typeof PortfolioSyncInfoErrorStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoErrorToJSON(value?: PortfolioSyncInfoError | null): any;
@@ -4250,7 +4250,7 @@ const PortfolioSyncInfoIncompleteAllOfStatusEnum: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoIncompleteAllOfStatusEnum = typeof PortfolioSyncInfoIncompleteAllOfStatusEnum[keyof typeof PortfolioSyncInfoIncompleteAllOfStatusEnum];
+type PortfolioSyncInfoIncompleteAllOfStatusEnum = (typeof PortfolioSyncInfoIncompleteAllOfStatusEnum)[keyof typeof PortfolioSyncInfoIncompleteAllOfStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoIncompleteAllOfToJSON(value?: PortfolioSyncInfoIncompleteAllOf | null): any;
@@ -4287,7 +4287,7 @@ const PortfolioSyncInfoIncompleteStatusEnum: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoIncompleteStatusEnum = typeof PortfolioSyncInfoIncompleteStatusEnum[keyof typeof PortfolioSyncInfoIncompleteStatusEnum];
+type PortfolioSyncInfoIncompleteStatusEnum = (typeof PortfolioSyncInfoIncompleteStatusEnum)[keyof typeof PortfolioSyncInfoIncompleteStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoIncompleteToJSON(value?: PortfolioSyncInfoIncomplete | null): any;
@@ -4317,7 +4317,7 @@ const PortfolioSyncInfoPendingAllOfStatusEnum: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoPendingAllOfStatusEnum = typeof PortfolioSyncInfoPendingAllOfStatusEnum[keyof typeof PortfolioSyncInfoPendingAllOfStatusEnum];
+type PortfolioSyncInfoPendingAllOfStatusEnum = (typeof PortfolioSyncInfoPendingAllOfStatusEnum)[keyof typeof PortfolioSyncInfoPendingAllOfStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoPendingAllOfToJSON(value?: PortfolioSyncInfoPendingAllOf | null): any;
@@ -4337,7 +4337,7 @@ const PortfolioSyncInfoPendingStatusEnum: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoPendingStatusEnum = typeof PortfolioSyncInfoPendingStatusEnum[keyof typeof PortfolioSyncInfoPendingStatusEnum];
+type PortfolioSyncInfoPendingStatusEnum = (typeof PortfolioSyncInfoPendingStatusEnum)[keyof typeof PortfolioSyncInfoPendingStatusEnum];
 
 // @public (undocumented)
 function PortfolioSyncInfoPendingToJSON(value?: PortfolioSyncInfoPending | null): any;
@@ -4354,7 +4354,7 @@ const PortfolioSyncInfoStatus: {
 };
 
 // @public (undocumented)
-type PortfolioSyncInfoStatus = typeof PortfolioSyncInfoStatus[keyof typeof PortfolioSyncInfoStatus];
+type PortfolioSyncInfoStatus = (typeof PortfolioSyncInfoStatus)[keyof typeof PortfolioSyncInfoStatus];
 
 // @public (undocumented)
 function PortfolioSyncInfoStatusFromJSON(json: any): PortfolioSyncInfoStatus;
@@ -4763,13 +4763,13 @@ function SessionResponseToJSON(value?: SessionResponse | null): any;
 function SessionResponseToJSONRecursive(value?: SessionResponse | null, ignoreParent?: boolean): any;
 
 // @public
-type SessionSyncInfo = {
-    status: 'ERROR';
-} & SessionSyncInfoError | {
-    status: 'PENDING';
-} & SessionSyncInfoPending | {
-    status: 'SYNCED';
-} & SessionSyncInfoSynced;
+type SessionSyncInfo = ({
+    status: "ERROR";
+} & SessionSyncInfoError) | ({
+    status: "PENDING";
+} & SessionSyncInfoPending) | ({
+    status: "SYNCED";
+} & SessionSyncInfoSynced);
 
 // @public
 interface SessionSyncInfoError {
@@ -4806,7 +4806,7 @@ const SessionSyncInfoErrorStatusEnum: {
 };
 
 // @public (undocumented)
-type SessionSyncInfoErrorStatusEnum = typeof SessionSyncInfoErrorStatusEnum[keyof typeof SessionSyncInfoErrorStatusEnum];
+type SessionSyncInfoErrorStatusEnum = (typeof SessionSyncInfoErrorStatusEnum)[keyof typeof SessionSyncInfoErrorStatusEnum];
 
 // @public (undocumented)
 function SessionSyncInfoErrorToJSON(value?: SessionSyncInfoError | null): any;
@@ -4837,7 +4837,7 @@ const SessionSyncInfoPendingStatusEnum: {
 };
 
 // @public (undocumented)
-type SessionSyncInfoPendingStatusEnum = typeof SessionSyncInfoPendingStatusEnum[keyof typeof SessionSyncInfoPendingStatusEnum];
+type SessionSyncInfoPendingStatusEnum = (typeof SessionSyncInfoPendingStatusEnum)[keyof typeof SessionSyncInfoPendingStatusEnum];
 
 // @public (undocumented)
 function SessionSyncInfoPendingToJSON(value?: SessionSyncInfoPending | null): any;
@@ -4853,7 +4853,7 @@ const SessionSyncInfoStatus: {
 };
 
 // @public (undocumented)
-type SessionSyncInfoStatus = typeof SessionSyncInfoStatus[keyof typeof SessionSyncInfoStatus];
+type SessionSyncInfoStatus = (typeof SessionSyncInfoStatus)[keyof typeof SessionSyncInfoStatus];
 
 // @public (undocumented)
 function SessionSyncInfoStatusFromJSON(json: any): SessionSyncInfoStatus;
@@ -4887,7 +4887,7 @@ const SessionSyncInfoSyncedAllOfStatusEnum: {
 };
 
 // @public (undocumented)
-type SessionSyncInfoSyncedAllOfStatusEnum = typeof SessionSyncInfoSyncedAllOfStatusEnum[keyof typeof SessionSyncInfoSyncedAllOfStatusEnum];
+type SessionSyncInfoSyncedAllOfStatusEnum = (typeof SessionSyncInfoSyncedAllOfStatusEnum)[keyof typeof SessionSyncInfoSyncedAllOfStatusEnum];
 
 // @public (undocumented)
 function SessionSyncInfoSyncedAllOfToJSON(value?: SessionSyncInfoSyncedAllOf | null): any;
@@ -4924,7 +4924,7 @@ const SessionSyncInfoSyncedStatusEnum: {
 };
 
 // @public (undocumented)
-type SessionSyncInfoSyncedStatusEnum = typeof SessionSyncInfoSyncedStatusEnum[keyof typeof SessionSyncInfoSyncedStatusEnum];
+type SessionSyncInfoSyncedStatusEnum = (typeof SessionSyncInfoSyncedStatusEnum)[keyof typeof SessionSyncInfoSyncedStatusEnum];
 
 // @public (undocumented)
 function SessionSyncInfoSyncedToJSON(value?: SessionSyncInfoSynced | null): any;
@@ -4995,8 +4995,8 @@ function StringMapByOrderModelToJSONRecursive(value?: StringMapByOrderModel | nu
 
 // @public (undocumented)
 type SubscribeDecoupledOperation = {
-    cmd: 'subscribe';
-    type: 'decoupledOperationStatus';
+    cmd: "subscribe";
+    type: "decoupledOperationStatus";
     subscriptionId: number;
     sessionId: string;
     decoupledOperationId: string;
@@ -5080,7 +5080,7 @@ const TrailingDistanceModeEnum: {
 };
 
 // @public (undocumented)
-type TrailingDistanceModeEnum = typeof TrailingDistanceModeEnum[keyof typeof TrailingDistanceModeEnum];
+type TrailingDistanceModeEnum = (typeof TrailingDistanceModeEnum)[keyof typeof TrailingDistanceModeEnum];
 
 // @public (undocumented)
 function TrailingDistanceToJSON(value?: TrailingDistance | null): any;
@@ -5102,7 +5102,7 @@ interface TriggerSessionSyncRequest {
 
 // @public (undocumented)
 type UpdateDecoupledOperationMessage = {
-    cmd: 'updateDecoupledOperationStatus';
+    cmd: "updateDecoupledOperationStatus";
     subscriptionId: number;
     status: DecoupledOperationStatus_2;
 };
@@ -5136,7 +5136,7 @@ class VoidApiResponse {
 
 // @public (undocumented)
 type WebSocketAuthenticatedMessage = {
-    cmd: 'authenticated';
+    cmd: "authenticated";
 };
 
 // Warning: (ae-forgotten-export) The symbol "WebSocketCommandAuthorize" needs to be exported by the entry point index.d.ts
@@ -5152,7 +5152,7 @@ type WebSocketCommandSubscribe = (InvalidateBase & SubscribeInvalidateDetails) |
 
 // @public (undocumented)
 type WebSocketCommandUnsubscribe = {
-    cmd: 'unsubscribe';
+    cmd: "unsubscribe";
     subscriptionId: number;
 };
 
@@ -5172,7 +5172,7 @@ type WebSocketMessageErrorOnSubscription = {
 
 // @public (undocumented)
 type WebSocketPingMessage = {
-    cmd: 'ping';
+    cmd: "ping";
 };
 
 // @public (undocumented)

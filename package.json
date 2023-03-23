@@ -4,6 +4,7 @@
   "description": "Client for the brokerize.com API",
   "main": "dist/index.js",
   "types": "dist/client.d.ts",
+  "files": ["dist"],
   "scripts": {
     "build": "npx tsc && npm run api-extractor",
     "download-spec-local": "curl http://localhost:3333/openapi.json > openapi.json && npm run format-openapi",
@@ -11,12 +12,16 @@
     "clean-swagger": "rm -rf ./src/swagger",
     "format-openapi": "mv openapi.json openapi_dl.json && node -e 'console.log(JSON.stringify(JSON.parse(require(\"fs\").readFileSync(\"openapi_dl.json\").toString()),null,4))' > openapi.json && rm openapi_dl.json",
     "openapi-preprocess": "node openapi-preprocess.js",
-    "generate": "npm run clean-swagger && npm run openapi-preprocess && npx @openapitools/openapi-generator-cli generate -i temp/openapi.json -g typescript-fetch -t ./generator-tpl -o ./src/swagger",
+    "generate": "npm run clean-swagger && npm run openapi-preprocess && npx @openapitools/openapi-generator-cli generate -i temp/openapi.json -g typescript-fetch -t ./generator-tpl -o ./src/swagger && npm run format",
     "download-and-generate": "npm run download-spec && npm run generate",
     "download-and-generate-local": "npm run download-spec-local && npm run generate",
     "api-extractor": "npx api-extractor run --local",
     "full-update": "npm run download-and-generate && npm run build",
     "full-update-local": "npm run download-and-generate-local && npm run build",
+    "format": "prettier --write src",
+    "format:check": "prettier src --check",
+    "lint": "npm run format:check && eslint --ignore-path .gitignore ./src",
+    "lint-fix": "npm run format && eslint --ignore-path .gitignore ./src --fix",
     "openapi-generator-extract-templates": "npx openapi-generator-cli author template -g typescript-fetch -o generator-tpl"
   },
   "repository": {
@@ -33,6 +38,10 @@
   "devDependencies": {
     "@microsoft/api-extractor": "7.23.1",
     "@openapitools/openapi-generator-cli": "2.5.1",
+    "@typescript-eslint/eslint-plugin": "5.56.0",
+    "eslint": "8.36.0",
+    "eslint-config-prettier": "8.8.0",
+    "prettier": "2.8.6",
     "typescript": "4.6.4"
   },
   "publishConfig": {

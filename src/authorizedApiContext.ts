@@ -1,8 +1,5 @@
 import { Subject } from "rxjs";
-import {
-  Auth,
-  BrokerizeConfig, createConfiguration
-} from "./apiCtx";
+import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
 import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
 import {
@@ -17,13 +14,13 @@ import {
   GetQuoteRequest,
   OrderChanges,
   PrepareOAuthRedirectParams,
-  PrepareTradeRequest
+  PrepareTradeRequest,
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
   BrokerizeWebSocketClientImpl,
   Callback,
-  Subscription
+  Subscription,
 } from "./websocketClient";
 
 export class AuthorizedApiContext {
@@ -32,7 +29,7 @@ export class AuthorizedApiContext {
   private _defaultApi: openApiClient.DefaultApi;
   private _demoBrokerApi: openApiClient.DemobrokerApi;
   private _tradeApi: openApiClient.TradeApi;
-  private _isDestroyed: boolean = false;
+  private _isDestroyed = false;
   private _abortController: AbortController;
   private _metaApi: openApiClient.MetaApi;
   private _brokerLoginApi: openApiClient.BrokerLoginApi;
@@ -450,7 +447,6 @@ export class AuthorizedApiContext {
       (basePath.startsWith("https")
         ? "wss://" + basePath.substring(8)
         : "ws://" + basePath.substring(7)) + "/websocket";
-    console.log("INIT CLIENT");
     return new BrokerizeWebSocketClientImpl(websocketPath, this._auth);
   }
   createWebSocketClient() {
@@ -480,4 +476,3 @@ export class AuthorizedApiContext {
     };
   }
 }
-

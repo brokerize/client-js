@@ -21,7 +21,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _socket: WebSocket | null;
   private _pingIntvl: any | null;
   private _authenticatedCallback: any = null;
-  private _isOpen: boolean = false;
+  private _isOpen = false;
   private _auth: Auth;
 
   constructor(websocketUrl: string, auth: Auth) {
@@ -131,7 +131,6 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     //   return
     // } else if (this._socket.readyState == 2) {
     /* OPEN */
-    console.log("_SEND", data);
     this._socket?.send(JSON.stringify(data));
     // } else {
     //   /* 2 CLOSING, 3 CLOSED */
@@ -179,17 +178,15 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       ) {
         this._authenticatedCallback && this._authenticatedCallback();
         this._authenticatedCallback = null;
-      } else if (
-        (message as WebSocketPingMessage).cmd == "ping"
-      ) {
+      } else if ((message as WebSocketPingMessage).cmd == "ping") {
         // NOP
       } else if (message as WebSocketError) {
+        // eslint-disable-next-line no-console
         console.error((message as WebSocketError).error);
       }
     };
 
     this._socket.onopen = () => {
-      console.log("websocket open", this._map, this._socket?.readyState);
       Promise.resolve(this._auth.getToken()).then(
         (token) => {
           const _authCb = () => {
@@ -210,13 +207,13 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
           }
         },
         (err) => {
+          // eslint-disable-next-line no-console
           console.error(err);
         }
       );
     };
 
     this._socket.onclose = () => {
-      console.log("websocket was closed");
       this._socket = null;
     };
 
@@ -229,7 +226,6 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     this._pingIntvl && clearInterval(this._pingIntvl);
     this._pingIntvl = setInterval(() => {
       if (this._socket?.readyState == 2 || this._socket?.readyState == 3) {
-        console.warn("ping when closed state - reconnect!");
         this._connect();
         return;
       }
