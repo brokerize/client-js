@@ -1,5 +1,8 @@
 import { Subject } from "rxjs";
-import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
+import {
+  Auth,
+  BrokerizeConfig, createConfiguration
+} from "./apiCtx";
 import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
 import {
@@ -14,13 +17,13 @@ import {
   GetQuoteRequest,
   OrderChanges,
   PrepareOAuthRedirectParams,
-  PrepareTradeRequest,
+  PrepareTradeRequest
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
   BrokerizeWebSocketClientImpl,
   Callback,
-  Subscription,
+  Subscription
 } from "./websocketClient";
 
 export class AuthorizedApiContext {
@@ -477,3 +480,4 @@ export class AuthorizedApiContext {
     };
   }
 }
+
