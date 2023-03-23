@@ -38,8 +38,5 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
-  "dependencies": {
-    "jose": "4.10.0"
-  },
   "type": "module"
 }
