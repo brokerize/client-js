@@ -1,10 +1,12 @@
 {
   "name": "@brokerize/client",
-  "version": "0.0.1-alpha-31",
+  "version": "0.0.1-alpha-32",
   "description": "Client for the brokerize.com API",
   "main": "dist/index.js",
   "types": "dist/client.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npx tsc && npm run api-extractor",
     "download-spec-local": "curl http://localhost:3333/openapi.json > openapi.json && npm run format-openapi",
