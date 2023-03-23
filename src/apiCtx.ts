@@ -1,9 +1,5 @@
 /* Import/Export the DOM parts we rely on. Those are partial copies from the official TypeScript DOM library definitions (https://github.com/microsoft/TypeScript/blob/master/lib/lib.dom.d.ts),
    but reduced to the parts actually used by bg-trading. */
-import {
-  AuthorizedApiContextOptions,
-  CognitoAuth as CognitoAuthWrapper,
-} from "./authorizedApiContext";
 import { WhatWgFetch } from "./dependencyDefinitions/fetch";
 import { Configuration } from "./swagger";
 
@@ -21,17 +17,6 @@ export interface BrokerizeConfig {
    */
   cognito?: CognitoConfig;
 }
-
-export type CognitoConfig = {
-  config: CognitoPoolConfig;
-  authWrapper: CognitoAuthWrapper;
-};
-
-export type CognitoPoolConfig = {
-  UserPoolId: string;
-  ClientId: string;
-  Endpoint: string;
-};
 
 export type AuthContextConfiguration =
   | GuestAuthContextConfiguration
@@ -87,13 +72,16 @@ export function createAuth(
       );
     }
 
-    if (!options?.cognitoAuth) {
+    if (!options?.cognitoFacade) {
       throw new Error(
         "Trying to initialize createAuth for cognito, but access to the cognito library was not provided in the options."
       );
     }
 
-    const session = options.cognitoAuth.createSession(cfg.cognito?.config, authCfg);
+    const session = options.cognitoFacade.createSession(
+      cfg.cognito?.poolConfig,
+      authCfg
+    );
     return {
       async getToken() {
         return session.getToken();
@@ -103,3 +91,27 @@ export function createAuth(
     throw new Error("Unsupported auth config.");
   }
 }
+
+export type CognitoConfig = {
+  poolConfig: CognitoPoolConfig;
+  cognitoFacade: CognitoFacade;
+};
+
+export type CognitoPoolConfig = {
+  UserPoolId: string;
+  ClientId: string;
+  Endpoint: string;
+};
+
+export type CognitoFacade = {
+  createSession: (
+    cognitoPoolConfig: CognitoPoolConfig,
+    authCfg: RegisteredUserAuthContextConfiguration
+  ) => {
+    getToken: () => Promise<{ idToken: string }>;
+  };
+};
+
+export type AuthorizedApiContextOptions = {
+  cognitoFacade?: CognitoFacade;
+};

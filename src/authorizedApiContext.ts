@@ -1,10 +1,7 @@
 import { Subject } from "rxjs";
 import {
   Auth,
-  BrokerizeConfig,
-  CognitoPoolConfig,
-  createConfiguration,
-  RegisteredUserAuthContextConfiguration,
+  BrokerizeConfig, createConfiguration
 } from "./apiCtx";
 import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
@@ -20,13 +17,13 @@ import {
   GetQuoteRequest,
   OrderChanges,
   PrepareOAuthRedirectParams,
-  PrepareTradeRequest,
+  PrepareTradeRequest
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
   BrokerizeWebSocketClientImpl,
   Callback,
-  Subscription,
+  Subscription
 } from "./websocketClient";
 
 export class AuthorizedApiContext {
@@ -484,17 +481,3 @@ export class AuthorizedApiContext {
   }
 }
 
-export type AuthorizedApiContextOptions = {
-  cognitoAuth?: CognitoAuth;
-};
-
-export type CognitoAuth = {
-  createSession: (
-    cognitoCfg: CognitoPoolConfig,
-    authCfg: RegisteredUserAuthContextConfiguration
-  ) => CognitoSession;
-};
-
-export type CognitoSession = {
-  getToken: () => Promise<{ idToken: string }>;
-};

@@ -3,19 +3,17 @@
 import {
   AuthContextConfiguration,
   BrokerizeConfig,
+  CognitoConfig,
+  CognitoFacade,
   CognitoPoolConfig,
   createAuth,
   createConfiguration,
   RegisteredUserAuthContextConfiguration,
 } from "./apiCtx";
-import {
-  AuthorizedApiContext,
-  CognitoAuth,
-  CognitoSession,
-} from "./authorizedApiContext";
+import { AuthorizedApiContext } from "./authorizedApiContext";
 import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
-import * as Models from "./swagger/models";
+import * as Models from "./modelExports";
 import {
   BrokerizeWebSocketClient,
   Callback,
@@ -34,12 +32,8 @@ export {
   Callback,
   BrokerizeError,
 };
-export {
-  CognitoPoolConfig,
-  RegisteredUserAuthContextConfiguration,
-  CognitoAuth,
-  CognitoSession,
-};
+export { CognitoPoolConfig, RegisteredUserAuthContextConfiguration };
+export { CognitoConfig, CognitoFacade };
 
 export class Brokerize {
   private _cfg: BrokerizeConfig;
@@ -67,12 +61,12 @@ export class Brokerize {
     return new AuthorizedApiContext(
       this._cfg,
       createAuth(authCtxCfg, this._cfg, {
-        cognitoAuth: this._cfg.cognito?.authWrapper,
+        cognitoFacade: this._cfg.cognito?.cognitoFacade,
       })
     );
   }
 
   getCognitoConfig(): CognitoPoolConfig | undefined {
-    return this._cfg.cognito?.config;
+    return this._cfg.cognito?.poolConfig;
   }
 }
