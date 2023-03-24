@@ -49,6 +49,7 @@ export { DecoupledOperationState } from "./swagger/models/DecoupledOperationStat
 export { DecoupledOperationStatus } from "./swagger/models/DecoupledOperationStatus";
 export { DefaultOrderValidityByOrderModel } from "./swagger/models/DefaultOrderValidityByOrderModel";
 export { DemoAccount } from "./swagger/models/DemoAccount";
+export { DemoAccountSettings } from "./swagger/models/DemoAccountSettings";
 export { DemoAccountsResponse } from "./swagger/models/DemoAccountsResponse";
 export { Direction } from "./swagger/models/Direction";
 export { EnableSessionTanParams } from "./swagger/models/EnableSessionTanParams";
@@ -139,5 +140,8 @@ export { SessionSyncInfoSynced } from "./swagger/models/SessionSyncInfoSynced";
 export { SetClientConfigRequest } from "./swagger/models/SetClientConfigRequest";
 export { StringMapByOrderModel } from "./swagger/models/StringMapByOrderModel";
 export { SyncError } from "./swagger/models/SyncError";
-export { TrailingDistance } from "./swagger/models/TrailingDistance";
+export {
+  TrailingDistance,
+  TrailingDistanceModeEnum,
+} from "./swagger/models/TrailingDistance";
 export { ValidationDetail } from "./swagger/models/ValidationDetail";

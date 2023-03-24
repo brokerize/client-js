@@ -67,6 +67,7 @@ models/DecoupledOperationState.ts
 models/DecoupledOperationStatus.ts
 models/DefaultOrderValidityByOrderModel.ts
 models/DemoAccount.ts
+models/DemoAccountSettings.ts
 models/DemoAccountsResponse.ts
 models/Direction.ts
 models/EnableSessionTanParams.ts

@@ -8,6 +8,7 @@ import {
   CreateTradeChallengeRequest,
   CreateTradeRequest,
   DeleteDemoAccountRequest,
+  DemoAccountSettings,
   ErrorResponse,
   GenericTable,
   GetCostEstimationParams,
@@ -152,8 +153,13 @@ export class AuthorizedApiContext {
   async getSessions() {
     return this._defaultApi.getSessions(await this._initRequestInit());
   }
-  async createDemoAccount() {
-    return this._demoBrokerApi.createDemoAccount(await this._initRequestInit());
+  async createDemoAccount(demoAccountSettings?: DemoAccountSettings) {
+    return this._demoBrokerApi.createDemoAccount(
+      {
+        demoAccountSettings,
+      },
+      await this._initRequestInit()
+    );
   }
   async getDemoAccounts() {
     return this._demoBrokerApi.getDemoAccounts(await this._initRequestInit());

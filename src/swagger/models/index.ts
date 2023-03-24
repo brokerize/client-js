@@ -57,6 +57,7 @@ export * from "./DecoupledOperationState";
 export * from "./DecoupledOperationStatus";
 export * from "./DefaultOrderValidityByOrderModel";
 export * from "./DemoAccount";
+export * from "./DemoAccountSettings";
 export * from "./DemoAccountsResponse";
 export * from "./Direction";
 export * from "./EnableSessionTanParams";

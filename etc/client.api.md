@@ -484,7 +484,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     createClient(): Promise<openApiClient.CreateClient200Response>;
     // (undocumented)
-    createDemoAccount(): Promise<openApiClient.CreatedResponseBody>;
+    createDemoAccount(demoAccountSettings?: DemoAccountSettings): Promise<openApiClient.CreatedResponseBody>;
     // (undocumented)
     createSessionTanChallenge(req: openApiClient.CreateSessionTanChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
@@ -1397,6 +1397,12 @@ function CreateClient200ResponseToJSON(value?: CreateClient200Response | null): 
 // @public (undocumented)
 function CreateClient200ResponseToJSONRecursive(value?: CreateClient200Response | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+interface CreateDemoAccountRequest {
+    // (undocumented)
+    demoAccountSettings?: DemoAccountSettings;
+}
+
 // @public
 interface CreatedResponseBody {
     id: string;
@@ -1734,6 +1740,7 @@ interface DeletePortfolioRequest {
 interface DemoAccount {
     accountId: string;
     accountName: string;
+    settings: DemoAccountSettings;
 }
 
 // @public (undocumented)
@@ -1741,6 +1748,24 @@ function DemoAccountFromJSON(json: any): DemoAccount;
 
 // @public (undocumented)
 function DemoAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): DemoAccount;
+
+// @public
+interface DemoAccountSettings {
+    lazyAuthMethods?: boolean;
+    sessionTanCannotBeEnded?: boolean;
+}
+
+// @public (undocumented)
+function DemoAccountSettingsFromJSON(json: any): DemoAccountSettings;
+
+// @public (undocumented)
+function DemoAccountSettingsFromJSONTyped(json: any, ignoreDiscriminator: boolean): DemoAccountSettings;
+
+// @public (undocumented)
+function DemoAccountSettingsToJSON(value?: DemoAccountSettings | null): any;
+
+// @public (undocumented)
+function DemoAccountSettingsToJSONRecursive(value?: DemoAccountSettings | null, ignoreParent?: boolean): any;
 
 // @public
 interface DemoAccountsResponse {
@@ -1767,8 +1792,8 @@ function DemoAccountToJSONRecursive(value?: DemoAccount | null, ignoreParent?: b
 
 // @public (undocumented)
 class DemobrokerApi extends runtime.BaseAPI {
-    createDemoAccount(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreatedResponseBody>;
-    createDemoAccountRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreatedResponseBody>>;
+    createDemoAccount(requestParameters?: CreateDemoAccountRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreatedResponseBody>;
+    createDemoAccountRaw(requestParameters: CreateDemoAccountRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreatedResponseBody>>;
     deleteDemoAccount(requestParameters: DeleteDemoAccountRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     deleteDemoAccountRaw(requestParameters: DeleteDemoAccountRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
     getDemoAccounts(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DemoAccountsResponse>;
@@ -3586,6 +3611,7 @@ declare namespace Models {
         DecoupledOperationStatus,
         DefaultOrderValidityByOrderModel,
         DemoAccount,
+        DemoAccountSettings,
         DemoAccountsResponse,
         Direction,
         EnableSessionTanParams,
@@ -3677,6 +3703,7 @@ declare namespace Models {
         StringMapByOrderModel,
         SyncError,
         TrailingDistance,
+        TrailingDistanceModeEnum,
         ValidationDetail
     }
 }

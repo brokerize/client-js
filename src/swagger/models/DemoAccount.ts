@@ -13,12 +13,25 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  DemoAccountSettings,
+  DemoAccountSettingsFromJSON,
+  DemoAccountSettingsFromJSONTyped,
+  DemoAccountSettingsToJSON,
+} from "./DemoAccountSettings";
+
 /**
  *
  * @export
  * @interface DemoAccount
  */
 export interface DemoAccount {
+  /**
+   *
+   * @type {DemoAccountSettings}
+   * @memberof DemoAccount
+   */
+  settings: DemoAccountSettings;
   /**
    *
    * @type {string}
@@ -45,6 +58,7 @@ export function DemoAccountFromJSONTyped(
     return json;
   }
   return {
+    settings: DemoAccountSettingsFromJSON(json["settings"]),
     accountName: json["accountName"],
     accountId: json["accountId"],
   };
@@ -62,6 +76,7 @@ export function DemoAccountToJSONRecursive(
   }
 
   return {
+    settings: DemoAccountSettingsToJSON(value.settings),
     accountName: value.accountName,
     accountId: value.accountId,
   };

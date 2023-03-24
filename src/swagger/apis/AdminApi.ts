@@ -484,11 +484,11 @@ export class AdminApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/admin/clients/{clientId}/oauthReturnTo`.replace(
+        path: `/admin/clients/{clientId}/removeOAuthReturnTo`.replace(
           `{${"clientId"}}`,
           encodeURIComponent(String(requestParameters.clientId))
         ),
-        method: "DELETE",
+        method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: AddOAuthReturnToUrlRequestToJSON(
@@ -556,11 +556,11 @@ export class AdminApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/admin/clients/{clientId}/origin`.replace(
+        path: `/admin/clients/{clientId}/removeOrigin`.replace(
           `{${"clientId"}}`,
           encodeURIComponent(String(requestParameters.clientId))
         ),
-        method: "DELETE",
+        method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: AddOriginRequestToJSON(requestParameters.addOriginRequest),
