@@ -34,6 +34,12 @@ import {
 export interface ClientsResponseInnerConfig {
   /**
    *
+   * @type {any}
+   * @memberof ClientsResponseInnerConfig
+   */
+  page: any | null;
+  /**
+   *
    * @type {ClientsResponseInnerConfigMaintenanceStatus}
    * @memberof ClientsResponseInnerConfig
    */
@@ -108,6 +114,7 @@ export function ClientsResponseInnerConfigFromJSONTyped(
     return json;
   }
   return {
+    page: json["page"],
     maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatusFromJSON(
       json["maintenanceStatus"]
     ),
@@ -138,6 +145,7 @@ export function ClientsResponseInnerConfigToJSONRecursive(
   }
 
   return {
+    page: value.page,
     maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatusToJSON(
       value.maintenanceStatus
     ),

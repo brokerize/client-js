@@ -1120,6 +1120,7 @@ interface ClientConfig {
     name?: string;
     oAuthReturnToRegularExpressions?: Array<string>;
     oAuthReturnToUrls?: Array<string>;
+    page?: ClientConfigPage | null;
     rateLimitPointsToConsume?: ClientConfigRateLimitPointsToConsume;
 }
 
@@ -1128,6 +1129,27 @@ function ClientConfigFromJSON(json: any): ClientConfig;
 
 // @public (undocumented)
 function ClientConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfig;
+
+// @public
+interface ClientConfigPage {
+    logoUrlDark?: string;
+    logoUrlLight?: string;
+    themeDark?: any | null;
+    themeLight?: any | null;
+    title?: string;
+}
+
+// @public (undocumented)
+function ClientConfigPageFromJSON(json: any): ClientConfigPage;
+
+// @public (undocumented)
+function ClientConfigPageFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigPage;
+
+// @public (undocumented)
+function ClientConfigPageToJSON(value?: ClientConfigPage | null): any;
+
+// @public (undocumented)
+function ClientConfigPageToJSONRecursive(value?: ClientConfigPage | null, ignoreParent?: boolean): any;
 
 // @public
 interface ClientConfigRateLimitPointsToConsume {
@@ -1172,6 +1194,7 @@ interface ClientsResponseInnerConfig {
     name: string;
     oAuthReturnToRegularExpressions: Array<string>;
     oAuthReturnToUrls: Array<string>;
+    page: any | null;
 }
 
 // @public (undocumented)
@@ -3098,6 +3121,14 @@ function GetOrderResponseToJSON(value?: GetOrderResponse | null): any;
 function GetOrderResponseToJSONRecursive(value?: GetOrderResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
+interface GetPagesConfigurationRequest {
+    // (undocumented)
+    clientId?: string;
+    // (undocumented)
+    clientName?: string;
+}
+
+// @public (undocumented)
 interface GetPortfolioOrdersRequest {
     // (undocumented)
     isin?: string;
@@ -3548,6 +3579,8 @@ class MetaApi extends runtime.BaseAPI {
     getExchangesRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ExchangesResponse>>;
     getLegalTerms(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LegalTermsResponse>;
     getLegalTermsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LegalTermsResponse>>;
+    getPagesConfiguration(requestParameters?: GetPagesConfigurationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PagesConfigurationResponse>;
+    getPagesConfigurationRaw(requestParameters: GetPagesConfigurationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PagesConfigurationResponse>>;
 }
 
 // @public (undocumented)
@@ -4042,6 +4075,45 @@ function OrderValidityTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 
 // @public (undocumented)
 function OrderValidityTypeToJSON(value?: OrderValidityType | null): any;
+
+// @public
+interface PageConfig {
+    logoUrlDark?: string;
+    logoUrlLight?: string;
+    themeDark?: any | null;
+    themeLight?: any | null;
+    title?: string;
+}
+
+// @public (undocumented)
+function PageConfigFromJSON(json: any): PageConfig;
+
+// @public (undocumented)
+function PageConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): PageConfig;
+
+// @public (undocumented)
+function PageConfigToJSON(value?: PageConfig | null): any;
+
+// @public (undocumented)
+function PageConfigToJSONRecursive(value?: PageConfig | null, ignoreParent?: boolean): any;
+
+// @public
+interface PagesConfigurationResponse {
+    clientId: string;
+    page: any | null;
+}
+
+// @public (undocumented)
+function PagesConfigurationResponseFromJSON(json: any): PagesConfigurationResponse;
+
+// @public (undocumented)
+function PagesConfigurationResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): PagesConfigurationResponse;
+
+// @public (undocumented)
+function PagesConfigurationResponseToJSON(value?: PagesConfigurationResponse | null): any;
+
+// @public (undocumented)
+function PagesConfigurationResponseToJSONRecursive(value?: PagesConfigurationResponse | null, ignoreParent?: boolean): any;
 
 // @public
 interface Portfolio {

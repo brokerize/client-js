@@ -20,6 +20,12 @@ import {
   BrokerEnvFilterTypeToJSON,
 } from "./BrokerEnvFilterType";
 import {
+  ClientConfigPage,
+  ClientConfigPageFromJSON,
+  ClientConfigPageFromJSONTyped,
+  ClientConfigPageToJSON,
+} from "./ClientConfigPage";
+import {
   ClientConfigRateLimitPointsToConsume,
   ClientConfigRateLimitPointsToConsumeFromJSON,
   ClientConfigRateLimitPointsToConsumeFromJSONTyped,
@@ -38,6 +44,12 @@ import {
  * @interface ClientConfig
  */
 export interface ClientConfig {
+  /**
+   *
+   * @type {ClientConfigPage}
+   * @memberof ClientConfig
+   */
+  page?: ClientConfigPage | null;
   /**
    *
    * @type {ClientsResponseInnerConfigMaintenanceStatus}
@@ -130,6 +142,9 @@ export function ClientConfigFromJSONTyped(
     return json;
   }
   return {
+    page: !exists(json, "page")
+      ? undefined
+      : ClientConfigPageFromJSON(json["page"]),
     maintenanceStatus: !exists(json, "maintenanceStatus")
       ? undefined
       : ClientsResponseInnerConfigMaintenanceStatusFromJSON(
@@ -187,6 +202,7 @@ export function ClientConfigToJSONRecursive(
   }
 
   return {
+    page: ClientConfigPageToJSON(value.page),
     maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatusToJSON(
       value.maintenanceStatus
     ),

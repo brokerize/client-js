@@ -26,7 +26,15 @@ import {
   LegalTermsResponse,
   LegalTermsResponseFromJSON,
   LegalTermsResponseToJSON,
+  PagesConfigurationResponse,
+  PagesConfigurationResponseFromJSON,
+  PagesConfigurationResponseToJSON,
 } from "../models";
+
+export interface GetPagesConfigurationRequest {
+  clientId?: string;
+  clientName?: string;
+}
 
 /**
  *
@@ -164,6 +172,54 @@ export class MetaApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<LegalTermsResponse> {
     const response = await this.getLegalTermsRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Get the matching brokerize pages configuration.  The endpoint will try to find a matching configuration in this order: - if parameter `clientId` is given: load the pages configuration for the given client id - if parameter `clientName` is given: load the pages configuration for the given client name - if neither parameter is provided, the requests `origin` will be used to find the configuration.
+   */
+  async getPagesConfigurationRaw(
+    requestParameters: GetPagesConfigurationRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<PagesConfigurationResponse>> {
+    const queryParameters: any = {};
+
+    if (requestParameters.clientId !== undefined) {
+      queryParameters["clientId"] = requestParameters.clientId;
+    }
+
+    if (requestParameters.clientName !== undefined) {
+      queryParameters["clientName"] = requestParameters.clientName;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    const response = await this.request(
+      {
+        path: `/pages`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      PagesConfigurationResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Get the matching brokerize pages configuration.  The endpoint will try to find a matching configuration in this order: - if parameter `clientId` is given: load the pages configuration for the given client id - if parameter `clientName` is given: load the pages configuration for the given client name - if neither parameter is provided, the requests `origin` will be used to find the configuration.
+   */
+  async getPagesConfiguration(
+    requestParameters: GetPagesConfigurationRequest = {},
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<PagesConfigurationResponse> {
+    const response = await this.getPagesConfigurationRaw(
+      requestParameters,
+      initOverrides
+    );
     return await response.value();
   }
 }

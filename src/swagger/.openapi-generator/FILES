@@ -47,6 +47,7 @@ models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
 models/ClientConfig.ts
+models/ClientConfigPage.ts
 models/ClientConfigRateLimitPointsToConsume.ts
 models/ClientsResponseInner.ts
 models/ClientsResponseInnerConfig.ts
@@ -155,6 +156,8 @@ models/OrderStatus.ts
 models/OrderValidity.ts
 models/OrderValidityType.ts
 models/OrderValidityTypeByOrderModel.ts
+models/PageConfig.ts
+models/PagesConfigurationResponse.ts
 models/Portfolio.ts
 models/PortfolioQuotes.ts
 models/PortfolioSyncInfo.ts
