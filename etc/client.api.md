@@ -3625,6 +3625,9 @@ declare namespace Models {
         ChangeOrderChallengeParams,
         ChangeOrderParams,
         ClientConfig,
+        ClientConfigPage,
+        PageConfig,
+        PagesConfigurationResponse,
         ClientConfigRateLimitPointsToConsume,
         ClientsResponseInner,
         ClientsResponseInnerConfig,
@@ -4631,6 +4634,7 @@ function querystring(params: HTTPQuery, prefix?: string): string;
 // @public
 interface QuoteExpiration {
     expires: Date;
+    milliseconds: number;
     started: Date;
 }
 
