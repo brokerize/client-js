@@ -20,6 +20,12 @@ import {
   BrokerEnvFilterTypeToJSON,
 } from "./BrokerEnvFilterType";
 import {
+  ClientConfigOAuthLoginForm,
+  ClientConfigOAuthLoginFormFromJSON,
+  ClientConfigOAuthLoginFormFromJSONTyped,
+  ClientConfigOAuthLoginFormToJSON,
+} from "./ClientConfigOAuthLoginForm";
+import {
   ClientConfigPage,
   ClientConfigPageFromJSON,
   ClientConfigPageFromJSONTyped,
@@ -62,6 +68,12 @@ export interface ClientConfig {
    * @memberof ClientConfig
    */
   enabled?: boolean;
+  /**
+   *
+   * @type {ClientConfigOAuthLoginForm}
+   * @memberof ClientConfig
+   */
+  oAuthLoginForm?: ClientConfigOAuthLoginForm | null;
   /**
    *
    * @type {Array<string>}
@@ -151,6 +163,9 @@ export function ClientConfigFromJSONTyped(
           json["maintenanceStatus"]
         ),
     enabled: !exists(json, "enabled") ? undefined : json["enabled"],
+    oAuthLoginForm: !exists(json, "oAuthLoginForm")
+      ? undefined
+      : ClientConfigOAuthLoginFormFromJSON(json["oAuthLoginForm"]),
     oAuthReturnToRegularExpressions: !exists(
       json,
       "oAuthReturnToRegularExpressions"
@@ -207,6 +222,7 @@ export function ClientConfigToJSONRecursive(
       value.maintenanceStatus
     ),
     enabled: value.enabled,
+    oAuthLoginForm: ClientConfigOAuthLoginFormToJSON(value.oAuthLoginForm),
     oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
     managingUserIds: value.managingUserIds,
     brokerEnvFilter:

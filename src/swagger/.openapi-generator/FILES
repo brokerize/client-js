@@ -47,6 +47,7 @@ models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
 models/ClientConfig.ts
+models/ClientConfigOAuthLoginForm.ts
 models/ClientConfigPage.ts
 models/ClientConfigRateLimitPointsToConsume.ts
 models/ClientsResponseInner.ts
@@ -144,6 +145,7 @@ models/LoginResponseReadyAllOf.ts
 models/LoginResponseReadySpecifics.ts
 models/LoginResponseState.ts
 models/MaintenanceStatus.ts
+models/OAuthLoginFormConfig.ts
 models/OkResponseBody.ts
 models/Order.ts
 models/OrderChanges.ts

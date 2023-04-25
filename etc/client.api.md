@@ -1118,6 +1118,7 @@ interface ClientConfig {
     maintenanceStatus?: ClientsResponseInnerConfigMaintenanceStatus | null;
     managingUserIds?: Array<number>;
     name?: string;
+    oAuthLoginForm?: ClientConfigOAuthLoginForm | null;
     oAuthReturnToRegularExpressions?: Array<string>;
     oAuthReturnToUrls?: Array<string>;
     page?: ClientConfigPage | null;
@@ -1129,6 +1130,25 @@ function ClientConfigFromJSON(json: any): ClientConfig;
 
 // @public (undocumented)
 function ClientConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfig;
+
+// @public
+interface ClientConfigOAuthLoginForm {
+    appName?: string;
+    logoUrlDark?: string;
+    logoUrlLight?: string;
+}
+
+// @public (undocumented)
+function ClientConfigOAuthLoginFormFromJSON(json: any): ClientConfigOAuthLoginForm;
+
+// @public (undocumented)
+function ClientConfigOAuthLoginFormFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigOAuthLoginForm;
+
+// @public (undocumented)
+function ClientConfigOAuthLoginFormToJSON(value?: ClientConfigOAuthLoginForm | null): any;
+
+// @public (undocumented)
+function ClientConfigOAuthLoginFormToJSONRecursive(value?: ClientConfigOAuthLoginForm | null, ignoreParent?: boolean): any;
 
 // @public
 interface ClientConfigPage {
@@ -1192,6 +1212,7 @@ interface ClientsResponseInnerConfig {
     legalEntityName: string;
     maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatus | null;
     name: string;
+    oAuthLoginForm?: OAuthLoginFormConfig;
     oAuthReturnToRegularExpressions: Array<string>;
     oAuthReturnToUrls: Array<string>;
     page: any | null;
@@ -3744,6 +3765,25 @@ declare namespace Models {
     }
 }
 export { Models }
+
+// @public
+interface OAuthLoginFormConfig {
+    appName?: string;
+    logoUrlDark?: string;
+    logoUrlLight?: string;
+}
+
+// @public (undocumented)
+function OAuthLoginFormConfigFromJSON(json: any): OAuthLoginFormConfig;
+
+// @public (undocumented)
+function OAuthLoginFormConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): OAuthLoginFormConfig;
+
+// @public (undocumented)
+function OAuthLoginFormConfigToJSON(value?: OAuthLoginFormConfig | null): any;
+
+// @public (undocumented)
+function OAuthLoginFormConfigToJSONRecursive(value?: OAuthLoginFormConfig | null, ignoreParent?: boolean): any;
 
 // @public
 interface OkResponseBody {

@@ -25,6 +25,12 @@ import {
   ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped,
   ClientsResponseInnerConfigMaintenanceStatusToJSON,
 } from "./ClientsResponseInnerConfigMaintenanceStatus";
+import {
+  OAuthLoginFormConfig,
+  OAuthLoginFormConfigFromJSON,
+  OAuthLoginFormConfigFromJSONTyped,
+  OAuthLoginFormConfigToJSON,
+} from "./OAuthLoginFormConfig";
 
 /**
  *
@@ -50,6 +56,12 @@ export interface ClientsResponseInnerConfig {
    * @memberof ClientsResponseInnerConfig
    */
   enabled: boolean;
+  /**
+   *
+   * @type {OAuthLoginFormConfig}
+   * @memberof ClientsResponseInnerConfig
+   */
+  oAuthLoginForm?: OAuthLoginFormConfig;
   /**
    *
    * @type {Array<string>}
@@ -119,6 +131,9 @@ export function ClientsResponseInnerConfigFromJSONTyped(
       json["maintenanceStatus"]
     ),
     enabled: json["enabled"],
+    oAuthLoginForm: !exists(json, "oAuthLoginForm")
+      ? undefined
+      : OAuthLoginFormConfigFromJSON(json["oAuthLoginForm"]),
     oAuthReturnToRegularExpressions: json["oAuthReturnToRegularExpressions"],
     oAuthReturnToUrls: json["oAuthReturnToUrls"],
     cognitoClientIds: json["cognitoClientIds"],
@@ -150,6 +165,7 @@ export function ClientsResponseInnerConfigToJSONRecursive(
       value.maintenanceStatus
     ),
     enabled: value.enabled,
+    oAuthLoginForm: OAuthLoginFormConfigToJSON(value.oAuthLoginForm),
     oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
     oAuthReturnToUrls: value.oAuthReturnToUrls,
     cognitoClientIds: value.cognitoClientIds,
