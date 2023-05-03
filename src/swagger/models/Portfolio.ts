@@ -27,6 +27,17 @@ import {
  */
 export interface Portfolio {
   /**
+   * A portfolio idHash is a unique identifier used to represent a portfolio within a user account. The idHash is automatically generated based on the original broker id of the portfolio,
+   * meaning that if a portfolio is synchronized into a new user account, it will usually retain the same idHash as in the old account (although it will be assigned a new globally unique id).
+   * When applications use temporary or guest user accounts, it makes sense to use the idHash instead of the id to implement features like "last used portfolio" etc. This is because the idHash remains
+   * the same even if the portfolio is synchronized into a new user account, whereas a new id will be assigned.
+   *
+   * It's important to note that the `idHash` is unique within a user account, meaning that no two portfolios within the same account can have the same idHash.
+   * @type {string}
+   * @memberof Portfolio
+   */
+  idHash: string;
+  /**
    *
    * @type {PortfolioSyncInfo}
    * @memberof Portfolio
@@ -76,6 +87,7 @@ export function PortfolioFromJSONTyped(
     return json;
   }
   return {
+    idHash: json["idHash"],
     syncInfo: PortfolioSyncInfoFromJSON(json["syncInfo"]),
     cashAccountIds: json["cashAccountIds"],
     sessionIds: json["sessionIds"],
@@ -97,6 +109,7 @@ export function PortfolioToJSONRecursive(
   }
 
   return {
+    idHash: value.idHash,
     syncInfo: PortfolioSyncInfoToJSON(value.syncInfo),
     cashAccountIds: value.cashAccountIds,
     sessionIds: value.sessionIds,

@@ -4163,6 +4163,7 @@ interface Portfolio {
     brokerName: string;
     cashAccountIds: Array<string>;
     id: string;
+    idHash: string;
     portfolioName: string;
     sessionIds: Array<string>;
     syncInfo: PortfolioSyncInfo;
