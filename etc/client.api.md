@@ -1449,6 +1449,7 @@ interface CreateDemoAccountRequest {
 
 // @public
 interface CreatedResponseBody {
+    accountName: string;
     id: string;
 }
 

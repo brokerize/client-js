@@ -24,6 +24,12 @@ export interface CreatedResponseBody {
    * @type {string}
    * @memberof CreatedResponseBody
    */
+  accountName: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatedResponseBody
+   */
   id: string;
 }
 
@@ -39,6 +45,7 @@ export function CreatedResponseBodyFromJSONTyped(
     return json;
   }
   return {
+    accountName: json["accountName"],
     id: json["id"],
   };
 }
@@ -55,6 +62,7 @@ export function CreatedResponseBodyToJSONRecursive(
   }
 
   return {
+    accountName: value.accountName,
     id: value.id,
   };
 }
