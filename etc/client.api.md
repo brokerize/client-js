@@ -654,8 +654,10 @@ export interface BrokerizeConfig {
     cognito?: CognitoConfig;
     // (undocumented)
     createAbortController: () => AbortController;
+    // Warning: (ae-forgotten-export) The symbol "WebSocket" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    createWebSocket: (url?: string, protocol?: string | string[]) => WebSocket;
+    createWebSocket: (url?: string, protocol?: string | string[]) => WebSocket_2;
     // Warning: (ae-forgotten-export) The symbol "WhatWgFetch" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -5351,7 +5353,7 @@ export { WebSocketTypes }
 
 // Warnings were encountered during analysis:
 //
-// dist/apiCtx.d.ts:21:5 - (ae-forgotten-export) The symbol "TokenSet" needs to be exported by the entry point index.d.ts
+// dist/apiCtx.d.ts:22:5 - (ae-forgotten-export) The symbol "TokenSet" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

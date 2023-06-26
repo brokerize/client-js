@@ -1,6 +1,5 @@
 /* Import/Export the DOM parts we rely on. Those are partial copies from the official TypeScript DOM library definitions (https://github.com/microsoft/TypeScript/blob/master/lib/lib.dom.d.ts),
    but reduced to the parts actually used by bg-trading. */
-import { AbortController } from "./dependencyDefinitions/abortController";
 import { WhatWgFetch } from "./dependencyDefinitions/fetch";
 import { WebSocket } from "./dependencyDefinitions/webSocket";
 import { Configuration } from "./swagger";
