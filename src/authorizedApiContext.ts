@@ -453,7 +453,11 @@ export class AuthorizedApiContext {
       (basePath.startsWith("https")
         ? "wss://" + basePath.substring(8)
         : "ws://" + basePath.substring(7)) + "/websocket";
-    return new BrokerizeWebSocketClientImpl(websocketPath, this._auth);
+    return new BrokerizeWebSocketClientImpl(
+      websocketPath,
+      this._auth,
+      this._cfg.createWebSocket
+    );
   }
   createWebSocketClient() {
     const wrappedClient: BrokerizeWebSocketClient = {

@@ -1,4 +1,5 @@
 import { Auth } from "./apiCtx";
+import { WebSocket } from "./dependencyDefinitions/webSocket";
 import type {
   InvalidateMessage,
   SubscribeDecoupledOperation,
@@ -23,13 +24,19 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _authenticatedCallback: any = null;
   private _isOpen = false;
   private _auth: Auth;
+  private _createWebsocket: (url: string) => WebSocket;
 
-  constructor(websocketUrl: string, auth: Auth) {
+  constructor(
+    websocketUrl: string,
+    auth: Auth,
+    createWebSocket: (url: string) => WebSocket
+  ) {
     this._url = websocketUrl;
     this._id = 0;
     this._socket = null;
     this._pingIntvl = null;
     this._auth = auth;
+    this._createWebsocket = createWebSocket;
   }
 
   private subscribe(cmd: WebSocketCommandSubscribe, callback: Callback) {
@@ -146,7 +153,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
 
     this._authenticatedCallback = null;
 
-    this._socket = new WebSocket(this._url);
+    this._socket = this._createWebsocket(this._url);
     this._socket.onmessage = (msg) => {
       const message = JSON.parse(msg.data) as WebSocketMessage;
       if ((message as WebSocketSubscriptionMessage).subscriptionId) {
