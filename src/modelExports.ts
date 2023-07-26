@@ -127,6 +127,8 @@ export { PrepareOAuthRedirectParams } from "./swagger/models/PrepareOAuthRedirec
 export { PrepareOAuthRedirectResponse } from "./swagger/models/PrepareOAuthRedirectResponse";
 export { PrepareTradeResponse } from "./swagger/models/PrepareTradeResponse";
 export { PreparedTrade } from "./swagger/models/PreparedTrade";
+export { TakeProfitStopLossCapabilites } from "./swagger/models/TakeProfitStopLossCapabilites";
+export { TakeProfitStopLossDetail } from "./swagger/models/TakeProfitStopLossDetail";
 export { QuoteExpiration } from "./swagger/models/QuoteExpiration";
 export { RenderGenericTableParams } from "./swagger/models/RenderGenericTableParams";
 export { RiskClassInfo } from "./swagger/models/RiskClassInfo";

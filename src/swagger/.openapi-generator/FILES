@@ -201,6 +201,8 @@ models/SessionSyncInfoSyncedSpecifics.ts
 models/SetClientConfigRequest.ts
 models/StringMapByOrderModel.ts
 models/SyncError.ts
+models/TakeProfitStopLossCapabilites.ts
+models/TakeProfitStopLossDetail.ts
 models/TrailingDistance.ts
 models/ValidationDetail.ts
 models/index.ts

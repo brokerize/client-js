@@ -191,5 +191,7 @@ export * from "./SessionSyncInfoSyncedSpecifics";
 export * from "./SetClientConfigRequest";
 export * from "./StringMapByOrderModel";
 export * from "./SyncError";
+export * from "./TakeProfitStopLossCapabilites";
+export * from "./TakeProfitStopLossDetail";
 export * from "./TrailingDistance";
 export * from "./ValidationDetail";

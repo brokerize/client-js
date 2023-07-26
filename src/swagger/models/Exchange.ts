@@ -37,6 +37,12 @@ import {
   StringMapByOrderModelFromJSONTyped,
   StringMapByOrderModelToJSON,
 } from "./StringMapByOrderModel";
+import {
+  TakeProfitStopLossCapabilites,
+  TakeProfitStopLossCapabilitesFromJSON,
+  TakeProfitStopLossCapabilitesFromJSONTyped,
+  TakeProfitStopLossCapabilitesToJSON,
+} from "./TakeProfitStopLossCapabilites";
 
 /**
  * An `Exchange` describes the order possibilites for a security at one exchange.
@@ -100,6 +106,12 @@ export interface Exchange {
   allowsIfDoneLimit?: boolean;
   /**
    *
+   * @type {TakeProfitStopLossCapabilites}
+   * @memberof Exchange
+   */
+  takeProfitStopLoss?: TakeProfitStopLossCapabilites;
+  /**
+   *
    * @type {OrderValidityTypeByOrderModel}
    * @memberof Exchange
    */
@@ -156,6 +168,9 @@ export function ExchangeFromJSONTyped(
     allowsIfDoneLimit: !exists(json, "allowsIfDoneLimit")
       ? undefined
       : json["allowsIfDoneLimit"],
+    takeProfitStopLoss: !exists(json, "takeProfitStopLoss")
+      ? undefined
+      : TakeProfitStopLossCapabilitesFromJSON(json["takeProfitStopLoss"]),
     validityTypesByOrderModel: OrderValidityTypeByOrderModelFromJSON(
       json["validityTypesByOrderModel"]
     ),
@@ -198,6 +213,9 @@ export function ExchangeToJSONRecursive(
     hideOrderModel: value.hideOrderModel,
     allowsQuoteModeLimit: value.allowsQuoteModeLimit,
     allowsIfDoneLimit: value.allowsIfDoneLimit,
+    takeProfitStopLoss: TakeProfitStopLossCapabilitesToJSON(
+      value.takeProfitStopLoss
+    ),
     validityTypesByOrderModel: OrderValidityTypeByOrderModelToJSON(
       value.validityTypesByOrderModel
     ),

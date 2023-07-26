@@ -2235,6 +2235,7 @@ interface Exchange {
     legalMessagesToConfirmByOrderModel?: StringMapByOrderModel;
     orderModelsBuy: Array<OrderModel>;
     orderModelsSell: Array<OrderModel>;
+    takeProfitStopLoss?: TakeProfitStopLossCapabilites;
     validityTypesByOrderModel: OrderValidityTypeByOrderModel;
 }
 
@@ -3746,6 +3747,8 @@ declare namespace Models {
         PrepareOAuthRedirectResponse,
         PrepareTradeResponse,
         PreparedTrade,
+        TakeProfitStopLossCapabilites,
+        TakeProfitStopLossDetail,
         QuoteExpiration,
         RenderGenericTableParams,
         RiskClassInfo,
@@ -3821,7 +3824,7 @@ interface Order {
     cancelledSize?: number;
     cashQuotation?: CashQuotation;
     changesHaveCostEstimations?: boolean;
-    createdAt?: Date;
+    createdAt: Date;
     currentStop?: Amount;
     direction: Direction;
     displayNo?: string;
@@ -4580,7 +4583,7 @@ function PositionValuationToJSONRecursive(value?: PositionValuation | null, igno
 
 // @public
 interface PreparedTrade {
-    costEstimationIsNotAvailable?: boolean;
+    costEstimationIsNotAvailable: boolean;
     costEstimationIsOnlyDetailedTable?: boolean;
     costEstimationMustBeShown: boolean;
     exchanges: Array<Exchange>;
@@ -5178,6 +5181,43 @@ function SyncErrorToJSON(value?: SyncError | null): any;
 
 // @public (undocumented)
 function SyncErrorToJSONRecursive(value?: SyncError | null, ignoreParent?: boolean): any;
+
+// @public
+interface TakeProfitStopLossCapabilites {
+    exclusive: boolean;
+    stopLoss: TakeProfitStopLossDetail;
+    takeProfit: TakeProfitStopLossDetail;
+}
+
+// @public (undocumented)
+function TakeProfitStopLossCapabilitesFromJSON(json: any): TakeProfitStopLossCapabilites;
+
+// @public (undocumented)
+function TakeProfitStopLossCapabilitesFromJSONTyped(json: any, ignoreDiscriminator: boolean): TakeProfitStopLossCapabilites;
+
+// @public (undocumented)
+function TakeProfitStopLossCapabilitesToJSON(value?: TakeProfitStopLossCapabilites | null): any;
+
+// @public (undocumented)
+function TakeProfitStopLossCapabilitesToJSONRecursive(value?: TakeProfitStopLossCapabilites | null, ignoreParent?: boolean): any;
+
+// @public
+interface TakeProfitStopLossDetail {
+    directions: Array<Direction>;
+    orderModels: Array<OrderModel>;
+}
+
+// @public (undocumented)
+function TakeProfitStopLossDetailFromJSON(json: any): TakeProfitStopLossDetail;
+
+// @public (undocumented)
+function TakeProfitStopLossDetailFromJSONTyped(json: any, ignoreDiscriminator: boolean): TakeProfitStopLossDetail;
+
+// @public (undocumented)
+function TakeProfitStopLossDetailToJSON(value?: TakeProfitStopLossDetail | null): any;
+
+// @public (undocumented)
+function TakeProfitStopLossDetailToJSONRecursive(value?: TakeProfitStopLossDetail | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 class TextApiResponse {

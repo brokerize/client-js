@@ -305,7 +305,7 @@ export interface Order {
    * @type {Date}
    * @memberof Order
    */
-  createdAt?: Date;
+  createdAt: Date;
   /**
    * For fully executed orders: the timestamp of the *latest* execution.
    * @type {Date}
@@ -493,9 +493,7 @@ export function OrderFromJSONTyped(
       ? undefined
       : json["exchangeName"],
     exchangeId: !exists(json, "exchangeId") ? undefined : json["exchangeId"],
-    createdAt: !exists(json, "createdAt")
-      ? undefined
-      : new Date(json["createdAt"]),
+    createdAt: new Date(json["createdAt"]),
     executedAt: !exists(json, "executedAt")
       ? undefined
       : new Date(json["executedAt"]),
@@ -604,8 +602,7 @@ export function OrderToJSONRecursive(
     changesHaveCostEstimations: value.changesHaveCostEstimations,
     exchangeName: value.exchangeName,
     exchangeId: value.exchangeId,
-    createdAt:
-      value.createdAt === undefined ? undefined : value.createdAt.toISOString(),
+    createdAt: value.createdAt.toISOString(),
     executedAt:
       value.executedAt === undefined
         ? undefined

@@ -57,14 +57,14 @@ export interface PreparedTrade {
    */
   noExchangeDefault?: boolean;
   /**
-   * True if not cost estimation is available at all for this instrument.
+   * True if no cost estimation is available at all for this instrument.
    * @type {boolean}
    * @memberof PreparedTrade
    */
-  costEstimationIsNotAvailable?: boolean;
+  costEstimationIsNotAvailable: boolean;
   /**
-   * If this is true, cost estimations are expected to only have the detailed table property, so that
-   * they will usually not be displayed embedded into the order form.
+   * If this is true, cost estimations only have the detailed table property, so it is not feasible
+   * to embed them into the order form, but show the table in a dedicated view.
    * @type {boolean}
    * @memberof PreparedTrade
    */
@@ -144,9 +144,7 @@ export function PreparedTradeFromJSONTyped(
     noExchangeDefault: !exists(json, "noExchangeDefault")
       ? undefined
       : json["noExchangeDefault"],
-    costEstimationIsNotAvailable: !exists(json, "costEstimationIsNotAvailable")
-      ? undefined
-      : json["costEstimationIsNotAvailable"],
+    costEstimationIsNotAvailable: json["costEstimationIsNotAvailable"],
     costEstimationIsOnlyDetailedTable: !exists(
       json,
       "costEstimationIsOnlyDetailedTable"

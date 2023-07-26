@@ -55,11 +55,6 @@ export class MetaApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
-
     const response = await this.request(
       {
         path: `/brokers`,
@@ -98,11 +93,6 @@ export class MetaApi extends runtime.BaseAPI {
     if (this.configuration && this.configuration.apiKey) {
       headerParameters["x-brkrz-client-id"] =
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
-    }
-
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
     }
 
     const response = await this.request(
