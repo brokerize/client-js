@@ -51,6 +51,12 @@ import {
  */
 export interface PreparedTrade {
   /**
+   *
+   * @type {{ [key: string]: Array<string>; }}
+   * @memberof PreparedTrade
+   */
+  sizeUnitsByCashAccountId?: { [key: string]: Array<string> };
+  /**
    * If this is true, frontends are not allowed to set an exchange default. Users must select an exchange explicitly.
    * @type {boolean}
    * @memberof PreparedTrade
@@ -141,6 +147,9 @@ export function PreparedTradeFromJSONTyped(
     return json;
   }
   return {
+    sizeUnitsByCashAccountId: !exists(json, "sizeUnitsByCashAccountId")
+      ? undefined
+      : json["sizeUnitsByCashAccountId"],
     noExchangeDefault: !exists(json, "noExchangeDefault")
       ? undefined
       : json["noExchangeDefault"],
@@ -182,6 +191,7 @@ export function PreparedTradeToJSONRecursive(
   }
 
   return {
+    sizeUnitsByCashAccountId: value.sizeUnitsByCashAccountId,
     noExchangeDefault: value.noExchangeDefault,
     costEstimationIsNotAvailable: value.costEstimationIsNotAvailable,
     costEstimationIsOnlyDetailedTable: value.costEstimationIsOnlyDetailedTable,

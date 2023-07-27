@@ -3241,9 +3241,11 @@ function GetPortfolioQuotesResponseToJSONRecursive(value?: GetPortfolioQuotesRes
 // @public
 interface GetQuoteParams {
     brokerExchangeId: string;
+    cashAccountId?: string;
     direction: Direction;
     isin: string;
     size: number;
+    sizeUnit?: string;
 }
 
 // @public (undocumented)
@@ -3931,6 +3933,7 @@ interface OrderCreate {
     quoteLimit?: number;
     sellPositionId?: string;
     size: number;
+    sizeUnit?: string;
     stop?: number;
     stopLimit?: number;
     stopLoss?: number;
@@ -4593,6 +4596,9 @@ interface PreparedTrade {
     securityDetailedInfo?: SecurityDetailedInfo;
     sellPositions?: Array<SellPosition>;
     sizeUnit: string;
+    sizeUnitsByCashAccountId?: {
+        [key: string]: Array<string>;
+    };
     strikingHint?: string;
 }
 

@@ -31,6 +31,18 @@ export interface GetQuoteParams {
    * @type {string}
    * @memberof GetQuoteParams
    */
+  sizeUnit?: string;
+  /**
+   * If this makes a difference for the offer (e.g. bitpanda!), provide a cashAccountId
+   * @type {string}
+   * @memberof GetQuoteParams
+   */
+  cashAccountId?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetQuoteParams
+   */
   brokerExchangeId: string;
   /**
    *
@@ -64,6 +76,10 @@ export function GetQuoteParamsFromJSONTyped(
     return json;
   }
   return {
+    sizeUnit: !exists(json, "sizeUnit") ? undefined : json["sizeUnit"],
+    cashAccountId: !exists(json, "cashAccountId")
+      ? undefined
+      : json["cashAccountId"],
     brokerExchangeId: json["brokerExchangeId"],
     size: json["size"],
     direction: DirectionFromJSON(json["direction"]),
@@ -83,6 +99,8 @@ export function GetQuoteParamsToJSONRecursive(
   }
 
   return {
+    sizeUnit: value.sizeUnit,
+    cashAccountId: value.cashAccountId,
     brokerExchangeId: value.brokerExchangeId,
     size: value.size,
     direction: DirectionToJSON(value.direction),

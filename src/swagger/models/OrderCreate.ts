@@ -196,6 +196,12 @@ export interface OrderCreate {
    * @memberof OrderCreate
    */
   cashAccountId?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof OrderCreate
+   */
+  sizeUnit?: string;
 }
 
 export function OrderCreateFromJSON(json: any): OrderCreate {
@@ -248,6 +254,7 @@ export function OrderCreateFromJSONTyped(
     cashAccountId: !exists(json, "cashAccountId")
       ? undefined
       : json["cashAccountId"],
+    sizeUnit: !exists(json, "sizeUnit") ? undefined : json["sizeUnit"],
   };
 }
 
@@ -285,6 +292,7 @@ export function OrderCreateToJSONRecursive(
     quoteId: value.quoteId,
     sellPositionId: value.sellPositionId,
     cashAccountId: value.cashAccountId,
+    sizeUnit: value.sizeUnit,
   };
 }
 
