@@ -82,6 +82,12 @@ export interface GetQuoteResponse {
   quotation: Amount;
   /**
    *
+   * @type {Amount}
+   * @memberof GetQuoteResponse
+   */
+  totalAmount?: Amount;
+  /**
+   *
    * @type {QuoteExpiration}
    * @memberof GetQuoteResponse
    */
@@ -119,6 +125,9 @@ export function GetQuoteResponseFromJSONTyped(
     size: !exists(json, "size") ? undefined : json["size"],
     sourceName: !exists(json, "sourceName") ? undefined : json["sourceName"],
     quotation: AmountFromJSON(json["quotation"]),
+    totalAmount: !exists(json, "totalAmount")
+      ? undefined
+      : AmountFromJSON(json["totalAmount"]),
     expiration: !exists(json, "expiration")
       ? undefined
       : QuoteExpirationFromJSON(json["expiration"]),
@@ -149,6 +158,7 @@ export function GetQuoteResponseToJSONRecursive(
     size: value.size,
     sourceName: value.sourceName,
     quotation: AmountToJSON(value.quotation),
+    totalAmount: AmountToJSON(value.totalAmount),
     expiration: QuoteExpirationToJSON(value.expiration),
     costEstimation: OrderCostEstimationToJSON(value.costEstimation),
     costEstimationToken: value.costEstimationToken,

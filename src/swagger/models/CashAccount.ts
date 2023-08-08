@@ -26,6 +26,7 @@ export interface CashAccount {
    * - or 'PRC' if it is a percentage
    * - or 'PRM' if it is permil
    * - or 'XXP' if it is points (as for indices)
+   * - or 'GRAMS' if it is grams (as for precious metals)
    * @type {string}
    * @memberof CashAccount
    */

@@ -20,6 +20,14 @@ import { exists, mapValues } from "../runtime";
  */
 export interface Security {
   /**
+   * If `sizeUnit` is a currency, the corresponding size field in UIs should be labeled with that selected currency.
+   * - for bonds `sizeKind="bond"`, the label should be (for example) like "nominal amount in EUR"
+   * - for crypto currencies `sizeKind="crypto"`, the label should be (for example) like "amount in EUR"
+   * @type {string}
+   * @memberof Security
+   */
+  sizeKind?: SecuritySizeKindEnum;
+  /**
    *
    * @type {string}
    * @memberof Security
@@ -45,6 +53,16 @@ export interface Security {
   name?: string;
 }
 
+/**
+ * @export
+ */
+export const SecuritySizeKindEnum = {
+  Bond: "bond",
+  Crypto: "crypto",
+} as const;
+export type SecuritySizeKindEnum =
+  (typeof SecuritySizeKindEnum)[keyof typeof SecuritySizeKindEnum];
+
 export function SecurityFromJSON(json: any): Security {
   return SecurityFromJSONTyped(json, false);
 }
@@ -57,6 +75,7 @@ export function SecurityFromJSONTyped(
     return json;
   }
   return {
+    sizeKind: !exists(json, "sizeKind") ? undefined : json["sizeKind"],
     symbol: !exists(json, "symbol") ? undefined : json["symbol"],
     wkn: !exists(json, "wkn") ? undefined : json["wkn"],
     isin: !exists(json, "isin") ? undefined : json["isin"],
@@ -76,6 +95,7 @@ export function SecurityToJSONRecursive(
   }
 
   return {
+    sizeKind: value.sizeKind,
     symbol: value.symbol,
     wkn: value.wkn,
     isin: value.isin,

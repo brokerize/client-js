@@ -3280,6 +3280,7 @@ interface GetQuoteResponse {
     quoteId: string;
     size?: number;
     sourceName?: string;
+    totalAmount?: Amount;
 }
 
 // @public (undocumented)
@@ -4832,6 +4833,7 @@ function RiskClassInfoToJSONRecursive(value?: RiskClassInfo | null, ignoreParent
 interface Security {
     isin?: string;
     name?: string;
+    sizeKind?: SecuritySizeKindEnum;
     symbol?: string;
     wkn?: string;
 }
@@ -4859,6 +4861,15 @@ function SecurityFromJSON(json: any): Security;
 
 // @public (undocumented)
 function SecurityFromJSONTyped(json: any, ignoreDiscriminator: boolean): Security;
+
+// @public (undocumented)
+const SecuritySizeKindEnum: {
+    readonly Bond: "bond";
+    readonly Crypto: "crypto";
+};
+
+// @public (undocumented)
+type SecuritySizeKindEnum = (typeof SecuritySizeKindEnum)[keyof typeof SecuritySizeKindEnum];
 
 // @public (undocumented)
 function SecurityToJSON(value?: Security | null): any;

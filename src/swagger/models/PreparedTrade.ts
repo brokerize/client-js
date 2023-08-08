@@ -102,6 +102,7 @@ export interface PreparedTrade {
    * - or 'PRC' if it is a percentage
    * - or 'PRM' if it is permil
    * - or 'XXP' if it is points (as for indices)
+   * - or 'GRAMS' if it is grams (as for precious metals)
    * @type {string}
    * @memberof PreparedTrade
    */
@@ -116,7 +117,7 @@ export interface PreparedTrade {
    * If this is set, the user has to select a position to sell from. This may be the case if a position is
    * stored in different locations or sub-positions are blocked until some date.
    * If the user does not need to specify the position, this is left undefined.
-   * If it is set, user interfaces should be a dropdown for selecting the position.
+   * If it is set, user interfaces should offer a dropdown for selecting the position.
    * @type {Array<SellPosition>}
    * @memberof PreparedTrade
    */
