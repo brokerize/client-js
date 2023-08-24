@@ -40,6 +40,9 @@ export class Brokerize {
   private _defaultApi: openApiClient.DefaultApi;
 
   constructor(cfg: BrokerizeConfig) {
+    if (!!cfg.fetch) {
+      cfg.fetch = window.fetch.bind(window) as any;
+    }
     this._cfg = cfg;
     this._defaultApi = new openApiClient.DefaultApi(createConfiguration(cfg));
   }

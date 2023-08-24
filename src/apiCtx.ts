@@ -5,7 +5,7 @@ import { WebSocket } from "./dependencyDefinitions/webSocket";
 import { Configuration } from "./swagger";
 
 export interface BrokerizeConfig {
-  fetch: WhatWgFetch;
+  fetch?: WhatWgFetch;
   createAbortController: () => AbortController;
   createWebSocket: (url?: string, protocol?: string | string[]) => WebSocket;
   /**
