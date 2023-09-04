@@ -20,6 +20,13 @@ import { exists, mapValues } from "../runtime";
  */
 export interface Security {
   /**
+   * If provided, the security's quote has to be multiplied to get the actual cash counter value. This information
+   * can be used to determine whether custom calculations can be done for the security in frontends.
+   * @type {number}
+   * @memberof Security
+   */
+  priceFactor?: number;
+  /**
    * If `sizeUnit` is a currency, the corresponding size field in UIs should be labeled with that selected currency.
    * - for bonds `sizeKind="bond"`, the label should be (for example) like "nominal amount in EUR"
    * - for crypto currencies `sizeKind="crypto"`, the label should be (for example) like "amount in EUR"
@@ -75,6 +82,7 @@ export function SecurityFromJSONTyped(
     return json;
   }
   return {
+    priceFactor: !exists(json, "priceFactor") ? undefined : json["priceFactor"],
     sizeKind: !exists(json, "sizeKind") ? undefined : json["sizeKind"],
     symbol: !exists(json, "symbol") ? undefined : json["symbol"],
     wkn: !exists(json, "wkn") ? undefined : json["wkn"],
@@ -95,6 +103,7 @@ export function SecurityToJSONRecursive(
   }
 
   return {
+    priceFactor: value.priceFactor,
     sizeKind: value.sizeKind,
     symbol: value.symbol,
     wkn: value.wkn,

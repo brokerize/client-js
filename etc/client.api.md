@@ -4833,6 +4833,7 @@ function RiskClassInfoToJSONRecursive(value?: RiskClassInfo | null, ignoreParent
 interface Security {
     isin?: string;
     name?: string;
+    priceFactor?: number;
     sizeKind?: SecuritySizeKindEnum;
     symbol?: string;
     wkn?: string;
