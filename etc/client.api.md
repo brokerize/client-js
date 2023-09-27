@@ -653,15 +653,15 @@ export interface BrokerizeConfig {
     clientId: string;
     cognito?: CognitoConfig;
     // (undocumented)
-    createAbortController: () => AbortController;
+    createAbortController?: () => AbortController;
     // Warning: (ae-forgotten-export) The symbol "WebSocket" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    createWebSocket: (url?: string, protocol?: string | string[]) => WebSocket_2;
+    createWebSocket?: (url?: string, protocol?: string | string[]) => WebSocket_2;
     // Warning: (ae-forgotten-export) The symbol "WhatWgFetch" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    fetch: WhatWgFetch;
+    fetch?: WhatWgFetch;
 }
 
 // @public (undocumented)

@@ -94,6 +94,9 @@ export class AuthorizedApiContext {
     this._adminApi = new openApiClient.AdminApi(apiConfig).withPostMiddleware(
       postMiddleware
     );
+    if (!cfg.createAbortController) {
+      throw new Error("createAbortController not provided. This should not happen as there should be a default implementation.")
+    }
     this._abortController = cfg.createAbortController();
     this._wsClient = wsClient || this._initInternalWebSocketClient();
     this._cache = {};
@@ -453,6 +456,11 @@ export class AuthorizedApiContext {
       (basePath.startsWith("https")
         ? "wss://" + basePath.substring(8)
         : "ws://" + basePath.substring(7)) + "/websocket";
+
+    if (!this._cfg.createWebSocket) {
+      throw new Error("createWebSocket not provided. This should not happen as there should be a default implementation.")
+    }
+      
     return new BrokerizeWebSocketClientImpl(
       websocketPath,
       this._auth,
