@@ -40,6 +40,39 @@ export class Brokerize {
   private _defaultApi: openApiClient.DefaultApi;
 
   constructor(cfg: BrokerizeConfig) {
+    if (!cfg.fetch) {
+      const global = getGlobalObject();
+      if (!global.fetch) {
+        throw new Error(
+          "fetch is not provided and no global fetch function is available"
+        );
+      }
+      cfg.fetch = global.fetch.bind(global) as any;
+    }
+
+    if (!cfg.createAbortController) {
+      const global = getGlobalObject();
+      if (!global.AbortController) {
+        throw new Error(
+          "createAbortController not provided and no global AbortController is available"
+        );
+      }
+      cfg.createAbortController = () => {
+        return new global.AbortController();
+      };
+    }
+
+    if (!cfg.createWebSocket) {
+      const global = getGlobalObject();
+      if (!global.WebSocket) {
+        throw new Error(
+          "WebSocket implementation not available. Please provide one in BrokerizeConfig."
+        );
+      }
+      cfg.createWebSocket = (url?: string, protocol?: string | string[]) =>
+        new global.WebSocket(url, protocol);
+    }
+
     this._cfg = cfg;
     this._defaultApi = new openApiClient.DefaultApi(createConfiguration(cfg));
   }
@@ -69,4 +102,14 @@ export class Brokerize {
   getCognitoConfig(): CognitoPoolConfig | undefined {
     return this._cfg.cognito?.poolConfig;
   }
+}
+
+function getGlobalObject() {
+  let global;
+  try {
+    global = Function("return this")();
+  } catch (e) {
+    global = window;
+  }
+  return global;
 }

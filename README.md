@@ -10,7 +10,9 @@ import { Brokerize, BrokerName } from '@brokerize/client'
 async function someBrokerizeActions() {
   const brokerize = new Brokerize({
     /* provide implementations of fetch, AbortController and WebSocket that will
-       be used for interacting with the API. */
+       be used for interacting with the API. If you leave out those dependencies, they will default to globally available
+       implementations, which should usually work in browsers and newer Node.JS environments, but may fail in other JS environments
+       that do not provide them. */
     fetch: ((url, init) => {
       return fetch(url, init)
     }) as any,
