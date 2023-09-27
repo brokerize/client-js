@@ -21,6 +21,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _id: number;
   private _socket: WebSocket | null;
   private _pingIntvl: any | null;
+  private _reconnectIntvl: any | null;
   private _authenticatedCallback: any = null;
   private _isOpen = false;
   private _auth: Auth;
@@ -35,8 +36,22 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     this._id = 0;
     this._socket = null;
     this._pingIntvl = null;
+    this._reconnectIntvl = setInterval(() => {
+      if (!this._socket && this._needsConnection()) {
+        this._connect();
+      }
+    }, 1000);
     this._auth = auth;
     this._createWebsocket = createWebSocket;
+  }
+
+  private _needsConnection() {
+    for (const k in this._map) {
+      if (this._map[k].callbacks?.length > 0) {
+      }
+      return true;
+    }
+    return false;
   }
 
   private subscribe(cmd: WebSocketCommandSubscribe, callback: Callback) {
@@ -111,7 +126,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       this._map[key].idOnSocket = this._id;
       const cmd = JSON.parse(key) as WebSocketCommandSubscribe;
       cmd.subscriptionId = this._id;
-      this._sendWs(cmd);
+      this._sendWs(cmd, true);
     } else if (!this._socket) {
       this._connect();
     }
@@ -119,30 +134,30 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
 
   private _endSubscription(key: string) {
     if (this._map[key].idOnSocket != null) {
-      this._sendWs({
-        cmd: "unsubscribe",
-        subscriptionId: this._map[key].idOnSocket as number,
-      });
+      this._sendWs(
+        {
+          cmd: "unsubscribe",
+          subscriptionId: this._map[key].idOnSocket as number,
+        },
+        true
+      );
       this._map[key].idOnSocket = null;
     }
   }
 
-  private _sendWs(data: WebSocketCommand) {
-    if (!this._socket) {
+  private _sendWs(data: WebSocketCommand, doConnect = false) {
+    if (!this._socket && doConnect) {
       this._connect();
     }
 
-    // if (this._socket.readyState == 0) {
-    //   /* CONNECTING -> retry this later */
-    //   setTimeout(() => this._sendWs(data), 500)
-    //   return
-    // } else if (this._socket.readyState == 2) {
-    /* OPEN */
-    this._socket?.send(JSON.stringify(data));
-    // } else {
-    //   /* 2 CLOSING, 3 CLOSED */
-    //   throw new Error('WebSocket CLOSING or CLOSED. Cannot send.')
-    // }
+    if (this._socket?.readyState == 1) {
+      this._socket?.send(JSON.stringify(data));
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(
+        "[brokerize WebSocketClient] socket not ready, not sending message."
+      );
+    }
   }
 
   private _connect() {
@@ -204,10 +219,13 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
           };
 
           if (token) {
-            this._sendWs({
-              cmd: "authorize",
-              idToken: token.idToken,
-            });
+            this._sendWs(
+              {
+                cmd: "authorize",
+                idToken: token.idToken,
+              },
+              true
+            );
             this._authenticatedCallback = _authCb;
           } else {
             _authCb();
@@ -222,13 +240,9 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
 
     this._socket.onclose = () => {
       this._socket = null;
-    };
-
-    this._socket.onclose = () => {
       for (const k in this._map) {
         this._endSubscription(k);
       }
-      //clearInterval(this._pingIntvl)
     };
     this._pingIntvl && clearInterval(this._pingIntvl);
     this._pingIntvl = setInterval(() => {
