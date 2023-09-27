@@ -767,6 +767,7 @@ interface BrokerMeta {
 interface BrokerMetaFeatures {
     positionProfitLossAbsPrevClose?: boolean;
     positionProfitLossRelPrevClose?: boolean;
+    supportedOrderStatuses: Array<OrderStatus>;
 }
 
 // @public (undocumented)

@@ -13,12 +13,25 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  OrderStatus,
+  OrderStatusFromJSON,
+  OrderStatusFromJSONTyped,
+  OrderStatusToJSON,
+} from "./OrderStatus";
+
 /**
  *
  * @export
  * @interface BrokerMetaFeatures
  */
 export interface BrokerMetaFeatures {
+  /**
+   *
+   * @type {Array<OrderStatus>}
+   * @memberof BrokerMetaFeatures
+   */
+  supportedOrderStatuses: Array<OrderStatus>;
   /**
    * If set and `true`, `Position.profitLossRelPrevClose` is generally available for positions of this broker.
    * @type {boolean}
@@ -45,6 +58,9 @@ export function BrokerMetaFeaturesFromJSONTyped(
     return json;
   }
   return {
+    supportedOrderStatuses: (json["supportedOrderStatuses"] as Array<any>).map(
+      OrderStatusFromJSON
+    ),
     positionProfitLossRelPrevClose: !exists(
       json,
       "positionProfitLossRelPrevClose"
@@ -72,6 +88,9 @@ export function BrokerMetaFeaturesToJSONRecursive(
   }
 
   return {
+    supportedOrderStatuses: (value.supportedOrderStatuses as Array<any>).map(
+      OrderStatusToJSON
+    ),
     positionProfitLossRelPrevClose: value.positionProfitLossRelPrevClose,
     positionProfitLossAbsPrevClose: value.positionProfitLossAbsPrevClose,
   };
