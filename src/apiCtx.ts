@@ -6,8 +6,8 @@ import { Configuration } from "./swagger";
 
 export interface BrokerizeConfig {
   fetch?: WhatWgFetch;
-  createAbortController: () => AbortController;
-  createWebSocket: (url?: string, protocol?: string | string[]) => WebSocket;
+  createAbortController?: () => AbortController;
+  createWebSocket?: (url?: string, protocol?: string | string[]) => WebSocket;
   /**
    * Path to the API, e.g. https://api-preview.brokerize.com
    */
