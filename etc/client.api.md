@@ -3386,7 +3386,21 @@ class JSONApiResponse<T> {
 }
 
 // @public
+interface LegalTerms {
+    html: string;
+    termsId: string;
+}
+
+// @public (undocumented)
+function LegalTermsFromJSON(json: any): LegalTerms;
+
+// @public (undocumented)
+function LegalTermsFromJSONTyped(json: any, ignoreDiscriminator: boolean): LegalTerms;
+
+// @public
 interface LegalTermsResponse {
+    checkboxes: Array<LegalTerms>;
+    // @deprecated
     checkboxesHtml: Array<string>;
     disclaimerHtml: string;
 }
@@ -3402,6 +3416,12 @@ function LegalTermsResponseToJSON(value?: LegalTermsResponse | null): any;
 
 // @public (undocumented)
 function LegalTermsResponseToJSONRecursive(value?: LegalTermsResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function LegalTermsToJSON(value?: LegalTerms | null): any;
+
+// @public (undocumented)
+function LegalTermsToJSONRecursive(value?: LegalTerms | null, ignoreParent?: boolean): any;
 
 // @public
 type LoginResponse = ({
@@ -3719,6 +3739,7 @@ declare namespace Models {
         GetUserResponse,
         Hint,
         LegalTermsResponse,
+        LegalTerms,
         LoginResponse,
         LoginResponseChallenge,
         LoginResponseReady,

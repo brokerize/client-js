@@ -95,6 +95,7 @@ export { GetQuoteResponse } from "./swagger/models/GetQuoteResponse";
 export { GetUserResponse } from "./swagger/models/GetUserResponse";
 export { Hint } from "./swagger/models/Hint";
 export { LegalTermsResponse } from "./swagger/models/LegalTermsResponse";
+export { LegalTerms } from "./swagger/models/LegalTerms";
 export { LoginResponse } from "./swagger/models/LoginResponse";
 export { LoginResponseChallenge } from "./swagger/models/LoginResponseChallenge";
 export { LoginResponseReady } from "./swagger/models/LoginResponseReady";

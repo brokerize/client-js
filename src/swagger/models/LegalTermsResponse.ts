@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  LegalTerms,
+  LegalTermsFromJSON,
+  LegalTermsFromJSONTyped,
+  LegalTermsToJSON,
+} from "./LegalTerms";
+
 /**
  *
  * @export
@@ -21,8 +28,15 @@ import { exists, mapValues } from "../runtime";
 export interface LegalTermsResponse {
   /**
    *
+   * @type {Array<LegalTerms>}
+   * @memberof LegalTermsResponse
+   */
+  checkboxes: Array<LegalTerms>;
+  /**
+   *
    * @type {Array<string>}
    * @memberof LegalTermsResponse
+   * @deprecated
    */
   checkboxesHtml: Array<string>;
   /**
@@ -45,6 +59,7 @@ export function LegalTermsResponseFromJSONTyped(
     return json;
   }
   return {
+    checkboxes: (json["checkboxes"] as Array<any>).map(LegalTermsFromJSON),
     checkboxesHtml: json["checkboxesHtml"],
     disclaimerHtml: json["disclaimerHtml"],
   };
@@ -62,6 +77,7 @@ export function LegalTermsResponseToJSONRecursive(
   }
 
   return {
+    checkboxes: (value.checkboxes as Array<any>).map(LegalTermsToJSON),
     checkboxesHtml: value.checkboxesHtml,
     disclaimerHtml: value.disclaimerHtml,
   };
