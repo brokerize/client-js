@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  LegalTermConfirmItem,
+  LegalTermConfirmItemFromJSON,
+  LegalTermConfirmItemFromJSONTyped,
+  LegalTermConfirmItemToJSON,
+} from "./LegalTermConfirmItem";
+
 /**
  *
  * @export
@@ -21,8 +28,15 @@ import { exists, mapValues } from "../runtime";
 export interface LegalTermsResponse {
   /**
    *
+   * @type {Array<LegalTermConfirmItem>}
+   * @memberof LegalTermsResponse
+   */
+  confirmItems: Array<LegalTermConfirmItem>;
+  /**
+   *
    * @type {Array<string>}
    * @memberof LegalTermsResponse
+   * @deprecated
    */
   checkboxesHtml: Array<string>;
   /**
@@ -45,6 +59,9 @@ export function LegalTermsResponseFromJSONTyped(
     return json;
   }
   return {
+    confirmItems: (json["confirmItems"] as Array<any>).map(
+      LegalTermConfirmItemFromJSON
+    ),
     checkboxesHtml: json["checkboxesHtml"],
     disclaimerHtml: json["disclaimerHtml"],
   };
@@ -62,6 +79,9 @@ export function LegalTermsResponseToJSONRecursive(
   }
 
   return {
+    confirmItems: (value.confirmItems as Array<any>).map(
+      LegalTermConfirmItemToJSON
+    ),
     checkboxesHtml: value.checkboxesHtml,
     disclaimerHtml: value.disclaimerHtml,
   };
