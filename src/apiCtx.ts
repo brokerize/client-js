@@ -101,7 +101,7 @@ export type CognitoConfig = {
 export type CognitoPoolConfig = {
   UserPoolId: string;
   ClientId: string;
-  Endpoint: string;
+  Endpoint?: string | null;
 };
 
 export type CognitoFacade = {
