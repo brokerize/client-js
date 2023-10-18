@@ -135,6 +135,7 @@ models/GetQuoteParams.ts
 models/GetQuoteResponse.ts
 models/GetUserResponse.ts
 models/Hint.ts
+models/LegalTermConfirmItem.ts
 models/LegalTermsResponse.ts
 models/LoginResponse.ts
 models/LoginResponseChallenge.ts

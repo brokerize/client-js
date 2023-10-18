@@ -983,6 +983,7 @@ function CashAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cash
 interface CashAccountQuotes {
     balance?: Amount;
     buyingPower?: Amount;
+    hideInOverviews?: boolean;
 }
 
 // @public (undocumented)
@@ -1282,7 +1283,7 @@ export type CognitoFacade = {
 export type CognitoPoolConfig = {
     UserPoolId: string;
     ClientId: string;
-    Endpoint: string;
+    Endpoint?: string | null;
 };
 
 // @public (undocumented)
@@ -3386,8 +3387,28 @@ class JSONApiResponse<T> {
 }
 
 // @public
+interface LegalTermConfirmItem {
+    html: string;
+    id: string;
+}
+
+// @public (undocumented)
+function LegalTermConfirmItemFromJSON(json: any): LegalTermConfirmItem;
+
+// @public (undocumented)
+function LegalTermConfirmItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): LegalTermConfirmItem;
+
+// @public (undocumented)
+function LegalTermConfirmItemToJSON(value?: LegalTermConfirmItem | null): any;
+
+// @public (undocumented)
+function LegalTermConfirmItemToJSONRecursive(value?: LegalTermConfirmItem | null, ignoreParent?: boolean): any;
+
+// @public
 interface LegalTermsResponse {
+    // @deprecated
     checkboxesHtml: Array<string>;
+    confirmItems: Array<LegalTermConfirmItem>;
     disclaimerHtml: string;
 }
 

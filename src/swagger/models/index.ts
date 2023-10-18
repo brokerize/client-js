@@ -125,6 +125,7 @@ export * from "./GetQuoteParams";
 export * from "./GetQuoteResponse";
 export * from "./GetUserResponse";
 export * from "./Hint";
+export * from "./LegalTermConfirmItem";
 export * from "./LegalTermsResponse";
 export * from "./LoginResponse";
 export * from "./LoginResponseChallenge";

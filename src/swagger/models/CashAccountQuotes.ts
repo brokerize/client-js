@@ -28,6 +28,12 @@ import {
 export interface CashAccountQuotes {
   /**
    *
+   * @type {boolean}
+   * @memberof CashAccountQuotes
+   */
+  hideInOverviews?: boolean;
+  /**
+   *
    * @type {Amount}
    * @memberof CashAccountQuotes
    */
@@ -52,6 +58,9 @@ export function CashAccountQuotesFromJSONTyped(
     return json;
   }
   return {
+    hideInOverviews: !exists(json, "hideInOverviews")
+      ? undefined
+      : json["hideInOverviews"],
     buyingPower: !exists(json, "buyingPower")
       ? undefined
       : AmountFromJSON(json["buyingPower"]),
@@ -73,6 +82,7 @@ export function CashAccountQuotesToJSONRecursive(
   }
 
   return {
+    hideInOverviews: value.hideInOverviews,
     buyingPower: AmountToJSON(value.buyingPower),
     balance: AmountToJSON(value.balance),
   };
