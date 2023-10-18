@@ -3753,6 +3753,7 @@ declare namespace Models {
         GetUserResponse,
         Hint,
         LegalTermsResponse,
+        LegalTermConfirmItem,
         LoginResponse,
         LoginResponseChallenge,
         LoginResponseReady,
