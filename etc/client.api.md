@@ -3115,11 +3115,24 @@ interface GetDecoupledOperationStatusRequest {
 }
 
 // @public (undocumented)
+const GetOrderReportFormatEnum: {
+    readonly Xls: "xls";
+    readonly Csv: "csv";
+};
+
+// @public (undocumented)
+type GetOrderReportFormatEnum = (typeof GetOrderReportFormatEnum)[keyof typeof GetOrderReportFormatEnum];
+
+// @public (undocumented)
 interface GetOrderReportRequest {
     // (undocumented)
     clientIds?: string;
     // (undocumented)
+    format?: GetOrderReportFormatEnum;
+    // (undocumented)
     from: string;
+    // (undocumented)
+    onlyExecutedOrders?: boolean;
     // (undocumented)
     to: string;
 }

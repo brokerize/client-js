@@ -52,6 +52,8 @@ export interface GetOrderReportRequest {
   from: string;
   to: string;
   clientIds?: string;
+  onlyExecutedOrders?: boolean;
+  format?: GetOrderReportFormatEnum;
 }
 
 export interface RemoveOAuthReturnToUrlRequest {
@@ -400,6 +402,15 @@ export class AdminApi extends runtime.BaseAPI {
       queryParameters["clientIds"] = requestParameters.clientIds;
     }
 
+    if (requestParameters.onlyExecutedOrders !== undefined) {
+      queryParameters["onlyExecutedOrders"] =
+        requestParameters.onlyExecutedOrders;
+    }
+
+    if (requestParameters.format !== undefined) {
+      queryParameters["format"] = requestParameters.format;
+    }
+
     const headerParameters: runtime.HTTPHeaders = {};
 
     if (this.configuration && this.configuration.apiKey) {
@@ -653,3 +664,13 @@ export class AdminApi extends runtime.BaseAPI {
     await this.setClientConfigRaw(requestParameters, initOverrides);
   }
 }
+
+/**
+ * @export
+ */
+export const GetOrderReportFormatEnum = {
+  Xls: "xls",
+  Csv: "csv",
+} as const;
+export type GetOrderReportFormatEnum =
+  (typeof GetOrderReportFormatEnum)[keyof typeof GetOrderReportFormatEnum];
