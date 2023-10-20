@@ -16,6 +16,7 @@ import {
   OrderChanges,
   PrepareOAuthRedirectParams,
   PrepareTradeRequest,
+  ReportConfig,
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
@@ -441,17 +442,19 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
-  async getOrderReport(fromDate: string, toDate: string, clientIds: string[]) {
-    const response = await this._adminApi.getOrderReportRaw(
+
+  async getOrderReport(config: ReportConfig) {
+    const response = await this._adminApi.orderReportRaw(
       {
-        from: fromDate,
-        to: toDate,
-        clientIds: clientIds?.length ? clientIds.join(",") : undefined,
+        reportConfig: config,
       },
       await this._initRequestInit()
     );
-    return response.raw.blob();
+    const filename = response.raw.headers.get("x-brkrz-filename");
+
+    return { filename, data: response.raw.blob() };
   }
+
   private _initInternalWebSocketClient() {
     const basePath = this._cfg.basePath || "https://api-preview.brokerize.com";
     const websocketPath =

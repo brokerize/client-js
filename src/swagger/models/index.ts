@@ -175,6 +175,7 @@ export * from "./PrepareTradeResponse";
 export * from "./PreparedTrade";
 export * from "./QuoteExpiration";
 export * from "./RenderGenericTableParams";
+export * from "./ReportConfig";
 export * from "./RiskClassInfo";
 export * from "./Security";
 export * from "./SecurityDetailedInfo";

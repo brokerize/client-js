@@ -118,8 +118,8 @@ class AdminApi extends runtime.BaseAPI {
     deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     getMyClients(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<ClientsResponseInner>>;
     getMyClientsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<ClientsResponseInner>>>;
-    getOrderReport(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string>;
-    getOrderReportRaw(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>>;
+    orderReport(requestParameters: OrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string>;
+    orderReportRaw(requestParameters: OrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>>;
     removeOAuthReturnToUrl(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     removeOAuthReturnToUrlRaw(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     removeOrigin(requestParameters: RemoveOriginRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
@@ -530,7 +530,10 @@ export class AuthorizedApiContext {
     // (undocumented)
     getOrder(orderId: string): Promise<openApiClient.GetOrderResponse>;
     // (undocumented)
-    getOrderReport(fromDate: string, toDate: string, clientIds: string[]): Promise<Blob>;
+    getOrderReport(config: ReportConfig): Promise<{
+        filename: string | null;
+        data: Promise<Blob>;
+    }>;
     // (undocumented)
     getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest): Promise<openApiClient.GetPortfolioOrdersResponse>;
     // (undocumented)
@@ -3115,29 +3118,6 @@ interface GetDecoupledOperationStatusRequest {
 }
 
 // @public (undocumented)
-const GetOrderReportFormatEnum: {
-    readonly Xls: "xls";
-    readonly Csv: "csv";
-};
-
-// @public (undocumented)
-type GetOrderReportFormatEnum = (typeof GetOrderReportFormatEnum)[keyof typeof GetOrderReportFormatEnum];
-
-// @public (undocumented)
-interface GetOrderReportRequest {
-    // (undocumented)
-    clientIds?: string;
-    // (undocumented)
-    format?: GetOrderReportFormatEnum;
-    // (undocumented)
-    from: string;
-    // (undocumented)
-    onlyExecutedOrders?: boolean;
-    // (undocumented)
-    to: string;
-}
-
-// @public (undocumented)
 interface GetOrderRequest {
     // (undocumented)
     id: string;
@@ -3804,6 +3784,7 @@ declare namespace Models {
         SetClientConfigRequest,
         StringMapByOrderModel,
         SyncError,
+        ReportConfig,
         TrailingDistance,
         TrailingDistanceModeEnum,
         ValidationDetail
@@ -4070,6 +4051,12 @@ function OrderModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order
 
 // @public (undocumented)
 function OrderModelToJSON(value?: OrderModel | null): any;
+
+// @public (undocumented)
+interface OrderReportRequest {
+    // (undocumented)
+    reportConfig: ReportConfig;
+}
 
 // @public (undocumented)
 const OrderStatus: {
@@ -4785,6 +4772,27 @@ interface RenderGenericTableRequest {
     // (undocumented)
     renderGenericTableParams: RenderGenericTableParams;
 }
+
+// @public
+interface ReportConfig {
+    clientIds: Array<string>;
+    format: string;
+    from: string;
+    onlyExecutedOrders: boolean;
+    to: string;
+}
+
+// @public (undocumented)
+function ReportConfigFromJSON(json: any): ReportConfig;
+
+// @public (undocumented)
+function ReportConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReportConfig;
+
+// @public (undocumented)
+function ReportConfigToJSON(value?: ReportConfig | null): any;
+
+// @public (undocumented)
+function ReportConfigToJSONRecursive(value?: ReportConfig | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface RequestContext {

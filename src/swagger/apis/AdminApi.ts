@@ -29,6 +29,9 @@ import {
   ErrorResponse,
   ErrorResponseFromJSON,
   ErrorResponseToJSON,
+  ReportConfig,
+  ReportConfigFromJSON,
+  ReportConfigToJSON,
   SetClientConfigRequest,
   SetClientConfigRequestFromJSON,
   SetClientConfigRequestToJSON,
@@ -48,12 +51,8 @@ export interface DeleteClientRequest {
   clientId: string;
 }
 
-export interface GetOrderReportRequest {
-  from: string;
-  to: string;
-  clientIds?: string;
-  onlyExecutedOrders?: boolean;
-  format?: GetOrderReportFormatEnum;
+export interface OrderReportRequest {
+  reportConfig: ReportConfig;
 }
 
 export interface RemoveOAuthReturnToUrlRequest {
@@ -367,51 +366,25 @@ export class AdminApi extends runtime.BaseAPI {
   /**
    * Get an order report for a client.
    */
-  async getOrderReportRaw(
-    requestParameters: GetOrderReportRequest,
+  async orderReportRaw(
+    requestParameters: OrderReportRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<string>> {
     if (
-      requestParameters.from === null ||
-      requestParameters.from === undefined
+      requestParameters.reportConfig === null ||
+      requestParameters.reportConfig === undefined
     ) {
       throw new runtime.RequiredError(
-        "from",
-        "Required parameter requestParameters.from was null or undefined when calling getOrderReport."
-      );
-    }
-
-    if (requestParameters.to === null || requestParameters.to === undefined) {
-      throw new runtime.RequiredError(
-        "to",
-        "Required parameter requestParameters.to was null or undefined when calling getOrderReport."
+        "reportConfig",
+        "Required parameter requestParameters.reportConfig was null or undefined when calling orderReport."
       );
     }
 
     const queryParameters: any = {};
 
-    if (requestParameters.from !== undefined) {
-      queryParameters["from"] = requestParameters.from;
-    }
-
-    if (requestParameters.to !== undefined) {
-      queryParameters["to"] = requestParameters.to;
-    }
-
-    if (requestParameters.clientIds !== undefined) {
-      queryParameters["clientIds"] = requestParameters.clientIds;
-    }
-
-    if (requestParameters.onlyExecutedOrders !== undefined) {
-      queryParameters["onlyExecutedOrders"] =
-        requestParameters.onlyExecutedOrders;
-    }
-
-    if (requestParameters.format !== undefined) {
-      queryParameters["format"] = requestParameters.format;
-    }
-
     const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
 
     if (this.configuration && this.configuration.apiKey) {
       headerParameters["x-brkrz-client-id"] =
@@ -426,9 +399,10 @@ export class AdminApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/admin/orderReport`,
-        method: "GET",
+        method: "POST",
         headers: headerParameters,
         query: queryParameters,
+        body: ReportConfigToJSON(requestParameters.reportConfig),
       },
       initOverrides
     );
@@ -439,11 +413,11 @@ export class AdminApi extends runtime.BaseAPI {
   /**
    * Get an order report for a client.
    */
-  async getOrderReport(
-    requestParameters: GetOrderReportRequest,
+  async orderReport(
+    requestParameters: OrderReportRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<string> {
-    const response = await this.getOrderReportRaw(
+    const response = await this.orderReportRaw(
       requestParameters,
       initOverrides
     );
@@ -664,13 +638,3 @@ export class AdminApi extends runtime.BaseAPI {
     await this.setClientConfigRaw(requestParameters, initOverrides);
   }
 }
-
-/**
- * @export
- */
-export const GetOrderReportFormatEnum = {
-  Xls: "xls",
-  Csv: "csv",
-} as const;
-export type GetOrderReportFormatEnum =
-  (typeof GetOrderReportFormatEnum)[keyof typeof GetOrderReportFormatEnum];
