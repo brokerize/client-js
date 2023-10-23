@@ -16,7 +16,6 @@ import {
   OrderChanges,
   PrepareOAuthRedirectParams,
   PrepareTradeRequest,
-  ReportConfig,
 } from "./swagger";
 import {
   BrokerizeWebSocketClient,
@@ -443,10 +442,20 @@ export class AuthorizedApiContext {
     );
   }
 
-  async getOrderReport(config: ReportConfig) {
+  async getOrderReport(
+    from: string,
+    to: string,
+    clientIds: string[],
+    onlyExecutedOrders: boolean,
+    format: string
+  ) {
     const response = await this._adminApi.orderReportRaw(
       {
-        reportConfig: config,
+        from,
+        to,
+        clientIds: clientIds?.length ? clientIds.join(",") : undefined,
+        format,
+        onlyExecutedOrders,
       },
       await this._initRequestInit()
     );

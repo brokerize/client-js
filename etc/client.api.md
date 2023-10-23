@@ -530,7 +530,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     getOrder(orderId: string): Promise<openApiClient.GetOrderResponse>;
     // (undocumented)
-    getOrderReport(config: ReportConfig): Promise<{
+    getOrderReport(from: string, to: string, clientIds: string[], onlyExecutedOrders: boolean, format: string): Promise<{
         filename: string | null;
         data: Promise<Blob>;
     }>;
@@ -3784,7 +3784,6 @@ declare namespace Models {
         SetClientConfigRequest,
         StringMapByOrderModel,
         SyncError,
-        ReportConfig,
         TrailingDistance,
         TrailingDistanceModeEnum,
         ValidationDetail
@@ -4055,7 +4054,15 @@ function OrderModelToJSON(value?: OrderModel | null): any;
 // @public (undocumented)
 interface OrderReportRequest {
     // (undocumented)
-    reportConfig: ReportConfig;
+    clientIds?: string;
+    // (undocumented)
+    format?: string;
+    // (undocumented)
+    from: string;
+    // (undocumented)
+    onlyExecutedOrders?: boolean;
+    // (undocumented)
+    to: string;
 }
 
 // @public (undocumented)
@@ -4772,27 +4779,6 @@ interface RenderGenericTableRequest {
     // (undocumented)
     renderGenericTableParams: RenderGenericTableParams;
 }
-
-// @public
-interface ReportConfig {
-    clientIds: Array<string>;
-    format: string;
-    from: string;
-    onlyExecutedOrders: boolean;
-    to: string;
-}
-
-// @public (undocumented)
-function ReportConfigFromJSON(json: any): ReportConfig;
-
-// @public (undocumented)
-function ReportConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReportConfig;
-
-// @public (undocumented)
-function ReportConfigToJSON(value?: ReportConfig | null): any;
-
-// @public (undocumented)
-function ReportConfigToJSONRecursive(value?: ReportConfig | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface RequestContext {

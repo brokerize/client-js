@@ -315,36 +315,6 @@
                 },
                 "type": "object"
             },
-            "ReportConfig": {
-                "properties": {
-                    "clientIds": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array"
-                    },
-                    "onlyExecutedOrders": {
-                        "type": "boolean"
-                    },
-                    "format": {
-                        "type": "string"
-                    },
-                    "from": {
-                        "type": "string"
-                    },
-                    "to": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "clientIds",
-                    "onlyExecutedOrders",
-                    "format",
-                    "from",
-                    "to"
-                ],
-                "type": "object"
-            },
             "BrokerEnvironment": {
                 "properties": {
                     "isTestingEnvironment": {
@@ -4275,7 +4245,7 @@
             }
         },
         "/admin/orderReport": {
-            "post": {
+            "get": {
                 "operationId": "OrderReport",
                 "responses": {
                     "200": {
@@ -4382,17 +4352,48 @@
                         "clientId": []
                     }
                 ],
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ReportConfig"
-                            }
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "from",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "to",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "clientIds",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "format",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "onlyExecutedOrders",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
                         }
                     }
-                }
+                ]
             }
         },
         "/brokers": {

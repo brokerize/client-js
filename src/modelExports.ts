@@ -146,7 +146,6 @@ export { SessionSyncInfoSynced } from "./swagger/models/SessionSyncInfoSynced";
 export { SetClientConfigRequest } from "./swagger/models/SetClientConfigRequest";
 export { StringMapByOrderModel } from "./swagger/models/StringMapByOrderModel";
 export { SyncError } from "./swagger/models/SyncError";
-export { ReportConfig } from "./swagger/models/ReportConfig";
 export {
   TrailingDistance,
   TrailingDistanceModeEnum,

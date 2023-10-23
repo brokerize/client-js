@@ -29,9 +29,6 @@ import {
   ErrorResponse,
   ErrorResponseFromJSON,
   ErrorResponseToJSON,
-  ReportConfig,
-  ReportConfigFromJSON,
-  ReportConfigToJSON,
   SetClientConfigRequest,
   SetClientConfigRequestFromJSON,
   SetClientConfigRequestToJSON,
@@ -52,7 +49,11 @@ export interface DeleteClientRequest {
 }
 
 export interface OrderReportRequest {
-  reportConfig: ReportConfig;
+  from: string;
+  to: string;
+  clientIds?: string;
+  format?: string;
+  onlyExecutedOrders?: boolean;
 }
 
 export interface RemoveOAuthReturnToUrlRequest {
@@ -371,20 +372,46 @@ export class AdminApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<string>> {
     if (
-      requestParameters.reportConfig === null ||
-      requestParameters.reportConfig === undefined
+      requestParameters.from === null ||
+      requestParameters.from === undefined
     ) {
       throw new runtime.RequiredError(
-        "reportConfig",
-        "Required parameter requestParameters.reportConfig was null or undefined when calling orderReport."
+        "from",
+        "Required parameter requestParameters.from was null or undefined when calling orderReport."
+      );
+    }
+
+    if (requestParameters.to === null || requestParameters.to === undefined) {
+      throw new runtime.RequiredError(
+        "to",
+        "Required parameter requestParameters.to was null or undefined when calling orderReport."
       );
     }
 
     const queryParameters: any = {};
 
-    const headerParameters: runtime.HTTPHeaders = {};
+    if (requestParameters.from !== undefined) {
+      queryParameters["from"] = requestParameters.from;
+    }
 
-    headerParameters["Content-Type"] = "application/json";
+    if (requestParameters.to !== undefined) {
+      queryParameters["to"] = requestParameters.to;
+    }
+
+    if (requestParameters.clientIds !== undefined) {
+      queryParameters["clientIds"] = requestParameters.clientIds;
+    }
+
+    if (requestParameters.format !== undefined) {
+      queryParameters["format"] = requestParameters.format;
+    }
+
+    if (requestParameters.onlyExecutedOrders !== undefined) {
+      queryParameters["onlyExecutedOrders"] =
+        requestParameters.onlyExecutedOrders;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
 
     if (this.configuration && this.configuration.apiKey) {
       headerParameters["x-brkrz-client-id"] =
@@ -399,10 +426,9 @@ export class AdminApi extends runtime.BaseAPI {
     const response = await this.request(
       {
         path: `/admin/orderReport`,
-        method: "POST",
+        method: "GET",
         headers: headerParameters,
         query: queryParameters,
-        body: ReportConfigToJSON(requestParameters.reportConfig),
       },
       initOverrides
     );

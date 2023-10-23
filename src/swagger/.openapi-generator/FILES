@@ -185,7 +185,6 @@ models/PrepareTradeResponse.ts
 models/PreparedTrade.ts
 models/QuoteExpiration.ts
 models/RenderGenericTableParams.ts
-models/ReportConfig.ts
 models/RiskClassInfo.ts
 models/Security.ts
 models/SecurityDetailedInfo.ts
