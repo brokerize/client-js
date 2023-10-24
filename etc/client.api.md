@@ -118,8 +118,8 @@ class AdminApi extends runtime.BaseAPI {
     deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     getMyClients(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<ClientsResponseInner>>;
     getMyClientsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<ClientsResponseInner>>>;
-    orderReport(requestParameters: OrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string>;
-    orderReportRaw(requestParameters: OrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>>;
+    getOrderReport(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string>;
+    getOrderReportRaw(requestParameters: GetOrderReportRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>>;
     removeOAuthReturnToUrl(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     removeOAuthReturnToUrlRaw(requestParameters: RemoveOAuthReturnToUrlRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     removeOrigin(requestParameters: RemoveOriginRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
@@ -3118,6 +3118,20 @@ interface GetDecoupledOperationStatusRequest {
 }
 
 // @public (undocumented)
+interface GetOrderReportRequest {
+    // (undocumented)
+    clientIds?: string;
+    // (undocumented)
+    format?: string;
+    // (undocumented)
+    from: string;
+    // (undocumented)
+    onlyExecutedOrders?: boolean;
+    // (undocumented)
+    to: string;
+}
+
+// @public (undocumented)
 interface GetOrderRequest {
     // (undocumented)
     id: string;
@@ -4050,20 +4064,6 @@ function OrderModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order
 
 // @public (undocumented)
 function OrderModelToJSON(value?: OrderModel | null): any;
-
-// @public (undocumented)
-interface OrderReportRequest {
-    // (undocumented)
-    clientIds?: string;
-    // (undocumented)
-    format?: string;
-    // (undocumented)
-    from: string;
-    // (undocumented)
-    onlyExecutedOrders?: boolean;
-    // (undocumented)
-    to: string;
-}
 
 // @public (undocumented)
 const OrderStatus: {

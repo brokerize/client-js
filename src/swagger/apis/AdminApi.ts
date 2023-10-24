@@ -48,7 +48,7 @@ export interface DeleteClientRequest {
   clientId: string;
 }
 
-export interface OrderReportRequest {
+export interface GetOrderReportRequest {
   from: string;
   to: string;
   clientIds?: string;
@@ -367,8 +367,8 @@ export class AdminApi extends runtime.BaseAPI {
   /**
    * Get an order report for a client.
    */
-  async orderReportRaw(
-    requestParameters: OrderReportRequest,
+  async getOrderReportRaw(
+    requestParameters: GetOrderReportRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<string>> {
     if (
@@ -377,14 +377,14 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "from",
-        "Required parameter requestParameters.from was null or undefined when calling orderReport."
+        "Required parameter requestParameters.from was null or undefined when calling getOrderReport."
       );
     }
 
     if (requestParameters.to === null || requestParameters.to === undefined) {
       throw new runtime.RequiredError(
         "to",
-        "Required parameter requestParameters.to was null or undefined when calling orderReport."
+        "Required parameter requestParameters.to was null or undefined when calling getOrderReport."
       );
     }
 
@@ -439,11 +439,11 @@ export class AdminApi extends runtime.BaseAPI {
   /**
    * Get an order report for a client.
    */
-  async orderReport(
-    requestParameters: OrderReportRequest,
+  async getOrderReport(
+    requestParameters: GetOrderReportRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<string> {
-    const response = await this.orderReportRaw(
+    const response = await this.getOrderReportRaw(
       requestParameters,
       initOverrides
     );

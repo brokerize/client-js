@@ -449,7 +449,7 @@ export class AuthorizedApiContext {
     onlyExecutedOrders: boolean,
     format: string
   ) {
-    const response = await this._adminApi.orderReportRaw(
+    const response = await this._adminApi.getOrderReportRaw(
       {
         from,
         to,

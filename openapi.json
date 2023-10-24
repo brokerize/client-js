@@ -4246,7 +4246,7 @@
         },
         "/admin/orderReport": {
             "get": {
-                "operationId": "OrderReport",
+                "operationId": "GetOrderReport",
                 "responses": {
                     "200": {
                         "description": "Ok",
@@ -4370,6 +4370,7 @@
                         }
                     },
                     {
+                        "description": "Comma-separated list of client ids to include in the report. Defaults to all clients that the user has management access to.",
                         "in": "query",
                         "name": "clientIds",
                         "required": false,
