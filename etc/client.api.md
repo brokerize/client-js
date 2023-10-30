@@ -791,7 +791,9 @@ function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Broke
 // @public
 interface BrokerMetaImages {
     dark: string;
+    darkSquare: string;
     light: string;
+    lightSquare: string;
 }
 
 // @public (undocumented)
@@ -3115,11 +3117,24 @@ interface GetDecoupledOperationStatusRequest {
 }
 
 // @public (undocumented)
+const GetOrderReportFormatEnum: {
+    readonly Csv: "csv";
+    readonly Xlsx: "xlsx";
+};
+
+// @public (undocumented)
+type GetOrderReportFormatEnum = (typeof GetOrderReportFormatEnum)[keyof typeof GetOrderReportFormatEnum];
+
+// @public (undocumented)
 interface GetOrderReportRequest {
     // (undocumented)
     clientIds?: string;
     // (undocumented)
+    format?: GetOrderReportFormatEnum;
+    // (undocumented)
     from: string;
+    // (undocumented)
+    onlyExecutedOrders?: boolean;
     // (undocumented)
     to: string;
 }
