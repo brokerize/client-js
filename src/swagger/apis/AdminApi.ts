@@ -52,7 +52,7 @@ export interface GetOrderReportRequest {
   from: string;
   to: string;
   clientIds?: string;
-  format?: string;
+  format?: GetOrderReportFormatEnum;
   onlyExecutedOrders?: boolean;
 }
 
@@ -664,3 +664,13 @@ export class AdminApi extends runtime.BaseAPI {
     await this.setClientConfigRaw(requestParameters, initOverrides);
   }
 }
+
+/**
+ * @export
+ */
+export const GetOrderReportFormatEnum = {
+  Csv: "csv",
+  Xlsx: "xlsx",
+} as const;
+export type GetOrderReportFormatEnum =
+  (typeof GetOrderReportFormatEnum)[keyof typeof GetOrderReportFormatEnum];

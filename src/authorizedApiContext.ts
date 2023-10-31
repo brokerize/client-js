@@ -442,25 +442,24 @@ export class AuthorizedApiContext {
     );
   }
 
-  async getOrderReport(
+  async getOrderReport(opts: {
     from: string,
     to: string,
-    clientIds: string[],
-    onlyExecutedOrders: boolean,
-    format: string
-  ) {
+    clientIds?: string[],
+    onlyExecutedOrders?: boolean,
+    format?: 'xslx'|'csv'
+  }) {
     const response = await this._adminApi.getOrderReportRaw(
       {
-        from,
-        to,
-        clientIds: clientIds?.length ? clientIds.join(",") : undefined,
-        format,
-        onlyExecutedOrders,
+        from: opts.from,
+        to: opts.from,
+        clientIds: opts.clientIds?.length ? opts.clientIds.join(",") : undefined,
+        format: opts.format as openApiClient.GetOrderReportFormatEnum,
+        onlyExecutedOrders: opts.onlyExecutedOrders,
       },
       await this._initRequestInit()
     );
     const filename = response.raw.headers.get("x-brkrz-filename");
-
     return { filename, data: response.raw.blob() };
   }
 
