@@ -441,17 +441,31 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
-  async getOrderReport(fromDate: string, toDate: string, clientIds: string[]) {
+
+  async getOrderReport(opts: {
+    from: string;
+    to: string;
+    clientIds?: string[];
+    onlyExecutedOrders?: boolean;
+    format?: "xlsx" | "csv";
+  }) {
     const response = await this._adminApi.getOrderReportRaw(
       {
-        from: fromDate,
-        to: toDate,
-        clientIds: clientIds?.length ? clientIds.join(",") : undefined,
+        from: opts.from,
+        to: opts.to,
+        clientIds: opts.clientIds?.length
+          ? opts.clientIds.join(",")
+          : undefined,
+        format: opts.format,
+        onlyExecutedOrders: opts.onlyExecutedOrders,
       },
       await this._initRequestInit()
     );
-    return response.raw.blob();
+    const filename = response.raw.headers.get("x-brkrz-filename");
+    const contentType = response.raw.headers.get("content-type");
+    return { filename, data: response.raw.blob(), contentType };
   }
+
   private _initInternalWebSocketClient() {
     const basePath = this._cfg.basePath || "https://api-preview.brokerize.com";
     const websocketPath =

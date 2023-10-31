@@ -530,7 +530,17 @@ export class AuthorizedApiContext {
     // (undocumented)
     getOrder(orderId: string): Promise<openApiClient.GetOrderResponse>;
     // (undocumented)
-    getOrderReport(fromDate: string, toDate: string, clientIds: string[]): Promise<Blob>;
+    getOrderReport(opts: {
+        from: string;
+        to: string;
+        clientIds?: string[];
+        onlyExecutedOrders?: boolean;
+        format?: "xlsx" | "csv";
+    }): Promise<{
+        filename: string | null;
+        data: Promise<Blob>;
+        contentType: string | null;
+    }>;
     // (undocumented)
     getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest): Promise<openApiClient.GetPortfolioOrdersResponse>;
     // (undocumented)
