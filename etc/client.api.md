@@ -535,7 +535,7 @@ export class AuthorizedApiContext {
         to: string;
         clientIds?: string[];
         onlyExecutedOrders?: boolean;
-        format?: 'xslx' | 'csv';
+        format?: "xlsx" | "csv";
     }): Promise<{
         filename: string | null;
         data: Promise<Blob>;
