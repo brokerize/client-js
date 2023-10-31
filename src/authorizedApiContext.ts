@@ -443,24 +443,27 @@ export class AuthorizedApiContext {
   }
 
   async getOrderReport(opts: {
-    from: string,
-    to: string,
-    clientIds?: string[],
-    onlyExecutedOrders?: boolean,
-    format?: 'xslx'|'csv'
+    from: string;
+    to: string;
+    clientIds?: string[];
+    onlyExecutedOrders?: boolean;
+    format?: "xlsx" | "csv";
   }) {
     const response = await this._adminApi.getOrderReportRaw(
       {
         from: opts.from,
-        to: opts.from,
-        clientIds: opts.clientIds?.length ? opts.clientIds.join(",") : undefined,
-        format: opts.format as openApiClient.GetOrderReportFormatEnum,
+        to: opts.to,
+        clientIds: opts.clientIds?.length
+          ? opts.clientIds.join(",")
+          : undefined,
+        format: opts.format,
         onlyExecutedOrders: opts.onlyExecutedOrders,
       },
       await this._initRequestInit()
     );
     const filename = response.raw.headers.get("x-brkrz-filename");
-    return { filename, data: response.raw.blob() };
+    const contentType = response.raw.headers.get("content-type");
+    return { filename, data: response.raw.blob(), contentType };
   }
 
   private _initInternalWebSocketClient() {

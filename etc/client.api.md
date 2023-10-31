@@ -530,9 +530,16 @@ export class AuthorizedApiContext {
     // (undocumented)
     getOrder(orderId: string): Promise<openApiClient.GetOrderResponse>;
     // (undocumented)
-    getOrderReport(from: string, to: string, clientIds: string[], onlyExecutedOrders: boolean, format: string): Promise<{
+    getOrderReport(opts: {
+        from: string;
+        to: string;
+        clientIds?: string[];
+        onlyExecutedOrders?: boolean;
+        format?: 'xslx' | 'csv';
+    }): Promise<{
         filename: string | null;
         data: Promise<Blob>;
+        contentType: string | null;
     }>;
     // (undocumented)
     getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest): Promise<openApiClient.GetPortfolioOrdersResponse>;
@@ -794,7 +801,9 @@ function BrokerMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Broke
 // @public
 interface BrokerMetaImages {
     dark: string;
+    darkSquare: string;
     light: string;
+    lightSquare: string;
 }
 
 // @public (undocumented)
@@ -3118,11 +3127,20 @@ interface GetDecoupledOperationStatusRequest {
 }
 
 // @public (undocumented)
+const GetOrderReportFormatEnum: {
+    readonly Csv: "csv";
+    readonly Xlsx: "xlsx";
+};
+
+// @public (undocumented)
+type GetOrderReportFormatEnum = (typeof GetOrderReportFormatEnum)[keyof typeof GetOrderReportFormatEnum];
+
+// @public (undocumented)
 interface GetOrderReportRequest {
     // (undocumented)
     clientIds?: string;
     // (undocumented)
-    format?: string;
+    format?: GetOrderReportFormatEnum;
     // (undocumented)
     from: string;
     // (undocumented)
