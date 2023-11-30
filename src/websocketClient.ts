@@ -15,6 +15,8 @@ import type {
   WebSocketSubscriptionMessage,
 } from "./websocketTypes";
 
+const LOG_PREFIX = "[brokerize WebSocketClient] ";
+
 export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _url: string;
   private _map: Record<string, SubscriptionEntry> = {};
@@ -27,6 +29,10 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _auth: Auth;
   private _createWebsocket: (url: string) => WebSocket;
 
+  private _fatalError: WebSocketError | null = null;
+  private _lastNonFatalError: WebSocketError | null = null;
+  private _errorCount = 0;
+
   constructor(
     websocketUrl: string,
     auth: Auth,
@@ -36,16 +42,53 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     this._id = 0;
     this._socket = null;
     this._pingIntvl = null;
-    this._reconnectIntvl = setInterval(() => {
-      if (!this._socket && this._needsConnection()) {
-        this._connect();
-      }
-    }, 1000);
+    this._updateReconnectInterval();
     this._auth = auth;
     this._createWebsocket = createWebSocket;
   }
 
-  private _needsConnection() {
+  private _updateReconnectInterval() {
+    if (this._reconnectIntvl) {
+      clearInterval(this._reconnectIntvl);
+    }
+    if (this._fatalError) {
+      return;
+    }
+    this._reconnectIntvl = setInterval(() => {
+      if (!this._socket && this._shouldConnect()) {
+        if (this._errorCount > 0) {
+          // eslint-disable-next-line no-console
+          console.warn(
+            LOG_PREFIX +
+              "reconnecting. current error count is " +
+              this._errorCount +
+              ". the last error was: ",
+            this._lastNonFatalError
+          );
+        }
+        this._connect();
+      }
+    }, this._computeReconnectIntervalInMilliseconds(this._errorCount));
+  }
+
+  /**
+   * Simple backoff behavior: first retry is fast (100ms), next 9 retries 1s, after that we only reconnect every 10s.
+   */
+  private _computeReconnectIntervalInMilliseconds(errorCount: number) {
+    if (errorCount == 0) {
+      return 100;
+    } else if (errorCount < 10) {
+      return 1000;
+    } else {
+      return 10000;
+    }
+  }
+
+  private _shouldConnect() {
+    if (this._fatalError) {
+      return false;
+    }
+
     for (const k in this._map) {
       if (this._map[k].callbacks?.length > 0) {
       }
@@ -55,6 +98,14 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   }
 
   private subscribe(cmd: WebSocketCommandSubscribe, callback: Callback) {
+    if (this._fatalError) {
+      // no more subscriptions on a websocket client that has a fatal error
+      callback(this._fatalError, null);
+      return {
+        unsubscribe: () => {},
+      } as Subscription;
+    }
+
     const key = JSON.stringify(cmd);
 
     const wrappedCb = (err: any, data: any) => callback(err, data);
@@ -121,6 +172,11 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   }
 
   private _startSubscription(key: string) {
+    if (this._fatalError) {
+      this._notifySubscribersAboutFatalError(key);
+      return;
+    }
+
     if (this._socket?.readyState == 1 && this._isOpen) {
       this._id++;
       this._map[key].idOnSocket = this._id;
@@ -155,7 +211,9 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     } else {
       // eslint-disable-next-line no-console
       console.log(
-        "[brokerize WebSocketClient] socket not ready, not sending message."
+        LOG_PREFIX + "socket not ready, not sending message.",
+        this._lastNonFatalError,
+        this._fatalError
       );
     }
   }
@@ -164,6 +222,11 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     if (this._socket) {
       this._isOpen = false;
       this._socket.close();
+    }
+
+    if (this._fatalError) {
+      // no more connections on a websocket client that has a fatal error
+      return;
     }
 
     this._authenticatedCallback = null;
@@ -203,8 +266,14 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       } else if ((message as WebSocketPingMessage).cmd == "ping") {
         // NOP
       } else if (message as WebSocketError) {
-        // eslint-disable-next-line no-console
-        console.error((message as WebSocketError).error);
+        const e = message as WebSocketError;
+        if (e.error?.message == "authentication failed") {
+          // we treet authentication failed as a fatal error, this should just not happen if the client creates
+          // the websocket client correctly. If it happens, applications will have to create a new instance.
+          this._handleFatalError(e);
+        } else {
+          this._handleNonFatalError(e);
+        }
       }
     };
 
@@ -213,6 +282,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         (token) => {
           const _authCb = () => {
             this._isOpen = true;
+            this._resetErrorState();
             for (const k in this._map) {
               this._startSubscription(k);
             }
@@ -233,7 +303,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         },
         (err) => {
           // eslint-disable-next-line no-console
-          console.error(err);
+          console.error(LOG_PREFIX + " connection failed", err);
         }
       );
     };
@@ -246,7 +316,11 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     };
     this._pingIntvl && clearInterval(this._pingIntvl);
     this._pingIntvl = setInterval(() => {
-      if (this._socket?.readyState == 2 || this._socket?.readyState == 3) {
+      // 2: CLOSING, 3: CLOSED
+      if (
+        this._socket?.readyState == 2 ||
+        (this._socket?.readyState == 3 && this._shouldConnect())
+      ) {
         this._connect();
         return;
       }
@@ -254,6 +328,50 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         cmd: "ping",
       });
     }, 30000);
+  }
+
+  /**
+   * Error happend when trying to connect, but it may be solved by trying a reconnect later.
+   */
+  private _handleNonFatalError(e: WebSocketError) {
+    this._errorCount++;
+    this._lastNonFatalError = e;
+    this._updateReconnectInterval();
+  }
+
+  /**
+   * Fatal error: this means the client is unusable from now on and must be recreated.
+   */
+  private _handleFatalError(e: WebSocketError) {
+    this._fatalError = e;
+    this._updateReconnectInterval();
+    this._pingIntvl && clearInterval(this._pingIntvl);
+    for (const key in this._map) {
+      this._notifySubscribersAboutFatalError(key);
+    }
+  }
+
+  /**
+   * If a fatal error occurs, all registered callbacks must be called with the error parameter.
+   */
+  private _notifySubscribersAboutFatalError(key: string) {
+    this._map[key].callbacks.forEach((cb) => {
+      try {
+        cb(this._fatalError, null);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn(LOG_PREFIX + "error in callback", err);
+      }
+    });
+  }
+
+  /**
+   * Once we have successfully established a connection, error counts and states must be reset.
+   */
+  private _resetErrorState() {
+    this._lastNonFatalError = null;
+    this._errorCount = 0;
+    this._updateReconnectInterval();
   }
 
   private _findSubscriptionEntry(subscriptionId: number) {
