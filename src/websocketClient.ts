@@ -25,6 +25,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _pingIntvl: any | null;
   private _reconnectIntvl: any | null;
   private _authenticatedCallback: any = null;
+  private _disconnectTimeout: any | null = null;
   private _isOpen = false;
   private _auth: Auth;
   private _createWebsocket: (url: string) => WebSocket;
@@ -91,8 +92,8 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
 
     for (const k in this._map) {
       if (this._map[k].callbacks?.length > 0) {
+        return true;
       }
-      return true;
     }
     return false;
   }
@@ -124,6 +125,8 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       this._startSubscription(key);
     }
 
+    this._startOrStopDisconnectTimeout();
+
     let unsub = false;
 
     return {
@@ -138,6 +141,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         if (this._map[key].callbacks.length == 0) {
           this._endSubscription(key);
         }
+        this._startOrStopDisconnectTimeout();
       },
     } as Subscription;
   }
@@ -198,6 +202,24 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         true
       );
       this._map[key].idOnSocket = null;
+    }
+  }
+
+  _startOrStopDisconnectTimeout() {
+    if (this._shouldConnect()) {
+      if (this._disconnectTimeout) {
+        clearTimeout(this._disconnectTimeout);
+        this._disconnectTimeout = null;
+      }
+    } else if (!this._disconnectTimeout) {
+      // if there is no subscription open for 3s, disconnect from WebSocket
+      this._disconnectTimeout = setTimeout(() => {
+        if (!this._shouldConnect()) {
+          this._socket?.close();
+          this._socket = null;
+          this._disconnectTimeout = null;
+        }
+      }, 3000);
     }
   }
 
