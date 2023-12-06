@@ -4597,6 +4597,7 @@ interface Position {
     purchaseValuation?: PositionValuation;
     security: Security;
     size: number;
+    sizeDecimals?: number;
     sizeUnit: string;
     sourceData?: string;
 }

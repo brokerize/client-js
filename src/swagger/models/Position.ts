@@ -153,6 +153,12 @@ export interface Position {
    */
   security: Security;
   /**
+   * If present, defines how many decimal places should be displayed for size values.
+   * @type {number}
+   * @memberof Position
+   */
+  sizeDecimals?: number;
+  /**
    * - ISO code (e.g. EUR for Euro), if it is a monetary amount
    * - or 'USDT' if its Tether (https://en.wikipedia.org/wiki/Tether_(cryptocurrency)
    * - or 'XXX' if it is pieces
@@ -237,6 +243,9 @@ export function PositionFromJSONTyped(
       : json["brokerExchangeId"],
     exchangeId: !exists(json, "exchangeId") ? undefined : json["exchangeId"],
     security: SecurityFromJSON(json["security"]),
+    sizeDecimals: !exists(json, "sizeDecimals")
+      ? undefined
+      : json["sizeDecimals"],
     sizeUnit: json["sizeUnit"],
     size: json["size"],
     id: json["id"],
@@ -277,6 +286,7 @@ export function PositionToJSONRecursive(
     brokerExchangeId: value.brokerExchangeId,
     exchangeId: value.exchangeId,
     security: SecurityToJSON(value.security),
+    sizeDecimals: value.sizeDecimals,
     sizeUnit: value.sizeUnit,
     size: value.size,
     id: value.id,
