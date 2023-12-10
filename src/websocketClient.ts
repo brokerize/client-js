@@ -346,9 +346,13 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         this._connect();
         return;
       }
-      this._sendWs({
-        cmd: "ping",
-      });
+
+      if (this._socket?.readyState == 1) {
+        // open
+        this._sendWs({
+          cmd: "ping",
+        });
+      }
     }, 30000);
   }
 
