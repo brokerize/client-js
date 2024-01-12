@@ -3887,6 +3887,7 @@ interface Order {
     hasNoOrderReceipt?: boolean;
     id: string;
     ifDoneLimit?: number;
+    intent?: OrderIntentEnum;
     isin: string;
     limit?: number;
     limitCurrencyIso?: string;
@@ -3972,6 +3973,7 @@ interface OrderCreate {
     cashQuotation?: CashQuotation;
     direction: Direction;
     ifDoneLimit?: number;
+    intent?: OrderCreateIntentEnum;
     isin: string;
     limit?: number;
     limitCurrencyIso?: string;
@@ -3997,6 +3999,15 @@ function OrderCreateFromJSON(json: any): OrderCreate;
 
 // @public (undocumented)
 function OrderCreateFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderCreate;
+
+// @public (undocumented)
+const OrderCreateIntentEnum: {
+    readonly Open: "open";
+    readonly Close: "close";
+};
+
+// @public (undocumented)
+type OrderCreateIntentEnum = (typeof OrderCreateIntentEnum)[keyof typeof OrderCreateIntentEnum];
 
 // @public (undocumented)
 function OrderCreateToJSON(value?: OrderCreate | null): any;
@@ -4055,6 +4066,15 @@ function OrderFromJSON(json: any): Order;
 
 // @public (undocumented)
 function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order;
+
+// @public (undocumented)
+const OrderIntentEnum: {
+    readonly Open: "open";
+    readonly Close: "close";
+};
+
+// @public (undocumented)
+type OrderIntentEnum = (typeof OrderIntentEnum)[keyof typeof OrderIntentEnum];
 
 // @public
 const OrderModel: {
@@ -4582,6 +4602,7 @@ interface Position {
     comment?: string;
     commentIsEditable?: boolean;
     currentValuation?: PositionValuation;
+    direction?: Direction;
     exchangeId?: number;
     exchangeName?: string;
     id: string;
@@ -4636,6 +4657,7 @@ function PositionValuationToJSONRecursive(value?: PositionValuation | null, igno
 
 // @public
 interface PreparedTrade {
+    closeIntentAllowed?: boolean;
     costEstimationIsNotAvailable: boolean;
     costEstimationIsOnlyDetailedTable?: boolean;
     costEstimationMustBeShown: boolean;

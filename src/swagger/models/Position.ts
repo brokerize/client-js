@@ -20,6 +20,12 @@ import {
   AmountToJSON,
 } from "./Amount";
 import {
+  Direction,
+  DirectionFromJSON,
+  DirectionFromJSONTyped,
+  DirectionToJSON,
+} from "./Direction";
+import {
   PositionValuation,
   PositionValuationFromJSON,
   PositionValuationFromJSONTyped,
@@ -129,6 +135,12 @@ export interface Position {
    */
   availableSize: number;
   /**
+   *
+   * @type {Direction}
+   * @memberof Position
+   */
+  direction?: Direction;
+  /**
    * Name of the exchange, as provided by the broker.
    * @type {string}
    * @memberof Position
@@ -235,6 +247,9 @@ export function PositionFromJSONTyped(
       ? undefined
       : PositionValuationFromJSON(json["purchaseValuation"]),
     availableSize: json["availableSize"],
+    direction: !exists(json, "direction")
+      ? undefined
+      : DirectionFromJSON(json["direction"]),
     exchangeName: !exists(json, "exchangeName")
       ? undefined
       : json["exchangeName"],
@@ -282,6 +297,7 @@ export function PositionToJSONRecursive(
         : value.purchaseDateTime.toISOString(),
     purchaseValuation: PositionValuationToJSON(value.purchaseValuation),
     availableSize: value.availableSize,
+    direction: DirectionToJSON(value.direction),
     exchangeName: value.exchangeName,
     brokerExchangeId: value.brokerExchangeId,
     exchangeId: value.exchangeId,
