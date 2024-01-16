@@ -285,6 +285,12 @@
                         },
                         "type": "object"
                     },
+                    "optionalClientSecrets": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
                     "clientSecrets": {
                         "items": {
                             "type": "string"
@@ -1139,14 +1145,6 @@
                     "isin": {
                         "type": "string"
                     },
-                    "intent": {
-                        "type": "string",
-                        "enum": [
-                            "open",
-                            "close"
-                        ],
-                        "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.closeIntentAllowed` is `true`,\nthis should be set `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order)."
-                    },
                     "brokerExchangeId": {
                         "type": "string"
                     },
@@ -1903,10 +1901,6 @@
                         "type": "number",
                         "format": "double",
                         "description": "How much of the position is available for sale."
-                    },
-                    "direction": {
-                        "$ref": "#/components/schemas/Direction",
-                        "description": "Some brokers allow positions to be either short (`sell`) or long (`buy`). If `direction` is present for a position,\nthe direction should be displayed accordingly (e.g. frontends can show it as a symbol or a separate column)."
                     },
                     "exchangeName": {
                         "type": "string",
@@ -2838,10 +2832,6 @@
                     "riskClassInfo": {
                         "$ref": "#/components/schemas/RiskClassInfo"
                     },
-                    "closeIntentAllowed": {
-                        "type": "boolean",
-                        "description": "If present and `true` the broker supports closing positions for this instrument. If clients want to explicitly indicate to close\na position (regardless of the direction), they can set `order.intent` to `close`."
-                    },
                     "sellPositions": {
                         "items": {
                             "$ref": "#/components/schemas/SellPosition"
@@ -3036,14 +3026,6 @@
                     },
                     "isin": {
                         "type": "string"
-                    },
-                    "intent": {
-                        "type": "string",
-                        "enum": [
-                            "open",
-                            "close"
-                        ],
-                        "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.closeIntentAllowed` is `true`,\nthis should be set `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order)."
                     },
                     "brokerExchangeId": {
                         "type": "string"

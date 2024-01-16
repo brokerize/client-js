@@ -155,14 +155,6 @@ export interface OrderCreate {
    */
   isin: string;
   /**
-   * Whether this order is supposed to open or close a position. If `PreparedTrade.closeIntentAllowed` is `true`,
-   * this should be set `close` for orders that are supposed to close an existing position. Note that this is independent
-   * of the order's direction (e.g. a short position is closed by a buy order).
-   * @type {string}
-   * @memberof OrderCreate
-   */
-  intent?: OrderCreateIntentEnum;
-  /**
    *
    * @type {string}
    * @memberof OrderCreate
@@ -212,16 +204,6 @@ export interface OrderCreate {
   sizeUnit?: string;
 }
 
-/**
- * @export
- */
-export const OrderCreateIntentEnum = {
-  Open: "open",
-  Close: "close",
-} as const;
-export type OrderCreateIntentEnum =
-  (typeof OrderCreateIntentEnum)[keyof typeof OrderCreateIntentEnum];
-
 export function OrderCreateFromJSON(json: any): OrderCreate {
   return OrderCreateFromJSONTyped(json, false);
 }
@@ -261,7 +243,6 @@ export function OrderCreateFromJSONTyped(
       : OrderExtensionFromJSON(json["orderExtension"]),
     size: json["size"],
     isin: json["isin"],
-    intent: !exists(json, "intent") ? undefined : json["intent"],
     brokerExchangeId: json["brokerExchangeId"],
     direction: DirectionFromJSON(json["direction"]),
     orderModel: OrderModelFromJSON(json["orderModel"]),
@@ -304,7 +285,6 @@ export function OrderCreateToJSONRecursive(
     orderExtension: OrderExtensionToJSON(value.orderExtension),
     size: value.size,
     isin: value.isin,
-    intent: value.intent,
     brokerExchangeId: value.brokerExchangeId,
     direction: DirectionToJSON(value.direction),
     orderModel: OrderModelToJSON(value.orderModel),

@@ -109,6 +109,12 @@ export interface ClientConfig {
    * @type {Array<string>}
    * @memberof ClientConfig
    */
+  optionalClientSecrets?: Array<string>;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ClientConfig
+   */
   clientSecrets?: Array<string>;
   /**
    *
@@ -186,6 +192,9 @@ export function ClientConfigFromJSONTyped(
       : ClientConfigRateLimitPointsToConsumeFromJSON(
           json["rateLimitPointsToConsume"]
         ),
+    optionalClientSecrets: !exists(json, "optionalClientSecrets")
+      ? undefined
+      : json["optionalClientSecrets"],
     clientSecrets: !exists(json, "clientSecrets")
       ? undefined
       : json["clientSecrets"],
@@ -233,6 +242,7 @@ export function ClientConfigToJSONRecursive(
     rateLimitPointsToConsume: ClientConfigRateLimitPointsToConsumeToJSON(
       value.rateLimitPointsToConsume
     ),
+    optionalClientSecrets: value.optionalClientSecrets,
     clientSecrets: value.clientSecrets,
     allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
     allowedOrigins: value.allowedOrigins,

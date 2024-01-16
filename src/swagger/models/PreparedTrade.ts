@@ -114,13 +114,6 @@ export interface PreparedTrade {
    */
   riskClassInfo?: RiskClassInfo;
   /**
-   * If present and `true` the broker supports closing positions for this instrument. If clients want to explicitly indicate to close
-   * a position (regardless of the direction), they can set `order.intent` to `close`.
-   * @type {boolean}
-   * @memberof PreparedTrade
-   */
-  closeIntentAllowed?: boolean;
-  /**
    * If this is set, the user has to select a position to sell from. This may be the case if a position is
    * stored in different locations or sub-positions are blocked until some date.
    * If the user does not need to specify the position, this is left undefined.
@@ -177,9 +170,6 @@ export function PreparedTradeFromJSONTyped(
     riskClassInfo: !exists(json, "riskClassInfo")
       ? undefined
       : RiskClassInfoFromJSON(json["riskClassInfo"]),
-    closeIntentAllowed: !exists(json, "closeIntentAllowed")
-      ? undefined
-      : json["closeIntentAllowed"],
     sellPositions: !exists(json, "sellPositions")
       ? undefined
       : (json["sellPositions"] as Array<any>).map(SellPositionFromJSON),
@@ -211,7 +201,6 @@ export function PreparedTradeToJSONRecursive(
     strikingHint: value.strikingHint,
     sizeUnit: value.sizeUnit,
     riskClassInfo: RiskClassInfoToJSON(value.riskClassInfo),
-    closeIntentAllowed: value.closeIntentAllowed,
     sellPositions:
       value.sellPositions === undefined
         ? undefined
