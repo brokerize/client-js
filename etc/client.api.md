@@ -1137,6 +1137,7 @@ interface ClientConfig {
     oAuthLoginForm?: ClientConfigOAuthLoginForm | null;
     oAuthReturnToRegularExpressions?: Array<string>;
     oAuthReturnToUrls?: Array<string>;
+    optionalClientSecrets?: Array<string>;
     page?: ClientConfigPage | null;
     rateLimitPointsToConsume?: ClientConfigRateLimitPointsToConsume;
 }
