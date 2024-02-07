@@ -35,6 +35,12 @@ export interface Security {
    */
   sizeKind?: SecuritySizeKindEnum;
   /**
+   * The US ticker symbol of the security, if provided by the broker.
+   * @type {string}
+   * @memberof Security
+   */
+  usTicker?: string;
+  /**
    *
    * @type {string}
    * @memberof Security
@@ -84,6 +90,7 @@ export function SecurityFromJSONTyped(
   return {
     priceFactor: !exists(json, "priceFactor") ? undefined : json["priceFactor"],
     sizeKind: !exists(json, "sizeKind") ? undefined : json["sizeKind"],
+    usTicker: !exists(json, "usTicker") ? undefined : json["usTicker"],
     symbol: !exists(json, "symbol") ? undefined : json["symbol"],
     wkn: !exists(json, "wkn") ? undefined : json["wkn"],
     isin: !exists(json, "isin") ? undefined : json["isin"],
@@ -105,6 +112,7 @@ export function SecurityToJSONRecursive(
   return {
     priceFactor: value.priceFactor,
     sizeKind: value.sizeKind,
+    usTicker: value.usTicker,
     symbol: value.symbol,
     wkn: value.wkn,
     isin: value.isin,

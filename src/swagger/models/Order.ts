@@ -179,11 +179,27 @@ export interface Order {
    */
   size: number;
   /**
+   * The US ticker of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.
+   * @type {string}
+   * @memberof Order
+   */
+  usTicker?: string;
+  /**
+   * The ISIN of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.
    *
+   * Note that we will make isin optional in a future version of the API.
    * @type {string}
    * @memberof Order
    */
   isin: string;
+  /**
+   * Whether this order is supposed to open or close a position. If `PreparedTrade.closeIntentAllowed` is `true`,
+   * this should be set `close` for orders that are supposed to close an existing position. Note that this is independent
+   * of the order's direction (e.g. a short position is closed by a buy order).
+   * @type {string}
+   * @memberof Order
+   */
+  intent?: OrderIntentEnum;
   /**
    *
    * @type {string}
@@ -281,6 +297,18 @@ export interface Order {
    * @memberof Order
    */
   allowsChangeOrderModels?: Array<OrderModel>;
+  /**
+   * `true` if the `takeProfit` of the order can be changed.
+   * @type {boolean}
+   * @memberof Order
+   */
+  allowsChangeTakeProfit?: boolean;
+  /**
+   * `true` if the `stopLoss` of the order can be changed.
+   * @type {boolean}
+   * @memberof Order
+   */
+  allowsChangeStopLoss?: boolean;
   /**
    * If set and `true`, the endpoint `getChangeOrderCostEstimation` can be used to retrieve cost estimations
    * for order changes.
@@ -417,6 +445,16 @@ export interface Order {
   currentStop?: Amount;
 }
 
+/**
+ * @export
+ */
+export const OrderIntentEnum = {
+  Open: "open",
+  Close: "close",
+} as const;
+export type OrderIntentEnum =
+  (typeof OrderIntentEnum)[keyof typeof OrderIntentEnum];
+
 export function OrderFromJSON(json: any): Order {
   return OrderFromJSONTyped(json, false);
 }
@@ -455,7 +493,9 @@ export function OrderFromJSONTyped(
       ? undefined
       : OrderExtensionFromJSON(json["orderExtension"]),
     size: json["size"],
+    usTicker: !exists(json, "usTicker") ? undefined : json["usTicker"],
     isin: json["isin"],
+    intent: !exists(json, "intent") ? undefined : json["intent"],
     brokerExchangeId: json["brokerExchangeId"],
     direction: DirectionFromJSON(json["direction"]),
     orderModel: OrderModelFromJSON(json["orderModel"]),
@@ -486,6 +526,12 @@ export function OrderFromJSONTyped(
     allowsChangeOrderModels: !exists(json, "allowsChangeOrderModels")
       ? undefined
       : (json["allowsChangeOrderModels"] as Array<any>).map(OrderModelFromJSON),
+    allowsChangeTakeProfit: !exists(json, "allowsChangeTakeProfit")
+      ? undefined
+      : json["allowsChangeTakeProfit"],
+    allowsChangeStopLoss: !exists(json, "allowsChangeStopLoss")
+      ? undefined
+      : json["allowsChangeStopLoss"],
     changesHaveCostEstimations: !exists(json, "changesHaveCostEstimations")
       ? undefined
       : json["changesHaveCostEstimations"],
@@ -574,7 +620,9 @@ export function OrderToJSONRecursive(
     cashQuotation: CashQuotationToJSON(value.cashQuotation),
     orderExtension: OrderExtensionToJSON(value.orderExtension),
     size: value.size,
+    usTicker: value.usTicker,
     isin: value.isin,
+    intent: value.intent,
     brokerExchangeId: value.brokerExchangeId,
     direction: DirectionToJSON(value.direction),
     orderModel: OrderModelToJSON(value.orderModel),
@@ -599,6 +647,8 @@ export function OrderToJSONRecursive(
       value.allowsChangeOrderModels === undefined
         ? undefined
         : (value.allowsChangeOrderModels as Array<any>).map(OrderModelToJSON),
+    allowsChangeTakeProfit: value.allowsChangeTakeProfit,
+    allowsChangeStopLoss: value.allowsChangeStopLoss,
     changesHaveCostEstimations: value.changesHaveCostEstimations,
     exchangeName: value.exchangeName,
     exchangeId: value.exchangeId,

@@ -94,6 +94,18 @@ export interface OrderChanges {
    * @memberof OrderChanges
    */
   trailingLimitTolerance?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderChanges
+   */
+  takeProfit?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderChanges
+   */
+  stopLoss?: number;
 }
 
 export function OrderChangesFromJSON(json: any): OrderChanges {
@@ -122,6 +134,8 @@ export function OrderChangesFromJSONTyped(
     trailingLimitTolerance: !exists(json, "trailingLimitTolerance")
       ? undefined
       : json["trailingLimitTolerance"],
+    takeProfit: !exists(json, "takeProfit") ? undefined : json["takeProfit"],
+    stopLoss: !exists(json, "stopLoss") ? undefined : json["stopLoss"],
   };
 }
 
@@ -145,6 +159,8 @@ export function OrderChangesToJSONRecursive(
     stop: value.stop,
     trailingDistance: TrailingDistanceToJSON(value.trailingDistance),
     trailingLimitTolerance: value.trailingLimitTolerance,
+    takeProfit: value.takeProfit,
+    stopLoss: value.stopLoss,
   };
 }
 

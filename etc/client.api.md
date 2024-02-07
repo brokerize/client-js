@@ -3868,6 +3868,8 @@ interface Order {
     allowsChangeSize: boolean;
     allowsChangeStop?: boolean;
     allowsChangeStopLimit?: boolean;
+    allowsChangeStopLoss?: boolean;
+    allowsChangeTakeProfit?: boolean;
     allowsChangeTrailingDistance?: boolean;
     allowsChangeValidityTypes?: Array<OrderValidityType>;
     bondCurrencyIso?: string;
@@ -3888,6 +3890,7 @@ interface Order {
     hasNoOrderReceipt?: boolean;
     id: string;
     ifDoneLimit?: number;
+    intent?: OrderIntentEnum;
     isin: string;
     limit?: number;
     limitCurrencyIso?: string;
@@ -3914,6 +3917,7 @@ interface Order {
     takeProfit?: number;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
+    usTicker?: string;
     validity?: OrderValidity;
 }
 
@@ -3924,6 +3928,8 @@ interface OrderChanges {
     size: number;
     stop?: number;
     stopLimit?: number;
+    stopLoss?: number;
+    takeProfit?: number;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
     validity?: OrderValidity;
@@ -3973,6 +3979,7 @@ interface OrderCreate {
     cashQuotation?: CashQuotation;
     direction: Direction;
     ifDoneLimit?: number;
+    intent?: OrderCreateIntentEnum;
     isin: string;
     limit?: number;
     limitCurrencyIso?: string;
@@ -3990,6 +3997,7 @@ interface OrderCreate {
     takeProfit?: number;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
+    usTicker?: string;
     validity?: OrderValidity;
 }
 
@@ -3998,6 +4006,15 @@ function OrderCreateFromJSON(json: any): OrderCreate;
 
 // @public (undocumented)
 function OrderCreateFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderCreate;
+
+// @public (undocumented)
+const OrderCreateIntentEnum: {
+    readonly Open: "open";
+    readonly Close: "close";
+};
+
+// @public (undocumented)
+type OrderCreateIntentEnum = (typeof OrderCreateIntentEnum)[keyof typeof OrderCreateIntentEnum];
 
 // @public (undocumented)
 function OrderCreateToJSON(value?: OrderCreate | null): any;
@@ -4056,6 +4073,15 @@ function OrderFromJSON(json: any): Order;
 
 // @public (undocumented)
 function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order;
+
+// @public (undocumented)
+const OrderIntentEnum: {
+    readonly Open: "open";
+    readonly Close: "close";
+};
+
+// @public (undocumented)
+type OrderIntentEnum = (typeof OrderIntentEnum)[keyof typeof OrderIntentEnum];
 
 // @public
 const OrderModel: {
@@ -4583,6 +4609,7 @@ interface Position {
     comment?: string;
     commentIsEditable?: boolean;
     currentValuation?: PositionValuation;
+    direction?: Direction;
     exchangeId?: number;
     exchangeName?: string;
     id: string;
@@ -4637,6 +4664,7 @@ function PositionValuationToJSONRecursive(value?: PositionValuation | null, igno
 
 // @public
 interface PreparedTrade {
+    closeIntentAllowed?: boolean;
     costEstimationIsNotAvailable: boolean;
     costEstimationIsOnlyDetailedTable?: boolean;
     costEstimationMustBeShown: boolean;
@@ -4710,9 +4738,11 @@ function PrepareOAuthRedirectResponseToJSONRecursive(value?: PrepareOAuthRedirec
 // @public (undocumented)
 interface PrepareTradeRequest {
     // (undocumented)
-    isin: string;
+    isin?: string;
     // (undocumented)
     portfolioId: string;
+    // (undocumented)
+    usTicker?: string;
 }
 
 // @public
@@ -4886,6 +4916,7 @@ interface Security {
     priceFactor?: number;
     sizeKind?: SecuritySizeKindEnum;
     symbol?: string;
+    usTicker?: string;
     wkn?: string;
 }
 

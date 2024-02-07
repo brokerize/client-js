@@ -71,8 +71,9 @@ export interface GetSecurityDetailedInfoRequest {
 }
 
 export interface PrepareTradeRequest {
-  isin: string;
   portfolioId: string;
+  isin?: string;
+  usTicker?: string;
 }
 
 /**
@@ -407,22 +408,12 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
-   * Prepare a trade of `isin` in the given portfolio `portfolioId`. This describes what kind of orders are supported by the broker for the security. This requires the portfolio to have at least one active broker session.
+   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both; depending on the broker, the appropriate one will be used.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
    */
   async prepareTradeRaw(
     requestParameters: PrepareTradeRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<PrepareTradeResponse>> {
-    if (
-      requestParameters.isin === null ||
-      requestParameters.isin === undefined
-    ) {
-      throw new runtime.RequiredError(
-        "isin",
-        "Required parameter requestParameters.isin was null or undefined when calling prepareTrade."
-      );
-    }
-
     if (
       requestParameters.portfolioId === null ||
       requestParameters.portfolioId === undefined
@@ -435,12 +426,16 @@ export class TradeApi extends runtime.BaseAPI {
 
     const queryParameters: any = {};
 
+    if (requestParameters.portfolioId !== undefined) {
+      queryParameters["portfolioId"] = requestParameters.portfolioId;
+    }
+
     if (requestParameters.isin !== undefined) {
       queryParameters["isin"] = requestParameters.isin;
     }
 
-    if (requestParameters.portfolioId !== undefined) {
-      queryParameters["portfolioId"] = requestParameters.portfolioId;
+    if (requestParameters.usTicker !== undefined) {
+      queryParameters["usTicker"] = requestParameters.usTicker;
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -471,7 +466,7 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
-   * Prepare a trade of `isin` in the given portfolio `portfolioId`. This describes what kind of orders are supported by the broker for the security. This requires the portfolio to have at least one active broker session.
+   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both; depending on the broker, the appropriate one will be used.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
    */
   async prepareTrade(
     requestParameters: PrepareTradeRequest,
