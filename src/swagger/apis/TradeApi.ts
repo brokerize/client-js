@@ -72,7 +72,7 @@ export interface GetSecurityDetailedInfoRequest {
 
 export interface PrepareTradeRequest {
   portfolioId: string;
-  isin?: string;
+  isin: string;
   usTicker?: string;
 }
 
@@ -408,7 +408,7 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
-   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both; depending on the broker, the appropriate one will be used.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
+   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both. Depending on the broker, the appropriate one will be used. Note that for backwards-compatibility reasons `isin` is required.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
    */
   async prepareTradeRaw(
     requestParameters: PrepareTradeRequest,
@@ -421,6 +421,16 @@ export class TradeApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "portfolioId",
         "Required parameter requestParameters.portfolioId was null or undefined when calling prepareTrade."
+      );
+    }
+
+    if (
+      requestParameters.isin === null ||
+      requestParameters.isin === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "isin",
+        "Required parameter requestParameters.isin was null or undefined when calling prepareTrade."
       );
     }
 
@@ -466,7 +476,7 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
-   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both; depending on the broker, the appropriate one will be used.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
+   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both. Depending on the broker, the appropriate one will be used. Note that for backwards-compatibility reasons `isin` is required.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
    */
   async prepareTrade(
     requestParameters: PrepareTradeRequest,

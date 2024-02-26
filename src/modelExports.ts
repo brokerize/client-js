@@ -151,3 +151,6 @@ export {
   TrailingDistanceModeEnum,
 } from "./swagger/models/TrailingDistance";
 export { ValidationDetail } from "./swagger/models/ValidationDetail";
+export { SecurityQuotesResponse } from "./swagger/models/SecurityQuotesResponse";
+export { SecurityQuotes } from "./swagger/models/SecurityQuotes";
+export { SecurityQuote } from "./swagger/models/SecurityQuote";

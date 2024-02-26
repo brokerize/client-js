@@ -554,6 +554,12 @@ export class AuthorizedApiContext {
     // (undocumented)
     getSecurityDetailedInfo(token: string): Promise<openApiClient.GenericTable>;
     // (undocumented)
+    getSecurityQuotes(opts: {
+        securityQuotesToken: string;
+    }): Promise<openApiClient.SecurityQuotesResponse>;
+    // (undocumented)
+    getSecurityQuotesMeta(securityQuotesToken: string): Promise<openApiClient.SecurityQuotesMeta>;
+    // (undocumented)
     getSessions(): Promise<openApiClient.SessionResponse>;
     // (undocumented)
     getUser(): Promise<openApiClient.GetUserResponse>;
@@ -573,6 +579,9 @@ export class AuthorizedApiContext {
     setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
     // (undocumented)
     subscribeLogout(callback: Callback): Subscription;
+    subscribeQuotes(securityQuotesToken: string, callback: Callback): {
+        unsubscribe(): void;
+    };
     // (undocumented)
     triggerDemoSessionSyncError(sessionId: string): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
@@ -2250,6 +2259,7 @@ interface Exchange {
     legalMessagesToConfirmByOrderModel?: StringMapByOrderModel;
     orderModelsBuy: Array<OrderModel>;
     orderModelsSell: Array<OrderModel>;
+    securityQuotesToken?: string;
     takeProfitStopLoss?: TakeProfitStopLossCapabilites;
     validityTypesByOrderModel: OrderValidityTypeByOrderModel;
 }
@@ -3329,6 +3339,18 @@ interface GetSecurityDetailedInfoRequest {
     token: string;
 }
 
+// @public (undocumented)
+interface GetSecurityQuotesMetaRequest {
+    // (undocumented)
+    securityQuotesToken: string;
+}
+
+// @public (undocumented)
+interface GetSecurityQuotesRequest {
+    // (undocumented)
+    securityQuotesToken: string;
+}
+
 // @public
 interface GetUserResponse {
     userId: string;
@@ -3819,7 +3841,10 @@ declare namespace Models {
         SyncError,
         TrailingDistance,
         TrailingDistanceModeEnum,
-        ValidationDetail
+        ValidationDetail,
+        SecurityQuotesResponse,
+        SecurityQuotes,
+        SecurityQuote
     }
 }
 export { Models }
@@ -4738,7 +4763,7 @@ function PrepareOAuthRedirectResponseToJSONRecursive(value?: PrepareOAuthRedirec
 // @public (undocumented)
 interface PrepareTradeRequest {
     // (undocumented)
-    isin?: string;
+    isin: string;
     // (undocumented)
     portfolioId: string;
     // (undocumented)
@@ -4909,6 +4934,16 @@ function RiskClassInfoToJSON(value?: RiskClassInfo | null): any;
 // @public (undocumented)
 function RiskClassInfoToJSONRecursive(value?: RiskClassInfo | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+class SecuritiesApi extends runtime.BaseAPI {
+    getSecurityQuotes(requestParameters: GetSecurityQuotesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<SecurityQuotesResponse>;
+    // (undocumented)
+    getSecurityQuotesMeta(requestParameters: GetSecurityQuotesMetaRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<SecurityQuotesMeta>;
+    // (undocumented)
+    getSecurityQuotesMetaRaw(requestParameters: GetSecurityQuotesMetaRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<SecurityQuotesMeta>>;
+    getSecurityQuotesRaw(requestParameters: GetSecurityQuotesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<SecurityQuotesResponse>>;
+}
+
 // @public
 interface Security {
     isin?: string;
@@ -4943,6 +4978,78 @@ function SecurityFromJSON(json: any): Security;
 
 // @public (undocumented)
 function SecurityFromJSONTyped(json: any, ignoreDiscriminator: boolean): Security;
+
+// @public
+interface SecurityQuote {
+    timestamp?: number;
+    value: number;
+}
+
+// @public (undocumented)
+function SecurityQuoteFromJSON(json: any): SecurityQuote;
+
+// @public (undocumented)
+function SecurityQuoteFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecurityQuote;
+
+// @public
+interface SecurityQuotes {
+    ask?: SecurityQuote;
+    bid?: SecurityQuote;
+}
+
+// @public (undocumented)
+function SecurityQuotesFromJSON(json: any): SecurityQuotes;
+
+// @public (undocumented)
+function SecurityQuotesFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecurityQuotes;
+
+// @public
+interface SecurityQuotesMeta {
+    currency: string;
+    decimals: number;
+    quoteSourceName: string;
+}
+
+// @public (undocumented)
+function SecurityQuotesMetaFromJSON(json: any): SecurityQuotesMeta;
+
+// @public (undocumented)
+function SecurityQuotesMetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecurityQuotesMeta;
+
+// @public (undocumented)
+function SecurityQuotesMetaToJSON(value?: SecurityQuotesMeta | null): any;
+
+// @public (undocumented)
+function SecurityQuotesMetaToJSONRecursive(value?: SecurityQuotesMeta | null, ignoreParent?: boolean): any;
+
+// @public
+interface SecurityQuotesResponse {
+    quotes: SecurityQuotes;
+}
+
+// @public (undocumented)
+function SecurityQuotesResponseFromJSON(json: any): SecurityQuotesResponse;
+
+// @public (undocumented)
+function SecurityQuotesResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecurityQuotesResponse;
+
+// @public (undocumented)
+function SecurityQuotesResponseToJSON(value?: SecurityQuotesResponse | null): any;
+
+// @public (undocumented)
+function SecurityQuotesResponseToJSONRecursive(value?: SecurityQuotesResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function SecurityQuotesToJSON(value?: SecurityQuotes | null): any;
+
+// @public (undocumented)
+function SecurityQuotesToJSONRecursive(value?: SecurityQuotes | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function SecurityQuoteToJSON(value?: SecurityQuote | null): any;
+
+// @public (undocumented)
+function SecurityQuoteToJSONRecursive(value?: SecurityQuote | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 const SecuritySizeKindEnum: {

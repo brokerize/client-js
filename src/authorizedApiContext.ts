@@ -23,6 +23,7 @@ import {
   Callback,
   Subscription,
 } from "./websocketClient";
+import { spacedIntvl } from "./spacedIntvl";
 
 export class AuthorizedApiContext {
   private _cfg: BrokerizeConfig;
@@ -42,6 +43,7 @@ export class AuthorizedApiContext {
   private _cache: { getBrokers?: Promise<openApiClient.GetBrokersResponse> };
   private _exportApi: openApiClient.ExportApi;
   private _adminApi: openApiClient.AdminApi;
+  private _securitiesApi: openApiClient.SecuritiesApi;
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
@@ -94,6 +96,9 @@ export class AuthorizedApiContext {
     this._adminApi = new openApiClient.AdminApi(apiConfig).withPostMiddleware(
       postMiddleware
     );
+    this._securitiesApi = new openApiClient.SecuritiesApi(
+      apiConfig
+    ).withPostMiddleware(postMiddleware);
     if (!cfg.createAbortController) {
       throw new Error(
         "createAbortController not provided. This should not happen as there should be a default implementation."
@@ -464,6 +469,52 @@ export class AuthorizedApiContext {
     const filename = response.raw.headers.get("x-brkrz-filename");
     const contentType = response.raw.headers.get("content-type");
     return { filename, data: response.raw.blob(), contentType };
+  }
+
+  async getSecurityQuotes(opts: { securityQuotesToken: string }) {
+    return this._securitiesApi.getSecurityQuotes(
+      {
+        securityQuotesToken: opts.securityQuotesToken,
+      },
+      await this._initRequestInit()
+    );
+  }
+
+  async getSecurityQuotesMeta(securityQuotesToken: string) {
+    return this._securitiesApi.getSecurityQuotesMeta(
+      {
+        securityQuotesToken,
+      },
+      await this._initRequestInit()
+    );
+  }
+
+  /**
+   * Subscribe to security quotes. Note that this currently uses polling to load the quotes from the
+   * API. This will be replaced with a websocket-based solution in the future, but we can keep this
+   * interface upwards-compatible.
+   *
+   * @param securityQuotesToken the `securityQuotesToken` to subscribe to
+   * @param callback a callback that will be called with the quotes
+   * @returns a subscription object that can be used to unsubscribe
+   */
+  subscribeQuotes(securityQuotesToken: string, callback: Callback) {
+    const intvl = spacedIntvl(async () => {
+      try {
+        const q = await this.getSecurityQuotes({ securityQuotesToken });
+        callback(null, q);
+      } catch (err) {
+        callback(err, null);
+      }
+    }, 2500);
+
+    return {
+      unsubscribe() {
+        intvl.stop().catch((err) => {
+          callback(err, null);
+        });
+      },
+    };
   }
 
   private _initInternalWebSocketClient() {
