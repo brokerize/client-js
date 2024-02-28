@@ -70,7 +70,7 @@ export interface ErrorResponse {
    * Currently the following codes are implemented:
    *  'TRADING_ERROR', 'AUTH', 'RATE_LIMITED', 'VALIDATION_FAILED', 'MUST_ACCEPT_HINT', 'NO_SESSION_AVAILABLE_FOR_PORTFOLIO',
    *  'SECURITY_NOT_FOUND', 'SECURITY_NOT_TRADABLE_AT_EXCHANGE', 'ORDER_REJECTED', 'INTERNAL_SERVER_ERROR', 'MAINTENANCE',
-   *  'INTERNAL_SERVER_ERROR_BROKER_API'
+   *  'INTERNAL_SERVER_ERROR_BROKER_API' | 'NOT_FOUND'
    * @type {string}
    * @memberof ErrorResponse
    */

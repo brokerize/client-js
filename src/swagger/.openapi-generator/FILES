@@ -7,6 +7,7 @@ apis/DefaultApi.ts
 apis/DemobrokerApi.ts
 apis/ExportApi.ts
 apis/MetaApi.ts
+apis/SecuritiesApi.ts
 apis/TradeApi.ts
 apis/index.ts
 index.ts
@@ -188,6 +189,10 @@ models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts
 models/Security.ts
 models/SecurityDetailedInfo.ts
+models/SecurityQuote.ts
+models/SecurityQuotes.ts
+models/SecurityQuotesMeta.ts
+models/SecurityQuotesResponse.ts
 models/SellPosition.ts
 models/Session.ts
 models/SessionResponse.ts

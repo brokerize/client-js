@@ -57,6 +57,12 @@ export interface Exchange {
    */
   id: string;
   /**
+   * If set, this token can be used to retrieve quotes for the security at this exchange using the corresponding API endpoints (`GetSecurityQuotesMeta` and `GetSecurityQuotes`).
+   * @type {string}
+   * @memberof Exchange
+   */
+  securityQuotesToken?: string;
+  /**
    * If the exchange can be mapped to the brokerize exchange list, this contains the id of the corresponding entry. Note that this is optional
    * and may be missing if the exchange cannot be mapped.
    * @type {number}
@@ -149,6 +155,9 @@ export function ExchangeFromJSONTyped(
   }
   return {
     id: json["id"],
+    securityQuotesToken: !exists(json, "securityQuotesToken")
+      ? undefined
+      : json["securityQuotesToken"],
     brokerizeExchangeId: !exists(json, "brokerizeExchangeId")
       ? undefined
       : json["brokerizeExchangeId"],
@@ -204,6 +213,7 @@ export function ExchangeToJSONRecursive(
 
   return {
     id: value.id,
+    securityQuotesToken: value.securityQuotesToken,
     brokerizeExchangeId: value.brokerizeExchangeId,
     label: value.label,
     orderModelsSell: (value.orderModelsSell as Array<any>).map(

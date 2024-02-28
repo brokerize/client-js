@@ -1,6 +1,7 @@
 import { Subject } from "rxjs";
 import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
 import { BrokerizeError } from "./errors";
+import { createPollingSubscription } from "./pollingSubscription";
 import * as openApiClient from "./swagger";
 import {
   AddSessionParams,
@@ -42,6 +43,7 @@ export class AuthorizedApiContext {
   private _cache: { getBrokers?: Promise<openApiClient.GetBrokersResponse> };
   private _exportApi: openApiClient.ExportApi;
   private _adminApi: openApiClient.AdminApi;
+  private _securitiesApi: openApiClient.SecuritiesApi;
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
@@ -94,6 +96,9 @@ export class AuthorizedApiContext {
     this._adminApi = new openApiClient.AdminApi(apiConfig).withPostMiddleware(
       postMiddleware
     );
+    this._securitiesApi = new openApiClient.SecuritiesApi(
+      apiConfig
+    ).withPostMiddleware(postMiddleware);
     if (!cfg.createAbortController) {
       throw new Error(
         "createAbortController not provided. This should not happen as there should be a default implementation."
@@ -464,6 +469,44 @@ export class AuthorizedApiContext {
     const filename = response.raw.headers.get("x-brkrz-filename");
     const contentType = response.raw.headers.get("content-type");
     return { filename, data: response.raw.blob(), contentType };
+  }
+
+  async getSecurityQuotes(opts: { securityQuotesToken: string }) {
+    return this._securitiesApi.getSecurityQuotes(
+      {
+        securityQuotesToken: opts.securityQuotesToken,
+      },
+      await this._initRequestInit()
+    );
+  }
+
+  async getSecurityQuotesMeta(securityQuotesToken: string) {
+    return this._securitiesApi.getSecurityQuotesMeta(
+      {
+        securityQuotesToken,
+      },
+      await this._initRequestInit()
+    );
+  }
+
+  /**
+   * Subscribe to security quotes. Note that this currently uses polling to load the quotes from the
+   * API. This will be replaced with a websocket-based solution in the future, but we can keep this
+   * interface upwards-compatible.
+   *
+   * If an error occurs during the polling, the callback will receive the error and the subscription
+   * ends, which means the application should handle the error and possibly re-subscribe later.
+   *
+   * @param securityQuotesToken the `securityQuotesToken` to subscribe to
+   * @param callback a callback that will be called with the quotes
+   * @returns a subscription object with a function `unsubscribe` that can be used to stop polling
+   */
+  subscribeQuotes(securityQuotesToken: string, callback: Callback) {
+    return createPollingSubscription(
+      () => this.getSecurityQuotes({ securityQuotesToken }),
+      2500,
+      callback
+    );
   }
 
   private _initInternalWebSocketClient() {
