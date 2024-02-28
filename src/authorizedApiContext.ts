@@ -1,6 +1,7 @@
 import { Subject } from "rxjs";
 import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
 import { BrokerizeError } from "./errors";
+import { createPollingSubscription } from "./pollingSubscription";
 import * as openApiClient from "./swagger";
 import {
   AddSessionParams,
@@ -23,7 +24,6 @@ import {
   Callback,
   Subscription,
 } from "./websocketClient";
-import { spacedIntvl } from "./spacedIntvl";
 
 export class AuthorizedApiContext {
   private _cfg: BrokerizeConfig;
@@ -494,27 +494,19 @@ export class AuthorizedApiContext {
    * API. This will be replaced with a websocket-based solution in the future, but we can keep this
    * interface upwards-compatible.
    *
+   * If an error occurs during the polling, the callback will receive the error and the subscription
+   * ends, which means the application should handle the error and possibly re-subscribe later.
+   *
    * @param securityQuotesToken the `securityQuotesToken` to subscribe to
    * @param callback a callback that will be called with the quotes
-   * @returns a subscription object that can be used to unsubscribe
+   * @returns a subscription object with a function `unsubscribe` that can be used to stop polling
    */
   subscribeQuotes(securityQuotesToken: string, callback: Callback) {
-    const intvl = spacedIntvl(async () => {
-      try {
-        const q = await this.getSecurityQuotes({ securityQuotesToken });
-        callback(null, q);
-      } catch (err) {
-        callback(err, null);
-      }
-    }, 2500);
-
-    return {
-      unsubscribe() {
-        intvl.stop().catch((err) => {
-          callback(err, null);
-        });
-      },
-    };
+    return createPollingSubscription(
+      () => this.getSecurityQuotes({ securityQuotesToken }),
+      2500,
+      callback
+    );
   }
 
   private _initInternalWebSocketClient() {

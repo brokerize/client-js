@@ -4937,9 +4937,7 @@ function RiskClassInfoToJSONRecursive(value?: RiskClassInfo | null, ignoreParent
 // @public (undocumented)
 class SecuritiesApi extends runtime.BaseAPI {
     getSecurityQuotes(requestParameters: GetSecurityQuotesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<SecurityQuotesResponse>;
-    // (undocumented)
     getSecurityQuotesMeta(requestParameters: GetSecurityQuotesMetaRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<SecurityQuotesMeta>;
-    // (undocumented)
     getSecurityQuotesMetaRaw(requestParameters: GetSecurityQuotesMetaRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<SecurityQuotesMeta>>;
     getSecurityQuotesRaw(requestParameters: GetSecurityQuotesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<SecurityQuotesResponse>>;
 }

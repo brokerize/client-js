@@ -57,7 +57,7 @@ export interface Exchange {
    */
   id: string;
   /**
-   * If set, this token can be used to retrieve quotes for the security at this exchange using the corresponding API endpoint.
+   * If set, this token can be used to retrieve quotes for the security at this exchange using the corresponding API endpoints (`GetSecurityQuotesMeta` and `GetSecurityQuotes`).
    * @type {string}
    * @memberof Exchange
    */

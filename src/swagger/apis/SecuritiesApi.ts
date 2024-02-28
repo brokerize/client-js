@@ -38,7 +38,7 @@ export interface GetSecurityQuotesMetaRequest {
  */
 export class SecuritiesApi extends runtime.BaseAPI {
   /**
-   * Load the current quotes for the given `securityQuotesToken` (provided in `PreparedTrade`).
+   * Load the current quotes for the given `securityQuotesToken` (provided by `PreparedTrade`). Currently, polling this endpoint is the only way to get the current quotes. A polling interval of 2500 milliseconds is recommended and it counts towards the general rate limit.
    */
   async getSecurityQuotesRaw(
     requestParameters: GetSecurityQuotesRequest,
@@ -87,7 +87,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
   }
 
   /**
-   * Load the current quotes for the given `securityQuotesToken` (provided in `PreparedTrade`).
+   * Load the current quotes for the given `securityQuotesToken` (provided by `PreparedTrade`). Currently, polling this endpoint is the only way to get the current quotes. A polling interval of 2500 milliseconds is recommended and it counts towards the general rate limit.
    */
   async getSecurityQuotes(
     requestParameters: GetSecurityQuotesRequest,
@@ -101,6 +101,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
   }
 
   /**
+   * Load meta data about the given securityQuotesToken. This includes the currency, decimals and the quote source name.
    */
   async getSecurityQuotesMetaRaw(
     requestParameters: GetSecurityQuotesMetaRequest,
@@ -149,6 +150,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
   }
 
   /**
+   * Load meta data about the given securityQuotesToken. This includes the currency, decimals and the quote source name.
    */
   async getSecurityQuotesMeta(
     requestParameters: GetSecurityQuotesMetaRequest,
