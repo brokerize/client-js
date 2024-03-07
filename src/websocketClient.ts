@@ -426,7 +426,7 @@ export interface BrokerizeWebSocketClient {
   ) => Subscription;
 }
 
-export type Callback<T=any> = (err: any, data: T) => void;
+export type Callback<T = any> = (err: any, data: T) => void;
 
 export type Subscription = {
   unsubscribe: () => void;
