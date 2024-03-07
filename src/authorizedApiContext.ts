@@ -501,7 +501,7 @@ export class AuthorizedApiContext {
    * @param callback a callback that will be called with the quotes
    * @returns a subscription object with a function `unsubscribe` that can be used to stop polling
    */
-  subscribeQuotes(securityQuotesToken: string, callback: Callback) {
+  subscribeQuotes(securityQuotesToken: string, callback: Callback<openApiClient.SecurityQuotesResponse|undefined>) {
     return createPollingSubscription(
       () => this.getSecurityQuotes({ securityQuotesToken }),
       2500,

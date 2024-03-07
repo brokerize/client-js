@@ -579,7 +579,7 @@ export class AuthorizedApiContext {
     setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
     // (undocumented)
     subscribeLogout(callback: Callback): Subscription;
-    subscribeQuotes(securityQuotesToken: string, callback: Callback): {
+    subscribeQuotes(securityQuotesToken: string, callback: Callback<openApiClient.SecurityQuotesResponse | undefined>): {
         unsubscribe(): void;
     };
     // (undocumented)
@@ -834,7 +834,7 @@ function BrokerMetaToJSON(value?: BrokerMeta | null): any;
 function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
-export type Callback = (err: any, data: any) => void;
+export type Callback<T = any> = (err: any, data: T) => void;
 
 // @public (undocumented)
 interface CancelDecoupledOperationRequest {
