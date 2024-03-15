@@ -121,7 +121,7 @@ export class MetaApi extends runtime.BaseAPI {
   }
 
   /**
-   * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future).
+   * Get the legal terms that the user has to accept before logging in to any broker.
    */
   async getLegalTermsRaw(
     initOverrides?: RequestInit | runtime.InitOverideFunction
@@ -156,7 +156,7 @@ export class MetaApi extends runtime.BaseAPI {
   }
 
   /**
-   * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future).
+   * Get the legal terms that the user has to accept before logging in to any broker.
    */
   async getLegalTerms(
     initOverrides?: RequestInit | runtime.InitOverideFunction

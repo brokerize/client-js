@@ -33,6 +33,19 @@ export interface BrokerMetaFeatures {
    */
   supportedOrderStatuses: Array<OrderStatus>;
   /**
+   * If set and `true`, orders retrieved in order lists or individually via `GetOrder` are expected to contain the `exchangeName` field.
+   * Some brokers do not provide this information, so it is fine to hide the column in the UI if this is not true.
+   * @type {boolean}
+   * @memberof BrokerMetaFeatures
+   */
+  orderExchangeNames?: boolean;
+  /**
+   * If set and `true`, `Position.profitLossRel` is generally available for positions of this broker.
+   * @type {boolean}
+   * @memberof BrokerMetaFeatures
+   */
+  positionProfitLossRel?: boolean;
+  /**
    * If set and `true`, `Position.profitLossRelPrevClose` is generally available for positions of this broker.
    * @type {boolean}
    * @memberof BrokerMetaFeatures
@@ -61,6 +74,12 @@ export function BrokerMetaFeaturesFromJSONTyped(
     supportedOrderStatuses: (json["supportedOrderStatuses"] as Array<any>).map(
       OrderStatusFromJSON
     ),
+    orderExchangeNames: !exists(json, "orderExchangeNames")
+      ? undefined
+      : json["orderExchangeNames"],
+    positionProfitLossRel: !exists(json, "positionProfitLossRel")
+      ? undefined
+      : json["positionProfitLossRel"],
     positionProfitLossRelPrevClose: !exists(
       json,
       "positionProfitLossRelPrevClose"
@@ -91,6 +110,8 @@ export function BrokerMetaFeaturesToJSONRecursive(
     supportedOrderStatuses: (value.supportedOrderStatuses as Array<any>).map(
       OrderStatusToJSON
     ),
+    orderExchangeNames: value.orderExchangeNames,
+    positionProfitLossRel: value.positionProfitLossRel,
     positionProfitLossRelPrevClose: value.positionProfitLossRelPrevClose,
     positionProfitLossAbsPrevClose: value.positionProfitLossAbsPrevClose,
   };
