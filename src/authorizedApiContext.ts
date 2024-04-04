@@ -512,6 +512,58 @@ export class AuthorizedApiContext {
     );
   }
 
+  /**
+   * Subscribe to the available order intents based on a `PreparedTrade`. Note that this currently uses polling to load the quotes from the
+   * API. This will be replaced with a websocket-based solution in the future, but we can keep this
+   * interface upwards-compatible.
+   *
+   * If an error occurs during the polling, the callback will receive the error and the subscription
+   * ends, which means the application should handle the error and possibly re-subscribe later.
+   * 
+   * @param preparedTrade The `PreparedTrade` as retrived by `PrepareTrade`.
+   * @param callback a callback that will be called with the available order intents
+   * 
+   * @returns a subscription object with a function `unsubscribe` that can be used to stop polling
+   */
+  subscribeAvailableOrderIntents(
+    preparedTrade: openApiClient.PreparedTrade,
+    callback: Callback<openApiClient.OrderIntentAvailability | undefined>
+  ) {
+
+    let emitFallback = true;
+
+    if (preparedTrade.availableOrderIntents) {
+      callback(null, preparedTrade.availableOrderIntents);
+      emitFallback = false;
+    }
+
+    if (preparedTrade.availableOrderIntentsToken) {
+      const token = preparedTrade.availableOrderIntentsToken;
+      return createPollingSubscription(
+        async () => {
+          const resp = await this._tradeApi.getAvailableOrderIntents(
+            { token },
+            await this._initRequestInit()
+          );
+          return resp;
+        },
+        5000,
+        callback
+      );
+    }
+
+    if (emitFallback) {
+      callback(null, {
+        buy: ['open'],
+        sell: ['close']
+      });
+    }
+
+    return {
+      unsubscribe() { }
+    };
+  }
+
   private _initInternalWebSocketClient() {
     const basePath = this._cfg.basePath || "https://api-preview.brokerize.com";
     const websocketPath =

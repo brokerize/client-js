@@ -44,6 +44,9 @@ import {
   OrderCostEstimation,
   OrderCostEstimationFromJSON,
   OrderCostEstimationToJSON,
+  OrderIntentAvailability,
+  OrderIntentAvailabilityFromJSON,
+  OrderIntentAvailabilityToJSON,
   PrepareTradeResponse,
   PrepareTradeResponseFromJSON,
   PrepareTradeResponseToJSON,
@@ -55,6 +58,10 @@ export interface CreateTradeRequest {
 
 export interface CreateTradeChallengeRequest {
   createOrderChallengeParams: CreateOrderChallengeParams;
+}
+
+export interface GetAvailableOrderIntentsRequest {
+  token: string;
 }
 
 export interface GetCostEstimationRequest {
@@ -202,6 +209,70 @@ export class TradeApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<Challenge> {
     const response = await this.createTradeChallengeRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * If `PreparedTrade` contains an `availableOrderIntentsToken`, this endpoint can be used to update the available order intents.  It is recommended to poll this (e.g. at a rate of one request per 5s). In a future version updates will be provided over WebSockets.
+   */
+  async getAvailableOrderIntentsRaw(
+    requestParameters: GetAvailableOrderIntentsRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<OrderIntentAvailability>> {
+    if (
+      requestParameters.token === null ||
+      requestParameters.token === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "token",
+        "Required parameter requestParameters.token was null or undefined when calling getAvailableOrderIntents."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters.token !== undefined) {
+      queryParameters["token"] = requestParameters.token;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-access-token"] =
+        this.configuration.apiKey("x-access-token"); // idToken authentication
+    }
+
+    const response = await this.request(
+      {
+        path: `/trade/availableOrderIntents`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      OrderIntentAvailabilityFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * If `PreparedTrade` contains an `availableOrderIntentsToken`, this endpoint can be used to update the available order intents.  It is recommended to poll this (e.g. at a rate of one request per 5s). In a future version updates will be provided over WebSockets.
+   */
+  async getAvailableOrderIntents(
+    requestParameters: GetAvailableOrderIntentsRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<OrderIntentAvailability> {
+    const response = await this.getAvailableOrderIntentsRaw(
       requestParameters,
       initOverrides
     );

@@ -577,6 +577,9 @@ export class AuthorizedApiContext {
     renderGenericTablePdf(table: GenericTable): Promise<Blob>;
     // (undocumented)
     setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
+    subscribeAvailableOrderIntents(preparedTrade: openApiClient.PreparedTrade, callback: Callback<openApiClient.OrderIntentAvailability | undefined>): {
+        unsubscribe(): void;
+    };
     // (undocumented)
     subscribeLogout(callback: Callback): Subscription;
     subscribeQuotes(securityQuotesToken: string, callback: Callback<openApiClient.SecurityQuotesResponse | undefined>): {
@@ -3083,6 +3086,12 @@ function GetAuthInfoResponseToJSON(value?: GetAuthInfoResponse | null): any;
 // @public (undocumented)
 function GetAuthInfoResponseToJSONRecursive(value?: GetAuthInfoResponse | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+interface GetAvailableOrderIntentsRequest {
+    // (undocumented)
+    token: string;
+}
+
 // @public
 interface GetBrokersResponse {
     brokers: Array<BrokerMeta>;
@@ -3846,7 +3855,9 @@ declare namespace Models {
         ValidationDetail,
         SecurityQuotesResponse,
         SecurityQuotes,
-        SecurityQuote
+        SecurityQuote,
+        OrderIntent,
+        OrderIntentAvailability
     }
 }
 export { Models }
@@ -4101,6 +4112,33 @@ function OrderFromJSON(json: any): Order;
 // @public (undocumented)
 function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order;
 
+// @public
+const OrderIntent: {
+    readonly Open: "open";
+    readonly Close: "close";
+};
+
+// @public (undocumented)
+type OrderIntent = (typeof OrderIntent)[keyof typeof OrderIntent];
+
+// @public
+interface OrderIntentAvailability {
+    buy: Array<OrderIntent>;
+    sell: Array<OrderIntent>;
+}
+
+// @public (undocumented)
+function OrderIntentAvailabilityFromJSON(json: any): OrderIntentAvailability;
+
+// @public (undocumented)
+function OrderIntentAvailabilityFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderIntentAvailability;
+
+// @public (undocumented)
+function OrderIntentAvailabilityToJSON(value?: OrderIntentAvailability | null): any;
+
+// @public (undocumented)
+function OrderIntentAvailabilityToJSONRecursive(value?: OrderIntentAvailability | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 const OrderIntentEnum: {
     readonly Open: "open";
@@ -4109,6 +4147,15 @@ const OrderIntentEnum: {
 
 // @public (undocumented)
 type OrderIntentEnum = (typeof OrderIntentEnum)[keyof typeof OrderIntentEnum];
+
+// @public (undocumented)
+function OrderIntentFromJSON(json: any): OrderIntent;
+
+// @public (undocumented)
+function OrderIntentFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrderIntent;
+
+// @public (undocumented)
+function OrderIntentToJSON(value?: OrderIntent | null): any;
 
 // @public
 const OrderModel: {
@@ -4691,6 +4738,8 @@ function PositionValuationToJSONRecursive(value?: PositionValuation | null, igno
 
 // @public
 interface PreparedTrade {
+    availableOrderIntents?: OrderIntentAvailability;
+    availableOrderIntentsToken?: string;
     closeIntentAllowed?: boolean;
     costEstimationIsNotAvailable: boolean;
     costEstimationIsOnlyDetailedTable?: boolean;
@@ -5440,6 +5489,8 @@ class TradeApi extends runtime.BaseAPI {
     createTradeChallenge(requestParameters: CreateTradeChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
     createTradeChallengeRaw(requestParameters: CreateTradeChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
     createTradeRaw(requestParameters: CreateTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateTradeResponse>>;
+    getAvailableOrderIntents(requestParameters: GetAvailableOrderIntentsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OrderIntentAvailability>;
+    getAvailableOrderIntentsRaw(requestParameters: GetAvailableOrderIntentsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OrderIntentAvailability>>;
     // (undocumented)
     getCostEstimation(requestParameters: GetCostEstimationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OrderCostEstimation>;
     // (undocumented)
