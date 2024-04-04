@@ -3290,6 +3290,7 @@ function GetPortfolioQuotesResponseToJSONRecursive(value?: GetPortfolioQuotesRes
 // @public
 interface GetQuoteParams {
     brokerExchangeId: string;
+    brokerSecurityId?: string;
     cashAccountId?: string;
     direction: Direction;
     isin: string;
@@ -3912,6 +3913,7 @@ interface Order {
     allowsChangeValidityTypes?: Array<OrderValidityType>;
     bondCurrencyIso?: string;
     brokerExchangeId: string;
+    brokerSecurityId?: string;
     cancellationDateTime?: Date;
     cancelledSize?: number;
     cashQuotation?: CashQuotation;
@@ -3955,6 +3957,7 @@ interface Order {
     takeProfit?: number;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
+    // @deprecated
     usTicker?: string;
     validity?: OrderValidity;
 }
@@ -4013,6 +4016,7 @@ function OrderCostEstimationToJSONRecursive(value?: OrderCostEstimation | null, 
 // @public
 interface OrderCreate {
     brokerExchangeId: string;
+    brokerSecurityId?: string;
     cashAccountId?: string;
     cashQuotation?: CashQuotation;
     direction: Direction;
@@ -4035,6 +4039,7 @@ interface OrderCreate {
     takeProfit?: number;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
+    // @deprecated
     usTicker?: string;
     validity?: OrderValidity;
 }
@@ -4740,7 +4745,7 @@ function PositionValuationToJSONRecursive(value?: PositionValuation | null, igno
 interface PreparedTrade {
     availableOrderIntents?: OrderIntentAvailability;
     availableOrderIntentsToken?: string;
-    closeIntentAllowed?: boolean;
+    brokerSecurityId: string;
     costEstimationIsNotAvailable: boolean;
     costEstimationIsOnlyDetailedTable?: boolean;
     costEstimationMustBeShown: boolean;
@@ -4813,6 +4818,8 @@ function PrepareOAuthRedirectResponseToJSONRecursive(value?: PrepareOAuthRedirec
 
 // @public (undocumented)
 interface PrepareTradeRequest {
+    // (undocumented)
+    brokerSecurityId?: string;
     // (undocumented)
     isin: string;
     // (undocumented)

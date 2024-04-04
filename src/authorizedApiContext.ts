@@ -519,17 +519,16 @@ export class AuthorizedApiContext {
    *
    * If an error occurs during the polling, the callback will receive the error and the subscription
    * ends, which means the application should handle the error and possibly re-subscribe later.
-   * 
+   *
    * @param preparedTrade The `PreparedTrade` as retrived by `PrepareTrade`.
    * @param callback a callback that will be called with the available order intents
-   * 
+   *
    * @returns a subscription object with a function `unsubscribe` that can be used to stop polling
    */
   subscribeAvailableOrderIntents(
     preparedTrade: openApiClient.PreparedTrade,
     callback: Callback<openApiClient.OrderIntentAvailability | undefined>
   ) {
-
     let emitFallback = true;
 
     if (preparedTrade.availableOrderIntents) {
@@ -554,13 +553,13 @@ export class AuthorizedApiContext {
 
     if (emitFallback) {
       callback(null, {
-        buy: ['open'],
-        sell: ['close']
+        buy: ["open"],
+        sell: ["close"],
       });
     }
 
     return {
-      unsubscribe() { }
+      unsubscribe() {},
     };
   }
 

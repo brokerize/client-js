@@ -81,6 +81,7 @@ export interface PrepareTradeRequest {
   portfolioId: string;
   isin: string;
   usTicker?: string;
+  brokerSecurityId?: string;
 }
 
 /**
@@ -517,6 +518,10 @@ export class TradeApi extends runtime.BaseAPI {
 
     if (requestParameters.usTicker !== undefined) {
       queryParameters["usTicker"] = requestParameters.usTicker;
+    }
+
+    if (requestParameters.brokerSecurityId !== undefined) {
+      queryParameters["brokerSecurityId"] = requestParameters.brokerSecurityId;
     }
 
     const headerParameters: runtime.HTTPHeaders = {};

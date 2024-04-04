@@ -133,13 +133,6 @@ export interface PreparedTrade {
    */
   availableOrderIntents?: OrderIntentAvailability;
   /**
-   * If present and `true` the broker supports closing positions for this instrument. If clients want to explicitly indicate to close
-   * a position (regardless of the direction), they can set `order.intent` to `close`.
-   * @type {boolean}
-   * @memberof PreparedTrade
-   */
-  closeIntentAllowed?: boolean;
-  /**
    * If this is set, the user has to select a position to sell from. This may be the case if a position is
    * stored in different locations or sub-positions are blocked until some date.
    * If the user does not need to specify the position, this is left undefined.
@@ -160,6 +153,13 @@ export interface PreparedTrade {
    * @memberof PreparedTrade
    */
   security: Security;
+  /**
+   * The broker security id is the unique identifier for the security *at the given broker*. It is
+   * used in subsequent requests in the order creation process to identify the security.
+   * @type {string}
+   * @memberof PreparedTrade
+   */
+  brokerSecurityId: string;
 }
 
 export function PreparedTradeFromJSON(json: any): PreparedTrade {
@@ -202,9 +202,6 @@ export function PreparedTradeFromJSONTyped(
     availableOrderIntents: !exists(json, "availableOrderIntents")
       ? undefined
       : OrderIntentAvailabilityFromJSON(json["availableOrderIntents"]),
-    closeIntentAllowed: !exists(json, "closeIntentAllowed")
-      ? undefined
-      : json["closeIntentAllowed"],
     sellPositions: !exists(json, "sellPositions")
       ? undefined
       : (json["sellPositions"] as Array<any>).map(SellPositionFromJSON),
@@ -212,6 +209,7 @@ export function PreparedTradeFromJSONTyped(
       ? undefined
       : SecurityDetailedInfoFromJSON(json["securityDetailedInfo"]),
     security: SecurityFromJSON(json["security"]),
+    brokerSecurityId: json["brokerSecurityId"],
   };
 }
 
@@ -240,7 +238,6 @@ export function PreparedTradeToJSONRecursive(
     availableOrderIntents: OrderIntentAvailabilityToJSON(
       value.availableOrderIntents
     ),
-    closeIntentAllowed: value.closeIntentAllowed,
     sellPositions:
       value.sellPositions === undefined
         ? undefined
@@ -249,6 +246,7 @@ export function PreparedTradeToJSONRecursive(
       value.securityDetailedInfo
     ),
     security: SecurityToJSON(value.security),
+    brokerSecurityId: value.brokerSecurityId,
   };
 }
 

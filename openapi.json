@@ -1158,11 +1158,16 @@
                     },
                     "usTicker": {
                         "type": "string",
-                        "description": "The US ticker of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set."
+                        "description": "The US ticker of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.",
+                        "deprecated": true
                     },
                     "isin": {
                         "type": "string",
                         "description": "The ISIN of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.\n\nNote that we will make isin optional in a future version of the API."
+                    },
+                    "brokerSecurityId": {
+                        "type": "string",
+                        "description": "The `brokerSecurityId` is the broker-specific identifier for the security to trade. It is provided by the `PreparedTrade` endpoint\nand must be used in the order creation process to identify the security.\n\nThis is only optional temporarily and will be required in the future. It will also replace the fields `isin` and `usTicker` for order creations."
                     },
                     "intent": {
                         "type": "string",
@@ -1170,7 +1175,7 @@
                             "open",
                             "close"
                         ],
-                        "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.closeIntentAllowed` is `true`,\nthis should be set `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order)."
+                        "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the\ncorressponding subscription via `availableOrderIntentsToken`) is available, it should be set.\n\nSet it to `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order)."
                     },
                     "brokerExchangeId": {
                         "type": "string"
@@ -2979,10 +2984,6 @@
                         "$ref": "#/components/schemas/OrderIntentAvailability",
                         "description": "If present, this defines whether order intents can be explicitly selected. This is provided if the broker generally\nsupports short selling. If short selling is supported, the broker may allow contrary positions (i.e. having both a short and\na long position for one instrument *or* only support one direction. This (broker-specific) behavior is encoded here."
                     },
-                    "closeIntentAllowed": {
-                        "type": "boolean",
-                        "description": "If present and `true` the broker supports closing positions for this instrument. If clients want to explicitly indicate to close\na position (regardless of the direction), they can set `order.intent` to `close`."
-                    },
                     "sellPositions": {
                         "items": {
                             "$ref": "#/components/schemas/SellPosition"
@@ -2996,6 +2997,10 @@
                     },
                     "security": {
                         "$ref": "#/components/schemas/Security"
+                    },
+                    "brokerSecurityId": {
+                        "type": "string",
+                        "description": "The broker security id is the unique identifier for the security *at the given broker*. It is\nused in subsequent requests in the order creation process to identify the security."
                     }
                 },
                 "required": [
@@ -3003,7 +3008,8 @@
                     "costEstimationMustBeShown",
                     "exchanges",
                     "sizeUnit",
-                    "security"
+                    "security",
+                    "brokerSecurityId"
                 ],
                 "type": "object"
             },
@@ -3115,7 +3121,12 @@
                         "$ref": "#/components/schemas/Direction"
                     },
                     "isin": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "This will be deprecated and replaced by `brokerSecurityId` in the long term.\nMake sure to fill `brokerSecurityId`."
+                    },
+                    "brokerSecurityId": {
+                        "type": "string",
+                        "description": "The `brokerSecurityId`, as provided by `PreparedTrade`.\n\nThis is only optional temporarily and will be required in the future. So make sure to provide this."
                     }
                 },
                 "required": [
@@ -3179,11 +3190,16 @@
                     },
                     "usTicker": {
                         "type": "string",
-                        "description": "The US ticker of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set."
+                        "description": "The US ticker of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.",
+                        "deprecated": true
                     },
                     "isin": {
                         "type": "string",
                         "description": "The ISIN of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.\n\nNote that we will make isin optional in a future version of the API."
+                    },
+                    "brokerSecurityId": {
+                        "type": "string",
+                        "description": "The `brokerSecurityId` is the broker-specific identifier for the security to trade. It is provided by the `PreparedTrade` endpoint\nand must be used in the order creation process to identify the security.\n\nThis is only optional temporarily and will be required in the future. It will also replace the fields `isin` and `usTicker` for order creations."
                     },
                     "intent": {
                         "type": "string",
@@ -3191,7 +3207,7 @@
                             "open",
                             "close"
                         ],
-                        "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.closeIntentAllowed` is `true`,\nthis should be set `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order)."
+                        "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the\ncorressponding subscription via `availableOrderIntentsToken`) is available, it should be set.\n\nSet it to `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order)."
                     },
                     "brokerExchangeId": {
                         "type": "string"
@@ -9275,6 +9291,7 @@
                         }
                     },
                     {
+                        "description": "The ISIN of the security to trade. Note that this is only required for backwards compatibility reasons.\nIf the instrument doest not have an ISIN (or one of our magic ISIN values),\nprovide an empty string and at least one of the other identifiers to find the security at the broker.",
                         "in": "query",
                         "name": "isin",
                         "required": true,
@@ -9283,8 +9300,18 @@
                         }
                     },
                     {
+                        "description": "The US ticker of the security to trade. Depending on the broker, this might be the preferred identifier.",
                         "in": "query",
                         "name": "usTicker",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "The brokerSecurityId of the given broker. Usually this is unkown initially (but will be included in the response of this call).\nIf you know the brokerSecurityId (e.g. because it is provided in an existing position or order), it will be preferred over\nthe other provided identifiers.",
+                        "in": "query",
+                        "name": "brokerSecurityId",
                         "required": false,
                         "schema": {
                             "type": "string"
