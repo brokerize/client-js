@@ -1,0 +1,9 @@
+.vscode
+.DS_Store
+*.log
+/build
+/dist
+/etc
+/generator-tpl
+node_modules
+package*.json

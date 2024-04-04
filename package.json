@@ -2,52 +2,65 @@
   "name": "@brokerize/client",
   "version": "0.0.1-alpha-58",
   "description": "Client for the brokerize.com API",
+  "keywords": [],
+  "homepage": "https://github.com/brokerize/client-js#readme",
+  "bugs": {
+    "url": "https://github.com/brokerize/client-js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brokerize/client-js.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/client.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
+    "api-extractor": "npx api-extractor run --local",
     "build": "npx tsc && npm run api-extractor",
-    "download-spec-local": "curl http://localhost:3333/openapi.json > openapi.json && npm run format-openapi",
-    "download-spec": "curl https://api-preview.brokerize.com/openapi.json > openapi.json && npm run format-openapi",
     "clean-swagger": "rm -rf ./src/swagger",
-    "format-openapi": "mv openapi.json openapi_dl.json && node -e 'console.log(JSON.stringify(JSON.parse(require(\"fs\").readFileSync(\"openapi_dl.json\").toString()),null,4))' > openapi.json && rm openapi_dl.json",
-    "openapi-preprocess": "node openapi-preprocess.js",
-    "generate": "npm run clean-swagger && npm run openapi-preprocess && npx @openapitools/openapi-generator-cli generate -i temp/openapi.json -g typescript-fetch -t ./generator-tpl -o ./src/swagger && npm run format",
     "download-and-generate": "npm run download-spec && npm run generate",
     "download-and-generate-local": "npm run download-spec-local && npm run generate",
-    "api-extractor": "npx api-extractor run --local",
+    "download-spec": "curl https://api-preview.brokerize.com/openapi.json > openapi.json && npm run format-openapi",
+    "download-spec-local": "curl http://localhost:3333/openapi.json > openapi.json && npm run format-openapi",
+    "format": "prettier --write src",
+    "format-openapi": "mv openapi.json openapi_dl.json && node -e 'console.log(JSON.stringify(JSON.parse(require(\"fs\").readFileSync(\"openapi_dl.json\").toString()),null,4))' > openapi.json && rm openapi_dl.json",
+    "format:check": "prettier src --check",
     "full-update": "npm run download-and-generate && npm run build",
     "full-update-local": "npm run download-and-generate-local && npm run build",
-    "format": "prettier --write src",
-    "format:check": "prettier src --check",
-    "lint": "npm run format:check && eslint --ignore-path .gitignore ./src",
+    "generate": "npm run clean-swagger && npm run openapi-preprocess && npx @openapitools/openapi-generator-cli generate -i temp/openapi.json -g typescript-fetch -t ./generator-tpl -o ./src/swagger && npm run format",
+    "lint": "npm run format:check && eslint --ignore-path .gitignore ./src && npx sort-package-json package.json",
     "lint-fix": "npm run format && eslint --ignore-path .gitignore ./src --fix",
-    "openapi-generator-extract-templates": "npx openapi-generator-cli author template -g typescript-fetch -o generator-tpl"
+    "openapi-generator-extract-templates": "npx openapi-generator-cli author template -g typescript-fetch -o generator-tpl",
+    "openapi-preprocess": "node openapi-preprocess.js",
+    "prepare": "husky"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brokerize/client-js.git"
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix"
+    ],
+    "*.{html,css,scss,stylus,js,ts,json,yml,yaml,md}": [
+      "prettier --write"
+    ],
+    "package.json": "sort-package-json"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/brokerize/client-js/issues"
-  },
-  "homepage": "https://github.com/brokerize/client-js#readme",
   "devDependencies": {
     "@microsoft/api-extractor": "7.23.1",
     "@openapitools/openapi-generator-cli": "2.5.1",
     "@typescript-eslint/eslint-plugin": "5.56.0",
     "eslint": "8.36.0",
     "eslint-config-prettier": "8.8.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "2.8.6",
+    "sort-package-json": "^2.10.0",
     "typescript": "5.3.3"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
-  },
-  "type": "module"
+  }
 }
