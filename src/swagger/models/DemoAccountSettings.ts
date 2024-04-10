@@ -34,6 +34,13 @@ export interface DemoAccountSettings {
    * @memberof DemoAccountSettings
    */
   lazyAuthMethods?: boolean;
+
+  /**
+   * Set this to `true` to create a single depot instead of the default two
+   * @type {boolean}
+   * @memberof DemoAccountSettings
+   */
+  isSinglePortfolio?: boolean;
 }
 
 export function DemoAccountSettingsFromJSON(json: any): DemoAccountSettings {
@@ -54,6 +61,9 @@ export function DemoAccountSettingsFromJSONTyped(
     lazyAuthMethods: !exists(json, "lazyAuthMethods")
       ? undefined
       : json["lazyAuthMethods"],
+    isSinglePortfolio: !exists(json, "isSinglePortfolio")
+      ? undefined
+      : json["isSinglePortfolio"],
   };
 }
 
@@ -71,6 +81,7 @@ export function DemoAccountSettingsToJSONRecursive(
   return {
     sessionTanCannotBeEnded: value.sessionTanCannotBeEnded,
     lazyAuthMethods: value.lazyAuthMethods,
+    isSinglePortfolio: value.isSinglePortfolio,
   };
 }
 
