@@ -57,11 +57,20 @@ export interface GetQuoteParams {
    */
   direction: Direction;
   /**
-   *
+   * This will be deprecated and replaced by `brokerSecurityId` in the long term.
+   * Make sure to fill `brokerSecurityId`.
    * @type {string}
    * @memberof GetQuoteParams
    */
   isin: string;
+  /**
+   * The `brokerSecurityId`, as provided by `PreparedTrade`.
+   *
+   * This is only optional temporarily and will be required in the future. So make sure to provide this.
+   * @type {string}
+   * @memberof GetQuoteParams
+   */
+  brokerSecurityId?: string;
 }
 
 export function GetQuoteParamsFromJSON(json: any): GetQuoteParams {
@@ -84,6 +93,9 @@ export function GetQuoteParamsFromJSONTyped(
     size: json["size"],
     direction: DirectionFromJSON(json["direction"]),
     isin: json["isin"],
+    brokerSecurityId: !exists(json, "brokerSecurityId")
+      ? undefined
+      : json["brokerSecurityId"],
   };
 }
 
@@ -105,6 +117,7 @@ export function GetQuoteParamsToJSONRecursive(
     size: value.size,
     direction: DirectionToJSON(value.direction),
     isin: value.isin,
+    brokerSecurityId: value.brokerSecurityId,
   };
 }
 

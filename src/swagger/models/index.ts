@@ -144,6 +144,8 @@ export * from "./OrderCostEstimation";
 export * from "./OrderCreate";
 export * from "./OrderExecution";
 export * from "./OrderExtension";
+export * from "./OrderIntent";
+export * from "./OrderIntentAvailability";
 export * from "./OrderModel";
 export * from "./OrderStatus";
 export * from "./OrderValidity";

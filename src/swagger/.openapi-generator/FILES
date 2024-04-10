@@ -155,6 +155,8 @@ models/OrderCostEstimation.ts
 models/OrderCreate.ts
 models/OrderExecution.ts
 models/OrderExtension.ts
+models/OrderIntent.ts
+models/OrderIntentAvailability.ts
 models/OrderModel.ts
 models/OrderStatus.ts
 models/OrderValidity.ts

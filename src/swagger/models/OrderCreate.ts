@@ -152,6 +152,7 @@ export interface OrderCreate {
    * The US ticker of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.
    * @type {string}
    * @memberof OrderCreate
+   * @deprecated
    */
   usTicker?: string;
   /**
@@ -163,8 +164,19 @@ export interface OrderCreate {
    */
   isin: string;
   /**
-   * Whether this order is supposed to open or close a position. If `PreparedTrade.closeIntentAllowed` is `true`,
-   * this should be set `close` for orders that are supposed to close an existing position. Note that this is independent
+   * The `brokerSecurityId` is the broker-specific identifier for the security to trade. It is provided by the `PreparedTrade` endpoint
+   * and must be used in the order creation process to identify the security.
+   *
+   * This is only optional temporarily and will be required in the future. It will also replace the fields `isin` and `usTicker` for order creations.
+   * @type {string}
+   * @memberof OrderCreate
+   */
+  brokerSecurityId?: string;
+  /**
+   * Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the
+   * corressponding subscription via `availableOrderIntentsToken`) is available, it should be set.
+   *
+   * Set it to `close` for orders that are supposed to close an existing position. Note that this is independent
    * of the order's direction (e.g. a short position is closed by a buy order).
    * @type {string}
    * @memberof OrderCreate
@@ -270,6 +282,9 @@ export function OrderCreateFromJSONTyped(
     size: json["size"],
     usTicker: !exists(json, "usTicker") ? undefined : json["usTicker"],
     isin: json["isin"],
+    brokerSecurityId: !exists(json, "brokerSecurityId")
+      ? undefined
+      : json["brokerSecurityId"],
     intent: !exists(json, "intent") ? undefined : json["intent"],
     brokerExchangeId: json["brokerExchangeId"],
     direction: DirectionFromJSON(json["direction"]),
@@ -314,6 +329,7 @@ export function OrderCreateToJSONRecursive(
     size: value.size,
     usTicker: value.usTicker,
     isin: value.isin,
+    brokerSecurityId: value.brokerSecurityId,
     intent: value.intent,
     brokerExchangeId: value.brokerExchangeId,
     direction: DirectionToJSON(value.direction),

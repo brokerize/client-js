@@ -154,3 +154,5 @@ export { ValidationDetail } from "./swagger/models/ValidationDetail";
 export { SecurityQuotesResponse } from "./swagger/models/SecurityQuotesResponse";
 export { SecurityQuotes } from "./swagger/models/SecurityQuotes";
 export { SecurityQuote } from "./swagger/models/SecurityQuote";
+export { OrderIntent } from "./swagger/models/OrderIntent";
+export { OrderIntentAvailability } from "./swagger/models/OrderIntentAvailability";
