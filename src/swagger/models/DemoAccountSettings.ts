@@ -20,6 +20,12 @@ import { exists, mapValues } from "../runtime";
  */
 export interface DemoAccountSettings {
   /**
+   * Set this to `true` to create a single depot instead of the default two
+   * @type {boolean}
+   * @memberof DemoAccountSettings
+   */
+  isSinglePortfolio?: boolean;
+  /**
    * Set this to `true` to disallow ending session TANs.
    * @type {boolean}
    * @memberof DemoAccountSettings
@@ -34,13 +40,6 @@ export interface DemoAccountSettings {
    * @memberof DemoAccountSettings
    */
   lazyAuthMethods?: boolean;
-
-  /**
-   * Set this to `true` to create a single depot instead of the default two
-   * @type {boolean}
-   * @memberof DemoAccountSettings
-   */
-  isSinglePortfolio?: boolean;
 }
 
 export function DemoAccountSettingsFromJSON(json: any): DemoAccountSettings {
@@ -55,15 +54,15 @@ export function DemoAccountSettingsFromJSONTyped(
     return json;
   }
   return {
+    isSinglePortfolio: !exists(json, "isSinglePortfolio")
+      ? undefined
+      : json["isSinglePortfolio"],
     sessionTanCannotBeEnded: !exists(json, "sessionTanCannotBeEnded")
       ? undefined
       : json["sessionTanCannotBeEnded"],
     lazyAuthMethods: !exists(json, "lazyAuthMethods")
       ? undefined
       : json["lazyAuthMethods"],
-    isSinglePortfolio: !exists(json, "isSinglePortfolio")
-      ? undefined
-      : json["isSinglePortfolio"],
   };
 }
 
@@ -79,9 +78,9 @@ export function DemoAccountSettingsToJSONRecursive(
   }
 
   return {
+    isSinglePortfolio: value.isSinglePortfolio,
     sessionTanCannotBeEnded: value.sessionTanCannotBeEnded,
     lazyAuthMethods: value.lazyAuthMethods,
-    isSinglePortfolio: value.isSinglePortfolio,
   };
 }
 
