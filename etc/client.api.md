@@ -1167,6 +1167,7 @@ interface ClientConfigOAuthLoginForm {
     appName?: string;
     logoUrlDark?: string;
     logoUrlLight?: string;
+    redirectStyle?: ClientConfigOAuthLoginFormRedirectStyleEnum;
 }
 
 // @public (undocumented)
@@ -1174,6 +1175,16 @@ function ClientConfigOAuthLoginFormFromJSON(json: any): ClientConfigOAuthLoginFo
 
 // @public (undocumented)
 function ClientConfigOAuthLoginFormFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigOAuthLoginForm;
+
+// @public (undocumented)
+const ClientConfigOAuthLoginFormRedirectStyleEnum: {
+    readonly Meta: "meta";
+    readonly Js: "js";
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type ClientConfigOAuthLoginFormRedirectStyleEnum = (typeof ClientConfigOAuthLoginFormRedirectStyleEnum)[keyof typeof ClientConfigOAuthLoginFormRedirectStyleEnum];
 
 // @public (undocumented)
 function ClientConfigOAuthLoginFormToJSON(value?: ClientConfigOAuthLoginForm | null): any;
@@ -3868,6 +3879,7 @@ interface OAuthLoginFormConfig {
     appName?: string;
     logoUrlDark?: string;
     logoUrlLight?: string;
+    redirectStyle?: OAuthLoginFormConfigRedirectStyleEnum;
 }
 
 // @public (undocumented)
@@ -3875,6 +3887,16 @@ function OAuthLoginFormConfigFromJSON(json: any): OAuthLoginFormConfig;
 
 // @public (undocumented)
 function OAuthLoginFormConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): OAuthLoginFormConfig;
+
+// @public (undocumented)
+const OAuthLoginFormConfigRedirectStyleEnum: {
+    readonly Meta: "meta";
+    readonly Js: "js";
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type OAuthLoginFormConfigRedirectStyleEnum = (typeof OAuthLoginFormConfigRedirectStyleEnum)[keyof typeof OAuthLoginFormConfigRedirectStyleEnum];
 
 // @public (undocumented)
 function OAuthLoginFormConfigToJSON(value?: OAuthLoginFormConfig | null): any;
@@ -5005,6 +5027,7 @@ interface Security {
     isin?: string;
     name?: string;
     priceFactor?: number;
+    sinoTicker?: string;
     sizeKind?: SecuritySizeKindEnum;
     symbol?: string;
     usTicker?: string;

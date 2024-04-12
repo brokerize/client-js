@@ -31,6 +31,12 @@ export interface ClientConfigOAuthLoginForm {
    * @type {string}
    * @memberof ClientConfigOAuthLoginForm
    */
+  redirectStyle?: ClientConfigOAuthLoginFormRedirectStyleEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof ClientConfigOAuthLoginForm
+   */
   logoUrlDark?: string;
   /**
    *
@@ -46,6 +52,17 @@ export interface ClientConfigOAuthLoginForm {
   appName?: string;
 }
 
+/**
+ * @export
+ */
+export const ClientConfigOAuthLoginFormRedirectStyleEnum = {
+  Meta: "meta",
+  Js: "js",
+  Link: "link",
+} as const;
+export type ClientConfigOAuthLoginFormRedirectStyleEnum =
+  (typeof ClientConfigOAuthLoginFormRedirectStyleEnum)[keyof typeof ClientConfigOAuthLoginFormRedirectStyleEnum];
+
 export function ClientConfigOAuthLoginFormFromJSON(
   json: any
 ): ClientConfigOAuthLoginForm {
@@ -60,6 +77,9 @@ export function ClientConfigOAuthLoginFormFromJSONTyped(
     return json;
   }
   return {
+    redirectStyle: !exists(json, "redirectStyle")
+      ? undefined
+      : json["redirectStyle"],
     logoUrlDark: !exists(json, "logoUrlDark") ? undefined : json["logoUrlDark"],
     logoUrlLight: !exists(json, "logoUrlLight")
       ? undefined
@@ -80,6 +100,7 @@ export function ClientConfigOAuthLoginFormToJSONRecursive(
   }
 
   return {
+    redirectStyle: value.redirectStyle,
     logoUrlDark: value.logoUrlDark,
     logoUrlLight: value.logoUrlLight,
     appName: value.appName,

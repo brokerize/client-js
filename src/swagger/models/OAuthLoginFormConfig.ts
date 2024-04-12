@@ -24,6 +24,12 @@ export interface OAuthLoginFormConfig {
    * @type {string}
    * @memberof OAuthLoginFormConfig
    */
+  redirectStyle?: OAuthLoginFormConfigRedirectStyleEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof OAuthLoginFormConfig
+   */
   logoUrlDark?: string;
   /**
    *
@@ -39,6 +45,17 @@ export interface OAuthLoginFormConfig {
   appName?: string;
 }
 
+/**
+ * @export
+ */
+export const OAuthLoginFormConfigRedirectStyleEnum = {
+  Meta: "meta",
+  Js: "js",
+  Link: "link",
+} as const;
+export type OAuthLoginFormConfigRedirectStyleEnum =
+  (typeof OAuthLoginFormConfigRedirectStyleEnum)[keyof typeof OAuthLoginFormConfigRedirectStyleEnum];
+
 export function OAuthLoginFormConfigFromJSON(json: any): OAuthLoginFormConfig {
   return OAuthLoginFormConfigFromJSONTyped(json, false);
 }
@@ -51,6 +68,9 @@ export function OAuthLoginFormConfigFromJSONTyped(
     return json;
   }
   return {
+    redirectStyle: !exists(json, "redirectStyle")
+      ? undefined
+      : json["redirectStyle"],
     logoUrlDark: !exists(json, "logoUrlDark") ? undefined : json["logoUrlDark"],
     logoUrlLight: !exists(json, "logoUrlLight")
       ? undefined
@@ -71,6 +91,7 @@ export function OAuthLoginFormConfigToJSONRecursive(
   }
 
   return {
+    redirectStyle: value.redirectStyle,
     logoUrlDark: value.logoUrlDark,
     logoUrlLight: value.logoUrlLight,
     appName: value.appName,
