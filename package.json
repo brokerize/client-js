@@ -43,7 +43,7 @@
     "*.{js,ts}": [
       "eslint --fix"
     ],
-    "*.{html,css,scss,stylus,js,ts,json,yml,yaml,md}": [
+    "*.{html,css,scss,stylus,js,ts,json,yml,md}": [
       "prettier --write"
     ],
     "package.json": "sort-package-json"

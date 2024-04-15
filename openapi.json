@@ -852,6 +852,10 @@
           "symbol": {
             "type": "string"
           },
+          "sinoTicker": {
+            "type": "string",
+            "description": "The security`s symbol as used by broker \"sino\" (this can be used to implement broker-specific security matching behavior)"
+          },
           "wkn": {
             "type": "string"
           },

@@ -5006,6 +5006,7 @@ interface Security {
     isin?: string;
     name?: string;
     priceFactor?: number;
+    sinoTicker?: string;
     sizeKind?: SecuritySizeKindEnum;
     symbol?: string;
     usTicker?: string;

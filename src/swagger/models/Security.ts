@@ -47,6 +47,12 @@ export interface Security {
    */
   symbol?: string;
   /**
+   * The security`s symbol as used by broker "sino" (this can be used to implement broker-specific security matching behavior)
+   * @type {string}
+   * @memberof Security
+   */
+  sinoTicker?: string;
+  /**
    *
    * @type {string}
    * @memberof Security
@@ -92,6 +98,7 @@ export function SecurityFromJSONTyped(
     sizeKind: !exists(json, "sizeKind") ? undefined : json["sizeKind"],
     usTicker: !exists(json, "usTicker") ? undefined : json["usTicker"],
     symbol: !exists(json, "symbol") ? undefined : json["symbol"],
+    sinoTicker: !exists(json, "sinoTicker") ? undefined : json["sinoTicker"],
     wkn: !exists(json, "wkn") ? undefined : json["wkn"],
     isin: !exists(json, "isin") ? undefined : json["isin"],
     name: !exists(json, "name") ? undefined : json["name"],
@@ -114,6 +121,7 @@ export function SecurityToJSONRecursive(
     sizeKind: value.sizeKind,
     usTicker: value.usTicker,
     symbol: value.symbol,
+    sinoTicker: value.sinoTicker,
     wkn: value.wkn,
     isin: value.isin,
     name: value.name,
