@@ -1838,6 +1838,7 @@ function DemoAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): Demo
 
 // @public
 interface DemoAccountSettings {
+    isSinglePortfolio?: boolean;
     lazyAuthMethods?: boolean;
     sessionTanCannotBeEnded?: boolean;
 }

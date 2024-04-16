@@ -465,6 +465,10 @@
       },
       "DemoAccountSettings": {
         "properties": {
+          "isSinglePortfolio": {
+            "type": "boolean",
+            "description": "Set this to `true` to create a single depot instead of the default two"
+          },
           "sessionTanCannotBeEnded": {
             "type": "boolean",
             "description": "Set this to `true` to disallow ending session TANs."
