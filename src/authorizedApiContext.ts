@@ -35,6 +35,7 @@ export class AuthorizedApiContext {
   private _abortController: AbortController;
   private _metaApi: openApiClient.MetaApi;
   private _brokerLoginApi: openApiClient.BrokerLoginApi;
+  private _inboxApi: openApiClient.InboxApi;
   private _cancelOrderApi: openApiClient.CancelOrderApi;
   private _changeOrderApi: openApiClient.ChangeOrderApi;
   private _logoutSubject: Subject<void>;
@@ -84,6 +85,9 @@ export class AuthorizedApiContext {
     this._brokerLoginApi = new openApiClient.BrokerLoginApi(
       apiConfig
     ).withPostMiddleware(postMiddleware);
+    this._inboxApi = new openApiClient.InboxApi(apiConfig).withPostMiddleware(
+      postMiddleware
+    );
     this._cancelOrderApi = new openApiClient.CancelOrderApi(
       apiConfig
     ).withPostMiddleware(postMiddleware);
@@ -147,6 +151,30 @@ export class AuthorizedApiContext {
         });
     }
     return this._cache.getBrokers;
+  }
+  async getInboxOrders(params: openApiClient.GetInboxOrdersRequest) {
+    return this._inboxApi.getInboxOrders(params, await this._initRequestInit());
+  }
+
+  async createInboxOrder(params: openApiClient.CreateInboxOrderRequest) {
+    return this._inboxApi.createInboxOrder(
+      params,
+      await this._initRequestInit()
+    );
+  }
+  async deactivateInboxOrder(
+    params: openApiClient.DeactivateInboxOrderRequest
+  ) {
+    return this._inboxApi.deactivateInboxOrder(
+      params,
+      await this._initRequestInit()
+    );
+  }
+  async deleteInboxOrder(params: openApiClient.DeleteInboxOrderRequest) {
+    return this._inboxApi.deleteInboxOrder(
+      params,
+      await this._initRequestInit()
+    );
   }
   async getLegalTerms() {
     return this._metaApi.getLegalTerms(await this._initRequestInit());

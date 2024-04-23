@@ -24,13 +24,13 @@ export interface AddSessionCompleteChallengeParams {
    * @type {string}
    * @memberof AddSessionCompleteChallengeParams
    */
-  challengeResponse: string;
+  challengeId: string;
   /**
    *
    * @type {string}
    * @memberof AddSessionCompleteChallengeParams
    */
-  challengeId: string;
+  challengeResponse: string;
 }
 
 export function AddSessionCompleteChallengeParamsFromJSON(
@@ -47,8 +47,8 @@ export function AddSessionCompleteChallengeParamsFromJSONTyped(
     return json;
   }
   return {
-    challengeResponse: json["challengeResponse"],
     challengeId: json["challengeId"],
+    challengeResponse: json["challengeResponse"],
   };
 }
 
@@ -64,8 +64,8 @@ export function AddSessionCompleteChallengeParamsToJSONRecursive(
   }
 
   return {
-    challengeResponse: value.challengeResponse,
     challengeId: value.challengeId,
+    challengeResponse: value.challengeResponse,
   };
 }
 

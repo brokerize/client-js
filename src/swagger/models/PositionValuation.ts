@@ -34,6 +34,12 @@ export interface PositionValuation {
   crossRate?: number;
   /**
    *
+   * @type {boolean}
+   * @memberof PositionValuation
+   */
+  isDelayed?: boolean;
+  /**
+   *
    * @type {Amount}
    * @memberof PositionValuation
    */
@@ -44,12 +50,6 @@ export interface PositionValuation {
    * @memberof PositionValuation
    */
   quotation?: Amount;
-  /**
-   *
-   * @type {boolean}
-   * @memberof PositionValuation
-   */
-  isDelayed?: boolean;
 }
 
 export function PositionValuationFromJSON(json: any): PositionValuation {
@@ -65,13 +65,13 @@ export function PositionValuationFromJSONTyped(
   }
   return {
     crossRate: !exists(json, "crossRate") ? undefined : json["crossRate"],
+    isDelayed: !exists(json, "isDelayed") ? undefined : json["isDelayed"],
     positionValue: !exists(json, "positionValue")
       ? undefined
       : AmountFromJSON(json["positionValue"]),
     quotation: !exists(json, "quotation")
       ? undefined
       : AmountFromJSON(json["quotation"]),
-    isDelayed: !exists(json, "isDelayed") ? undefined : json["isDelayed"],
   };
 }
 
@@ -88,9 +88,9 @@ export function PositionValuationToJSONRecursive(
 
   return {
     crossRate: value.crossRate,
+    isDelayed: value.isDelayed,
     positionValue: AmountToJSON(value.positionValue),
     quotation: AmountToJSON(value.quotation),
-    isDelayed: value.isDelayed,
   };
 }
 

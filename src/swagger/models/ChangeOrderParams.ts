@@ -28,16 +28,10 @@ import {
 export interface ChangeOrderParams {
   /**
    *
-   * @type {OrderChanges}
-   * @memberof ChangeOrderParams
-   */
-  changes: OrderChanges;
-  /**
-   *
    * @type {string}
    * @memberof ChangeOrderParams
    */
-  challengeResponse?: string;
+  authMethod?: string;
   /**
    *
    * @type {string}
@@ -49,7 +43,13 @@ export interface ChangeOrderParams {
    * @type {string}
    * @memberof ChangeOrderParams
    */
-  authMethod?: string;
+  challengeResponse?: string;
+  /**
+   *
+   * @type {OrderChanges}
+   * @memberof ChangeOrderParams
+   */
+  changes: OrderChanges;
 }
 
 export function ChangeOrderParamsFromJSON(json: any): ChangeOrderParams {
@@ -64,12 +64,12 @@ export function ChangeOrderParamsFromJSONTyped(
     return json;
   }
   return {
-    changes: OrderChangesFromJSON(json["changes"]),
+    authMethod: !exists(json, "authMethod") ? undefined : json["authMethod"],
+    challengeId: !exists(json, "challengeId") ? undefined : json["challengeId"],
     challengeResponse: !exists(json, "challengeResponse")
       ? undefined
       : json["challengeResponse"],
-    challengeId: !exists(json, "challengeId") ? undefined : json["challengeId"],
-    authMethod: !exists(json, "authMethod") ? undefined : json["authMethod"],
+    changes: OrderChangesFromJSON(json["changes"]),
   };
 }
 
@@ -85,10 +85,10 @@ export function ChangeOrderParamsToJSONRecursive(
   }
 
   return {
-    changes: OrderChangesToJSON(value.changes),
-    challengeResponse: value.challengeResponse,
-    challengeId: value.challengeId,
     authMethod: value.authMethod,
+    challengeId: value.challengeId,
+    challengeResponse: value.challengeResponse,
+    changes: OrderChangesToJSON(value.changes),
   };
 }
 

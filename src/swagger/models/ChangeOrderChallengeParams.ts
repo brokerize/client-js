@@ -28,16 +28,16 @@ import {
 export interface ChangeOrderChallengeParams {
   /**
    *
-   * @type {OrderChanges}
-   * @memberof ChangeOrderChallengeParams
-   */
-  changes: OrderChanges;
-  /**
-   *
    * @type {string}
    * @memberof ChangeOrderChallengeParams
    */
   authMethod: string;
+  /**
+   *
+   * @type {OrderChanges}
+   * @memberof ChangeOrderChallengeParams
+   */
+  changes: OrderChanges;
 }
 
 export function ChangeOrderChallengeParamsFromJSON(
@@ -54,8 +54,8 @@ export function ChangeOrderChallengeParamsFromJSONTyped(
     return json;
   }
   return {
-    changes: OrderChangesFromJSON(json["changes"]),
     authMethod: json["authMethod"],
+    changes: OrderChangesFromJSON(json["changes"]),
   };
 }
 
@@ -71,8 +71,8 @@ export function ChangeOrderChallengeParamsToJSONRecursive(
   }
 
   return {
-    changes: OrderChangesToJSON(value.changes),
     authMethod: value.authMethod,
+    changes: OrderChangesToJSON(value.changes),
   };
 }
 

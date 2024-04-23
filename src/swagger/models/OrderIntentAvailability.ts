@@ -31,13 +31,13 @@ export interface OrderIntentAvailability {
    * @type {Array<OrderIntent>}
    * @memberof OrderIntentAvailability
    */
-  sell: Array<OrderIntent>;
+  buy: Array<OrderIntent>;
   /**
    *
    * @type {Array<OrderIntent>}
    * @memberof OrderIntentAvailability
    */
-  buy: Array<OrderIntent>;
+  sell: Array<OrderIntent>;
 }
 
 export function OrderIntentAvailabilityFromJSON(
@@ -54,8 +54,8 @@ export function OrderIntentAvailabilityFromJSONTyped(
     return json;
   }
   return {
-    sell: (json["sell"] as Array<any>).map(OrderIntentFromJSON),
     buy: (json["buy"] as Array<any>).map(OrderIntentFromJSON),
+    sell: (json["sell"] as Array<any>).map(OrderIntentFromJSON),
   };
 }
 
@@ -71,8 +71,8 @@ export function OrderIntentAvailabilityToJSONRecursive(
   }
 
   return {
-    sell: (value.sell as Array<any>).map(OrderIntentToJSON),
     buy: (value.buy as Array<any>).map(OrderIntentToJSON),
+    sell: (value.sell as Array<any>).map(OrderIntentToJSON),
   };
 }
 

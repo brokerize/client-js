@@ -45,11 +45,30 @@ import {
  */
 export interface GetQuoteResponse {
   /**
-   * Some token that identifies this exact quote response (referenced in the following trade requests).
-   * @type {string}
+   *
+   * @type {OrderCostEstimation}
    * @memberof GetQuoteResponse
    */
-  quoteId: string;
+  costEstimation?: OrderCostEstimation;
+  /**
+   * If the broker does not return a cost estimation summary, but it is possible to retrieve a cost estimation summary using the token.
+   * @type {string}
+   * @memberof GetQuoteResponse
+   * @deprecated
+   */
+  costEstimationToken?: string;
+  /**
+   *
+   * @type {Direction}
+   * @memberof GetQuoteResponse
+   */
+  direction: Direction;
+  /**
+   *
+   * @type {QuoteExpiration}
+   * @memberof GetQuoteResponse
+   */
+  expiration?: QuoteExpiration;
   /**
    *
    * @type {string}
@@ -58,10 +77,16 @@ export interface GetQuoteResponse {
   isin: string;
   /**
    *
-   * @type {Direction}
+   * @type {Amount}
    * @memberof GetQuoteResponse
    */
-  direction: Direction;
+  quotation: Amount;
+  /**
+   * Some token that identifies this exact quote response (referenced in the following trade requests).
+   * @type {string}
+   * @memberof GetQuoteResponse
+   */
+  quoteId: string;
   /**
    * If provided, the maximum available size that can be traded at the given price.
    * @type {number}
@@ -79,32 +104,7 @@ export interface GetQuoteResponse {
    * @type {Amount}
    * @memberof GetQuoteResponse
    */
-  quotation: Amount;
-  /**
-   *
-   * @type {Amount}
-   * @memberof GetQuoteResponse
-   */
   totalAmount?: Amount;
-  /**
-   *
-   * @type {QuoteExpiration}
-   * @memberof GetQuoteResponse
-   */
-  expiration?: QuoteExpiration;
-  /**
-   *
-   * @type {OrderCostEstimation}
-   * @memberof GetQuoteResponse
-   */
-  costEstimation?: OrderCostEstimation;
-  /**
-   * If the broker does not return a cost estimation summary, but it is possible to retrieve a cost estimation summary using the token.
-   * @type {string}
-   * @memberof GetQuoteResponse
-   * @deprecated
-   */
-  costEstimationToken?: string;
 }
 
 export function GetQuoteResponseFromJSON(json: any): GetQuoteResponse {
@@ -119,24 +119,24 @@ export function GetQuoteResponseFromJSONTyped(
     return json;
   }
   return {
-    quoteId: json["quoteId"],
-    isin: json["isin"],
-    direction: DirectionFromJSON(json["direction"]),
-    size: !exists(json, "size") ? undefined : json["size"],
-    sourceName: !exists(json, "sourceName") ? undefined : json["sourceName"],
-    quotation: AmountFromJSON(json["quotation"]),
-    totalAmount: !exists(json, "totalAmount")
-      ? undefined
-      : AmountFromJSON(json["totalAmount"]),
-    expiration: !exists(json, "expiration")
-      ? undefined
-      : QuoteExpirationFromJSON(json["expiration"]),
     costEstimation: !exists(json, "costEstimation")
       ? undefined
       : OrderCostEstimationFromJSON(json["costEstimation"]),
     costEstimationToken: !exists(json, "costEstimationToken")
       ? undefined
       : json["costEstimationToken"],
+    direction: DirectionFromJSON(json["direction"]),
+    expiration: !exists(json, "expiration")
+      ? undefined
+      : QuoteExpirationFromJSON(json["expiration"]),
+    isin: json["isin"],
+    quotation: AmountFromJSON(json["quotation"]),
+    quoteId: json["quoteId"],
+    size: !exists(json, "size") ? undefined : json["size"],
+    sourceName: !exists(json, "sourceName") ? undefined : json["sourceName"],
+    totalAmount: !exists(json, "totalAmount")
+      ? undefined
+      : AmountFromJSON(json["totalAmount"]),
   };
 }
 
@@ -152,16 +152,16 @@ export function GetQuoteResponseToJSONRecursive(
   }
 
   return {
-    quoteId: value.quoteId,
-    isin: value.isin,
-    direction: DirectionToJSON(value.direction),
-    size: value.size,
-    sourceName: value.sourceName,
-    quotation: AmountToJSON(value.quotation),
-    totalAmount: AmountToJSON(value.totalAmount),
-    expiration: QuoteExpirationToJSON(value.expiration),
     costEstimation: OrderCostEstimationToJSON(value.costEstimation),
     costEstimationToken: value.costEstimationToken,
+    direction: DirectionToJSON(value.direction),
+    expiration: QuoteExpirationToJSON(value.expiration),
+    isin: value.isin,
+    quotation: AmountToJSON(value.quotation),
+    quoteId: value.quoteId,
+    size: value.size,
+    sourceName: value.sourceName,
+    totalAmount: AmountToJSON(value.totalAmount),
   };
 }
 

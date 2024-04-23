@@ -36,7 +36,6 @@ export { PagesConfigurationResponse } from "./swagger/models/PagesConfigurationR
 export { ClientConfigRateLimitPointsToConsume } from "./swagger/models/ClientConfigRateLimitPointsToConsume";
 export { ClientsResponseInner } from "./swagger/models/ClientsResponseInner";
 export { ClientsResponseInnerConfig } from "./swagger/models/ClientsResponseInnerConfig";
-export { ClientsResponseInnerConfigMaintenanceStatus } from "./swagger/models/ClientsResponseInnerConfigMaintenanceStatus";
 export { ConfirmOAuthParams } from "./swagger/models/ConfirmOAuthParams";
 export { ConfirmOAuthResponse } from "./swagger/models/ConfirmOAuthResponse";
 export { CostDetailsLink } from "./swagger/models/CostDetailsLink";

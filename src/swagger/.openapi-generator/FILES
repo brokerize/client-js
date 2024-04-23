@@ -6,6 +6,7 @@ apis/ChangeOrderApi.ts
 apis/DefaultApi.ts
 apis/DemobrokerApi.ts
 apis/ExportApi.ts
+apis/InboxApi.ts
 apis/MetaApi.ts
 apis/SecuritiesApi.ts
 apis/TradeApi.ts
@@ -48,17 +49,18 @@ models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
 models/ClientConfig.ts
+models/ClientConfigMaintenanceStatus.ts
 models/ClientConfigOAuthLoginForm.ts
 models/ClientConfigPage.ts
 models/ClientConfigRateLimitPointsToConsume.ts
 models/ClientsResponseInner.ts
 models/ClientsResponseInnerConfig.ts
-models/ClientsResponseInnerConfigMaintenanceStatus.ts
 models/ConfirmOAuthParams.ts
 models/ConfirmOAuthResponse.ts
 models/CostDetailsLink.ts
 models/CreateClient200Response.ts
 models/CreateGuestUserResponse.ts
+models/CreateInboxOrder200Response.ts
 models/CreateModeSessionTan.ts
 models/CreateModeSessionTanAllOf.ts
 models/CreateOrderChallengeParams.ts
@@ -125,6 +127,7 @@ models/GenericTableRowValueLinkValueType.ts
 models/GenericTableRowValueText.ts
 models/GenericTableRowValueTextSpecifics.ts
 models/GenericTableRowValueType.ts
+models/GetActiveInboxOrdersResponse.ts
 models/GetAuthInfoResponse.ts
 models/GetBrokersResponse.ts
 models/GetCostEstimationParams.ts
@@ -136,6 +139,8 @@ models/GetQuoteParams.ts
 models/GetQuoteResponse.ts
 models/GetUserResponse.ts
 models/Hint.ts
+models/InboxOrder.ts
+models/InboxOrderParams.ts
 models/LegalTermConfirmItem.ts
 models/LegalTermsResponse.ts
 models/LoginResponse.ts

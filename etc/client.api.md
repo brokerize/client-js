@@ -486,6 +486,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     createDemoAccount(demoAccountSettings?: DemoAccountSettings): Promise<openApiClient.CreatedResponseBody>;
     // (undocumented)
+    createInboxOrder(params: openApiClient.CreateInboxOrderRequest): Promise<openApiClient.CreateInboxOrder200Response>;
+    // (undocumented)
     createSessionTanChallenge(req: openApiClient.CreateSessionTanChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
     createTrade(req: CreateTradeRequest): Promise<openApiClient.CreateTradeResponse>;
@@ -494,11 +496,15 @@ export class AuthorizedApiContext {
     // (undocumented)
     createWebSocketClient(): BrokerizeWebSocketClient;
     // (undocumented)
+    deactivateInboxOrder(params: openApiClient.DeactivateInboxOrderRequest): Promise<void>;
+    // (undocumented)
     deleteClient(clientId: string): Promise<void>;
     // (undocumented)
     deleteDemoAccount(del: DeleteDemoAccountRequest): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
     deleteGuestUser(): Promise<void>;
+    // (undocumented)
+    deleteInboxOrder(params: openApiClient.DeleteInboxOrderRequest): Promise<void>;
     // (undocumented)
     deletePortfolio(portfolioId: string): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
@@ -523,6 +529,8 @@ export class AuthorizedApiContext {
     getDemoAccounts(): Promise<openApiClient.DemoAccountsResponse>;
     // (undocumented)
     getExchanges(): Promise<openApiClient.ExchangesResponse>;
+    // (undocumented)
+    getInboxOrders(params: openApiClient.GetInboxOrdersRequest): Promise<openApiClient.GetActiveInboxOrdersResponse>;
     // (undocumented)
     getLegalTerms(): Promise<openApiClient.LegalTermsResponse>;
     // (undocumented)
@@ -1145,7 +1153,7 @@ interface ClientConfig {
     cognitoClientIds?: Array<string>;
     enabled?: boolean;
     legalEntityName?: string;
-    maintenanceStatus?: ClientsResponseInnerConfigMaintenanceStatus | null;
+    maintenanceStatus?: ClientConfigMaintenanceStatus | null;
     managingUserIds?: Array<number>;
     name?: string;
     oAuthLoginForm?: ClientConfigOAuthLoginForm | null;
@@ -1161,6 +1169,24 @@ function ClientConfigFromJSON(json: any): ClientConfig;
 
 // @public (undocumented)
 function ClientConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfig;
+
+// @public
+interface ClientConfigMaintenanceStatus {
+    expectedEnd?: Date;
+    msg: string;
+}
+
+// @public (undocumented)
+function ClientConfigMaintenanceStatusFromJSON(json: any): ClientConfigMaintenanceStatus;
+
+// @public (undocumented)
+function ClientConfigMaintenanceStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigMaintenanceStatus;
+
+// @public (undocumented)
+function ClientConfigMaintenanceStatusToJSON(value?: ClientConfigMaintenanceStatus | null): any;
+
+// @public (undocumented)
+function ClientConfigMaintenanceStatusToJSONRecursive(value?: ClientConfigMaintenanceStatus | null, ignoreParent?: boolean): any;
 
 // @public
 interface ClientConfigOAuthLoginForm {
@@ -1252,7 +1278,7 @@ interface ClientsResponseInnerConfig {
     cognitoClientIds: Array<string>;
     enabled: boolean;
     legalEntityName: string;
-    maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatus | null;
+    maintenanceStatus: ClientConfigMaintenanceStatus | null;
     name: string;
     oAuthLoginForm?: OAuthLoginFormConfig;
     oAuthReturnToRegularExpressions: Array<string>;
@@ -1265,24 +1291,6 @@ function ClientsResponseInnerConfigFromJSON(json: any): ClientsResponseInnerConf
 
 // @public (undocumented)
 function ClientsResponseInnerConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfig;
-
-// @public
-interface ClientsResponseInnerConfigMaintenanceStatus {
-    expectedEnd?: Date;
-    msg: string;
-}
-
-// @public (undocumented)
-function ClientsResponseInnerConfigMaintenanceStatusFromJSON(json: any): ClientsResponseInnerConfigMaintenanceStatus;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfigMaintenanceStatus;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigMaintenanceStatusToJSON(value?: ClientsResponseInnerConfigMaintenanceStatus | null): any;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive(value?: ClientsResponseInnerConfigMaintenanceStatus | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function ClientsResponseInnerConfigToJSON(value?: ClientsResponseInnerConfig | null): any;
@@ -1525,6 +1533,29 @@ function CreateGuestUserResponseToJSON(value?: CreateGuestUserResponse | null): 
 function CreateGuestUserResponseToJSONRecursive(value?: CreateGuestUserResponse | null, ignoreParent?: boolean): any;
 
 // @public
+interface CreateInboxOrder200Response {
+    id: string;
+}
+
+// @public (undocumented)
+function CreateInboxOrder200ResponseFromJSON(json: any): CreateInboxOrder200Response;
+
+// @public (undocumented)
+function CreateInboxOrder200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateInboxOrder200Response;
+
+// @public (undocumented)
+function CreateInboxOrder200ResponseToJSON(value?: CreateInboxOrder200Response | null): any;
+
+// @public (undocumented)
+function CreateInboxOrder200ResponseToJSONRecursive(value?: CreateInboxOrder200Response | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CreateInboxOrderRequest {
+    // (undocumented)
+    inboxOrderParams: InboxOrderParams;
+}
+
+// @public
 interface CreateModeSessionTan {
     mode: CreateModeSessionTanModeEnum;
 }
@@ -1667,6 +1698,12 @@ function CreateTradeResponseToJSON(value?: CreateTradeResponse | null): any;
 
 // @public (undocumented)
 function CreateTradeResponseToJSONRecursive(value?: CreateTradeResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface DeactivateInboxOrderRequest {
+    // (undocumented)
+    id: string;
+}
 
 // @public (undocumented)
 const DecoupledOperationState: {
@@ -1815,6 +1852,12 @@ interface DeleteClientRequest {
 interface DeleteDemoAccountRequest {
     // (undocumented)
     accountId: string;
+}
+
+// @public (undocumented)
+interface DeleteInboxOrderRequest {
+    // (undocumented)
+    id: string;
 }
 
 // @public (undocumented)
@@ -3075,6 +3118,24 @@ function GenericTableToJSON(value?: GenericTable | null): any;
 // @public (undocumented)
 function GenericTableToJSONRecursive(value?: GenericTable | null, ignoreParent?: boolean): any;
 
+// @public
+interface GetActiveInboxOrdersResponse {
+    inboxOrders: Array<InboxOrder>;
+    totalCount: number;
+}
+
+// @public (undocumented)
+function GetActiveInboxOrdersResponseFromJSON(json: any): GetActiveInboxOrdersResponse;
+
+// @public (undocumented)
+function GetActiveInboxOrdersResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetActiveInboxOrdersResponse;
+
+// @public (undocumented)
+function GetActiveInboxOrdersResponseToJSON(value?: GetActiveInboxOrdersResponse | null): any;
+
+// @public (undocumented)
+function GetActiveInboxOrdersResponseToJSONRecursive(value?: GetActiveInboxOrdersResponse | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface GetAuthInfoRequest {
     // (undocumented)
@@ -3158,6 +3219,14 @@ interface GetDecoupledOperationStatusRequest {
     decoupledOperationId: string;
     // (undocumented)
     sessionId: string;
+}
+
+// @public (undocumented)
+interface GetInboxOrdersRequest {
+    // (undocumented)
+    skip?: number;
+    // (undocumented)
+    take?: number;
 }
 
 // @public (undocumented)
@@ -3433,6 +3502,59 @@ type HTTPRequestInit = {
     credentials?: RequestCredentials;
     body?: HTTPBody;
 };
+
+// @public (undocumented)
+class InboxApi extends runtime.BaseAPI {
+    createInboxOrder(requestParameters: CreateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateInboxOrder200Response>;
+    createInboxOrderRaw(requestParameters: CreateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateInboxOrder200Response>>;
+    deactivateInboxOrder(requestParameters: DeactivateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deactivateInboxOrderRaw(requestParameters: DeactivateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    deleteInboxOrder(requestParameters: DeleteInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deleteInboxOrderRaw(requestParameters: DeleteInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    getInboxOrders(requestParameters?: GetInboxOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetActiveInboxOrdersResponse>;
+    getInboxOrdersRaw(requestParameters: GetInboxOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetActiveInboxOrdersResponse>>;
+}
+
+// @public
+interface InboxOrder {
+    createdAt: Date;
+    description: string;
+    id: string;
+    inactive: boolean;
+    orderData: any | null;
+    orderId: number;
+    userId: number;
+}
+
+// @public (undocumented)
+function InboxOrderFromJSON(json: any): InboxOrder;
+
+// @public (undocumented)
+function InboxOrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrder;
+
+// @public
+interface InboxOrderParams {
+    description?: string;
+    orderData: any | null;
+}
+
+// @public (undocumented)
+function InboxOrderParamsFromJSON(json: any): InboxOrderParams;
+
+// @public (undocumented)
+function InboxOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderParams;
+
+// @public (undocumented)
+function InboxOrderParamsToJSON(value?: InboxOrderParams | null): any;
+
+// @public (undocumented)
+function InboxOrderParamsToJSONRecursive(value?: InboxOrderParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function InboxOrderToJSON(value?: InboxOrder | null): any;
+
+// @public (undocumented)
+function InboxOrderToJSONRecursive(value?: InboxOrder | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 type InitOverideFunction = (requestContext: {
@@ -3753,7 +3875,6 @@ declare namespace Models {
         ClientConfigRateLimitPointsToConsume,
         ClientsResponseInner,
         ClientsResponseInnerConfig,
-        ClientsResponseInnerConfigMaintenanceStatus,
         ConfirmOAuthParams,
         ConfirmOAuthResponse,
         CostDetailsLink,
@@ -3988,8 +4109,8 @@ interface Order {
 // @public
 interface OrderChanges {
     limit?: number;
-    orderModel: OrderModel;
-    size: number;
+    orderModel?: OrderModel;
+    size?: number;
     stop?: number;
     stopLimit?: number;
     stopLoss?: number;

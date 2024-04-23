@@ -20,17 +20,17 @@ import { exists, mapValues } from "../runtime";
  */
 export interface PagesConfigurationResponse {
   /**
-   *
-   * @type {any}
-   * @memberof PagesConfigurationResponse
-   */
-  page: any | null;
-  /**
    * The brokerize clientId to use for the configured page.
    * @type {string}
    * @memberof PagesConfigurationResponse
    */
   clientId: string;
+  /**
+   *
+   * @type {any}
+   * @memberof PagesConfigurationResponse
+   */
+  page: any | null;
 }
 
 export function PagesConfigurationResponseFromJSON(
@@ -47,8 +47,8 @@ export function PagesConfigurationResponseFromJSONTyped(
     return json;
   }
   return {
-    page: json["page"],
     clientId: json["clientId"],
+    page: json["page"],
   };
 }
 
@@ -64,8 +64,8 @@ export function PagesConfigurationResponseToJSONRecursive(
   }
 
   return {
-    page: value.page,
     clientId: value.clientId,
+    page: value.page,
   };
 }
 

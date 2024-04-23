@@ -16,44 +16,42 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateClient200Response
+ * @interface InboxOrderParams
  */
-export interface CreateClient200Response {
+export interface InboxOrderParams {
   /**
    *
    * @type {string}
-   * @memberof CreateClient200Response
+   * @memberof InboxOrderParams
    */
-  id: string;
+  description?: string;
   /**
    *
-   * @type {string}
-   * @memberof CreateClient200Response
+   * @type {any}
+   * @memberof InboxOrderParams
    */
-  name: string;
+  orderData: any | null;
 }
 
-export function CreateClient200ResponseFromJSON(
-  json: any
-): CreateClient200Response {
-  return CreateClient200ResponseFromJSONTyped(json, false);
+export function InboxOrderParamsFromJSON(json: any): InboxOrderParams {
+  return InboxOrderParamsFromJSONTyped(json, false);
 }
 
-export function CreateClient200ResponseFromJSONTyped(
+export function InboxOrderParamsFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): CreateClient200Response {
+): InboxOrderParams {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    id: json["id"],
-    name: json["name"],
+    description: !exists(json, "description") ? undefined : json["description"],
+    orderData: json["orderData"],
   };
 }
 
-export function CreateClient200ResponseToJSONRecursive(
-  value?: CreateClient200Response | null,
+export function InboxOrderParamsToJSONRecursive(
+  value?: InboxOrderParams | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -64,13 +62,11 @@ export function CreateClient200ResponseToJSONRecursive(
   }
 
   return {
-    id: value.id,
-    name: value.name,
+    description: value.description,
+    orderData: value.orderData,
   };
 }
 
-export function CreateClient200ResponseToJSON(
-  value?: CreateClient200Response | null
-): any {
-  return CreateClient200ResponseToJSONRecursive(value, false);
+export function InboxOrderParamsToJSON(value?: InboxOrderParams | null): any {
+  return InboxOrderParamsToJSONRecursive(value, false);
 }
