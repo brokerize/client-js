@@ -155,9 +155,14 @@ export class AuthorizedApiContext {
   async getInboxOrders(params: openApiClient.GetInboxOrdersRequest) {
     return this._inboxApi.getInboxOrders(params, await this._initRequestInit());
   }
-
   async createInboxOrder(params: openApiClient.CreateInboxOrderRequest) {
     return this._inboxApi.createInboxOrder(
+      params,
+      await this._initRequestInit()
+    );
+  }
+  async updateInboxOrder(params: openApiClient.UpdateInboxOrderRequest) {
+    return this._inboxApi.updateInboxOrder(
       params,
       await this._initRequestInit()
     );

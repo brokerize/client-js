@@ -142,6 +142,7 @@ models/Hint.ts
 models/InboxOrder.ts
 models/InboxOrderCreateParams.ts
 models/InboxOrderUpdateParams.ts
+models/InboxOrderUpdateParamsOrderId.ts
 models/LegalTermConfirmItem.ts
 models/LegalTermsResponse.ts
 models/LoginResponse.ts

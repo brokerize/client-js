@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  InboxOrderUpdateParamsOrderId,
+  InboxOrderUpdateParamsOrderIdFromJSON,
+  InboxOrderUpdateParamsOrderIdFromJSONTyped,
+  InboxOrderUpdateParamsOrderIdToJSON,
+} from "./InboxOrderUpdateParamsOrderId";
+
 /**
  *
  * @export
@@ -33,10 +40,10 @@ export interface InboxOrderUpdateParams {
   inactive?: boolean;
   /**
    *
-   * @type {string}
+   * @type {InboxOrderUpdateParamsOrderId}
    * @memberof InboxOrderUpdateParams
    */
-  orderId?: string;
+  orderId?: InboxOrderUpdateParamsOrderId;
 }
 
 export function InboxOrderUpdateParamsFromJSON(
@@ -55,7 +62,9 @@ export function InboxOrderUpdateParamsFromJSONTyped(
   return {
     description: !exists(json, "description") ? undefined : json["description"],
     inactive: !exists(json, "inactive") ? undefined : json["inactive"],
-    orderId: !exists(json, "orderId") ? undefined : json["orderId"],
+    orderId: !exists(json, "orderId")
+      ? undefined
+      : InboxOrderUpdateParamsOrderIdFromJSON(json["orderId"]),
   };
 }
 
@@ -73,7 +82,7 @@ export function InboxOrderUpdateParamsToJSONRecursive(
   return {
     description: value.description,
     inactive: value.inactive,
-    orderId: value.orderId,
+    orderId: InboxOrderUpdateParamsOrderIdToJSON(value.orderId),
   };
 }
 

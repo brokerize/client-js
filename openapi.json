@@ -1703,9 +1703,7 @@
           "description": {
             "type": "string"
           },
-          "orderData": {
-            "$ref": "#/components/schemas/Order"
-          }
+          "orderData": {}
         },
         "required": ["orderData"],
         "type": "object"
@@ -1719,7 +1717,15 @@
             "type": "boolean"
           },
           "orderId": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "format": "double",
+                "type": "number"
+              }
+            ]
           }
         },
         "type": "object"

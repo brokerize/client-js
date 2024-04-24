@@ -13,8 +13,6 @@
  */
 
 import { exists, mapValues } from "../runtime";
-import { Order, OrderFromJSON, OrderFromJSONTyped, OrderToJSON } from "./Order";
-
 /**
  *
  * @export
@@ -29,10 +27,10 @@ export interface InboxOrderCreateParams {
   description?: string;
   /**
    *
-   * @type {Order}
+   * @type {any}
    * @memberof InboxOrderCreateParams
    */
-  orderData: Order;
+  orderData: any | null;
 }
 
 export function InboxOrderCreateParamsFromJSON(
@@ -50,7 +48,7 @@ export function InboxOrderCreateParamsFromJSONTyped(
   }
   return {
     description: !exists(json, "description") ? undefined : json["description"],
-    orderData: OrderFromJSON(json["orderData"]),
+    orderData: json["orderData"],
   };
 }
 
@@ -67,7 +65,7 @@ export function InboxOrderCreateParamsToJSONRecursive(
 
   return {
     description: value.description,
-    orderData: OrderToJSON(value.orderData),
+    orderData: value.orderData,
   };
 }
 

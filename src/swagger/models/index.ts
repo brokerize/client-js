@@ -130,6 +130,7 @@ export * from "./Hint";
 export * from "./InboxOrder";
 export * from "./InboxOrderCreateParams";
 export * from "./InboxOrderUpdateParams";
+export * from "./InboxOrderUpdateParamsOrderId";
 export * from "./LegalTermConfirmItem";
 export * from "./LegalTermsResponse";
 export * from "./LoginResponse";

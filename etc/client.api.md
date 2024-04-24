@@ -597,6 +597,8 @@ export class AuthorizedApiContext {
     triggerDemoSessionSyncError(sessionId: string): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
     triggerSessionSync(sessionId: string): Promise<openApiClient.OkResponseBody>;
+    // (undocumented)
+    updateInboxOrder(params: openApiClient.UpdateInboxOrderRequest): Promise<void>;
 }
 
 // @public
@@ -3531,7 +3533,7 @@ interface InboxOrder {
 // @public
 interface InboxOrderCreateParams {
     description?: string;
-    orderData: Order;
+    orderData: any | null;
 }
 
 // @public (undocumented)
@@ -3562,7 +3564,7 @@ function InboxOrderToJSONRecursive(value?: InboxOrder | null, ignoreParent?: boo
 interface InboxOrderUpdateParams {
     description?: string;
     inactive?: boolean;
-    orderId?: string;
+    orderId?: InboxOrderUpdateParamsOrderId;
 }
 
 // @public (undocumented)
@@ -3570,6 +3572,22 @@ function InboxOrderUpdateParamsFromJSON(json: any): InboxOrderUpdateParams;
 
 // @public (undocumented)
 function InboxOrderUpdateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderUpdateParams;
+
+// @public
+interface InboxOrderUpdateParamsOrderId {
+}
+
+// @public (undocumented)
+function InboxOrderUpdateParamsOrderIdFromJSON(json: any): InboxOrderUpdateParamsOrderId;
+
+// @public (undocumented)
+function InboxOrderUpdateParamsOrderIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderUpdateParamsOrderId;
+
+// @public (undocumented)
+function InboxOrderUpdateParamsOrderIdToJSON(value?: InboxOrderUpdateParamsOrderId | null): any;
+
+// @public (undocumented)
+function InboxOrderUpdateParamsOrderIdToJSONRecursive(value?: InboxOrderUpdateParamsOrderId | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function InboxOrderUpdateParamsToJSON(value?: InboxOrderUpdateParams | null): any;
