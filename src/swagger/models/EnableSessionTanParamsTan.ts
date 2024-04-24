@@ -43,13 +43,13 @@ export interface EnableSessionTanParamsTan {
    * @type {string}
    * @memberof EnableSessionTanParamsTan
    */
-  tan: string;
+  authMethod: string;
   /**
    *
    * @type {string}
    * @memberof EnableSessionTanParamsTan
    */
-  authMethod: string;
+  tan: string;
 }
 
 /**
@@ -76,8 +76,8 @@ export function EnableSessionTanParamsTanFromJSONTyped(
   }
   return {
     kind: json["kind"],
-    tan: json["tan"],
     authMethod: json["authMethod"],
+    tan: json["tan"],
   };
 }
 
@@ -94,8 +94,8 @@ export function EnableSessionTanParamsTanToJSONRecursive(
 
   return {
     kind: value.kind,
-    tan: value.tan,
     authMethod: value.authMethod,
+    tan: value.tan,
   };
 }
 

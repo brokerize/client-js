@@ -28,18 +28,6 @@ import {
 export interface GenericTableRowEntrySpecifics {
   /**
    *
-   * @type {GenericTableRowValue}
-   * @memberof GenericTableRowEntrySpecifics
-   */
-  value?: GenericTableRowValue;
-  /**
-   *
-   * @type {boolean}
-   * @memberof GenericTableRowEntrySpecifics
-   */
-  isImportant?: boolean;
-  /**
-   *
    * @type {string}
    * @memberof GenericTableRowEntrySpecifics
    */
@@ -50,6 +38,18 @@ export interface GenericTableRowEntrySpecifics {
    * @memberof GenericTableRowEntrySpecifics
    */
   id?: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof GenericTableRowEntrySpecifics
+   */
+  isImportant?: boolean;
+  /**
+   *
+   * @type {GenericTableRowValue}
+   * @memberof GenericTableRowEntrySpecifics
+   */
+  value?: GenericTableRowValue;
 }
 
 export function GenericTableRowEntrySpecificsFromJSON(
@@ -66,12 +66,12 @@ export function GenericTableRowEntrySpecificsFromJSONTyped(
     return json;
   }
   return {
+    caption: !exists(json, "caption") ? undefined : json["caption"],
+    id: !exists(json, "id") ? undefined : json["id"],
+    isImportant: !exists(json, "isImportant") ? undefined : json["isImportant"],
     value: !exists(json, "value")
       ? undefined
       : GenericTableRowValueFromJSON(json["value"]),
-    isImportant: !exists(json, "isImportant") ? undefined : json["isImportant"],
-    caption: !exists(json, "caption") ? undefined : json["caption"],
-    id: !exists(json, "id") ? undefined : json["id"],
   };
 }
 
@@ -87,10 +87,10 @@ export function GenericTableRowEntrySpecificsToJSONRecursive(
   }
 
   return {
-    value: GenericTableRowValueToJSON(value.value),
-    isImportant: value.isImportant,
     caption: value.caption,
     id: value.id,
+    isImportant: value.isImportant,
+    value: GenericTableRowValueToJSON(value.value),
   };
 }
 

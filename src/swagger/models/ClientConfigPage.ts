@@ -28,18 +28,6 @@ import {
 export interface ClientConfigPage {
   /**
    *
-   * @type {any}
-   * @memberof ClientConfigPage
-   */
-  themeDark?: any | null;
-  /**
-   *
-   * @type {any}
-   * @memberof ClientConfigPage
-   */
-  themeLight?: any | null;
-  /**
-   *
    * @type {string}
    * @memberof ClientConfigPage
    */
@@ -50,6 +38,18 @@ export interface ClientConfigPage {
    * @memberof ClientConfigPage
    */
   logoUrlLight?: string;
+  /**
+   *
+   * @type {any}
+   * @memberof ClientConfigPage
+   */
+  themeDark?: any | null;
+  /**
+   *
+   * @type {any}
+   * @memberof ClientConfigPage
+   */
+  themeLight?: any | null;
   /**
    *
    * @type {string}
@@ -70,12 +70,12 @@ export function ClientConfigPageFromJSONTyped(
     return json;
   }
   return {
-    themeDark: !exists(json, "themeDark") ? undefined : json["themeDark"],
-    themeLight: !exists(json, "themeLight") ? undefined : json["themeLight"],
     logoUrlDark: !exists(json, "logoUrlDark") ? undefined : json["logoUrlDark"],
     logoUrlLight: !exists(json, "logoUrlLight")
       ? undefined
       : json["logoUrlLight"],
+    themeDark: !exists(json, "themeDark") ? undefined : json["themeDark"],
+    themeLight: !exists(json, "themeLight") ? undefined : json["themeLight"],
     title: !exists(json, "title") ? undefined : json["title"],
   };
 }
@@ -92,10 +92,10 @@ export function ClientConfigPageToJSONRecursive(
   }
 
   return {
-    themeDark: value.themeDark,
-    themeLight: value.themeLight,
     logoUrlDark: value.logoUrlDark,
     logoUrlLight: value.logoUrlLight,
+    themeDark: value.themeDark,
+    themeLight: value.themeLight,
     title: value.title,
   };
 }

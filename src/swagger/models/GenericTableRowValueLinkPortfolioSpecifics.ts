@@ -24,13 +24,13 @@ export interface GenericTableRowValueLinkPortfolioSpecifics {
    * @type {string}
    * @memberof GenericTableRowValueLinkPortfolioSpecifics
    */
-  text?: string;
+  portfolioId?: string;
   /**
    *
    * @type {string}
    * @memberof GenericTableRowValueLinkPortfolioSpecifics
    */
-  portfolioId?: string;
+  text?: string;
 }
 
 export function GenericTableRowValueLinkPortfolioSpecificsFromJSON(
@@ -47,8 +47,8 @@ export function GenericTableRowValueLinkPortfolioSpecificsFromJSONTyped(
     return json;
   }
   return {
-    text: !exists(json, "text") ? undefined : json["text"],
     portfolioId: !exists(json, "portfolioId") ? undefined : json["portfolioId"],
+    text: !exists(json, "text") ? undefined : json["text"],
   };
 }
 
@@ -64,8 +64,8 @@ export function GenericTableRowValueLinkPortfolioSpecificsToJSONRecursive(
   }
 
   return {
-    text: value.text,
     portfolioId: value.portfolioId,
+    text: value.text,
   };
 }
 

@@ -28,17 +28,17 @@ import {
 export interface LegalTermsResponse {
   /**
    *
-   * @type {Array<LegalTermConfirmItem>}
-   * @memberof LegalTermsResponse
-   */
-  confirmItems: Array<LegalTermConfirmItem>;
-  /**
-   *
    * @type {Array<string>}
    * @memberof LegalTermsResponse
    * @deprecated
    */
   checkboxesHtml: Array<string>;
+  /**
+   *
+   * @type {Array<LegalTermConfirmItem>}
+   * @memberof LegalTermsResponse
+   */
+  confirmItems: Array<LegalTermConfirmItem>;
   /**
    *
    * @type {string}
@@ -59,10 +59,10 @@ export function LegalTermsResponseFromJSONTyped(
     return json;
   }
   return {
+    checkboxesHtml: json["checkboxesHtml"],
     confirmItems: (json["confirmItems"] as Array<any>).map(
       LegalTermConfirmItemFromJSON
     ),
-    checkboxesHtml: json["checkboxesHtml"],
     disclaimerHtml: json["disclaimerHtml"],
   };
 }
@@ -79,10 +79,10 @@ export function LegalTermsResponseToJSONRecursive(
   }
 
   return {
+    checkboxesHtml: value.checkboxesHtml,
     confirmItems: (value.confirmItems as Array<any>).map(
       LegalTermConfirmItemToJSON
     ),
-    checkboxesHtml: value.checkboxesHtml,
     disclaimerHtml: value.disclaimerHtml,
   };
 }

@@ -24,7 +24,7 @@ export interface BrokerMetaImages {
    * @type {string}
    * @memberof BrokerMetaImages
    */
-  lightSquare: string;
+  dark: string;
   /**
    *
    * @type {string}
@@ -42,7 +42,7 @@ export interface BrokerMetaImages {
    * @type {string}
    * @memberof BrokerMetaImages
    */
-  dark: string;
+  lightSquare: string;
 }
 
 export function BrokerMetaImagesFromJSON(json: any): BrokerMetaImages {
@@ -57,10 +57,10 @@ export function BrokerMetaImagesFromJSONTyped(
     return json;
   }
   return {
-    lightSquare: json["lightSquare"],
+    dark: json["dark"],
     darkSquare: json["darkSquare"],
     light: json["light"],
-    dark: json["dark"],
+    lightSquare: json["lightSquare"],
   };
 }
 
@@ -76,10 +76,10 @@ export function BrokerMetaImagesToJSONRecursive(
   }
 
   return {
-    lightSquare: value.lightSquare,
+    dark: value.dark,
     darkSquare: value.darkSquare,
     light: value.light,
-    dark: value.dark,
+    lightSquare: value.lightSquare,
   };
 }
 

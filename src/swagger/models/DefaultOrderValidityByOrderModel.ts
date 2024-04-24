@@ -31,25 +31,7 @@ export interface DefaultOrderValidityByOrderModel {
    * @type {OrderValidity}
    * @memberof DefaultOrderValidityByOrderModel
    */
-  quote?: OrderValidity;
-  /**
-   *
-   * @type {OrderValidity}
-   * @memberof DefaultOrderValidityByOrderModel
-   */
   fraction?: OrderValidity;
-  /**
-   *
-   * @type {OrderValidity}
-   * @memberof DefaultOrderValidityByOrderModel
-   */
-  savingsPlan?: OrderValidity;
-  /**
-   *
-   * @type {OrderValidity}
-   * @memberof DefaultOrderValidityByOrderModel
-   */
-  market?: OrderValidity;
   /**
    *
    * @type {OrderValidity}
@@ -61,25 +43,13 @@ export interface DefaultOrderValidityByOrderModel {
    * @type {OrderValidity}
    * @memberof DefaultOrderValidityByOrderModel
    */
-  stopMarket?: OrderValidity;
+  market?: OrderValidity;
   /**
    *
    * @type {OrderValidity}
    * @memberof DefaultOrderValidityByOrderModel
    */
-  stopLimit?: OrderValidity;
-  /**
-   *
-   * @type {OrderValidity}
-   * @memberof DefaultOrderValidityByOrderModel
-   */
-  trailingStopMarket?: OrderValidity;
-  /**
-   *
-   * @type {OrderValidity}
-   * @memberof DefaultOrderValidityByOrderModel
-   */
-  trailingStopLimit?: OrderValidity;
+  ocoStopLimit?: OrderValidity;
   /**
    *
    * @type {OrderValidity}
@@ -91,7 +61,37 @@ export interface DefaultOrderValidityByOrderModel {
    * @type {OrderValidity}
    * @memberof DefaultOrderValidityByOrderModel
    */
-  ocoStopLimit?: OrderValidity;
+  quote?: OrderValidity;
+  /**
+   *
+   * @type {OrderValidity}
+   * @memberof DefaultOrderValidityByOrderModel
+   */
+  savingsPlan?: OrderValidity;
+  /**
+   *
+   * @type {OrderValidity}
+   * @memberof DefaultOrderValidityByOrderModel
+   */
+  stopLimit?: OrderValidity;
+  /**
+   *
+   * @type {OrderValidity}
+   * @memberof DefaultOrderValidityByOrderModel
+   */
+  stopMarket?: OrderValidity;
+  /**
+   *
+   * @type {OrderValidity}
+   * @memberof DefaultOrderValidityByOrderModel
+   */
+  trailingStopLimit?: OrderValidity;
+  /**
+   *
+   * @type {OrderValidity}
+   * @memberof DefaultOrderValidityByOrderModel
+   */
+  trailingStopMarket?: OrderValidity;
 }
 
 export function DefaultOrderValidityByOrderModelFromJSON(
@@ -108,39 +108,39 @@ export function DefaultOrderValidityByOrderModelFromJSONTyped(
     return json;
   }
   return {
-    quote: !exists(json, "quote")
-      ? undefined
-      : OrderValidityFromJSON(json["quote"]),
     fraction: !exists(json, "fraction")
       ? undefined
       : OrderValidityFromJSON(json["fraction"]),
-    savingsPlan: !exists(json, "savingsPlan")
-      ? undefined
-      : OrderValidityFromJSON(json["savingsPlan"]),
-    market: !exists(json, "market")
-      ? undefined
-      : OrderValidityFromJSON(json["market"]),
     limit: !exists(json, "limit")
       ? undefined
       : OrderValidityFromJSON(json["limit"]),
-    stopMarket: !exists(json, "stopMarket")
+    market: !exists(json, "market")
       ? undefined
-      : OrderValidityFromJSON(json["stopMarket"]),
-    stopLimit: !exists(json, "stopLimit")
-      ? undefined
-      : OrderValidityFromJSON(json["stopLimit"]),
-    trailingStopMarket: !exists(json, "trailingStopMarket")
-      ? undefined
-      : OrderValidityFromJSON(json["trailingStopMarket"]),
-    trailingStopLimit: !exists(json, "trailingStopLimit")
-      ? undefined
-      : OrderValidityFromJSON(json["trailingStopLimit"]),
-    ocoStopMarket: !exists(json, "ocoStopMarket")
-      ? undefined
-      : OrderValidityFromJSON(json["ocoStopMarket"]),
+      : OrderValidityFromJSON(json["market"]),
     ocoStopLimit: !exists(json, "ocoStopLimit")
       ? undefined
       : OrderValidityFromJSON(json["ocoStopLimit"]),
+    ocoStopMarket: !exists(json, "ocoStopMarket")
+      ? undefined
+      : OrderValidityFromJSON(json["ocoStopMarket"]),
+    quote: !exists(json, "quote")
+      ? undefined
+      : OrderValidityFromJSON(json["quote"]),
+    savingsPlan: !exists(json, "savingsPlan")
+      ? undefined
+      : OrderValidityFromJSON(json["savingsPlan"]),
+    stopLimit: !exists(json, "stopLimit")
+      ? undefined
+      : OrderValidityFromJSON(json["stopLimit"]),
+    stopMarket: !exists(json, "stopMarket")
+      ? undefined
+      : OrderValidityFromJSON(json["stopMarket"]),
+    trailingStopLimit: !exists(json, "trailingStopLimit")
+      ? undefined
+      : OrderValidityFromJSON(json["trailingStopLimit"]),
+    trailingStopMarket: !exists(json, "trailingStopMarket")
+      ? undefined
+      : OrderValidityFromJSON(json["trailingStopMarket"]),
   };
 }
 
@@ -156,17 +156,17 @@ export function DefaultOrderValidityByOrderModelToJSONRecursive(
   }
 
   return {
-    quote: OrderValidityToJSON(value.quote),
     fraction: OrderValidityToJSON(value.fraction),
-    savingsPlan: OrderValidityToJSON(value.savingsPlan),
-    market: OrderValidityToJSON(value.market),
     limit: OrderValidityToJSON(value.limit),
-    stopMarket: OrderValidityToJSON(value.stopMarket),
-    stopLimit: OrderValidityToJSON(value.stopLimit),
-    trailingStopMarket: OrderValidityToJSON(value.trailingStopMarket),
-    trailingStopLimit: OrderValidityToJSON(value.trailingStopLimit),
-    ocoStopMarket: OrderValidityToJSON(value.ocoStopMarket),
+    market: OrderValidityToJSON(value.market),
     ocoStopLimit: OrderValidityToJSON(value.ocoStopLimit),
+    ocoStopMarket: OrderValidityToJSON(value.ocoStopMarket),
+    quote: OrderValidityToJSON(value.quote),
+    savingsPlan: OrderValidityToJSON(value.savingsPlan),
+    stopLimit: OrderValidityToJSON(value.stopLimit),
+    stopMarket: OrderValidityToJSON(value.stopMarket),
+    trailingStopLimit: OrderValidityToJSON(value.trailingStopLimit),
+    trailingStopMarket: OrderValidityToJSON(value.trailingStopMarket),
   };
 }
 

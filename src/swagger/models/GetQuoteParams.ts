@@ -31,25 +31,21 @@ export interface GetQuoteParams {
    * @type {string}
    * @memberof GetQuoteParams
    */
-  sizeUnit?: string;
+  brokerExchangeId: string;
+  /**
+   * The `brokerSecurityId`, as provided by `PreparedTrade`.
+   *
+   * This is only optional temporarily and will be required in the future. So make sure to provide this.
+   * @type {string}
+   * @memberof GetQuoteParams
+   */
+  brokerSecurityId?: string;
   /**
    * If this makes a difference for the offer (e.g. bitpanda!), provide a cashAccountId
    * @type {string}
    * @memberof GetQuoteParams
    */
   cashAccountId?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetQuoteParams
-   */
-  brokerExchangeId: string;
-  /**
-   *
-   * @type {number}
-   * @memberof GetQuoteParams
-   */
-  size: number;
   /**
    *
    * @type {Direction}
@@ -64,13 +60,17 @@ export interface GetQuoteParams {
    */
   isin: string;
   /**
-   * The `brokerSecurityId`, as provided by `PreparedTrade`.
    *
-   * This is only optional temporarily and will be required in the future. So make sure to provide this.
+   * @type {number}
+   * @memberof GetQuoteParams
+   */
+  size: number;
+  /**
+   *
    * @type {string}
    * @memberof GetQuoteParams
    */
-  brokerSecurityId?: string;
+  sizeUnit?: string;
 }
 
 export function GetQuoteParamsFromJSON(json: any): GetQuoteParams {
@@ -85,17 +85,17 @@ export function GetQuoteParamsFromJSONTyped(
     return json;
   }
   return {
-    sizeUnit: !exists(json, "sizeUnit") ? undefined : json["sizeUnit"],
-    cashAccountId: !exists(json, "cashAccountId")
-      ? undefined
-      : json["cashAccountId"],
     brokerExchangeId: json["brokerExchangeId"],
-    size: json["size"],
-    direction: DirectionFromJSON(json["direction"]),
-    isin: json["isin"],
     brokerSecurityId: !exists(json, "brokerSecurityId")
       ? undefined
       : json["brokerSecurityId"],
+    cashAccountId: !exists(json, "cashAccountId")
+      ? undefined
+      : json["cashAccountId"],
+    direction: DirectionFromJSON(json["direction"]),
+    isin: json["isin"],
+    size: json["size"],
+    sizeUnit: !exists(json, "sizeUnit") ? undefined : json["sizeUnit"],
   };
 }
 
@@ -111,13 +111,13 @@ export function GetQuoteParamsToJSONRecursive(
   }
 
   return {
-    sizeUnit: value.sizeUnit,
-    cashAccountId: value.cashAccountId,
     brokerExchangeId: value.brokerExchangeId,
-    size: value.size,
+    brokerSecurityId: value.brokerSecurityId,
+    cashAccountId: value.cashAccountId,
     direction: DirectionToJSON(value.direction),
     isin: value.isin,
-    brokerSecurityId: value.brokerSecurityId,
+    size: value.size,
+    sizeUnit: value.sizeUnit,
   };
 }
 

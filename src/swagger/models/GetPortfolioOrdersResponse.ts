@@ -23,16 +23,16 @@ import { Order, OrderFromJSON, OrderFromJSONTyped, OrderToJSON } from "./Order";
 export interface GetPortfolioOrdersResponse {
   /**
    *
-   * @type {number}
-   * @memberof GetPortfolioOrdersResponse
-   */
-  totalCount: number;
-  /**
-   *
    * @type {Array<Order>}
    * @memberof GetPortfolioOrdersResponse
    */
   orders: Array<Order>;
+  /**
+   *
+   * @type {number}
+   * @memberof GetPortfolioOrdersResponse
+   */
+  totalCount: number;
 }
 
 export function GetPortfolioOrdersResponseFromJSON(
@@ -49,8 +49,8 @@ export function GetPortfolioOrdersResponseFromJSONTyped(
     return json;
   }
   return {
-    totalCount: json["totalCount"],
     orders: (json["orders"] as Array<any>).map(OrderFromJSON),
+    totalCount: json["totalCount"],
   };
 }
 
@@ -66,8 +66,8 @@ export function GetPortfolioOrdersResponseToJSONRecursive(
   }
 
   return {
-    totalCount: value.totalCount,
     orders: (value.orders as Array<any>).map(OrderToJSON),
+    totalCount: value.totalCount,
   };
 }
 

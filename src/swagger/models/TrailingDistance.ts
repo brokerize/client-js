@@ -22,16 +22,16 @@ import { exists, mapValues } from "../runtime";
 export interface TrailingDistance {
   /**
    *
-   * @type {number}
-   * @memberof TrailingDistance
-   */
-  value: number;
-  /**
-   *
    * @type {string}
    * @memberof TrailingDistance
    */
   mode: TrailingDistanceModeEnum;
+  /**
+   *
+   * @type {number}
+   * @memberof TrailingDistance
+   */
+  value: number;
 }
 
 /**
@@ -56,8 +56,8 @@ export function TrailingDistanceFromJSONTyped(
     return json;
   }
   return {
-    value: json["value"],
     mode: json["mode"],
+    value: json["value"],
   };
 }
 
@@ -73,8 +73,8 @@ export function TrailingDistanceToJSONRecursive(
   }
 
   return {
-    value: value.value,
     mode: value.mode,
+    value: value.value,
   };
 }
 

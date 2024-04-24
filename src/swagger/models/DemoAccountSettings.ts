@@ -26,12 +26,6 @@ export interface DemoAccountSettings {
    */
   isSinglePortfolio?: boolean;
   /**
-   * Set this to `true` to disallow ending session TANs.
-   * @type {boolean}
-   * @memberof DemoAccountSettings
-   */
-  sessionTanCannotBeEnded?: boolean;
-  /**
    * Set this to `true` to have the demo account reveal the complete list of auth methods only after
    * the first session TAN challenge request.
    *
@@ -40,6 +34,12 @@ export interface DemoAccountSettings {
    * @memberof DemoAccountSettings
    */
   lazyAuthMethods?: boolean;
+  /**
+   * Set this to `true` to disallow ending session TANs.
+   * @type {boolean}
+   * @memberof DemoAccountSettings
+   */
+  sessionTanCannotBeEnded?: boolean;
 }
 
 export function DemoAccountSettingsFromJSON(json: any): DemoAccountSettings {
@@ -57,12 +57,12 @@ export function DemoAccountSettingsFromJSONTyped(
     isSinglePortfolio: !exists(json, "isSinglePortfolio")
       ? undefined
       : json["isSinglePortfolio"],
-    sessionTanCannotBeEnded: !exists(json, "sessionTanCannotBeEnded")
-      ? undefined
-      : json["sessionTanCannotBeEnded"],
     lazyAuthMethods: !exists(json, "lazyAuthMethods")
       ? undefined
       : json["lazyAuthMethods"],
+    sessionTanCannotBeEnded: !exists(json, "sessionTanCannotBeEnded")
+      ? undefined
+      : json["sessionTanCannotBeEnded"],
   };
 }
 
@@ -79,8 +79,8 @@ export function DemoAccountSettingsToJSONRecursive(
 
   return {
     isSinglePortfolio: value.isSinglePortfolio,
-    sessionTanCannotBeEnded: value.sessionTanCannotBeEnded,
     lazyAuthMethods: value.lazyAuthMethods,
+    sessionTanCannotBeEnded: value.sessionTanCannotBeEnded,
   };
 }
 

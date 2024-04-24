@@ -20,45 +20,6 @@ import { exists, mapValues } from "../runtime";
  */
 export interface Security {
   /**
-   * If provided, the security's quote has to be multiplied to get the actual cash counter value. This information
-   * can be used to determine whether custom calculations can be done for the security in frontends.
-   * @type {number}
-   * @memberof Security
-   */
-  priceFactor?: number;
-  /**
-   * If `sizeUnit` is a currency, the corresponding size field in UIs should be labeled with that selected currency.
-   * - for bonds `sizeKind="bond"`, the label should be (for example) like "nominal amount in EUR"
-   * - for crypto currencies `sizeKind="crypto"`, the label should be (for example) like "amount in EUR"
-   * @type {string}
-   * @memberof Security
-   */
-  sizeKind?: SecuritySizeKindEnum;
-  /**
-   * The US ticker symbol of the security, if provided by the broker.
-   * @type {string}
-   * @memberof Security
-   */
-  usTicker?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Security
-   */
-  symbol?: string;
-  /**
-   * The security`s symbol as used by broker "sino" (this can be used to implement broker-specific security matching behavior)
-   * @type {string}
-   * @memberof Security
-   */
-  sinoTicker?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Security
-   */
-  wkn?: string;
-  /**
    *
    * @type {string}
    * @memberof Security
@@ -70,6 +31,45 @@ export interface Security {
    * @memberof Security
    */
   name?: string;
+  /**
+   * If provided, the security's quote has to be multiplied to get the actual cash counter value. This information
+   * can be used to determine whether custom calculations can be done for the security in frontends.
+   * @type {number}
+   * @memberof Security
+   */
+  priceFactor?: number;
+  /**
+   * The security`s symbol as used by broker "sino" (this can be used to implement broker-specific security matching behavior)
+   * @type {string}
+   * @memberof Security
+   */
+  sinoTicker?: string;
+  /**
+   * If `sizeUnit` is a currency, the corresponding size field in UIs should be labeled with that selected currency.
+   * - for bonds `sizeKind="bond"`, the label should be (for example) like "nominal amount in EUR"
+   * - for crypto currencies `sizeKind="crypto"`, the label should be (for example) like "amount in EUR"
+   * @type {string}
+   * @memberof Security
+   */
+  sizeKind?: SecuritySizeKindEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof Security
+   */
+  symbol?: string;
+  /**
+   * The US ticker symbol of the security, if provided by the broker.
+   * @type {string}
+   * @memberof Security
+   */
+  usTicker?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Security
+   */
+  wkn?: string;
 }
 
 /**
@@ -94,14 +94,14 @@ export function SecurityFromJSONTyped(
     return json;
   }
   return {
-    priceFactor: !exists(json, "priceFactor") ? undefined : json["priceFactor"],
-    sizeKind: !exists(json, "sizeKind") ? undefined : json["sizeKind"],
-    usTicker: !exists(json, "usTicker") ? undefined : json["usTicker"],
-    symbol: !exists(json, "symbol") ? undefined : json["symbol"],
-    sinoTicker: !exists(json, "sinoTicker") ? undefined : json["sinoTicker"],
-    wkn: !exists(json, "wkn") ? undefined : json["wkn"],
     isin: !exists(json, "isin") ? undefined : json["isin"],
     name: !exists(json, "name") ? undefined : json["name"],
+    priceFactor: !exists(json, "priceFactor") ? undefined : json["priceFactor"],
+    sinoTicker: !exists(json, "sinoTicker") ? undefined : json["sinoTicker"],
+    sizeKind: !exists(json, "sizeKind") ? undefined : json["sizeKind"],
+    symbol: !exists(json, "symbol") ? undefined : json["symbol"],
+    usTicker: !exists(json, "usTicker") ? undefined : json["usTicker"],
+    wkn: !exists(json, "wkn") ? undefined : json["wkn"],
   };
 }
 
@@ -117,14 +117,14 @@ export function SecurityToJSONRecursive(
   }
 
   return {
-    priceFactor: value.priceFactor,
-    sizeKind: value.sizeKind,
-    usTicker: value.usTicker,
-    symbol: value.symbol,
-    sinoTicker: value.sinoTicker,
-    wkn: value.wkn,
     isin: value.isin,
     name: value.name,
+    priceFactor: value.priceFactor,
+    sinoTicker: value.sinoTicker,
+    sizeKind: value.sizeKind,
+    symbol: value.symbol,
+    usTicker: value.usTicker,
+    wkn: value.wkn,
   };
 }
 

@@ -24,13 +24,13 @@ export interface SellPosition {
    * @type {string}
    * @memberof SellPosition
    */
-  label: string;
+  id: string;
   /**
    *
    * @type {string}
    * @memberof SellPosition
    */
-  id: string;
+  label: string;
 }
 
 export function SellPositionFromJSON(json: any): SellPosition {
@@ -45,8 +45,8 @@ export function SellPositionFromJSONTyped(
     return json;
   }
   return {
-    label: json["label"],
     id: json["id"],
+    label: json["label"],
   };
 }
 
@@ -62,8 +62,8 @@ export function SellPositionToJSONRecursive(
   }
 
   return {
-    label: value.label,
     id: value.id,
+    label: value.label,
   };
 }
 

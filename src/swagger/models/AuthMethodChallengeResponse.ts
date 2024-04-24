@@ -50,18 +50,11 @@ export interface AuthMethodChallengeResponse {
    */
   flow: AuthMethodChallengeResponseFlowEnum;
   /**
-   * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
-   * be scanned with a phone).
-   * @type {boolean}
-   * @memberof AuthMethodChallengeResponse
-   */
-  hideOnPhones?: boolean;
-  /**
    *
    * @type {string}
    * @memberof AuthMethodChallengeResponse
    */
-  tanFieldLabel: string;
+  challengeLabel?: string;
   /**
    *
    * @type {boolean}
@@ -73,13 +66,20 @@ export interface AuthMethodChallengeResponse {
    * @type {string}
    * @memberof AuthMethodChallengeResponse
    */
-  challengeLabel?: string;
+  getChallengeLabel: string;
+  /**
+   * If this is true, the auth method should not be offered to users on phones (e.g. for photoTAN, where the TAN has to
+   * be scanned with a phone).
+   * @type {boolean}
+   * @memberof AuthMethodChallengeResponse
+   */
+  hideOnPhones?: boolean;
   /**
    *
    * @type {string}
    * @memberof AuthMethodChallengeResponse
    */
-  getChallengeLabel: string;
+  id: string;
   /**
    *
    * @type {boolean}
@@ -97,7 +97,7 @@ export interface AuthMethodChallengeResponse {
    * @type {string}
    * @memberof AuthMethodChallengeResponse
    */
-  id: string;
+  tanFieldLabel: string;
 }
 
 /**
@@ -124,25 +124,25 @@ export function AuthMethodChallengeResponseFromJSONTyped(
   }
   return {
     flow: json["flow"],
-    hideOnPhones: !exists(json, "hideOnPhones")
+    challengeLabel: !exists(json, "challengeLabel")
       ? undefined
-      : json["hideOnPhones"],
-    tanFieldLabel: json["tanFieldLabel"],
+      : json["challengeLabel"],
     challengeResponseIsOnlyConfirmation: !exists(
       json,
       "challengeResponseIsOnlyConfirmation"
     )
       ? undefined
       : json["challengeResponseIsOnlyConfirmation"],
-    challengeLabel: !exists(json, "challengeLabel")
-      ? undefined
-      : json["challengeLabel"],
     getChallengeLabel: json["getChallengeLabel"],
+    hideOnPhones: !exists(json, "hideOnPhones")
+      ? undefined
+      : json["hideOnPhones"],
+    id: json["id"],
     isDefaultMethod: !exists(json, "isDefaultMethod")
       ? undefined
       : json["isDefaultMethod"],
     label: json["label"],
-    id: json["id"],
+    tanFieldLabel: json["tanFieldLabel"],
   };
 }
 
@@ -159,15 +159,15 @@ export function AuthMethodChallengeResponseToJSONRecursive(
 
   return {
     flow: value.flow,
-    hideOnPhones: value.hideOnPhones,
-    tanFieldLabel: value.tanFieldLabel,
+    challengeLabel: value.challengeLabel,
     challengeResponseIsOnlyConfirmation:
       value.challengeResponseIsOnlyConfirmation,
-    challengeLabel: value.challengeLabel,
     getChallengeLabel: value.getChallengeLabel,
+    hideOnPhones: value.hideOnPhones,
+    id: value.id,
     isDefaultMethod: value.isDefaultMethod,
     label: value.label,
-    id: value.id,
+    tanFieldLabel: value.tanFieldLabel,
   };
 }
 

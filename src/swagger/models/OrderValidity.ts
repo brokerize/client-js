@@ -27,17 +27,17 @@ import {
  */
 export interface OrderValidity {
   /**
-   *
-   * @type {string}
-   * @memberof OrderValidity
-   */
-  eom?: string;
-  /**
    * Date in the format YYYY-MM-DD
    * @type {string}
    * @memberof OrderValidity
    */
   date?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof OrderValidity
+   */
+  eom?: string;
   /**
    *
    * @type {OrderValidityType}
@@ -58,8 +58,8 @@ export function OrderValidityFromJSONTyped(
     return json;
   }
   return {
-    eom: !exists(json, "eom") ? undefined : json["eom"],
     date: !exists(json, "date") ? undefined : json["date"],
+    eom: !exists(json, "eom") ? undefined : json["eom"],
     type: OrderValidityTypeFromJSON(json["type"]),
   };
 }
@@ -76,8 +76,8 @@ export function OrderValidityToJSONRecursive(
   }
 
   return {
-    eom: value.eom,
     date: value.date,
+    eom: value.eom,
     type: OrderValidityTypeToJSON(value.type),
   };
 }

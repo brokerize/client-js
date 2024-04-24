@@ -46,18 +46,6 @@ export interface GenericTableRowEntry {
   type: GenericTableRowEntryTypeEnum;
   /**
    *
-   * @type {GenericTableRowValue}
-   * @memberof GenericTableRowEntry
-   */
-  value?: GenericTableRowValue;
-  /**
-   *
-   * @type {boolean}
-   * @memberof GenericTableRowEntry
-   */
-  isImportant?: boolean;
-  /**
-   *
    * @type {string}
    * @memberof GenericTableRowEntry
    */
@@ -68,6 +56,18 @@ export interface GenericTableRowEntry {
    * @memberof GenericTableRowEntry
    */
   id?: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof GenericTableRowEntry
+   */
+  isImportant?: boolean;
+  /**
+   *
+   * @type {GenericTableRowValue}
+   * @memberof GenericTableRowEntry
+   */
+  value?: GenericTableRowValue;
 }
 
 /**
@@ -92,12 +92,12 @@ export function GenericTableRowEntryFromJSONTyped(
   }
   return {
     type: json["type"],
+    caption: json["caption"],
+    id: !exists(json, "id") ? undefined : json["id"],
+    isImportant: !exists(json, "isImportant") ? undefined : json["isImportant"],
     value: !exists(json, "value")
       ? undefined
       : GenericTableRowValueFromJSON(json["value"]),
-    isImportant: !exists(json, "isImportant") ? undefined : json["isImportant"],
-    caption: json["caption"],
-    id: !exists(json, "id") ? undefined : json["id"],
   };
 }
 
@@ -114,10 +114,10 @@ export function GenericTableRowEntryToJSONRecursive(
 
   return {
     type: value.type,
-    value: GenericTableRowValueToJSON(value.value),
-    isImportant: value.isImportant,
     caption: value.caption,
     id: value.id,
+    isImportant: value.isImportant,
+    value: GenericTableRowValueToJSON(value.value),
   };
 }
 

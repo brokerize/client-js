@@ -20,6 +20,12 @@ import { exists, mapValues } from "../runtime";
  */
 export interface QuoteExpiration {
   /**
+   * Timestamp at which the quotation expiration timer ends (after this, the quote order is likely to be rejected).
+   * @type {Date}
+   * @memberof QuoteExpiration
+   */
+  expires: Date;
+  /**
    * Milliseconds to expiration. This can be calculated from `expires - started`, assuming the local clock works correctly.
    * Sometimes end users have not set their local clock correctly. You can either correct for the clock drift using the
    * `Date` HTTP header or just use this value and assume the expiration to happen at `time of receiving the response + milliseconds`.
@@ -27,12 +33,6 @@ export interface QuoteExpiration {
    * @memberof QuoteExpiration
    */
   milliseconds: number;
-  /**
-   * Timestamp at which the quotation expiration timer ends (after this, the quote order is likely to be rejected).
-   * @type {Date}
-   * @memberof QuoteExpiration
-   */
-  expires: Date;
   /**
    * Timestamp at which the quote expiration timer starts.
    * @type {Date}
@@ -53,8 +53,8 @@ export function QuoteExpirationFromJSONTyped(
     return json;
   }
   return {
-    milliseconds: json["milliseconds"],
     expires: new Date(json["expires"]),
+    milliseconds: json["milliseconds"],
     started: new Date(json["started"]),
   };
 }
@@ -71,8 +71,8 @@ export function QuoteExpirationToJSONRecursive(
   }
 
   return {
-    milliseconds: value.milliseconds,
     expires: value.expires.toISOString(),
+    milliseconds: value.milliseconds,
     started: value.started.toISOString(),
   };
 }

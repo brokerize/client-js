@@ -31,31 +31,7 @@ export interface PortfolioQuotes {
    * @type {Amount}
    * @memberof PortfolioQuotes
    */
-  profitLossAbsPrevClose?: Amount;
-  /**
-   * Relative P/L of all open positions, since prevClose (or buy, if that is later than prevClose). 1 means +100%
-   * @type {number}
-   * @memberof PortfolioQuotes
-   */
-  profitLossRelPrevClose?: number;
-  /**
-   *
-   * @type {Amount}
-   * @memberof PortfolioQuotes
-   */
-  profitLossAbs?: Amount;
-  /**
-   * Relative P/L of all open positions, since acquisition. 1 means +100%
-   * @type {number}
-   * @memberof PortfolioQuotes
-   */
-  profitLossRel?: number;
-  /**
-   *
-   * @type {Amount}
-   * @memberof PortfolioQuotes
-   */
-  totalValue?: Amount;
+  availableCash?: Amount;
   /**
    *
    * @type {Amount}
@@ -67,13 +43,37 @@ export interface PortfolioQuotes {
    * @type {Amount}
    * @memberof PortfolioQuotes
    */
-  availableCash?: Amount;
+  positionValue?: Amount;
   /**
    *
    * @type {Amount}
    * @memberof PortfolioQuotes
    */
-  positionValue?: Amount;
+  profitLossAbs?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof PortfolioQuotes
+   */
+  profitLossAbsPrevClose?: Amount;
+  /**
+   * Relative P/L of all open positions, since acquisition. 1 means +100%
+   * @type {number}
+   * @memberof PortfolioQuotes
+   */
+  profitLossRel?: number;
+  /**
+   * Relative P/L of all open positions, since prevClose (or buy, if that is later than prevClose). 1 means +100%
+   * @type {number}
+   * @memberof PortfolioQuotes
+   */
+  profitLossRelPrevClose?: number;
+  /**
+   *
+   * @type {Amount}
+   * @memberof PortfolioQuotes
+   */
+  totalValue?: Amount;
 }
 
 export function PortfolioQuotesFromJSON(json: any): PortfolioQuotes {
@@ -88,30 +88,30 @@ export function PortfolioQuotesFromJSONTyped(
     return json;
   }
   return {
-    profitLossAbsPrevClose: !exists(json, "profitLossAbsPrevClose")
-      ? undefined
-      : AmountFromJSON(json["profitLossAbsPrevClose"]),
-    profitLossRelPrevClose: !exists(json, "profitLossRelPrevClose")
-      ? undefined
-      : json["profitLossRelPrevClose"],
-    profitLossAbs: !exists(json, "profitLossAbs")
-      ? undefined
-      : AmountFromJSON(json["profitLossAbs"]),
-    profitLossRel: !exists(json, "profitLossRel")
-      ? undefined
-      : json["profitLossRel"],
-    totalValue: !exists(json, "totalValue")
-      ? undefined
-      : AmountFromJSON(json["totalValue"]),
-    cashAccountBalance: !exists(json, "cashAccountBalance")
-      ? undefined
-      : AmountFromJSON(json["cashAccountBalance"]),
     availableCash: !exists(json, "availableCash")
       ? undefined
       : AmountFromJSON(json["availableCash"]),
+    cashAccountBalance: !exists(json, "cashAccountBalance")
+      ? undefined
+      : AmountFromJSON(json["cashAccountBalance"]),
     positionValue: !exists(json, "positionValue")
       ? undefined
       : AmountFromJSON(json["positionValue"]),
+    profitLossAbs: !exists(json, "profitLossAbs")
+      ? undefined
+      : AmountFromJSON(json["profitLossAbs"]),
+    profitLossAbsPrevClose: !exists(json, "profitLossAbsPrevClose")
+      ? undefined
+      : AmountFromJSON(json["profitLossAbsPrevClose"]),
+    profitLossRel: !exists(json, "profitLossRel")
+      ? undefined
+      : json["profitLossRel"],
+    profitLossRelPrevClose: !exists(json, "profitLossRelPrevClose")
+      ? undefined
+      : json["profitLossRelPrevClose"],
+    totalValue: !exists(json, "totalValue")
+      ? undefined
+      : AmountFromJSON(json["totalValue"]),
   };
 }
 
@@ -127,14 +127,14 @@ export function PortfolioQuotesToJSONRecursive(
   }
 
   return {
-    profitLossAbsPrevClose: AmountToJSON(value.profitLossAbsPrevClose),
-    profitLossRelPrevClose: value.profitLossRelPrevClose,
-    profitLossAbs: AmountToJSON(value.profitLossAbs),
-    profitLossRel: value.profitLossRel,
-    totalValue: AmountToJSON(value.totalValue),
-    cashAccountBalance: AmountToJSON(value.cashAccountBalance),
     availableCash: AmountToJSON(value.availableCash),
+    cashAccountBalance: AmountToJSON(value.cashAccountBalance),
     positionValue: AmountToJSON(value.positionValue),
+    profitLossAbs: AmountToJSON(value.profitLossAbs),
+    profitLossAbsPrevClose: AmountToJSON(value.profitLossAbsPrevClose),
+    profitLossRel: value.profitLossRel,
+    profitLossRelPrevClose: value.profitLossRelPrevClose,
+    totalValue: AmountToJSON(value.totalValue),
   };
 }
 

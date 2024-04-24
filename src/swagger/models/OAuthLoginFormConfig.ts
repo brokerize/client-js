@@ -24,7 +24,7 @@ export interface OAuthLoginFormConfig {
    * @type {string}
    * @memberof OAuthLoginFormConfig
    */
-  redirectStyle?: OAuthLoginFormConfigRedirectStyleEnum;
+  appName?: string;
   /**
    *
    * @type {string}
@@ -42,7 +42,7 @@ export interface OAuthLoginFormConfig {
    * @type {string}
    * @memberof OAuthLoginFormConfig
    */
-  appName?: string;
+  redirectStyle?: OAuthLoginFormConfigRedirectStyleEnum;
 }
 
 /**
@@ -68,14 +68,14 @@ export function OAuthLoginFormConfigFromJSONTyped(
     return json;
   }
   return {
-    redirectStyle: !exists(json, "redirectStyle")
-      ? undefined
-      : json["redirectStyle"],
+    appName: !exists(json, "appName") ? undefined : json["appName"],
     logoUrlDark: !exists(json, "logoUrlDark") ? undefined : json["logoUrlDark"],
     logoUrlLight: !exists(json, "logoUrlLight")
       ? undefined
       : json["logoUrlLight"],
-    appName: !exists(json, "appName") ? undefined : json["appName"],
+    redirectStyle: !exists(json, "redirectStyle")
+      ? undefined
+      : json["redirectStyle"],
   };
 }
 
@@ -91,10 +91,10 @@ export function OAuthLoginFormConfigToJSONRecursive(
   }
 
   return {
-    redirectStyle: value.redirectStyle,
+    appName: value.appName,
     logoUrlDark: value.logoUrlDark,
     logoUrlLight: value.logoUrlLight,
-    appName: value.appName,
+    redirectStyle: value.redirectStyle,
   };
 }
 

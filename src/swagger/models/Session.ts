@@ -40,29 +40,10 @@ import {
 export interface Session {
   /**
    *
-   * @type {SessionSyncInfo}
-   * @memberof Session
-   */
-  syncInfo: SessionSyncInfo;
-  /**
-   *
-   * @type {SyncError}
-   * @memberof Session
-   */
-  syncError?: SyncError;
-  /**
-   *
    * @type {AuthInfo}
    * @memberof Session
    */
   authInfo?: AuthInfo;
-  /**
-   *
-   * @type {Date}
-   * @memberof Session
-   * @deprecated
-   */
-  lastSuccessfulSync?: Date;
   /**
    *
    * @type {string}
@@ -75,6 +56,25 @@ export interface Session {
    * @memberof Session
    */
   id: string;
+  /**
+   *
+   * @type {Date}
+   * @memberof Session
+   * @deprecated
+   */
+  lastSuccessfulSync?: Date;
+  /**
+   *
+   * @type {SyncError}
+   * @memberof Session
+   */
+  syncError?: SyncError;
+  /**
+   *
+   * @type {SessionSyncInfo}
+   * @memberof Session
+   */
+  syncInfo: SessionSyncInfo;
 }
 
 export function SessionFromJSON(json: any): Session {
@@ -89,18 +89,18 @@ export function SessionFromJSONTyped(
     return json;
   }
   return {
-    syncInfo: SessionSyncInfoFromJSON(json["syncInfo"]),
-    syncError: !exists(json, "syncError")
-      ? undefined
-      : SyncErrorFromJSON(json["syncError"]),
     authInfo: !exists(json, "authInfo")
       ? undefined
       : AuthInfoFromJSON(json["authInfo"]),
+    brokerName: json["brokerName"],
+    id: json["id"],
     lastSuccessfulSync: !exists(json, "lastSuccessfulSync")
       ? undefined
       : new Date(json["lastSuccessfulSync"]),
-    brokerName: json["brokerName"],
-    id: json["id"],
+    syncError: !exists(json, "syncError")
+      ? undefined
+      : SyncErrorFromJSON(json["syncError"]),
+    syncInfo: SessionSyncInfoFromJSON(json["syncInfo"]),
   };
 }
 
@@ -116,15 +116,15 @@ export function SessionToJSONRecursive(
   }
 
   return {
-    syncInfo: SessionSyncInfoToJSON(value.syncInfo),
-    syncError: SyncErrorToJSON(value.syncError),
     authInfo: AuthInfoToJSON(value.authInfo),
+    brokerName: value.brokerName,
+    id: value.id,
     lastSuccessfulSync:
       value.lastSuccessfulSync === undefined
         ? undefined
         : value.lastSuccessfulSync.toISOString(),
-    brokerName: value.brokerName,
-    id: value.id,
+    syncError: SyncErrorToJSON(value.syncError),
+    syncInfo: SessionSyncInfoToJSON(value.syncInfo),
   };
 }
 

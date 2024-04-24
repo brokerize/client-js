@@ -24,13 +24,13 @@ export interface GenericTableRowValueLinkUrlSpecifics {
    * @type {string}
    * @memberof GenericTableRowValueLinkUrlSpecifics
    */
-  url?: string;
+  text?: string;
   /**
    *
    * @type {string}
    * @memberof GenericTableRowValueLinkUrlSpecifics
    */
-  text?: string;
+  url?: string;
 }
 
 export function GenericTableRowValueLinkUrlSpecificsFromJSON(
@@ -47,8 +47,8 @@ export function GenericTableRowValueLinkUrlSpecificsFromJSONTyped(
     return json;
   }
   return {
-    url: !exists(json, "url") ? undefined : json["url"],
     text: !exists(json, "text") ? undefined : json["text"],
+    url: !exists(json, "url") ? undefined : json["url"],
   };
 }
 
@@ -64,8 +64,8 @@ export function GenericTableRowValueLinkUrlSpecificsToJSONRecursive(
   }
 
   return {
-    url: value.url,
     text: value.text,
+    url: value.url,
   };
 }
 

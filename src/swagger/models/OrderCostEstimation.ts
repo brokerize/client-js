@@ -39,23 +39,31 @@ import {
  */
 export interface OrderCostEstimation {
   /**
+   * If present, users have to accept this message before creating an order.
+   * If accepting the costs and performing the order is one click (which is allowed), the create order button label
+   * must contain the information that costs are accepted.
+   * @type {string}
+   * @memberof OrderCostEstimation
+   */
+  costAcceptancePrompt?: string;
+  /**
+   *
+   * @type {CostDetailsLink}
+   * @memberof OrderCostEstimation
+   */
+  costDetailsLink?: CostDetailsLink;
+  /**
+   *
+   * @type {GenericTable}
+   * @memberof OrderCostEstimation
+   */
+  detailedTable?: GenericTable;
+  /**
    *
    * @type {Amount}
    * @memberof OrderCostEstimation
    */
   entryCosts?: Amount;
-  /**
-   *
-   * @type {Amount}
-   * @memberof OrderCostEstimation
-   */
-  transactionTax?: Amount;
-  /**
-   *
-   * @type {Amount}
-   * @memberof OrderCostEstimation
-   */
-  totalCosts?: Amount;
   /**
    *
    * @type {Amount}
@@ -75,25 +83,17 @@ export interface OrderCostEstimation {
    */
   orderFeesExplanation?: string;
   /**
-   * If present, users have to accept this message before creating an order.
-   * If accepting the costs and performing the order is one click (which is allowed), the create order button label
-   * must contain the information that costs are accepted.
-   * @type {string}
+   *
+   * @type {Amount}
    * @memberof OrderCostEstimation
    */
-  costAcceptancePrompt?: string;
+  totalCosts?: Amount;
   /**
    *
-   * @type {GenericTable}
+   * @type {Amount}
    * @memberof OrderCostEstimation
    */
-  detailedTable?: GenericTable;
-  /**
-   *
-   * @type {CostDetailsLink}
-   * @memberof OrderCostEstimation
-   */
-  costDetailsLink?: CostDetailsLink;
+  transactionTax?: Amount;
 }
 
 export function OrderCostEstimationFromJSON(json: any): OrderCostEstimation {
@@ -108,15 +108,18 @@ export function OrderCostEstimationFromJSONTyped(
     return json;
   }
   return {
+    costAcceptancePrompt: !exists(json, "costAcceptancePrompt")
+      ? undefined
+      : json["costAcceptancePrompt"],
+    costDetailsLink: !exists(json, "costDetailsLink")
+      ? undefined
+      : CostDetailsLinkFromJSON(json["costDetailsLink"]),
+    detailedTable: !exists(json, "detailedTable")
+      ? undefined
+      : GenericTableFromJSON(json["detailedTable"]),
     entryCosts: !exists(json, "entryCosts")
       ? undefined
       : AmountFromJSON(json["entryCosts"]),
-    transactionTax: !exists(json, "transactionTax")
-      ? undefined
-      : AmountFromJSON(json["transactionTax"]),
-    totalCosts: !exists(json, "totalCosts")
-      ? undefined
-      : AmountFromJSON(json["totalCosts"]),
     expectedCounterValue: !exists(json, "expectedCounterValue")
       ? undefined
       : AmountFromJSON(json["expectedCounterValue"]),
@@ -126,15 +129,12 @@ export function OrderCostEstimationFromJSONTyped(
     orderFeesExplanation: !exists(json, "orderFeesExplanation")
       ? undefined
       : json["orderFeesExplanation"],
-    costAcceptancePrompt: !exists(json, "costAcceptancePrompt")
+    totalCosts: !exists(json, "totalCosts")
       ? undefined
-      : json["costAcceptancePrompt"],
-    detailedTable: !exists(json, "detailedTable")
+      : AmountFromJSON(json["totalCosts"]),
+    transactionTax: !exists(json, "transactionTax")
       ? undefined
-      : GenericTableFromJSON(json["detailedTable"]),
-    costDetailsLink: !exists(json, "costDetailsLink")
-      ? undefined
-      : CostDetailsLinkFromJSON(json["costDetailsLink"]),
+      : AmountFromJSON(json["transactionTax"]),
   };
 }
 
@@ -150,15 +150,15 @@ export function OrderCostEstimationToJSONRecursive(
   }
 
   return {
+    costAcceptancePrompt: value.costAcceptancePrompt,
+    costDetailsLink: CostDetailsLinkToJSON(value.costDetailsLink),
+    detailedTable: GenericTableToJSON(value.detailedTable),
     entryCosts: AmountToJSON(value.entryCosts),
-    transactionTax: AmountToJSON(value.transactionTax),
-    totalCosts: AmountToJSON(value.totalCosts),
     expectedCounterValue: AmountToJSON(value.expectedCounterValue),
     orderFees: AmountToJSON(value.orderFees),
     orderFeesExplanation: value.orderFeesExplanation,
-    costAcceptancePrompt: value.costAcceptancePrompt,
-    detailedTable: GenericTableToJSON(value.detailedTable),
-    costDetailsLink: CostDetailsLinkToJSON(value.costDetailsLink),
+    totalCosts: AmountToJSON(value.totalCosts),
+    transactionTax: AmountToJSON(value.transactionTax),
   };
 }
 

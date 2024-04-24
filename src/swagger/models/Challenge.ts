@@ -30,6 +30,12 @@ export interface Challenge {
    * @type {string}
    * @memberof Challenge
    */
+  challengeId: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Challenge
+   */
   challengePrompt: string;
   /**
    *
@@ -37,12 +43,6 @@ export interface Challenge {
    * @memberof Challenge
    */
   challengePromptType: ChallengeChallengePromptTypeEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof Challenge
-   */
-  challengeId: string;
 }
 
 /**
@@ -70,9 +70,9 @@ export function ChallengeFromJSONTyped(
     challengeExplanation: !exists(json, "challengeExplanation")
       ? undefined
       : json["challengeExplanation"],
+    challengeId: json["challengeId"],
     challengePrompt: json["challengePrompt"],
     challengePromptType: json["challengePromptType"],
-    challengeId: json["challengeId"],
   };
 }
 
@@ -89,9 +89,9 @@ export function ChallengeToJSONRecursive(
 
   return {
     challengeExplanation: value.challengeExplanation,
+    challengeId: value.challengeId,
     challengePrompt: value.challengePrompt,
     challengePromptType: value.challengePromptType,
-    challengeId: value.challengeId,
   };
 }
 

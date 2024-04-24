@@ -46,34 +46,16 @@ import {
 export interface BrokerMeta {
   /**
    *
-   * @type {BrokerMetaFeatures}
+   * @type {string}
    * @memberof BrokerMeta
    */
-  features: BrokerMetaFeatures;
-  /**
-   *
-   * @type {BrokerMetaImages}
-   * @memberof BrokerMeta
-   */
-  images: BrokerMetaImages;
+  brokerName: string;
   /**
    *
    * @type {string}
    * @memberof BrokerMeta
    */
   displayName: string;
-  /**
-   * If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.
-   * @type {boolean}
-   * @memberof BrokerMeta
-   */
-  supportsOAuthLogin?: boolean;
-  /**
-   *
-   * @type {BrokerLoginForm}
-   * @memberof BrokerMeta
-   */
-  loginForm?: BrokerLoginForm;
   /**
    * If the user may choose the environment, it should usually be displayed as a select box in UIs.
    * The field's label explains what the meaning of environment is in the broker's context.
@@ -89,10 +71,28 @@ export interface BrokerMeta {
   envs: Array<BrokerEnvironment>;
   /**
    *
-   * @type {string}
+   * @type {BrokerMetaFeatures}
    * @memberof BrokerMeta
    */
-  brokerName: string;
+  features: BrokerMetaFeatures;
+  /**
+   *
+   * @type {BrokerMetaImages}
+   * @memberof BrokerMeta
+   */
+  images: BrokerMetaImages;
+  /**
+   *
+   * @type {BrokerLoginForm}
+   * @memberof BrokerMeta
+   */
+  loginForm?: BrokerLoginForm;
+  /**
+   * If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.
+   * @type {boolean}
+   * @memberof BrokerMeta
+   */
+  supportsOAuthLogin?: boolean;
 }
 
 export function BrokerMetaFromJSON(json: any): BrokerMeta {
@@ -107,18 +107,18 @@ export function BrokerMetaFromJSONTyped(
     return json;
   }
   return {
+    brokerName: json["brokerName"],
+    displayName: json["displayName"],
+    envLabel: json["envLabel"],
+    envs: (json["envs"] as Array<any>).map(BrokerEnvironmentFromJSON),
     features: BrokerMetaFeaturesFromJSON(json["features"]),
     images: BrokerMetaImagesFromJSON(json["images"]),
-    displayName: json["displayName"],
-    supportsOAuthLogin: !exists(json, "supportsOAuthLogin")
-      ? undefined
-      : json["supportsOAuthLogin"],
     loginForm: !exists(json, "loginForm")
       ? undefined
       : BrokerLoginFormFromJSON(json["loginForm"]),
-    envLabel: json["envLabel"],
-    envs: (json["envs"] as Array<any>).map(BrokerEnvironmentFromJSON),
-    brokerName: json["brokerName"],
+    supportsOAuthLogin: !exists(json, "supportsOAuthLogin")
+      ? undefined
+      : json["supportsOAuthLogin"],
   };
 }
 
@@ -134,14 +134,14 @@ export function BrokerMetaToJSONRecursive(
   }
 
   return {
-    features: BrokerMetaFeaturesToJSON(value.features),
-    images: BrokerMetaImagesToJSON(value.images),
+    brokerName: value.brokerName,
     displayName: value.displayName,
-    supportsOAuthLogin: value.supportsOAuthLogin,
-    loginForm: BrokerLoginFormToJSON(value.loginForm),
     envLabel: value.envLabel,
     envs: (value.envs as Array<any>).map(BrokerEnvironmentToJSON),
-    brokerName: value.brokerName,
+    features: BrokerMetaFeaturesToJSON(value.features),
+    images: BrokerMetaImagesToJSON(value.images),
+    loginForm: BrokerLoginFormToJSON(value.loginForm),
+    supportsOAuthLogin: value.supportsOAuthLogin,
   };
 }
 

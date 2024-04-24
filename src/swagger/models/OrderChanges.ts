@@ -48,29 +48,17 @@ export interface OrderChanges {
    */
   limit?: number;
   /**
-   * The stop limit specifies a limit to use *after stop has been reached*. For buy orders, the stopLimit will be usually higher than stop, for sell orders the stopLimit will usually be lower than stop.
-   * @type {number}
-   * @memberof OrderChanges
-   */
-  stopLimit?: number;
-  /**
    *
    * @type {OrderModel}
    * @memberof OrderChanges
    */
-  orderModel: OrderModel;
+  orderModel?: OrderModel;
   /**
    *
-   * @type {OrderValidity}
-   * @memberof OrderChanges
-   */
-  validity?: OrderValidity;
-  /**
-   * How much of the security should be traded. For stocks, this is the number of stocks. For bonds, this is a monetary amount.
    * @type {number}
    * @memberof OrderChanges
    */
-  size: number;
+  size?: number;
   /**
    * The stop of an order specifies a usually higher value than the current quote (direction buy) or a usually lower value than the current quote (direction sell).
    *
@@ -80,6 +68,24 @@ export interface OrderChanges {
    * @memberof OrderChanges
    */
   stop?: number;
+  /**
+   * The stop limit specifies a limit to use *after stop has been reached*. For buy orders, the stopLimit will be usually higher than stop, for sell orders the stopLimit will usually be lower than stop.
+   * @type {number}
+   * @memberof OrderChanges
+   */
+  stopLimit?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderChanges
+   */
+  stopLoss?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderChanges
+   */
+  takeProfit?: number;
   /**
    *
    * @type {TrailingDistance}
@@ -96,16 +102,10 @@ export interface OrderChanges {
   trailingLimitTolerance?: number;
   /**
    *
-   * @type {number}
+   * @type {OrderValidity}
    * @memberof OrderChanges
    */
-  takeProfit?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof OrderChanges
-   */
-  stopLoss?: number;
+  validity?: OrderValidity;
 }
 
 export function OrderChangesFromJSON(json: any): OrderChanges {
@@ -121,21 +121,23 @@ export function OrderChangesFromJSONTyped(
   }
   return {
     limit: !exists(json, "limit") ? undefined : json["limit"],
-    stopLimit: !exists(json, "stopLimit") ? undefined : json["stopLimit"],
-    orderModel: OrderModelFromJSON(json["orderModel"]),
-    validity: !exists(json, "validity")
+    orderModel: !exists(json, "orderModel")
       ? undefined
-      : OrderValidityFromJSON(json["validity"]),
-    size: json["size"],
+      : OrderModelFromJSON(json["orderModel"]),
+    size: !exists(json, "size") ? undefined : json["size"],
     stop: !exists(json, "stop") ? undefined : json["stop"],
+    stopLimit: !exists(json, "stopLimit") ? undefined : json["stopLimit"],
+    stopLoss: !exists(json, "stopLoss") ? undefined : json["stopLoss"],
+    takeProfit: !exists(json, "takeProfit") ? undefined : json["takeProfit"],
     trailingDistance: !exists(json, "trailingDistance")
       ? undefined
       : TrailingDistanceFromJSON(json["trailingDistance"]),
     trailingLimitTolerance: !exists(json, "trailingLimitTolerance")
       ? undefined
       : json["trailingLimitTolerance"],
-    takeProfit: !exists(json, "takeProfit") ? undefined : json["takeProfit"],
-    stopLoss: !exists(json, "stopLoss") ? undefined : json["stopLoss"],
+    validity: !exists(json, "validity")
+      ? undefined
+      : OrderValidityFromJSON(json["validity"]),
   };
 }
 
@@ -152,15 +154,15 @@ export function OrderChangesToJSONRecursive(
 
   return {
     limit: value.limit,
-    stopLimit: value.stopLimit,
     orderModel: OrderModelToJSON(value.orderModel),
-    validity: OrderValidityToJSON(value.validity),
     size: value.size,
     stop: value.stop,
+    stopLimit: value.stopLimit,
+    stopLoss: value.stopLoss,
+    takeProfit: value.takeProfit,
     trailingDistance: TrailingDistanceToJSON(value.trailingDistance),
     trailingLimitTolerance: value.trailingLimitTolerance,
-    takeProfit: value.takeProfit,
-    stopLoss: value.stopLoss,
+    validity: OrderValidityToJSON(value.validity),
   };
 }
 

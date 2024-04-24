@@ -40,6 +40,12 @@ export interface AuthInfo {
    */
   authMethods: Array<AuthMethod>;
   /**
+   *
+   * @type {boolean}
+   * @memberof AuthInfo
+   */
+  sessionTanActive?: boolean;
+  /**
    * If this is true, session TAN can be ended using the `EndSessionTan` endpoint when it is no longer needed, leaving the
    * session active. This is not supported by all brokers.
    * @type {boolean}
@@ -52,12 +58,6 @@ export interface AuthInfo {
    * @memberof AuthInfo
    */
   sessionTanSupported?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof AuthInfo
-   */
-  sessionTanActive?: boolean;
 }
 
 export function AuthInfoFromJSON(json: any): AuthInfo {
@@ -79,13 +79,13 @@ export function AuthInfoFromJSONTyped(
       ? undefined
       : json["allOperationsRequireSessionTan"],
     authMethods: (json["authMethods"] as Array<any>).map(AuthMethodFromJSON),
+    sessionTanActive: !exists(json, "sessionTanActive")
+      ? undefined
+      : json["sessionTanActive"],
     sessionTanCanBeEnded: json["sessionTanCanBeEnded"],
     sessionTanSupported: !exists(json, "sessionTanSupported")
       ? undefined
       : json["sessionTanSupported"],
-    sessionTanActive: !exists(json, "sessionTanActive")
-      ? undefined
-      : json["sessionTanActive"],
   };
 }
 
@@ -103,9 +103,9 @@ export function AuthInfoToJSONRecursive(
   return {
     allOperationsRequireSessionTan: value.allOperationsRequireSessionTan,
     authMethods: (value.authMethods as Array<any>).map(AuthMethodToJSON),
+    sessionTanActive: value.sessionTanActive,
     sessionTanCanBeEnded: value.sessionTanCanBeEnded,
     sessionTanSupported: value.sessionTanSupported,
-    sessionTanActive: value.sessionTanActive,
   };
 }
 

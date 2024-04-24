@@ -24,12 +24,6 @@ export interface SecurityQuotesMeta {
    * @type {string}
    * @memberof SecurityQuotesMeta
    */
-  quoteSourceName: string;
-  /**
-   *
-   * @type {string}
-   * @memberof SecurityQuotesMeta
-   */
   currency: string;
   /**
    *
@@ -37,6 +31,12 @@ export interface SecurityQuotesMeta {
    * @memberof SecurityQuotesMeta
    */
   decimals: number;
+  /**
+   *
+   * @type {string}
+   * @memberof SecurityQuotesMeta
+   */
+  quoteSourceName: string;
 }
 
 export function SecurityQuotesMetaFromJSON(json: any): SecurityQuotesMeta {
@@ -51,9 +51,9 @@ export function SecurityQuotesMetaFromJSONTyped(
     return json;
   }
   return {
-    quoteSourceName: json["quoteSourceName"],
     currency: json["currency"],
     decimals: json["decimals"],
+    quoteSourceName: json["quoteSourceName"],
   };
 }
 
@@ -69,9 +69,9 @@ export function SecurityQuotesMetaToJSONRecursive(
   }
 
   return {
-    quoteSourceName: value.quoteSourceName,
     currency: value.currency,
     decimals: value.decimals,
+    quoteSourceName: value.quoteSourceName,
   };
 }
 

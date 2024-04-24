@@ -27,18 +27,18 @@ import {
  */
 export interface BrokerMetaFeatures {
   /**
-   *
-   * @type {Array<OrderStatus>}
-   * @memberof BrokerMetaFeatures
-   */
-  supportedOrderStatuses: Array<OrderStatus>;
-  /**
    * If set and `true`, orders retrieved in order lists or individually via `GetOrder` are expected to contain the `exchangeName` field.
    * Some brokers do not provide this information, so it is fine to hide the column in the UI if this is not true.
    * @type {boolean}
    * @memberof BrokerMetaFeatures
    */
   orderExchangeNames?: boolean;
+  /**
+   * If set and `true`, `Position.profitLossAbsPrevClose` is generally available for positions of this broker.
+   * @type {boolean}
+   * @memberof BrokerMetaFeatures
+   */
+  positionProfitLossAbsPrevClose?: boolean;
   /**
    * If set and `true`, `Position.profitLossRel` is generally available for positions of this broker.
    * @type {boolean}
@@ -52,11 +52,11 @@ export interface BrokerMetaFeatures {
    */
   positionProfitLossRelPrevClose?: boolean;
   /**
-   * If set and `true`, `Position.profitLossAbsPrevClose` is generally available for positions of this broker.
-   * @type {boolean}
+   *
+   * @type {Array<OrderStatus>}
    * @memberof BrokerMetaFeatures
    */
-  positionProfitLossAbsPrevClose?: boolean;
+  supportedOrderStatuses: Array<OrderStatus>;
 }
 
 export function BrokerMetaFeaturesFromJSON(json: any): BrokerMetaFeatures {
@@ -71,12 +71,15 @@ export function BrokerMetaFeaturesFromJSONTyped(
     return json;
   }
   return {
-    supportedOrderStatuses: (json["supportedOrderStatuses"] as Array<any>).map(
-      OrderStatusFromJSON
-    ),
     orderExchangeNames: !exists(json, "orderExchangeNames")
       ? undefined
       : json["orderExchangeNames"],
+    positionProfitLossAbsPrevClose: !exists(
+      json,
+      "positionProfitLossAbsPrevClose"
+    )
+      ? undefined
+      : json["positionProfitLossAbsPrevClose"],
     positionProfitLossRel: !exists(json, "positionProfitLossRel")
       ? undefined
       : json["positionProfitLossRel"],
@@ -86,12 +89,9 @@ export function BrokerMetaFeaturesFromJSONTyped(
     )
       ? undefined
       : json["positionProfitLossRelPrevClose"],
-    positionProfitLossAbsPrevClose: !exists(
-      json,
-      "positionProfitLossAbsPrevClose"
-    )
-      ? undefined
-      : json["positionProfitLossAbsPrevClose"],
+    supportedOrderStatuses: (json["supportedOrderStatuses"] as Array<any>).map(
+      OrderStatusFromJSON
+    ),
   };
 }
 
@@ -107,13 +107,13 @@ export function BrokerMetaFeaturesToJSONRecursive(
   }
 
   return {
+    orderExchangeNames: value.orderExchangeNames,
+    positionProfitLossAbsPrevClose: value.positionProfitLossAbsPrevClose,
+    positionProfitLossRel: value.positionProfitLossRel,
+    positionProfitLossRelPrevClose: value.positionProfitLossRelPrevClose,
     supportedOrderStatuses: (value.supportedOrderStatuses as Array<any>).map(
       OrderStatusToJSON
     ),
-    orderExchangeNames: value.orderExchangeNames,
-    positionProfitLossRel: value.positionProfitLossRel,
-    positionProfitLossRelPrevClose: value.positionProfitLossRelPrevClose,
-    positionProfitLossAbsPrevClose: value.positionProfitLossAbsPrevClose,
   };
 }
 

@@ -24,7 +24,7 @@ export interface PrepareOAuthRedirectParams {
    * @type {string}
    * @memberof PrepareOAuthRedirectParams
    */
-  returnToUrl: string;
+  brokerName: string;
   /**
    *
    * @type {string}
@@ -36,7 +36,7 @@ export interface PrepareOAuthRedirectParams {
    * @type {string}
    * @memberof PrepareOAuthRedirectParams
    */
-  brokerName: string;
+  returnToUrl: string;
 }
 
 export function PrepareOAuthRedirectParamsFromJSON(
@@ -53,9 +53,9 @@ export function PrepareOAuthRedirectParamsFromJSONTyped(
     return json;
   }
   return {
-    returnToUrl: json["returnToUrl"],
-    env: json["env"],
     brokerName: json["brokerName"],
+    env: json["env"],
+    returnToUrl: json["returnToUrl"],
   };
 }
 
@@ -71,9 +71,9 @@ export function PrepareOAuthRedirectParamsToJSONRecursive(
   }
 
   return {
-    returnToUrl: value.returnToUrl,
-    env: value.env,
     brokerName: value.brokerName,
+    env: value.env,
+    returnToUrl: value.returnToUrl,
   };
 }
 

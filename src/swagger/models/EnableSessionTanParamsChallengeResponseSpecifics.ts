@@ -24,7 +24,7 @@ export interface EnableSessionTanParamsChallengeResponseSpecifics {
    * @type {string}
    * @memberof EnableSessionTanParamsChallengeResponseSpecifics
    */
-  challengeResponse?: string;
+  authMethod?: string;
   /**
    *
    * @type {string}
@@ -36,7 +36,7 @@ export interface EnableSessionTanParamsChallengeResponseSpecifics {
    * @type {string}
    * @memberof EnableSessionTanParamsChallengeResponseSpecifics
    */
-  authMethod?: string;
+  challengeResponse?: string;
 }
 
 export function EnableSessionTanParamsChallengeResponseSpecificsFromJSON(
@@ -56,11 +56,11 @@ export function EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped(
     return json;
   }
   return {
+    authMethod: !exists(json, "authMethod") ? undefined : json["authMethod"],
+    challengeId: !exists(json, "challengeId") ? undefined : json["challengeId"],
     challengeResponse: !exists(json, "challengeResponse")
       ? undefined
       : json["challengeResponse"],
-    challengeId: !exists(json, "challengeId") ? undefined : json["challengeId"],
-    authMethod: !exists(json, "authMethod") ? undefined : json["authMethod"],
   };
 }
 
@@ -76,9 +76,9 @@ export function EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive(
   }
 
   return {
-    challengeResponse: value.challengeResponse,
-    challengeId: value.challengeId,
     authMethod: value.authMethod,
+    challengeId: value.challengeId,
+    challengeResponse: value.challengeResponse,
   };
 }
 

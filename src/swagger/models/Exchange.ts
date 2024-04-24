@@ -51,17 +51,18 @@ import {
  */
 export interface Exchange {
   /**
-   * The id of the exchange, as defined by the *broker*. This is to be used as the `brokerExchangeId` in quote and trade requests.
-   * @type {string}
+   * If this is true, limit buy orders may have the additional "ifDoneLimit" set.
+   * @type {boolean}
    * @memberof Exchange
    */
-  id: string;
+  allowsIfDoneLimit?: boolean;
   /**
-   * If set, this token can be used to retrieve quotes for the security at this exchange using the corresponding API endpoints (`GetSecurityQuotesMeta` and `GetSecurityQuotes`).
-   * @type {string}
+   * If true, quote orders can be created with quoteMode=limit and quoteOrderOpts.quoteLimit set to a limit. This allows brokers to execute the
+   * quote order at a different price instead of rejecting the order when the price has changed.
+   * @type {boolean}
    * @memberof Exchange
    */
-  securityQuotesToken?: string;
+  allowsQuoteModeLimit?: boolean;
   /**
    * If the exchange can be mapped to the brokerize exchange list, this contains the id of the corresponding entry. Note that this is optional
    * and may be missing if the exchange cannot be mapped.
@@ -70,23 +71,17 @@ export interface Exchange {
    */
   brokerizeExchangeId?: number;
   /**
-   * The label of the exchange, as defined by the *broker*.
+   * Quotes for the instrument at this exchange are in this currency. This affects fields like limit, stop etc.
    * @type {string}
    * @memberof Exchange
    */
-  label: string;
+  currencyIso: string;
   /**
-   * The orderModels that are available for order direction `sell`. If this is empty, selling is not allowed on this exchange.
-   * @type {Array<OrderModel>}
+   *
+   * @type {DefaultOrderValidityByOrderModel}
    * @memberof Exchange
    */
-  orderModelsSell: Array<OrderModel>;
-  /**
-   * The orderModels that are available for order direction `buy`. If this is empty, buying is not allowed on this exchange.
-   * @type {Array<OrderModel>}
-   * @memberof Exchange
-   */
-  orderModelsBuy: Array<OrderModel>;
+  defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
   /**
    * only one orderModel is available and it should not be displayed to the user. This is currently the case for buying funds at some
    * exchanges, where there is actually not a real order in the background, so the user should just see buy & sell buttons.
@@ -98,18 +93,41 @@ export interface Exchange {
    */
   hideOrderModel?: boolean;
   /**
-   * If true, quote orders can be created with quoteMode=limit and quoteOrderOpts.quoteLimit set to a limit. This allows brokers to execute the
-   * quote order at a different price instead of rejecting the order when the price has changed.
-   * @type {boolean}
+   * The id of the exchange, as defined by the *broker*. This is to be used as the `brokerExchangeId` in quote and trade requests.
+   * @type {string}
    * @memberof Exchange
    */
-  allowsQuoteModeLimit?: boolean;
+  id: string;
   /**
-   * If this is true, limit buy orders may have the additional "ifDoneLimit" set.
-   * @type {boolean}
+   * The label of the exchange, as defined by the *broker*.
+   * @type {string}
    * @memberof Exchange
    */
-  allowsIfDoneLimit?: boolean;
+  label: string;
+  /**
+   *
+   * @type {StringMapByOrderModel}
+   * @memberof Exchange
+   */
+  legalMessagesToConfirmByOrderModel?: StringMapByOrderModel;
+  /**
+   * The orderModels that are available for order direction `buy`. If this is empty, buying is not allowed on this exchange.
+   * @type {Array<OrderModel>}
+   * @memberof Exchange
+   */
+  orderModelsBuy: Array<OrderModel>;
+  /**
+   * The orderModels that are available for order direction `sell`. If this is empty, selling is not allowed on this exchange.
+   * @type {Array<OrderModel>}
+   * @memberof Exchange
+   */
+  orderModelsSell: Array<OrderModel>;
+  /**
+   * If set, this token can be used to retrieve quotes for the security at this exchange using the corresponding API endpoints (`GetSecurityQuotesMeta` and `GetSecurityQuotes`).
+   * @type {string}
+   * @memberof Exchange
+   */
+  securityQuotesToken?: string;
   /**
    *
    * @type {TakeProfitStopLossCapabilites}
@@ -122,24 +140,6 @@ export interface Exchange {
    * @memberof Exchange
    */
   validityTypesByOrderModel: OrderValidityTypeByOrderModel;
-  /**
-   *
-   * @type {DefaultOrderValidityByOrderModel}
-   * @memberof Exchange
-   */
-  defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
-  /**
-   *
-   * @type {StringMapByOrderModel}
-   * @memberof Exchange
-   */
-  legalMessagesToConfirmByOrderModel?: StringMapByOrderModel;
-  /**
-   * Quotes for the instrument at this exchange are in this currency. This affects fields like limit, stop etc.
-   * @type {string}
-   * @memberof Exchange
-   */
-  currencyIso: string;
 }
 
 export function ExchangeFromJSON(json: any): Exchange {
@@ -154,40 +154,26 @@ export function ExchangeFromJSONTyped(
     return json;
   }
   return {
-    id: json["id"],
-    securityQuotesToken: !exists(json, "securityQuotesToken")
-      ? undefined
-      : json["securityQuotesToken"],
-    brokerizeExchangeId: !exists(json, "brokerizeExchangeId")
-      ? undefined
-      : json["brokerizeExchangeId"],
-    label: json["label"],
-    orderModelsSell: (json["orderModelsSell"] as Array<any>).map(
-      OrderModelFromJSON
-    ),
-    orderModelsBuy: (json["orderModelsBuy"] as Array<any>).map(
-      OrderModelFromJSON
-    ),
-    hideOrderModel: !exists(json, "hideOrderModel")
-      ? undefined
-      : json["hideOrderModel"],
-    allowsQuoteModeLimit: !exists(json, "allowsQuoteModeLimit")
-      ? undefined
-      : json["allowsQuoteModeLimit"],
     allowsIfDoneLimit: !exists(json, "allowsIfDoneLimit")
       ? undefined
       : json["allowsIfDoneLimit"],
-    takeProfitStopLoss: !exists(json, "takeProfitStopLoss")
+    allowsQuoteModeLimit: !exists(json, "allowsQuoteModeLimit")
       ? undefined
-      : TakeProfitStopLossCapabilitesFromJSON(json["takeProfitStopLoss"]),
-    validityTypesByOrderModel: OrderValidityTypeByOrderModelFromJSON(
-      json["validityTypesByOrderModel"]
-    ),
+      : json["allowsQuoteModeLimit"],
+    brokerizeExchangeId: !exists(json, "brokerizeExchangeId")
+      ? undefined
+      : json["brokerizeExchangeId"],
+    currencyIso: json["currencyIso"],
     defaultValidityByOrderModel: !exists(json, "defaultValidityByOrderModel")
       ? undefined
       : DefaultOrderValidityByOrderModelFromJSON(
           json["defaultValidityByOrderModel"]
         ),
+    hideOrderModel: !exists(json, "hideOrderModel")
+      ? undefined
+      : json["hideOrderModel"],
+    id: json["id"],
+    label: json["label"],
     legalMessagesToConfirmByOrderModel: !exists(
       json,
       "legalMessagesToConfirmByOrderModel"
@@ -196,7 +182,21 @@ export function ExchangeFromJSONTyped(
       : StringMapByOrderModelFromJSON(
           json["legalMessagesToConfirmByOrderModel"]
         ),
-    currencyIso: json["currencyIso"],
+    orderModelsBuy: (json["orderModelsBuy"] as Array<any>).map(
+      OrderModelFromJSON
+    ),
+    orderModelsSell: (json["orderModelsSell"] as Array<any>).map(
+      OrderModelFromJSON
+    ),
+    securityQuotesToken: !exists(json, "securityQuotesToken")
+      ? undefined
+      : json["securityQuotesToken"],
+    takeProfitStopLoss: !exists(json, "takeProfitStopLoss")
+      ? undefined
+      : TakeProfitStopLossCapabilitesFromJSON(json["takeProfitStopLoss"]),
+    validityTypesByOrderModel: OrderValidityTypeByOrderModelFromJSON(
+      json["validityTypesByOrderModel"]
+    ),
   };
 }
 
@@ -212,30 +212,30 @@ export function ExchangeToJSONRecursive(
   }
 
   return {
-    id: value.id,
-    securityQuotesToken: value.securityQuotesToken,
+    allowsIfDoneLimit: value.allowsIfDoneLimit,
+    allowsQuoteModeLimit: value.allowsQuoteModeLimit,
     brokerizeExchangeId: value.brokerizeExchangeId,
+    currencyIso: value.currencyIso,
+    defaultValidityByOrderModel: DefaultOrderValidityByOrderModelToJSON(
+      value.defaultValidityByOrderModel
+    ),
+    hideOrderModel: value.hideOrderModel,
+    id: value.id,
     label: value.label,
+    legalMessagesToConfirmByOrderModel: StringMapByOrderModelToJSON(
+      value.legalMessagesToConfirmByOrderModel
+    ),
+    orderModelsBuy: (value.orderModelsBuy as Array<any>).map(OrderModelToJSON),
     orderModelsSell: (value.orderModelsSell as Array<any>).map(
       OrderModelToJSON
     ),
-    orderModelsBuy: (value.orderModelsBuy as Array<any>).map(OrderModelToJSON),
-    hideOrderModel: value.hideOrderModel,
-    allowsQuoteModeLimit: value.allowsQuoteModeLimit,
-    allowsIfDoneLimit: value.allowsIfDoneLimit,
+    securityQuotesToken: value.securityQuotesToken,
     takeProfitStopLoss: TakeProfitStopLossCapabilitesToJSON(
       value.takeProfitStopLoss
     ),
     validityTypesByOrderModel: OrderValidityTypeByOrderModelToJSON(
       value.validityTypesByOrderModel
     ),
-    defaultValidityByOrderModel: DefaultOrderValidityByOrderModelToJSON(
-      value.defaultValidityByOrderModel
-    ),
-    legalMessagesToConfirmByOrderModel: StringMapByOrderModelToJSON(
-      value.legalMessagesToConfirmByOrderModel
-    ),
-    currencyIso: value.currencyIso,
   };
 }
 

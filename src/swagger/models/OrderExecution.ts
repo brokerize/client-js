@@ -28,16 +28,16 @@ import {
 export interface OrderExecution {
   /**
    *
+   * @type {Amount}
+   * @memberof OrderExecution
+   */
+  amount?: Amount;
+  /**
+   *
    * @type {number}
    * @memberof OrderExecution
    */
   crossRate?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof OrderExecution
-   */
-  executionStatusText?: string;
   /**
    *
    * @type {Date}
@@ -46,28 +46,16 @@ export interface OrderExecution {
   executedDateTime?: Date;
   /**
    *
-   * @type {Amount}
+   * @type {string}
    * @memberof OrderExecution
    */
-  totalAmount?: Amount;
+  executionStatusText?: string;
   /**
    *
-   * @type {Amount}
+   * @type {string}
    * @memberof OrderExecution
    */
-  amount?: Amount;
-  /**
-   *
-   * @type {Amount}
-   * @memberof OrderExecution
-   */
-  tax?: Amount;
-  /**
-   *
-   * @type {Amount}
-   * @memberof OrderExecution
-   */
-  transactionTax?: Amount;
+  id?: string;
   /**
    *
    * @type {Amount}
@@ -82,10 +70,22 @@ export interface OrderExecution {
   size: Amount;
   /**
    *
-   * @type {string}
+   * @type {Amount}
    * @memberof OrderExecution
    */
-  id?: string;
+  tax?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof OrderExecution
+   */
+  totalAmount?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof OrderExecution
+   */
+  transactionTax?: Amount;
 }
 
 export function OrderExecutionFromJSON(json: any): OrderExecution {
@@ -100,26 +100,26 @@ export function OrderExecutionFromJSONTyped(
     return json;
   }
   return {
-    crossRate: !exists(json, "crossRate") ? undefined : json["crossRate"],
-    executionStatusText: !exists(json, "executionStatusText")
-      ? undefined
-      : json["executionStatusText"],
-    executedDateTime: !exists(json, "executedDateTime")
-      ? undefined
-      : new Date(json["executedDateTime"]),
-    totalAmount: !exists(json, "totalAmount")
-      ? undefined
-      : AmountFromJSON(json["totalAmount"]),
     amount: !exists(json, "amount")
       ? undefined
       : AmountFromJSON(json["amount"]),
+    crossRate: !exists(json, "crossRate") ? undefined : json["crossRate"],
+    executedDateTime: !exists(json, "executedDateTime")
+      ? undefined
+      : new Date(json["executedDateTime"]),
+    executionStatusText: !exists(json, "executionStatusText")
+      ? undefined
+      : json["executionStatusText"],
+    id: !exists(json, "id") ? undefined : json["id"],
+    quote: !exists(json, "quote") ? undefined : AmountFromJSON(json["quote"]),
+    size: AmountFromJSON(json["size"]),
     tax: !exists(json, "tax") ? undefined : AmountFromJSON(json["tax"]),
+    totalAmount: !exists(json, "totalAmount")
+      ? undefined
+      : AmountFromJSON(json["totalAmount"]),
     transactionTax: !exists(json, "transactionTax")
       ? undefined
       : AmountFromJSON(json["transactionTax"]),
-    quote: !exists(json, "quote") ? undefined : AmountFromJSON(json["quote"]),
-    size: AmountFromJSON(json["size"]),
-    id: !exists(json, "id") ? undefined : json["id"],
   };
 }
 
@@ -135,19 +135,19 @@ export function OrderExecutionToJSONRecursive(
   }
 
   return {
+    amount: AmountToJSON(value.amount),
     crossRate: value.crossRate,
-    executionStatusText: value.executionStatusText,
     executedDateTime:
       value.executedDateTime === undefined
         ? undefined
         : value.executedDateTime.toISOString(),
-    totalAmount: AmountToJSON(value.totalAmount),
-    amount: AmountToJSON(value.amount),
-    tax: AmountToJSON(value.tax),
-    transactionTax: AmountToJSON(value.transactionTax),
+    executionStatusText: value.executionStatusText,
+    id: value.id,
     quote: AmountToJSON(value.quote),
     size: AmountToJSON(value.size),
-    id: value.id,
+    tax: AmountToJSON(value.tax),
+    totalAmount: AmountToJSON(value.totalAmount),
+    transactionTax: AmountToJSON(value.transactionTax),
   };
 }
 

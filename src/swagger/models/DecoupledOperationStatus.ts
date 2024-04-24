@@ -28,16 +28,16 @@ import {
 export interface DecoupledOperationStatus {
   /**
    *
-   * @type {string}
-   * @memberof DecoupledOperationStatus
-   */
-  text?: string;
-  /**
-   *
    * @type {DecoupledOperationState}
    * @memberof DecoupledOperationStatus
    */
   state: DecoupledOperationState;
+  /**
+   *
+   * @type {string}
+   * @memberof DecoupledOperationStatus
+   */
+  text?: string;
 }
 
 export function DecoupledOperationStatusFromJSON(
@@ -54,8 +54,8 @@ export function DecoupledOperationStatusFromJSONTyped(
     return json;
   }
   return {
-    text: !exists(json, "text") ? undefined : json["text"],
     state: DecoupledOperationStateFromJSON(json["state"]),
+    text: !exists(json, "text") ? undefined : json["text"],
   };
 }
 
@@ -71,8 +71,8 @@ export function DecoupledOperationStatusToJSONRecursive(
   }
 
   return {
-    text: value.text,
     state: DecoupledOperationStateToJSON(value.state),
+    text: value.text,
   };
 }
 

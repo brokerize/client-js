@@ -21,16 +21,16 @@ import { exists, mapValues } from "../runtime";
 export interface ExchangeMeta {
   /**
    *
-   * @type {string}
-   * @memberof ExchangeMeta
-   */
-  name: string;
-  /**
-   *
    * @type {number}
    * @memberof ExchangeMeta
    */
   id: number;
+  /**
+   *
+   * @type {string}
+   * @memberof ExchangeMeta
+   */
+  name: string;
 }
 
 export function ExchangeMetaFromJSON(json: any): ExchangeMeta {
@@ -45,8 +45,8 @@ export function ExchangeMetaFromJSONTyped(
     return json;
   }
   return {
-    name: json["name"],
     id: json["id"],
+    name: json["name"],
   };
 }
 
@@ -62,8 +62,8 @@ export function ExchangeMetaToJSONRecursive(
   }
 
   return {
-    name: value.name,
     id: value.id,
+    name: value.name,
   };
 }
 

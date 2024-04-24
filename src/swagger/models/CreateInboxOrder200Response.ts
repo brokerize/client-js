@@ -16,44 +16,37 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateClient200Response
+ * @interface CreateInboxOrder200Response
  */
-export interface CreateClient200Response {
+export interface CreateInboxOrder200Response {
   /**
    *
    * @type {string}
-   * @memberof CreateClient200Response
+   * @memberof CreateInboxOrder200Response
    */
   id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateClient200Response
-   */
-  name: string;
 }
 
-export function CreateClient200ResponseFromJSON(
+export function CreateInboxOrder200ResponseFromJSON(
   json: any
-): CreateClient200Response {
-  return CreateClient200ResponseFromJSONTyped(json, false);
+): CreateInboxOrder200Response {
+  return CreateInboxOrder200ResponseFromJSONTyped(json, false);
 }
 
-export function CreateClient200ResponseFromJSONTyped(
+export function CreateInboxOrder200ResponseFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): CreateClient200Response {
+): CreateInboxOrder200Response {
   if (json === undefined || json === null) {
     return json;
   }
   return {
     id: json["id"],
-    name: json["name"],
   };
 }
 
-export function CreateClient200ResponseToJSONRecursive(
-  value?: CreateClient200Response | null,
+export function CreateInboxOrder200ResponseToJSONRecursive(
+  value?: CreateInboxOrder200Response | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -65,12 +58,11 @@ export function CreateClient200ResponseToJSONRecursive(
 
   return {
     id: value.id,
-    name: value.name,
   };
 }
 
-export function CreateClient200ResponseToJSON(
-  value?: CreateClient200Response | null
+export function CreateInboxOrder200ResponseToJSON(
+  value?: CreateInboxOrder200Response | null
 ): any {
-  return CreateClient200ResponseToJSONRecursive(value, false);
+  return CreateInboxOrder200ResponseToJSONRecursive(value, false);
 }

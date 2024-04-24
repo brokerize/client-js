@@ -21,6 +21,12 @@ import { exists, mapValues } from "../runtime";
 export interface BrokerEnvironment {
   /**
    *
+   * @type {string}
+   * @memberof BrokerEnvironment
+   */
+  id: string;
+  /**
+   *
    * @type {boolean}
    * @memberof BrokerEnvironment
    */
@@ -31,12 +37,6 @@ export interface BrokerEnvironment {
    * @memberof BrokerEnvironment
    */
   label: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BrokerEnvironment
-   */
-  id: string;
 }
 
 export function BrokerEnvironmentFromJSON(json: any): BrokerEnvironment {
@@ -51,9 +51,9 @@ export function BrokerEnvironmentFromJSONTyped(
     return json;
   }
   return {
+    id: json["id"],
     isTestingEnvironment: json["isTestingEnvironment"],
     label: json["label"],
-    id: json["id"],
   };
 }
 
@@ -69,9 +69,9 @@ export function BrokerEnvironmentToJSONRecursive(
   }
 
   return {
+    id: value.id,
     isTestingEnvironment: value.isTestingEnvironment,
     label: value.label,
-    id: value.id,
   };
 }
 

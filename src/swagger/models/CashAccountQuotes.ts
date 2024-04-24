@@ -28,10 +28,10 @@ import {
 export interface CashAccountQuotes {
   /**
    *
-   * @type {boolean}
+   * @type {Amount}
    * @memberof CashAccountQuotes
    */
-  hideInOverviews?: boolean;
+  balance?: Amount;
   /**
    *
    * @type {Amount}
@@ -40,10 +40,10 @@ export interface CashAccountQuotes {
   buyingPower?: Amount;
   /**
    *
-   * @type {Amount}
+   * @type {boolean}
    * @memberof CashAccountQuotes
    */
-  balance?: Amount;
+  hideInOverviews?: boolean;
 }
 
 export function CashAccountQuotesFromJSON(json: any): CashAccountQuotes {
@@ -58,15 +58,15 @@ export function CashAccountQuotesFromJSONTyped(
     return json;
   }
   return {
-    hideInOverviews: !exists(json, "hideInOverviews")
-      ? undefined
-      : json["hideInOverviews"],
-    buyingPower: !exists(json, "buyingPower")
-      ? undefined
-      : AmountFromJSON(json["buyingPower"]),
     balance: !exists(json, "balance")
       ? undefined
       : AmountFromJSON(json["balance"]),
+    buyingPower: !exists(json, "buyingPower")
+      ? undefined
+      : AmountFromJSON(json["buyingPower"]),
+    hideInOverviews: !exists(json, "hideInOverviews")
+      ? undefined
+      : json["hideInOverviews"],
   };
 }
 
@@ -82,9 +82,9 @@ export function CashAccountQuotesToJSONRecursive(
   }
 
   return {
-    hideInOverviews: value.hideInOverviews,
-    buyingPower: AmountToJSON(value.buyingPower),
     balance: AmountToJSON(value.balance),
+    buyingPower: AmountToJSON(value.buyingPower),
+    hideInOverviews: value.hideInOverviews,
   };
 }
 

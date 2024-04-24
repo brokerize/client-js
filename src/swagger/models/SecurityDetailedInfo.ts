@@ -25,13 +25,13 @@ export interface SecurityDetailedInfo {
    * @type {string}
    * @memberof SecurityDetailedInfo
    */
-  token: string;
+  label: string;
   /**
    *
    * @type {string}
    * @memberof SecurityDetailedInfo
    */
-  label: string;
+  token: string;
 }
 
 export function SecurityDetailedInfoFromJSON(json: any): SecurityDetailedInfo {
@@ -46,8 +46,8 @@ export function SecurityDetailedInfoFromJSONTyped(
     return json;
   }
   return {
-    token: json["token"],
     label: json["label"],
+    token: json["token"],
   };
 }
 
@@ -63,8 +63,8 @@ export function SecurityDetailedInfoToJSONRecursive(
   }
 
   return {
-    token: value.token,
     label: value.label,
+    token: value.token,
   };
 }
 

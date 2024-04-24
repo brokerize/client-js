@@ -43,13 +43,13 @@ export interface GenericTableRowValueLinkPortfolio {
    * @type {string}
    * @memberof GenericTableRowValueLinkPortfolio
    */
-  text: string;
+  portfolioId: string;
   /**
    *
    * @type {string}
    * @memberof GenericTableRowValueLinkPortfolio
    */
-  portfolioId: string;
+  text: string;
 }
 
 /**
@@ -76,8 +76,8 @@ export function GenericTableRowValueLinkPortfolioFromJSONTyped(
   }
   return {
     type: json["type"],
-    text: json["text"],
     portfolioId: json["portfolioId"],
+    text: json["text"],
   };
 }
 
@@ -94,8 +94,8 @@ export function GenericTableRowValueLinkPortfolioToJSONRecursive(
 
   return {
     type: value.type,
-    text: value.text,
     portfolioId: value.portfolioId,
+    text: value.text,
   };
 }
 
