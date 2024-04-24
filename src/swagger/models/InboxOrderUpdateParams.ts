@@ -16,42 +16,51 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface InboxOrderParams
+ * @interface InboxOrderUpdateParams
  */
-export interface InboxOrderParams {
+export interface InboxOrderUpdateParams {
   /**
    *
    * @type {string}
-   * @memberof InboxOrderParams
+   * @memberof InboxOrderUpdateParams
    */
   description?: string;
   /**
    *
-   * @type {any}
-   * @memberof InboxOrderParams
+   * @type {boolean}
+   * @memberof InboxOrderUpdateParams
    */
-  orderData: any | null;
+  inactive?: boolean;
+  /**
+   *
+   * @type {string}
+   * @memberof InboxOrderUpdateParams
+   */
+  orderId?: string;
 }
 
-export function InboxOrderParamsFromJSON(json: any): InboxOrderParams {
-  return InboxOrderParamsFromJSONTyped(json, false);
+export function InboxOrderUpdateParamsFromJSON(
+  json: any
+): InboxOrderUpdateParams {
+  return InboxOrderUpdateParamsFromJSONTyped(json, false);
 }
 
-export function InboxOrderParamsFromJSONTyped(
+export function InboxOrderUpdateParamsFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): InboxOrderParams {
+): InboxOrderUpdateParams {
   if (json === undefined || json === null) {
     return json;
   }
   return {
     description: !exists(json, "description") ? undefined : json["description"],
-    orderData: json["orderData"],
+    inactive: !exists(json, "inactive") ? undefined : json["inactive"],
+    orderId: !exists(json, "orderId") ? undefined : json["orderId"],
   };
 }
 
-export function InboxOrderParamsToJSONRecursive(
-  value?: InboxOrderParams | null,
+export function InboxOrderUpdateParamsToJSONRecursive(
+  value?: InboxOrderUpdateParams | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -63,10 +72,13 @@ export function InboxOrderParamsToJSONRecursive(
 
   return {
     description: value.description,
-    orderData: value.orderData,
+    inactive: value.inactive,
+    orderId: value.orderId,
   };
 }
 
-export function InboxOrderParamsToJSON(value?: InboxOrderParams | null): any {
-  return InboxOrderParamsToJSONRecursive(value, false);
+export function InboxOrderUpdateParamsToJSON(
+  value?: InboxOrderUpdateParams | null
+): any {
+  return InboxOrderUpdateParamsToJSONRecursive(value, false);
 }

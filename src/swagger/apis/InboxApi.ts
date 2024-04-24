@@ -23,13 +23,16 @@ import {
   GetActiveInboxOrdersResponse,
   GetActiveInboxOrdersResponseFromJSON,
   GetActiveInboxOrdersResponseToJSON,
-  InboxOrderParams,
-  InboxOrderParamsFromJSON,
-  InboxOrderParamsToJSON,
+  InboxOrderCreateParams,
+  InboxOrderCreateParamsFromJSON,
+  InboxOrderCreateParamsToJSON,
+  InboxOrderUpdateParams,
+  InboxOrderUpdateParamsFromJSON,
+  InboxOrderUpdateParamsToJSON,
 } from "../models";
 
 export interface CreateInboxOrderRequest {
-  inboxOrderParams: InboxOrderParams;
+  inboxOrderCreateParams: InboxOrderCreateParams;
 }
 
 export interface DeactivateInboxOrderRequest {
@@ -45,6 +48,11 @@ export interface GetInboxOrdersRequest {
   skip?: number;
 }
 
+export interface UpdateInboxOrderRequest {
+  id: string;
+  inboxOrderUpdateParams: InboxOrderUpdateParams;
+}
+
 /**
  *
  */
@@ -57,12 +65,12 @@ export class InboxApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<CreateInboxOrder200Response>> {
     if (
-      requestParameters.inboxOrderParams === null ||
-      requestParameters.inboxOrderParams === undefined
+      requestParameters.inboxOrderCreateParams === null ||
+      requestParameters.inboxOrderCreateParams === undefined
     ) {
       throw new runtime.RequiredError(
-        "inboxOrderParams",
-        "Required parameter requestParameters.inboxOrderParams was null or undefined when calling createInboxOrder."
+        "inboxOrderCreateParams",
+        "Required parameter requestParameters.inboxOrderCreateParams was null or undefined when calling createInboxOrder."
       );
     }
 
@@ -88,7 +96,9 @@ export class InboxApi extends runtime.BaseAPI {
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
-        body: InboxOrderParamsToJSON(requestParameters.inboxOrderParams),
+        body: InboxOrderCreateParamsToJSON(
+          requestParameters.inboxOrderCreateParams
+        ),
       },
       initOverrides
     );
@@ -276,5 +286,74 @@ export class InboxApi extends runtime.BaseAPI {
       initOverrides
     );
     return await response.value();
+  }
+
+  /**
+   * Update an inbox order
+   */
+  async updateInboxOrderRaw(
+    requestParameters: UpdateInboxOrderRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<void>> {
+    if (requestParameters.id === null || requestParameters.id === undefined) {
+      throw new runtime.RequiredError(
+        "id",
+        "Required parameter requestParameters.id was null or undefined when calling updateInboxOrder."
+      );
+    }
+
+    if (
+      requestParameters.inboxOrderUpdateParams === null ||
+      requestParameters.inboxOrderUpdateParams === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "inboxOrderUpdateParams",
+        "Required parameter requestParameters.inboxOrderUpdateParams was null or undefined when calling updateInboxOrder."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-access-token"] =
+        this.configuration.apiKey("x-access-token"); // idToken authentication
+    }
+
+    const response = await this.request(
+      {
+        path: `/inboxOrders/{id}`.replace(
+          `{${"id"}}`,
+          encodeURIComponent(String(requestParameters.id))
+        ),
+        method: "PUT",
+        headers: headerParameters,
+        query: queryParameters,
+        body: InboxOrderUpdateParamsToJSON(
+          requestParameters.inboxOrderUpdateParams
+        ),
+      },
+      initOverrides
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * Update an inbox order
+   */
+  async updateInboxOrder(
+    requestParameters: UpdateInboxOrderRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<void> {
+    await this.updateInboxOrderRaw(requestParameters, initOverrides);
   }
 }

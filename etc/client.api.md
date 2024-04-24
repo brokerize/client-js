@@ -1552,7 +1552,7 @@ function CreateInboxOrder200ResponseToJSONRecursive(value?: CreateInboxOrder200R
 // @public (undocumented)
 interface CreateInboxOrderRequest {
     // (undocumented)
-    inboxOrderParams: InboxOrderParams;
+    inboxOrderCreateParams: InboxOrderCreateParams;
 }
 
 // @public
@@ -3513,6 +3513,8 @@ class InboxApi extends runtime.BaseAPI {
     deleteInboxOrderRaw(requestParameters: DeleteInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     getInboxOrders(requestParameters?: GetInboxOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetActiveInboxOrdersResponse>;
     getInboxOrdersRaw(requestParameters: GetInboxOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetActiveInboxOrdersResponse>>;
+    updateInboxOrder(requestParameters: UpdateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    updateInboxOrderRaw(requestParameters: UpdateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
 
 // @public
@@ -3526,35 +3528,54 @@ interface InboxOrder {
     userId: number;
 }
 
+// @public
+interface InboxOrderCreateParams {
+    description?: string;
+    orderData: Order;
+}
+
+// @public (undocumented)
+function InboxOrderCreateParamsFromJSON(json: any): InboxOrderCreateParams;
+
+// @public (undocumented)
+function InboxOrderCreateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderCreateParams;
+
+// @public (undocumented)
+function InboxOrderCreateParamsToJSON(value?: InboxOrderCreateParams | null): any;
+
+// @public (undocumented)
+function InboxOrderCreateParamsToJSONRecursive(value?: InboxOrderCreateParams | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function InboxOrderFromJSON(json: any): InboxOrder;
 
 // @public (undocumented)
 function InboxOrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrder;
 
-// @public
-interface InboxOrderParams {
-    description?: string;
-    orderData: any | null;
-}
-
-// @public (undocumented)
-function InboxOrderParamsFromJSON(json: any): InboxOrderParams;
-
-// @public (undocumented)
-function InboxOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderParams;
-
-// @public (undocumented)
-function InboxOrderParamsToJSON(value?: InboxOrderParams | null): any;
-
-// @public (undocumented)
-function InboxOrderParamsToJSONRecursive(value?: InboxOrderParams | null, ignoreParent?: boolean): any;
-
 // @public (undocumented)
 function InboxOrderToJSON(value?: InboxOrder | null): any;
 
 // @public (undocumented)
 function InboxOrderToJSONRecursive(value?: InboxOrder | null, ignoreParent?: boolean): any;
+
+// @public
+interface InboxOrderUpdateParams {
+    description?: string;
+    inactive?: boolean;
+    orderId?: string;
+}
+
+// @public (undocumented)
+function InboxOrderUpdateParamsFromJSON(json: any): InboxOrderUpdateParams;
+
+// @public (undocumented)
+function InboxOrderUpdateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderUpdateParams;
+
+// @public (undocumented)
+function InboxOrderUpdateParamsToJSON(value?: InboxOrderUpdateParams | null): any;
+
+// @public (undocumented)
+function InboxOrderUpdateParamsToJSONRecursive(value?: InboxOrderUpdateParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 type InitOverideFunction = (requestContext: {
@@ -5702,6 +5723,14 @@ type UpdateDecoupledOperationMessage = {
     subscriptionId: number;
     status: DecoupledOperationStatus_2;
 };
+
+// @public (undocumented)
+interface UpdateInboxOrderRequest {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    inboxOrderUpdateParams: InboxOrderUpdateParams;
+}
 
 // @public
 interface ValidationDetail {

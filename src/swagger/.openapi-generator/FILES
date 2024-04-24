@@ -140,7 +140,8 @@ models/GetQuoteResponse.ts
 models/GetUserResponse.ts
 models/Hint.ts
 models/InboxOrder.ts
-models/InboxOrderParams.ts
+models/InboxOrderCreateParams.ts
+models/InboxOrderUpdateParams.ts
 models/LegalTermConfirmItem.ts
 models/LegalTermsResponse.ts
 models/LoginResponse.ts

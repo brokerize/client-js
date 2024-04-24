@@ -1698,14 +1698,30 @@
         ],
         "type": "object"
       },
-      "InboxOrderParams": {
+      "InboxOrderCreateParams": {
         "properties": {
           "description": {
             "type": "string"
           },
-          "orderData": {}
+          "orderData": {
+            "$ref": "#/components/schemas/Order"
+          }
         },
         "required": ["orderData"],
+        "type": "object"
+      },
+      "InboxOrderUpdateParams": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "inactive": {
+            "type": "boolean"
+          },
+          "orderId": {
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "LegalTermConfirmItem": {
@@ -4942,6 +4958,24 @@
             },
             "description": "Ok"
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "",
+                      "msg": "pagination params are invalid"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
           "401": {
             "content": {
               "application/json": {
@@ -5035,7 +5069,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/InboxOrderParams"
+                "$ref": "#/components/schemas/InboxOrderCreateParams"
               }
             }
           },
@@ -5158,6 +5192,118 @@
             }
           }
         ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "AUTH",
+                      "msg": "Authentication is not present or invalid"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not logged in"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "ORDER_NOT_FOUND",
+                      "msg": "Order not found."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Order not found"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "RATE_LIMITED",
+                      "msg": "Rate limit exceeded."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Rate-limit exceeded"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Maintenance active"
+          }
+        },
+        "security": [
+          {
+            "clientId": [],
+            "cookieAuth": []
+          },
+          {
+            "clientId": [],
+            "idToken": []
+          }
+        ],
+        "tags": ["inbox"]
+      },
+      "put": {
+        "description": "Update an inbox order",
+        "operationId": "UpdateInboxOrder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InboxOrderUpdateParams"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "204": {
             "description": "No content"
