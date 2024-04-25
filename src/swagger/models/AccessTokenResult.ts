@@ -16,44 +16,42 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateClient200Response
+ * @interface AccessTokenResult
  */
-export interface CreateClient200Response {
+export interface AccessTokenResult {
   /**
    *
    * @type {string}
-   * @memberof CreateClient200Response
+   * @memberof AccessTokenResult
    */
-  id: string;
+  publicId: string;
   /**
    *
    * @type {string}
-   * @memberof CreateClient200Response
+   * @memberof AccessTokenResult
    */
-  name: string;
+  token: string;
 }
 
-export function CreateClient200ResponseFromJSON(
-  json: any
-): CreateClient200Response {
-  return CreateClient200ResponseFromJSONTyped(json, false);
+export function AccessTokenResultFromJSON(json: any): AccessTokenResult {
+  return AccessTokenResultFromJSONTyped(json, false);
 }
 
-export function CreateClient200ResponseFromJSONTyped(
+export function AccessTokenResultFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): CreateClient200Response {
+): AccessTokenResult {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    id: json["id"],
-    name: json["name"],
+    publicId: json["publicId"],
+    token: json["token"],
   };
 }
 
-export function CreateClient200ResponseToJSONRecursive(
-  value?: CreateClient200Response | null,
+export function AccessTokenResultToJSONRecursive(
+  value?: AccessTokenResult | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -64,13 +62,11 @@ export function CreateClient200ResponseToJSONRecursive(
   }
 
   return {
-    id: value.id,
-    name: value.name,
+    publicId: value.publicId,
+    token: value.token,
   };
 }
 
-export function CreateClient200ResponseToJSON(
-  value?: CreateClient200Response | null
-): any {
-  return CreateClient200ResponseToJSONRecursive(value, false);
+export function AccessTokenResultToJSON(value?: AccessTokenResult | null): any {
+  return AccessTokenResultToJSONRecursive(value, false);
 }

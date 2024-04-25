@@ -52,7 +52,7 @@ export interface AuthMethodTan {
    * @type {string}
    * @memberof AuthMethodTan
    */
-  tanFieldLabel: string;
+  id: string;
   /**
    *
    * @type {boolean}
@@ -70,7 +70,7 @@ export interface AuthMethodTan {
    * @type {string}
    * @memberof AuthMethodTan
    */
-  id: string;
+  tanFieldLabel: string;
 }
 
 /**
@@ -98,12 +98,12 @@ export function AuthMethodTanFromJSONTyped(
     hideOnPhones: !exists(json, "hideOnPhones")
       ? undefined
       : json["hideOnPhones"],
-    tanFieldLabel: json["tanFieldLabel"],
+    id: json["id"],
     isDefaultMethod: !exists(json, "isDefaultMethod")
       ? undefined
       : json["isDefaultMethod"],
     label: json["label"],
-    id: json["id"],
+    tanFieldLabel: json["tanFieldLabel"],
   };
 }
 
@@ -121,10 +121,10 @@ export function AuthMethodTanToJSONRecursive(
   return {
     flow: value.flow,
     hideOnPhones: value.hideOnPhones,
-    tanFieldLabel: value.tanFieldLabel,
+    id: value.id,
     isDefaultMethod: value.isDefaultMethod,
     label: value.label,
-    id: value.id,
+    tanFieldLabel: value.tanFieldLabel,
   };
 }
 

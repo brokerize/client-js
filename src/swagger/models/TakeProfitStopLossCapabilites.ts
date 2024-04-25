@@ -28,6 +28,13 @@ import {
  */
 export interface TakeProfitStopLossCapabilites {
   /**
+   * If this is `true`, only one of `takeProfit` or `stopLoss` can be set for an order.
+   * If this is `false`, both can be set.
+   * @type {boolean}
+   * @memberof TakeProfitStopLossCapabilites
+   */
+  exclusive: boolean;
+  /**
    *
    * @type {TakeProfitStopLossDetail}
    * @memberof TakeProfitStopLossCapabilites
@@ -39,13 +46,6 @@ export interface TakeProfitStopLossCapabilites {
    * @memberof TakeProfitStopLossCapabilites
    */
   takeProfit: TakeProfitStopLossDetail;
-  /**
-   * If this is `true`, only one of `takeProfit` or `stopLoss` can be set for an order.
-   * If this is `false`, both can be set.
-   * @type {boolean}
-   * @memberof TakeProfitStopLossCapabilites
-   */
-  exclusive: boolean;
 }
 
 export function TakeProfitStopLossCapabilitesFromJSON(
@@ -62,9 +62,9 @@ export function TakeProfitStopLossCapabilitesFromJSONTyped(
     return json;
   }
   return {
+    exclusive: json["exclusive"],
     stopLoss: TakeProfitStopLossDetailFromJSON(json["stopLoss"]),
     takeProfit: TakeProfitStopLossDetailFromJSON(json["takeProfit"]),
-    exclusive: json["exclusive"],
   };
 }
 
@@ -80,9 +80,9 @@ export function TakeProfitStopLossCapabilitesToJSONRecursive(
   }
 
   return {
+    exclusive: value.exclusive,
     stopLoss: TakeProfitStopLossDetailToJSON(value.stopLoss),
     takeProfit: TakeProfitStopLossDetailToJSON(value.takeProfit),
-    exclusive: value.exclusive,
   };
 }
 

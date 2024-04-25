@@ -27,6 +27,24 @@ import {
  */
 export interface Portfolio {
   /**
+   *
+   * @type {string}
+   * @memberof Portfolio
+   */
+  brokerName: string;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof Portfolio
+   */
+  cashAccountIds: Array<string>;
+  /**
+   *
+   * @type {string}
+   * @memberof Portfolio
+   */
+  id: string;
+  /**
    * A portfolio idHash is a unique identifier used to represent a portfolio within a user account. The idHash is automatically generated based on the original broker id of the portfolio,
    * meaning that if a portfolio is synchronized into a new user account, it will usually retain the same idHash as in the old account (although it will be assigned a new globally unique id).
    * When applications use temporary or guest user accounts, it makes sense to use the idHash instead of the id to implement features like "last used portfolio" etc. This is because the idHash remains
@@ -39,16 +57,10 @@ export interface Portfolio {
   idHash: string;
   /**
    *
-   * @type {PortfolioSyncInfo}
+   * @type {string}
    * @memberof Portfolio
    */
-  syncInfo: PortfolioSyncInfo;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof Portfolio
-   */
-  cashAccountIds: Array<string>;
+  portfolioName: string;
   /**
    *
    * @type {Array<string>}
@@ -57,22 +69,10 @@ export interface Portfolio {
   sessionIds: Array<string>;
   /**
    *
-   * @type {string}
+   * @type {PortfolioSyncInfo}
    * @memberof Portfolio
    */
-  portfolioName: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Portfolio
-   */
-  brokerName: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Portfolio
-   */
-  id: string;
+  syncInfo: PortfolioSyncInfo;
 }
 
 export function PortfolioFromJSON(json: any): Portfolio {
@@ -87,13 +87,13 @@ export function PortfolioFromJSONTyped(
     return json;
   }
   return {
-    idHash: json["idHash"],
-    syncInfo: PortfolioSyncInfoFromJSON(json["syncInfo"]),
-    cashAccountIds: json["cashAccountIds"],
-    sessionIds: json["sessionIds"],
-    portfolioName: json["portfolioName"],
     brokerName: json["brokerName"],
+    cashAccountIds: json["cashAccountIds"],
     id: json["id"],
+    idHash: json["idHash"],
+    portfolioName: json["portfolioName"],
+    sessionIds: json["sessionIds"],
+    syncInfo: PortfolioSyncInfoFromJSON(json["syncInfo"]),
   };
 }
 
@@ -109,13 +109,13 @@ export function PortfolioToJSONRecursive(
   }
 
   return {
-    idHash: value.idHash,
-    syncInfo: PortfolioSyncInfoToJSON(value.syncInfo),
-    cashAccountIds: value.cashAccountIds,
-    sessionIds: value.sessionIds,
-    portfolioName: value.portfolioName,
     brokerName: value.brokerName,
+    cashAccountIds: value.cashAccountIds,
     id: value.id,
+    idHash: value.idHash,
+    portfolioName: value.portfolioName,
+    sessionIds: value.sessionIds,
+    syncInfo: PortfolioSyncInfoToJSON(value.syncInfo),
   };
 }
 

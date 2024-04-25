@@ -23,33 +23,33 @@ import {
 /**
  *
  * @export
- * @interface ClientsResponseInnerConfigMaintenanceStatus
+ * @interface ClientConfigMaintenanceStatus
  */
-export interface ClientsResponseInnerConfigMaintenanceStatus {
+export interface ClientConfigMaintenanceStatus {
   /**
    *
    * @type {Date}
-   * @memberof ClientsResponseInnerConfigMaintenanceStatus
+   * @memberof ClientConfigMaintenanceStatus
    */
   expectedEnd?: Date;
   /**
    *
    * @type {string}
-   * @memberof ClientsResponseInnerConfigMaintenanceStatus
+   * @memberof ClientConfigMaintenanceStatus
    */
   msg: string;
 }
 
-export function ClientsResponseInnerConfigMaintenanceStatusFromJSON(
+export function ClientConfigMaintenanceStatusFromJSON(
   json: any
-): ClientsResponseInnerConfigMaintenanceStatus {
-  return ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped(json, false);
+): ClientConfigMaintenanceStatus {
+  return ClientConfigMaintenanceStatusFromJSONTyped(json, false);
 }
 
-export function ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped(
+export function ClientConfigMaintenanceStatusFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): ClientsResponseInnerConfigMaintenanceStatus {
+): ClientConfigMaintenanceStatus {
   if (json === undefined || json === null) {
     return json;
   }
@@ -61,8 +61,8 @@ export function ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped(
   };
 }
 
-export function ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive(
-  value?: ClientsResponseInnerConfigMaintenanceStatus | null,
+export function ClientConfigMaintenanceStatusToJSONRecursive(
+  value?: ClientConfigMaintenanceStatus | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -81,11 +81,8 @@ export function ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive(
   };
 }
 
-export function ClientsResponseInnerConfigMaintenanceStatusToJSON(
-  value?: ClientsResponseInnerConfigMaintenanceStatus | null
+export function ClientConfigMaintenanceStatusToJSON(
+  value?: ClientConfigMaintenanceStatus | null
 ): any {
-  return ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive(
-    value,
-    false
-  );
+  return ClientConfigMaintenanceStatusToJSONRecursive(value, false);
 }

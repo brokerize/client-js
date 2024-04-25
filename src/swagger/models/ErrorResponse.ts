@@ -34,38 +34,6 @@ import {
  */
 export interface ErrorResponse {
   /**
-   * For validation errors (error code `VALIDATION_FAILED`), a map with the affected field as key and ValidationDetail
-   * as value.
-   * @type {{ [key: string]: ValidationDetail; }}
-   * @memberof ErrorResponse
-   */
-  validationDetails?: { [key: string]: ValidationDetail };
-  /**
-   *
-   * @type {MaintenanceStatus}
-   * @memberof ErrorResponse
-   */
-  maintenanceStatus?: MaintenanceStatus;
-  /**
-   *
-   * @type {Hint}
-   * @memberof ErrorResponse
-   */
-  hint?: Hint;
-  /**
-   *
-   * @type {string}
-   * @memberof ErrorResponse
-   */
-  msgBrokerName?: string;
-  /**
-   * The human-readable error message. If available, translated to the users's language.
-   * This can always be displayed in frontends (if no specific error code handling is available).
-   * @type {string}
-   * @memberof ErrorResponse
-   */
-  msg: string;
-  /**
    * The error code.
    * Currently the following codes are implemented:
    *  'TRADING_ERROR', 'AUTH', 'RATE_LIMITED', 'VALIDATION_FAILED', 'MUST_ACCEPT_HINT', 'NO_SESSION_AVAILABLE_FOR_PORTFOLIO',
@@ -75,6 +43,38 @@ export interface ErrorResponse {
    * @memberof ErrorResponse
    */
   code: string;
+  /**
+   *
+   * @type {Hint}
+   * @memberof ErrorResponse
+   */
+  hint?: Hint;
+  /**
+   *
+   * @type {MaintenanceStatus}
+   * @memberof ErrorResponse
+   */
+  maintenanceStatus?: MaintenanceStatus;
+  /**
+   * The human-readable error message. If available, translated to the users's language.
+   * This can always be displayed in frontends (if no specific error code handling is available).
+   * @type {string}
+   * @memberof ErrorResponse
+   */
+  msg: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ErrorResponse
+   */
+  msgBrokerName?: string;
+  /**
+   * For validation errors (error code `VALIDATION_FAILED`), a map with the affected field as key and ValidationDetail
+   * as value.
+   * @type {{ [key: string]: ValidationDetail; }}
+   * @memberof ErrorResponse
+   */
+  validationDetails?: { [key: string]: ValidationDetail };
 }
 
 export function ErrorResponseFromJSON(json: any): ErrorResponse {
@@ -89,18 +89,18 @@ export function ErrorResponseFromJSONTyped(
     return json;
   }
   return {
-    validationDetails: !exists(json, "validationDetails")
-      ? undefined
-      : mapValues(json["validationDetails"], ValidationDetailFromJSON),
+    code: json["code"],
+    hint: !exists(json, "hint") ? undefined : HintFromJSON(json["hint"]),
     maintenanceStatus: !exists(json, "maintenanceStatus")
       ? undefined
       : MaintenanceStatusFromJSON(json["maintenanceStatus"]),
-    hint: !exists(json, "hint") ? undefined : HintFromJSON(json["hint"]),
+    msg: json["msg"],
     msgBrokerName: !exists(json, "msgBrokerName")
       ? undefined
       : json["msgBrokerName"],
-    msg: json["msg"],
-    code: json["code"],
+    validationDetails: !exists(json, "validationDetails")
+      ? undefined
+      : mapValues(json["validationDetails"], ValidationDetailFromJSON),
   };
 }
 
@@ -116,15 +116,15 @@ export function ErrorResponseToJSONRecursive(
   }
 
   return {
+    code: value.code,
+    hint: HintToJSON(value.hint),
+    maintenanceStatus: MaintenanceStatusToJSON(value.maintenanceStatus),
+    msg: value.msg,
+    msgBrokerName: value.msgBrokerName,
     validationDetails:
       value.validationDetails === undefined
         ? undefined
         : mapValues(value.validationDetails, ValidationDetailToJSON),
-    maintenanceStatus: MaintenanceStatusToJSON(value.maintenanceStatus),
-    hint: HintToJSON(value.hint),
-    msgBrokerName: value.msgBrokerName,
-    msg: value.msg,
-    code: value.code,
   };
 }
 

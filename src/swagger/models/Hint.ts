@@ -24,13 +24,13 @@ export interface Hint {
    * @type {string}
    * @memberof Hint
    */
-  text: string;
+  id: string;
   /**
    *
    * @type {string}
    * @memberof Hint
    */
-  id: string;
+  text: string;
 }
 
 export function HintFromJSON(json: any): Hint {
@@ -45,8 +45,8 @@ export function HintFromJSONTyped(
     return json;
   }
   return {
-    text: json["text"],
     id: json["id"],
+    text: json["text"],
   };
 }
 
@@ -62,8 +62,8 @@ export function HintToJSONRecursive(
   }
 
   return {
-    text: value.text,
     id: value.id,
+    text: value.text,
   };
 }
 

@@ -43,13 +43,13 @@ export interface GenericTableRowValueLinkUrl {
    * @type {string}
    * @memberof GenericTableRowValueLinkUrl
    */
-  url: string;
+  text: string;
   /**
    *
    * @type {string}
    * @memberof GenericTableRowValueLinkUrl
    */
-  text: string;
+  url: string;
 }
 
 /**
@@ -76,8 +76,8 @@ export function GenericTableRowValueLinkUrlFromJSONTyped(
   }
   return {
     type: json["type"],
-    url: json["url"],
     text: json["text"],
+    url: json["url"],
   };
 }
 
@@ -94,8 +94,8 @@ export function GenericTableRowValueLinkUrlToJSONRecursive(
 
   return {
     type: value.type,
-    url: value.url,
     text: value.text,
+    url: value.url,
   };
 }
 

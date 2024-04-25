@@ -58,16 +58,24 @@ import {
 export interface PreparedTrade {
   /**
    *
-   * @type {{ [key: string]: Array<string>; }}
+   * @type {OrderIntentAvailability}
    * @memberof PreparedTrade
    */
-  sizeUnitsByCashAccountId?: { [key: string]: Array<string> };
+  availableOrderIntents?: OrderIntentAvailability;
   /**
-   * If this is true, frontends are not allowed to set an exchange default. Users must select an exchange explicitly.
-   * @type {boolean}
+   * If available, the available order intents can be polled/subscribed using this token. In this case,
+   * the `availableOrderIntents` field must be regarded as the initial snapshot.
+   * @type {string}
    * @memberof PreparedTrade
    */
-  noExchangeDefault?: boolean;
+  availableOrderIntentsToken?: string;
+  /**
+   * The broker security id is the unique identifier for the security *at the given broker*. It is
+   * used in subsequent requests in the order creation process to identify the security.
+   * @type {string}
+   * @memberof PreparedTrade
+   */
+  brokerSecurityId: string;
   /**
    * True if no cost estimation is available at all for this instrument.
    * @type {boolean}
@@ -95,12 +103,38 @@ export interface PreparedTrade {
    */
   exchanges: Array<Exchange>;
   /**
-   * If present, this hint must be displayed in the order form. It should be visible during the order
-   * creation process, but does not need to be accepted by the user explicitly.
-   * @type {string}
+   * If this is true, frontends are not allowed to set an exchange default. Users must select an exchange explicitly.
+   * @type {boolean}
    * @memberof PreparedTrade
    */
-  strikingHint?: string;
+  noExchangeDefault?: boolean;
+  /**
+   *
+   * @type {RiskClassInfo}
+   * @memberof PreparedTrade
+   */
+  riskClassInfo?: RiskClassInfo;
+  /**
+   *
+   * @type {Security}
+   * @memberof PreparedTrade
+   */
+  security: Security;
+  /**
+   *
+   * @type {SecurityDetailedInfo}
+   * @memberof PreparedTrade
+   */
+  securityDetailedInfo?: SecurityDetailedInfo;
+  /**
+   * If this is set, the user has to select a position to sell from. This may be the case if a position is
+   * stored in different locations or sub-positions are blocked until some date.
+   * If the user does not need to specify the position, this is left undefined.
+   * If it is set, user interfaces should offer a dropdown for selecting the position.
+   * @type {Array<SellPosition>}
+   * @memberof PreparedTrade
+   */
+  sellPositions?: Array<SellPosition>;
   /**
    * - ISO code (e.g. EUR for Euro), if it is a monetary amount
    * - or 'USDT' if its Tether (https://en.wikipedia.org/wiki/Tether_(cryptocurrency)
@@ -115,51 +149,17 @@ export interface PreparedTrade {
   sizeUnit: string;
   /**
    *
-   * @type {RiskClassInfo}
+   * @type {{ [key: string]: Array<string>; }}
    * @memberof PreparedTrade
    */
-  riskClassInfo?: RiskClassInfo;
+  sizeUnitsByCashAccountId?: { [key: string]: Array<string> };
   /**
-   * If available, the available order intents can be polled/subscribed using this token. In this case,
-   * the `availableOrderIntents` field must be regarded as the initial snapshot.
+   * If present, this hint must be displayed in the order form. It should be visible during the order
+   * creation process, but does not need to be accepted by the user explicitly.
    * @type {string}
    * @memberof PreparedTrade
    */
-  availableOrderIntentsToken?: string;
-  /**
-   *
-   * @type {OrderIntentAvailability}
-   * @memberof PreparedTrade
-   */
-  availableOrderIntents?: OrderIntentAvailability;
-  /**
-   * If this is set, the user has to select a position to sell from. This may be the case if a position is
-   * stored in different locations or sub-positions are blocked until some date.
-   * If the user does not need to specify the position, this is left undefined.
-   * If it is set, user interfaces should offer a dropdown for selecting the position.
-   * @type {Array<SellPosition>}
-   * @memberof PreparedTrade
-   */
-  sellPositions?: Array<SellPosition>;
-  /**
-   *
-   * @type {SecurityDetailedInfo}
-   * @memberof PreparedTrade
-   */
-  securityDetailedInfo?: SecurityDetailedInfo;
-  /**
-   *
-   * @type {Security}
-   * @memberof PreparedTrade
-   */
-  security: Security;
-  /**
-   * The broker security id is the unique identifier for the security *at the given broker*. It is
-   * used in subsequent requests in the order creation process to identify the security.
-   * @type {string}
-   * @memberof PreparedTrade
-   */
-  brokerSecurityId: string;
+  strikingHint?: string;
 }
 
 export function PreparedTradeFromJSON(json: any): PreparedTrade {
@@ -174,12 +174,13 @@ export function PreparedTradeFromJSONTyped(
     return json;
   }
   return {
-    sizeUnitsByCashAccountId: !exists(json, "sizeUnitsByCashAccountId")
+    availableOrderIntents: !exists(json, "availableOrderIntents")
       ? undefined
-      : json["sizeUnitsByCashAccountId"],
-    noExchangeDefault: !exists(json, "noExchangeDefault")
+      : OrderIntentAvailabilityFromJSON(json["availableOrderIntents"]),
+    availableOrderIntentsToken: !exists(json, "availableOrderIntentsToken")
       ? undefined
-      : json["noExchangeDefault"],
+      : json["availableOrderIntentsToken"],
+    brokerSecurityId: json["brokerSecurityId"],
     costEstimationIsNotAvailable: json["costEstimationIsNotAvailable"],
     costEstimationIsOnlyDetailedTable: !exists(
       json,
@@ -189,27 +190,26 @@ export function PreparedTradeFromJSONTyped(
       : json["costEstimationIsOnlyDetailedTable"],
     costEstimationMustBeShown: json["costEstimationMustBeShown"],
     exchanges: (json["exchanges"] as Array<any>).map(ExchangeFromJSON),
-    strikingHint: !exists(json, "strikingHint")
+    noExchangeDefault: !exists(json, "noExchangeDefault")
       ? undefined
-      : json["strikingHint"],
-    sizeUnit: json["sizeUnit"],
+      : json["noExchangeDefault"],
     riskClassInfo: !exists(json, "riskClassInfo")
       ? undefined
       : RiskClassInfoFromJSON(json["riskClassInfo"]),
-    availableOrderIntentsToken: !exists(json, "availableOrderIntentsToken")
-      ? undefined
-      : json["availableOrderIntentsToken"],
-    availableOrderIntents: !exists(json, "availableOrderIntents")
-      ? undefined
-      : OrderIntentAvailabilityFromJSON(json["availableOrderIntents"]),
-    sellPositions: !exists(json, "sellPositions")
-      ? undefined
-      : (json["sellPositions"] as Array<any>).map(SellPositionFromJSON),
+    security: SecurityFromJSON(json["security"]),
     securityDetailedInfo: !exists(json, "securityDetailedInfo")
       ? undefined
       : SecurityDetailedInfoFromJSON(json["securityDetailedInfo"]),
-    security: SecurityFromJSON(json["security"]),
-    brokerSecurityId: json["brokerSecurityId"],
+    sellPositions: !exists(json, "sellPositions")
+      ? undefined
+      : (json["sellPositions"] as Array<any>).map(SellPositionFromJSON),
+    sizeUnit: json["sizeUnit"],
+    sizeUnitsByCashAccountId: !exists(json, "sizeUnitsByCashAccountId")
+      ? undefined
+      : json["sizeUnitsByCashAccountId"],
+    strikingHint: !exists(json, "strikingHint")
+      ? undefined
+      : json["strikingHint"],
   };
 }
 
@@ -225,28 +225,28 @@ export function PreparedTradeToJSONRecursive(
   }
 
   return {
-    sizeUnitsByCashAccountId: value.sizeUnitsByCashAccountId,
-    noExchangeDefault: value.noExchangeDefault,
+    availableOrderIntents: OrderIntentAvailabilityToJSON(
+      value.availableOrderIntents
+    ),
+    availableOrderIntentsToken: value.availableOrderIntentsToken,
+    brokerSecurityId: value.brokerSecurityId,
     costEstimationIsNotAvailable: value.costEstimationIsNotAvailable,
     costEstimationIsOnlyDetailedTable: value.costEstimationIsOnlyDetailedTable,
     costEstimationMustBeShown: value.costEstimationMustBeShown,
     exchanges: (value.exchanges as Array<any>).map(ExchangeToJSON),
-    strikingHint: value.strikingHint,
-    sizeUnit: value.sizeUnit,
+    noExchangeDefault: value.noExchangeDefault,
     riskClassInfo: RiskClassInfoToJSON(value.riskClassInfo),
-    availableOrderIntentsToken: value.availableOrderIntentsToken,
-    availableOrderIntents: OrderIntentAvailabilityToJSON(
-      value.availableOrderIntents
+    security: SecurityToJSON(value.security),
+    securityDetailedInfo: SecurityDetailedInfoToJSON(
+      value.securityDetailedInfo
     ),
     sellPositions:
       value.sellPositions === undefined
         ? undefined
         : (value.sellPositions as Array<any>).map(SellPositionToJSON),
-    securityDetailedInfo: SecurityDetailedInfoToJSON(
-      value.securityDetailedInfo
-    ),
-    security: SecurityToJSON(value.security),
-    brokerSecurityId: value.brokerSecurityId,
+    sizeUnit: value.sizeUnit,
+    sizeUnitsByCashAccountId: value.sizeUnitsByCashAccountId,
+    strikingHint: value.strikingHint,
   };
 }
 

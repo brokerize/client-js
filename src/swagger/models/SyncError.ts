@@ -21,16 +21,16 @@ import { exists, mapValues } from "../runtime";
 export interface SyncError {
   /**
    *
-   * @type {string}
-   * @memberof SyncError
-   */
-  message: string;
-  /**
-   *
    * @type {Date}
    * @memberof SyncError
    */
   date: Date;
+  /**
+   *
+   * @type {string}
+   * @memberof SyncError
+   */
+  message: string;
 }
 
 export function SyncErrorFromJSON(json: any): SyncError {
@@ -45,8 +45,8 @@ export function SyncErrorFromJSONTyped(
     return json;
   }
   return {
-    message: json["message"],
     date: new Date(json["date"]),
+    message: json["message"],
   };
 }
 
@@ -62,8 +62,8 @@ export function SyncErrorToJSONRecursive(
   }
 
   return {
-    message: value.message,
     date: value.date.toISOString(),
+    message: value.message,
   };
 }
 

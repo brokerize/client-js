@@ -9,8 +9,10 @@ apis/ExportApi.ts
 apis/MetaApi.ts
 apis/SecuritiesApi.ts
 apis/TradeApi.ts
+apis/UserApi.ts
 apis/index.ts
 index.ts
+models/AccessTokenResult.ts
 models/AddOAuthReturnToUrlRequest.ts
 models/AddOriginRequest.ts
 models/AddSessionCompleteChallengeParams.ts
@@ -28,6 +30,7 @@ models/AuthMethodFlow.ts
 models/AuthMethodTan.ts
 models/AuthMethodTanAllOf.ts
 models/AuthMethodTanSpecifics.ts
+models/AvailablePermissionsNode.ts
 models/BrokerEnvFilterType.ts
 models/BrokerEnvironment.ts
 models/BrokerLoginForm.ts
@@ -48,15 +51,16 @@ models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
 models/ClientConfig.ts
+models/ClientConfigMaintenanceStatus.ts
 models/ClientConfigOAuthLoginForm.ts
 models/ClientConfigPage.ts
 models/ClientConfigRateLimitPointsToConsume.ts
 models/ClientsResponseInner.ts
 models/ClientsResponseInnerConfig.ts
-models/ClientsResponseInnerConfigMaintenanceStatus.ts
 models/ConfirmOAuthParams.ts
 models/ConfirmOAuthResponse.ts
 models/CostDetailsLink.ts
+models/CreateAccessTokenParams.ts
 models/CreateClient200Response.ts
 models/CreateGuestUserResponse.ts
 models/CreateModeSessionTan.ts
@@ -125,6 +129,9 @@ models/GenericTableRowValueLinkValueType.ts
 models/GenericTableRowValueText.ts
 models/GenericTableRowValueTextSpecifics.ts
 models/GenericTableRowValueType.ts
+models/GetAcessTokenAvailablePermissions200Response.ts
+models/GetAcessTokens200Response.ts
+models/GetAcessTokens200ResponseTokensInner.ts
 models/GetAuthInfoResponse.ts
 models/GetBrokersResponse.ts
 models/GetCostEstimationParams.ts

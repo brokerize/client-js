@@ -4,6 +4,24 @@
 
 ```ts
 
+// @public
+interface AccessTokenResult {
+    publicId: string;
+    token: string;
+}
+
+// @public (undocumented)
+function AccessTokenResultFromJSON(json: any): AccessTokenResult;
+
+// @public (undocumented)
+function AccessTokenResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): AccessTokenResult;
+
+// @public (undocumented)
+function AccessTokenResultToJSON(value?: AccessTokenResult | null): any;
+
+// @public (undocumented)
+function AccessTokenResultToJSONRecursive(value?: AccessTokenResult | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface AddOAuthReturnToUrlOperationRequest {
     // (undocumented)
@@ -476,6 +494,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     confirmOAuth(p: ConfirmOAuthParams): Promise<openApiClient.ConfirmOAuthResponse>;
     // (undocumented)
+    createAccessToken(params: openApiClient.CreateAccessTokenParams): Promise<openApiClient.AccessTokenResult>;
+    // (undocumented)
     createCancelOrderChallenge(req: openApiClient.CreateCancelOrderChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
     createChangeOrderChallenge(req: openApiClient.CreateChangeOrderChallengeRequest): Promise<openApiClient.Challenge>;
@@ -507,6 +527,10 @@ export class AuthorizedApiContext {
     enableSessionTan(req: openApiClient.EnableSessionTanRequest): Promise<openApiClient.EnableSessionTanResponse>;
     // (undocumented)
     endSessionTan(sessionId: string): Promise<openApiClient.EndSessionTanResponse>;
+    // (undocumented)
+    getAccessTokens(): Promise<openApiClient.GetAcessTokens200Response>;
+    // (undocumented)
+    getAcessTokenAvailablePermissions(): Promise<openApiClient.GetAcessTokenAvailablePermissions200Response>;
     // (undocumented)
     getAuthInfo(portfolioId: string): Promise<openApiClient.GetAuthInfoResponse>;
     // Warning: (ae-forgotten-export) The symbol "openApiClient" needs to be exported by the entry point index.d.ts
@@ -576,6 +600,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     renderGenericTablePdf(table: GenericTable): Promise<Blob>;
     // (undocumented)
+    revokeAccessToken(accessTokenId: string): Promise<void>;
+    // (undocumented)
     setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
     subscribeAvailableOrderIntents(preparedTrade: openApiClient.PreparedTrade, callback: Callback<openApiClient.OrderIntentAvailability | undefined>): {
         unsubscribe(): void;
@@ -590,6 +616,25 @@ export class AuthorizedApiContext {
     // (undocumented)
     triggerSessionSync(sessionId: string): Promise<openApiClient.OkResponseBody>;
 }
+
+// @public
+interface AvailablePermissionsNode {
+    children?: Array<AvailablePermissionsNode>;
+    description: string;
+    permission: string;
+}
+
+// @public (undocumented)
+function AvailablePermissionsNodeFromJSON(json: any): AvailablePermissionsNode;
+
+// @public (undocumented)
+function AvailablePermissionsNodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): AvailablePermissionsNode;
+
+// @public (undocumented)
+function AvailablePermissionsNodeToJSON(value?: AvailablePermissionsNode | null): any;
+
+// @public (undocumented)
+function AvailablePermissionsNodeToJSONRecursive(value?: AvailablePermissionsNode | null, ignoreParent?: boolean): any;
 
 // @public
 const BASE_PATH: string;
@@ -1145,7 +1190,7 @@ interface ClientConfig {
     cognitoClientIds?: Array<string>;
     enabled?: boolean;
     legalEntityName?: string;
-    maintenanceStatus?: ClientsResponseInnerConfigMaintenanceStatus | null;
+    maintenanceStatus?: ClientConfigMaintenanceStatus | null;
     managingUserIds?: Array<number>;
     name?: string;
     oAuthLoginForm?: ClientConfigOAuthLoginForm | null;
@@ -1161,6 +1206,24 @@ function ClientConfigFromJSON(json: any): ClientConfig;
 
 // @public (undocumented)
 function ClientConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfig;
+
+// @public
+interface ClientConfigMaintenanceStatus {
+    expectedEnd?: Date;
+    msg: string;
+}
+
+// @public (undocumented)
+function ClientConfigMaintenanceStatusFromJSON(json: any): ClientConfigMaintenanceStatus;
+
+// @public (undocumented)
+function ClientConfigMaintenanceStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigMaintenanceStatus;
+
+// @public (undocumented)
+function ClientConfigMaintenanceStatusToJSON(value?: ClientConfigMaintenanceStatus | null): any;
+
+// @public (undocumented)
+function ClientConfigMaintenanceStatusToJSONRecursive(value?: ClientConfigMaintenanceStatus | null, ignoreParent?: boolean): any;
 
 // @public
 interface ClientConfigOAuthLoginForm {
@@ -1252,7 +1315,7 @@ interface ClientsResponseInnerConfig {
     cognitoClientIds: Array<string>;
     enabled: boolean;
     legalEntityName: string;
-    maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatus | null;
+    maintenanceStatus: ClientConfigMaintenanceStatus | null;
     name: string;
     oAuthLoginForm?: OAuthLoginFormConfig;
     oAuthReturnToRegularExpressions: Array<string>;
@@ -1265,24 +1328,6 @@ function ClientsResponseInnerConfigFromJSON(json: any): ClientsResponseInnerConf
 
 // @public (undocumented)
 function ClientsResponseInnerConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfig;
-
-// @public
-interface ClientsResponseInnerConfigMaintenanceStatus {
-    expectedEnd?: Date;
-    msg: string;
-}
-
-// @public (undocumented)
-function ClientsResponseInnerConfigMaintenanceStatusFromJSON(json: any): ClientsResponseInnerConfigMaintenanceStatus;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfigMaintenanceStatus;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigMaintenanceStatusToJSON(value?: ClientsResponseInnerConfigMaintenanceStatus | null): any;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigMaintenanceStatusToJSONRecursive(value?: ClientsResponseInnerConfigMaintenanceStatus | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function ClientsResponseInnerConfigToJSON(value?: ClientsResponseInnerConfig | null): any;
@@ -1448,6 +1493,31 @@ function CostDetailsLinkToJSON(value?: CostDetailsLink | null): any;
 
 // @public (undocumented)
 function CostDetailsLinkToJSONRecursive(value?: CostDetailsLink | null, ignoreParent?: boolean): any;
+
+// @public
+interface CreateAccessTokenParams {
+    expiresInDays: number;
+    name: string;
+    permissions: Array<string>;
+}
+
+// @public (undocumented)
+function CreateAccessTokenParamsFromJSON(json: any): CreateAccessTokenParams;
+
+// @public (undocumented)
+function CreateAccessTokenParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateAccessTokenParams;
+
+// @public (undocumented)
+function CreateAccessTokenParamsToJSON(value?: CreateAccessTokenParams | null): any;
+
+// @public (undocumented)
+function CreateAccessTokenParamsToJSONRecursive(value?: CreateAccessTokenParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CreateAccessTokenRequest {
+    // (undocumented)
+    createAccessTokenParams: CreateAccessTokenParams;
+}
 
 // @public (undocumented)
 interface CreateCancelOrderChallengeRequest {
@@ -3075,6 +3145,60 @@ function GenericTableToJSON(value?: GenericTable | null): any;
 // @public (undocumented)
 function GenericTableToJSONRecursive(value?: GenericTable | null, ignoreParent?: boolean): any;
 
+// @public
+interface GetAcessTokenAvailablePermissions200Response {
+    availablePermissions: Array<AvailablePermissionsNode>;
+}
+
+// @public (undocumented)
+function GetAcessTokenAvailablePermissions200ResponseFromJSON(json: any): GetAcessTokenAvailablePermissions200Response;
+
+// @public (undocumented)
+function GetAcessTokenAvailablePermissions200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAcessTokenAvailablePermissions200Response;
+
+// @public (undocumented)
+function GetAcessTokenAvailablePermissions200ResponseToJSON(value?: GetAcessTokenAvailablePermissions200Response | null): any;
+
+// @public (undocumented)
+function GetAcessTokenAvailablePermissions200ResponseToJSONRecursive(value?: GetAcessTokenAvailablePermissions200Response | null, ignoreParent?: boolean): any;
+
+// @public
+interface GetAcessTokens200Response {
+    tokens: Array<GetAcessTokens200ResponseTokensInner>;
+}
+
+// @public (undocumented)
+function GetAcessTokens200ResponseFromJSON(json: any): GetAcessTokens200Response;
+
+// @public (undocumented)
+function GetAcessTokens200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAcessTokens200Response;
+
+// @public (undocumented)
+function GetAcessTokens200ResponseToJSON(value?: GetAcessTokens200Response | null): any;
+
+// @public (undocumented)
+function GetAcessTokens200ResponseToJSONRecursive(value?: GetAcessTokens200Response | null, ignoreParent?: boolean): any;
+
+// @public
+interface GetAcessTokens200ResponseTokensInner {
+    expiresAt: Date;
+    name: string;
+    permissions: Array<string>;
+    publicId: string;
+}
+
+// @public (undocumented)
+function GetAcessTokens200ResponseTokensInnerFromJSON(json: any): GetAcessTokens200ResponseTokensInner;
+
+// @public (undocumented)
+function GetAcessTokens200ResponseTokensInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAcessTokens200ResponseTokensInner;
+
+// @public (undocumented)
+function GetAcessTokens200ResponseTokensInnerToJSON(value?: GetAcessTokens200ResponseTokensInner | null): any;
+
+// @public (undocumented)
+function GetAcessTokens200ResponseTokensInnerToJSONRecursive(value?: GetAcessTokens200ResponseTokensInner | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface GetAuthInfoRequest {
     // (undocumented)
@@ -3753,12 +3877,15 @@ declare namespace Models {
         ClientConfigRateLimitPointsToConsume,
         ClientsResponseInner,
         ClientsResponseInnerConfig,
-        ClientsResponseInnerConfigMaintenanceStatus,
+        ClientConfigMaintenanceStatus,
         ConfirmOAuthParams,
         ConfirmOAuthResponse,
         CostDetailsLink,
         CreateClient200Response,
+        GetAcessTokenAvailablePermissions200Response,
+        AvailablePermissionsNode,
         CreateGuestUserResponse,
+        CreateAccessTokenParams,
         CreateModeSessionTan,
         CreateOrderChallengeParams,
         CreateOrderParams,
@@ -3988,8 +4115,8 @@ interface Order {
 // @public
 interface OrderChanges {
     limit?: number;
-    orderModel: OrderModel;
-    size: number;
+    orderModel?: OrderModel;
+    size?: number;
     stop?: number;
     stopLimit?: number;
     stopLoss?: number;
@@ -4996,6 +5123,12 @@ interface ResponseTransformer<T> {
     (json: any): T;
 }
 
+// @public (undocumented)
+interface RevokeAccessTokenRequest {
+    // (undocumented)
+    accessTokenId: string;
+}
+
 // @public
 interface RiskClassInfo {
     legalHint?: string;
@@ -5581,6 +5714,22 @@ type UpdateDecoupledOperationMessage = {
     subscriptionId: number;
     status: DecoupledOperationStatus_2;
 };
+
+// @public (undocumented)
+class UserApi extends runtime.BaseAPI {
+    createAccessToken(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<AccessTokenResult>;
+    createAccessTokenRaw(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<AccessTokenResult>>;
+    getAcessTokenAvailablePermissions(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAcessTokenAvailablePermissions200Response>;
+    getAcessTokenAvailablePermissionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAcessTokenAvailablePermissions200Response>>;
+    // (undocumented)
+    getAcessTokens(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAcessTokens200Response>;
+    // (undocumented)
+    getAcessTokensRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAcessTokens200Response>>;
+    // (undocumented)
+    revokeAccessToken(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    // (undocumented)
+    revokeAccessTokenRaw(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+}
 
 // @public
 interface ValidationDetail {

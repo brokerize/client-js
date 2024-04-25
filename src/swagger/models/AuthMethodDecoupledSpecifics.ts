@@ -28,6 +28,12 @@ export interface AuthMethodDecoupledSpecifics {
   hideOnPhones?: boolean;
   /**
    *
+   * @type {string}
+   * @memberof AuthMethodDecoupledSpecifics
+   */
+  id?: string;
+  /**
+   *
    * @type {boolean}
    * @memberof AuthMethodDecoupledSpecifics
    */
@@ -38,12 +44,6 @@ export interface AuthMethodDecoupledSpecifics {
    * @memberof AuthMethodDecoupledSpecifics
    */
   label?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AuthMethodDecoupledSpecifics
-   */
-  id?: string;
 }
 
 export function AuthMethodDecoupledSpecificsFromJSON(
@@ -63,11 +63,11 @@ export function AuthMethodDecoupledSpecificsFromJSONTyped(
     hideOnPhones: !exists(json, "hideOnPhones")
       ? undefined
       : json["hideOnPhones"],
+    id: !exists(json, "id") ? undefined : json["id"],
     isDefaultMethod: !exists(json, "isDefaultMethod")
       ? undefined
       : json["isDefaultMethod"],
     label: !exists(json, "label") ? undefined : json["label"],
-    id: !exists(json, "id") ? undefined : json["id"],
   };
 }
 
@@ -84,9 +84,9 @@ export function AuthMethodDecoupledSpecificsToJSONRecursive(
 
   return {
     hideOnPhones: value.hideOnPhones,
+    id: value.id,
     isDefaultMethod: value.isDefaultMethod,
     label: value.label,
-    id: value.id,
   };
 }
 

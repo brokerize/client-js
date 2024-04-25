@@ -57,112 +57,11 @@ import {
  */
 export interface OrderCreate {
   /**
-   * limit (and stop etc.) currency to use for this order
+   *
    * @type {string}
    * @memberof OrderCreate
    */
-  limitCurrencyIso?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  stopLoss?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  takeProfit?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  ifDoneLimit?: number;
-  /**
-   * If supported by the broker, an optional limit can be added to a quote trade (`orderModel=quote`).
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  quoteLimit?: number;
-  /**
-   *
-   * @type {OrderValidity}
-   * @memberof OrderCreate
-   */
-  validity?: OrderValidity;
-  /**
-   * For orderModel `trailingStopLimit`: when the trailing stop has been reached, the tolerance
-   * value is added to (for buy orders) or subtracted from (for sell orders) the stop value to obtain
-   * a limit value. After that, the order can be regarded as a limit order with that limit value.
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  trailingLimitTolerance?: number;
-  /**
-   *
-   * @type {TrailingDistance}
-   * @memberof OrderCreate
-   */
-  trailingDistance?: TrailingDistance;
-  /**
-   * The stop limit specifies a limit to use *after stop has been reached*. For buy orders, the stopLimit will be usually higher than stop, for sell orders the stopLimit will usually be lower than stop.
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  stopLimit?: number;
-  /**
-   * The stop of an order specifies a usually higher value than the current quote (direction buy) or a usually lower value than the current quote (direction sell).
-   *
-   * For the orderModel `stop`, the order is executed immediately when the stop is reached.
-   * For the orderModel `stopLimit`, the order will only be executed with a limt value of `stopLimit` (so for buy orders the price of execution will not be higher than `stopLimit`, for sell it orders it will not be lower than `stopLimit`).
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  stop?: number;
-  /**
-   * The limit of an order specifies a maximum (direction buy) or minimum (direction sell) value to execute the
-   * order at.
-   *
-   * A limit can be set for orderModel `limit`
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  limit?: number;
-  /**
-   *
-   * @type {CashQuotation}
-   * @memberof OrderCreate
-   */
-  cashQuotation?: CashQuotation;
-  /**
-   *
-   * @type {OrderExtension}
-   * @memberof OrderCreate
-   */
-  orderExtension?: OrderExtension;
-  /**
-   * How much of the security should be traded. For stocks, this is the number of stocks. For bonds, this is a monetary amount.
-   * @type {number}
-   * @memberof OrderCreate
-   */
-  size: number;
-  /**
-   * The US ticker of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.
-   * @type {string}
-   * @memberof OrderCreate
-   * @deprecated
-   */
-  usTicker?: string;
-  /**
-   * The ISIN of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.
-   *
-   * Note that we will make isin optional in a future version of the API.
-   * @type {string}
-   * @memberof OrderCreate
-   */
-  isin: string;
+  brokerExchangeId: string;
   /**
    * The `brokerSecurityId` is the broker-specific identifier for the security to trade. It is provided by the `PreparedTrade` endpoint
    * and must be used in the order creation process to identify the security.
@@ -172,6 +71,30 @@ export interface OrderCreate {
    * @memberof OrderCreate
    */
   brokerSecurityId?: string;
+  /**
+   * If a list of cash accounts is provided for the portfolio, this should contain the selected account.
+   * @type {string}
+   * @memberof OrderCreate
+   */
+  cashAccountId?: string;
+  /**
+   *
+   * @type {CashQuotation}
+   * @memberof OrderCreate
+   */
+  cashQuotation?: CashQuotation;
+  /**
+   *
+   * @type {Direction}
+   * @memberof OrderCreate
+   */
+  direction: Direction;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderCreate
+   */
+  ifDoneLimit?: number;
   /**
    * Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the
    * corressponding subscription via `availableOrderIntentsToken`) is available, it should be set.
@@ -183,17 +106,34 @@ export interface OrderCreate {
    */
   intent?: OrderCreateIntentEnum;
   /**
+   * The ISIN of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.
    *
+   * Note that we will make isin optional in a future version of the API.
    * @type {string}
    * @memberof OrderCreate
    */
-  brokerExchangeId: string;
+  isin: string;
   /**
+   * The limit of an order specifies a maximum (direction buy) or minimum (direction sell) value to execute the
+   * order at.
    *
-   * @type {Direction}
+   * A limit can be set for orderModel `limit`
+   * @type {number}
    * @memberof OrderCreate
    */
-  direction: Direction;
+  limit?: number;
+  /**
+   * limit (and stop etc.) currency to use for this order
+   * @type {string}
+   * @memberof OrderCreate
+   */
+  limitCurrencyIso?: string;
+  /**
+   *
+   * @type {OrderExtension}
+   * @memberof OrderCreate
+   */
+  orderExtension?: OrderExtension;
   /**
    *
    * @type {OrderModel}
@@ -213,23 +153,83 @@ export interface OrderCreate {
    */
   quoteId?: string;
   /**
+   * If supported by the broker, an optional limit can be added to a quote trade (`orderModel=quote`).
+   * @type {number}
+   * @memberof OrderCreate
+   */
+  quoteLimit?: number;
+  /**
    * If a list of sellPositions has been provided in `PrepareTrade`, this must contain the selected position id to sell from
    * @type {string}
    * @memberof OrderCreate
    */
   sellPositionId?: string;
   /**
-   * If a list of cash accounts is provided for the portfolio, this should contain the selected account.
-   * @type {string}
+   * How much of the security should be traded. For stocks, this is the number of stocks. For bonds, this is a monetary amount.
+   * @type {number}
    * @memberof OrderCreate
    */
-  cashAccountId?: string;
+  size: number;
   /**
    *
    * @type {string}
    * @memberof OrderCreate
    */
   sizeUnit?: string;
+  /**
+   * The stop of an order specifies a usually higher value than the current quote (direction buy) or a usually lower value than the current quote (direction sell).
+   *
+   * For the orderModel `stop`, the order is executed immediately when the stop is reached.
+   * For the orderModel `stopLimit`, the order will only be executed with a limt value of `stopLimit` (so for buy orders the price of execution will not be higher than `stopLimit`, for sell it orders it will not be lower than `stopLimit`).
+   * @type {number}
+   * @memberof OrderCreate
+   */
+  stop?: number;
+  /**
+   * The stop limit specifies a limit to use *after stop has been reached*. For buy orders, the stopLimit will be usually higher than stop, for sell orders the stopLimit will usually be lower than stop.
+   * @type {number}
+   * @memberof OrderCreate
+   */
+  stopLimit?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderCreate
+   */
+  stopLoss?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof OrderCreate
+   */
+  takeProfit?: number;
+  /**
+   *
+   * @type {TrailingDistance}
+   * @memberof OrderCreate
+   */
+  trailingDistance?: TrailingDistance;
+  /**
+   * For orderModel `trailingStopLimit`: when the trailing stop has been reached, the tolerance
+   * value is added to (for buy orders) or subtracted from (for sell orders) the stop value to obtain
+   * a limit value. After that, the order can be regarded as a limit order with that limit value.
+   * @type {number}
+   * @memberof OrderCreate
+   */
+  trailingLimitTolerance?: number;
+  /**
+   * The US ticker of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.
+   * @type {string}
+   * @memberof OrderCreate
+   * @deprecated
+   */
+  usTicker?: string;
+  /**
+   *
+   * @type {OrderValidity}
+   * @memberof OrderCreate
+   */
+  validity?: OrderValidity;
 }
 
 /**
@@ -254,50 +254,50 @@ export function OrderCreateFromJSONTyped(
     return json;
   }
   return {
-    limitCurrencyIso: !exists(json, "limitCurrencyIso")
-      ? undefined
-      : json["limitCurrencyIso"],
-    stopLoss: !exists(json, "stopLoss") ? undefined : json["stopLoss"],
-    takeProfit: !exists(json, "takeProfit") ? undefined : json["takeProfit"],
-    ifDoneLimit: !exists(json, "ifDoneLimit") ? undefined : json["ifDoneLimit"],
-    quoteLimit: !exists(json, "quoteLimit") ? undefined : json["quoteLimit"],
-    validity: !exists(json, "validity")
-      ? undefined
-      : OrderValidityFromJSON(json["validity"]),
-    trailingLimitTolerance: !exists(json, "trailingLimitTolerance")
-      ? undefined
-      : json["trailingLimitTolerance"],
-    trailingDistance: !exists(json, "trailingDistance")
-      ? undefined
-      : TrailingDistanceFromJSON(json["trailingDistance"]),
-    stopLimit: !exists(json, "stopLimit") ? undefined : json["stopLimit"],
-    stop: !exists(json, "stop") ? undefined : json["stop"],
-    limit: !exists(json, "limit") ? undefined : json["limit"],
-    cashQuotation: !exists(json, "cashQuotation")
-      ? undefined
-      : CashQuotationFromJSON(json["cashQuotation"]),
-    orderExtension: !exists(json, "orderExtension")
-      ? undefined
-      : OrderExtensionFromJSON(json["orderExtension"]),
-    size: json["size"],
-    usTicker: !exists(json, "usTicker") ? undefined : json["usTicker"],
-    isin: json["isin"],
+    brokerExchangeId: json["brokerExchangeId"],
     brokerSecurityId: !exists(json, "brokerSecurityId")
       ? undefined
       : json["brokerSecurityId"],
-    intent: !exists(json, "intent") ? undefined : json["intent"],
-    brokerExchangeId: json["brokerExchangeId"],
-    direction: DirectionFromJSON(json["direction"]),
-    orderModel: OrderModelFromJSON(json["orderModel"]),
-    portfolioId: json["portfolioId"],
-    quoteId: !exists(json, "quoteId") ? undefined : json["quoteId"],
-    sellPositionId: !exists(json, "sellPositionId")
-      ? undefined
-      : json["sellPositionId"],
     cashAccountId: !exists(json, "cashAccountId")
       ? undefined
       : json["cashAccountId"],
+    cashQuotation: !exists(json, "cashQuotation")
+      ? undefined
+      : CashQuotationFromJSON(json["cashQuotation"]),
+    direction: DirectionFromJSON(json["direction"]),
+    ifDoneLimit: !exists(json, "ifDoneLimit") ? undefined : json["ifDoneLimit"],
+    intent: !exists(json, "intent") ? undefined : json["intent"],
+    isin: json["isin"],
+    limit: !exists(json, "limit") ? undefined : json["limit"],
+    limitCurrencyIso: !exists(json, "limitCurrencyIso")
+      ? undefined
+      : json["limitCurrencyIso"],
+    orderExtension: !exists(json, "orderExtension")
+      ? undefined
+      : OrderExtensionFromJSON(json["orderExtension"]),
+    orderModel: OrderModelFromJSON(json["orderModel"]),
+    portfolioId: json["portfolioId"],
+    quoteId: !exists(json, "quoteId") ? undefined : json["quoteId"],
+    quoteLimit: !exists(json, "quoteLimit") ? undefined : json["quoteLimit"],
+    sellPositionId: !exists(json, "sellPositionId")
+      ? undefined
+      : json["sellPositionId"],
+    size: json["size"],
     sizeUnit: !exists(json, "sizeUnit") ? undefined : json["sizeUnit"],
+    stop: !exists(json, "stop") ? undefined : json["stop"],
+    stopLimit: !exists(json, "stopLimit") ? undefined : json["stopLimit"],
+    stopLoss: !exists(json, "stopLoss") ? undefined : json["stopLoss"],
+    takeProfit: !exists(json, "takeProfit") ? undefined : json["takeProfit"],
+    trailingDistance: !exists(json, "trailingDistance")
+      ? undefined
+      : TrailingDistanceFromJSON(json["trailingDistance"]),
+    trailingLimitTolerance: !exists(json, "trailingLimitTolerance")
+      ? undefined
+      : json["trailingLimitTolerance"],
+    usTicker: !exists(json, "usTicker") ? undefined : json["usTicker"],
+    validity: !exists(json, "validity")
+      ? undefined
+      : OrderValidityFromJSON(json["validity"]),
   };
 }
 
@@ -313,32 +313,32 @@ export function OrderCreateToJSONRecursive(
   }
 
   return {
-    limitCurrencyIso: value.limitCurrencyIso,
-    stopLoss: value.stopLoss,
-    takeProfit: value.takeProfit,
-    ifDoneLimit: value.ifDoneLimit,
-    quoteLimit: value.quoteLimit,
-    validity: OrderValidityToJSON(value.validity),
-    trailingLimitTolerance: value.trailingLimitTolerance,
-    trailingDistance: TrailingDistanceToJSON(value.trailingDistance),
-    stopLimit: value.stopLimit,
-    stop: value.stop,
-    limit: value.limit,
-    cashQuotation: CashQuotationToJSON(value.cashQuotation),
-    orderExtension: OrderExtensionToJSON(value.orderExtension),
-    size: value.size,
-    usTicker: value.usTicker,
-    isin: value.isin,
-    brokerSecurityId: value.brokerSecurityId,
-    intent: value.intent,
     brokerExchangeId: value.brokerExchangeId,
+    brokerSecurityId: value.brokerSecurityId,
+    cashAccountId: value.cashAccountId,
+    cashQuotation: CashQuotationToJSON(value.cashQuotation),
     direction: DirectionToJSON(value.direction),
+    ifDoneLimit: value.ifDoneLimit,
+    intent: value.intent,
+    isin: value.isin,
+    limit: value.limit,
+    limitCurrencyIso: value.limitCurrencyIso,
+    orderExtension: OrderExtensionToJSON(value.orderExtension),
     orderModel: OrderModelToJSON(value.orderModel),
     portfolioId: value.portfolioId,
     quoteId: value.quoteId,
+    quoteLimit: value.quoteLimit,
     sellPositionId: value.sellPositionId,
-    cashAccountId: value.cashAccountId,
+    size: value.size,
     sizeUnit: value.sizeUnit,
+    stop: value.stop,
+    stopLimit: value.stopLimit,
+    stopLoss: value.stopLoss,
+    takeProfit: value.takeProfit,
+    trailingDistance: TrailingDistanceToJSON(value.trailingDistance),
+    trailingLimitTolerance: value.trailingLimitTolerance,
+    usTicker: value.usTicker,
+    validity: OrderValidityToJSON(value.validity),
   };
 }
 
