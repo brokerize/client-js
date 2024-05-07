@@ -41,12 +41,6 @@ export interface CreateOrderParams {
   authMethod?: string;
   /**
    *
-   * @type {OrderCreate}
-   * @memberof CreateOrderParams
-   */
-  order: OrderCreate;
-  /**
-   *
    * @type {string}
    * @memberof CreateOrderParams
    */
@@ -57,6 +51,12 @@ export interface CreateOrderParams {
    * @memberof CreateOrderParams
    */
   challengeResponse?: string;
+  /**
+   *
+   * @type {OrderCreate}
+   * @memberof CreateOrderParams
+   */
+  order: OrderCreate;
 }
 
 export function CreateOrderParamsFromJSON(json: any): CreateOrderParams {
@@ -75,11 +75,11 @@ export function CreateOrderParamsFromJSONTyped(
       ? undefined
       : json["acceptHintId"],
     authMethod: !exists(json, "authMethod") ? undefined : json["authMethod"],
-    order: OrderCreateFromJSON(json["order"]),
     challengeId: !exists(json, "challengeId") ? undefined : json["challengeId"],
     challengeResponse: !exists(json, "challengeResponse")
       ? undefined
       : json["challengeResponse"],
+    order: OrderCreateFromJSON(json["order"]),
   };
 }
 
@@ -97,9 +97,9 @@ export function CreateOrderParamsToJSONRecursive(
   return {
     acceptHintId: value.acceptHintId,
     authMethod: value.authMethod,
-    order: OrderCreateToJSON(value.order),
     challengeId: value.challengeId,
     challengeResponse: value.challengeResponse,
+    order: OrderCreateToJSON(value.order),
   };
 }
 

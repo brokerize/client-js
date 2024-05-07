@@ -33,12 +33,6 @@ export interface CashAccount {
   currency: string;
   /**
    *
-   * @type {boolean}
-   * @memberof CashAccount
-   */
-  isHiddenDefaultAccount: boolean;
-  /**
-   *
    * @type {string}
    * @memberof CashAccount
    */
@@ -49,6 +43,12 @@ export interface CashAccount {
    * @memberof CashAccount
    */
   id: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof CashAccount
+   */
+  isHiddenDefaultAccount: boolean;
 }
 
 export function CashAccountFromJSON(json: any): CashAccount {
@@ -64,9 +64,9 @@ export function CashAccountFromJSONTyped(
   }
   return {
     currency: json["currency"],
-    isHiddenDefaultAccount: json["isHiddenDefaultAccount"],
     displayName: json["displayName"],
     id: json["id"],
+    isHiddenDefaultAccount: json["isHiddenDefaultAccount"],
   };
 }
 
@@ -83,9 +83,9 @@ export function CashAccountToJSONRecursive(
 
   return {
     currency: value.currency,
-    isHiddenDefaultAccount: value.isHiddenDefaultAccount,
     displayName: value.displayName,
     id: value.id,
+    isHiddenDefaultAccount: value.isHiddenDefaultAccount,
   };
 }
 

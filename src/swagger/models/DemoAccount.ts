@@ -28,10 +28,10 @@ import {
 export interface DemoAccount {
   /**
    *
-   * @type {DemoAccountSettings}
+   * @type {string}
    * @memberof DemoAccount
    */
-  settings: DemoAccountSettings;
+  accountId: string;
   /**
    *
    * @type {string}
@@ -40,10 +40,10 @@ export interface DemoAccount {
   accountName: string;
   /**
    *
-   * @type {string}
+   * @type {DemoAccountSettings}
    * @memberof DemoAccount
    */
-  accountId: string;
+  settings: DemoAccountSettings;
 }
 
 export function DemoAccountFromJSON(json: any): DemoAccount {
@@ -58,9 +58,9 @@ export function DemoAccountFromJSONTyped(
     return json;
   }
   return {
-    settings: DemoAccountSettingsFromJSON(json["settings"]),
-    accountName: json["accountName"],
     accountId: json["accountId"],
+    accountName: json["accountName"],
+    settings: DemoAccountSettingsFromJSON(json["settings"]),
   };
 }
 
@@ -76,9 +76,9 @@ export function DemoAccountToJSONRecursive(
   }
 
   return {
-    settings: DemoAccountSettingsToJSON(value.settings),
-    accountName: value.accountName,
     accountId: value.accountId,
+    accountName: value.accountName,
+    settings: DemoAccountSettingsToJSON(value.settings),
   };
 }
 

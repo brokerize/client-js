@@ -14,11 +14,23 @@
 
 import { exists, mapValues } from "../runtime";
 import {
+  BrokerClientCfg,
+  BrokerClientCfgFromJSON,
+  BrokerClientCfgFromJSONTyped,
+  BrokerClientCfgToJSON,
+} from "./BrokerClientCfg";
+import {
   BrokerEnvFilterType,
   BrokerEnvFilterTypeFromJSON,
   BrokerEnvFilterTypeFromJSONTyped,
   BrokerEnvFilterTypeToJSON,
 } from "./BrokerEnvFilterType";
+import {
+  ClientConfigMaintenanceStatus,
+  ClientConfigMaintenanceStatusFromJSON,
+  ClientConfigMaintenanceStatusFromJSONTyped,
+  ClientConfigMaintenanceStatusToJSON,
+} from "./ClientConfigMaintenanceStatus";
 import {
   ClientConfigOAuthLoginForm,
   ClientConfigOAuthLoginFormFromJSON,
@@ -37,12 +49,6 @@ import {
   ClientConfigRateLimitPointsToConsumeFromJSONTyped,
   ClientConfigRateLimitPointsToConsumeToJSON,
 } from "./ClientConfigRateLimitPointsToConsume";
-import {
-  ClientsResponseInnerConfigMaintenanceStatus,
-  ClientsResponseInnerConfigMaintenanceStatusFromJSON,
-  ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped,
-  ClientsResponseInnerConfigMaintenanceStatusToJSON,
-} from "./ClientsResponseInnerConfigMaintenanceStatus";
 
 /**
  *
@@ -50,72 +56,6 @@ import {
  * @interface ClientConfig
  */
 export interface ClientConfig {
-  /**
-   *
-   * @type {ClientConfigPage}
-   * @memberof ClientConfig
-   */
-  page?: ClientConfigPage | null;
-  /**
-   *
-   * @type {ClientsResponseInnerConfigMaintenanceStatus}
-   * @memberof ClientConfig
-   */
-  maintenanceStatus?: ClientsResponseInnerConfigMaintenanceStatus | null;
-  /**
-   *
-   * @type {boolean}
-   * @memberof ClientConfig
-   */
-  enabled?: boolean;
-  /**
-   *
-   * @type {ClientConfigOAuthLoginForm}
-   * @memberof ClientConfig
-   */
-  oAuthLoginForm?: ClientConfigOAuthLoginForm | null;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof ClientConfig
-   */
-  oAuthReturnToRegularExpressions?: Array<string>;
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof ClientConfig
-   */
-  managingUserIds?: Array<number>;
-  /**
-   *
-   * @type {{ [key: string]: BrokerEnvFilterType; }}
-   * @memberof ClientConfig
-   */
-  brokerEnvFilter?: { [key: string]: BrokerEnvFilterType };
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof ClientConfig
-   */
-  oAuthReturnToUrls?: Array<string>;
-  /**
-   *
-   * @type {ClientConfigRateLimitPointsToConsume}
-   * @memberof ClientConfig
-   */
-  rateLimitPointsToConsume?: ClientConfigRateLimitPointsToConsume;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof ClientConfig
-   */
-  optionalClientSecrets?: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof ClientConfig
-   */
-  clientSecrets?: Array<string>;
   /**
    *
    * @type {boolean}
@@ -130,10 +70,34 @@ export interface ClientConfig {
   allowedOrigins?: Array<string>;
   /**
    *
+   * @type {BrokerClientCfg}
+   * @memberof ClientConfig
+   */
+  brokerClientIds?: BrokerClientCfg;
+  /**
+   *
+   * @type {{ [key: string]: BrokerEnvFilterType; }}
+   * @memberof ClientConfig
+   */
+  brokerEnvFilter?: { [key: string]: BrokerEnvFilterType };
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ClientConfig
+   */
+  clientSecrets?: Array<string>;
+  /**
+   *
    * @type {Array<string>}
    * @memberof ClientConfig
    */
   cognitoClientIds?: Array<string>;
+  /**
+   *
+   * @type {boolean}
+   * @memberof ClientConfig
+   */
+  enabled?: boolean;
   /**
    *
    * @type {string}
@@ -142,10 +106,58 @@ export interface ClientConfig {
   legalEntityName?: string;
   /**
    *
+   * @type {ClientConfigMaintenanceStatus}
+   * @memberof ClientConfig
+   */
+  maintenanceStatus?: ClientConfigMaintenanceStatus | null;
+  /**
+   *
+   * @type {Array<number>}
+   * @memberof ClientConfig
+   */
+  managingUserIds?: Array<number>;
+  /**
+   *
    * @type {string}
    * @memberof ClientConfig
    */
   name?: string;
+  /**
+   *
+   * @type {ClientConfigOAuthLoginForm}
+   * @memberof ClientConfig
+   */
+  oAuthLoginForm?: ClientConfigOAuthLoginForm | null;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ClientConfig
+   */
+  oAuthReturnToRegularExpressions?: Array<string>;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ClientConfig
+   */
+  oAuthReturnToUrls?: Array<string>;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ClientConfig
+   */
+  optionalClientSecrets?: Array<string>;
+  /**
+   *
+   * @type {ClientConfigPage}
+   * @memberof ClientConfig
+   */
+  page?: ClientConfigPage | null;
+  /**
+   *
+   * @type {ClientConfigRateLimitPointsToConsume}
+   * @memberof ClientConfig
+   */
+  rateLimitPointsToConsume?: ClientConfigRateLimitPointsToConsume;
 }
 
 export function ClientConfigFromJSON(json: any): ClientConfig {
@@ -160,15 +172,35 @@ export function ClientConfigFromJSONTyped(
     return json;
   }
   return {
-    page: !exists(json, "page")
+    allowRequestsWithoutOrigin: !exists(json, "allowRequestsWithoutOrigin")
       ? undefined
-      : ClientConfigPageFromJSON(json["page"]),
+      : json["allowRequestsWithoutOrigin"],
+    allowedOrigins: !exists(json, "allowedOrigins")
+      ? undefined
+      : json["allowedOrigins"],
+    brokerClientIds: !exists(json, "brokerClientIds")
+      ? undefined
+      : BrokerClientCfgFromJSON(json["brokerClientIds"]),
+    brokerEnvFilter: !exists(json, "brokerEnvFilter")
+      ? undefined
+      : mapValues(json["brokerEnvFilter"], BrokerEnvFilterTypeFromJSON),
+    clientSecrets: !exists(json, "clientSecrets")
+      ? undefined
+      : json["clientSecrets"],
+    cognitoClientIds: !exists(json, "cognitoClientIds")
+      ? undefined
+      : json["cognitoClientIds"],
+    enabled: !exists(json, "enabled") ? undefined : json["enabled"],
+    legalEntityName: !exists(json, "legalEntityName")
+      ? undefined
+      : json["legalEntityName"],
     maintenanceStatus: !exists(json, "maintenanceStatus")
       ? undefined
-      : ClientsResponseInnerConfigMaintenanceStatusFromJSON(
-          json["maintenanceStatus"]
-        ),
-    enabled: !exists(json, "enabled") ? undefined : json["enabled"],
+      : ClientConfigMaintenanceStatusFromJSON(json["maintenanceStatus"]),
+    managingUserIds: !exists(json, "managingUserIds")
+      ? undefined
+      : json["managingUserIds"],
+    name: !exists(json, "name") ? undefined : json["name"],
     oAuthLoginForm: !exists(json, "oAuthLoginForm")
       ? undefined
       : ClientConfigOAuthLoginFormFromJSON(json["oAuthLoginForm"]),
@@ -178,39 +210,20 @@ export function ClientConfigFromJSONTyped(
     )
       ? undefined
       : json["oAuthReturnToRegularExpressions"],
-    managingUserIds: !exists(json, "managingUserIds")
-      ? undefined
-      : json["managingUserIds"],
-    brokerEnvFilter: !exists(json, "brokerEnvFilter")
-      ? undefined
-      : mapValues(json["brokerEnvFilter"], BrokerEnvFilterTypeFromJSON),
     oAuthReturnToUrls: !exists(json, "oAuthReturnToUrls")
       ? undefined
       : json["oAuthReturnToUrls"],
+    optionalClientSecrets: !exists(json, "optionalClientSecrets")
+      ? undefined
+      : json["optionalClientSecrets"],
+    page: !exists(json, "page")
+      ? undefined
+      : ClientConfigPageFromJSON(json["page"]),
     rateLimitPointsToConsume: !exists(json, "rateLimitPointsToConsume")
       ? undefined
       : ClientConfigRateLimitPointsToConsumeFromJSON(
           json["rateLimitPointsToConsume"]
         ),
-    optionalClientSecrets: !exists(json, "optionalClientSecrets")
-      ? undefined
-      : json["optionalClientSecrets"],
-    clientSecrets: !exists(json, "clientSecrets")
-      ? undefined
-      : json["clientSecrets"],
-    allowRequestsWithoutOrigin: !exists(json, "allowRequestsWithoutOrigin")
-      ? undefined
-      : json["allowRequestsWithoutOrigin"],
-    allowedOrigins: !exists(json, "allowedOrigins")
-      ? undefined
-      : json["allowedOrigins"],
-    cognitoClientIds: !exists(json, "cognitoClientIds")
-      ? undefined
-      : json["cognitoClientIds"],
-    legalEntityName: !exists(json, "legalEntityName")
-      ? undefined
-      : json["legalEntityName"],
-    name: !exists(json, "name") ? undefined : json["name"],
   };
 }
 
@@ -226,29 +239,30 @@ export function ClientConfigToJSONRecursive(
   }
 
   return {
-    page: ClientConfigPageToJSON(value.page),
-    maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatusToJSON(
-      value.maintenanceStatus
-    ),
-    enabled: value.enabled,
-    oAuthLoginForm: ClientConfigOAuthLoginFormToJSON(value.oAuthLoginForm),
-    oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
-    managingUserIds: value.managingUserIds,
+    allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
+    allowedOrigins: value.allowedOrigins,
+    brokerClientIds: BrokerClientCfgToJSON(value.brokerClientIds),
     brokerEnvFilter:
       value.brokerEnvFilter === undefined
         ? undefined
         : mapValues(value.brokerEnvFilter, BrokerEnvFilterTypeToJSON),
+    clientSecrets: value.clientSecrets,
+    cognitoClientIds: value.cognitoClientIds,
+    enabled: value.enabled,
+    legalEntityName: value.legalEntityName,
+    maintenanceStatus: ClientConfigMaintenanceStatusToJSON(
+      value.maintenanceStatus
+    ),
+    managingUserIds: value.managingUserIds,
+    name: value.name,
+    oAuthLoginForm: ClientConfigOAuthLoginFormToJSON(value.oAuthLoginForm),
+    oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
     oAuthReturnToUrls: value.oAuthReturnToUrls,
+    optionalClientSecrets: value.optionalClientSecrets,
+    page: ClientConfigPageToJSON(value.page),
     rateLimitPointsToConsume: ClientConfigRateLimitPointsToConsumeToJSON(
       value.rateLimitPointsToConsume
     ),
-    optionalClientSecrets: value.optionalClientSecrets,
-    clientSecrets: value.clientSecrets,
-    allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
-    allowedOrigins: value.allowedOrigins,
-    cognitoClientIds: value.cognitoClientIds,
-    legalEntityName: value.legalEntityName,
-    name: value.name,
   };
 }
 

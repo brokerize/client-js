@@ -16,49 +16,42 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface BrokerEnvironment
+ * @interface AccessTokenResult
  */
-export interface BrokerEnvironment {
+export interface AccessTokenResult {
   /**
    *
    * @type {string}
-   * @memberof BrokerEnvironment
+   * @memberof AccessTokenResult
    */
   id: string;
   /**
    *
-   * @type {boolean}
-   * @memberof BrokerEnvironment
-   */
-  isTestingEnvironment: boolean;
-  /**
-   *
    * @type {string}
-   * @memberof BrokerEnvironment
+   * @memberof AccessTokenResult
    */
-  label: string;
+  token: string;
 }
 
-export function BrokerEnvironmentFromJSON(json: any): BrokerEnvironment {
-  return BrokerEnvironmentFromJSONTyped(json, false);
+export function AccessTokenResultFromJSON(json: any): AccessTokenResult {
+  return AccessTokenResultFromJSONTyped(json, false);
 }
 
-export function BrokerEnvironmentFromJSONTyped(
+export function AccessTokenResultFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): BrokerEnvironment {
+): AccessTokenResult {
   if (json === undefined || json === null) {
     return json;
   }
   return {
     id: json["id"],
-    isTestingEnvironment: json["isTestingEnvironment"],
-    label: json["label"],
+    token: json["token"],
   };
 }
 
-export function BrokerEnvironmentToJSONRecursive(
-  value?: BrokerEnvironment | null,
+export function AccessTokenResultToJSONRecursive(
+  value?: AccessTokenResult | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -70,11 +63,10 @@ export function BrokerEnvironmentToJSONRecursive(
 
   return {
     id: value.id,
-    isTestingEnvironment: value.isTestingEnvironment,
-    label: value.label,
+    token: value.token,
   };
 }
 
-export function BrokerEnvironmentToJSON(value?: BrokerEnvironment | null): any {
-  return BrokerEnvironmentToJSONRecursive(value, false);
+export function AccessTokenResultToJSON(value?: AccessTokenResult | null): any {
+  return AccessTokenResultToJSONRecursive(value, false);
 }

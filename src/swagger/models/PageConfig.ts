@@ -21,18 +21,6 @@ import { exists, mapValues } from "../runtime";
 export interface PageConfig {
   /**
    *
-   * @type {any}
-   * @memberof PageConfig
-   */
-  themeDark?: any | null;
-  /**
-   *
-   * @type {any}
-   * @memberof PageConfig
-   */
-  themeLight?: any | null;
-  /**
-   *
    * @type {string}
    * @memberof PageConfig
    */
@@ -43,6 +31,18 @@ export interface PageConfig {
    * @memberof PageConfig
    */
   logoUrlLight?: string;
+  /**
+   *
+   * @type {any}
+   * @memberof PageConfig
+   */
+  themeDark?: any | null;
+  /**
+   *
+   * @type {any}
+   * @memberof PageConfig
+   */
+  themeLight?: any | null;
   /**
    *
    * @type {string}
@@ -63,12 +63,12 @@ export function PageConfigFromJSONTyped(
     return json;
   }
   return {
-    themeDark: !exists(json, "themeDark") ? undefined : json["themeDark"],
-    themeLight: !exists(json, "themeLight") ? undefined : json["themeLight"],
     logoUrlDark: !exists(json, "logoUrlDark") ? undefined : json["logoUrlDark"],
     logoUrlLight: !exists(json, "logoUrlLight")
       ? undefined
       : json["logoUrlLight"],
+    themeDark: !exists(json, "themeDark") ? undefined : json["themeDark"],
+    themeLight: !exists(json, "themeLight") ? undefined : json["themeLight"],
     title: !exists(json, "title") ? undefined : json["title"],
   };
 }
@@ -85,10 +85,10 @@ export function PageConfigToJSONRecursive(
   }
 
   return {
-    themeDark: value.themeDark,
-    themeLight: value.themeLight,
     logoUrlDark: value.logoUrlDark,
     logoUrlLight: value.logoUrlLight,
+    themeDark: value.themeDark,
+    themeLight: value.themeLight,
     title: value.title,
   };
 }

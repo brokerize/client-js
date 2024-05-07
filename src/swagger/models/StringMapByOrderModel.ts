@@ -24,25 +24,7 @@ export interface StringMapByOrderModel {
    * @type {string}
    * @memberof StringMapByOrderModel
    */
-  quote?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof StringMapByOrderModel
-   */
   fraction?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof StringMapByOrderModel
-   */
-  savingsPlan?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof StringMapByOrderModel
-   */
-  market?: string;
   /**
    *
    * @type {string}
@@ -54,25 +36,13 @@ export interface StringMapByOrderModel {
    * @type {string}
    * @memberof StringMapByOrderModel
    */
-  stopMarket?: string;
+  market?: string;
   /**
    *
    * @type {string}
    * @memberof StringMapByOrderModel
    */
-  stopLimit?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof StringMapByOrderModel
-   */
-  trailingStopMarket?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof StringMapByOrderModel
-   */
-  trailingStopLimit?: string;
+  ocoStopLimit?: string;
   /**
    *
    * @type {string}
@@ -84,7 +54,37 @@ export interface StringMapByOrderModel {
    * @type {string}
    * @memberof StringMapByOrderModel
    */
-  ocoStopLimit?: string;
+  quote?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof StringMapByOrderModel
+   */
+  savingsPlan?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof StringMapByOrderModel
+   */
+  stopLimit?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof StringMapByOrderModel
+   */
+  stopMarket?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof StringMapByOrderModel
+   */
+  trailingStopLimit?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof StringMapByOrderModel
+   */
+  trailingStopMarket?: string;
 }
 
 export function StringMapByOrderModelFromJSON(
@@ -101,25 +101,25 @@ export function StringMapByOrderModelFromJSONTyped(
     return json;
   }
   return {
-    quote: !exists(json, "quote") ? undefined : json["quote"],
     fraction: !exists(json, "fraction") ? undefined : json["fraction"],
-    savingsPlan: !exists(json, "savingsPlan") ? undefined : json["savingsPlan"],
-    market: !exists(json, "market") ? undefined : json["market"],
     limit: !exists(json, "limit") ? undefined : json["limit"],
-    stopMarket: !exists(json, "stopMarket") ? undefined : json["stopMarket"],
-    stopLimit: !exists(json, "stopLimit") ? undefined : json["stopLimit"],
-    trailingStopMarket: !exists(json, "trailingStopMarket")
-      ? undefined
-      : json["trailingStopMarket"],
-    trailingStopLimit: !exists(json, "trailingStopLimit")
-      ? undefined
-      : json["trailingStopLimit"],
-    ocoStopMarket: !exists(json, "ocoStopMarket")
-      ? undefined
-      : json["ocoStopMarket"],
+    market: !exists(json, "market") ? undefined : json["market"],
     ocoStopLimit: !exists(json, "ocoStopLimit")
       ? undefined
       : json["ocoStopLimit"],
+    ocoStopMarket: !exists(json, "ocoStopMarket")
+      ? undefined
+      : json["ocoStopMarket"],
+    quote: !exists(json, "quote") ? undefined : json["quote"],
+    savingsPlan: !exists(json, "savingsPlan") ? undefined : json["savingsPlan"],
+    stopLimit: !exists(json, "stopLimit") ? undefined : json["stopLimit"],
+    stopMarket: !exists(json, "stopMarket") ? undefined : json["stopMarket"],
+    trailingStopLimit: !exists(json, "trailingStopLimit")
+      ? undefined
+      : json["trailingStopLimit"],
+    trailingStopMarket: !exists(json, "trailingStopMarket")
+      ? undefined
+      : json["trailingStopMarket"],
   };
 }
 
@@ -135,17 +135,17 @@ export function StringMapByOrderModelToJSONRecursive(
   }
 
   return {
-    quote: value.quote,
     fraction: value.fraction,
-    savingsPlan: value.savingsPlan,
-    market: value.market,
     limit: value.limit,
-    stopMarket: value.stopMarket,
-    stopLimit: value.stopLimit,
-    trailingStopMarket: value.trailingStopMarket,
-    trailingStopLimit: value.trailingStopLimit,
-    ocoStopMarket: value.ocoStopMarket,
+    market: value.market,
     ocoStopLimit: value.ocoStopLimit,
+    ocoStopMarket: value.ocoStopMarket,
+    quote: value.quote,
+    savingsPlan: value.savingsPlan,
+    stopLimit: value.stopLimit,
+    stopMarket: value.stopMarket,
+    trailingStopLimit: value.trailingStopLimit,
+    trailingStopMarket: value.trailingStopMarket,
   };
 }
 

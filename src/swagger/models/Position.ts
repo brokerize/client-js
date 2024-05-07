@@ -45,17 +45,17 @@ import {
  */
 export interface Position {
   /**
-   *
+   * How much of the position is available for sale.
+   * @type {number}
+   * @memberof Position
+   */
+  availableSize: number;
+  /**
+   * The exchange id as defined by the broker.
    * @type {string}
    * @memberof Position
    */
-  sourceData?: string;
-  /**
-   * True if the user may edit a comment for this position.
-   * @type {boolean}
-   * @memberof Position
-   */
-  commentIsEditable?: boolean;
+  brokerExchangeId?: string;
   /**
    * Textual comment for the position.
    * @type {string}
@@ -63,41 +63,41 @@ export interface Position {
    */
   comment?: string;
   /**
-   * Relative P/L of the entire position, since acquisition, but including the dividends booked for this position (see `totalDividends`). 1 means +100%
+   * True if the user may edit a comment for this position.
+   * @type {boolean}
+   * @memberof Position
+   */
+  commentIsEditable?: boolean;
+  /**
+   *
+   * @type {PositionValuation}
+   * @memberof Position
+   */
+  currentValuation?: PositionValuation;
+  /**
+   *
+   * @type {Direction}
+   * @memberof Position
+   */
+  direction?: Direction;
+  /**
+   * The mapped exchange id, as retrievable in the the `/exchanges` endpoint.
    * @type {number}
    * @memberof Position
    */
-  profitLossRelWithDividends?: number;
+  exchangeId?: number;
+  /**
+   * Name of the exchange, as provided by the broker.
+   * @type {string}
+   * @memberof Position
+   */
+  exchangeName?: string;
   /**
    *
-   * @type {Amount}
+   * @type {string}
    * @memberof Position
    */
-  profitLossAbsWithDividends?: Amount;
-  /**
-   * Relative P/L of the entire posiiton, since "prevClose". 1 means +100%
-   * @type {number}
-   * @memberof Position
-   */
-  profitLossRelPrevClose?: number;
-  /**
-   *
-   * @type {Amount}
-   * @memberof Position
-   */
-  profitLossAbsPrevClose?: Amount;
-  /**
-   * Relative P/L of the entire posiiton, since acquisition. 1 means +100%
-   * @type {number}
-   * @memberof Position
-   */
-  profitLossRel?: number;
-  /**
-   *
-   * @type {Amount}
-   * @memberof Position
-   */
-  profitLossAbs?: Amount;
+  id: string;
   /**
    *
    * @type {PositionValuation}
@@ -106,10 +106,40 @@ export interface Position {
   prevCloseValuation?: PositionValuation;
   /**
    *
-   * @type {PositionValuation}
+   * @type {Amount}
    * @memberof Position
    */
-  currentValuation?: PositionValuation;
+  profitLossAbs?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof Position
+   */
+  profitLossAbsPrevClose?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof Position
+   */
+  profitLossAbsWithDividends?: Amount;
+  /**
+   * Relative P/L of the entire posiiton, since acquisition. 1 means +100%
+   * @type {number}
+   * @memberof Position
+   */
+  profitLossRel?: number;
+  /**
+   * Relative P/L of the entire posiiton, since "prevClose". 1 means +100%
+   * @type {number}
+   * @memberof Position
+   */
+  profitLossRelPrevClose?: number;
+  /**
+   * Relative P/L of the entire position, since acquisition, but including the dividends booked for this position (see `totalDividends`). 1 means +100%
+   * @type {number}
+   * @memberof Position
+   */
+  profitLossRelWithDividends?: number;
   /**
    * Date in the format YYYY-MM-DD
    * @type {string}
@@ -129,41 +159,17 @@ export interface Position {
    */
   purchaseValuation?: PositionValuation;
   /**
-   * How much of the position is available for sale.
-   * @type {number}
-   * @memberof Position
-   */
-  availableSize: number;
-  /**
-   *
-   * @type {Direction}
-   * @memberof Position
-   */
-  direction?: Direction;
-  /**
-   * Name of the exchange, as provided by the broker.
-   * @type {string}
-   * @memberof Position
-   */
-  exchangeName?: string;
-  /**
-   * The exchange id as defined by the broker.
-   * @type {string}
-   * @memberof Position
-   */
-  brokerExchangeId?: string;
-  /**
-   * The mapped exchange id, as retrievable in the the `/exchanges` endpoint.
-   * @type {number}
-   * @memberof Position
-   */
-  exchangeId?: number;
-  /**
    *
    * @type {Security}
    * @memberof Position
    */
   security: Security;
+  /**
+   *
+   * @type {number}
+   * @memberof Position
+   */
+  size: number;
   /**
    * If present, defines how many decimal places should be displayed for size values.
    * @type {number}
@@ -184,16 +190,10 @@ export interface Position {
   sizeUnit: string;
   /**
    *
-   * @type {number}
-   * @memberof Position
-   */
-  size: number;
-  /**
-   *
    * @type {string}
    * @memberof Position
    */
-  id: string;
+  sourceData?: string;
 }
 
 export function PositionFromJSON(json: any): Position {
@@ -208,35 +208,46 @@ export function PositionFromJSONTyped(
     return json;
   }
   return {
-    sourceData: !exists(json, "sourceData") ? undefined : json["sourceData"],
+    availableSize: json["availableSize"],
+    brokerExchangeId: !exists(json, "brokerExchangeId")
+      ? undefined
+      : json["brokerExchangeId"],
+    comment: !exists(json, "comment") ? undefined : json["comment"],
     commentIsEditable: !exists(json, "commentIsEditable")
       ? undefined
       : json["commentIsEditable"],
-    comment: !exists(json, "comment") ? undefined : json["comment"],
-    profitLossRelWithDividends: !exists(json, "profitLossRelWithDividends")
-      ? undefined
-      : json["profitLossRelWithDividends"],
-    profitLossAbsWithDividends: !exists(json, "profitLossAbsWithDividends")
-      ? undefined
-      : AmountFromJSON(json["profitLossAbsWithDividends"]),
-    profitLossRelPrevClose: !exists(json, "profitLossRelPrevClose")
-      ? undefined
-      : json["profitLossRelPrevClose"],
-    profitLossAbsPrevClose: !exists(json, "profitLossAbsPrevClose")
-      ? undefined
-      : AmountFromJSON(json["profitLossAbsPrevClose"]),
-    profitLossRel: !exists(json, "profitLossRel")
-      ? undefined
-      : json["profitLossRel"],
-    profitLossAbs: !exists(json, "profitLossAbs")
-      ? undefined
-      : AmountFromJSON(json["profitLossAbs"]),
-    prevCloseValuation: !exists(json, "prevCloseValuation")
-      ? undefined
-      : PositionValuationFromJSON(json["prevCloseValuation"]),
     currentValuation: !exists(json, "currentValuation")
       ? undefined
       : PositionValuationFromJSON(json["currentValuation"]),
+    direction: !exists(json, "direction")
+      ? undefined
+      : DirectionFromJSON(json["direction"]),
+    exchangeId: !exists(json, "exchangeId") ? undefined : json["exchangeId"],
+    exchangeName: !exists(json, "exchangeName")
+      ? undefined
+      : json["exchangeName"],
+    id: json["id"],
+    prevCloseValuation: !exists(json, "prevCloseValuation")
+      ? undefined
+      : PositionValuationFromJSON(json["prevCloseValuation"]),
+    profitLossAbs: !exists(json, "profitLossAbs")
+      ? undefined
+      : AmountFromJSON(json["profitLossAbs"]),
+    profitLossAbsPrevClose: !exists(json, "profitLossAbsPrevClose")
+      ? undefined
+      : AmountFromJSON(json["profitLossAbsPrevClose"]),
+    profitLossAbsWithDividends: !exists(json, "profitLossAbsWithDividends")
+      ? undefined
+      : AmountFromJSON(json["profitLossAbsWithDividends"]),
+    profitLossRel: !exists(json, "profitLossRel")
+      ? undefined
+      : json["profitLossRel"],
+    profitLossRelPrevClose: !exists(json, "profitLossRelPrevClose")
+      ? undefined
+      : json["profitLossRelPrevClose"],
+    profitLossRelWithDividends: !exists(json, "profitLossRelWithDividends")
+      ? undefined
+      : json["profitLossRelWithDividends"],
     purchaseDate: !exists(json, "purchaseDate")
       ? undefined
       : json["purchaseDate"],
@@ -246,24 +257,13 @@ export function PositionFromJSONTyped(
     purchaseValuation: !exists(json, "purchaseValuation")
       ? undefined
       : PositionValuationFromJSON(json["purchaseValuation"]),
-    availableSize: json["availableSize"],
-    direction: !exists(json, "direction")
-      ? undefined
-      : DirectionFromJSON(json["direction"]),
-    exchangeName: !exists(json, "exchangeName")
-      ? undefined
-      : json["exchangeName"],
-    brokerExchangeId: !exists(json, "brokerExchangeId")
-      ? undefined
-      : json["brokerExchangeId"],
-    exchangeId: !exists(json, "exchangeId") ? undefined : json["exchangeId"],
     security: SecurityFromJSON(json["security"]),
+    size: json["size"],
     sizeDecimals: !exists(json, "sizeDecimals")
       ? undefined
       : json["sizeDecimals"],
     sizeUnit: json["sizeUnit"],
-    size: json["size"],
-    id: json["id"],
+    sourceData: !exists(json, "sourceData") ? undefined : json["sourceData"],
   };
 }
 
@@ -279,33 +279,33 @@ export function PositionToJSONRecursive(
   }
 
   return {
-    sourceData: value.sourceData,
-    commentIsEditable: value.commentIsEditable,
+    availableSize: value.availableSize,
+    brokerExchangeId: value.brokerExchangeId,
     comment: value.comment,
-    profitLossRelWithDividends: value.profitLossRelWithDividends,
-    profitLossAbsWithDividends: AmountToJSON(value.profitLossAbsWithDividends),
-    profitLossRelPrevClose: value.profitLossRelPrevClose,
-    profitLossAbsPrevClose: AmountToJSON(value.profitLossAbsPrevClose),
-    profitLossRel: value.profitLossRel,
-    profitLossAbs: AmountToJSON(value.profitLossAbs),
-    prevCloseValuation: PositionValuationToJSON(value.prevCloseValuation),
+    commentIsEditable: value.commentIsEditable,
     currentValuation: PositionValuationToJSON(value.currentValuation),
+    direction: DirectionToJSON(value.direction),
+    exchangeId: value.exchangeId,
+    exchangeName: value.exchangeName,
+    id: value.id,
+    prevCloseValuation: PositionValuationToJSON(value.prevCloseValuation),
+    profitLossAbs: AmountToJSON(value.profitLossAbs),
+    profitLossAbsPrevClose: AmountToJSON(value.profitLossAbsPrevClose),
+    profitLossAbsWithDividends: AmountToJSON(value.profitLossAbsWithDividends),
+    profitLossRel: value.profitLossRel,
+    profitLossRelPrevClose: value.profitLossRelPrevClose,
+    profitLossRelWithDividends: value.profitLossRelWithDividends,
     purchaseDate: value.purchaseDate,
     purchaseDateTime:
       value.purchaseDateTime === undefined
         ? undefined
         : value.purchaseDateTime.toISOString(),
     purchaseValuation: PositionValuationToJSON(value.purchaseValuation),
-    availableSize: value.availableSize,
-    direction: DirectionToJSON(value.direction),
-    exchangeName: value.exchangeName,
-    brokerExchangeId: value.brokerExchangeId,
-    exchangeId: value.exchangeId,
     security: SecurityToJSON(value.security),
+    size: value.size,
     sizeDecimals: value.sizeDecimals,
     sizeUnit: value.sizeUnit,
-    size: value.size,
-    id: value.id,
+    sourceData: value.sourceData,
   };
 }
 

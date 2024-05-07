@@ -20,6 +20,12 @@ import { exists, mapValues } from "../runtime";
  */
 export interface RiskClassInfo {
   /**
+   * If set, must be displayed as a static hint (which the user does not need to confirm) before the order button. May contain (some) HTML.
+   * @type {string}
+   * @memberof RiskClassInfo
+   */
+  legalHint?: string;
+  /**
    * Risk class message to display (may contain a subset of HTML: `<a>` tags for linking to external pages, `<p>`/`<br>` to add paragraphs/line breaks, `<ul><li></li></ul>` to show unuordered lists).
    * Users must accept the message before they can create the order. This can happen before the actual order form is visible.
    * @type {string}
@@ -32,12 +38,6 @@ export interface RiskClassInfo {
    * @memberof RiskClassInfo
    */
   onlySellAllowed?: boolean;
-  /**
-   * If set, must be displayed as a static hint (which the user does not need to confirm) before the order button. May contain (some) HTML.
-   * @type {string}
-   * @memberof RiskClassInfo
-   */
-  legalHint?: string;
 }
 
 export function RiskClassInfoFromJSON(json: any): RiskClassInfo {
@@ -52,11 +52,11 @@ export function RiskClassInfoFromJSONTyped(
     return json;
   }
   return {
+    legalHint: !exists(json, "legalHint") ? undefined : json["legalHint"],
     msg: !exists(json, "msg") ? undefined : json["msg"],
     onlySellAllowed: !exists(json, "onlySellAllowed")
       ? undefined
       : json["onlySellAllowed"],
-    legalHint: !exists(json, "legalHint") ? undefined : json["legalHint"],
   };
 }
 
@@ -72,9 +72,9 @@ export function RiskClassInfoToJSONRecursive(
   }
 
   return {
+    legalHint: value.legalHint,
     msg: value.msg,
     onlySellAllowed: value.onlySellAllowed,
-    legalHint: value.legalHint,
   };
 }
 

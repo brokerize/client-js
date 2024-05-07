@@ -24,13 +24,7 @@ export interface AddSessionParams {
    * @type {string}
    * @memberof AddSessionParams
    */
-  password: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AddSessionParams
-   */
-  username: string;
+  brokerName: string;
   /**
    *
    * @type {string}
@@ -42,7 +36,13 @@ export interface AddSessionParams {
    * @type {string}
    * @memberof AddSessionParams
    */
-  brokerName: string;
+  password: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AddSessionParams
+   */
+  username: string;
 }
 
 export function AddSessionParamsFromJSON(json: any): AddSessionParams {
@@ -57,10 +57,10 @@ export function AddSessionParamsFromJSONTyped(
     return json;
   }
   return {
+    brokerName: json["brokerName"],
+    env: json["env"],
     password: json["password"],
     username: json["username"],
-    env: json["env"],
-    brokerName: json["brokerName"],
   };
 }
 
@@ -76,10 +76,10 @@ export function AddSessionParamsToJSONRecursive(
   }
 
   return {
+    brokerName: value.brokerName,
+    env: value.env,
     password: value.password,
     username: value.username,
-    env: value.env,
-    brokerName: value.brokerName,
   };
 }
 

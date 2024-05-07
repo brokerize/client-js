@@ -28,16 +28,16 @@ import {
 export interface ClientsResponseInner {
   /**
    *
-   * @type {ClientsResponseInnerConfig}
-   * @memberof ClientsResponseInner
-   */
-  config: ClientsResponseInnerConfig;
-  /**
-   *
    * @type {string}
    * @memberof ClientsResponseInner
    */
   clientId: string;
+  /**
+   *
+   * @type {ClientsResponseInnerConfig}
+   * @memberof ClientsResponseInner
+   */
+  config: ClientsResponseInnerConfig;
 }
 
 export function ClientsResponseInnerFromJSON(json: any): ClientsResponseInner {
@@ -52,8 +52,8 @@ export function ClientsResponseInnerFromJSONTyped(
     return json;
   }
   return {
-    config: ClientsResponseInnerConfigFromJSON(json["config"]),
     clientId: json["clientId"],
+    config: ClientsResponseInnerConfigFromJSON(json["config"]),
   };
 }
 
@@ -69,8 +69,8 @@ export function ClientsResponseInnerToJSONRecursive(
   }
 
   return {
-    config: ClientsResponseInnerConfigToJSON(value.config),
     clientId: value.clientId,
+    config: ClientsResponseInnerConfigToJSON(value.config),
   };
 }
 

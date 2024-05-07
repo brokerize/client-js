@@ -43,6 +43,7 @@ export class AuthorizedApiContext {
   private _cache: { getBrokers?: Promise<openApiClient.GetBrokersResponse> };
   private _exportApi: openApiClient.ExportApi;
   private _adminApi: openApiClient.AdminApi;
+  private _userApi: openApiClient.UserApi;
   private _securitiesApi: openApiClient.SecuritiesApi;
   constructor(
     cfg: BrokerizeConfig,
@@ -99,6 +100,9 @@ export class AuthorizedApiContext {
     this._securitiesApi = new openApiClient.SecuritiesApi(
       apiConfig
     ).withPostMiddleware(postMiddleware);
+    this._userApi = new openApiClient.UserApi(apiConfig).withPostMiddleware(
+      postMiddleware
+    );
     if (!cfg.createAbortController) {
       throw new Error(
         "createAbortController not provided. This should not happen as there should be a default implementation."
@@ -168,6 +172,28 @@ export class AuthorizedApiContext {
       {
         demoAccountSettings,
       },
+      await this._initRequestInit()
+    );
+  }
+  async getAccessTokens() {
+    return this._userApi.getAccessTokens(await this._initRequestInit());
+  }
+  async createAccessToken(params: openApiClient.CreateAccessTokenParams) {
+    return this._userApi.createAccessToken(
+      { createAccessTokenParams: params },
+      await this._initRequestInit()
+    );
+  }
+  async revokeAccessToken(accessTokenId: string) {
+    return this._userApi.revokeAccessToken(
+      {
+        accessTokenId,
+      },
+      await this._initRequestInit()
+    );
+  }
+  async getAcessTokenAvailablePermissions() {
+    return this._userApi.getAcessTokenAvailablePermissions(
       await this._initRequestInit()
     );
   }

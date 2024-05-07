@@ -36,12 +36,16 @@ export { PagesConfigurationResponse } from "./swagger/models/PagesConfigurationR
 export { ClientConfigRateLimitPointsToConsume } from "./swagger/models/ClientConfigRateLimitPointsToConsume";
 export { ClientsResponseInner } from "./swagger/models/ClientsResponseInner";
 export { ClientsResponseInnerConfig } from "./swagger/models/ClientsResponseInnerConfig";
-export { ClientsResponseInnerConfigMaintenanceStatus } from "./swagger/models/ClientsResponseInnerConfigMaintenanceStatus";
+export { ClientConfigMaintenanceStatus } from "./swagger/models/ClientConfigMaintenanceStatus";
 export { ConfirmOAuthParams } from "./swagger/models/ConfirmOAuthParams";
 export { ConfirmOAuthResponse } from "./swagger/models/ConfirmOAuthResponse";
 export { CostDetailsLink } from "./swagger/models/CostDetailsLink";
 export { CreateClient200Response } from "./swagger/models/CreateClient200Response";
+export { GetAcessTokenAvailablePermissions200Response } from "./swagger/models/GetAcessTokenAvailablePermissions200Response";
+export { AvailablePermissionsNode } from "./swagger/models/AvailablePermissionsNode";
 export { CreateGuestUserResponse } from "./swagger/models/CreateGuestUserResponse";
+export { CreateAccessTokenParams } from "./swagger/models/CreateAccessTokenParams";
+export { GetAccessTokensResponse } from "./swagger/models/GetAccessTokensResponse";
 export { CreateModeSessionTan } from "./swagger/models/CreateModeSessionTan";
 export { CreateOrderChallengeParams } from "./swagger/models/CreateOrderChallengeParams";
 export { CreateOrderParams } from "./swagger/models/CreateOrderParams";

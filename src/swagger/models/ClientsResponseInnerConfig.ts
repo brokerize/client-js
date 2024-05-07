@@ -20,11 +20,11 @@ import {
   BrokerEnvFilterTypeToJSON,
 } from "./BrokerEnvFilterType";
 import {
-  ClientsResponseInnerConfigMaintenanceStatus,
-  ClientsResponseInnerConfigMaintenanceStatusFromJSON,
-  ClientsResponseInnerConfigMaintenanceStatusFromJSONTyped,
-  ClientsResponseInnerConfigMaintenanceStatusToJSON,
-} from "./ClientsResponseInnerConfigMaintenanceStatus";
+  ClientConfigMaintenanceStatus,
+  ClientConfigMaintenanceStatusFromJSON,
+  ClientConfigMaintenanceStatusFromJSONTyped,
+  ClientConfigMaintenanceStatusToJSON,
+} from "./ClientConfigMaintenanceStatus";
 import {
   OAuthLoginFormConfig,
   OAuthLoginFormConfigFromJSON,
@@ -40,22 +40,52 @@ import {
 export interface ClientsResponseInnerConfig {
   /**
    *
-   * @type {any}
+   * @type {boolean}
    * @memberof ClientsResponseInnerConfig
    */
-  page: any | null;
+  allowRequestsWithoutOrigin: boolean;
   /**
    *
-   * @type {ClientsResponseInnerConfigMaintenanceStatus}
+   * @type {Array<string>}
    * @memberof ClientsResponseInnerConfig
    */
-  maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatus | null;
+  allowedOrigins: Array<string>;
+  /**
+   *
+   * @type {{ [key: string]: BrokerEnvFilterType; }}
+   * @memberof ClientsResponseInnerConfig
+   */
+  brokerEnvFilter: { [key: string]: BrokerEnvFilterType };
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ClientsResponseInnerConfig
+   */
+  cognitoClientIds: Array<string>;
   /**
    *
    * @type {boolean}
    * @memberof ClientsResponseInnerConfig
    */
   enabled: boolean;
+  /**
+   *
+   * @type {string}
+   * @memberof ClientsResponseInnerConfig
+   */
+  legalEntityName: string;
+  /**
+   *
+   * @type {ClientConfigMaintenanceStatus}
+   * @memberof ClientsResponseInnerConfig
+   */
+  maintenanceStatus: ClientConfigMaintenanceStatus | null;
+  /**
+   *
+   * @type {string}
+   * @memberof ClientsResponseInnerConfig
+   */
+  name: string;
   /**
    *
    * @type {OAuthLoginFormConfig}
@@ -76,40 +106,10 @@ export interface ClientsResponseInnerConfig {
   oAuthReturnToUrls: Array<string>;
   /**
    *
-   * @type {Array<string>}
+   * @type {any}
    * @memberof ClientsResponseInnerConfig
    */
-  cognitoClientIds: Array<string>;
-  /**
-   *
-   * @type {{ [key: string]: BrokerEnvFilterType; }}
-   * @memberof ClientsResponseInnerConfig
-   */
-  brokerEnvFilter: { [key: string]: BrokerEnvFilterType };
-  /**
-   *
-   * @type {boolean}
-   * @memberof ClientsResponseInnerConfig
-   */
-  allowRequestsWithoutOrigin: boolean;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof ClientsResponseInnerConfig
-   */
-  allowedOrigins: Array<string>;
-  /**
-   *
-   * @type {string}
-   * @memberof ClientsResponseInnerConfig
-   */
-  legalEntityName: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ClientsResponseInnerConfig
-   */
-  name: string;
+  page: any | null;
 }
 
 export function ClientsResponseInnerConfigFromJSON(
@@ -126,25 +126,25 @@ export function ClientsResponseInnerConfigFromJSONTyped(
     return json;
   }
   return {
-    page: json["page"],
-    maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatusFromJSON(
+    allowRequestsWithoutOrigin: json["allowRequestsWithoutOrigin"],
+    allowedOrigins: json["allowedOrigins"],
+    brokerEnvFilter: mapValues(
+      json["brokerEnvFilter"],
+      BrokerEnvFilterTypeFromJSON
+    ),
+    cognitoClientIds: json["cognitoClientIds"],
+    enabled: json["enabled"],
+    legalEntityName: json["legalEntityName"],
+    maintenanceStatus: ClientConfigMaintenanceStatusFromJSON(
       json["maintenanceStatus"]
     ),
-    enabled: json["enabled"],
+    name: json["name"],
     oAuthLoginForm: !exists(json, "oAuthLoginForm")
       ? undefined
       : OAuthLoginFormConfigFromJSON(json["oAuthLoginForm"]),
     oAuthReturnToRegularExpressions: json["oAuthReturnToRegularExpressions"],
     oAuthReturnToUrls: json["oAuthReturnToUrls"],
-    cognitoClientIds: json["cognitoClientIds"],
-    brokerEnvFilter: mapValues(
-      json["brokerEnvFilter"],
-      BrokerEnvFilterTypeFromJSON
-    ),
-    allowRequestsWithoutOrigin: json["allowRequestsWithoutOrigin"],
-    allowedOrigins: json["allowedOrigins"],
-    legalEntityName: json["legalEntityName"],
-    name: json["name"],
+    page: json["page"],
   };
 }
 
@@ -160,23 +160,23 @@ export function ClientsResponseInnerConfigToJSONRecursive(
   }
 
   return {
-    page: value.page,
-    maintenanceStatus: ClientsResponseInnerConfigMaintenanceStatusToJSON(
-      value.maintenanceStatus
-    ),
-    enabled: value.enabled,
-    oAuthLoginForm: OAuthLoginFormConfigToJSON(value.oAuthLoginForm),
-    oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
-    oAuthReturnToUrls: value.oAuthReturnToUrls,
-    cognitoClientIds: value.cognitoClientIds,
+    allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
+    allowedOrigins: value.allowedOrigins,
     brokerEnvFilter: mapValues(
       value.brokerEnvFilter,
       BrokerEnvFilterTypeToJSON
     ),
-    allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
-    allowedOrigins: value.allowedOrigins,
+    cognitoClientIds: value.cognitoClientIds,
+    enabled: value.enabled,
     legalEntityName: value.legalEntityName,
+    maintenanceStatus: ClientConfigMaintenanceStatusToJSON(
+      value.maintenanceStatus
+    ),
     name: value.name,
+    oAuthLoginForm: OAuthLoginFormConfigToJSON(value.oAuthLoginForm),
+    oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
+    oAuthReturnToUrls: value.oAuthReturnToUrls,
+    page: value.page,
   };
 }
 

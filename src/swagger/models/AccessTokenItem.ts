@@ -16,44 +16,56 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateClient200Response
+ * @interface AccessTokenItem
  */
-export interface CreateClient200Response {
+export interface AccessTokenItem {
+  /**
+   *
+   * @type {Date}
+   * @memberof AccessTokenItem
+   */
+  expiresAt: Date;
   /**
    *
    * @type {string}
-   * @memberof CreateClient200Response
+   * @memberof AccessTokenItem
    */
   id: string;
   /**
    *
    * @type {string}
-   * @memberof CreateClient200Response
+   * @memberof AccessTokenItem
    */
   name: string;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof AccessTokenItem
+   */
+  permissions: Array<string>;
 }
 
-export function CreateClient200ResponseFromJSON(
-  json: any
-): CreateClient200Response {
-  return CreateClient200ResponseFromJSONTyped(json, false);
+export function AccessTokenItemFromJSON(json: any): AccessTokenItem {
+  return AccessTokenItemFromJSONTyped(json, false);
 }
 
-export function CreateClient200ResponseFromJSONTyped(
+export function AccessTokenItemFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): CreateClient200Response {
+): AccessTokenItem {
   if (json === undefined || json === null) {
     return json;
   }
   return {
+    expiresAt: new Date(json["expiresAt"]),
     id: json["id"],
     name: json["name"],
+    permissions: json["permissions"],
   };
 }
 
-export function CreateClient200ResponseToJSONRecursive(
-  value?: CreateClient200Response | null,
+export function AccessTokenItemToJSONRecursive(
+  value?: AccessTokenItem | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -64,13 +76,13 @@ export function CreateClient200ResponseToJSONRecursive(
   }
 
   return {
+    expiresAt: value.expiresAt.toISOString(),
     id: value.id,
     name: value.name,
+    permissions: value.permissions,
   };
 }
 
-export function CreateClient200ResponseToJSON(
-  value?: CreateClient200Response | null
-): any {
-  return CreateClient200ResponseToJSONRecursive(value, false);
+export function AccessTokenItemToJSON(value?: AccessTokenItem | null): any {
+  return AccessTokenItemToJSONRecursive(value, false);
 }
