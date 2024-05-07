@@ -14,6 +14,12 @@
 
 import { exists, mapValues } from "../runtime";
 import {
+  BrokerClientCfg,
+  BrokerClientCfgFromJSON,
+  BrokerClientCfgFromJSONTyped,
+  BrokerClientCfgToJSON,
+} from "./BrokerClientCfg";
+import {
   BrokerEnvFilterType,
   BrokerEnvFilterTypeFromJSON,
   BrokerEnvFilterTypeFromJSONTyped,
@@ -62,6 +68,12 @@ export interface ClientConfig {
    * @memberof ClientConfig
    */
   allowedOrigins?: Array<string>;
+  /**
+   *
+   * @type {BrokerClientCfg}
+   * @memberof ClientConfig
+   */
+  brokerClientIds?: BrokerClientCfg;
   /**
    *
    * @type {{ [key: string]: BrokerEnvFilterType; }}
@@ -166,6 +178,9 @@ export function ClientConfigFromJSONTyped(
     allowedOrigins: !exists(json, "allowedOrigins")
       ? undefined
       : json["allowedOrigins"],
+    brokerClientIds: !exists(json, "brokerClientIds")
+      ? undefined
+      : BrokerClientCfgFromJSON(json["brokerClientIds"]),
     brokerEnvFilter: !exists(json, "brokerEnvFilter")
       ? undefined
       : mapValues(json["brokerEnvFilter"], BrokerEnvFilterTypeFromJSON),
@@ -226,6 +241,7 @@ export function ClientConfigToJSONRecursive(
   return {
     allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
     allowedOrigins: value.allowedOrigins,
+    brokerClientIds: BrokerClientCfgToJSON(value.brokerClientIds),
     brokerEnvFilter:
       value.brokerEnvFilter === undefined
         ? undefined

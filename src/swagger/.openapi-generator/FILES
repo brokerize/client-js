@@ -12,6 +12,7 @@ apis/TradeApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
+models/AccessTokenItem.ts
 models/AccessTokenResult.ts
 models/AddOAuthReturnToUrlRequest.ts
 models/AddOriginRequest.ts
@@ -31,6 +32,8 @@ models/AuthMethodTan.ts
 models/AuthMethodTanAllOf.ts
 models/AuthMethodTanSpecifics.ts
 models/AvailablePermissionsNode.ts
+models/BitpandaClientCfg.ts
+models/BrokerClientCfg.ts
 models/BrokerEnvFilterType.ts
 models/BrokerEnvironment.ts
 models/BrokerLoginForm.ts
@@ -129,9 +132,8 @@ models/GenericTableRowValueLinkValueType.ts
 models/GenericTableRowValueText.ts
 models/GenericTableRowValueTextSpecifics.ts
 models/GenericTableRowValueType.ts
+models/GetAccessTokensResponse.ts
 models/GetAcessTokenAvailablePermissions200Response.ts
-models/GetAcessTokens200Response.ts
-models/GetAcessTokens200ResponseTokensInner.ts
 models/GetAuthInfoResponse.ts
 models/GetBrokersResponse.ts
 models/GetCostEstimationParams.ts

@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from "./AccessTokenItem";
 export * from "./AccessTokenResult";
 export * from "./AddOAuthReturnToUrlRequest";
 export * from "./AddOriginRequest";
@@ -19,6 +20,8 @@ export * from "./AuthMethodTan";
 export * from "./AuthMethodTanAllOf";
 export * from "./AuthMethodTanSpecifics";
 export * from "./AvailablePermissionsNode";
+export * from "./BitpandaClientCfg";
+export * from "./BrokerClientCfg";
 export * from "./BrokerEnvFilterType";
 export * from "./BrokerEnvironment";
 export * from "./BrokerLoginForm";
@@ -117,9 +120,8 @@ export * from "./GenericTableRowValueLinkValueType";
 export * from "./GenericTableRowValueText";
 export * from "./GenericTableRowValueTextSpecifics";
 export * from "./GenericTableRowValueType";
+export * from "./GetAccessTokensResponse";
 export * from "./GetAcessTokenAvailablePermissions200Response";
-export * from "./GetAcessTokens200Response";
-export * from "./GetAcessTokens200ResponseTokensInner";
 export * from "./GetAuthInfoResponse";
 export * from "./GetBrokersResponse";
 export * from "./GetCostEstimationParams";

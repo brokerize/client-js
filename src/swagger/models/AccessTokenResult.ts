@@ -24,7 +24,7 @@ export interface AccessTokenResult {
    * @type {string}
    * @memberof AccessTokenResult
    */
-  publicId: string;
+  id: string;
   /**
    *
    * @type {string}
@@ -45,7 +45,7 @@ export function AccessTokenResultFromJSONTyped(
     return json;
   }
   return {
-    publicId: json["publicId"],
+    id: json["id"],
     token: json["token"],
   };
 }
@@ -62,7 +62,7 @@ export function AccessTokenResultToJSONRecursive(
   }
 
   return {
-    publicId: value.publicId,
+    id: value.id,
     token: value.token,
   };
 }

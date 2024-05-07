@@ -16,58 +16,56 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface GetAcessTokens200ResponseTokensInner
+ * @interface AccessTokenItem
  */
-export interface GetAcessTokens200ResponseTokensInner {
+export interface AccessTokenItem {
   /**
    *
    * @type {Date}
-   * @memberof GetAcessTokens200ResponseTokensInner
+   * @memberof AccessTokenItem
    */
   expiresAt: Date;
   /**
    *
    * @type {string}
-   * @memberof GetAcessTokens200ResponseTokensInner
+   * @memberof AccessTokenItem
+   */
+  id: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AccessTokenItem
    */
   name: string;
   /**
    *
    * @type {Array<string>}
-   * @memberof GetAcessTokens200ResponseTokensInner
+   * @memberof AccessTokenItem
    */
   permissions: Array<string>;
-  /**
-   *
-   * @type {string}
-   * @memberof GetAcessTokens200ResponseTokensInner
-   */
-  publicId: string;
 }
 
-export function GetAcessTokens200ResponseTokensInnerFromJSON(
-  json: any
-): GetAcessTokens200ResponseTokensInner {
-  return GetAcessTokens200ResponseTokensInnerFromJSONTyped(json, false);
+export function AccessTokenItemFromJSON(json: any): AccessTokenItem {
+  return AccessTokenItemFromJSONTyped(json, false);
 }
 
-export function GetAcessTokens200ResponseTokensInnerFromJSONTyped(
+export function AccessTokenItemFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): GetAcessTokens200ResponseTokensInner {
+): AccessTokenItem {
   if (json === undefined || json === null) {
     return json;
   }
   return {
     expiresAt: new Date(json["expiresAt"]),
+    id: json["id"],
     name: json["name"],
     permissions: json["permissions"],
-    publicId: json["publicId"],
   };
 }
 
-export function GetAcessTokens200ResponseTokensInnerToJSONRecursive(
-  value?: GetAcessTokens200ResponseTokensInner | null,
+export function AccessTokenItemToJSONRecursive(
+  value?: AccessTokenItem | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -79,14 +77,12 @@ export function GetAcessTokens200ResponseTokensInnerToJSONRecursive(
 
   return {
     expiresAt: value.expiresAt.toISOString(),
+    id: value.id,
     name: value.name,
     permissions: value.permissions,
-    publicId: value.publicId,
   };
 }
 
-export function GetAcessTokens200ResponseTokensInnerToJSON(
-  value?: GetAcessTokens200ResponseTokensInner | null
-): any {
-  return GetAcessTokens200ResponseTokensInnerToJSONRecursive(value, false);
+export function AccessTokenItemToJSON(value?: AccessTokenItem | null): any {
+  return AccessTokenItemToJSONRecursive(value, false);
 }

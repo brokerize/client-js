@@ -5,8 +5,28 @@
 ```ts
 
 // @public
+interface AccessTokenItem {
+    expiresAt: Date;
+    id: string;
+    name: string;
+    permissions: Array<string>;
+}
+
+// @public (undocumented)
+function AccessTokenItemFromJSON(json: any): AccessTokenItem;
+
+// @public (undocumented)
+function AccessTokenItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): AccessTokenItem;
+
+// @public (undocumented)
+function AccessTokenItemToJSON(value?: AccessTokenItem | null): any;
+
+// @public (undocumented)
+function AccessTokenItemToJSONRecursive(value?: AccessTokenItem | null, ignoreParent?: boolean): any;
+
+// @public
 interface AccessTokenResult {
-    publicId: string;
+    id: string;
     token: string;
 }
 
@@ -528,7 +548,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     endSessionTan(sessionId: string): Promise<openApiClient.EndSessionTanResponse>;
     // (undocumented)
-    getAccessTokens(): Promise<openApiClient.GetAcessTokens200Response>;
+    getAccessTokens(): Promise<openApiClient.GetAccessTokensResponse>;
     // (undocumented)
     getAcessTokenAvailablePermissions(): Promise<openApiClient.GetAcessTokenAvailablePermissions200Response>;
     // (undocumented)
@@ -654,6 +674,24 @@ class BaseAPI {
     withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware["pre"]>): T;
 }
 
+// @public
+interface BitpandaClientCfg {
+    clientIdProduction?: string;
+    clientIdStaging?: string;
+}
+
+// @public (undocumented)
+function BitpandaClientCfgFromJSON(json: any): BitpandaClientCfg;
+
+// @public (undocumented)
+function BitpandaClientCfgFromJSONTyped(json: any, ignoreDiscriminator: boolean): BitpandaClientCfg;
+
+// @public (undocumented)
+function BitpandaClientCfgToJSON(value?: BitpandaClientCfg | null): any;
+
+// @public (undocumented)
+function BitpandaClientCfgToJSONRecursive(value?: BitpandaClientCfg | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 class BlobApiResponse {
     constructor(raw: Response);
@@ -662,6 +700,23 @@ class BlobApiResponse {
     // (undocumented)
     value(): Promise<Blob>;
 }
+
+// @public
+interface BrokerClientCfg {
+    bitpanda?: BitpandaClientCfg;
+}
+
+// @public (undocumented)
+function BrokerClientCfgFromJSON(json: any): BrokerClientCfg;
+
+// @public (undocumented)
+function BrokerClientCfgFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerClientCfg;
+
+// @public (undocumented)
+function BrokerClientCfgToJSON(value?: BrokerClientCfg | null): any;
+
+// @public (undocumented)
+function BrokerClientCfgToJSONRecursive(value?: BrokerClientCfg | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 const BrokerEnvFilterType: {
@@ -1183,6 +1238,7 @@ interface ChangeOrderRequest {
 interface ClientConfig {
     allowedOrigins?: Array<string>;
     allowRequestsWithoutOrigin?: boolean;
+    brokerClientIds?: BrokerClientCfg;
     brokerEnvFilter?: {
         [key: string]: BrokerEnvFilterType;
     };
@@ -3146,6 +3202,23 @@ function GenericTableToJSON(value?: GenericTable | null): any;
 function GenericTableToJSONRecursive(value?: GenericTable | null, ignoreParent?: boolean): any;
 
 // @public
+interface GetAccessTokensResponse {
+    tokens: Array<AccessTokenItem>;
+}
+
+// @public (undocumented)
+function GetAccessTokensResponseFromJSON(json: any): GetAccessTokensResponse;
+
+// @public (undocumented)
+function GetAccessTokensResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAccessTokensResponse;
+
+// @public (undocumented)
+function GetAccessTokensResponseToJSON(value?: GetAccessTokensResponse | null): any;
+
+// @public (undocumented)
+function GetAccessTokensResponseToJSONRecursive(value?: GetAccessTokensResponse | null, ignoreParent?: boolean): any;
+
+// @public
 interface GetAcessTokenAvailablePermissions200Response {
     availablePermissions: Array<AvailablePermissionsNode>;
 }
@@ -3161,43 +3234,6 @@ function GetAcessTokenAvailablePermissions200ResponseToJSON(value?: GetAcessToke
 
 // @public (undocumented)
 function GetAcessTokenAvailablePermissions200ResponseToJSONRecursive(value?: GetAcessTokenAvailablePermissions200Response | null, ignoreParent?: boolean): any;
-
-// @public
-interface GetAcessTokens200Response {
-    tokens: Array<GetAcessTokens200ResponseTokensInner>;
-}
-
-// @public (undocumented)
-function GetAcessTokens200ResponseFromJSON(json: any): GetAcessTokens200Response;
-
-// @public (undocumented)
-function GetAcessTokens200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAcessTokens200Response;
-
-// @public (undocumented)
-function GetAcessTokens200ResponseToJSON(value?: GetAcessTokens200Response | null): any;
-
-// @public (undocumented)
-function GetAcessTokens200ResponseToJSONRecursive(value?: GetAcessTokens200Response | null, ignoreParent?: boolean): any;
-
-// @public
-interface GetAcessTokens200ResponseTokensInner {
-    expiresAt: Date;
-    name: string;
-    permissions: Array<string>;
-    publicId: string;
-}
-
-// @public (undocumented)
-function GetAcessTokens200ResponseTokensInnerFromJSON(json: any): GetAcessTokens200ResponseTokensInner;
-
-// @public (undocumented)
-function GetAcessTokens200ResponseTokensInnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAcessTokens200ResponseTokensInner;
-
-// @public (undocumented)
-function GetAcessTokens200ResponseTokensInnerToJSON(value?: GetAcessTokens200ResponseTokensInner | null): any;
-
-// @public (undocumented)
-function GetAcessTokens200ResponseTokensInnerToJSONRecursive(value?: GetAcessTokens200ResponseTokensInner | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface GetAuthInfoRequest {
@@ -3886,6 +3922,7 @@ declare namespace Models {
         AvailablePermissionsNode,
         CreateGuestUserResponse,
         CreateAccessTokenParams,
+        GetAccessTokensResponse,
         CreateModeSessionTan,
         CreateOrderChallengeParams,
         CreateOrderParams,
@@ -5719,12 +5756,12 @@ type UpdateDecoupledOperationMessage = {
 class UserApi extends runtime.BaseAPI {
     createAccessToken(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<AccessTokenResult>;
     createAccessTokenRaw(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<AccessTokenResult>>;
+    // (undocumented)
+    getAccessTokens(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAccessTokensResponse>;
+    // (undocumented)
+    getAccessTokensRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAccessTokensResponse>>;
     getAcessTokenAvailablePermissions(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAcessTokenAvailablePermissions200Response>;
     getAcessTokenAvailablePermissionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAcessTokenAvailablePermissions200Response>>;
-    // (undocumented)
-    getAcessTokens(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAcessTokens200Response>;
-    // (undocumented)
-    getAcessTokensRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAcessTokens200Response>>;
     // (undocumented)
     revokeAccessToken(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     // (undocumented)

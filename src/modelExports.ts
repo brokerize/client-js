@@ -45,6 +45,7 @@ export { GetAcessTokenAvailablePermissions200Response } from "./swagger/models/G
 export { AvailablePermissionsNode } from "./swagger/models/AvailablePermissionsNode";
 export { CreateGuestUserResponse } from "./swagger/models/CreateGuestUserResponse";
 export { CreateAccessTokenParams } from "./swagger/models/CreateAccessTokenParams";
+export { GetAccessTokensResponse } from "./swagger/models/GetAccessTokensResponse";
 export { CreateModeSessionTan } from "./swagger/models/CreateModeSessionTan";
 export { CreateOrderChallengeParams } from "./swagger/models/CreateOrderChallengeParams";
 export { CreateOrderParams } from "./swagger/models/CreateOrderParams";

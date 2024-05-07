@@ -6,16 +6,38 @@
     "requestBodies": {},
     "responses": {},
     "schemas": {
+      "AccessTokenItem": {
+        "properties": {
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": ["expiresAt", "permissions", "name", "id"],
+        "type": "object"
+      },
       "AccessTokenResult": {
         "properties": {
-          "publicId": {
+          "id": {
             "type": "string"
           },
           "token": {
             "type": "string"
           }
         },
-        "required": ["publicId", "token"],
+        "required": ["id", "token"],
         "type": "object"
       },
       "AddSessionCompleteChallengeParams": {
@@ -256,6 +278,25 @@
           }
         },
         "required": ["description", "permission"],
+        "type": "object"
+      },
+      "BitpandaClientCfg": {
+        "properties": {
+          "clientIdProduction": {
+            "type": "string"
+          },
+          "clientIdStaging": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "BrokerClientCfg": {
+        "properties": {
+          "bitpanda": {
+            "$ref": "#/components/schemas/BitpandaClientCfg"
+          }
+        },
         "type": "object"
       },
       "BrokerEnvFilterMap": {
@@ -556,6 +597,9 @@
               "type": "string"
             },
             "type": "array"
+          },
+          "brokerClientIds": {
+            "$ref": "#/components/schemas/BrokerClientCfg"
           },
           "brokerEnvFilter": {
             "$ref": "#/components/schemas/BrokerEnvFilterMap"
@@ -1513,6 +1557,18 @@
         "enum": ["text", "amount", "datetime", "link"],
         "nullable": false,
         "type": "string"
+      },
+      "GetAccessTokensResponse": {
+        "properties": {
+          "tokens": {
+            "items": {
+              "$ref": "#/components/schemas/AccessTokenItem"
+            },
+            "type": "array"
+          }
+        },
+        "required": ["tokens"],
+        "type": "object"
       },
       "GetAuthInfoResponse": {
         "properties": {
@@ -9969,47 +10025,14 @@
     },
     "/user/accessTokens": {
       "get": {
-        "operationId": "GetAcessTokens",
+        "operationId": "GetAccessTokens",
         "parameters": [],
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
-                    "tokens": {
-                      "items": {
-                        "properties": {
-                          "expiresAt": {
-                            "format": "date-time",
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "permissions": {
-                            "items": {
-                              "type": "string"
-                            },
-                            "type": "array"
-                          },
-                          "publicId": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "expiresAt",
-                          "permissions",
-                          "name",
-                          "publicId"
-                        ],
-                        "type": "object"
-                      },
-                      "type": "array"
-                    }
-                  },
-                  "required": ["tokens"],
-                  "type": "object"
+                  "$ref": "#/components/schemas/GetAccessTokensResponse"
                 }
               }
             },
@@ -10128,7 +10151,12 @@
         },
         "security": [
           {
-            "clientId": []
+            "clientId": [],
+            "cookieAuth": []
+          },
+          {
+            "clientId": [],
+            "idToken": []
           }
         ],
         "tags": ["user"]
@@ -10277,10 +10305,6 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
-    },
-    {
-      "description": "This API instance",
-      "url": "http://localhost:3333"
     }
   ],
   "tags": [

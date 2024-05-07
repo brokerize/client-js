@@ -176,7 +176,7 @@ export class AuthorizedApiContext {
     );
   }
   async getAccessTokens() {
-    return this._userApi.getAcessTokens(await this._initRequestInit());
+    return this._userApi.getAccessTokens(await this._initRequestInit());
   }
   async createAccessToken(params: openApiClient.CreateAccessTokenParams) {
     return this._userApi.createAccessToken(

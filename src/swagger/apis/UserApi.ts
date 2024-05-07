@@ -23,12 +23,12 @@ import {
   ErrorResponse,
   ErrorResponseFromJSON,
   ErrorResponseToJSON,
+  GetAccessTokensResponse,
+  GetAccessTokensResponseFromJSON,
+  GetAccessTokensResponseToJSON,
   GetAcessTokenAvailablePermissions200Response,
   GetAcessTokenAvailablePermissions200ResponseFromJSON,
   GetAcessTokenAvailablePermissions200ResponseToJSON,
-  GetAcessTokens200Response,
-  GetAcessTokens200ResponseFromJSON,
-  GetAcessTokens200ResponseToJSON,
 } from "../models";
 
 export interface CreateAccessTokenRequest {
@@ -71,6 +71,11 @@ export class UserApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-access-token"] =
+        this.configuration.apiKey("x-access-token"); // idToken authentication
+    }
+
     const response = await this.request(
       {
         path: `/user/accessTokens`,
@@ -100,6 +105,49 @@ export class UserApi extends runtime.BaseAPI {
       requestParameters,
       initOverrides
     );
+    return await response.value();
+  }
+
+  /**
+   */
+  async getAccessTokensRaw(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<GetAccessTokensResponse>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-access-token"] =
+        this.configuration.apiKey("x-access-token"); // idToken authentication
+    }
+
+    const response = await this.request(
+      {
+        path: `/user/accessTokens`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetAccessTokensResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   */
+  async getAccessTokens(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<GetAccessTokensResponse> {
+    const response = await this.getAccessTokensRaw(initOverrides);
     return await response.value();
   }
 
@@ -149,49 +197,6 @@ export class UserApi extends runtime.BaseAPI {
     const response = await this.getAcessTokenAvailablePermissionsRaw(
       initOverrides
     );
-    return await response.value();
-  }
-
-  /**
-   */
-  async getAcessTokensRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<runtime.ApiResponse<GetAcessTokens200Response>> {
-    const queryParameters: any = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-brkrz-client-id"] =
-        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
-    }
-
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
-
-    const response = await this.request(
-      {
-        path: `/user/accessTokens`,
-        method: "GET",
-        headers: headerParameters,
-        query: queryParameters,
-      },
-      initOverrides
-    );
-
-    return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAcessTokens200ResponseFromJSON(jsonValue)
-    );
-  }
-
-  /**
-   */
-  async getAcessTokens(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<GetAcessTokens200Response> {
-    const response = await this.getAcessTokensRaw(initOverrides);
     return await response.value();
   }
 
