@@ -5338,6 +5338,7 @@ function SellPositionToJSONRecursive(value?: SellPosition | null, ignoreParent?:
 interface Session {
     authInfo?: AuthInfo;
     brokerName: string;
+    env: string;
     id: string;
     // @deprecated
     lastSuccessfulSync?: Date;
