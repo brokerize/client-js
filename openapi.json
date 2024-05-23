@@ -3166,6 +3166,10 @@
           "brokerName": {
             "$ref": "#/components/schemas/BrokerName"
           },
+          "env": {
+            "description": "Name of the broker environment this session belongs to.",
+            "type": "string"
+          },
           "id": {
             "type": "string"
           },
@@ -3182,7 +3186,7 @@
             "$ref": "#/components/schemas/SessionSyncInfo"
           }
         },
-        "required": ["syncInfo", "brokerName", "id"],
+        "required": ["syncInfo", "env", "brokerName", "id"],
         "type": "object"
       },
       "SessionResponse": {
