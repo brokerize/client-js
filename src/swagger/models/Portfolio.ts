@@ -39,6 +39,18 @@ export interface Portfolio {
    */
   cashAccountIds: Array<string>;
   /**
+   * - ISO code (e.g. EUR for Euro), if it is a monetary amount
+   * - or 'USDT' if its Tether (https://en.wikipedia.org/wiki/Tether_(cryptocurrency)
+   * - or 'XXX' if it is pieces
+   * - or 'PRC' if it is a percentage
+   * - or 'PRM' if it is permil
+   * - or 'XXP' if it is points (as for indices)
+   * - or 'GRAMS' if it is grams (as for precious metals)
+   * @type {string}
+   * @memberof Portfolio
+   */
+  currency: string;
+  /**
    *
    * @type {string}
    * @memberof Portfolio
@@ -89,6 +101,7 @@ export function PortfolioFromJSONTyped(
   return {
     brokerName: json["brokerName"],
     cashAccountIds: json["cashAccountIds"],
+    currency: json["currency"],
     id: json["id"],
     idHash: json["idHash"],
     portfolioName: json["portfolioName"],
@@ -111,6 +124,7 @@ export function PortfolioToJSONRecursive(
   return {
     brokerName: value.brokerName,
     cashAccountIds: value.cashAccountIds,
+    currency: value.currency,
     id: value.id,
     idHash: value.idHash,
     portfolioName: value.portfolioName,

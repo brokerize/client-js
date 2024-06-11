@@ -50,6 +50,12 @@ export interface ClientConfigOAuthLoginForm {
    * @memberof ClientConfigOAuthLoginForm
    */
   redirectStyle?: ClientConfigOAuthLoginFormRedirectStyleEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof ClientConfigOAuthLoginForm
+   */
+  redirectStyleBitpanda?: ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum;
 }
 
 /**
@@ -62,6 +68,17 @@ export const ClientConfigOAuthLoginFormRedirectStyleEnum = {
 } as const;
 export type ClientConfigOAuthLoginFormRedirectStyleEnum =
   (typeof ClientConfigOAuthLoginFormRedirectStyleEnum)[keyof typeof ClientConfigOAuthLoginFormRedirectStyleEnum];
+
+/**
+ * @export
+ */
+export const ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum = {
+  Meta: "meta",
+  Js: "js",
+  Link: "link",
+} as const;
+export type ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum =
+  (typeof ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum)[keyof typeof ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum];
 
 export function ClientConfigOAuthLoginFormFromJSON(
   json: any
@@ -85,6 +102,9 @@ export function ClientConfigOAuthLoginFormFromJSONTyped(
     redirectStyle: !exists(json, "redirectStyle")
       ? undefined
       : json["redirectStyle"],
+    redirectStyleBitpanda: !exists(json, "redirectStyleBitpanda")
+      ? undefined
+      : json["redirectStyleBitpanda"],
   };
 }
 
@@ -104,6 +124,7 @@ export function ClientConfigOAuthLoginFormToJSONRecursive(
     logoUrlDark: value.logoUrlDark,
     logoUrlLight: value.logoUrlLight,
     redirectStyle: value.redirectStyle,
+    redirectStyleBitpanda: value.redirectStyleBitpanda,
   };
 }
 

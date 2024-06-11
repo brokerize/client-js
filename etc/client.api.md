@@ -1287,6 +1287,7 @@ interface ClientConfigOAuthLoginForm {
     logoUrlDark?: string;
     logoUrlLight?: string;
     redirectStyle?: ClientConfigOAuthLoginFormRedirectStyleEnum;
+    redirectStyleBitpanda?: ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum;
 }
 
 // @public (undocumented)
@@ -1294,6 +1295,16 @@ function ClientConfigOAuthLoginFormFromJSON(json: any): ClientConfigOAuthLoginFo
 
 // @public (undocumented)
 function ClientConfigOAuthLoginFormFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigOAuthLoginForm;
+
+// @public (undocumented)
+const ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum: {
+    readonly Meta: "meta";
+    readonly Js: "js";
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum = (typeof ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum)[keyof typeof ClientConfigOAuthLoginFormRedirectStyleBitpandaEnum];
 
 // @public (undocumented)
 const ClientConfigOAuthLoginFormRedirectStyleEnum: {
@@ -4045,6 +4056,7 @@ interface OAuthLoginFormConfig {
     logoUrlDark?: string;
     logoUrlLight?: string;
     redirectStyle?: OAuthLoginFormConfigRedirectStyleEnum;
+    redirectStyleBitpanda?: OAuthLoginFormConfigRedirectStyleBitpandaEnum;
 }
 
 // @public (undocumented)
@@ -4052,6 +4064,16 @@ function OAuthLoginFormConfigFromJSON(json: any): OAuthLoginFormConfig;
 
 // @public (undocumented)
 function OAuthLoginFormConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): OAuthLoginFormConfig;
+
+// @public (undocumented)
+const OAuthLoginFormConfigRedirectStyleBitpandaEnum: {
+    readonly Meta: "meta";
+    readonly Js: "js";
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type OAuthLoginFormConfigRedirectStyleBitpandaEnum = (typeof OAuthLoginFormConfigRedirectStyleBitpandaEnum)[keyof typeof OAuthLoginFormConfigRedirectStyleBitpandaEnum];
 
 // @public (undocumented)
 const OAuthLoginFormConfigRedirectStyleEnum: {
@@ -4513,6 +4535,7 @@ function PagesConfigurationResponseToJSONRecursive(value?: PagesConfigurationRes
 interface Portfolio {
     brokerName: string;
     cashAccountIds: Array<string>;
+    currency: string;
     id: string;
     idHash: string;
     portfolioName: string;
