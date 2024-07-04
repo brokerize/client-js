@@ -30,6 +30,7 @@ export const OrderModel = {
   TrailingStopLimit: "trailingStopLimit",
   OcoStopMarket: "ocoStopMarket",
   OcoStopLimit: "ocoStopLimit",
+  Unknown: "unknown",
 } as const;
 export type OrderModel = (typeof OrderModel)[keyof typeof OrderModel];
 

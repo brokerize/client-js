@@ -55,11 +55,11 @@ models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
 models/ClientConfig.ts
 models/ClientConfigMaintenanceStatus.ts
-models/ClientConfigOAuthLoginForm.ts
-models/ClientConfigPage.ts
-models/ClientConfigRateLimitPointsToConsume.ts
+models/ClientConfigUpdate.ts
+models/ClientConfigUpdateOAuthLoginForm.ts
+models/ClientConfigUpdatePage.ts
+models/ClientConfigUpdateRateLimitPointsToConsume.ts
 models/ClientsResponseInner.ts
-models/ClientsResponseInnerConfig.ts
 models/ConfirmOAuthParams.ts
 models/ConfirmOAuthResponse.ts
 models/CostDetailsLink.ts

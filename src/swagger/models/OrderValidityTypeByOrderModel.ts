@@ -92,6 +92,12 @@ export interface OrderValidityTypeByOrderModel {
    * @memberof OrderValidityTypeByOrderModel
    */
   trailingStopMarket?: Array<OrderValidityType>;
+  /**
+   *
+   * @type {Array<OrderValidityType>}
+   * @memberof OrderValidityTypeByOrderModel
+   */
+  unknown?: Array<OrderValidityType>;
 }
 
 export function OrderValidityTypeByOrderModelFromJSON(
@@ -145,6 +151,9 @@ export function OrderValidityTypeByOrderModelFromJSONTyped(
       : (json["trailingStopMarket"] as Array<any>).map(
           OrderValidityTypeFromJSON
         ),
+    unknown: !exists(json, "unknown")
+      ? undefined
+      : (json["unknown"] as Array<any>).map(OrderValidityTypeFromJSON),
   };
 }
 
@@ -204,6 +213,10 @@ export function OrderValidityTypeByOrderModelToJSONRecursive(
       value.trailingStopMarket === undefined
         ? undefined
         : (value.trailingStopMarket as Array<any>).map(OrderValidityTypeToJSON),
+    unknown:
+      value.unknown === undefined
+        ? undefined
+        : (value.unknown as Array<any>).map(OrderValidityTypeToJSON),
   };
 }
 

@@ -85,6 +85,12 @@ export interface StringMapByOrderModel {
    * @memberof StringMapByOrderModel
    */
   trailingStopMarket?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof StringMapByOrderModel
+   */
+  unknown?: string;
 }
 
 export function StringMapByOrderModelFromJSON(
@@ -120,6 +126,7 @@ export function StringMapByOrderModelFromJSONTyped(
     trailingStopMarket: !exists(json, "trailingStopMarket")
       ? undefined
       : json["trailingStopMarket"],
+    unknown: !exists(json, "unknown") ? undefined : json["unknown"],
   };
 }
 
@@ -146,6 +153,7 @@ export function StringMapByOrderModelToJSONRecursive(
     stopMarket: value.stopMarket,
     trailingStopLimit: value.trailingStopLimit,
     trailingStopMarket: value.trailingStopMarket,
+    unknown: value.unknown,
   };
 }
 

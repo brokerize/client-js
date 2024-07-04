@@ -63,7 +63,7 @@ export interface OrderChanges {
    * The stop of an order specifies a usually higher value than the current quote (direction buy) or a usually lower value than the current quote (direction sell).
    *
    * For the orderModel `stop`, the order is executed immediately when the stop is reached.
-   * For the orderModel `stopLimit`, the order will only be executed with a limt value of `stopLimit` (so for buy orders the price of execution will not be higher than `stopLimit`, for sell it orders it will not be lower than `stopLimit`).
+   * For the orderModel `stopLimit`, the order will only be executed with a limit value of `stopLimit` (so for buy orders the price of execution will not be higher than `stopLimit`, for sell it orders it will not be lower than `stopLimit`).
    * @type {number}
    * @memberof OrderChanges
    */

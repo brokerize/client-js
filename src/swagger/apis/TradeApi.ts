@@ -418,6 +418,7 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
+   * Loads more detailed information about a security specified by the given token. The token is extracted from the securityDetailedInfo object in the prepareTrade response
    */
   async getSecurityDetailedInfoRaw(
     requestParameters: GetSecurityDetailedInfoRequest,
@@ -467,6 +468,7 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
+   * Loads more detailed information about a security specified by the given token. The token is extracted from the securityDetailedInfo object in the prepareTrade response
    */
   async getSecurityDetailedInfo(
     requestParameters: GetSecurityDetailedInfoRequest,

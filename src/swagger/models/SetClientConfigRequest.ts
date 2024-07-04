@@ -14,11 +14,11 @@
 
 import { exists, mapValues } from "../runtime";
 import {
-  ClientConfig,
-  ClientConfigFromJSON,
-  ClientConfigFromJSONTyped,
-  ClientConfigToJSON,
-} from "./ClientConfig";
+  ClientConfigUpdate,
+  ClientConfigUpdateFromJSON,
+  ClientConfigUpdateFromJSONTyped,
+  ClientConfigUpdateToJSON,
+} from "./ClientConfigUpdate";
 
 /**
  *
@@ -28,10 +28,10 @@ import {
 export interface SetClientConfigRequest {
   /**
    *
-   * @type {ClientConfig}
+   * @type {ClientConfigUpdate}
    * @memberof SetClientConfigRequest
    */
-  config: ClientConfig;
+  config: ClientConfigUpdate;
 }
 
 export function SetClientConfigRequestFromJSON(
@@ -48,7 +48,7 @@ export function SetClientConfigRequestFromJSONTyped(
     return json;
   }
   return {
-    config: ClientConfigFromJSON(json["config"]),
+    config: ClientConfigUpdateFromJSON(json["config"]),
   };
 }
 
@@ -64,7 +64,7 @@ export function SetClientConfigRequestToJSONRecursive(
   }
 
   return {
-    config: ClientConfigToJSON(value.config),
+    config: ClientConfigUpdateToJSON(value.config),
   };
 }
 

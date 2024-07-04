@@ -588,6 +588,80 @@
         "type": "object"
       },
       "ClientConfig": {
+        "description": "The client configuration as it appears in API endpoints.",
+        "properties": {
+          "allowRequestsWithoutOrigin": {
+            "type": "boolean"
+          },
+          "allowedOrigins": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "brokerEnvFilter": {
+            "$ref": "#/components/schemas/BrokerEnvFilterMap"
+          },
+          "cognitoClientIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "guestUserInactivityTimeoutSeconds": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "legalEntityName": {
+            "type": "string"
+          },
+          "maintenanceStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MaintenanceStatus"
+              }
+            ],
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "oAuthLoginForm": {
+            "$ref": "#/components/schemas/OAuthLoginFormConfig"
+          },
+          "oAuthReturnToRegularExpressions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "oAuthReturnToUrls": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "page": {}
+        },
+        "required": [
+          "page",
+          "enabled",
+          "oAuthReturnToRegularExpressions",
+          "oAuthReturnToUrls",
+          "cognitoClientIds",
+          "brokerEnvFilter",
+          "allowRequestsWithoutOrigin",
+          "allowedOrigins",
+          "legalEntityName",
+          "name"
+        ],
+        "type": "object"
+      },
+      "ClientConfigUpdate": {
+        "description": "A client configurtion *update* (i.e. fields that are not modified can be left out).",
         "properties": {
           "allowRequestsWithoutOrigin": {
             "type": "boolean"
@@ -618,6 +692,11 @@
           },
           "enabled": {
             "type": "boolean"
+          },
+          "guestUserInactivityTimeoutSeconds": {
+            "format": "int32",
+            "nullable": true,
+            "type": "integer"
           },
           "legalEntityName": {
             "type": "string"
@@ -693,73 +772,7 @@
               "type": "string"
             },
             "config": {
-              "properties": {
-                "allowRequestsWithoutOrigin": {
-                  "type": "boolean"
-                },
-                "allowedOrigins": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
-                },
-                "brokerEnvFilter": {
-                  "$ref": "#/components/schemas/BrokerEnvFilterMap"
-                },
-                "cognitoClientIds": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
-                },
-                "enabled": {
-                  "type": "boolean"
-                },
-                "legalEntityName": {
-                  "type": "string"
-                },
-                "maintenanceStatus": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/MaintenanceStatus"
-                    }
-                  ],
-                  "nullable": true
-                },
-                "name": {
-                  "type": "string"
-                },
-                "oAuthLoginForm": {
-                  "$ref": "#/components/schemas/OAuthLoginFormConfig"
-                },
-                "oAuthReturnToRegularExpressions": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
-                },
-                "oAuthReturnToUrls": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
-                },
-                "page": {}
-              },
-              "required": [
-                "page",
-                "maintenanceStatus",
-                "enabled",
-                "oAuthReturnToRegularExpressions",
-                "oAuthReturnToUrls",
-                "cognitoClientIds",
-                "brokerEnvFilter",
-                "allowRequestsWithoutOrigin",
-                "allowedOrigins",
-                "legalEntityName",
-                "name"
-              ],
-              "type": "object"
+              "$ref": "#/components/schemas/ClientConfig"
             }
           },
           "required": ["config", "clientId"],
@@ -921,6 +934,13 @@
         "description": "- ISO code (e.g. EUR for Euro), if it is a monetary amount\n- or 'USDT' if its Tether (https://en.wikipedia.org/wiki/Tether_(cryptocurrency)\n- or 'XXX' if it is pieces\n- or 'PRC' if it is a percentage\n- or 'PRM' if it is permil\n- or 'XXP' if it is points (as for indices)\n- or 'GRAMS' if it is grams (as for precious metals)",
         "type": "string"
       },
+      "CurrencyIsoByCashAccountIdMap": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "properties": {},
+        "type": "object"
+      },
       "DateString": {
         "description": "Date in the format YYYY-MM-DD",
         "type": "string"
@@ -981,6 +1001,9 @@
           },
           "trailingStopMarket": {
             "$ref": "#/components/schemas/OrderValidity"
+          },
+          "unknown": {
+            "$ref": "#/components/schemas/OrderValidity"
           }
         },
         "type": "object"
@@ -1008,6 +1031,10 @@
           },
           "lazyAuthMethods": {
             "description": "Set this to `true` to have the demo account reveal the complete list of auth methods only after\nthe first session TAN challenge request.\n\nThis also sets `allOperationsRequireSessionTan` to `true` for the account.",
+            "type": "boolean"
+          },
+          "seedOrders": {
+            "description": "If this is `true`, the first portfolio in the new account will be seeded with an old cancelled order. This can\nbe used to test whether the frontend appropriately reloads orders when the sync is completed over time.\n\nNote that the behavior is not yet specified here and may be refined in the future.",
             "type": "boolean"
           },
           "sessionTanCannotBeEnded": {
@@ -1203,6 +1230,10 @@
           "currencyIso": {
             "description": "Quotes for the instrument at this exchange are in this currency. This affects fields like limit, stop etc.",
             "type": "string"
+          },
+          "currencyIsoByCashAccountId": {
+            "$ref": "#/components/schemas/CurrencyIsoByCashAccountIdMap",
+            "description": "For each selectable cash account id, define which currency iso the cash account will be using. In other words, which currency\neach cash account is operating in.\n\nIf defined, the `currencyIso` to use for fields like limit, stop etc. is determined by the cash account id (!), i.e.\nthis overrides the `currencyIso` field.\n\nThis is especially relevant for crypto trading: the `PreparedInstrument` is for a given crypto coin (e.g. BTC), but the limits\nwill be provided in a fiat currency. So if you, for example, select a `EUR` cash account, the limit will be in `EUR` (= you are trading the\n\"pair\" BTC/EUR), but if you select a `USD` cash account, the fiat limit will be in `USD` (=you are trading the \"pair\" BTC/USD).\n\nIf this map is not provided or has no entry for the selected cash account, `currencyIso` must be used."
           },
           "defaultValidityByOrderModel": {
             "$ref": "#/components/schemas/DefaultOrderValidityByOrderModel",
@@ -2419,7 +2450,8 @@
           "trailingStopMarket",
           "trailingStopLimit",
           "ocoStopMarket",
-          "ocoStopLimit"
+          "ocoStopLimit",
+          "unknown"
         ],
         "type": "string"
       },
@@ -2444,7 +2476,7 @@
         "type": "number"
       },
       "OrderStopValue": {
-        "description": "The stop of an order specifies a usually higher value than the current quote (direction buy) or a usually lower value than the current quote (direction sell).\n\nFor the orderModel `stop`, the order is executed immediately when the stop is reached.\nFor the orderModel `stopLimit`, the order will only be executed with a limt value of `stopLimit` (so for buy orders the price of execution will not be higher than `stopLimit`, for sell it orders it will not be lower than `stopLimit`).",
+        "description": "The stop of an order specifies a usually higher value than the current quote (direction buy) or a usually lower value than the current quote (direction sell).\n\nFor the orderModel `stop`, the order is executed immediately when the stop is reached.\nFor the orderModel `stopLimit`, the order will only be executed with a limit value of `stopLimit` (so for buy orders the price of execution will not be higher than `stopLimit`, for sell it orders it will not be lower than `stopLimit`).",
         "format": "double",
         "type": "number"
       },
@@ -2470,8 +2502,8 @@
         "type": "object"
       },
       "OrderValidityType": {
-        "description": "Order validity:\n- `AUTO`: choose automatically\n- `GFD`: good for day (*today/current trading day*)\n- `GTC`: good til canceled\n- `GTD` good til given date\n- `GTU` good til ultimo (end of month)",
-        "enum": ["AUTO", "GFD", "GTC", "GTU", "GTD"],
+        "description": "Order validity:\n- `AUTO`: choose automatically\n- `GFD`: good for day (*today/current trading day*)\n- `GTC`: good til canceled\n- `GTD` good til given date\n- `GTU` good til ultimo (end of month)\n- `GTDT` good til given date time\n- `IOC` immediate or cancel",
+        "enum": ["AUTO", "GFD", "GTC", "GTU", "GTD", "GTDT", "IOC"],
         "type": "string"
       },
       "OrderValidityTypeByOrderModel": {
@@ -2538,6 +2570,12 @@
             "type": "array"
           },
           "trailingStopMarket": {
+            "items": {
+              "$ref": "#/components/schemas/OrderValidityType"
+            },
+            "type": "array"
+          },
+          "unknown": {
             "items": {
               "$ref": "#/components/schemas/OrderValidityType"
             },
@@ -2873,6 +2911,11 @@
           },
           "sourceData": {
             "type": "string"
+          },
+          "stakingSize": {
+            "description": "How much of the position is locked in staking.",
+            "format": "double",
+            "type": "number"
           }
         },
         "required": ["availableSize", "security", "sizeUnit", "size", "id"],
@@ -3320,6 +3363,9 @@
           },
           "trailingStopMarket": {
             "type": "string"
+          },
+          "unknown": {
+            "type": "string"
           }
         },
         "type": "object"
@@ -3738,7 +3784,7 @@
               "schema": {
                 "properties": {
                   "config": {
-                    "$ref": "#/components/schemas/ClientConfig"
+                    "$ref": "#/components/schemas/ClientConfigUpdate"
                   }
                 },
                 "required": ["config"],
@@ -4207,12 +4253,12 @@
             }
           },
           {
-            "description": "File format of the report. Defaults to `'csv'`.",
+            "description": "File format of the report. Defaults to be figured out from the \"Accept\" request header. If no supported format can be detected, `'csv'` is the default.\n*Attention*: the `json` format is *currently in beta*. We may change the output format in the future.",
             "in": "query",
             "name": "format",
             "required": false,
             "schema": {
-              "enum": ["csv", "xlsx"],
+              "enum": ["csv", "xlsx", "json"],
               "type": "string"
             }
           },
@@ -4220,6 +4266,15 @@
             "description": "If this is true, the report will only contain executed orders.",
             "in": "query",
             "name": "onlyExecutedOrders",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "If this is true, the report will *NOT* be rendered with file download headers. This may be useful when working with the reports in scripts.",
+            "in": "query",
+            "name": "noDownload",
             "required": false,
             "schema": {
               "type": "boolean"
@@ -9695,9 +9750,11 @@
     },
     "/trade/securityDetails": {
       "get": {
+        "description": "Loads more detailed information about a security specified by the given token.\nThe token is extracted from the securityDetailedInfo object in the prepareTrade response",
         "operationId": "GetSecurityDetailedInfo",
         "parameters": [
           {
+            "description": "token from the prepareTrade response \"response.securityDetailedInfo.token\"",
             "in": "query",
             "name": "token",
             "required": true,

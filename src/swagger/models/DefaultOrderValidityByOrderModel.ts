@@ -92,6 +92,12 @@ export interface DefaultOrderValidityByOrderModel {
    * @memberof DefaultOrderValidityByOrderModel
    */
   trailingStopMarket?: OrderValidity;
+  /**
+   *
+   * @type {OrderValidity}
+   * @memberof DefaultOrderValidityByOrderModel
+   */
+  unknown?: OrderValidity;
 }
 
 export function DefaultOrderValidityByOrderModelFromJSON(
@@ -141,6 +147,9 @@ export function DefaultOrderValidityByOrderModelFromJSONTyped(
     trailingStopMarket: !exists(json, "trailingStopMarket")
       ? undefined
       : OrderValidityFromJSON(json["trailingStopMarket"]),
+    unknown: !exists(json, "unknown")
+      ? undefined
+      : OrderValidityFromJSON(json["unknown"]),
   };
 }
 
@@ -167,6 +176,7 @@ export function DefaultOrderValidityByOrderModelToJSONRecursive(
     stopMarket: OrderValidityToJSON(value.stopMarket),
     trailingStopLimit: OrderValidityToJSON(value.trailingStopLimit),
     trailingStopMarket: OrderValidityToJSON(value.trailingStopMarket),
+    unknown: OrderValidityToJSON(value.unknown),
   };
 }
 

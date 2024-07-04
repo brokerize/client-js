@@ -19,6 +19,8 @@
  * - `GTC`: good til canceled
  * - `GTD` good til given date
  * - `GTU` good til ultimo (end of month)
+ * - `GTDT` good til given date time
+ * - `IOC` immediate or cancel
  * @export
  */
 export const OrderValidityType = {
@@ -27,6 +29,8 @@ export const OrderValidityType = {
   Gtc: "GTC",
   Gtu: "GTU",
   Gtd: "GTD",
+  Gtdt: "GTDT",
+  Ioc: "IOC",
 } as const;
 export type OrderValidityType =
   (typeof OrderValidityType)[keyof typeof OrderValidityType];

@@ -16,27 +16,27 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface ClientConfigRateLimitPointsToConsume
+ * @interface ClientConfigUpdateRateLimitPointsToConsume
  */
-export interface ClientConfigRateLimitPointsToConsume {
+export interface ClientConfigUpdateRateLimitPointsToConsume {
   /**
    *
    * @type {number}
-   * @memberof ClientConfigRateLimitPointsToConsume
+   * @memberof ClientConfigUpdateRateLimitPointsToConsume
    */
   guestUser?: number;
 }
 
-export function ClientConfigRateLimitPointsToConsumeFromJSON(
+export function ClientConfigUpdateRateLimitPointsToConsumeFromJSON(
   json: any
-): ClientConfigRateLimitPointsToConsume {
-  return ClientConfigRateLimitPointsToConsumeFromJSONTyped(json, false);
+): ClientConfigUpdateRateLimitPointsToConsume {
+  return ClientConfigUpdateRateLimitPointsToConsumeFromJSONTyped(json, false);
 }
 
-export function ClientConfigRateLimitPointsToConsumeFromJSONTyped(
+export function ClientConfigUpdateRateLimitPointsToConsumeFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): ClientConfigRateLimitPointsToConsume {
+): ClientConfigUpdateRateLimitPointsToConsume {
   if (json === undefined || json === null) {
     return json;
   }
@@ -45,8 +45,8 @@ export function ClientConfigRateLimitPointsToConsumeFromJSONTyped(
   };
 }
 
-export function ClientConfigRateLimitPointsToConsumeToJSONRecursive(
-  value?: ClientConfigRateLimitPointsToConsume | null,
+export function ClientConfigUpdateRateLimitPointsToConsumeToJSONRecursive(
+  value?: ClientConfigUpdateRateLimitPointsToConsume | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -61,8 +61,11 @@ export function ClientConfigRateLimitPointsToConsumeToJSONRecursive(
   };
 }
 
-export function ClientConfigRateLimitPointsToConsumeToJSON(
-  value?: ClientConfigRateLimitPointsToConsume | null
+export function ClientConfigUpdateRateLimitPointsToConsumeToJSON(
+  value?: ClientConfigUpdateRateLimitPointsToConsume | null
 ): any {
-  return ClientConfigRateLimitPointsToConsumeToJSONRecursive(value, false);
+  return ClientConfigUpdateRateLimitPointsToConsumeToJSONRecursive(
+    value,
+    false
+  );
 }

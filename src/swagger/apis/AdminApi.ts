@@ -54,6 +54,7 @@ export interface GetOrderReportRequest {
   clientIds?: string;
   format?: GetOrderReportFormatEnum;
   onlyExecutedOrders?: boolean;
+  noDownload?: boolean;
 }
 
 export interface RemoveOAuthReturnToUrlRequest {
@@ -411,6 +412,10 @@ export class AdminApi extends runtime.BaseAPI {
         requestParameters.onlyExecutedOrders;
     }
 
+    if (requestParameters.noDownload !== undefined) {
+      queryParameters["noDownload"] = requestParameters.noDownload;
+    }
+
     const headerParameters: runtime.HTTPHeaders = {};
 
     if (this.configuration && this.configuration.apiKey) {
@@ -671,6 +676,7 @@ export class AdminApi extends runtime.BaseAPI {
 export const GetOrderReportFormatEnum = {
   Csv: "csv",
   Xlsx: "xlsx",
+  Json: "json",
 } as const;
 export type GetOrderReportFormatEnum =
   (typeof GetOrderReportFormatEnum)[keyof typeof GetOrderReportFormatEnum];
