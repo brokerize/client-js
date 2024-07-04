@@ -1,6 +1,6 @@
 {
   "name": "@brokerize/client",
-  "version": "0.0.1-alpha-64",
+  "version": "0.0.1-alpha-65",
   "description": "Client for the brokerize.com API",
   "keywords": [],
   "homepage": "https://github.com/brokerize/client-js#readme",
