@@ -4,6 +4,44 @@
 
 ```ts
 
+// @public
+interface AccessTokenItem {
+    expiresAt: Date;
+    id: string;
+    name: string;
+    permissions: Array<string>;
+}
+
+// @public (undocumented)
+function AccessTokenItemFromJSON(json: any): AccessTokenItem;
+
+// @public (undocumented)
+function AccessTokenItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): AccessTokenItem;
+
+// @public (undocumented)
+function AccessTokenItemToJSON(value?: AccessTokenItem | null): any;
+
+// @public (undocumented)
+function AccessTokenItemToJSONRecursive(value?: AccessTokenItem | null, ignoreParent?: boolean): any;
+
+// @public
+interface AccessTokenResult {
+    id: string;
+    token: string;
+}
+
+// @public (undocumented)
+function AccessTokenResultFromJSON(json: any): AccessTokenResult;
+
+// @public (undocumented)
+function AccessTokenResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): AccessTokenResult;
+
+// @public (undocumented)
+function AccessTokenResultToJSON(value?: AccessTokenResult | null): any;
+
+// @public (undocumented)
+function AccessTokenResultToJSONRecursive(value?: AccessTokenResult | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface AddOAuthReturnToUrlOperationRequest {
     // (undocumented)
@@ -602,6 +640,25 @@ export class AuthorizedApiContext {
 }
 
 // @public
+interface AvailablePermissionsNode {
+    children?: Array<AvailablePermissionsNode>;
+    description: string;
+    permission: string;
+}
+
+// @public (undocumented)
+function AvailablePermissionsNodeFromJSON(json: any): AvailablePermissionsNode;
+
+// @public (undocumented)
+function AvailablePermissionsNodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): AvailablePermissionsNode;
+
+// @public (undocumented)
+function AvailablePermissionsNodeToJSON(value?: AvailablePermissionsNode | null): any;
+
+// @public (undocumented)
+function AvailablePermissionsNodeToJSONRecursive(value?: AvailablePermissionsNode | null, ignoreParent?: boolean): any;
+
+// @public
 const BASE_PATH: string;
 
 // @public
@@ -619,6 +676,24 @@ class BaseAPI {
     withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware["pre"]>): T;
 }
 
+// @public
+interface BitpandaClientCfg {
+    clientIdProduction?: string;
+    clientIdStaging?: string;
+}
+
+// @public (undocumented)
+function BitpandaClientCfgFromJSON(json: any): BitpandaClientCfg;
+
+// @public (undocumented)
+function BitpandaClientCfgFromJSONTyped(json: any, ignoreDiscriminator: boolean): BitpandaClientCfg;
+
+// @public (undocumented)
+function BitpandaClientCfgToJSON(value?: BitpandaClientCfg | null): any;
+
+// @public (undocumented)
+function BitpandaClientCfgToJSONRecursive(value?: BitpandaClientCfg | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 class BlobApiResponse {
     constructor(raw: Response);
@@ -627,6 +702,23 @@ class BlobApiResponse {
     // (undocumented)
     value(): Promise<Blob>;
 }
+
+// @public
+interface BrokerClientCfg {
+    bitpanda?: BitpandaClientCfg;
+}
+
+// @public (undocumented)
+function BrokerClientCfgFromJSON(json: any): BrokerClientCfg;
+
+// @public (undocumented)
+function BrokerClientCfgFromJSONTyped(json: any, ignoreDiscriminator: boolean): BrokerClientCfg;
+
+// @public (undocumented)
+function BrokerClientCfgToJSON(value?: BrokerClientCfg | null): any;
+
+// @public (undocumented)
+function BrokerClientCfgToJSONRecursive(value?: BrokerClientCfg | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 const BrokerEnvFilterType: {
@@ -1146,24 +1238,21 @@ interface ChangeOrderRequest {
 
 // @public
 interface ClientConfig {
-    allowedOrigins?: Array<string>;
-    allowRequestsWithoutOrigin?: boolean;
-    brokerEnvFilter?: {
+    allowedOrigins: Array<string>;
+    allowRequestsWithoutOrigin: boolean;
+    brokerEnvFilter: {
         [key: string]: BrokerEnvFilterType;
     };
-    clientSecrets?: Array<string>;
-    cognitoClientIds?: Array<string>;
-    enabled?: boolean;
-    legalEntityName?: string;
+    cognitoClientIds: Array<string>;
+    enabled: boolean;
+    guestUserInactivityTimeoutSeconds?: number;
+    legalEntityName: string;
     maintenanceStatus?: ClientConfigMaintenanceStatus | null;
-    managingUserIds?: Array<number>;
-    name?: string;
-    oAuthLoginForm?: ClientConfigOAuthLoginForm | null;
-    oAuthReturnToRegularExpressions?: Array<string>;
-    oAuthReturnToUrls?: Array<string>;
-    optionalClientSecrets?: Array<string>;
-    page?: ClientConfigPage | null;
-    rateLimitPointsToConsume?: ClientConfigRateLimitPointsToConsume;
+    name: string;
+    oAuthLoginForm?: OAuthLoginFormConfig;
+    oAuthReturnToRegularExpressions: Array<string>;
+    oAuthReturnToUrls: Array<string>;
+    page: any | null;
 }
 
 // @public (undocumented)
@@ -1190,38 +1279,85 @@ function ClientConfigMaintenanceStatusToJSON(value?: ClientConfigMaintenanceStat
 // @public (undocumented)
 function ClientConfigMaintenanceStatusToJSONRecursive(value?: ClientConfigMaintenanceStatus | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+function ClientConfigToJSON(value?: ClientConfig | null): any;
+
+// @public (undocumented)
+function ClientConfigToJSONRecursive(value?: ClientConfig | null, ignoreParent?: boolean): any;
+
 // @public
-interface ClientConfigOAuthLoginForm {
-    appName?: string;
-    logoUrlDark?: string;
-    logoUrlLight?: string;
-    redirectStyle?: ClientConfigOAuthLoginFormRedirectStyleEnum;
+interface ClientConfigUpdate {
+    allowedOrigins?: Array<string>;
+    allowRequestsWithoutOrigin?: boolean;
+    brokerClientIds?: BrokerClientCfg;
+    brokerEnvFilter?: {
+        [key: string]: BrokerEnvFilterType;
+    };
+    clientSecrets?: Array<string>;
+    cognitoClientIds?: Array<string>;
+    enabled?: boolean;
+    guestUserInactivityTimeoutSeconds?: number | null;
+    legalEntityName?: string;
+    maintenanceStatus?: ClientConfigMaintenanceStatus | null;
+    managingUserIds?: Array<number>;
+    name?: string;
+    oAuthLoginForm?: ClientConfigUpdateOAuthLoginForm | null;
+    oAuthReturnToRegularExpressions?: Array<string>;
+    oAuthReturnToUrls?: Array<string>;
+    optionalClientSecrets?: Array<string>;
+    page?: ClientConfigUpdatePage | null;
+    rateLimitPointsToConsume?: ClientConfigUpdateRateLimitPointsToConsume;
 }
 
 // @public (undocumented)
-function ClientConfigOAuthLoginFormFromJSON(json: any): ClientConfigOAuthLoginForm;
+function ClientConfigUpdateFromJSON(json: any): ClientConfigUpdate;
 
 // @public (undocumented)
-function ClientConfigOAuthLoginFormFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigOAuthLoginForm;
+function ClientConfigUpdateFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigUpdate;
+
+// @public
+interface ClientConfigUpdateOAuthLoginForm {
+    appName?: string;
+    logoUrlDark?: string;
+    logoUrlLight?: string;
+    redirectStyle?: ClientConfigUpdateOAuthLoginFormRedirectStyleEnum;
+    redirectStyleBitpanda?: ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum;
+}
 
 // @public (undocumented)
-const ClientConfigOAuthLoginFormRedirectStyleEnum: {
+function ClientConfigUpdateOAuthLoginFormFromJSON(json: any): ClientConfigUpdateOAuthLoginForm;
+
+// @public (undocumented)
+function ClientConfigUpdateOAuthLoginFormFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigUpdateOAuthLoginForm;
+
+// @public (undocumented)
+const ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum: {
     readonly Meta: "meta";
     readonly Js: "js";
     readonly Link: "link";
 };
 
 // @public (undocumented)
-type ClientConfigOAuthLoginFormRedirectStyleEnum = (typeof ClientConfigOAuthLoginFormRedirectStyleEnum)[keyof typeof ClientConfigOAuthLoginFormRedirectStyleEnum];
+type ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum = (typeof ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum)[keyof typeof ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum];
 
 // @public (undocumented)
-function ClientConfigOAuthLoginFormToJSON(value?: ClientConfigOAuthLoginForm | null): any;
+const ClientConfigUpdateOAuthLoginFormRedirectStyleEnum: {
+    readonly Meta: "meta";
+    readonly Js: "js";
+    readonly Link: "link";
+};
 
 // @public (undocumented)
-function ClientConfigOAuthLoginFormToJSONRecursive(value?: ClientConfigOAuthLoginForm | null, ignoreParent?: boolean): any;
+type ClientConfigUpdateOAuthLoginFormRedirectStyleEnum = (typeof ClientConfigUpdateOAuthLoginFormRedirectStyleEnum)[keyof typeof ClientConfigUpdateOAuthLoginFormRedirectStyleEnum];
+
+// @public (undocumented)
+function ClientConfigUpdateOAuthLoginFormToJSON(value?: ClientConfigUpdateOAuthLoginForm | null): any;
+
+// @public (undocumented)
+function ClientConfigUpdateOAuthLoginFormToJSONRecursive(value?: ClientConfigUpdateOAuthLoginForm | null, ignoreParent?: boolean): any;
 
 // @public
-interface ClientConfigPage {
+interface ClientConfigUpdatePage {
     logoUrlDark?: string;
     logoUrlLight?: string;
     themeDark?: any | null;
@@ -1230,75 +1366,45 @@ interface ClientConfigPage {
 }
 
 // @public (undocumented)
-function ClientConfigPageFromJSON(json: any): ClientConfigPage;
+function ClientConfigUpdatePageFromJSON(json: any): ClientConfigUpdatePage;
 
 // @public (undocumented)
-function ClientConfigPageFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigPage;
+function ClientConfigUpdatePageFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigUpdatePage;
 
 // @public (undocumented)
-function ClientConfigPageToJSON(value?: ClientConfigPage | null): any;
+function ClientConfigUpdatePageToJSON(value?: ClientConfigUpdatePage | null): any;
 
 // @public (undocumented)
-function ClientConfigPageToJSONRecursive(value?: ClientConfigPage | null, ignoreParent?: boolean): any;
+function ClientConfigUpdatePageToJSONRecursive(value?: ClientConfigUpdatePage | null, ignoreParent?: boolean): any;
 
 // @public
-interface ClientConfigRateLimitPointsToConsume {
+interface ClientConfigUpdateRateLimitPointsToConsume {
     guestUser?: number;
 }
 
 // @public (undocumented)
-function ClientConfigRateLimitPointsToConsumeFromJSON(json: any): ClientConfigRateLimitPointsToConsume;
+function ClientConfigUpdateRateLimitPointsToConsumeFromJSON(json: any): ClientConfigUpdateRateLimitPointsToConsume;
 
 // @public (undocumented)
-function ClientConfigRateLimitPointsToConsumeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigRateLimitPointsToConsume;
+function ClientConfigUpdateRateLimitPointsToConsumeFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientConfigUpdateRateLimitPointsToConsume;
 
 // @public (undocumented)
-function ClientConfigRateLimitPointsToConsumeToJSON(value?: ClientConfigRateLimitPointsToConsume | null): any;
+function ClientConfigUpdateRateLimitPointsToConsumeToJSON(value?: ClientConfigUpdateRateLimitPointsToConsume | null): any;
 
 // @public (undocumented)
-function ClientConfigRateLimitPointsToConsumeToJSONRecursive(value?: ClientConfigRateLimitPointsToConsume | null, ignoreParent?: boolean): any;
+function ClientConfigUpdateRateLimitPointsToConsumeToJSONRecursive(value?: ClientConfigUpdateRateLimitPointsToConsume | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
-function ClientConfigToJSON(value?: ClientConfig | null): any;
+function ClientConfigUpdateToJSON(value?: ClientConfigUpdate | null): any;
 
 // @public (undocumented)
-function ClientConfigToJSONRecursive(value?: ClientConfig | null, ignoreParent?: boolean): any;
+function ClientConfigUpdateToJSONRecursive(value?: ClientConfigUpdate | null, ignoreParent?: boolean): any;
 
 // @public
 interface ClientsResponseInner {
     clientId: string;
-    config: ClientsResponseInnerConfig;
+    config: ClientConfig;
 }
-
-// @public
-interface ClientsResponseInnerConfig {
-    allowedOrigins: Array<string>;
-    allowRequestsWithoutOrigin: boolean;
-    brokerEnvFilter: {
-        [key: string]: BrokerEnvFilterType;
-    };
-    cognitoClientIds: Array<string>;
-    enabled: boolean;
-    legalEntityName: string;
-    maintenanceStatus: ClientConfigMaintenanceStatus | null;
-    name: string;
-    oAuthLoginForm?: OAuthLoginFormConfig;
-    oAuthReturnToRegularExpressions: Array<string>;
-    oAuthReturnToUrls: Array<string>;
-    page: any | null;
-}
-
-// @public (undocumented)
-function ClientsResponseInnerConfigFromJSON(json: any): ClientsResponseInnerConfig;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClientsResponseInnerConfig;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigToJSON(value?: ClientsResponseInnerConfig | null): any;
-
-// @public (undocumented)
-function ClientsResponseInnerConfigToJSONRecursive(value?: ClientsResponseInnerConfig | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function ClientsResponseInnerFromJSON(json: any): ClientsResponseInner;
@@ -1458,6 +1564,31 @@ function CostDetailsLinkToJSON(value?: CostDetailsLink | null): any;
 
 // @public (undocumented)
 function CostDetailsLinkToJSONRecursive(value?: CostDetailsLink | null, ignoreParent?: boolean): any;
+
+// @public
+interface CreateAccessTokenParams {
+    expiresInDays: number;
+    name: string;
+    permissions: Array<string>;
+}
+
+// @public (undocumented)
+function CreateAccessTokenParamsFromJSON(json: any): CreateAccessTokenParams;
+
+// @public (undocumented)
+function CreateAccessTokenParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateAccessTokenParams;
+
+// @public (undocumented)
+function CreateAccessTokenParamsToJSON(value?: CreateAccessTokenParams | null): any;
+
+// @public (undocumented)
+function CreateAccessTokenParamsToJSONRecursive(value?: CreateAccessTokenParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CreateAccessTokenRequest {
+    // (undocumented)
+    createAccessTokenParams: CreateAccessTokenParams;
+}
 
 // @public (undocumented)
 interface CreateCancelOrderChallengeRequest {
@@ -1830,6 +1961,7 @@ interface DefaultOrderValidityByOrderModel {
     stopMarket?: OrderValidity;
     trailingStopLimit?: OrderValidity;
     trailingStopMarket?: OrderValidity;
+    unknown?: OrderValidity;
 }
 
 // @public (undocumented)
@@ -1885,6 +2017,7 @@ function DemoAccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): Demo
 interface DemoAccountSettings {
     isSinglePortfolio?: boolean;
     lazyAuthMethods?: boolean;
+    seedOrders?: boolean;
     sessionTanCannotBeEnded?: boolean;
 }
 
@@ -2313,6 +2446,9 @@ interface Exchange {
     allowsQuoteModeLimit?: boolean;
     brokerizeExchangeId?: number;
     currencyIso: string;
+    currencyIsoByCashAccountId?: {
+        [key: string]: string;
+    };
     defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
     // @deprecated
     hideOrderModel?: boolean;
@@ -3121,6 +3257,40 @@ function GenericTableToJSON(value?: GenericTable | null): any;
 function GenericTableToJSONRecursive(value?: GenericTable | null, ignoreParent?: boolean): any;
 
 // @public
+interface GetAccessTokensResponse {
+    tokens: Array<AccessTokenItem>;
+}
+
+// @public (undocumented)
+function GetAccessTokensResponseFromJSON(json: any): GetAccessTokensResponse;
+
+// @public (undocumented)
+function GetAccessTokensResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAccessTokensResponse;
+
+// @public (undocumented)
+function GetAccessTokensResponseToJSON(value?: GetAccessTokensResponse | null): any;
+
+// @public (undocumented)
+function GetAccessTokensResponseToJSONRecursive(value?: GetAccessTokensResponse | null, ignoreParent?: boolean): any;
+
+// @public
+interface GetAcessTokenAvailablePermissions200Response {
+    availablePermissions: Array<AvailablePermissionsNode>;
+}
+
+// @public (undocumented)
+function GetAcessTokenAvailablePermissions200ResponseFromJSON(json: any): GetAcessTokenAvailablePermissions200Response;
+
+// @public (undocumented)
+function GetAcessTokenAvailablePermissions200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetAcessTokenAvailablePermissions200Response;
+
+// @public (undocumented)
+function GetAcessTokenAvailablePermissions200ResponseToJSON(value?: GetAcessTokenAvailablePermissions200Response | null): any;
+
+// @public (undocumented)
+function GetAcessTokenAvailablePermissions200ResponseToJSONRecursive(value?: GetAcessTokenAvailablePermissions200Response | null, ignoreParent?: boolean): any;
+
+// @public
 interface GetActiveInboxOrdersResponse {
     inboxOrders: Array<InboxOrder>;
     totalCount: number;
@@ -3235,6 +3405,7 @@ interface GetInboxOrdersRequest {
 const GetOrderReportFormatEnum: {
     readonly Csv: "csv";
     readonly Xlsx: "xlsx";
+    readonly Json: "json";
 };
 
 // @public (undocumented)
@@ -3248,6 +3419,8 @@ interface GetOrderReportRequest {
     format?: GetOrderReportFormatEnum;
     // (undocumented)
     from: string;
+    // (undocumented)
+    noDownload?: boolean;
     // (undocumented)
     onlyExecutedOrders?: boolean;
     // (undocumented)
@@ -3908,12 +4081,9 @@ declare namespace Models {
         ChangeOrderChallengeParams,
         ChangeOrderParams,
         ClientConfig,
-        ClientConfigPage,
         PageConfig,
         PagesConfigurationResponse,
-        ClientConfigRateLimitPointsToConsume,
         ClientsResponseInner,
-        ClientsResponseInnerConfig,
         ConfirmOAuthParams,
         ConfirmOAuthResponse,
         CostDetailsLink,
@@ -4041,6 +4211,7 @@ interface OAuthLoginFormConfig {
     logoUrlDark?: string;
     logoUrlLight?: string;
     redirectStyle?: OAuthLoginFormConfigRedirectStyleEnum;
+    redirectStyleBitpanda?: OAuthLoginFormConfigRedirectStyleBitpandaEnum;
 }
 
 // @public (undocumented)
@@ -4048,6 +4219,16 @@ function OAuthLoginFormConfigFromJSON(json: any): OAuthLoginFormConfig;
 
 // @public (undocumented)
 function OAuthLoginFormConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): OAuthLoginFormConfig;
+
+// @public (undocumented)
+const OAuthLoginFormConfigRedirectStyleBitpandaEnum: {
+    readonly Meta: "meta";
+    readonly Js: "js";
+    readonly Link: "link";
+};
+
+// @public (undocumented)
+type OAuthLoginFormConfigRedirectStyleBitpandaEnum = (typeof OAuthLoginFormConfigRedirectStyleBitpandaEnum)[keyof typeof OAuthLoginFormConfigRedirectStyleBitpandaEnum];
 
 // @public (undocumented)
 const OAuthLoginFormConfigRedirectStyleEnum: {
@@ -4358,6 +4539,7 @@ const OrderModel: {
     readonly TrailingStopLimit: "trailingStopLimit";
     readonly OcoStopMarket: "ocoStopMarket";
     readonly OcoStopLimit: "ocoStopLimit";
+    readonly Unknown: "unknown";
 };
 
 // @public (undocumented)
@@ -4425,6 +4607,8 @@ const OrderValidityType: {
     readonly Gtc: "GTC";
     readonly Gtu: "GTU";
     readonly Gtd: "GTD";
+    readonly Gtdt: "GTDT";
+    readonly Ioc: "IOC";
 };
 
 // @public (undocumented)
@@ -4443,6 +4627,7 @@ interface OrderValidityTypeByOrderModel {
     stopMarket?: Array<OrderValidityType>;
     trailingStopLimit?: Array<OrderValidityType>;
     trailingStopMarket?: Array<OrderValidityType>;
+    unknown?: Array<OrderValidityType>;
 }
 
 // @public (undocumented)
@@ -4509,6 +4694,7 @@ function PagesConfigurationResponseToJSONRecursive(value?: PagesConfigurationRes
 interface Portfolio {
     brokerName: string;
     cashAccountIds: Array<string>;
+    currency: string;
     id: string;
     idHash: string;
     portfolioName: string;
@@ -4890,6 +5076,7 @@ interface Position {
     sizeDecimals?: number;
     sizeUnit: string;
     sourceData?: string;
+    stakingSize?: number;
 }
 
 // @public (undocumented)
@@ -5156,6 +5343,12 @@ interface ResponseTransformer<T> {
     (json: any): T;
 }
 
+// @public (undocumented)
+interface RevokeAccessTokenRequest {
+    // (undocumented)
+    accessTokenId: string;
+}
+
 // @public
 interface RiskClassInfo {
     legalHint?: string;
@@ -5328,6 +5521,7 @@ function SellPositionToJSONRecursive(value?: SellPosition | null, ignoreParent?:
 interface Session {
     authInfo?: AuthInfo;
     brokerName: string;
+    env: string;
     id: string;
     // @deprecated
     lastSuccessfulSync?: Date;
@@ -5547,7 +5741,7 @@ interface SetClientConfigOperationRequest {
 
 // @public
 interface SetClientConfigRequest {
-    config: ClientConfig;
+    config: ClientConfigUpdate;
 }
 
 // @public (undocumented)
@@ -5575,6 +5769,7 @@ interface StringMapByOrderModel {
     stopMarket?: string;
     trailingStopLimit?: string;
     trailingStopMarket?: string;
+    unknown?: string;
 }
 
 // @public (undocumented)
@@ -5688,9 +5883,7 @@ class TradeApi extends runtime.BaseAPI {
     getCostEstimationRaw(requestParameters: GetCostEstimationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OrderCostEstimation>>;
     getQuote(requestParameters: GetQuoteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetQuoteResponse>;
     getQuoteRaw(requestParameters: GetQuoteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetQuoteResponse>>;
-    // (undocumented)
     getSecurityDetailedInfo(requestParameters: GetSecurityDetailedInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GenericTable>;
-    // (undocumented)
     getSecurityDetailedInfoRaw(requestParameters: GetSecurityDetailedInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GenericTable>>;
     prepareTrade(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PrepareTradeResponse>;
     prepareTradeRaw(requestParameters: PrepareTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PrepareTradeResponse>>;
@@ -5748,6 +5941,22 @@ interface UpdateInboxOrderRequest {
     id: string;
     // (undocumented)
     inboxOrderUpdateParams: InboxOrderUpdateParams;
+}
+
+// @public (undocumented)
+class UserApi extends runtime.BaseAPI {
+    createAccessToken(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<AccessTokenResult>;
+    createAccessTokenRaw(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<AccessTokenResult>>;
+    // (undocumented)
+    getAccessTokens(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAccessTokensResponse>;
+    // (undocumented)
+    getAccessTokensRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAccessTokensResponse>>;
+    getAcessTokenAvailablePermissions(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAcessTokenAvailablePermissions200Response>;
+    getAcessTokenAvailablePermissionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAcessTokenAvailablePermissions200Response>>;
+    // (undocumented)
+    revokeAccessToken(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    // (undocumented)
+    revokeAccessTokenRaw(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
 
 // @public
