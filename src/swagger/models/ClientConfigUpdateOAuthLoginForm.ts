@@ -13,74 +13,83 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  OAuthLoginFormConfig,
+  OAuthLoginFormConfigFromJSON,
+  OAuthLoginFormConfigFromJSONTyped,
+  OAuthLoginFormConfigToJSON,
+} from "./OAuthLoginFormConfig";
+
 /**
  *
  * @export
- * @interface OAuthLoginFormConfig
+ * @interface ClientConfigUpdateOAuthLoginForm
  */
-export interface OAuthLoginFormConfig {
+export interface ClientConfigUpdateOAuthLoginForm {
   /**
    *
    * @type {string}
-   * @memberof OAuthLoginFormConfig
+   * @memberof ClientConfigUpdateOAuthLoginForm
    */
   appName?: string;
   /**
    *
    * @type {string}
-   * @memberof OAuthLoginFormConfig
+   * @memberof ClientConfigUpdateOAuthLoginForm
    */
   logoUrlDark?: string;
   /**
    *
    * @type {string}
-   * @memberof OAuthLoginFormConfig
+   * @memberof ClientConfigUpdateOAuthLoginForm
    */
   logoUrlLight?: string;
   /**
    *
    * @type {string}
-   * @memberof OAuthLoginFormConfig
+   * @memberof ClientConfigUpdateOAuthLoginForm
    */
-  redirectStyle?: OAuthLoginFormConfigRedirectStyleEnum;
+  redirectStyle?: ClientConfigUpdateOAuthLoginFormRedirectStyleEnum;
   /**
    *
    * @type {string}
-   * @memberof OAuthLoginFormConfig
+   * @memberof ClientConfigUpdateOAuthLoginForm
    */
-  redirectStyleBitpanda?: OAuthLoginFormConfigRedirectStyleBitpandaEnum;
+  redirectStyleBitpanda?: ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum;
 }
 
 /**
  * @export
  */
-export const OAuthLoginFormConfigRedirectStyleEnum = {
+export const ClientConfigUpdateOAuthLoginFormRedirectStyleEnum = {
   Meta: "meta",
   Js: "js",
   Link: "link",
 } as const;
-export type OAuthLoginFormConfigRedirectStyleEnum =
-  (typeof OAuthLoginFormConfigRedirectStyleEnum)[keyof typeof OAuthLoginFormConfigRedirectStyleEnum];
+export type ClientConfigUpdateOAuthLoginFormRedirectStyleEnum =
+  (typeof ClientConfigUpdateOAuthLoginFormRedirectStyleEnum)[keyof typeof ClientConfigUpdateOAuthLoginFormRedirectStyleEnum];
 
 /**
  * @export
  */
-export const OAuthLoginFormConfigRedirectStyleBitpandaEnum = {
+export const ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum = {
   Meta: "meta",
   Js: "js",
   Link: "link",
 } as const;
-export type OAuthLoginFormConfigRedirectStyleBitpandaEnum =
-  (typeof OAuthLoginFormConfigRedirectStyleBitpandaEnum)[keyof typeof OAuthLoginFormConfigRedirectStyleBitpandaEnum];
+export type ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum =
+  (typeof ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum)[keyof typeof ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum];
 
-export function OAuthLoginFormConfigFromJSON(json: any): OAuthLoginFormConfig {
-  return OAuthLoginFormConfigFromJSONTyped(json, false);
+export function ClientConfigUpdateOAuthLoginFormFromJSON(
+  json: any
+): ClientConfigUpdateOAuthLoginForm {
+  return ClientConfigUpdateOAuthLoginFormFromJSONTyped(json, false);
 }
 
-export function OAuthLoginFormConfigFromJSONTyped(
+export function ClientConfigUpdateOAuthLoginFormFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): OAuthLoginFormConfig {
+): ClientConfigUpdateOAuthLoginForm {
   if (json === undefined || json === null) {
     return json;
   }
@@ -99,8 +108,8 @@ export function OAuthLoginFormConfigFromJSONTyped(
   };
 }
 
-export function OAuthLoginFormConfigToJSONRecursive(
-  value?: OAuthLoginFormConfig | null,
+export function ClientConfigUpdateOAuthLoginFormToJSONRecursive(
+  value?: ClientConfigUpdateOAuthLoginForm | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -119,8 +128,8 @@ export function OAuthLoginFormConfigToJSONRecursive(
   };
 }
 
-export function OAuthLoginFormConfigToJSON(
-  value?: OAuthLoginFormConfig | null
+export function ClientConfigUpdateOAuthLoginFormToJSON(
+  value?: ClientConfigUpdateOAuthLoginForm | null
 ): any {
-  return OAuthLoginFormConfigToJSONRecursive(value, false);
+  return ClientConfigUpdateOAuthLoginFormToJSONRecursive(value, false);
 }

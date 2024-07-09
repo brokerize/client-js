@@ -11,3 +11,4 @@ export * from "./InboxApi";
 export * from "./MetaApi";
 export * from "./SecuritiesApi";
 export * from "./TradeApi";
+export * from "./UserApi";

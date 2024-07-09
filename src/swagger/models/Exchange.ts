@@ -78,6 +78,12 @@ export interface Exchange {
   currencyIso: string;
   /**
    *
+   * @type {{ [key: string]: string; }}
+   * @memberof Exchange
+   */
+  currencyIsoByCashAccountId?: { [key: string]: string };
+  /**
+   *
    * @type {DefaultOrderValidityByOrderModel}
    * @memberof Exchange
    */
@@ -164,6 +170,9 @@ export function ExchangeFromJSONTyped(
       ? undefined
       : json["brokerizeExchangeId"],
     currencyIso: json["currencyIso"],
+    currencyIsoByCashAccountId: !exists(json, "currencyIsoByCashAccountId")
+      ? undefined
+      : json["currencyIsoByCashAccountId"],
     defaultValidityByOrderModel: !exists(json, "defaultValidityByOrderModel")
       ? undefined
       : DefaultOrderValidityByOrderModelFromJSON(
@@ -216,6 +225,7 @@ export function ExchangeToJSONRecursive(
     allowsQuoteModeLimit: value.allowsQuoteModeLimit,
     brokerizeExchangeId: value.brokerizeExchangeId,
     currencyIso: value.currencyIso,
+    currencyIsoByCashAccountId: value.currencyIsoByCashAccountId,
     defaultValidityByOrderModel: DefaultOrderValidityByOrderModelToJSON(
       value.defaultValidityByOrderModel
     ),

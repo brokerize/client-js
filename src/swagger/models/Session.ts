@@ -51,6 +51,12 @@ export interface Session {
    */
   brokerName: string;
   /**
+   * Name of the broker environment this session belongs to.
+   * @type {string}
+   * @memberof Session
+   */
+  env: string;
+  /**
    *
    * @type {string}
    * @memberof Session
@@ -93,6 +99,7 @@ export function SessionFromJSONTyped(
       ? undefined
       : AuthInfoFromJSON(json["authInfo"]),
     brokerName: json["brokerName"],
+    env: json["env"],
     id: json["id"],
     lastSuccessfulSync: !exists(json, "lastSuccessfulSync")
       ? undefined
@@ -118,6 +125,7 @@ export function SessionToJSONRecursive(
   return {
     authInfo: AuthInfoToJSON(value.authInfo),
     brokerName: value.brokerName,
+    env: value.env,
     id: value.id,
     lastSuccessfulSync:
       value.lastSuccessfulSync === undefined

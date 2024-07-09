@@ -14,11 +14,11 @@
 
 import { exists, mapValues } from "../runtime";
 import {
-  ClientsResponseInnerConfig,
-  ClientsResponseInnerConfigFromJSON,
-  ClientsResponseInnerConfigFromJSONTyped,
-  ClientsResponseInnerConfigToJSON,
-} from "./ClientsResponseInnerConfig";
+  ClientConfig,
+  ClientConfigFromJSON,
+  ClientConfigFromJSONTyped,
+  ClientConfigToJSON,
+} from "./ClientConfig";
 
 /**
  *
@@ -34,10 +34,10 @@ export interface ClientsResponseInner {
   clientId: string;
   /**
    *
-   * @type {ClientsResponseInnerConfig}
+   * @type {ClientConfig}
    * @memberof ClientsResponseInner
    */
-  config: ClientsResponseInnerConfig;
+  config: ClientConfig;
 }
 
 export function ClientsResponseInnerFromJSON(json: any): ClientsResponseInner {
@@ -53,7 +53,7 @@ export function ClientsResponseInnerFromJSONTyped(
   }
   return {
     clientId: json["clientId"],
-    config: ClientsResponseInnerConfigFromJSON(json["config"]),
+    config: ClientConfigFromJSON(json["config"]),
   };
 }
 
@@ -70,7 +70,7 @@ export function ClientsResponseInnerToJSONRecursive(
 
   return {
     clientId: value.clientId,
-    config: ClientsResponseInnerConfigToJSON(value.config),
+    config: ClientConfigToJSON(value.config),
   };
 }
 

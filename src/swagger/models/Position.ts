@@ -194,6 +194,12 @@ export interface Position {
    * @memberof Position
    */
   sourceData?: string;
+  /**
+   * How much of the position is locked in staking.
+   * @type {number}
+   * @memberof Position
+   */
+  stakingSize?: number;
 }
 
 export function PositionFromJSON(json: any): Position {
@@ -264,6 +270,7 @@ export function PositionFromJSONTyped(
       : json["sizeDecimals"],
     sizeUnit: json["sizeUnit"],
     sourceData: !exists(json, "sourceData") ? undefined : json["sourceData"],
+    stakingSize: !exists(json, "stakingSize") ? undefined : json["stakingSize"],
   };
 }
 
@@ -306,6 +313,7 @@ export function PositionToJSONRecursive(
     sizeDecimals: value.sizeDecimals,
     sizeUnit: value.sizeUnit,
     sourceData: value.sourceData,
+    stakingSize: value.stakingSize,
   };
 }
 

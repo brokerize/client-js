@@ -35,6 +35,15 @@ export interface DemoAccountSettings {
    */
   lazyAuthMethods?: boolean;
   /**
+   * If this is `true`, the first portfolio in the new account will be seeded with an old cancelled order. This can
+   * be used to test whether the frontend appropriately reloads orders when the sync is completed over time.
+   *
+   * Note that the behavior is not yet specified here and may be refined in the future.
+   * @type {boolean}
+   * @memberof DemoAccountSettings
+   */
+  seedOrders?: boolean;
+  /**
    * Set this to `true` to disallow ending session TANs.
    * @type {boolean}
    * @memberof DemoAccountSettings
@@ -60,6 +69,7 @@ export function DemoAccountSettingsFromJSONTyped(
     lazyAuthMethods: !exists(json, "lazyAuthMethods")
       ? undefined
       : json["lazyAuthMethods"],
+    seedOrders: !exists(json, "seedOrders") ? undefined : json["seedOrders"],
     sessionTanCannotBeEnded: !exists(json, "sessionTanCannotBeEnded")
       ? undefined
       : json["sessionTanCannotBeEnded"],
@@ -80,6 +90,7 @@ export function DemoAccountSettingsToJSONRecursive(
   return {
     isSinglePortfolio: value.isSinglePortfolio,
     lazyAuthMethods: value.lazyAuthMethods,
+    seedOrders: value.seedOrders,
     sessionTanCannotBeEnded: value.sessionTanCannotBeEnded,
   };
 }

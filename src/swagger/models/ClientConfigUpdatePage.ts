@@ -23,49 +23,51 @@ import {
 /**
  *
  * @export
- * @interface ClientConfigPage
+ * @interface ClientConfigUpdatePage
  */
-export interface ClientConfigPage {
+export interface ClientConfigUpdatePage {
   /**
    *
    * @type {string}
-   * @memberof ClientConfigPage
+   * @memberof ClientConfigUpdatePage
    */
   logoUrlDark?: string;
   /**
    *
    * @type {string}
-   * @memberof ClientConfigPage
+   * @memberof ClientConfigUpdatePage
    */
   logoUrlLight?: string;
   /**
    *
    * @type {any}
-   * @memberof ClientConfigPage
+   * @memberof ClientConfigUpdatePage
    */
   themeDark?: any | null;
   /**
    *
    * @type {any}
-   * @memberof ClientConfigPage
+   * @memberof ClientConfigUpdatePage
    */
   themeLight?: any | null;
   /**
    *
    * @type {string}
-   * @memberof ClientConfigPage
+   * @memberof ClientConfigUpdatePage
    */
   title?: string;
 }
 
-export function ClientConfigPageFromJSON(json: any): ClientConfigPage {
-  return ClientConfigPageFromJSONTyped(json, false);
+export function ClientConfigUpdatePageFromJSON(
+  json: any
+): ClientConfigUpdatePage {
+  return ClientConfigUpdatePageFromJSONTyped(json, false);
 }
 
-export function ClientConfigPageFromJSONTyped(
+export function ClientConfigUpdatePageFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): ClientConfigPage {
+): ClientConfigUpdatePage {
   if (json === undefined || json === null) {
     return json;
   }
@@ -80,8 +82,8 @@ export function ClientConfigPageFromJSONTyped(
   };
 }
 
-export function ClientConfigPageToJSONRecursive(
-  value?: ClientConfigPage | null,
+export function ClientConfigUpdatePageToJSONRecursive(
+  value?: ClientConfigUpdatePage | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -100,6 +102,8 @@ export function ClientConfigPageToJSONRecursive(
   };
 }
 
-export function ClientConfigPageToJSON(value?: ClientConfigPage | null): any {
-  return ClientConfigPageToJSONRecursive(value, false);
+export function ClientConfigUpdatePageToJSON(
+  value?: ClientConfigUpdatePage | null
+): any {
+  return ClientConfigUpdatePageToJSONRecursive(value, false);
 }
