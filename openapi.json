@@ -8289,7 +8289,7 @@
                   "Example 1": {
                     "value": {
                       "code": "TRADING_ERROR",
-                      "msg": "Bad Request."
+                      "msg": "Wrong TAN"
                     }
                   }
                 },
@@ -8772,8 +8772,8 @@
         "operationId": "TriggerDemoSessionSyncError",
         "parameters": [
           {
-            "in": "path",
-            "name": "sessionId",
+            "in": "query",
+            "name": "token",
             "required": true,
             "schema": {
               "type": "string"
@@ -8797,8 +8797,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "AUTH",
-                      "msg": "Authentication is not present or invalid"
+                      "code": "NO_SESSION_AVAILABLE_FOR_PORTFOLIO",
+                      "msg": "No online session for given portfolio available"
                     }
                   }
                 },
@@ -8815,8 +8815,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "TRADING_ERROR",
-                      "msg": "Session not found."
+                      "code": "SECURITY_NOT_FOUND",
+                      "msg": "Security was not found."
                     }
                   }
                 },
@@ -9056,8 +9056,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "SECURITY_NOT_FOUND",
-                      "msg": "Security was not found."
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
                     }
                   }
                 },
@@ -9429,8 +9429,9 @@
         "operationId": "PrepareTrade",
         "parameters": [
           {
+            "description": "token from the prepareTrade response \"response.securityDetailedInfo.token\"",
             "in": "query",
-            "name": "portfolioId",
+            "name": "token",
             "required": true,
             "schema": {
               "type": "string"
@@ -9517,8 +9518,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "SECURITY_NOT_FOUND",
-                      "msg": "Security was not found."
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
                     }
                   }
                 },
@@ -9780,8 +9781,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "NO_SESSION_AVAILABLE_FOR_PORTFOLIO",
-                      "msg": "No online session for given portfolio available"
+                      "code": "RATE_LIMITED",
+                      "msg": "Rate limit exceeded."
                     }
                   }
                 },
