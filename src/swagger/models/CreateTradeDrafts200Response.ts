@@ -16,27 +16,27 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateInboxOrder200Response
+ * @interface CreateTradeDrafts200Response
  */
-export interface CreateInboxOrder200Response {
+export interface CreateTradeDrafts200Response {
   /**
    *
    * @type {string}
-   * @memberof CreateInboxOrder200Response
+   * @memberof CreateTradeDrafts200Response
    */
   id: string;
 }
 
-export function CreateInboxOrder200ResponseFromJSON(
+export function CreateTradeDrafts200ResponseFromJSON(
   json: any
-): CreateInboxOrder200Response {
-  return CreateInboxOrder200ResponseFromJSONTyped(json, false);
+): CreateTradeDrafts200Response {
+  return CreateTradeDrafts200ResponseFromJSONTyped(json, false);
 }
 
-export function CreateInboxOrder200ResponseFromJSONTyped(
+export function CreateTradeDrafts200ResponseFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): CreateInboxOrder200Response {
+): CreateTradeDrafts200Response {
   if (json === undefined || json === null) {
     return json;
   }
@@ -45,8 +45,8 @@ export function CreateInboxOrder200ResponseFromJSONTyped(
   };
 }
 
-export function CreateInboxOrder200ResponseToJSONRecursive(
-  value?: CreateInboxOrder200Response | null,
+export function CreateTradeDrafts200ResponseToJSONRecursive(
+  value?: CreateTradeDrafts200Response | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -61,8 +61,8 @@ export function CreateInboxOrder200ResponseToJSONRecursive(
   };
 }
 
-export function CreateInboxOrder200ResponseToJSON(
-  value?: CreateInboxOrder200Response | null
+export function CreateTradeDrafts200ResponseToJSON(
+  value?: CreateTradeDrafts200Response | null
 ): any {
-  return CreateInboxOrder200ResponseToJSONRecursive(value, false);
+  return CreateTradeDrafts200ResponseToJSONRecursive(value, false);
 }

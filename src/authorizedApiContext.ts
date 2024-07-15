@@ -35,7 +35,7 @@ export class AuthorizedApiContext {
   private _abortController: AbortController;
   private _metaApi: openApiClient.MetaApi;
   private _brokerLoginApi: openApiClient.BrokerLoginApi;
-  private _inboxApi: openApiClient.InboxApi;
+  private _tradeDraftApi: openApiClient.TradeDraftApi;
   private _cancelOrderApi: openApiClient.CancelOrderApi;
   private _changeOrderApi: openApiClient.ChangeOrderApi;
   private _logoutSubject: Subject<void>;
@@ -85,9 +85,9 @@ export class AuthorizedApiContext {
     this._brokerLoginApi = new openApiClient.BrokerLoginApi(
       apiConfig
     ).withPostMiddleware(postMiddleware);
-    this._inboxApi = new openApiClient.InboxApi(apiConfig).withPostMiddleware(
-      postMiddleware
-    );
+    this._tradeDraftApi = new openApiClient.TradeDraftApi(
+      apiConfig
+    ).withPostMiddleware(postMiddleware);
     this._cancelOrderApi = new openApiClient.CancelOrderApi(
       apiConfig
     ).withPostMiddleware(postMiddleware);
@@ -152,31 +152,34 @@ export class AuthorizedApiContext {
     }
     return this._cache.getBrokers;
   }
-  async getInboxOrders(params: openApiClient.GetInboxOrdersRequest) {
-    return this._inboxApi.getInboxOrders(params, await this._initRequestInit());
-  }
-  async createInboxOrder(params: openApiClient.CreateInboxOrderRequest) {
-    return this._inboxApi.createInboxOrder(
+  async getTradeDrafts(params: openApiClient.GetTradeDraftsRequest) {
+    return this._tradeDraftApi.getTradeDrafts(
       params,
       await this._initRequestInit()
     );
   }
-  async updateInboxOrder(params: openApiClient.UpdateInboxOrderRequest) {
-    return this._inboxApi.updateInboxOrder(
+  async createTradeDraft(params: openApiClient.CreateTradeDraftsRequest) {
+    return this._tradeDraftApi.createTradeDrafts(
       params,
       await this._initRequestInit()
     );
   }
-  async deactivateInboxOrder(
-    params: openApiClient.DeactivateInboxOrderRequest
+  async updateTradeDraft(params: openApiClient.UpdateTradeDraftRequest) {
+    return this._tradeDraftApi.updateTradeDraft(
+      params,
+      await this._initRequestInit()
+    );
+  }
+  async deactivateTradeDraft(
+    params: openApiClient.DeactivateTradeDraftRequest
   ) {
-    return this._inboxApi.deactivateInboxOrder(
+    return this._tradeDraftApi.deactivateTradeDraft(
       params,
       await this._initRequestInit()
     );
   }
-  async deleteInboxOrder(params: openApiClient.DeleteInboxOrderRequest) {
-    return this._inboxApi.deleteInboxOrder(
+  async deleteTradeDraft(params: openApiClient.DeleteTradeDraftRequest) {
+    return this._tradeDraftApi.deleteTradeDraft(
       params,
       await this._initRequestInit()
     );

@@ -16,33 +16,33 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface InboxOrderCreateParams
+ * @interface TradeDraftCreateParams
  */
-export interface InboxOrderCreateParams {
+export interface TradeDraftCreateParams {
   /**
    *
    * @type {string}
-   * @memberof InboxOrderCreateParams
+   * @memberof TradeDraftCreateParams
    */
   description?: string;
   /**
    *
    * @type {any}
-   * @memberof InboxOrderCreateParams
+   * @memberof TradeDraftCreateParams
    */
   orderData: any | null;
 }
 
-export function InboxOrderCreateParamsFromJSON(
+export function TradeDraftCreateParamsFromJSON(
   json: any
-): InboxOrderCreateParams {
-  return InboxOrderCreateParamsFromJSONTyped(json, false);
+): TradeDraftCreateParams {
+  return TradeDraftCreateParamsFromJSONTyped(json, false);
 }
 
-export function InboxOrderCreateParamsFromJSONTyped(
+export function TradeDraftCreateParamsFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): InboxOrderCreateParams {
+): TradeDraftCreateParams {
   if (json === undefined || json === null) {
     return json;
   }
@@ -52,8 +52,8 @@ export function InboxOrderCreateParamsFromJSONTyped(
   };
 }
 
-export function InboxOrderCreateParamsToJSONRecursive(
-  value?: InboxOrderCreateParams | null,
+export function TradeDraftCreateParamsToJSONRecursive(
+  value?: TradeDraftCreateParams | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -69,8 +69,8 @@ export function InboxOrderCreateParamsToJSONRecursive(
   };
 }
 
-export function InboxOrderCreateParamsToJSON(
-  value?: InboxOrderCreateParams | null
+export function TradeDraftCreateParamsToJSON(
+  value?: TradeDraftCreateParams | null
 ): any {
-  return InboxOrderCreateParamsToJSONRecursive(value, false);
+  return TradeDraftCreateParamsToJSONRecursive(value, false);
 }

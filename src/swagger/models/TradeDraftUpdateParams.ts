@@ -14,48 +14,48 @@
 
 import { exists, mapValues } from "../runtime";
 import {
-  InboxOrderUpdateParamsOrderId,
-  InboxOrderUpdateParamsOrderIdFromJSON,
-  InboxOrderUpdateParamsOrderIdFromJSONTyped,
-  InboxOrderUpdateParamsOrderIdToJSON,
-} from "./InboxOrderUpdateParamsOrderId";
+  TradeDraftUpdateParamsOrderId,
+  TradeDraftUpdateParamsOrderIdFromJSON,
+  TradeDraftUpdateParamsOrderIdFromJSONTyped,
+  TradeDraftUpdateParamsOrderIdToJSON,
+} from "./TradeDraftUpdateParamsOrderId";
 
 /**
  *
  * @export
- * @interface InboxOrderUpdateParams
+ * @interface TradeDraftUpdateParams
  */
-export interface InboxOrderUpdateParams {
+export interface TradeDraftUpdateParams {
   /**
    *
    * @type {string}
-   * @memberof InboxOrderUpdateParams
+   * @memberof TradeDraftUpdateParams
    */
   description?: string;
   /**
    *
    * @type {boolean}
-   * @memberof InboxOrderUpdateParams
+   * @memberof TradeDraftUpdateParams
    */
   inactive?: boolean;
   /**
    *
-   * @type {InboxOrderUpdateParamsOrderId}
-   * @memberof InboxOrderUpdateParams
+   * @type {TradeDraftUpdateParamsOrderId}
+   * @memberof TradeDraftUpdateParams
    */
-  orderId?: InboxOrderUpdateParamsOrderId;
+  orderId?: TradeDraftUpdateParamsOrderId;
 }
 
-export function InboxOrderUpdateParamsFromJSON(
+export function TradeDraftUpdateParamsFromJSON(
   json: any
-): InboxOrderUpdateParams {
-  return InboxOrderUpdateParamsFromJSONTyped(json, false);
+): TradeDraftUpdateParams {
+  return TradeDraftUpdateParamsFromJSONTyped(json, false);
 }
 
-export function InboxOrderUpdateParamsFromJSONTyped(
+export function TradeDraftUpdateParamsFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): InboxOrderUpdateParams {
+): TradeDraftUpdateParams {
   if (json === undefined || json === null) {
     return json;
   }
@@ -64,12 +64,12 @@ export function InboxOrderUpdateParamsFromJSONTyped(
     inactive: !exists(json, "inactive") ? undefined : json["inactive"],
     orderId: !exists(json, "orderId")
       ? undefined
-      : InboxOrderUpdateParamsOrderIdFromJSON(json["orderId"]),
+      : TradeDraftUpdateParamsOrderIdFromJSON(json["orderId"]),
   };
 }
 
-export function InboxOrderUpdateParamsToJSONRecursive(
-  value?: InboxOrderUpdateParams | null,
+export function TradeDraftUpdateParamsToJSONRecursive(
+  value?: TradeDraftUpdateParams | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -82,12 +82,12 @@ export function InboxOrderUpdateParamsToJSONRecursive(
   return {
     description: value.description,
     inactive: value.inactive,
-    orderId: InboxOrderUpdateParamsOrderIdToJSON(value.orderId),
+    orderId: TradeDraftUpdateParamsOrderIdToJSON(value.orderId),
   };
 }
 
-export function InboxOrderUpdateParamsToJSON(
-  value?: InboxOrderUpdateParams | null
+export function TradeDraftUpdateParamsToJSON(
+  value?: TradeDraftUpdateParams | null
 ): any {
-  return InboxOrderUpdateParamsToJSONRecursive(value, false);
+  return TradeDraftUpdateParamsToJSONRecursive(value, false);
 }

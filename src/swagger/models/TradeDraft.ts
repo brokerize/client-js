@@ -14,63 +14,63 @@
 
 import { exists, mapValues } from "../runtime";
 /**
- * Inbox orders are orders saved into the inbox of the user, to be reviewed and possibly executed at a later time.
+ * Trade drafts are orders saved into for the user, to be reviewed and possibly executed at a later time.
  * @export
- * @interface InboxOrder
+ * @interface TradeDraft
  */
-export interface InboxOrder {
+export interface TradeDraft {
   /**
-   * The date when this inbox order was created
+   * The date when this trade draft was created
    * @type {Date}
-   * @memberof InboxOrder
+   * @memberof TradeDraft
    */
   createdAt: Date;
   /**
    * Information about the connected order.
    * @type {string}
-   * @memberof InboxOrder
+   * @memberof TradeDraft
    */
   description: string;
   /**
    *
    * @type {string}
-   * @memberof InboxOrder
+   * @memberof TradeDraft
    */
   id: string;
   /**
-   * Whether the inbox order is still active. Executing or dismissing the trade turns the flag to `true`
+   * Whether the trade draft is still active. Executing or dismissing the trade turns the flag to `true`
    * @type {boolean}
-   * @memberof InboxOrder
+   * @memberof TradeDraft
    */
   inactive: boolean;
   /**
-   * The data of the inbox order to be executed
+   * The data of the trade draft to be executed
    * @type {any}
-   * @memberof InboxOrder
+   * @memberof TradeDraft
    */
   orderData: any | null;
   /**
-   * If the inbox order is executed, the returned orderId is saved in here
+   * If the trade draft is executed, the returned orderId is saved in here
    * @type {number}
-   * @memberof InboxOrder
+   * @memberof TradeDraft
    */
   orderId: number;
   /**
    *
    * @type {number}
-   * @memberof InboxOrder
+   * @memberof TradeDraft
    */
   userId: number;
 }
 
-export function InboxOrderFromJSON(json: any): InboxOrder {
-  return InboxOrderFromJSONTyped(json, false);
+export function TradeDraftFromJSON(json: any): TradeDraft {
+  return TradeDraftFromJSONTyped(json, false);
 }
 
-export function InboxOrderFromJSONTyped(
+export function TradeDraftFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): InboxOrder {
+): TradeDraft {
   if (json === undefined || json === null) {
     return json;
   }
@@ -85,8 +85,8 @@ export function InboxOrderFromJSONTyped(
   };
 }
 
-export function InboxOrderToJSONRecursive(
-  value?: InboxOrder | null,
+export function TradeDraftToJSONRecursive(
+  value?: TradeDraft | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -107,6 +107,6 @@ export function InboxOrderToJSONRecursive(
   };
 }
 
-export function InboxOrderToJSON(value?: InboxOrder | null): any {
-  return InboxOrderToJSONRecursive(value, false);
+export function TradeDraftToJSON(value?: TradeDraft | null): any {
+  return TradeDraftToJSONRecursive(value, false);
 }

@@ -16,32 +16,32 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface InboxOrderUpdateParamsOrderId
+ * @interface TradeDraftUpdateParamsOrderId
  */
-export interface InboxOrderUpdateParamsOrderId {}
+export interface TradeDraftUpdateParamsOrderId {}
 
-export function InboxOrderUpdateParamsOrderIdFromJSON(
+export function TradeDraftUpdateParamsOrderIdFromJSON(
   json: any
-): InboxOrderUpdateParamsOrderId {
-  return InboxOrderUpdateParamsOrderIdFromJSONTyped(json, false);
+): TradeDraftUpdateParamsOrderId {
+  return TradeDraftUpdateParamsOrderIdFromJSONTyped(json, false);
 }
 
-export function InboxOrderUpdateParamsOrderIdFromJSONTyped(
+export function TradeDraftUpdateParamsOrderIdFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): InboxOrderUpdateParamsOrderId {
+): TradeDraftUpdateParamsOrderId {
   return json;
 }
 
-export function InboxOrderUpdateParamsOrderIdToJSONRecursive(
-  value?: InboxOrderUpdateParamsOrderId | null,
+export function TradeDraftUpdateParamsOrderIdToJSONRecursive(
+  value?: TradeDraftUpdateParamsOrderId | null,
   ignoreParent = false
 ): any {
   return value;
 }
 
-export function InboxOrderUpdateParamsOrderIdToJSON(
-  value?: InboxOrderUpdateParamsOrderId | null
+export function TradeDraftUpdateParamsOrderIdToJSON(
+  value?: TradeDraftUpdateParamsOrderId | null
 ): any {
-  return InboxOrderUpdateParamsOrderIdToJSONRecursive(value, false);
+  return TradeDraftUpdateParamsOrderIdToJSONRecursive(value, false);
 }

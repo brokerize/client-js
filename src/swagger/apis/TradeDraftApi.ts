@@ -14,63 +14,63 @@
 
 import * as runtime from "../runtime";
 import {
-  CreateInboxOrder200Response,
-  CreateInboxOrder200ResponseFromJSON,
-  CreateInboxOrder200ResponseToJSON,
+  CreateTradeDrafts200Response,
+  CreateTradeDrafts200ResponseFromJSON,
+  CreateTradeDrafts200ResponseToJSON,
   ErrorResponse,
   ErrorResponseFromJSON,
   ErrorResponseToJSON,
-  GetActiveInboxOrdersResponse,
-  GetActiveInboxOrdersResponseFromJSON,
-  GetActiveInboxOrdersResponseToJSON,
-  InboxOrderCreateParams,
-  InboxOrderCreateParamsFromJSON,
-  InboxOrderCreateParamsToJSON,
-  InboxOrderUpdateParams,
-  InboxOrderUpdateParamsFromJSON,
-  InboxOrderUpdateParamsToJSON,
+  GetActiveTradeDraftsResponse,
+  GetActiveTradeDraftsResponseFromJSON,
+  GetActiveTradeDraftsResponseToJSON,
+  TradeDraftCreateParams,
+  TradeDraftCreateParamsFromJSON,
+  TradeDraftCreateParamsToJSON,
+  TradeDraftUpdateParams,
+  TradeDraftUpdateParamsFromJSON,
+  TradeDraftUpdateParamsToJSON,
 } from "../models";
 
-export interface CreateInboxOrderRequest {
-  inboxOrderCreateParams: InboxOrderCreateParams;
+export interface CreateTradeDraftsRequest {
+  tradeDraftCreateParams: TradeDraftCreateParams;
 }
 
-export interface DeactivateInboxOrderRequest {
+export interface DeactivateTradeDraftRequest {
   id: string;
 }
 
-export interface DeleteInboxOrderRequest {
+export interface DeleteTradeDraftRequest {
   id: string;
 }
 
-export interface GetInboxOrdersRequest {
+export interface GetTradeDraftsRequest {
   take?: number;
   skip?: number;
 }
 
-export interface UpdateInboxOrderRequest {
+export interface UpdateTradeDraftRequest {
   id: string;
-  inboxOrderUpdateParams: InboxOrderUpdateParams;
+  tradeDraftUpdateParams: TradeDraftUpdateParams;
 }
 
 /**
  *
  */
-export class InboxApi extends runtime.BaseAPI {
+export class TradeDraftApi extends runtime.BaseAPI {
   /**
-   * Create a new inbox order
+   * Create a new trade draft
    */
-  async createInboxOrderRaw(
-    requestParameters: CreateInboxOrderRequest,
+  async createTradeDraftsRaw(
+    requestParameters: CreateTradeDraftsRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<runtime.ApiResponse<CreateInboxOrder200Response>> {
+  ): Promise<runtime.ApiResponse<CreateTradeDrafts200Response>> {
     if (
-      requestParameters.inboxOrderCreateParams === null ||
-      requestParameters.inboxOrderCreateParams === undefined
+      requestParameters.tradeDraftCreateParams === null ||
+      requestParameters.tradeDraftCreateParams === undefined
     ) {
       throw new runtime.RequiredError(
-        "inboxOrderCreateParams",
-        "Required parameter requestParameters.inboxOrderCreateParams was null or undefined when calling createInboxOrder."
+        "tradeDraftCreateParams",
+        "Required parameter requestParameters.tradeDraftCreateParams was null or undefined when calling createTradeDrafts."
       );
     }
 
@@ -92,30 +92,30 @@ export class InboxApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/inboxOrders`,
+        path: `/tradeDrafts`,
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
-        body: InboxOrderCreateParamsToJSON(
-          requestParameters.inboxOrderCreateParams
+        body: TradeDraftCreateParamsToJSON(
+          requestParameters.tradeDraftCreateParams
         ),
       },
       initOverrides
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CreateInboxOrder200ResponseFromJSON(jsonValue)
+      CreateTradeDrafts200ResponseFromJSON(jsonValue)
     );
   }
 
   /**
-   * Create a new inbox order
+   * Create a new trade draft
    */
-  async createInboxOrder(
-    requestParameters: CreateInboxOrderRequest,
+  async createTradeDrafts(
+    requestParameters: CreateTradeDraftsRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<CreateInboxOrder200Response> {
-    const response = await this.createInboxOrderRaw(
+  ): Promise<CreateTradeDrafts200Response> {
+    const response = await this.createTradeDraftsRaw(
       requestParameters,
       initOverrides
     );
@@ -123,16 +123,16 @@ export class InboxApi extends runtime.BaseAPI {
   }
 
   /**
-   * Set an inbox order inactive, but NOT deleted. Inactive inbox orders will not be shown to the user anymore.
+   * Set an trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.
    */
-  async deactivateInboxOrderRaw(
-    requestParameters: DeactivateInboxOrderRequest,
+  async deactivateTradeDraftRaw(
+    requestParameters: DeactivateTradeDraftRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling deactivateInboxOrder."
+        "Required parameter requestParameters.id was null or undefined when calling deactivateTradeDraft."
       );
     }
 
@@ -152,7 +152,7 @@ export class InboxApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/inboxOrders/{id}/deactivate`.replace(
+        path: `/tradeDrafts/{id}/deactivate`.replace(
           `{${"id"}}`,
           encodeURIComponent(String(requestParameters.id))
         ),
@@ -167,26 +167,26 @@ export class InboxApi extends runtime.BaseAPI {
   }
 
   /**
-   * Set an inbox order inactive, but NOT deleted. Inactive inbox orders will not be shown to the user anymore.
+   * Set an trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.
    */
-  async deactivateInboxOrder(
-    requestParameters: DeactivateInboxOrderRequest,
+  async deactivateTradeDraft(
+    requestParameters: DeactivateTradeDraftRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<void> {
-    await this.deactivateInboxOrderRaw(requestParameters, initOverrides);
+    await this.deactivateTradeDraftRaw(requestParameters, initOverrides);
   }
 
   /**
-   * Delete an inbox order from the database
+   * Delete an trade draft from the database
    */
-  async deleteInboxOrderRaw(
-    requestParameters: DeleteInboxOrderRequest,
+  async deleteTradeDraftRaw(
+    requestParameters: DeleteTradeDraftRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling deleteInboxOrder."
+        "Required parameter requestParameters.id was null or undefined when calling deleteTradeDraft."
       );
     }
 
@@ -206,7 +206,7 @@ export class InboxApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/inboxOrders/{id}`.replace(
+        path: `/tradeDrafts/{id}`.replace(
           `{${"id"}}`,
           encodeURIComponent(String(requestParameters.id))
         ),
@@ -221,22 +221,22 @@ export class InboxApi extends runtime.BaseAPI {
   }
 
   /**
-   * Delete an inbox order from the database
+   * Delete an trade draft from the database
    */
-  async deleteInboxOrder(
-    requestParameters: DeleteInboxOrderRequest,
+  async deleteTradeDraft(
+    requestParameters: DeleteTradeDraftRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<void> {
-    await this.deleteInboxOrderRaw(requestParameters, initOverrides);
+    await this.deleteTradeDraftRaw(requestParameters, initOverrides);
   }
 
   /**
-   * Returns active inbox orders for a specific user in the specified pagination
+   * Returns active trade draft for a specific user in the specified pagination
    */
-  async getInboxOrdersRaw(
-    requestParameters: GetInboxOrdersRequest,
+  async getTradeDraftsRaw(
+    requestParameters: GetTradeDraftsRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<runtime.ApiResponse<GetActiveInboxOrdersResponse>> {
+  ): Promise<runtime.ApiResponse<GetActiveTradeDraftsResponse>> {
     const queryParameters: any = {};
 
     if (requestParameters.take !== undefined) {
@@ -261,7 +261,7 @@ export class InboxApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/inboxOrders`,
+        path: `/tradeDrafts`,
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
@@ -270,18 +270,18 @@ export class InboxApi extends runtime.BaseAPI {
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetActiveInboxOrdersResponseFromJSON(jsonValue)
+      GetActiveTradeDraftsResponseFromJSON(jsonValue)
     );
   }
 
   /**
-   * Returns active inbox orders for a specific user in the specified pagination
+   * Returns active trade draft for a specific user in the specified pagination
    */
-  async getInboxOrders(
-    requestParameters: GetInboxOrdersRequest = {},
+  async getTradeDrafts(
+    requestParameters: GetTradeDraftsRequest = {},
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<GetActiveInboxOrdersResponse> {
-    const response = await this.getInboxOrdersRaw(
+  ): Promise<GetActiveTradeDraftsResponse> {
+    const response = await this.getTradeDraftsRaw(
       requestParameters,
       initOverrides
     );
@@ -289,26 +289,26 @@ export class InboxApi extends runtime.BaseAPI {
   }
 
   /**
-   * Update an inbox order
+   * Update a trade draft
    */
-  async updateInboxOrderRaw(
-    requestParameters: UpdateInboxOrderRequest,
+  async updateTradeDraftRaw(
+    requestParameters: UpdateTradeDraftRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling updateInboxOrder."
+        "Required parameter requestParameters.id was null or undefined when calling updateTradeDraft."
       );
     }
 
     if (
-      requestParameters.inboxOrderUpdateParams === null ||
-      requestParameters.inboxOrderUpdateParams === undefined
+      requestParameters.tradeDraftUpdateParams === null ||
+      requestParameters.tradeDraftUpdateParams === undefined
     ) {
       throw new runtime.RequiredError(
-        "inboxOrderUpdateParams",
-        "Required parameter requestParameters.inboxOrderUpdateParams was null or undefined when calling updateInboxOrder."
+        "tradeDraftUpdateParams",
+        "Required parameter requestParameters.tradeDraftUpdateParams was null or undefined when calling updateTradeDraft."
       );
     }
 
@@ -330,15 +330,15 @@ export class InboxApi extends runtime.BaseAPI {
 
     const response = await this.request(
       {
-        path: `/inboxOrders/{id}`.replace(
+        path: `/tradeDrafts/{id}`.replace(
           `{${"id"}}`,
           encodeURIComponent(String(requestParameters.id))
         ),
         method: "PUT",
         headers: headerParameters,
         query: queryParameters,
-        body: InboxOrderUpdateParamsToJSON(
-          requestParameters.inboxOrderUpdateParams
+        body: TradeDraftUpdateParamsToJSON(
+          requestParameters.tradeDraftUpdateParams
         ),
       },
       initOverrides
@@ -348,12 +348,12 @@ export class InboxApi extends runtime.BaseAPI {
   }
 
   /**
-   * Update an inbox order
+   * Update a trade draft
    */
-  async updateInboxOrder(
-    requestParameters: UpdateInboxOrderRequest,
+  async updateTradeDraft(
+    requestParameters: UpdateTradeDraftRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<void> {
-    await this.updateInboxOrderRaw(requestParameters, initOverrides);
+    await this.updateTradeDraftRaw(requestParameters, initOverrides);
   }
 }

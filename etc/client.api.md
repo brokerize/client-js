@@ -524,17 +524,17 @@ export class AuthorizedApiContext {
     // (undocumented)
     createDemoAccount(demoAccountSettings?: DemoAccountSettings): Promise<openApiClient.CreatedResponseBody>;
     // (undocumented)
-    createInboxOrder(params: openApiClient.CreateInboxOrderRequest): Promise<openApiClient.CreateInboxOrder200Response>;
-    // (undocumented)
     createSessionTanChallenge(req: openApiClient.CreateSessionTanChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
     createTrade(req: CreateTradeRequest): Promise<openApiClient.CreateTradeResponse>;
     // (undocumented)
     createTradeChallenge(req: CreateTradeChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
+    createTradeDraft(params: openApiClient.CreateTradeDraftsRequest): Promise<openApiClient.CreateTradeDrafts200Response>;
+    // (undocumented)
     createWebSocketClient(): BrokerizeWebSocketClient;
     // (undocumented)
-    deactivateInboxOrder(params: openApiClient.DeactivateInboxOrderRequest): Promise<void>;
+    deactivateTradeDraft(params: openApiClient.DeactivateTradeDraftRequest): Promise<void>;
     // (undocumented)
     deleteClient(clientId: string): Promise<void>;
     // (undocumented)
@@ -542,9 +542,9 @@ export class AuthorizedApiContext {
     // (undocumented)
     deleteGuestUser(): Promise<void>;
     // (undocumented)
-    deleteInboxOrder(params: openApiClient.DeleteInboxOrderRequest): Promise<void>;
-    // (undocumented)
     deletePortfolio(portfolioId: string): Promise<openApiClient.OkResponseBody>;
+    // (undocumented)
+    deleteTradeDraft(params: openApiClient.DeleteTradeDraftRequest): Promise<void>;
     // (undocumented)
     destroy(): void;
     // (undocumented)
@@ -567,8 +567,6 @@ export class AuthorizedApiContext {
     getDemoAccounts(): Promise<openApiClient.DemoAccountsResponse>;
     // (undocumented)
     getExchanges(): Promise<openApiClient.ExchangesResponse>;
-    // (undocumented)
-    getInboxOrders(params: openApiClient.GetInboxOrdersRequest): Promise<openApiClient.GetActiveInboxOrdersResponse>;
     // (undocumented)
     getLegalTerms(): Promise<openApiClient.LegalTermsResponse>;
     // (undocumented)
@@ -608,6 +606,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     getSessions(): Promise<openApiClient.SessionResponse>;
     // (undocumented)
+    getTradeDrafts(params: openApiClient.GetTradeDraftsRequest): Promise<openApiClient.GetActiveTradeDraftsResponse>;
+    // (undocumented)
     getUser(): Promise<openApiClient.GetUserResponse>;
     // (undocumented)
     logoutSession(sessionId: string): Promise<openApiClient.OkResponseBody>;
@@ -636,7 +636,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     triggerSessionSync(sessionId: string): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
-    updateInboxOrder(params: openApiClient.UpdateInboxOrderRequest): Promise<void>;
+    updateTradeDraft(params: openApiClient.UpdateTradeDraftRequest): Promise<void>;
 }
 
 // @public
@@ -1666,29 +1666,6 @@ function CreateGuestUserResponseToJSON(value?: CreateGuestUserResponse | null): 
 function CreateGuestUserResponseToJSONRecursive(value?: CreateGuestUserResponse | null, ignoreParent?: boolean): any;
 
 // @public
-interface CreateInboxOrder200Response {
-    id: string;
-}
-
-// @public (undocumented)
-function CreateInboxOrder200ResponseFromJSON(json: any): CreateInboxOrder200Response;
-
-// @public (undocumented)
-function CreateInboxOrder200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateInboxOrder200Response;
-
-// @public (undocumented)
-function CreateInboxOrder200ResponseToJSON(value?: CreateInboxOrder200Response | null): any;
-
-// @public (undocumented)
-function CreateInboxOrder200ResponseToJSONRecursive(value?: CreateInboxOrder200Response | null, ignoreParent?: boolean): any;
-
-// @public (undocumented)
-interface CreateInboxOrderRequest {
-    // (undocumented)
-    inboxOrderCreateParams: InboxOrderCreateParams;
-}
-
-// @public
 interface CreateModeSessionTan {
     mode: CreateModeSessionTanModeEnum;
 }
@@ -1809,6 +1786,29 @@ interface CreateTradeChallengeRequest {
     createOrderChallengeParams: CreateOrderChallengeParams;
 }
 
+// @public
+interface CreateTradeDrafts200Response {
+    id: string;
+}
+
+// @public (undocumented)
+function CreateTradeDrafts200ResponseFromJSON(json: any): CreateTradeDrafts200Response;
+
+// @public (undocumented)
+function CreateTradeDrafts200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateTradeDrafts200Response;
+
+// @public (undocumented)
+function CreateTradeDrafts200ResponseToJSON(value?: CreateTradeDrafts200Response | null): any;
+
+// @public (undocumented)
+function CreateTradeDrafts200ResponseToJSONRecursive(value?: CreateTradeDrafts200Response | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CreateTradeDraftsRequest {
+    // (undocumented)
+    tradeDraftCreateParams: TradeDraftCreateParams;
+}
+
 // @public (undocumented)
 interface CreateTradeRequest {
     // (undocumented)
@@ -1833,7 +1833,7 @@ function CreateTradeResponseToJSON(value?: CreateTradeResponse | null): any;
 function CreateTradeResponseToJSONRecursive(value?: CreateTradeResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
-interface DeactivateInboxOrderRequest {
+interface DeactivateTradeDraftRequest {
     // (undocumented)
     id: string;
 }
@@ -1989,15 +1989,15 @@ interface DeleteDemoAccountRequest {
 }
 
 // @public (undocumented)
-interface DeleteInboxOrderRequest {
-    // (undocumented)
-    id: string;
-}
-
-// @public (undocumented)
 interface DeletePortfolioRequest {
     // (undocumented)
     portfolioId: string;
+}
+
+// @public (undocumented)
+interface DeleteTradeDraftRequest {
+    // (undocumented)
+    id: string;
 }
 
 // @public
@@ -3291,22 +3291,22 @@ function GetAcessTokenAvailablePermissions200ResponseToJSON(value?: GetAcessToke
 function GetAcessTokenAvailablePermissions200ResponseToJSONRecursive(value?: GetAcessTokenAvailablePermissions200Response | null, ignoreParent?: boolean): any;
 
 // @public
-interface GetActiveInboxOrdersResponse {
-    inboxOrders: Array<InboxOrder>;
+interface GetActiveTradeDraftsResponse {
     totalCount: number;
+    tradeDrafts: Array<TradeDraft>;
 }
 
 // @public (undocumented)
-function GetActiveInboxOrdersResponseFromJSON(json: any): GetActiveInboxOrdersResponse;
+function GetActiveTradeDraftsResponseFromJSON(json: any): GetActiveTradeDraftsResponse;
 
 // @public (undocumented)
-function GetActiveInboxOrdersResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetActiveInboxOrdersResponse;
+function GetActiveTradeDraftsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetActiveTradeDraftsResponse;
 
 // @public (undocumented)
-function GetActiveInboxOrdersResponseToJSON(value?: GetActiveInboxOrdersResponse | null): any;
+function GetActiveTradeDraftsResponseToJSON(value?: GetActiveTradeDraftsResponse | null): any;
 
 // @public (undocumented)
-function GetActiveInboxOrdersResponseToJSONRecursive(value?: GetActiveInboxOrdersResponse | null, ignoreParent?: boolean): any;
+function GetActiveTradeDraftsResponseToJSONRecursive(value?: GetActiveTradeDraftsResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface GetAuthInfoRequest {
@@ -3391,14 +3391,6 @@ interface GetDecoupledOperationStatusRequest {
     decoupledOperationId: string;
     // (undocumented)
     sessionId: string;
-}
-
-// @public (undocumented)
-interface GetInboxOrdersRequest {
-    // (undocumented)
-    skip?: number;
-    // (undocumented)
-    take?: number;
 }
 
 // @public (undocumented)
@@ -3619,6 +3611,14 @@ interface GetSecurityQuotesRequest {
     securityQuotesToken: string;
 }
 
+// @public (undocumented)
+interface GetTradeDraftsRequest {
+    // (undocumented)
+    skip?: number;
+    // (undocumented)
+    take?: number;
+}
+
 // @public
 interface GetUserResponse {
     userId: string;
@@ -3677,96 +3677,6 @@ type HTTPRequestInit = {
     credentials?: RequestCredentials;
     body?: HTTPBody;
 };
-
-// @public (undocumented)
-class InboxApi extends runtime.BaseAPI {
-    createInboxOrder(requestParameters: CreateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateInboxOrder200Response>;
-    createInboxOrderRaw(requestParameters: CreateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateInboxOrder200Response>>;
-    deactivateInboxOrder(requestParameters: DeactivateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    deactivateInboxOrderRaw(requestParameters: DeactivateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-    deleteInboxOrder(requestParameters: DeleteInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    deleteInboxOrderRaw(requestParameters: DeleteInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-    getInboxOrders(requestParameters?: GetInboxOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetActiveInboxOrdersResponse>;
-    getInboxOrdersRaw(requestParameters: GetInboxOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetActiveInboxOrdersResponse>>;
-    updateInboxOrder(requestParameters: UpdateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    updateInboxOrderRaw(requestParameters: UpdateInboxOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-}
-
-// @public
-interface InboxOrder {
-    createdAt: Date;
-    description: string;
-    id: string;
-    inactive: boolean;
-    orderData: any | null;
-    orderId: number;
-    userId: number;
-}
-
-// @public
-interface InboxOrderCreateParams {
-    description?: string;
-    orderData: any | null;
-}
-
-// @public (undocumented)
-function InboxOrderCreateParamsFromJSON(json: any): InboxOrderCreateParams;
-
-// @public (undocumented)
-function InboxOrderCreateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderCreateParams;
-
-// @public (undocumented)
-function InboxOrderCreateParamsToJSON(value?: InboxOrderCreateParams | null): any;
-
-// @public (undocumented)
-function InboxOrderCreateParamsToJSONRecursive(value?: InboxOrderCreateParams | null, ignoreParent?: boolean): any;
-
-// @public (undocumented)
-function InboxOrderFromJSON(json: any): InboxOrder;
-
-// @public (undocumented)
-function InboxOrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrder;
-
-// @public (undocumented)
-function InboxOrderToJSON(value?: InboxOrder | null): any;
-
-// @public (undocumented)
-function InboxOrderToJSONRecursive(value?: InboxOrder | null, ignoreParent?: boolean): any;
-
-// @public
-interface InboxOrderUpdateParams {
-    description?: string;
-    inactive?: boolean;
-    orderId?: InboxOrderUpdateParamsOrderId;
-}
-
-// @public (undocumented)
-function InboxOrderUpdateParamsFromJSON(json: any): InboxOrderUpdateParams;
-
-// @public (undocumented)
-function InboxOrderUpdateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderUpdateParams;
-
-// @public
-interface InboxOrderUpdateParamsOrderId {
-}
-
-// @public (undocumented)
-function InboxOrderUpdateParamsOrderIdFromJSON(json: any): InboxOrderUpdateParamsOrderId;
-
-// @public (undocumented)
-function InboxOrderUpdateParamsOrderIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): InboxOrderUpdateParamsOrderId;
-
-// @public (undocumented)
-function InboxOrderUpdateParamsOrderIdToJSON(value?: InboxOrderUpdateParamsOrderId | null): any;
-
-// @public (undocumented)
-function InboxOrderUpdateParamsOrderIdToJSONRecursive(value?: InboxOrderUpdateParamsOrderId | null, ignoreParent?: boolean): any;
-
-// @public (undocumented)
-function InboxOrderUpdateParamsToJSON(value?: InboxOrderUpdateParams | null): any;
-
-// @public (undocumented)
-function InboxOrderUpdateParamsToJSONRecursive(value?: InboxOrderUpdateParams | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 type InitOverideFunction = (requestContext: {
@@ -5890,6 +5800,96 @@ class TradeApi extends runtime.BaseAPI {
 }
 
 // @public
+interface TradeDraft {
+    createdAt: Date;
+    description: string;
+    id: string;
+    inactive: boolean;
+    orderData: any | null;
+    orderId: number;
+    userId: number;
+}
+
+// @public (undocumented)
+class TradeDraftApi extends runtime.BaseAPI {
+    createTradeDrafts(requestParameters: CreateTradeDraftsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateTradeDrafts200Response>;
+    createTradeDraftsRaw(requestParameters: CreateTradeDraftsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateTradeDrafts200Response>>;
+    deactivateTradeDraft(requestParameters: DeactivateTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deactivateTradeDraftRaw(requestParameters: DeactivateTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    deleteTradeDraft(requestParameters: DeleteTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deleteTradeDraftRaw(requestParameters: DeleteTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    getTradeDrafts(requestParameters?: GetTradeDraftsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetActiveTradeDraftsResponse>;
+    getTradeDraftsRaw(requestParameters: GetTradeDraftsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetActiveTradeDraftsResponse>>;
+    updateTradeDraft(requestParameters: UpdateTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    updateTradeDraftRaw(requestParameters: UpdateTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+}
+
+// @public
+interface TradeDraftCreateParams {
+    description?: string;
+    orderData: any | null;
+}
+
+// @public (undocumented)
+function TradeDraftCreateParamsFromJSON(json: any): TradeDraftCreateParams;
+
+// @public (undocumented)
+function TradeDraftCreateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftCreateParams;
+
+// @public (undocumented)
+function TradeDraftCreateParamsToJSON(value?: TradeDraftCreateParams | null): any;
+
+// @public (undocumented)
+function TradeDraftCreateParamsToJSONRecursive(value?: TradeDraftCreateParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function TradeDraftFromJSON(json: any): TradeDraft;
+
+// @public (undocumented)
+function TradeDraftFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraft;
+
+// @public (undocumented)
+function TradeDraftToJSON(value?: TradeDraft | null): any;
+
+// @public (undocumented)
+function TradeDraftToJSONRecursive(value?: TradeDraft | null, ignoreParent?: boolean): any;
+
+// @public
+interface TradeDraftUpdateParams {
+    description?: string;
+    inactive?: boolean;
+    orderId?: TradeDraftUpdateParamsOrderId;
+}
+
+// @public (undocumented)
+function TradeDraftUpdateParamsFromJSON(json: any): TradeDraftUpdateParams;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftUpdateParams;
+
+// @public
+interface TradeDraftUpdateParamsOrderId {
+}
+
+// @public (undocumented)
+function TradeDraftUpdateParamsOrderIdFromJSON(json: any): TradeDraftUpdateParamsOrderId;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsOrderIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftUpdateParamsOrderId;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsOrderIdToJSON(value?: TradeDraftUpdateParamsOrderId | null): any;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsOrderIdToJSONRecursive(value?: TradeDraftUpdateParamsOrderId | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsToJSON(value?: TradeDraftUpdateParams | null): any;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsToJSONRecursive(value?: TradeDraftUpdateParams | null, ignoreParent?: boolean): any;
+
+// @public
 interface TrailingDistance {
     mode: TrailingDistanceModeEnum;
     value: number;
@@ -5936,11 +5936,11 @@ type UpdateDecoupledOperationMessage = {
 };
 
 // @public (undocumented)
-interface UpdateInboxOrderRequest {
+interface UpdateTradeDraftRequest {
     // (undocumented)
     id: string;
     // (undocumented)
-    inboxOrderUpdateParams: InboxOrderUpdateParams;
+    tradeDraftUpdateParams: TradeDraftUpdateParams;
 }
 
 // @public (undocumented)
