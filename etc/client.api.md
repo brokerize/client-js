@@ -514,6 +514,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     confirmOAuth(p: ConfirmOAuthParams): Promise<openApiClient.ConfirmOAuthResponse>;
     // (undocumented)
+    createAccessToken(params: openApiClient.CreateAccessTokenParams): Promise<openApiClient.AccessTokenResult>;
+    // (undocumented)
     createCancelOrderChallenge(req: openApiClient.CreateCancelOrderChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
     createChangeOrderChallenge(req: openApiClient.CreateChangeOrderChallengeRequest): Promise<openApiClient.Challenge>;
@@ -551,6 +553,10 @@ export class AuthorizedApiContext {
     enableSessionTan(req: openApiClient.EnableSessionTanRequest): Promise<openApiClient.EnableSessionTanResponse>;
     // (undocumented)
     endSessionTan(sessionId: string): Promise<openApiClient.EndSessionTanResponse>;
+    // (undocumented)
+    getAccessTokens(): Promise<openApiClient.GetAccessTokensResponse>;
+    // (undocumented)
+    getAcessTokenAvailablePermissions(): Promise<openApiClient.GetAcessTokenAvailablePermissions200Response>;
     // (undocumented)
     getAuthInfo(portfolioId: string): Promise<openApiClient.GetAuthInfoResponse>;
     // Warning: (ae-forgotten-export) The symbol "openApiClient" needs to be exported by the entry point index.d.ts
@@ -621,6 +627,8 @@ export class AuthorizedApiContext {
     removeClientOrigin(clientId: string, origin: string): Promise<void>;
     // (undocumented)
     renderGenericTablePdf(table: GenericTable): Promise<Blob>;
+    // (undocumented)
+    revokeAccessToken(accessTokenId: string): Promise<void>;
     // (undocumented)
     setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
     subscribeAvailableOrderIntents(preparedTrade: openApiClient.PreparedTrade, callback: Callback<openApiClient.OrderIntentAvailability | undefined>): {
@@ -3994,11 +4002,16 @@ declare namespace Models {
         PageConfig,
         PagesConfigurationResponse,
         ClientsResponseInner,
+        ClientConfigMaintenanceStatus,
         ConfirmOAuthParams,
         ConfirmOAuthResponse,
         CostDetailsLink,
         CreateClient200Response,
+        GetAcessTokenAvailablePermissions200Response,
+        AvailablePermissionsNode,
         CreateGuestUserResponse,
+        CreateAccessTokenParams,
+        GetAccessTokensResponse,
         CreateModeSessionTan,
         CreateOrderChallengeParams,
         CreateOrderParams,

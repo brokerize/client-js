@@ -1601,22 +1601,6 @@
         "required": ["tokens"],
         "type": "object"
       },
-      "GetActiveTradeDraftsResponse": {
-        "properties": {
-          "totalCount": {
-            "format": "int32",
-            "type": "integer"
-          },
-          "tradeDrafts": {
-            "items": {
-              "$ref": "#/components/schemas/TradeDraft"
-            },
-            "type": "array"
-          }
-        },
-        "required": ["totalCount", "tradeDrafts"],
-        "type": "object"
-      },
       "GetAuthInfoResponse": {
         "properties": {
           "authInfo": {
@@ -3436,81 +3420,6 @@
           }
         },
         "required": ["directions", "orderModels"],
-        "type": "object"
-      },
-      "TradeDraft": {
-        "description": "Trade drafts are orders saved into for the user, to be reviewed and possibly executed at a later time.",
-        "properties": {
-          "createdAt": {
-            "description": "The date when this trade draft was created",
-            "format": "date-time",
-            "type": "string"
-          },
-          "description": {
-            "description": "Information about the connected order.",
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "inactive": {
-            "description": "Whether the trade draft is still active. Executing or dismissing the trade turns the flag to `true`",
-            "type": "boolean"
-          },
-          "orderData": {
-            "description": "The data of the trade draft to be executed"
-          },
-          "orderId": {
-            "description": "If the trade draft is executed, the returned orderId is saved in here",
-            "format": "double",
-            "type": "number"
-          },
-          "userId": {
-            "format": "double",
-            "type": "number"
-          }
-        },
-        "required": [
-          "orderData",
-          "orderId",
-          "createdAt",
-          "inactive",
-          "description",
-          "userId",
-          "id"
-        ],
-        "type": "object"
-      },
-      "TradeDraftCreateParams": {
-        "properties": {
-          "description": {
-            "type": "string"
-          },
-          "orderData": {}
-        },
-        "required": ["orderData"],
-        "type": "object"
-      },
-      "TradeDraftUpdateParams": {
-        "properties": {
-          "description": {
-            "type": "string"
-          },
-          "inactive": {
-            "type": "boolean"
-          },
-          "orderId": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "format": "double",
-                "type": "number"
-              }
-            ]
-          }
-        },
         "type": "object"
       },
       "TrailingDistance": {
@@ -8380,7 +8289,7 @@
                   "Example 1": {
                     "value": {
                       "code": "TRADING_ERROR",
-                      "msg": "Bad Request."
+                      "msg": "Wrong TAN"
                     }
                   }
                 },
@@ -8863,8 +8772,8 @@
         "operationId": "TriggerDemoSessionSyncError",
         "parameters": [
           {
-            "in": "path",
-            "name": "sessionId",
+            "in": "query",
+            "name": "token",
             "required": true,
             "schema": {
               "type": "string"
@@ -8888,8 +8797,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "AUTH",
-                      "msg": "Authentication is not present or invalid"
+                      "code": "NO_SESSION_AVAILABLE_FOR_PORTFOLIO",
+                      "msg": "No online session for given portfolio available"
                     }
                   }
                 },
@@ -8906,8 +8815,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "TRADING_ERROR",
-                      "msg": "Session not found."
+                      "code": "SECURITY_NOT_FOUND",
+                      "msg": "Security was not found."
                     }
                   }
                 },
@@ -9147,8 +9056,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "SECURITY_NOT_FOUND",
-                      "msg": "Security was not found."
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
                     }
                   }
                 },
@@ -9520,8 +9429,9 @@
         "operationId": "PrepareTrade",
         "parameters": [
           {
+            "description": "token from the prepareTrade response \"response.securityDetailedInfo.token\"",
             "in": "query",
-            "name": "portfolioId",
+            "name": "token",
             "required": true,
             "schema": {
               "type": "string"
@@ -9608,8 +9518,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "SECURITY_NOT_FOUND",
-                      "msg": "Security was not found."
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
                     }
                   }
                 },
@@ -9871,8 +9781,8 @@
                 "examples": {
                   "Example 1": {
                     "value": {
-                      "code": "NO_SESSION_AVAILABLE_FOR_PORTFOLIO",
-                      "msg": "No online session for given portfolio available"
+                      "code": "RATE_LIMITED",
+                      "msg": "Rate limit exceeded."
                     }
                   }
                 },
@@ -9949,583 +9859,6 @@
           }
         ],
         "tags": ["trade"]
-      }
-    },
-    "/tradeDrafts": {
-      "get": {
-        "description": "Returns active trade draft for a specific user in the specified pagination",
-        "operationId": "GetTradeDrafts",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "take",
-            "required": false,
-            "schema": {
-              "default": 10,
-              "format": "double",
-              "type": "number"
-            }
-          },
-          {
-            "in": "query",
-            "name": "skip",
-            "required": false,
-            "schema": {
-              "default": 0,
-              "format": "double",
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetActiveTradeDraftsResponse"
-                }
-              }
-            },
-            "description": "Ok"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "",
-                      "msg": "pagination params are invalid"
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "AUTH",
-                      "msg": "Authentication is not present or invalid"
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Not logged in"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "ORDER_NOT_FOUND",
-                      "msg": "Order not found."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Order not found"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "RATE_LIMITED",
-                      "msg": "Rate limit exceeded."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Rate-limit exceeded"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "MAINTENANCE",
-                      "msg": "API is in maintenance mode. Please try again after 11:30."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Maintenance active"
-          }
-        },
-        "security": [
-          {
-            "clientId": [],
-            "cookieAuth": []
-          },
-          {
-            "clientId": [],
-            "idToken": []
-          }
-        ],
-        "tags": ["tradeDraft"]
-      },
-      "post": {
-        "description": "Create a new trade draft",
-        "operationId": "CreateTradeDrafts",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TradeDraftCreateParams"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["id"],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Ok"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "AUTH",
-                      "msg": "Authentication is not present or invalid"
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Not logged in"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "ORDER_NOT_FOUND",
-                      "msg": "Order not found."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Order not found"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "RATE_LIMITED",
-                      "msg": "Rate limit exceeded."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Rate-limit exceeded"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "MAINTENANCE",
-                      "msg": "API is in maintenance mode. Please try again after 11:30."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Maintenance active"
-          }
-        },
-        "security": [
-          {
-            "clientId": [],
-            "cookieAuth": []
-          },
-          {
-            "clientId": [],
-            "idToken": []
-          }
-        ],
-        "tags": ["tradeDraft"]
-      }
-    },
-    "/tradeDrafts/{id}": {
-      "delete": {
-        "description": "Delete an trade draft from the database",
-        "operationId": "DeleteTradeDraft",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No content"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "AUTH",
-                      "msg": "Authentication is not present or invalid"
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Not logged in"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "ORDER_NOT_FOUND",
-                      "msg": "Order not found."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Order not found"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "RATE_LIMITED",
-                      "msg": "Rate limit exceeded."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Rate-limit exceeded"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "MAINTENANCE",
-                      "msg": "API is in maintenance mode. Please try again after 11:30."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Maintenance active"
-          }
-        },
-        "security": [
-          {
-            "clientId": [],
-            "cookieAuth": []
-          },
-          {
-            "clientId": [],
-            "idToken": []
-          }
-        ],
-        "tags": ["tradeDraft"]
-      },
-      "put": {
-        "description": "Update a trade draft",
-        "operationId": "UpdateTradeDraft",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TradeDraftUpdateParams"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "204": {
-            "description": "No content"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "AUTH",
-                      "msg": "Authentication is not present or invalid"
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Not logged in"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "ORDER_NOT_FOUND",
-                      "msg": "Order not found."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Order not found"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "RATE_LIMITED",
-                      "msg": "Rate limit exceeded."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Rate-limit exceeded"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "MAINTENANCE",
-                      "msg": "API is in maintenance mode. Please try again after 11:30."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Maintenance active"
-          }
-        },
-        "security": [
-          {
-            "clientId": [],
-            "cookieAuth": []
-          },
-          {
-            "clientId": [],
-            "idToken": []
-          }
-        ],
-        "tags": ["tradeDraft"]
-      }
-    },
-    "/tradeDrafts/{id}/deactivate": {
-      "post": {
-        "description": "Set an trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.",
-        "operationId": "DeactivateTradeDraft",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No content"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "AUTH",
-                      "msg": "Authentication is not present or invalid"
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Not logged in"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "ORDER_NOT_FOUND",
-                      "msg": "Order not found."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Order not found"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "RATE_LIMITED",
-                      "msg": "Rate limit exceeded."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Rate-limit exceeded"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "code": "MAINTENANCE",
-                      "msg": "API is in maintenance mode. Please try again after 11:30."
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Maintenance active"
-          }
-        },
-        "security": [
-          {
-            "clientId": [],
-            "cookieAuth": []
-          },
-          {
-            "clientId": [],
-            "idToken": []
-          }
-        ],
-        "tags": ["tradeDraft"]
       }
     },
     "/user": {
@@ -11042,10 +10375,6 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
-    },
-    {
-      "description": "This API instance",
-      "url": "http://localhost:3333"
     }
   ],
   "tags": [
