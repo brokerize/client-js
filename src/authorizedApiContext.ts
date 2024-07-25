@@ -237,6 +237,12 @@ export class AuthorizedApiContext {
   async getPortfolios() {
     return this._defaultApi.getPortfolios(await this._initRequestInit());
   }
+  async renamePortfolio(portfolioId: string, newPortfolioName: string) {
+    return this._defaultApi.renamePortfolio(
+      { portfolioId, renamePortfolioRequest: { newPortfolioName } },
+      await this._initRequestInit()
+    );
+  }
   async deletePortfolio(portfolioId: string) {
     return this._defaultApi.deletePortfolio(
       { portfolioId },

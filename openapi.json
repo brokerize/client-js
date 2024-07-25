@@ -6972,6 +6972,148 @@
         ]
       }
     },
+    "/portfolios/{portfolioId}/rename": {
+      "post": {
+        "operationId": "RenamePortfolio",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "portfolioId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "newPortfolioName": {
+                    "type": "string"
+                  }
+                },
+                "required": ["newPortfolioName"],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "AUTH",
+                      "msg": "Authentication is not present or invalid"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not logged in"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "PORTFOLIO_NOT_FOUND",
+                      "msg": "Portfolio not found."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Portfolio not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "VALIDATION_FAILED",
+                      "msg": "Validation failed",
+                      "validationDetails": {
+                        "requestBody.order.size": {
+                          "debugData": "{\"value\":\"ABC\"}",
+                          "message": "invalid float number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Validation error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "RATE_LIMITED",
+                      "msg": "Rate limit exceeded."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Rate-limit exceeded"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Maintenance active"
+          }
+        },
+        "security": [
+          {
+            "clientId": [],
+            "cookieAuth": []
+          },
+          {
+            "clientId": [],
+            "idToken": []
+          }
+        ]
+      }
+    },
     "/securities/quotes/{securityQuotesToken}": {
       "get": {
         "description": "Load the current quotes for the given `securityQuotesToken` (provided by `PreparedTrade`).\nCurrently, polling this endpoint is the only way to get the current quotes. A polling interval of 2500 milliseconds\nis recommended and it counts towards the general rate limit.",
@@ -10374,6 +10516,10 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
+    },
+    {
+      "description": "This API instance",
+      "url": "http://localhost:3333"
     }
   ],
   "tags": [

@@ -618,6 +618,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     removeClientOrigin(clientId: string, origin: string): Promise<void>;
     // (undocumented)
+    renamePortfolio(portfolioId: string, newPortfolioName: string): Promise<void>;
+    // (undocumented)
     renderGenericTablePdf(table: GenericTable): Promise<Blob>;
     // (undocumented)
     revokeAccessToken(accessTokenId: string): Promise<void>;
@@ -1908,6 +1910,10 @@ class DefaultApi extends runtime.BaseAPI {
     getUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetUserResponse>>;
     logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
+    // (undocumented)
+    renamePortfolio(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    // (undocumented)
+    renamePortfolioRaw(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     triggerSessionSync(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     triggerSessionSyncRaw(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
     websocket(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
@@ -5111,6 +5117,31 @@ interface RemoveOriginRequest {
     // (undocumented)
     clientId: string;
 }
+
+// @public (undocumented)
+interface RenamePortfolioOperationRequest {
+    // (undocumented)
+    portfolioId: string;
+    // (undocumented)
+    renamePortfolioRequest: RenamePortfolioRequest;
+}
+
+// @public
+interface RenamePortfolioRequest {
+    newPortfolioName: string;
+}
+
+// @public (undocumented)
+function RenamePortfolioRequestFromJSON(json: any): RenamePortfolioRequest;
+
+// @public (undocumented)
+function RenamePortfolioRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenamePortfolioRequest;
+
+// @public (undocumented)
+function RenamePortfolioRequestToJSON(value?: RenamePortfolioRequest | null): any;
+
+// @public (undocumented)
+function RenamePortfolioRequestToJSONRecursive(value?: RenamePortfolioRequest | null, ignoreParent?: boolean): any;
 
 // @public
 interface RenderGenericTableParams {

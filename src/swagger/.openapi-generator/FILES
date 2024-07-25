@@ -196,6 +196,7 @@ models/PrepareOAuthRedirectResponse.ts
 models/PrepareTradeResponse.ts
 models/PreparedTrade.ts
 models/QuoteExpiration.ts
+models/RenamePortfolioRequest.ts
 models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts
 models/Security.ts

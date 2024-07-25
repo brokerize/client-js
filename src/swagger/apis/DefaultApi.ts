@@ -62,6 +62,9 @@ import {
   PortfoliosResponse,
   PortfoliosResponseFromJSON,
   PortfoliosResponseToJSON,
+  RenamePortfolioRequest,
+  RenamePortfolioRequestFromJSON,
+  RenamePortfolioRequestToJSON,
   SessionResponse,
   SessionResponseFromJSON,
   SessionResponseToJSON,
@@ -123,6 +126,11 @@ export interface GetPortfolioQuotesRequest {
 
 export interface LogoutSessionRequest {
   sessionId: string;
+}
+
+export interface RenamePortfolioOperationRequest {
+  portfolioId: string;
+  renamePortfolioRequest: RenamePortfolioRequest;
 }
 
 export interface TriggerSessionSyncRequest {
@@ -1158,6 +1166,76 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides
     );
     return await response.value();
+  }
+
+  /**
+   */
+  async renamePortfolioRaw(
+    requestParameters: RenamePortfolioOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<void>> {
+    if (
+      requestParameters.portfolioId === null ||
+      requestParameters.portfolioId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "portfolioId",
+        "Required parameter requestParameters.portfolioId was null or undefined when calling renamePortfolio."
+      );
+    }
+
+    if (
+      requestParameters.renamePortfolioRequest === null ||
+      requestParameters.renamePortfolioRequest === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "renamePortfolioRequest",
+        "Required parameter requestParameters.renamePortfolioRequest was null or undefined when calling renamePortfolio."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-access-token"] =
+        this.configuration.apiKey("x-access-token"); // idToken authentication
+    }
+
+    const response = await this.request(
+      {
+        path: `/portfolios/{portfolioId}/rename`.replace(
+          `{${"portfolioId"}}`,
+          encodeURIComponent(String(requestParameters.portfolioId))
+        ),
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: RenamePortfolioRequestToJSON(
+          requestParameters.renamePortfolioRequest
+        ),
+      },
+      initOverrides
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   */
+  async renamePortfolio(
+    requestParameters: RenamePortfolioOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<void> {
+    await this.renamePortfolioRaw(requestParameters, initOverrides);
   }
 
   /**
