@@ -184,6 +184,7 @@ export * from "./PrepareOAuthRedirectResponse";
 export * from "./PrepareTradeResponse";
 export * from "./PreparedTrade";
 export * from "./QuoteExpiration";
+export * from "./RenamePortfolioRequest";
 export * from "./RenderGenericTableParams";
 export * from "./RiskClassInfo";
 export * from "./Security";
