@@ -141,7 +141,8 @@ export interface Position {
    */
   profitLossRelWithDividends?: number;
   /**
-   * Date in the format YYYY-MM-DD
+   * Date in the format YYYY-MM-DD for validityType: 'GTD'
+   * Date in the format Date ISO string YYYY-MM-DDThh:mm:ss.fffZ for validityType: 'GTDT'
    * @type {string}
    * @memberof Position
    */

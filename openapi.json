@@ -942,7 +942,7 @@
         "type": "object"
       },
       "DateString": {
-        "description": "Date in the format YYYY-MM-DD",
+        "description": "Date in the format YYYY-MM-DD for validityType: 'GTD'\nDate in the format Date ISO string YYYY-MM-DDThh:mm:ss.fffZ for validityType: 'GTDT'",
         "type": "string"
       },
       "DecoupledOperationState": {
@@ -1672,6 +1672,10 @@
         "properties": {
           "cashAccounts": {
             "$ref": "#/components/schemas/CashAccountQuotesById"
+          },
+          "lastSync": {
+            "format": "date-time",
+            "type": "string"
           },
           "quotes": {
             "$ref": "#/components/schemas/PortfolioQuotes"
@@ -2669,7 +2673,7 @@
           },
           "positionValue": {
             "$ref": "#/components/schemas/Amount",
-            "description": "Current total amount of the open positions."
+            "description": "Current total amount of the open positions, denoted in the currency of the respective portfolio."
           },
           "profitLossAbs": {
             "$ref": "#/components/schemas/Amount",
@@ -7100,7 +7104,7 @@
     },
     "/securities/quotes/{securityQuotesToken}/meta": {
       "get": {
-        "description": "Load meta data about the given securityQuotesToken. This includes the currency, decimals and the quote source name.",
+        "description": "Load metadata about the given securityQuotesToken. This includes the currency, decimals and the quote source name.",
         "operationId": "GetSecurityQuotesMeta",
         "parameters": [
           {

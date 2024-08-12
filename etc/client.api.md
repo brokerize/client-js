@@ -3465,6 +3465,7 @@ interface GetPortfolioQuotesResponse {
     cashAccounts?: {
         [key: string]: CashAccountQuotes;
     };
+    lastSync?: Date;
     quotes?: PortfolioQuotes;
 }
 
