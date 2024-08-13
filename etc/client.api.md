@@ -622,7 +622,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     revokeAccessToken(accessTokenId: string): Promise<void>;
     // (undocumented)
-    setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
+    setClientConfig(clientId: string, config: openApiClient.ClientConfigUpdate): Promise<void>;
     subscribeAvailableOrderIntents(preparedTrade: openApiClient.PreparedTrade, callback: Callback<openApiClient.OrderIntentAvailability | undefined>): {
         unsubscribe(): void;
     };
