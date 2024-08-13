@@ -45,7 +45,7 @@ import {
 } from "./TakeProfitStopLossCapabilites";
 
 /**
- * An `Exchange` describes the order possibilites for a security at one exchange.
+ * An `Exchange` describes the order possibilities for a security at one exchange.
  * @export
  * @interface Exchange
  */
@@ -70,6 +70,12 @@ export interface Exchange {
    * @memberof Exchange
    */
   brokerizeExchangeId?: number;
+  /**
+   * The ids of the cash accounts compatible with this exchange. E.g. the ones that match the desired currency
+   * @type {Array<string>}
+   * @memberof Exchange
+   */
+  cashAccountIds?: Array<string>;
   /**
    * Quotes for the instrument at this exchange are in this currency. This affects fields like limit, stop etc.
    * @type {string}
@@ -169,6 +175,9 @@ export function ExchangeFromJSONTyped(
     brokerizeExchangeId: !exists(json, "brokerizeExchangeId")
       ? undefined
       : json["brokerizeExchangeId"],
+    cashAccountIds: !exists(json, "cashAccountIds")
+      ? undefined
+      : json["cashAccountIds"],
     currencyIso: json["currencyIso"],
     currencyIsoByCashAccountId: !exists(json, "currencyIsoByCashAccountId")
       ? undefined
@@ -224,6 +233,7 @@ export function ExchangeToJSONRecursive(
     allowsIfDoneLimit: value.allowsIfDoneLimit,
     allowsQuoteModeLimit: value.allowsQuoteModeLimit,
     brokerizeExchangeId: value.brokerizeExchangeId,
+    cashAccountIds: value.cashAccountIds,
     currencyIso: value.currencyIso,
     currencyIsoByCashAccountId: value.currencyIsoByCashAccountId,
     defaultValidityByOrderModel: DefaultOrderValidityByOrderModelToJSON(

@@ -171,7 +171,7 @@ export interface OrderCreate {
    */
   size: number;
   /**
-   *
+   * The currency in which the order sizes are provided
    * @type {string}
    * @memberof OrderCreate
    */

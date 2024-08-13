@@ -2408,6 +2408,7 @@ interface Exchange {
     allowsIfDoneLimit?: boolean;
     allowsQuoteModeLimit?: boolean;
     brokerizeExchangeId?: number;
+    cashAccountIds?: Array<string>;
     currencyIso: string;
     currencyIsoByCashAccountId?: {
         [key: string]: string;
@@ -4165,6 +4166,7 @@ interface Order {
     showAsDisabled?: boolean;
     size: number;
     sizeDecimals?: number;
+    sizeUnit?: string;
     sourceData?: string;
     status: OrderStatus;
     statusText?: string;
@@ -5231,6 +5233,7 @@ class SecuritiesApi extends runtime.BaseAPI {
 
 // @public
 interface Security {
+    cryptoCode?: string;
     isin?: string;
     name?: string;
     priceFactor?: number;

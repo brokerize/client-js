@@ -20,6 +20,12 @@ import { exists, mapValues } from "../runtime";
  */
 export interface Security {
   /**
+   * The crypto pair string if the security is `sizeKind=crypto`. Base currency and quote currency connected by a hyphen E.g. BTC-EUR
+   * @type {string}
+   * @memberof Security
+   */
+  cryptoCode?: string;
+  /**
    *
    * @type {string}
    * @memberof Security
@@ -94,6 +100,7 @@ export function SecurityFromJSONTyped(
     return json;
   }
   return {
+    cryptoCode: !exists(json, "cryptoCode") ? undefined : json["cryptoCode"],
     isin: !exists(json, "isin") ? undefined : json["isin"],
     name: !exists(json, "name") ? undefined : json["name"],
     priceFactor: !exists(json, "priceFactor") ? undefined : json["priceFactor"],
@@ -117,6 +124,7 @@ export function SecurityToJSONRecursive(
   }
 
   return {
+    cryptoCode: value.cryptoCode,
     isin: value.isin,
     name: value.name,
     priceFactor: value.priceFactor,

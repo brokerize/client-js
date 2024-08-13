@@ -218,7 +218,7 @@ export interface Order {
    */
   displayNo?: string;
   /**
-   * The mapped exchange id, as retrievable in the the `/exchanges` endpoint.
+   * The mapped exchange id, as retrievable from the `/exchanges` endpoint.
    * @type {number}
    * @memberof Order
    */
@@ -383,6 +383,12 @@ export interface Order {
    * @memberof Order
    */
   sizeDecimals?: number;
+  /**
+   * The currency in which the order sizes are provided
+   * @type {string}
+   * @memberof Order
+   */
+  sizeUnit?: string;
   /**
    * Contains original broker data (in the broker's data format).
    * @type {string}
@@ -589,6 +595,7 @@ export function OrderFromJSONTyped(
     sizeDecimals: !exists(json, "sizeDecimals")
       ? undefined
       : json["sizeDecimals"],
+    sizeUnit: !exists(json, "sizeUnit") ? undefined : json["sizeUnit"],
     sourceData: !exists(json, "sourceData") ? undefined : json["sourceData"],
     status: OrderStatusFromJSON(json["status"]),
     statusText: !exists(json, "statusText") ? undefined : json["statusText"],
@@ -685,6 +692,7 @@ export function OrderToJSONRecursive(
     showAsDisabled: value.showAsDisabled,
     size: value.size,
     sizeDecimals: value.sizeDecimals,
+    sizeUnit: value.sizeUnit,
     sourceData: value.sourceData,
     status: OrderStatusToJSON(value.status),
     statusText: value.statusText,
