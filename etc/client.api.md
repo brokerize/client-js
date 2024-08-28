@@ -605,6 +605,7 @@ export class AuthorizedApiContext {
     getSecurityQuotesMeta(securityQuotesToken: string): Promise<openApiClient.SecurityQuotesMeta>;
     // (undocumented)
     getSessions(): Promise<openApiClient.SessionResponse>;
+    _getSizeUnitFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
     // (undocumented)
     getUser(): Promise<openApiClient.GetUserResponse>;
     // (undocumented)
@@ -3399,6 +3400,8 @@ interface GetPagesConfigurationRequest {
 // @public (undocumented)
 interface GetPortfolioOrdersRequest {
     // (undocumented)
+    cryptoCode?: string;
+    // (undocumented)
     isin?: string;
     // (undocumented)
     orderBy?: string;
@@ -3407,11 +3410,17 @@ interface GetPortfolioOrdersRequest {
     // (undocumented)
     search?: string;
     // (undocumented)
+    sinoTicker?: string;
+    // (undocumented)
     skip?: number;
     // (undocumented)
     statuses?: string;
     // (undocumented)
     take?: number;
+    // (undocumented)
+    usTicker?: string;
+    // (undocumented)
+    wkn?: string;
 }
 
 // @public
@@ -4980,7 +4989,11 @@ interface PreparedTrade {
     security: Security;
     securityDetailedInfo?: SecurityDetailedInfo;
     sellPositions?: Array<SellPosition>;
+    sizeMaxDecimalsBySizeUnit?: {
+        [key: string]: number;
+    };
     sizeUnit: string;
+    sizeUnitConstraints?: Array<SizeUnitConstraint>;
     sizeUnitsByCashAccountId?: {
         [key: string]: Array<string>;
     };
@@ -5045,6 +5058,10 @@ function PrepareOAuthRedirectResponseToJSONRecursive(value?: PrepareOAuthRedirec
 interface PrepareTradeRequest {
     // (undocumented)
     brokerSecurityId?: string;
+    // (undocumented)
+    cryptoCode?: string;
+    // (undocumented)
+    cryptoPair?: string;
     // (undocumented)
     isin: string;
     // (undocumented)
@@ -5233,14 +5250,21 @@ class SecuritiesApi extends runtime.BaseAPI {
 
 // @public
 interface Security {
+    // @deprecated
     cryptoCode?: string;
+    // @deprecated
     isin?: string;
     name?: string;
     priceFactor?: number;
+    selector: SecuritySelector;
+    // @deprecated
     sinoTicker?: string;
     sizeKind?: SecuritySizeKindEnum;
+    // @deprecated
     symbol?: string;
+    // @deprecated
     usTicker?: string;
+    // @deprecated
     wkn?: string;
 }
 
@@ -5339,6 +5363,28 @@ function SecurityQuoteToJSON(value?: SecurityQuote | null): any;
 
 // @public (undocumented)
 function SecurityQuoteToJSONRecursive(value?: SecurityQuote | null, ignoreParent?: boolean): any;
+
+// @public
+interface SecuritySelector {
+    cryptoCode?: string;
+    cryptoPair?: string;
+    isin?: string;
+    sinoTicker?: string;
+    usTicker?: string;
+    wkn?: string;
+}
+
+// @public (undocumented)
+function SecuritySelectorFromJSON(json: any): SecuritySelector;
+
+// @public (undocumented)
+function SecuritySelectorFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecuritySelector;
+
+// @public (undocumented)
+function SecuritySelectorToJSON(value?: SecuritySelector | null): any;
+
+// @public (undocumented)
+function SecuritySelectorToJSONRecursive(value?: SecuritySelector | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 const SecuritySizeKindEnum: {
@@ -5611,6 +5657,26 @@ function SetClientConfigRequestToJSON(value?: SetClientConfigRequest | null): an
 
 // @public (undocumented)
 function SetClientConfigRequestToJSONRecursive(value?: SetClientConfigRequest | null, ignoreParent?: boolean): any;
+
+// @public
+interface SizeUnitConstraint {
+    cashAccountIds?: Array<string>;
+    directions?: Array<Direction>;
+    orderModels?: Array<string>;
+    sizeUnits: Array<string>;
+}
+
+// @public (undocumented)
+function SizeUnitConstraintFromJSON(json: any): SizeUnitConstraint;
+
+// @public (undocumented)
+function SizeUnitConstraintFromJSONTyped(json: any, ignoreDiscriminator: boolean): SizeUnitConstraint;
+
+// @public (undocumented)
+function SizeUnitConstraintToJSON(value?: SizeUnitConstraint | null): any;
+
+// @public (undocumented)
+function SizeUnitConstraintToJSONRecursive(value?: SizeUnitConstraint | null, ignoreParent?: boolean): any;
 
 // @public
 interface StringMapByOrderModel {
