@@ -626,6 +626,10 @@ export class AuthorizedApiContext {
         }
       }
     }
+
+    if (!preparedTrade.sizeUnit) {
+      return [preparedTrade.sizeUnit];
+    }
     return [];
   }
 
