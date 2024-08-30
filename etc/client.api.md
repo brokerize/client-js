@@ -605,7 +605,7 @@ export class AuthorizedApiContext {
     getSecurityQuotesMeta(securityQuotesToken: string): Promise<openApiClient.SecurityQuotesMeta>;
     // (undocumented)
     getSessions(): Promise<openApiClient.SessionResponse>;
-    _getSizeUnitFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
+    _getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
     // (undocumented)
     getUser(): Promise<openApiClient.GetUserResponse>;
     // (undocumented)

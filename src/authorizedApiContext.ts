@@ -602,7 +602,7 @@ export class AuthorizedApiContext {
    * @param direction the currently selected direction in the order form
    * @param cashAccountId the id of the currently selected cash account in the order form
    */
-  _getSizeUnitFromConstraints(
+  _getSizeUnitsFromConstraints(
     preparedTrade: PreparedTrade,
     orderModel: OrderModel,
     direction: Direction,
