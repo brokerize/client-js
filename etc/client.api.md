@@ -605,7 +605,6 @@ export class AuthorizedApiContext {
     getSecurityQuotesMeta(securityQuotesToken: string): Promise<openApiClient.SecurityQuotesMeta>;
     // (undocumented)
     getSessions(): Promise<openApiClient.SessionResponse>;
-    _getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
     // (undocumented)
     getUser(): Promise<openApiClient.GetUserResponse>;
     // (undocumented)
@@ -3569,6 +3568,9 @@ interface GetSecurityQuotesRequest {
 }
 
 // @public
+function getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
+
+// @public
 interface GetUserResponse {
     userId: string;
 }
@@ -4045,6 +4047,7 @@ declare namespace Models {
         RenderGenericTableParams,
         RiskClassInfo,
         Security,
+        SecuritySelector,
         SecurityDetailedInfo,
         SellPosition,
         Session,
@@ -5873,6 +5876,13 @@ class UserApi extends runtime.BaseAPI {
     // (undocumented)
     revokeAccessTokenRaw(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
+
+declare namespace Utils {
+    export {
+        getSizeUnitsFromConstraints
+    }
+}
+export { Utils }
 
 // @public
 interface ValidationDetail {

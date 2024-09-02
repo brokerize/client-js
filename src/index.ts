@@ -20,6 +20,7 @@ import {
   Subscription,
 } from "./websocketClient";
 import * as WebSocketTypes from "./websocketTypes";
+import * as Utils from "./utils";
 
 export {
   BrokerizeConfig,
@@ -30,6 +31,7 @@ export {
   WebSocketTypes,
   Subscription,
   Callback,
+  Utils,
   BrokerizeError,
 };
 export { CognitoPoolConfig, RegisteredUserAuthContextConfiguration };
