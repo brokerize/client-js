@@ -773,9 +773,14 @@
             },
             "config": {
               "$ref": "#/components/schemas/ClientConfig"
+            },
+            "lastUsedAt": {
+              "format": "date-time",
+              "nullable": true,
+              "type": "string"
             }
           },
-          "required": ["config", "clientId"],
+          "required": ["config", "lastUsedAt", "clientId"],
           "type": "object"
         },
         "type": "array"
@@ -3042,9 +3047,20 @@
             },
             "type": "array"
           },
+          "sizeMaxDecimalsBySizeUnit": {
+            "$ref": "#/components/schemas/SizeMaxDecimalsBySizeUnit",
+            "description": "The maximum number of decimal places specified for each sizeUnit.\nIf it is defined for the selected sizeUnit, frontends should limit the number input to this number of decimal places.\nIf it is not defined, the number of decimal places is unknown and frontends should allow any number."
+          },
           "sizeUnit": {
             "$ref": "#/components/schemas/CurrencyCode",
             "description": "Default unit in which `size` is provided for orders.\n\n- For stocks and other assets, this is the number of stocks (encoded as `XXX`).\n- For bonds, this is the currency of the bond, so that size is the monetary amount.\n- For crypto currencies, the size may also be a monetary amount.\n\nThere may be more options for the user to specify the order size in. Those options\nare provided in the field `sizeUnitsByCashAccountId` if applicable for the account."
+          },
+          "sizeUnitConstraints": {
+            "description": "If present, this defines which sizeUnits are available for a combination of cashAccountId, orderModel and direction.\nAn entry in this list is considered a match if all specified attributes match.\n\nFor example, if an entry specifies orderModels and directions and both orderModel and direction are included\nin the respective attributes in the constraint, the entry specifies the available sizeUnits.",
+            "items": {
+              "$ref": "#/components/schemas/SizeUnitConstraint"
+            },
+            "type": "array"
           },
           "sizeUnitsByCashAccountId": {
             "$ref": "#/components/schemas/sizeUnitsByCashAccountIdMap",
@@ -3117,10 +3133,12 @@
         "description": "A security's basic data like symbols and names.",
         "properties": {
           "cryptoCode": {
-            "description": "The crypto pair string if the security is `sizeKind=crypto`. Base currency and quote currency connected by a hyphen E.g. BTC-EUR",
+            "deprecated": true,
+            "description": "The crypto code string if the security is `sizeKind=crypto`. E.g. 'BTC'",
             "type": "string"
           },
           "isin": {
+            "deprecated": true,
             "type": "string"
           },
           "name": {
@@ -3131,7 +3149,11 @@
             "format": "double",
             "type": "number"
           },
+          "selector": {
+            "$ref": "#/components/schemas/SecuritySelector"
+          },
           "sinoTicker": {
+            "deprecated": true,
             "description": "The security`s symbol as used by broker \"sino\" (this can be used to implement broker-specific security matching behavior)",
             "type": "string"
           },
@@ -3141,16 +3163,19 @@
             "type": "string"
           },
           "symbol": {
+            "deprecated": true,
             "type": "string"
           },
           "usTicker": {
-            "description": "The US ticker symbol of the security, if provided by the broker.",
+            "deprecated": true,
             "type": "string"
           },
           "wkn": {
+            "deprecated": true,
             "type": "string"
           }
         },
+        "required": ["selector"],
         "type": "object"
       },
       "SecurityDetailedInfo": {
@@ -3215,6 +3240,35 @@
           }
         },
         "required": ["quotes"],
+        "type": "object"
+      },
+      "SecuritySelector": {
+        "properties": {
+          "cryptoCode": {
+            "description": "The securities crypto code if it is of type \"crypto\". E.g. 'BTC'",
+            "type": "string"
+          },
+          "cryptoPair": {
+            "description": "The securities crypto pair if it is of type \"crypto\". E.g. 'BTC-EUR'",
+            "type": "string"
+          },
+          "isin": {
+            "description": "The security's `isin` (International Securities Identification Number).",
+            "type": "string"
+          },
+          "sinoTicker": {
+            "description": "The security's symbol as used by the broker `sino` (can be used to implement broker-specific security matching behavior)",
+            "type": "string"
+          },
+          "usTicker": {
+            "description": "The security's US Ticker symbol",
+            "type": "string"
+          },
+          "wkn": {
+            "description": "The security's `wkn` (Wertpapierkennnummer).",
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "SellPosition": {
@@ -3347,6 +3401,45 @@
             "type": "string"
           }
         }
+      },
+      "SizeMaxDecimalsBySizeUnit": {
+        "additionalProperties": {
+          "format": "double",
+          "type": "number"
+        },
+        "description": "The maximum number of decimal places specified for each sizeUnit.\nIf it is defined for the selected sizeUnit, frontends should limit the number input to this number of decimal places.\nIf it is not defined, the number of decimal places is unknown and frontends should allow any number.",
+        "properties": {},
+        "type": "object"
+      },
+      "SizeUnitConstraint": {
+        "properties": {
+          "cashAccountIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "directions": {
+            "items": {
+              "$ref": "#/components/schemas/Direction"
+            },
+            "type": "array"
+          },
+          "orderModels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sizeUnits": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": ["sizeUnits"],
+        "type": "object"
       },
       "StringMapByOrderModel": {
         "additionalProperties": false,
@@ -6570,15 +6663,6 @@
             }
           },
           {
-            "description": "filter by isin",
-            "in": "query",
-            "name": "isin",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "description": "fulltext search query. This usually searches for ISIN and security name or other symbols, depending on the broker.",
             "in": "query",
             "name": "search",
@@ -6600,6 +6684,47 @@
             "description": "order by `<field>:<asc|desc>`, where `field` may be one of `createdAt`, `executedAt`",
             "in": "query",
             "name": "orderBy",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "filter by isin",
+            "in": "query",
+            "name": "isin",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "wkn",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sinoTicker",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "usTicker",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cryptoCode",
             "required": false,
             "schema": {
               "type": "string"
@@ -9475,7 +9600,25 @@
             }
           },
           {
-            "description": "The brokerSecurityId of the given broker. Usually this is unkown initially (but will be included in the response of this call).\nIf you know the brokerSecurityId (e.g. because it is provided in an existing position or order), it will be preferred over\nthe other provided identifiers.",
+            "description": "The cryptoCode of the crypto security to trade e.g. 'BTC'. Either this or \"cryptoPair\" should be defined for\ntrades of this kind.",
+            "in": "query",
+            "name": "cryptoCode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The crypto pair of the crypto security to trade e.g. 'BTC-EUR'. Either this or \"cryptoCode\" should be defined for\ntrades of this kind.",
+            "in": "query",
+            "name": "cryptoPair",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The brokerSecurityId of the given broker. Usually this is unknown initially (but will be included in the response of this call).\nIf you know the brokerSecurityId (e.g. because it is provided in an existing position or order), it will be preferred over\nthe other provided identifiers.",
             "in": "query",
             "name": "brokerSecurityId",
             "required": false,
@@ -10380,7 +10523,7 @@
     },
     "/websocket": {
       "get": {
-        "description": "Most operations at brokerize have asynchronous effects.\n\nFor example, consider the flow of an order: when the user creates an order, it will not immediately appear in order list endpoints, because usually brokers take a few seconds until they are retrievable in those lists. Also, after a while, the order may be executed or cancelled asynchronously by the stock exchange.\n\nA common solution for frontends would be to reload the order list regularly. However data is then either delayed or there will be many more requests than needed.\n\nThe brokerize websocket endpoint allows getting updates via web sockets. Generally speaking, clients can subscribe by assigning a subscription id and will then receive updates on that subscription.\n\nIn this documentation, ⬆️ denotes messages from the client to the server, whereas messages from server to client are marked with ⬇️.\n\n## authentication\nWhen using cookies for authorization, the WebSocket connection is authenticated with the HTTP upgrade request.\n\nIf token headers are used, the *first* message from client to server must be:\n\n```\n⬆️ {\n    \"cmd\": \"authorize\",\n    \"idToken\": <string>\n}\n```\n\nIn all cases, clients must wait for the welcome message before sending other messages:\n\n\n```\n⬇️ { \"cmd\": \"authenticated\" }\n```\n\n## ping\nAfter 1 minute of inactivity of a client, the WebSocket connection will be considered stale and will automatically terminated. To prevent this, a ping message can be sent:\n\n```\n ⬆️ {\"cmd\": \"ping\"}\n```\n\nThe server also sends this message regularly. If no message has been received on a WebSocket connection for more than 1 minute, it should be terminated by the client.\n\n```\n ⬇️ {\"cmd\": \"ping\"}\n```\n\n## subscriptions\nSubscriptions can be used to get invalidate events or updates for selected resources. \n\n### invalidate subscriptions\nInvalidation events can be used for the frontend to know when reload requests via the HTTP endpoints are appropriate. Currently only invalidate events can be subscribed, the actual data must then be reloaded using the HTTP endpoints.\n\nTo set up a subscription for an invalidate event, use:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"invalidate\",\n    \"subscriptionId\": 1,\n    \"entity: \"brokersessions\" /* \"positions\" | \"orders\" */,\n    \"portfolioId\": 42 /* required for \"positions\" or \"orders\" */\n}\n```\n\nIf the subscription failed to be set up on the server, an error will be sent for the subscription. This also automatically ends the subscription on the server side:\n\n```\n⬇️ {\n    \"subscriptionId\": 1,\n    \"error\": {\n        \"message\": \"Could not set up invalidation event due to...\"\n    }\n}\n```\n\nIf an invalid `subscriptionId` is provided (or the subscription id is already in use by the connection), an error like this will be sent:\n```\n⬇️ {\n    \"error\": {\n        \"message\": \"Could not add subscription due to invalid subscriptionId\"\n    }\n}\n```\n⚠️ *the connection will then be terminated immediately*.\n\nIf the subscription is sucessfuly set up, whenever an invalidation happens, the server will send a message like this:\n\n```\n⬇️ {\n    \"cmd\": \"invalidate\",\n    \"subscriptionId\": 1\n}\n```\n\nWhen that invalidation event is received, the client should reload the data using the corresponding endpoints.\n\nClients can end their subscription with the `unsubscribe` command:\n\n```\n⬆️ {\n    \"cmd\": \"unsubscribe\",\n    \"subscriptionId\": 1\n}\n```\n\n### subscribe to the state of a decoupled operation\nFor decoupled operations (e.g. authorizing a session TAN using a second factor device), the state of the operation can be subscribed:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"decoupledOperationStatus\",\n    \"subscriptionId\": 1,\n    \"sessionId\": string,\n    \"decoupledOperationId\": string   \n}\n```\n\nError handling as well as unsubscribing works as described for invalidate subscriptions. Example message from the server for updating the state:\n\n```\n⬇️ {\n    \"cmd\": \"updateDecoupledOperationStatus\",\n    \"subscriptionId\": number,\n    \"state\": <DecoupledOperationStatus>\n}\n```\n",
+        "description": "Most operations at brokerize have asynchronous effects.\n\nFor example, consider the flow of an order: when the user creates an order, it will not immediately appear in order list endpoints, because usually brokers take a few seconds until they are retrievable in those lists. Also, after a while, the order may be executed or cancelled asynchronously by the stock exchange.\n\nA common solution for frontends would be to reload the order list regularly. However data is then either delayed or there will be many more requests than needed.\n\nThe brokerize websocket endpoint allows getting updates via web sockets. Generally speaking, clients can subscribe by assigning a subscription id and will then receive updates on that subscription.\n\nIn this documentation, ⬆️ denotes messages from the client to the server, whereas messages from server to client are marked with ⬇️.\n\n## authentication\n\nWhen using cookies for authorization, the WebSocket connection is authenticated with the HTTP upgrade request.\n\nIf token headers are used, the _first_ message from client to server must be:\n\n```\n⬆️ {\n    \"cmd\": \"authorize\",\n    \"idToken\": <string>\n}\n```\n\nIn all cases, clients must wait for the welcome message before sending other messages:\n\n```\n⬇️ { \"cmd\": \"authenticated\" }\n```\n\n## ping\n\nAfter 1 minute of inactivity of a client, the WebSocket connection will be considered stale and will automatically terminated. To prevent this, a ping message can be sent:\n\n```\n ⬆️ {\"cmd\": \"ping\"}\n```\n\nThe server also sends this message regularly. If no message has been received on a WebSocket connection for more than 1 minute, it should be terminated by the client.\n\n```\n ⬇️ {\"cmd\": \"ping\"}\n```\n\n## subscriptions\n\nSubscriptions can be used to get invalidate events or updates for selected resources.\n\n### invalidate subscriptions\n\nInvalidation events can be used for the frontend to know when reload requests via the HTTP endpoints are appropriate. Currently only invalidate events can be subscribed, the actual data must then be reloaded using the HTTP endpoints.\n\nTo set up a subscription for an invalidate event, use:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"invalidate\",\n    \"subscriptionId\": 1,\n    \"entity: \"brokersessions\" /* \"positions\" | \"orders\" */,\n    \"portfolioId\": 42 /* required for \"positions\" or \"orders\" */\n}\n```\n\nIf the subscription failed to be set up on the server, an error will be sent for the subscription. This also automatically ends the subscription on the server side:\n\n```\n⬇️ {\n    \"subscriptionId\": 1,\n    \"error\": {\n        \"message\": \"Could not set up invalidation event due to...\"\n    }\n}\n```\n\nIf an invalid `subscriptionId` is provided (or the subscription id is already in use by the connection), an error like this will be sent:\n\n```\n⬇️ {\n    \"error\": {\n        \"message\": \"Could not add subscription due to invalid subscriptionId\"\n    }\n}\n```\n\n⚠️ _the connection will then be terminated immediately_.\n\nIf the subscription is sucessfuly set up, whenever an invalidation happens, the server will send a message like this:\n\n```\n⬇️ {\n    \"cmd\": \"invalidate\",\n    \"subscriptionId\": 1\n}\n```\n\nWhen that invalidation event is received, the client should reload the data using the corresponding endpoints.\n\nClients can end their subscription with the `unsubscribe` command:\n\n```\n⬆️ {\n    \"cmd\": \"unsubscribe\",\n    \"subscriptionId\": 1\n}\n```\n\n### subscribe to the state of a decoupled operation\n\nFor decoupled operations (e.g. authorizing a session TAN using a second factor device), the state of the operation can be subscribed:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"decoupledOperationStatus\",\n    \"subscriptionId\": 1,\n    \"sessionId\": string,\n    \"decoupledOperationId\": string\n}\n```\n\nError handling as well as unsubscribing works as described for invalidate subscriptions. Example message from the server for updating the state:\n\n```\n⬇️ {\n    \"cmd\": \"updateDecoupledOperationStatus\",\n    \"subscriptionId\": number,\n    \"state\": <DecoupledOperationStatus>\n}\n```\n",
         "operationId": "Websocket",
         "responses": {
           "101": {

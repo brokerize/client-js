@@ -81,6 +81,8 @@ export interface PrepareTradeRequest {
   portfolioId: string;
   isin: string;
   usTicker?: string;
+  cryptoCode?: string;
+  cryptoPair?: string;
   brokerSecurityId?: string;
 }
 
@@ -520,6 +522,14 @@ export class TradeApi extends runtime.BaseAPI {
 
     if (requestParameters.usTicker !== undefined) {
       queryParameters["usTicker"] = requestParameters.usTicker;
+    }
+
+    if (requestParameters.cryptoCode !== undefined) {
+      queryParameters["cryptoCode"] = requestParameters.cryptoCode;
+    }
+
+    if (requestParameters.cryptoPair !== undefined) {
+      queryParameters["cryptoPair"] = requestParameters.cryptoPair;
     }
 
     if (requestParameters.brokerSecurityId !== undefined) {
