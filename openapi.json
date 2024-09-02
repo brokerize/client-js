@@ -773,9 +773,14 @@
             },
             "config": {
               "$ref": "#/components/schemas/ClientConfig"
+            },
+            "lastUsedAt": {
+              "format": "date-time",
+              "nullable": true,
+              "type": "string"
             }
           },
-          "required": ["config", "clientId"],
+          "required": ["config", "lastUsedAt", "clientId"],
           "type": "object"
         },
         "type": "array"
@@ -10532,10 +10537,6 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
-    },
-    {
-      "description": "This API instance",
-      "url": "http://localhost:3333"
     }
   ],
   "tags": [

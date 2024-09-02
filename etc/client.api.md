@@ -1403,6 +1403,7 @@ function ClientConfigUpdateToJSONRecursive(value?: ClientConfigUpdate | null, ig
 interface ClientsResponseInner {
     clientId: string;
     config: ClientConfig;
+    lastUsedAt: Date | null;
 }
 
 // @public (undocumented)
