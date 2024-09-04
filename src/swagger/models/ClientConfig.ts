@@ -52,6 +52,12 @@ export interface ClientConfig {
   allowedOrigins: Array<string>;
   /**
    *
+   * @type {Array<string>}
+   * @memberof ClientConfig
+   */
+  allowedOriginsRegularExpressions?: Array<string>;
+  /**
+   *
    * @type {{ [key: string]: BrokerEnvFilterType; }}
    * @memberof ClientConfig
    */
@@ -132,6 +138,12 @@ export function ClientConfigFromJSONTyped(
   return {
     allowRequestsWithoutOrigin: json["allowRequestsWithoutOrigin"],
     allowedOrigins: json["allowedOrigins"],
+    allowedOriginsRegularExpressions: !exists(
+      json,
+      "allowedOriginsRegularExpressions"
+    )
+      ? undefined
+      : json["allowedOriginsRegularExpressions"],
     brokerEnvFilter: mapValues(
       json["brokerEnvFilter"],
       BrokerEnvFilterTypeFromJSON
@@ -172,6 +184,7 @@ export function ClientConfigToJSONRecursive(
   return {
     allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
     allowedOrigins: value.allowedOrigins,
+    allowedOriginsRegularExpressions: value.allowedOriginsRegularExpressions,
     brokerEnvFilter: mapValues(
       value.brokerEnvFilter,
       BrokerEnvFilterTypeToJSON

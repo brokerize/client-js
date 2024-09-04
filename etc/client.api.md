@@ -1237,6 +1237,7 @@ interface ChangeOrderRequest {
 // @public
 interface ClientConfig {
     allowedOrigins: Array<string>;
+    allowedOriginsRegularExpressions?: Array<string>;
     allowRequestsWithoutOrigin: boolean;
     brokerEnvFilter: {
         [key: string]: BrokerEnvFilterType;
@@ -1286,6 +1287,7 @@ function ClientConfigToJSONRecursive(value?: ClientConfig | null, ignoreParent?:
 // @public
 interface ClientConfigUpdate {
     allowedOrigins?: Array<string>;
+    allowedOriginsRegularExpressions?: Array<string>;
     allowRequestsWithoutOrigin?: boolean;
     brokerClientIds?: BrokerClientCfg;
     brokerEnvFilter?: {

@@ -599,6 +599,12 @@
             },
             "type": "array"
           },
+          "allowedOriginsRegularExpressions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "brokerEnvFilter": {
             "$ref": "#/components/schemas/BrokerEnvFilterMap"
           },
@@ -661,12 +667,18 @@
         "type": "object"
       },
       "ClientConfigUpdate": {
-        "description": "A client configurtion *update* (i.e. fields that are not modified can be left out).",
+        "description": "A client configuration *update* (i.e. fields that are not modified can be left out).",
         "properties": {
           "allowRequestsWithoutOrigin": {
             "type": "boolean"
           },
           "allowedOrigins": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "allowedOriginsRegularExpressions": {
             "items": {
               "type": "string"
             },
@@ -10537,6 +10549,10 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
+    },
+    {
+      "description": "This API instance",
+      "url": "http://localhost:3333"
     }
   ],
   "tags": [
