@@ -630,7 +630,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     revokeAccessToken(accessTokenId: string): Promise<void>;
     // (undocumented)
-    setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
+    setClientConfig(clientId: string, config: openApiClient.ClientConfigUpdate): Promise<void>;
     subscribeAvailableOrderIntents(preparedTrade: openApiClient.PreparedTrade, callback: Callback<openApiClient.OrderIntentAvailability | undefined>): {
         unsubscribe(): void;
     };
@@ -3641,6 +3641,9 @@ interface GetTradeDraftsRequest {
 }
 
 // @public
+function getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
+
+// @public
 interface GetUserResponse {
     userId: string;
 }
@@ -4117,6 +4120,7 @@ declare namespace Models {
         RenderGenericTableParams,
         RiskClassInfo,
         Security,
+        SecuritySelector,
         SecurityDetailedInfo,
         SellPosition,
         Session,
@@ -6072,6 +6076,13 @@ class UserApi extends runtime.BaseAPI {
     // (undocumented)
     revokeAccessTokenRaw(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
+
+declare namespace Utils {
+    export {
+        getSizeUnitsFromConstraints
+    }
+}
+export { Utils }
 
 // @public
 interface ValidationDetail {

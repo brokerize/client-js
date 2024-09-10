@@ -497,7 +497,10 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
-  async setClientConfig(clientId: string, config: openApiClient.ClientConfig) {
+  async setClientConfig(
+    clientId: string,
+    config: openApiClient.ClientConfigUpdate
+  ) {
     return this._adminApi.setClientConfig(
       {
         clientId,
