@@ -40,6 +40,12 @@ export interface GetPortfolioQuotesResponse {
   cashAccounts?: { [key: string]: CashAccountQuotes };
   /**
    *
+   * @type {Date}
+   * @memberof GetPortfolioQuotesResponse
+   */
+  lastSync?: Date;
+  /**
+   *
    * @type {PortfolioQuotes}
    * @memberof GetPortfolioQuotesResponse
    */
@@ -63,6 +69,9 @@ export function GetPortfolioQuotesResponseFromJSONTyped(
     cashAccounts: !exists(json, "cashAccounts")
       ? undefined
       : mapValues(json["cashAccounts"], CashAccountQuotesFromJSON),
+    lastSync: !exists(json, "lastSync")
+      ? undefined
+      : new Date(json["lastSync"]),
     quotes: !exists(json, "quotes")
       ? undefined
       : PortfolioQuotesFromJSON(json["quotes"]),
@@ -85,6 +94,8 @@ export function GetPortfolioQuotesResponseToJSONRecursive(
       value.cashAccounts === undefined
         ? undefined
         : mapValues(value.cashAccounts, CashAccountQuotesToJSON),
+    lastSync:
+      value.lastSync === undefined ? undefined : value.lastSync.toISOString(),
     quotes: PortfolioQuotesToJSON(value.quotes),
   };
 }

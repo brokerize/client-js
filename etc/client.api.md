@@ -1247,6 +1247,7 @@ interface ChangeOrderRequest {
 // @public
 interface ClientConfig {
     allowedOrigins: Array<string>;
+    allowedOriginsRegularExpressions?: Array<string>;
     allowRequestsWithoutOrigin: boolean;
     brokerEnvFilter: {
         [key: string]: BrokerEnvFilterType;
@@ -1296,6 +1297,7 @@ function ClientConfigToJSONRecursive(value?: ClientConfig | null, ignoreParent?:
 // @public
 interface ClientConfigUpdate {
     allowedOrigins?: Array<string>;
+    allowedOriginsRegularExpressions?: Array<string>;
     allowRequestsWithoutOrigin?: boolean;
     brokerClientIds?: BrokerClientCfg;
     brokerEnvFilter?: {
@@ -1412,6 +1414,7 @@ function ClientConfigUpdateToJSONRecursive(value?: ClientConfigUpdate | null, ig
 interface ClientsResponseInner {
     clientId: string;
     config: ClientConfig;
+    lastUsedAt: Date | null;
 }
 
 // @public (undocumented)
@@ -2453,6 +2456,7 @@ interface Exchange {
     allowsIfDoneLimit?: boolean;
     allowsQuoteModeLimit?: boolean;
     brokerizeExchangeId?: number;
+    cashAccountIds?: Array<string>;
     currencyIso: string;
     currencyIsoByCashAccountId?: {
         [key: string]: string;
@@ -3461,6 +3465,8 @@ interface GetPagesConfigurationRequest {
 // @public (undocumented)
 interface GetPortfolioOrdersRequest {
     // (undocumented)
+    cryptoCode?: string;
+    // (undocumented)
     isin?: string;
     // (undocumented)
     orderBy?: string;
@@ -3469,11 +3475,17 @@ interface GetPortfolioOrdersRequest {
     // (undocumented)
     search?: string;
     // (undocumented)
+    sinoTicker?: string;
+    // (undocumented)
     skip?: number;
     // (undocumented)
     statuses?: string;
     // (undocumented)
     take?: number;
+    // (undocumented)
+    usTicker?: string;
+    // (undocumented)
+    wkn?: string;
 }
 
 // @public
@@ -3528,6 +3540,7 @@ interface GetPortfolioQuotesResponse {
     cashAccounts?: {
         [key: string]: CashAccountQuotes;
     };
+    lastSync?: Date;
     quotes?: PortfolioQuotes;
 }
 
@@ -4235,6 +4248,7 @@ interface Order {
     showAsDisabled?: boolean;
     size: number;
     sizeDecimals?: number;
+    sizeUnit?: string;
     sourceData?: string;
     status: OrderStatus;
     statusText?: string;
@@ -5048,7 +5062,11 @@ interface PreparedTrade {
     security: Security;
     securityDetailedInfo?: SecurityDetailedInfo;
     sellPositions?: Array<SellPosition>;
+    sizeMaxDecimalsBySizeUnit?: {
+        [key: string]: number;
+    };
     sizeUnit: string;
+    sizeUnitConstraints?: Array<SizeUnitConstraint>;
     sizeUnitsByCashAccountId?: {
         [key: string]: Array<string>;
     };
@@ -5113,6 +5131,10 @@ function PrepareOAuthRedirectResponseToJSONRecursive(value?: PrepareOAuthRedirec
 interface PrepareTradeRequest {
     // (undocumented)
     brokerSecurityId?: string;
+    // (undocumented)
+    cryptoCode?: string;
+    // (undocumented)
+    cryptoPair?: string;
     // (undocumented)
     isin: string;
     // (undocumented)
@@ -5301,13 +5323,21 @@ class SecuritiesApi extends runtime.BaseAPI {
 
 // @public
 interface Security {
+    // @deprecated
+    cryptoCode?: string;
+    // @deprecated
     isin?: string;
     name?: string;
     priceFactor?: number;
+    selector: SecuritySelector;
+    // @deprecated
     sinoTicker?: string;
     sizeKind?: SecuritySizeKindEnum;
+    // @deprecated
     symbol?: string;
+    // @deprecated
     usTicker?: string;
+    // @deprecated
     wkn?: string;
 }
 
@@ -5406,6 +5436,28 @@ function SecurityQuoteToJSON(value?: SecurityQuote | null): any;
 
 // @public (undocumented)
 function SecurityQuoteToJSONRecursive(value?: SecurityQuote | null, ignoreParent?: boolean): any;
+
+// @public
+interface SecuritySelector {
+    cryptoCode?: string;
+    cryptoPair?: string;
+    isin?: string;
+    sinoTicker?: string;
+    usTicker?: string;
+    wkn?: string;
+}
+
+// @public (undocumented)
+function SecuritySelectorFromJSON(json: any): SecuritySelector;
+
+// @public (undocumented)
+function SecuritySelectorFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecuritySelector;
+
+// @public (undocumented)
+function SecuritySelectorToJSON(value?: SecuritySelector | null): any;
+
+// @public (undocumented)
+function SecuritySelectorToJSONRecursive(value?: SecuritySelector | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 const SecuritySizeKindEnum: {
@@ -5680,6 +5732,26 @@ function SetClientConfigRequestToJSON(value?: SetClientConfigRequest | null): an
 function SetClientConfigRequestToJSONRecursive(value?: SetClientConfigRequest | null, ignoreParent?: boolean): any;
 
 // @public
+interface SizeUnitConstraint {
+    cashAccountIds?: Array<string>;
+    directions?: Array<Direction>;
+    orderModels?: Array<string>;
+    sizeUnits: Array<string>;
+}
+
+// @public (undocumented)
+function SizeUnitConstraintFromJSON(json: any): SizeUnitConstraint;
+
+// @public (undocumented)
+function SizeUnitConstraintFromJSONTyped(json: any, ignoreDiscriminator: boolean): SizeUnitConstraint;
+
+// @public (undocumented)
+function SizeUnitConstraintToJSON(value?: SizeUnitConstraint | null): any;
+
+// @public (undocumented)
+function SizeUnitConstraintToJSONRecursive(value?: SizeUnitConstraint | null, ignoreParent?: boolean): any;
+
+// @public
 interface StringMapByOrderModel {
     fraction?: string;
     limit?: string;
@@ -5818,7 +5890,7 @@ interface TradeDraft {
     description: string;
     id: string;
     inactive: boolean;
-    orderData: any | null;
+    orderData: TradeDraftOrderCreate;
     orderId: number;
     userId: number;
 }
@@ -5840,7 +5912,7 @@ class TradeDraftApi extends runtime.BaseAPI {
 // @public
 interface TradeDraftCreateParams {
     description?: string;
-    orderData: any | null;
+    orderData: TradeDraftOrderCreate;
 }
 
 // @public (undocumented)
@@ -5860,6 +5932,35 @@ function TradeDraftFromJSON(json: any): TradeDraft;
 
 // @public (undocumented)
 function TradeDraftFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraft;
+
+// @public
+interface TradeDraftOrderCreate {
+    direction: Direction;
+    exchangeId: string;
+    limit?: number;
+    limitCurrencyIso?: string;
+    orderExtension?: OrderExtension;
+    orderModel: OrderModel;
+    portfolioId: string;
+    quoteLimit?: number;
+    security: Security;
+    size: number;
+    stop?: number;
+    stopLimit?: number;
+    validity?: OrderValidity;
+}
+
+// @public (undocumented)
+function TradeDraftOrderCreateFromJSON(json: any): TradeDraftOrderCreate;
+
+// @public (undocumented)
+function TradeDraftOrderCreateFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftOrderCreate;
+
+// @public (undocumented)
+function TradeDraftOrderCreateToJSON(value?: TradeDraftOrderCreate | null): any;
+
+// @public (undocumented)
+function TradeDraftOrderCreateToJSONRecursive(value?: TradeDraftOrderCreate | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function TradeDraftToJSON(value?: TradeDraft | null): any;

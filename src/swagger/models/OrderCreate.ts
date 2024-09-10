@@ -97,7 +97,7 @@ export interface OrderCreate {
   ifDoneLimit?: number;
   /**
    * Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the
-   * corressponding subscription via `availableOrderIntentsToken`) is available, it should be set.
+   * corresponding subscription via `availableOrderIntentsToken`) is available, it should be set.
    *
    * Set it to `close` for orders that are supposed to close an existing position. Note that this is independent
    * of the order's direction (e.g. a short position is closed by a buy order).
@@ -171,7 +171,7 @@ export interface OrderCreate {
    */
   size: number;
   /**
-   *
+   * The currency in which the order sizes are provided
    * @type {string}
    * @memberof OrderCreate
    */

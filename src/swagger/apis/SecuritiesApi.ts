@@ -101,7 +101,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
   }
 
   /**
-   * Load meta data about the given securityQuotesToken. This includes the currency, decimals and the quote source name.
+   * Load metadata about the given securityQuotesToken. This includes the currency, decimals and the quote source name.
    */
   async getSecurityQuotesMetaRaw(
     requestParameters: GetSecurityQuotesMetaRequest,
@@ -150,7 +150,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
   }
 
   /**
-   * Load meta data about the given securityQuotesToken. This includes the currency, decimals and the quote source name.
+   * Load metadata about the given securityQuotesToken. This includes the currency, decimals and the quote source name.
    */
   async getSecurityQuotesMeta(
     requestParameters: GetSecurityQuotesMetaRequest,

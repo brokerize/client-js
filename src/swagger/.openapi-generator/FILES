@@ -207,6 +207,7 @@ models/SecurityQuote.ts
 models/SecurityQuotes.ts
 models/SecurityQuotesMeta.ts
 models/SecurityQuotesResponse.ts
+models/SecuritySelector.ts
 models/SellPosition.ts
 models/Session.ts
 models/SessionResponse.ts
@@ -219,12 +220,14 @@ models/SessionSyncInfoSynced.ts
 models/SessionSyncInfoSyncedAllOf.ts
 models/SessionSyncInfoSyncedSpecifics.ts
 models/SetClientConfigRequest.ts
+models/SizeUnitConstraint.ts
 models/StringMapByOrderModel.ts
 models/SyncError.ts
 models/TakeProfitStopLossCapabilites.ts
 models/TakeProfitStopLossDetail.ts
 models/TradeDraft.ts
 models/TradeDraftCreateParams.ts
+models/TradeDraftOrderCreate.ts
 models/TradeDraftUpdateParams.ts
 models/TradeDraftUpdateParamsOrderId.ts
 models/TrailingDistance.ts

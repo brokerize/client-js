@@ -38,6 +38,12 @@ export interface ClientsResponseInner {
    * @memberof ClientsResponseInner
    */
   config: ClientConfig;
+  /**
+   *
+   * @type {Date}
+   * @memberof ClientsResponseInner
+   */
+  lastUsedAt: Date | null;
 }
 
 export function ClientsResponseInnerFromJSON(json: any): ClientsResponseInner {
@@ -54,6 +60,8 @@ export function ClientsResponseInnerFromJSONTyped(
   return {
     clientId: json["clientId"],
     config: ClientConfigFromJSON(json["config"]),
+    lastUsedAt:
+      json["lastUsedAt"] === null ? null : new Date(json["lastUsedAt"]),
   };
 }
 
@@ -71,6 +79,8 @@ export function ClientsResponseInnerToJSONRecursive(
   return {
     clientId: value.clientId,
     config: ClientConfigToJSON(value.config),
+    lastUsedAt:
+      value.lastUsedAt === null ? null : value.lastUsedAt.toISOString(),
   };
 }
 

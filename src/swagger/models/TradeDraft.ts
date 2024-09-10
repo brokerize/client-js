@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  TradeDraftOrderCreate,
+  TradeDraftOrderCreateFromJSON,
+  TradeDraftOrderCreateFromJSONTyped,
+  TradeDraftOrderCreateToJSON,
+} from "./TradeDraftOrderCreate";
+
 /**
  * Trade drafts are orders saved into for the user, to be reviewed and possibly executed at a later time.
  * @export
@@ -44,11 +51,11 @@ export interface TradeDraft {
    */
   inactive: boolean;
   /**
-   * The data of the trade draft to be executed
-   * @type {any}
+   *
+   * @type {TradeDraftOrderCreate}
    * @memberof TradeDraft
    */
-  orderData: any | null;
+  orderData: TradeDraftOrderCreate;
   /**
    * If the trade draft is executed, the returned orderId is saved in here
    * @type {number}
@@ -79,7 +86,7 @@ export function TradeDraftFromJSONTyped(
     description: json["description"],
     id: json["id"],
     inactive: json["inactive"],
-    orderData: json["orderData"],
+    orderData: TradeDraftOrderCreateFromJSON(json["orderData"]),
     orderId: json["orderId"],
     userId: json["userId"],
   };
@@ -101,7 +108,7 @@ export function TradeDraftToJSONRecursive(
     description: value.description,
     id: value.id,
     inactive: value.inactive,
-    orderData: value.orderData,
+    orderData: TradeDraftOrderCreateToJSON(value.orderData),
     orderId: value.orderId,
     userId: value.userId,
   };

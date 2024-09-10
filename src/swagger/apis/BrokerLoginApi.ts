@@ -250,7 +250,7 @@ export class BrokerLoginApi extends runtime.BaseAPI {
   }
 
   /**
-   * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
+   * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirected to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
    */
   async prepareOAuthRedirectRaw(
     requestParameters: PrepareOAuthRedirectRequest,
@@ -301,7 +301,7 @@ export class BrokerLoginApi extends runtime.BaseAPI {
   }
 
   /**
-   * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
+   * For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session can be added for an OAuth-based login process:  1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirected to later. Note that a list of allowed URLs has to be configured for the client. 2. redirect the user\'s browser to the `redirectTo` URL 3. after the user has logged in at the broker\'s interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen 4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user\'s account
    */
   async prepareOAuthRedirect(
     requestParameters: PrepareOAuthRedirectRequest,

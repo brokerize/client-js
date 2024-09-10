@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  TradeDraftOrderCreate,
+  TradeDraftOrderCreateFromJSON,
+  TradeDraftOrderCreateFromJSONTyped,
+  TradeDraftOrderCreateToJSON,
+} from "./TradeDraftOrderCreate";
+
 /**
  *
  * @export
@@ -27,10 +34,10 @@ export interface TradeDraftCreateParams {
   description?: string;
   /**
    *
-   * @type {any}
+   * @type {TradeDraftOrderCreate}
    * @memberof TradeDraftCreateParams
    */
-  orderData: any | null;
+  orderData: TradeDraftOrderCreate;
 }
 
 export function TradeDraftCreateParamsFromJSON(
@@ -48,7 +55,7 @@ export function TradeDraftCreateParamsFromJSONTyped(
   }
   return {
     description: !exists(json, "description") ? undefined : json["description"],
-    orderData: json["orderData"],
+    orderData: TradeDraftOrderCreateFromJSON(json["orderData"]),
   };
 }
 
@@ -65,7 +72,7 @@ export function TradeDraftCreateParamsToJSONRecursive(
 
   return {
     description: value.description,
-    orderData: value.orderData,
+    orderData: TradeDraftOrderCreateToJSON(value.orderData),
   };
 }
 

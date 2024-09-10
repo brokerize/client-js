@@ -123,7 +123,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
   }
 
   /**
-   * Set an trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.
+   * Set a trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.
    */
   async deactivateTradeDraftRaw(
     requestParameters: DeactivateTradeDraftRequest,
@@ -167,7 +167,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
   }
 
   /**
-   * Set an trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.
+   * Set a trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.
    */
   async deactivateTradeDraft(
     requestParameters: DeactivateTradeDraftRequest,

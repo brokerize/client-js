@@ -599,6 +599,12 @@
             },
             "type": "array"
           },
+          "allowedOriginsRegularExpressions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
           "brokerEnvFilter": {
             "$ref": "#/components/schemas/BrokerEnvFilterMap"
           },
@@ -661,12 +667,18 @@
         "type": "object"
       },
       "ClientConfigUpdate": {
-        "description": "A client configurtion *update* (i.e. fields that are not modified can be left out).",
+        "description": "A client configuration *update* (i.e. fields that are not modified can be left out).",
         "properties": {
           "allowRequestsWithoutOrigin": {
             "type": "boolean"
           },
           "allowedOrigins": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "allowedOriginsRegularExpressions": {
             "items": {
               "type": "string"
             },
@@ -773,9 +785,14 @@
             },
             "config": {
               "$ref": "#/components/schemas/ClientConfig"
+            },
+            "lastUsedAt": {
+              "format": "date-time",
+              "nullable": true,
+              "type": "string"
             }
           },
-          "required": ["config", "clientId"],
+          "required": ["config", "lastUsedAt", "clientId"],
           "type": "object"
         },
         "type": "array"
@@ -942,7 +959,7 @@
         "type": "object"
       },
       "DateString": {
-        "description": "Date in the format YYYY-MM-DD",
+        "description": "Date in the format YYYY-MM-DD for validityType: 'GTD'\nDate in the format Date ISO string YYYY-MM-DDThh:mm:ss.fffZ for validityType: 'GTDT'",
         "type": "string"
       },
       "DecoupledOperationState": {
@@ -1212,7 +1229,7 @@
       },
       "Exchange": {
         "additionalProperties": false,
-        "description": "An `Exchange` describes the order possibilites for a security at one exchange.",
+        "description": "An `Exchange` describes the order possibilities for a security at one exchange.",
         "properties": {
           "allowsIfDoneLimit": {
             "description": "If this is true, limit buy orders may have the additional \"ifDoneLimit\" set.",
@@ -1226,6 +1243,13 @@
             "description": "If the exchange can be mapped to the brokerize exchange list, this contains the id of the corresponding entry. Note that this is optional\nand may be missing if the exchange cannot be mapped.",
             "format": "int32",
             "type": "integer"
+          },
+          "cashAccountIds": {
+            "description": "The ids of the cash accounts compatible with this exchange. E.g. the ones that match the desired currency",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           },
           "currencyIso": {
             "description": "Quotes for the instrument at this exchange are in this currency. This affects fields like limit, stop etc.",
@@ -1689,6 +1713,10 @@
           "cashAccounts": {
             "$ref": "#/components/schemas/CashAccountQuotesById"
           },
+          "lastSync": {
+            "format": "date-time",
+            "type": "string"
+          },
           "quotes": {
             "$ref": "#/components/schemas/PortfolioQuotes"
           }
@@ -2029,7 +2057,7 @@
             "type": "string"
           },
           "exchangeId": {
-            "description": "The mapped exchange id, as retrievable in the the `/exchanges` endpoint.",
+            "description": "The mapped exchange id, as retrievable from the `/exchanges` endpoint.",
             "format": "int32",
             "type": "integer"
           },
@@ -2065,7 +2093,7 @@
             "$ref": "#/components/schemas/MonetaryValue"
           },
           "intent": {
-            "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the\ncorressponding subscription via `availableOrderIntentsToken`) is available, it should be set.\n\nSet it to `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order).",
+            "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the\ncorresponding subscription via `availableOrderIntentsToken`) is available, it should be set.\n\nSet it to `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order).",
             "enum": ["open", "close"],
             "type": "string"
           },
@@ -2136,6 +2164,10 @@
             "description": "If present, defines how many decimal places should be displayed for size values.",
             "format": "int32",
             "type": "integer"
+          },
+          "sizeUnit": {
+            "description": "The currency in which the order sizes are provided",
+            "type": "string"
           },
           "sourceData": {
             "description": "Contains original broker data (in the broker's data format).",
@@ -2296,7 +2328,7 @@
             "$ref": "#/components/schemas/MonetaryValue"
           },
           "intent": {
-            "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the\ncorressponding subscription via `availableOrderIntentsToken`) is available, it should be set.\n\nSet it to `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order).",
+            "description": "Whether this order is supposed to open or close a position. If `PreparedTrade.availableOrderIntents` (and/or the\ncorresponding subscription via `availableOrderIntentsToken`) is available, it should be set.\n\nSet it to `close` for orders that are supposed to close an existing position. Note that this is independent\nof the order's direction (e.g. a short position is closed by a buy order).",
             "enum": ["open", "close"],
             "type": "string"
           },
@@ -2338,6 +2370,7 @@
             "type": "number"
           },
           "sizeUnit": {
+            "description": "The currency in which the order sizes are provided",
             "type": "string"
           },
           "stop": {
@@ -2685,7 +2718,7 @@
           },
           "positionValue": {
             "$ref": "#/components/schemas/Amount",
-            "description": "Current total amount of the open positions."
+            "description": "Current total amount of the open positions, denoted in the currency of the respective portfolio."
           },
           "profitLossAbs": {
             "$ref": "#/components/schemas/Amount",
@@ -3042,9 +3075,20 @@
             },
             "type": "array"
           },
+          "sizeMaxDecimalsBySizeUnit": {
+            "$ref": "#/components/schemas/SizeMaxDecimalsBySizeUnit",
+            "description": "The maximum number of decimal places specified for each sizeUnit.\nIf it is defined for the selected sizeUnit, frontends should limit the number input to this number of decimal places.\nIf it is not defined, the number of decimal places is unknown and frontends should allow any number."
+          },
           "sizeUnit": {
             "$ref": "#/components/schemas/CurrencyCode",
             "description": "Default unit in which `size` is provided for orders.\n\n- For stocks and other assets, this is the number of stocks (encoded as `XXX`).\n- For bonds, this is the currency of the bond, so that size is the monetary amount.\n- For crypto currencies, the size may also be a monetary amount.\n\nThere may be more options for the user to specify the order size in. Those options\nare provided in the field `sizeUnitsByCashAccountId` if applicable for the account."
+          },
+          "sizeUnitConstraints": {
+            "description": "If present, this defines which sizeUnits are available for a combination of cashAccountId, orderModel and direction.\nAn entry in this list is considered a match if all specified attributes match.\n\nFor example, if an entry specifies orderModels and directions and both orderModel and direction are included\nin the respective attributes in the constraint, the entry specifies the available sizeUnits.",
+            "items": {
+              "$ref": "#/components/schemas/SizeUnitConstraint"
+            },
+            "type": "array"
           },
           "sizeUnitsByCashAccountId": {
             "$ref": "#/components/schemas/sizeUnitsByCashAccountIdMap",
@@ -3116,7 +3160,13 @@
       "Security": {
         "description": "A security's basic data like symbols and names.",
         "properties": {
+          "cryptoCode": {
+            "deprecated": true,
+            "description": "The crypto code string if the security is `sizeKind=crypto`. E.g. 'BTC'",
+            "type": "string"
+          },
           "isin": {
+            "deprecated": true,
             "type": "string"
           },
           "name": {
@@ -3127,7 +3177,11 @@
             "format": "double",
             "type": "number"
           },
+          "selector": {
+            "$ref": "#/components/schemas/SecuritySelector"
+          },
           "sinoTicker": {
+            "deprecated": true,
             "description": "The security`s symbol as used by broker \"sino\" (this can be used to implement broker-specific security matching behavior)",
             "type": "string"
           },
@@ -3137,16 +3191,19 @@
             "type": "string"
           },
           "symbol": {
+            "deprecated": true,
             "type": "string"
           },
           "usTicker": {
-            "description": "The US ticker symbol of the security, if provided by the broker.",
+            "deprecated": true,
             "type": "string"
           },
           "wkn": {
+            "deprecated": true,
             "type": "string"
           }
         },
+        "required": ["selector"],
         "type": "object"
       },
       "SecurityDetailedInfo": {
@@ -3211,6 +3268,35 @@
           }
         },
         "required": ["quotes"],
+        "type": "object"
+      },
+      "SecuritySelector": {
+        "properties": {
+          "cryptoCode": {
+            "description": "The securities crypto code if it is of type \"crypto\". E.g. 'BTC'",
+            "type": "string"
+          },
+          "cryptoPair": {
+            "description": "The securities crypto pair if it is of type \"crypto\". E.g. 'BTC-EUR'",
+            "type": "string"
+          },
+          "isin": {
+            "description": "The security's `isin` (International Securities Identification Number).",
+            "type": "string"
+          },
+          "sinoTicker": {
+            "description": "The security's symbol as used by the broker `sino` (can be used to implement broker-specific security matching behavior)",
+            "type": "string"
+          },
+          "usTicker": {
+            "description": "The security's US Ticker symbol",
+            "type": "string"
+          },
+          "wkn": {
+            "description": "The security's `wkn` (Wertpapierkennnummer).",
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "SellPosition": {
@@ -3344,6 +3430,45 @@
           }
         }
       },
+      "SizeMaxDecimalsBySizeUnit": {
+        "additionalProperties": {
+          "format": "double",
+          "type": "number"
+        },
+        "description": "The maximum number of decimal places specified for each sizeUnit.\nIf it is defined for the selected sizeUnit, frontends should limit the number input to this number of decimal places.\nIf it is not defined, the number of decimal places is unknown and frontends should allow any number.",
+        "properties": {},
+        "type": "object"
+      },
+      "SizeUnitConstraint": {
+        "properties": {
+          "cashAccountIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "directions": {
+            "items": {
+              "$ref": "#/components/schemas/Direction"
+            },
+            "type": "array"
+          },
+          "orderModels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "sizeUnits": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": ["sizeUnits"],
+        "type": "object"
+      },
       "StringMapByOrderModel": {
         "additionalProperties": false,
         "properties": {
@@ -3458,6 +3583,7 @@
             "type": "boolean"
           },
           "orderData": {
+            "$ref": "#/components/schemas/TradeDraftOrderCreate",
             "description": "The data of the trade draft to be executed"
           },
           "orderId": {
@@ -3486,9 +3612,67 @@
           "description": {
             "type": "string"
           },
-          "orderData": {}
+          "orderData": {
+            "$ref": "#/components/schemas/TradeDraftOrderCreate"
+          }
         },
         "required": ["orderData"],
+        "type": "object"
+      },
+      "TradeDraftOrderCreate": {
+        "properties": {
+          "direction": {
+            "$ref": "#/components/schemas/Direction"
+          },
+          "exchangeId": {
+            "type": "string"
+          },
+          "limit": {
+            "$ref": "#/components/schemas/OrderLimitValue"
+          },
+          "limitCurrencyIso": {
+            "description": "limit (and stop etc.) currency to use for this order",
+            "type": "string"
+          },
+          "orderExtension": {
+            "$ref": "#/components/schemas/OrderExtension",
+            "description": "(AllOrNone/Immediate or Cancel/Fill or Kill)"
+          },
+          "orderModel": {
+            "$ref": "#/components/schemas/OrderModel"
+          },
+          "portfolioId": {
+            "type": "string"
+          },
+          "quoteLimit": {
+            "$ref": "#/components/schemas/OrderQuoteLimitValue"
+          },
+          "security": {
+            "$ref": "#/components/schemas/Security"
+          },
+          "size": {
+            "description": "How much of the security should be traded. For stocks, this is the number of stocks. For bonds, this is a monetary amount.",
+            "format": "double",
+            "type": "number"
+          },
+          "stop": {
+            "$ref": "#/components/schemas/OrderStopValue"
+          },
+          "stopLimit": {
+            "$ref": "#/components/schemas/OrderStopLimitValue"
+          },
+          "validity": {
+            "$ref": "#/components/schemas/OrderValidity"
+          }
+        },
+        "required": [
+          "size",
+          "direction",
+          "portfolioId",
+          "orderModel",
+          "exchangeId",
+          "security"
+        ],
         "type": "object"
       },
       "TradeDraftUpdateParams": {
@@ -4685,7 +4869,7 @@
         "tags": ["demobroker"]
       },
       "post": {
-        "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge with type text will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- with the password `7`, a challenge with type base64png will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy or stop loss order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN DE000MD96WE8 (a knock out with DAX as underlying)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN DE000DTR0CK8 (Daimler Truck Holding)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes do *NOT* have an expiration\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n  - default validity is set to `GTD` with a date of `2030-01-01`\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - quote, limit and market orders (both buy and sell) are supported on one exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set (`legalMessagesToConfirmByOrderModel`)\n- ISIN US64110L1061 (Netflix Inc.)\n  - one exchange with only quote order\n  - creating the quote order will return an error (quote expired)\n - ISIN US67066G1040 (NVIDIA)\n   - one exchange with only quote order, allowsQuoteModeLimit=true\n   - quote orders are executed immediately.\n     - if a quoteLimit is provided, execution happen at quoteLimit value\n     - otherwise, a random execution quote will be used\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- ISIN DE000PAH0038 (Porsche)\n  - one exchange with only market order\n  - all orders will be canceled\n  - `GetCostEstimation` contains (only) a link to a PDF document. This can be used to test whether linking to a PDF works.\n  - the instrument has both a `riskClassInfo.legalHint` as well as a `strikingHint`. Both should be visible in the order form.\n- ISIN DE0008404005 (Allianz) and some other hidden ISINs (can be requested from brokerize support)\n  - one exchange with all available orderModels\n  - orders are executed immediately\n- ISIN DE0008430026 (Munich Re)\n  - one exchange (L&S) with all available orderModels\n  - orders are executed immediately\n- ISIN FR0000120321 (L'Oréal)\n  - one exchange with all available orderModels\n  - the exchange has a `securityQuotesToken` set\n  - orders stay open\n  - changesHaveCostEstimations is `true` for orders with this ISIN\n- ISIN US5949181045 (Microsoft)\n  - one exchange with all available orderModels\n  - if size is even, a partial execution with size 1 is executed, the remaining part stays open\n  - if size is odd, a partial execution with size 1 is executed, the remaining part is canceled\n- ISIN US30303M1027 (Meta)\n  - one exchange with all available orderModels\n  - for each piece of the order size, there will be one execution with size 1 (so e.g. 10 executions for size 10)\n  - sizes > 30 are not accepted\n- ISIN US2546871060 (Disney)\n  - one exchange with all available orderModels\n  - all orders are canceled after 3s\n  - `costEstimationMustBeShown` is false and `costEstimationIsOnlyDetailedTable` is true (frontends must only show a link to the cost estimation table)\n- ISIN XX1234567890 (example of an ISIN that can never be mapped by frontends)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007100000 (Mercedes-Benz)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007472060 (Wirecard)\n  - test instrument for `empty orderModelsBuy` / `onlySellAllowed`\n- ISIN BTC (Bitcoin/Euro)\n  - has one exchange with support for quote, market and limit orders\n  - orders will be executed right away\n  - can be used to test frontend mapping of cryptos\n  - when you prepare a trade in the *second* portfolio (which has two cash accounts), `sizeUnitsByCashAccountId` will be set, so that the frontend can let the user select a combination of `cashAccount` and `sizeUnit`.\n- ISIN DE0006231004 (Infineon Technologies AG)\n  - one exchange with `orderModelsSell=['market'] and `orderModelsBuy=[]`\n- ISIN DE0005552004 (Deutsche Post AG)\n  - one exchange with `orderModelsSell=[] and `orderModelsBuy=['market']`\n  - market buy orders are executed immediately\n- ISIN US8740541094 (Take Two)\n  - three exchanges are available. all have `market` and `limit` available\n  - configuration for `takeProfitStopLoss` is different for the three exchanges. This can be used to test the implementation of takeProfit/stopLoss creation.\n    - exchange_with_exclusive_tp_sl: `takeProfitStopLoss.exclusive` is `true`, so that only one of the two can be set. Also, both fields are limited to market buy orders\n    - exchange_with_unlimited_tp_sl: `takeProfitStopLoss.exclusive` is `false`, so that both tp and sl may be set, for both sell and buy orders and both support orderModels\n    - exchange_without_tp_sl: `takeProfitStopLoss` is not set, so that no tp/sl can be set\n  - orders stay open forever\n- ISIN US5529531015 (MGM Resorts International)\n  - one exchange with market and limit orders\n  - orders are executed immediately\n  - short selling is allowed, so `availableOrderIntents` as well as `availableOrderIntentsToken` is set. \"sell to open\" and \"buy to close\" can be tested here.\n- ISIN XAU (Gold)\n  - only quote trading is allowed\n  - depending on the selected portfolio, it is possible to select a cash account (e.g. EUR or USD) to trade with\n  - users can chose between specifiying the order size in the cash currency or in grams\n  - quotes have the `totalAmount` field set\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.\n\nBehavior of `PortfolioQuotes` in the demo broker:\n- portfolio 1 starts with 100.000€ cash. portfolio 2 has two cash accounts, one starts with 100.000€, one with 100.000$.\n- when cash account values are summed up, we just assume an exchange rate of 1:1\n- each open buy order reserves 10€ cash from the availableCash\n- profit loss of the portfolio is the sum of the position's profit loss",
+        "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge with type text will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- with the password `7`, a challenge with type base64png will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy or stop loss order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN DE000MD96WE8 (a knock out with DAX as underlying)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN DE000DTR0CK8 (Daimler Truck Holding)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes do *NOT* have an expiration\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n  - default validity is set to `GTD` with a date of `2030-01-01`\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - quote, limit and market orders (both buy and sell) are supported on one exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set (`legalMessagesToConfirmByOrderModel`)\n- ISIN US64110L1061 (Netflix Inc.)\n  - one exchange with only quote order\n  - creating the quote order will return an error (quote expired)\n - ISIN US67066G1040 (NVIDIA)\n   - one exchange with only quote order, allowsQuoteModeLimit=true\n   - quote orders are executed immediately.\n     - if a quoteLimit is provided, execution happen at quoteLimit value\n     - otherwise, a random execution quote will be used\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- ISIN DE000PAH0038 (Porsche)\n  - one exchange with only market order\n  - all orders will be canceled\n  - `GetCostEstimation` contains (only) a link to a PDF document. This can be used to test whether linking to a PDF works.\n  - the instrument has both a `riskClassInfo.legalHint` as well as a `strikingHint`. Both should be visible in the order form.\n- ISIN DE0008404005 (Allianz) and some other hidden ISINs (can be requested from brokerize support)\n  - one exchange with all available orderModels\n  - orders are executed immediately\n- ISIN DE0008430026 (Munich Re)\n  - one exchange (L&S) with all available orderModels\n  - orders are executed immediately\n- ISIN FR0000120321 (L'Oréal)\n  - one exchange with all available orderModels\n  - the exchange has a `securityQuotesToken` set\n  - orders stay open\n  - changesHaveCostEstimations is `true` for orders with this ISIN\n- ISIN US5949181045 (Microsoft)\n  - one exchange with all available orderModels\n  - if size is even, a partial execution with size 1 is executed, the remaining part stays open\n  - if size is odd, a partial execution with size 1 is executed, the remaining part is canceled\n- ISIN US30303M1027 (Meta)\n  - one exchange with all available orderModels\n  - for each piece of the order size, there will be one execution with size 1 (so e.g. 10 executions for size 10)\n  - sizes > 30 are not accepted\n- ISIN US2546871060 (Disney)\n  - one exchange with all available orderModels\n  - all orders are canceled after 3s\n  - `costEstimationMustBeShown` is false and `costEstimationIsOnlyDetailedTable` is true (frontends must only show a link to the cost estimation table)\n- ISIN XX1234567890 (example of an ISIN that can never be mapped by frontends)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007100000 (Mercedes-Benz)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007472060 (Wirecard)\n  - test instrument for `empty orderModelsBuy` / `onlySellAllowed`\n- ISIN BTC (Bitcoin/Euro)\n  - has one exchange with support for quote, market and limit orders\n  - orders will be executed right away\n  - can be used to test frontend mapping of cryptos\n  - when you prepare a trade in the *second* portfolio (which has two cash accounts), `sizeUnitsByCashAccountId` will be set, so that the frontend can let the user select a combination of `cashAccount` and `sizeUnit`.\n- ISIN DE0006231004 (Infineon Technologies AG)\n  - one exchange with `orderModelsSell=['market'] and `orderModelsBuy=[]`\n- ISIN DE0005552004 (Deutsche Post AG)\n  - one exchange with `orderModelsSell=[] and `orderModelsBuy=['market']`\n  - market buy orders are executed immediately\n- ISIN US8740541094 (Take Two)\n  - three exchanges are available. all have `market` and `limit` available\n  - configuration for `takeProfitStopLoss` is different for the three exchanges. This can be used to test the implementation of takeProfit/stopLoss creation.\n    - exchange_with_exclusive_tp_sl: `takeProfitStopLoss.exclusive` is `true`, so that only one of the two can be set. Also, both fields are limited to market buy orders\n    - exchange_with_unlimited_tp_sl: `takeProfitStopLoss.exclusive` is `false`, so that both tp and sl may be set, for both sell and buy orders and both support orderModels\n    - exchange_without_tp_sl: `takeProfitStopLoss` is not set, so that no tp/sl can be set\n  - orders stay open forever\n- ISIN US5529531015 (MGM Resorts International)\n  - one exchange with market and limit orders\n  - orders are executed immediately\n  - short selling is allowed, so `availableOrderIntents` as well as `availableOrderIntentsToken` is set. \"sell to open\" and \"buy to close\" can be tested here.\n- ISIN XAU (Gold)\n  - only quote trading is allowed\n  - depending on the selected portfolio, it is possible to select a cash account (e.g. EUR or USD) to trade with\n  - users can chose between specifying the order size in the cash currency or in grams\n  - quotes have the `totalAmount` field set\n- `CryptoPair` ADA-USD (Cardano - US Dollar)\n  - 'quote', 'market', 'limit' order models are available\n  - One of the created demobroker portfolios does not have an USD cash account. For this portfolio an error will appear upon opening the order form\n  - users can chose between specifying the order size in the cash currency (USD) or in ADA\n  - validity types for limit orders are ['IOC', 'GTDT']. With 'GTDT' the user can specify a date AND time at which his order should be executed\n  - the size input decimal places are limited per sizeUnit. For USD it's 2 and for ADA it is 4 decimal places\n\n  - the orders will be canceled after 3 seconds\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.\n\nBehavior of `PortfolioQuotes` in the demo broker:\n- portfolio 1 starts with 100.000€ cash. portfolio 2 has two cash accounts, one starts with 100.000€, one with 100.000$.\n- when cash account values are summed up, we just assume an exchange rate of 1:1\n- each open buy order reserves 10€ cash from the availableCash\n- profit loss of the portfolio is the sum of the position's profit loss",
         "operationId": "CreateDemoAccount",
         "parameters": [],
         "requestBody": {
@@ -6641,15 +6825,6 @@
             }
           },
           {
-            "description": "filter by isin",
-            "in": "query",
-            "name": "isin",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "description": "fulltext search query. This usually searches for ISIN and security name or other symbols, depending on the broker.",
             "in": "query",
             "name": "search",
@@ -6671,6 +6846,47 @@
             "description": "order by `<field>:<asc|desc>`, where `field` may be one of `createdAt`, `executedAt`",
             "in": "query",
             "name": "orderBy",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "filter by isin",
+            "in": "query",
+            "name": "isin",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "wkn",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sinoTicker",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "usTicker",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cryptoCode",
             "required": false,
             "schema": {
               "type": "string"
@@ -7191,7 +7407,7 @@
     },
     "/securities/quotes/{securityQuotesToken}/meta": {
       "get": {
-        "description": "Load meta data about the given securityQuotesToken. This includes the currency, decimals and the quote source name.",
+        "description": "Load metadata about the given securityQuotesToken. This includes the currency, decimals and the quote source name.",
         "operationId": "GetSecurityQuotesMeta",
         "parameters": [
           {
@@ -7861,7 +8077,7 @@
     },
     "/sessions/prepareOAuthRedirect": {
       "post": {
-        "description": "For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session\ncan be added for an OAuth-based login process:\n\n1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirect to later. Note that a list of allowed URLs has to be configured for the client.\n2. redirect the user's browser to the `redirectTo` URL\n3. after the user has logged in at the broker's interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen\n4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user's account",
+        "description": "For brokers with `isOAuth`, sessions can not be created using `AddSession`. This is how a session\ncan be added for an OAuth-based login process:\n\n1. use `prepareOAuthRedirect` to obtain a URL to redirect to. You can provide a `returnTo` URL which will be redirected to later. Note that a list of allowed URLs has to be configured for the client.\n2. redirect the user's browser to the `redirectTo` URL\n3. after the user has logged in at the broker's interface, a redirect to `returnTo` with the URL query parameters `verifysession=1`, `code` and `ticketId` will happen\n4. the `returnTo` page must call `confirmOAuth` with the given `ticketId` and `code` to finally add the session to the user's account",
         "operationId": "PrepareOAuthRedirect",
         "parameters": [],
         "requestBody": {
@@ -9546,7 +9762,25 @@
             }
           },
           {
-            "description": "The brokerSecurityId of the given broker. Usually this is unkown initially (but will be included in the response of this call).\nIf you know the brokerSecurityId (e.g. because it is provided in an existing position or order), it will be preferred over\nthe other provided identifiers.",
+            "description": "The cryptoCode of the crypto security to trade e.g. 'BTC'. Either this or \"cryptoPair\" should be defined for\ntrades of this kind.",
+            "in": "query",
+            "name": "cryptoCode",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The crypto pair of the crypto security to trade e.g. 'BTC-EUR'. Either this or \"cryptoCode\" should be defined for\ntrades of this kind.",
+            "in": "query",
+            "name": "cryptoPair",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The brokerSecurityId of the given broker. Usually this is unknown initially (but will be included in the response of this call).\nIf you know the brokerSecurityId (e.g. because it is provided in an existing position or order), it will be preferred over\nthe other provided identifiers.",
             "in": "query",
             "name": "brokerSecurityId",
             "required": false,
@@ -10426,7 +10660,7 @@
     },
     "/tradeDrafts/{id}/deactivate": {
       "post": {
-        "description": "Set an trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.",
+        "description": "Set a trade draft inactive, but NOT deleted. Inactive trade drafts will not be shown to the user anymore.",
         "operationId": "DeactivateTradeDraft",
         "parameters": [
           {
@@ -11028,7 +11262,7 @@
     },
     "/websocket": {
       "get": {
-        "description": "Most operations at brokerize have asynchronous effects.\n\nFor example, consider the flow of an order: when the user creates an order, it will not immediately appear in order list endpoints, because usually brokers take a few seconds until they are retrievable in those lists. Also, after a while, the order may be executed or cancelled asynchronously by the stock exchange.\n\nA common solution for frontends would be to reload the order list regularly. However data is then either delayed or there will be many more requests than needed.\n\nThe brokerize websocket endpoint allows getting updates via web sockets. Generally speaking, clients can subscribe by assigning a subscription id and will then receive updates on that subscription.\n\nIn this documentation, ⬆️ denotes messages from the client to the server, whereas messages from server to client are marked with ⬇️.\n\n## authentication\nWhen using cookies for authorization, the WebSocket connection is authenticated with the HTTP upgrade request.\n\nIf token headers are used, the *first* message from client to server must be:\n\n```\n⬆️ {\n    \"cmd\": \"authorize\",\n    \"idToken\": <string>\n}\n```\n\nIn all cases, clients must wait for the welcome message before sending other messages:\n\n\n```\n⬇️ { \"cmd\": \"authenticated\" }\n```\n\n## ping\nAfter 1 minute of inactivity of a client, the WebSocket connection will be considered stale and will automatically terminated. To prevent this, a ping message can be sent:\n\n```\n ⬆️ {\"cmd\": \"ping\"}\n```\n\nThe server also sends this message regularly. If no message has been received on a WebSocket connection for more than 1 minute, it should be terminated by the client.\n\n```\n ⬇️ {\"cmd\": \"ping\"}\n```\n\n## subscriptions\nSubscriptions can be used to get invalidate events or updates for selected resources. \n\n### invalidate subscriptions\nInvalidation events can be used for the frontend to know when reload requests via the HTTP endpoints are appropriate. Currently only invalidate events can be subscribed, the actual data must then be reloaded using the HTTP endpoints.\n\nTo set up a subscription for an invalidate event, use:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"invalidate\",\n    \"subscriptionId\": 1,\n    \"entity: \"brokersessions\" /* \"positions\" | \"orders\" */,\n    \"portfolioId\": 42 /* required for \"positions\" or \"orders\" */\n}\n```\n\nIf the subscription failed to be set up on the server, an error will be sent for the subscription. This also automatically ends the subscription on the server side:\n\n```\n⬇️ {\n    \"subscriptionId\": 1,\n    \"error\": {\n        \"message\": \"Could not set up invalidation event due to...\"\n    }\n}\n```\n\nIf an invalid `subscriptionId` is provided (or the subscription id is already in use by the connection), an error like this will be sent:\n```\n⬇️ {\n    \"error\": {\n        \"message\": \"Could not add subscription due to invalid subscriptionId\"\n    }\n}\n```\n⚠️ *the connection will then be terminated immediately*.\n\nIf the subscription is sucessfuly set up, whenever an invalidation happens, the server will send a message like this:\n\n```\n⬇️ {\n    \"cmd\": \"invalidate\",\n    \"subscriptionId\": 1\n}\n```\n\nWhen that invalidation event is received, the client should reload the data using the corresponding endpoints.\n\nClients can end their subscription with the `unsubscribe` command:\n\n```\n⬆️ {\n    \"cmd\": \"unsubscribe\",\n    \"subscriptionId\": 1\n}\n```\n\n### subscribe to the state of a decoupled operation\nFor decoupled operations (e.g. authorizing a session TAN using a second factor device), the state of the operation can be subscribed:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"decoupledOperationStatus\",\n    \"subscriptionId\": 1,\n    \"sessionId\": string,\n    \"decoupledOperationId\": string   \n}\n```\n\nError handling as well as unsubscribing works as described for invalidate subscriptions. Example message from the server for updating the state:\n\n```\n⬇️ {\n    \"cmd\": \"updateDecoupledOperationStatus\",\n    \"subscriptionId\": number,\n    \"state\": <DecoupledOperationStatus>\n}\n```\n",
+        "description": "Most operations at brokerize have asynchronous effects.\n\nFor example, consider the flow of an order: when the user creates an order, it will not immediately appear in order list endpoints, because usually brokers take a few seconds until they are retrievable in those lists. Also, after a while, the order may be executed or cancelled asynchronously by the stock exchange.\n\nA common solution for frontends would be to reload the order list regularly. However data is then either delayed or there will be many more requests than needed.\n\nThe brokerize websocket endpoint allows getting updates via web sockets. Generally speaking, clients can subscribe by assigning a subscription id and will then receive updates on that subscription.\n\nIn this documentation, ⬆️ denotes messages from the client to the server, whereas messages from server to client are marked with ⬇️.\n\n## authentication\n\nWhen using cookies for authorization, the WebSocket connection is authenticated with the HTTP upgrade request.\n\nIf token headers are used, the _first_ message from client to server must be:\n\n```\n⬆️ {\n    \"cmd\": \"authorize\",\n    \"idToken\": <string>\n}\n```\n\nIn all cases, clients must wait for the welcome message before sending other messages:\n\n```\n⬇️ { \"cmd\": \"authenticated\" }\n```\n\n## ping\n\nAfter 1 minute of inactivity of a client, the WebSocket connection will be considered stale and will automatically terminated. To prevent this, a ping message can be sent:\n\n```\n ⬆️ {\"cmd\": \"ping\"}\n```\n\nThe server also sends this message regularly. If no message has been received on a WebSocket connection for more than 1 minute, it should be terminated by the client.\n\n```\n ⬇️ {\"cmd\": \"ping\"}\n```\n\n## subscriptions\n\nSubscriptions can be used to get invalidate events or updates for selected resources.\n\n### invalidate subscriptions\n\nInvalidation events can be used for the frontend to know when reload requests via the HTTP endpoints are appropriate. Currently only invalidate events can be subscribed, the actual data must then be reloaded using the HTTP endpoints.\n\nTo set up a subscription for an invalidate event, use:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"invalidate\",\n    \"subscriptionId\": 1,\n    \"entity: \"brokersessions\" /* \"positions\" | \"orders\" */,\n    \"portfolioId\": 42 /* required for \"positions\" or \"orders\" */\n}\n```\n\nIf the subscription failed to be set up on the server, an error will be sent for the subscription. This also automatically ends the subscription on the server side:\n\n```\n⬇️ {\n    \"subscriptionId\": 1,\n    \"error\": {\n        \"message\": \"Could not set up invalidation event due to...\"\n    }\n}\n```\n\nIf an invalid `subscriptionId` is provided (or the subscription id is already in use by the connection), an error like this will be sent:\n\n```\n⬇️ {\n    \"error\": {\n        \"message\": \"Could not add subscription due to invalid subscriptionId\"\n    }\n}\n```\n\n⚠️ _the connection will then be terminated immediately_.\n\nIf the subscription is sucessfuly set up, whenever an invalidation happens, the server will send a message like this:\n\n```\n⬇️ {\n    \"cmd\": \"invalidate\",\n    \"subscriptionId\": 1\n}\n```\n\nWhen that invalidation event is received, the client should reload the data using the corresponding endpoints.\n\nClients can end their subscription with the `unsubscribe` command:\n\n```\n⬆️ {\n    \"cmd\": \"unsubscribe\",\n    \"subscriptionId\": 1\n}\n```\n\n### subscribe to the state of a decoupled operation\n\nFor decoupled operations (e.g. authorizing a session TAN using a second factor device), the state of the operation can be subscribed:\n\n```\n⬆️ {\n    \"cmd\": \"subscribe\",\n    \"type\": \"decoupledOperationStatus\",\n    \"subscriptionId\": 1,\n    \"sessionId\": string,\n    \"decoupledOperationId\": string\n}\n```\n\nError handling as well as unsubscribing works as described for invalidate subscriptions. Example message from the server for updating the state:\n\n```\n⬇️ {\n    \"cmd\": \"updateDecoupledOperationStatus\",\n    \"subscriptionId\": number,\n    \"state\": <DecoupledOperationStatus>\n}\n```\n",
         "operationId": "Websocket",
         "responses": {
           "101": {

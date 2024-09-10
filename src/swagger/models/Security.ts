@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  SecuritySelector,
+  SecuritySelectorFromJSON,
+  SecuritySelectorFromJSONTyped,
+  SecuritySelectorToJSON,
+} from "./SecuritySelector";
+
 /**
  * A security's basic data like symbols and names.
  * @export
@@ -20,9 +27,17 @@ import { exists, mapValues } from "../runtime";
  */
 export interface Security {
   /**
+   * The crypto code string if the security is `sizeKind=crypto`. E.g. 'BTC'
+   * @type {string}
+   * @memberof Security
+   * @deprecated
+   */
+  cryptoCode?: string;
+  /**
    *
    * @type {string}
    * @memberof Security
+   * @deprecated
    */
   isin?: string;
   /**
@@ -39,9 +54,16 @@ export interface Security {
    */
   priceFactor?: number;
   /**
+   *
+   * @type {SecuritySelector}
+   * @memberof Security
+   */
+  selector: SecuritySelector;
+  /**
    * The security`s symbol as used by broker "sino" (this can be used to implement broker-specific security matching behavior)
    * @type {string}
    * @memberof Security
+   * @deprecated
    */
   sinoTicker?: string;
   /**
@@ -56,18 +78,21 @@ export interface Security {
    *
    * @type {string}
    * @memberof Security
+   * @deprecated
    */
   symbol?: string;
   /**
-   * The US ticker symbol of the security, if provided by the broker.
+   *
    * @type {string}
    * @memberof Security
+   * @deprecated
    */
   usTicker?: string;
   /**
    *
    * @type {string}
    * @memberof Security
+   * @deprecated
    */
   wkn?: string;
 }
@@ -94,9 +119,11 @@ export function SecurityFromJSONTyped(
     return json;
   }
   return {
+    cryptoCode: !exists(json, "cryptoCode") ? undefined : json["cryptoCode"],
     isin: !exists(json, "isin") ? undefined : json["isin"],
     name: !exists(json, "name") ? undefined : json["name"],
     priceFactor: !exists(json, "priceFactor") ? undefined : json["priceFactor"],
+    selector: SecuritySelectorFromJSON(json["selector"]),
     sinoTicker: !exists(json, "sinoTicker") ? undefined : json["sinoTicker"],
     sizeKind: !exists(json, "sizeKind") ? undefined : json["sizeKind"],
     symbol: !exists(json, "symbol") ? undefined : json["symbol"],
@@ -117,9 +144,11 @@ export function SecurityToJSONRecursive(
   }
 
   return {
+    cryptoCode: value.cryptoCode,
     isin: value.isin,
     name: value.name,
     priceFactor: value.priceFactor,
+    selector: SecuritySelectorToJSON(value.selector),
     sinoTicker: value.sinoTicker,
     sizeKind: value.sizeKind,
     symbol: value.symbol,
