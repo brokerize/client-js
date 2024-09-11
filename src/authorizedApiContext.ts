@@ -35,6 +35,7 @@ export class AuthorizedApiContext {
   private _abortController: AbortController;
   private _metaApi: openApiClient.MetaApi;
   private _brokerLoginApi: openApiClient.BrokerLoginApi;
+  private _tradeDraftApi: openApiClient.TradeDraftApi;
   private _cancelOrderApi: openApiClient.CancelOrderApi;
   private _changeOrderApi: openApiClient.ChangeOrderApi;
   private _logoutSubject: Subject<void>;
@@ -83,6 +84,9 @@ export class AuthorizedApiContext {
       postMiddleware
     );
     this._brokerLoginApi = new openApiClient.BrokerLoginApi(
+      apiConfig
+    ).withPostMiddleware(postMiddleware);
+    this._tradeDraftApi = new openApiClient.TradeDraftApi(
       apiConfig
     ).withPostMiddleware(postMiddleware);
     this._cancelOrderApi = new openApiClient.CancelOrderApi(
@@ -151,6 +155,38 @@ export class AuthorizedApiContext {
         });
     }
     return this._cache.getBrokers;
+  }
+  async getTradeDrafts(params: openApiClient.GetTradeDraftsRequest) {
+    return this._tradeDraftApi.getTradeDrafts(
+      params,
+      await this._initRequestInit()
+    );
+  }
+  async createTradeDraft(params: openApiClient.CreateTradeDraftsRequest) {
+    return this._tradeDraftApi.createTradeDrafts(
+      params,
+      await this._initRequestInit()
+    );
+  }
+  async updateTradeDraft(params: openApiClient.UpdateTradeDraftRequest) {
+    return this._tradeDraftApi.updateTradeDraft(
+      params,
+      await this._initRequestInit()
+    );
+  }
+  async deactivateTradeDraft(
+    params: openApiClient.DeactivateTradeDraftRequest
+  ) {
+    return this._tradeDraftApi.deactivateTradeDraft(
+      params,
+      await this._initRequestInit()
+    );
+  }
+  async deleteTradeDraft(params: openApiClient.DeleteTradeDraftRequest) {
+    return this._tradeDraftApi.deleteTradeDraft(
+      params,
+      await this._initRequestInit()
+    );
   }
   async getLegalTerms() {
     return this._metaApi.getLegalTerms(await this._initRequestInit());

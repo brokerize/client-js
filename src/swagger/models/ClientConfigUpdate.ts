@@ -51,7 +51,7 @@ import {
 } from "./ClientConfigUpdateRateLimitPointsToConsume";
 
 /**
- * A client configurtion *update* (i.e. fields that are not modified can be left out).
+ * A client configuration *update* (i.e. fields that are not modified can be left out).
  * @export
  * @interface ClientConfigUpdate
  */
@@ -68,6 +68,12 @@ export interface ClientConfigUpdate {
    * @memberof ClientConfigUpdate
    */
   allowedOrigins?: Array<string>;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ClientConfigUpdate
+   */
+  allowedOriginsRegularExpressions?: Array<string>;
   /**
    *
    * @type {BrokerClientCfg}
@@ -184,6 +190,12 @@ export function ClientConfigUpdateFromJSONTyped(
     allowedOrigins: !exists(json, "allowedOrigins")
       ? undefined
       : json["allowedOrigins"],
+    allowedOriginsRegularExpressions: !exists(
+      json,
+      "allowedOriginsRegularExpressions"
+    )
+      ? undefined
+      : json["allowedOriginsRegularExpressions"],
     brokerClientIds: !exists(json, "brokerClientIds")
       ? undefined
       : BrokerClientCfgFromJSON(json["brokerClientIds"]),
@@ -253,6 +265,7 @@ export function ClientConfigUpdateToJSONRecursive(
   return {
     allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
     allowedOrigins: value.allowedOrigins,
+    allowedOriginsRegularExpressions: value.allowedOriginsRegularExpressions,
     brokerClientIds: BrokerClientCfgToJSON(value.brokerClientIds),
     brokerEnvFilter:
       value.brokerEnvFilter === undefined
