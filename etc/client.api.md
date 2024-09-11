@@ -3632,6 +3632,9 @@ interface GetSecurityQuotesRequest {
     securityQuotesToken: string;
 }
 
+// @public
+function getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
+
 // @public (undocumented)
 interface GetTradeDraftsRequest {
     // (undocumented)
@@ -3639,9 +3642,6 @@ interface GetTradeDraftsRequest {
     // (undocumented)
     take?: number;
 }
-
-// @public
-function getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
 
 // @public
 interface GetUserResponse {
@@ -5939,8 +5939,9 @@ function TradeDraftFromJSONTyped(json: any, ignoreDiscriminator: boolean): Trade
 
 // @public
 interface TradeDraftOrderCreate {
+    cashAccountId?: string;
     direction: Direction;
-    exchangeId: string;
+    exchangeId?: number;
     limit?: number;
     limitCurrencyIso?: string;
     orderExtension?: OrderExtension;
@@ -5949,6 +5950,7 @@ interface TradeDraftOrderCreate {
     quoteLimit?: number;
     security: Security;
     size: number;
+    sizeUnit?: string;
     stop?: number;
     stopLimit?: number;
     validity?: OrderValidity;

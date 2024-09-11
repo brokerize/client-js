@@ -52,16 +52,22 @@ import {
 export interface TradeDraftOrderCreate {
   /**
    *
+   * @type {string}
+   * @memberof TradeDraftOrderCreate
+   */
+  cashAccountId?: string;
+  /**
+   *
    * @type {Direction}
    * @memberof TradeDraftOrderCreate
    */
   direction: Direction;
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof TradeDraftOrderCreate
    */
-  exchangeId: string;
+  exchangeId?: number;
   /**
    * The limit of an order specifies a maximum (direction buy) or minimum (direction sell) value to execute the
    * order at.
@@ -114,6 +120,12 @@ export interface TradeDraftOrderCreate {
    */
   size: number;
   /**
+   *
+   * @type {string}
+   * @memberof TradeDraftOrderCreate
+   */
+  sizeUnit?: string;
+  /**
    * The stop of an order specifies a usually higher value than the current quote (direction buy) or a usually lower value than the current quote (direction sell).
    *
    * For the orderModel `stop`, the order is executed immediately when the stop is reached.
@@ -150,8 +162,11 @@ export function TradeDraftOrderCreateFromJSONTyped(
     return json;
   }
   return {
+    cashAccountId: !exists(json, "cashAccountId")
+      ? undefined
+      : json["cashAccountId"],
     direction: DirectionFromJSON(json["direction"]),
-    exchangeId: json["exchangeId"],
+    exchangeId: !exists(json, "exchangeId") ? undefined : json["exchangeId"],
     limit: !exists(json, "limit") ? undefined : json["limit"],
     limitCurrencyIso: !exists(json, "limitCurrencyIso")
       ? undefined
@@ -164,6 +179,7 @@ export function TradeDraftOrderCreateFromJSONTyped(
     quoteLimit: !exists(json, "quoteLimit") ? undefined : json["quoteLimit"],
     security: SecurityFromJSON(json["security"]),
     size: json["size"],
+    sizeUnit: !exists(json, "sizeUnit") ? undefined : json["sizeUnit"],
     stop: !exists(json, "stop") ? undefined : json["stop"],
     stopLimit: !exists(json, "stopLimit") ? undefined : json["stopLimit"],
     validity: !exists(json, "validity")
@@ -184,6 +200,7 @@ export function TradeDraftOrderCreateToJSONRecursive(
   }
 
   return {
+    cashAccountId: value.cashAccountId,
     direction: DirectionToJSON(value.direction),
     exchangeId: value.exchangeId,
     limit: value.limit,
@@ -194,6 +211,7 @@ export function TradeDraftOrderCreateToJSONRecursive(
     quoteLimit: value.quoteLimit,
     security: SecurityToJSON(value.security),
     size: value.size,
+    sizeUnit: value.sizeUnit,
     stop: value.stop,
     stopLimit: value.stopLimit,
     validity: OrderValidityToJSON(value.validity),
