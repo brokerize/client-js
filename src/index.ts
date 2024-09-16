@@ -7,6 +7,7 @@ import {
   CognitoFacade,
   CognitoPoolConfig,
   createAuth,
+  Auth,
   createConfiguration,
   RegisteredUserAuthContextConfiguration,
 } from "./apiCtx";
@@ -33,6 +34,7 @@ export {
   Callback,
   Utils,
   BrokerizeError,
+  Auth,
 };
 export { CognitoPoolConfig, RegisteredUserAuthContextConfiguration };
 export { CognitoConfig, CognitoFacade };
@@ -93,16 +95,25 @@ export class Brokerize {
   }
 
   createAuthorizedContext(authCtxCfg: AuthContextConfiguration) {
-    return new AuthorizedApiContext(
-      this._cfg,
-      createAuth(authCtxCfg, this._cfg, {
-        cognitoFacade: this._cfg.cognito?.cognitoFacade,
-      })
-    );
+    return new AuthorizedApiContext(this._cfg, this.createAuth(authCtxCfg));
   }
 
   getCognitoConfig(): CognitoPoolConfig | undefined {
     return this._cfg.cognito?.poolConfig;
+  }
+
+  /**
+   * Create an "Auth" object which can be used to retrive access tokens.
+   * Can be used by applications to manually make requests to the API without
+   * using the provided `AuthorizedApiContext` methods.
+   *
+   * @param authCtxCfg the auth context configuration
+   * @returns
+   */
+  createAuth(authCtxCfg: AuthContextConfiguration): Auth {
+    return createAuth(authCtxCfg, this._cfg, {
+      cognitoFacade: this._cfg.cognito?.cognitoFacade,
+    });
   }
 }
 

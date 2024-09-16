@@ -197,6 +197,14 @@ interface ApiResponse<T> {
     value(): Promise<T>;
 }
 
+// @public (undocumented)
+export interface Auth {
+    // (undocumented)
+    getToken: () => Promise<{
+        idToken: string;
+    }>;
+}
+
 // Warning: (ae-forgotten-export) The symbol "GuestAuthContextConfiguration" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -494,7 +502,6 @@ function AuthMethodToJSON(value?: AuthMethod | null): any;
 
 // @public (undocumented)
 export class AuthorizedApiContext {
-    // Warning: (ae-forgotten-export) The symbol "Auth" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "BrokerizeWebSocketClientImpl" needs to be exported by the entry point index.d.ts
     constructor(cfg: BrokerizeConfig, auth: Auth, wsClient?: BrokerizeWebSocketClientImpl);
     // (undocumented)
@@ -770,6 +777,7 @@ function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, igno
 // @public (undocumented)
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
+    createAuth(authCtxCfg: AuthContextConfiguration): Auth;
     // (undocumented)
     createAuthorizedContext(authCtxCfg: AuthContextConfiguration): AuthorizedApiContext;
     // (undocumented)
