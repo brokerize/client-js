@@ -19,11 +19,43 @@ import { exists, mapValues } from "../runtime";
  */
 export interface CreateGuestUserResponse {
   /**
+   * The bearer token that can be used to access the API.
+   * @type {string}
+   * @memberof CreateGuestUserResponse
+   */
+  accessToken: string;
+  /**
+   * Expiration time of the token in seconds from now.
+   * @type {number}
+   * @memberof CreateGuestUserResponse
+   */
+  expiresIn?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateGuestUserResponse
+   * @deprecated
+   */
+  idToken: string;
+  /**
    *
    * @type {string}
    * @memberof CreateGuestUserResponse
    */
-  idToken: string;
+  refreshToken?: string;
+  /**
+   * If applicable, expiration time of the refresh token in seconds from now.
+   * Note that this is optional and may not be provided in all cases.
+   * @type {number}
+   * @memberof CreateGuestUserResponse
+   */
+  refreshTokenExpiresIn?: number;
+  /**
+   * The OAuth token_type. Currently always `"bearer"`.
+   * @type {string}
+   * @memberof CreateGuestUserResponse
+   */
+  tokenType: string;
 }
 
 export function CreateGuestUserResponseFromJSON(
@@ -40,7 +72,16 @@ export function CreateGuestUserResponseFromJSONTyped(
     return json;
   }
   return {
+    accessToken: json["access_token"],
+    expiresIn: !exists(json, "expires_in") ? undefined : json["expires_in"],
     idToken: json["idToken"],
+    refreshToken: !exists(json, "refresh_token")
+      ? undefined
+      : json["refresh_token"],
+    refreshTokenExpiresIn: !exists(json, "refresh_token_expires_in")
+      ? undefined
+      : json["refresh_token_expires_in"],
+    tokenType: json["token_type"],
   };
 }
 
@@ -56,7 +97,12 @@ export function CreateGuestUserResponseToJSONRecursive(
   }
 
   return {
+    access_token: value.accessToken,
+    expires_in: value.expiresIn,
     idToken: value.idToken,
+    refresh_token: value.refreshToken,
+    refresh_token_expires_in: value.refreshTokenExpiresIn,
+    token_type: value.tokenType,
   };
 }
 

@@ -82,6 +82,7 @@ export class Brokerize {
   }
 
   async createGuestUser(): Promise<AuthContextConfiguration> {
+    const updatedAt = Date.now();
     const user = await this._defaultApi.createGuestUser({
       headers: {
         "x-brkrz-client-id": this._cfg.clientId,
@@ -91,11 +92,21 @@ export class Brokerize {
     return {
       type: "guest",
       idToken: user.idToken,
+      tokens: {
+        updatedAt,
+        response: user,
+      },
     };
   }
 
-  createAuthorizedContext(authCtxCfg: AuthContextConfiguration) {
-    return new AuthorizedApiContext(this._cfg, this.createAuth(authCtxCfg));
+  createAuthorizedContext(
+    authCtxCfg: AuthContextConfiguration,
+    tokenRefreshCallback?: TokenRefreshCallback
+  ) {
+    return new AuthorizedApiContext(
+      this._cfg,
+      this.createAuth(authCtxCfg, tokenRefreshCallback)
+    );
   }
 
   getCognitoConfig(): CognitoPoolConfig | undefined {
@@ -110,12 +121,26 @@ export class Brokerize {
    * @param authCtxCfg the auth context configuration
    * @returns
    */
-  createAuth(authCtxCfg: AuthContextConfiguration): Auth {
-    return createAuth(authCtxCfg, this._cfg, {
-      cognitoFacade: this._cfg.cognito?.cognitoFacade,
+  createAuth(
+    authCtxCfg: AuthContextConfiguration,
+    tokenRefreshCallback?: TokenRefreshCallback
+  ): Auth {
+    return createAuth({
+      authCfg: authCtxCfg,
+      cfg: this._cfg,
+      tokenRefreshCallback,
+      options: {
+        cognitoFacade: this._cfg.cognito?.cognitoFacade,
+      },
     });
   }
 }
+
+/**
+ * When a token update occurs (e.g. due to a refreshToken call), this callback is called.
+ * Clients can save the new tokens to their persistent token storage.
+ */
+export type TokenRefreshCallback = (cfg: AuthContextConfiguration) => void;
 
 function getGlobalObject() {
   let global;

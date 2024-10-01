@@ -55,12 +55,18 @@ import {
   GetUserResponse,
   GetUserResponseFromJSON,
   GetUserResponseToJSON,
+  ObtainToken200Response,
+  ObtainToken200ResponseFromJSON,
+  ObtainToken200ResponseToJSON,
   OkResponseBody,
   OkResponseBodyFromJSON,
   OkResponseBodyToJSON,
   PortfoliosResponse,
   PortfoliosResponseFromJSON,
   PortfoliosResponseToJSON,
+  RenamePortfolioRequest,
+  RenamePortfolioRequestFromJSON,
+  RenamePortfolioRequestToJSON,
   SessionResponse,
   SessionResponseFromJSON,
   SessionResponseToJSON,
@@ -126,6 +132,16 @@ export interface GetPortfolioQuotesRequest {
 
 export interface LogoutSessionRequest {
   sessionId: string;
+}
+
+export interface ObtainTokenRequest {
+  grantType: string;
+  refreshToken: string;
+}
+
+export interface RenamePortfolioOperationRequest {
+  portfolioId: string;
+  renamePortfolioRequest: RenamePortfolioRequest;
 }
 
 export interface TriggerSessionSyncRequest {
@@ -207,7 +223,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
-   * Create a guest user and return an JWT token which can be used to access resources. The user as well as the token have a lifetime of 24 hours.
+   * Create a guest user and return a token which can be used to access resources.  The lifetime of the generated temporary user as well as the returned `access_token` depend on the client configuration. It is usually around 24 hours. For some clients, tokens can be expired earlier based on inactivity.  If the client has configured a longer lifetime for their guest users, a `refresh_token`  is included in the response. This token can be used to renew the `access_token` after it has expired.  The `refresh_token` can be used to obtain a new `access_token` after the original token has expired using the `/user/token` endpoint.
    */
   async createGuestUserRaw(
     initOverrides?: RequestInit | runtime.InitOverideFunction
@@ -237,7 +253,7 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
-   * Create a guest user and return an JWT token which can be used to access resources. The user as well as the token have a lifetime of 24 hours.
+   * Create a guest user and return a token which can be used to access resources.  The lifetime of the generated temporary user as well as the returned `access_token` depend on the client configuration. It is usually around 24 hours. For some clients, tokens can be expired earlier based on inactivity.  If the client has configured a longer lifetime for their guest users, a `refresh_token`  is included in the response. This token can be used to renew the `access_token` after it has expired.  The `refresh_token` can be used to obtain a new `access_token` after the original token has expired using the `/user/token` endpoint.
    */
   async createGuestUser(
     initOverrides?: RequestInit | runtime.InitOverideFunction
@@ -1177,6 +1193,180 @@ export class DefaultApi extends runtime.BaseAPI {
       initOverrides
     );
     return await response.value();
+  }
+
+  /**
+   * Obtain a new access token using a refresh token as specified in https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4. If `CreateGuestUser` has provided a `refresh_token`, this endpoint may be used to obtain a new `access_token` after the original token has expired.
+   */
+  async obtainTokenRaw(
+    requestParameters: ObtainTokenRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<ObtainToken200Response>> {
+    if (
+      requestParameters.grantType === null ||
+      requestParameters.grantType === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "grantType",
+        "Required parameter requestParameters.grantType was null or undefined when calling obtainToken."
+      );
+    }
+
+    if (
+      requestParameters.refreshToken === null ||
+      requestParameters.refreshToken === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "refreshToken",
+        "Required parameter requestParameters.refreshToken was null or undefined when calling obtainToken."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    const consumes: runtime.Consume[] = [
+      { contentType: "application/x-www-form-urlencoded" },
+    ];
+    // @ts-ignore: canConsumeForm may be unused
+    const canConsumeForm = runtime.canConsumeForm(consumes);
+
+    let formParams: {
+      append(param: string, value: any): any;
+      _renderAsString?: () => string;
+    };
+    let useForm = false;
+    if (useForm) {
+      formParams = new FormData();
+    } else {
+      let strs: string[] = [];
+      formParams = {
+        append: (key, value) =>
+          strs.push(key + "=" + encodeURIComponent(value)),
+        _renderAsString: () => {
+          console.log("STRS:", strs.join("&"));
+          return strs.join("&");
+        },
+      };
+    }
+
+    if (requestParameters.grantType !== undefined) {
+      formParams.append("grant_type", requestParameters.grantType as any);
+    }
+
+    if (requestParameters.refreshToken !== undefined) {
+      formParams.append("refresh_token", requestParameters.refreshToken as any);
+    }
+
+    const response = await this.request(
+      {
+        path: `/user/token`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body:
+          formParams && formParams._renderAsString
+            ? formParams._renderAsString()
+            : formParams,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ObtainToken200ResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Obtain a new access token using a refresh token as specified in https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4. If `CreateGuestUser` has provided a `refresh_token`, this endpoint may be used to obtain a new `access_token` after the original token has expired.
+   */
+  async obtainToken(
+    requestParameters: ObtainTokenRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<ObtainToken200Response> {
+    const response = await this.obtainTokenRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * This endpoint can be used to rename the display name of a specified portfolio. To restore the original portfolio name, send a rename request with an empty string as the new name. **Note**: This does not change the original portfolio name at your broker.
+   */
+  async renamePortfolioRaw(
+    requestParameters: RenamePortfolioOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<void>> {
+    if (
+      requestParameters.portfolioId === null ||
+      requestParameters.portfolioId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "portfolioId",
+        "Required parameter requestParameters.portfolioId was null or undefined when calling renamePortfolio."
+      );
+    }
+
+    if (
+      requestParameters.renamePortfolioRequest === null ||
+      requestParameters.renamePortfolioRequest === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "renamePortfolioRequest",
+        "Required parameter requestParameters.renamePortfolioRequest was null or undefined when calling renamePortfolio."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-access-token"] =
+        this.configuration.apiKey("x-access-token"); // idToken authentication
+    }
+
+    const response = await this.request(
+      {
+        path: `/portfolios/{portfolioId}/rename`.replace(
+          `{${"portfolioId"}}`,
+          encodeURIComponent(String(requestParameters.portfolioId))
+        ),
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: RenamePortfolioRequestToJSON(
+          requestParameters.renamePortfolioRequest
+        ),
+      },
+      initOverrides
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * This endpoint can be used to rename the display name of a specified portfolio. To restore the original portfolio name, send a rename request with an empty string as the new name. **Note**: This does not change the original portfolio name at your broker.
+   */
+  async renamePortfolio(
+    requestParameters: RenamePortfolioOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<void> {
+    await this.renamePortfolioRaw(requestParameters, initOverrides);
   }
 
   /**

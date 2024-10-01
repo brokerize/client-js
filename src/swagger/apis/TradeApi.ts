@@ -483,7 +483,7 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
-   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both. Depending on the broker, the appropriate one will be used. Note that for backwards-compatibility reasons `isin` is required.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
+   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker`, `cryptoCode`, `cryptoPair` to select a security. The actual broker implementation then automatically uses the appropriate identifier.  If you already have a `brokerSecurityId` for the given broker, you can also pass that.  Note that for backwards-compatibility reasons `isin` is required. However, if the isin is not applicable, an empty string can be passed.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
    */
   async prepareTradeRaw(
     requestParameters: PrepareTradeRequest,
@@ -563,7 +563,7 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
-   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both. Depending on the broker, the appropriate one will be used. Note that for backwards-compatibility reasons `isin` is required.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
+   * Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker`, `cryptoCode`, `cryptoPair` to select a security. The actual broker implementation then automatically uses the appropriate identifier.  If you already have a `brokerSecurityId` for the given broker, you can also pass that.  Note that for backwards-compatibility reasons `isin` is required. However, if the isin is not applicable, an empty string can be passed.  The response describes what kind of orders are supported by the broker for the security.  It requires the portfolio to have at least one active broker session.
    */
   async prepareTrade(
     requestParameters: PrepareTradeRequest,
