@@ -633,6 +633,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     removeClientOrigin(clientId: string, origin: string): Promise<void>;
     // (undocumented)
+    renamePortfolio(portfolioId: string, newPortfolioName: string): Promise<void>;
+    // (undocumented)
     renderGenericTablePdf(table: GenericTable): Promise<Blob>;
     // (undocumented)
     revokeAccessToken(accessTokenId: string): Promise<void>;
@@ -3647,6 +3649,14 @@ interface GetSecurityQuotesMetaRequest {
 interface GetSecurityQuotesRequest {
     // (undocumented)
     securityQuotesToken: string;
+}
+
+// @public (undocumented)
+interface GetTradeDraftsRequest {
+    // (undocumented)
+    skip?: number;
+    // (undocumented)
+    take?: number;
 }
 
 // @public
