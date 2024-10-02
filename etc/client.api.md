@@ -778,7 +778,6 @@ function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, igno
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
     createAuth(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): Auth;
-    // (undocumented)
     createAuthorizedContext(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): AuthorizedApiContext;
     // (undocumented)
     createGuestUser(): Promise<AuthContextConfiguration>;

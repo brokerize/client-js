@@ -101,6 +101,14 @@ export class Brokerize {
     };
   }
 
+  /**
+   * Create a context for making authorized API calls. This context will automatically take care of refreshing the access token
+   * tokens if required. The `AuthorizedApiContext` then is used to make API calls on behalf of the active user.
+   *
+   * @param authCtxCfg the auth context data, e.g. a token set for a guest user
+   * @param tokenRefreshCallback when a token refresh occurs, this callback is called and can store the stored tokens
+   * @returns
+   */
   createAuthorizedContext(
     authCtxCfg: AuthContextConfiguration,
     tokenRefreshCallback?: TokenRefreshCallback
@@ -121,6 +129,7 @@ export class Brokerize {
    * using the provided `AuthorizedApiContext` methods.
    *
    * @param authCtxCfg the auth context configuration
+   * @param tokenRefreshCallback when a token refresh occurs, this callback is called and can store the stored tokens
    * @returns
    */
   createAuth(
