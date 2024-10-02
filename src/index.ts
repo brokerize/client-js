@@ -10,6 +10,7 @@ import {
   Auth,
   createConfiguration,
   RegisteredUserAuthContextConfiguration,
+  TokenSet,
 } from "./apiCtx";
 import { AuthorizedApiContext } from "./authorizedApiContext";
 import { BrokerizeError } from "./errors";
@@ -35,6 +36,7 @@ export {
   Utils,
   BrokerizeError,
   Auth,
+  TokenSet,
 };
 export { CognitoPoolConfig, RegisteredUserAuthContextConfiguration };
 export { CognitoConfig, CognitoFacade };

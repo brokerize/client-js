@@ -5963,6 +5963,13 @@ class TextApiResponse {
 export type TokenRefreshCallback = (cfg: AuthContextConfiguration) => void;
 
 // @public (undocumented)
+export type TokenSet = {
+    idToken: string;
+    refreshToken: string;
+    expiresAt: number;
+};
+
+// @public (undocumented)
 class TradeApi extends runtime.BaseAPI {
     createTrade(requestParameters: CreateTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateTradeResponse>;
     createTradeChallenge(requestParameters: CreateTradeChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
@@ -6276,10 +6283,6 @@ declare namespace WebSocketTypes {
     }
 }
 export { WebSocketTypes }
-
-// Warnings were encountered during analysis:
-//
-// dist/apiCtx.d.ts:23:5 - (ae-forgotten-export) The symbol "TokenSet" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
