@@ -3651,14 +3651,6 @@ interface GetSecurityQuotesRequest {
     securityQuotesToken: string;
 }
 
-// @public (undocumented)
-interface GetTradeDraftsRequest {
-    // (undocumented)
-    skip?: number;
-    // (undocumented)
-    take?: number;
-}
-
 // @public
 function getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
 
