@@ -778,6 +778,10 @@
               "guestUser": {
                 "format": "double",
                 "type": "number"
+              },
+              "refreshToken": {
+                "format": "double",
+                "type": "number"
               }
             },
             "type": "object"
@@ -3802,9 +3806,8 @@
       },
       "idToken": {
         "description": "Requests are authenticated by providing either a header `Authorization: Bearer <TOKEN>` or a header `x-access-token: <TOKEN>` where <TOKEN> is a token retrieved either from the `createGuest` endpoint or retrieved for a user from the amazon cognito pool, or a Personal Access Token created in the brokerize admin interface.",
-        "in": "header",
-        "name": "x-access-token",
-        "type": "apiKey"
+        "scheme": "bearer",
+        "type": "http"
       }
     }
   },
@@ -11497,6 +11500,60 @@
               }
             },
             "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "AUTH",
+                      "msg": "Authentication is not present or invalid"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not logged in"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "RATE_LIMITED",
+                      "msg": "Rate limit exceeded."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Rate-limit exceeded"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Maintenance active"
           }
         },
         "security": [

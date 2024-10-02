@@ -1400,6 +1400,7 @@ function ClientConfigUpdatePageToJSONRecursive(value?: ClientConfigUpdatePage | 
 // @public
 interface ClientConfigUpdateRateLimitPointsToConsume {
     guestUser?: number;
+    refreshToken?: number;
 }
 
 // @public (undocumented)

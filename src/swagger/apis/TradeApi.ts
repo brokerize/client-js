@@ -117,11 +117,14 @@ export class TradeApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/trade/create`,
@@ -180,11 +183,14 @@ export class TradeApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/trade/challenge`,
@@ -247,11 +253,14 @@ export class TradeApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/trade/availableOrderIntents`,
@@ -308,11 +317,14 @@ export class TradeApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/trade/costEstimation`,
@@ -386,11 +398,14 @@ export class TradeApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/trade/quote`,
@@ -448,11 +463,14 @@ export class TradeApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/trade/securityDetails`,
@@ -542,11 +560,14 @@ export class TradeApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/trade/prepare`,

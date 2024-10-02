@@ -87,11 +87,14 @@ export class ChangeOrderApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/order/{id}/change`.replace(
@@ -154,11 +157,14 @@ export class ChangeOrderApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/order/{id}/changeChallenge`.replace(
@@ -229,11 +235,14 @@ export class ChangeOrderApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/order/{id}/changeCostEstimation`.replace(

@@ -187,11 +187,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/sessions/{sessionId}/decoupledOperation/{decoupledOperationId}`
@@ -300,11 +303,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/sessions/{sessionId}/sessiontanchallenge`.replace(
@@ -355,11 +361,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/user`,
@@ -407,11 +416,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/portfolios/{portfolioId}`.replace(
@@ -480,11 +492,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/sessions/{sessionId}/sessiontan`.replace(
@@ -545,11 +560,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/sessions/{sessionId}/sessiontan`.replace(
@@ -608,11 +626,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/portfolios/{portfolioId}/authinfo`.replace(
@@ -680,11 +701,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/sessions/{sessionId}/decoupledOperation/{decoupledOperationId}`
@@ -743,11 +767,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/order/{id}`.replace(
@@ -841,11 +868,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/portfolios/{portfolioId}/orders`.replace(
@@ -902,11 +932,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/portfolios/{portfolioId}/positions`.replace(
@@ -963,11 +996,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/portfolios/{portfolioId}/quotes`.replace(
@@ -1013,11 +1049,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/portfolios`,
@@ -1057,11 +1096,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/sessions`,
@@ -1102,11 +1144,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/user`,
@@ -1158,11 +1203,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/sessions/{sessionId}`.replace(
@@ -1237,23 +1285,14 @@ export class DefaultApi extends runtime.BaseAPI {
     // @ts-ignore: canConsumeForm may be unused
     const canConsumeForm = runtime.canConsumeForm(consumes);
 
-    let formParams: {
-      append(param: string, value: any): any;
-      _renderAsString?: () => string;
-    };
+    let formParams: { append(param: string, value: any): any };
     let useForm = false;
     if (useForm) {
       formParams = new FormData();
     } else {
-      let strs: string[] = [];
-      formParams = {
-        append: (key, value) =>
-          strs.push(key + "=" + encodeURIComponent(value)),
-        _renderAsString: () => {
-          console.log("STRS:", strs.join("&"));
-          return strs.join("&");
-        },
-      };
+      throw new Error(
+        "URLSearchParams support has been dopped due to compatibility problems in mobile apps."
+      );
     }
 
     if (requestParameters.grantType !== undefined) {
@@ -1270,10 +1309,7 @@ export class DefaultApi extends runtime.BaseAPI {
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
-        body:
-          formParams && formParams._renderAsString
-            ? formParams._renderAsString()
-            : formParams,
+        body: formParams,
       },
       initOverrides
     );
@@ -1335,11 +1371,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/portfolios/{portfolioId}/rename`.replace(
@@ -1395,11 +1434,14 @@ export class DefaultApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/sessions/{sessionId}/sync`.replace(
