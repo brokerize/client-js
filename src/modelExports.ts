@@ -135,6 +135,7 @@ export { QuoteExpiration } from "./swagger/models/QuoteExpiration";
 export { RenderGenericTableParams } from "./swagger/models/RenderGenericTableParams";
 export { RiskClassInfo } from "./swagger/models/RiskClassInfo";
 export { Security } from "./swagger/models/Security";
+export { SecuritySelector } from "./swagger/models/SecuritySelector";
 export { SecurityDetailedInfo } from "./swagger/models/SecurityDetailedInfo";
 export { SellPosition } from "./swagger/models/SellPosition";
 export { Session } from "./swagger/models/Session";

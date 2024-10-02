@@ -197,6 +197,14 @@ interface ApiResponse<T> {
     value(): Promise<T>;
 }
 
+// @public (undocumented)
+export interface Auth {
+    // (undocumented)
+    getToken: () => Promise<{
+        idToken: string;
+    }>;
+}
+
 // Warning: (ae-forgotten-export) The symbol "GuestAuthContextConfiguration" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -494,7 +502,6 @@ function AuthMethodToJSON(value?: AuthMethod | null): any;
 
 // @public (undocumented)
 export class AuthorizedApiContext {
-    // Warning: (ae-forgotten-export) The symbol "Auth" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "BrokerizeWebSocketClientImpl" needs to be exported by the entry point index.d.ts
     constructor(cfg: BrokerizeConfig, auth: Auth, wsClient?: BrokerizeWebSocketClientImpl);
     // (undocumented)
@@ -532,7 +539,11 @@ export class AuthorizedApiContext {
     // (undocumented)
     createTradeChallenge(req: CreateTradeChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
+    createTradeDraft(params: openApiClient.CreateTradeDraftsRequest): Promise<openApiClient.CreateTradeDrafts200Response>;
+    // (undocumented)
     createWebSocketClient(): BrokerizeWebSocketClient;
+    // (undocumented)
+    deactivateTradeDraft(params: openApiClient.DeactivateTradeDraftRequest): Promise<void>;
     // (undocumented)
     deleteClient(clientId: string): Promise<void>;
     // (undocumented)
@@ -541,6 +552,8 @@ export class AuthorizedApiContext {
     deleteGuestUser(): Promise<void>;
     // (undocumented)
     deletePortfolio(portfolioId: string): Promise<openApiClient.OkResponseBody>;
+    // (undocumented)
+    deleteTradeDraft(params: openApiClient.DeleteTradeDraftRequest): Promise<void>;
     // (undocumented)
     destroy(): void;
     // (undocumented)
@@ -606,6 +619,8 @@ export class AuthorizedApiContext {
     // (undocumented)
     getSessions(): Promise<openApiClient.SessionResponse>;
     // (undocumented)
+    getTradeDrafts(params: openApiClient.GetTradeDraftsRequest): Promise<openApiClient.GetActiveTradeDraftsResponse>;
+    // (undocumented)
     getUser(): Promise<openApiClient.GetUserResponse>;
     // (undocumented)
     logoutSession(sessionId: string): Promise<openApiClient.OkResponseBody>;
@@ -624,7 +639,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     revokeAccessToken(accessTokenId: string): Promise<void>;
     // (undocumented)
-    setClientConfig(clientId: string, config: openApiClient.ClientConfig): Promise<void>;
+    setClientConfig(clientId: string, config: openApiClient.ClientConfigUpdate): Promise<void>;
     subscribeAvailableOrderIntents(preparedTrade: openApiClient.PreparedTrade, callback: Callback<openApiClient.OrderIntentAvailability | undefined>): {
         unsubscribe(): void;
     };
@@ -637,6 +652,8 @@ export class AuthorizedApiContext {
     triggerDemoSessionSyncError(sessionId: string): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
     triggerSessionSync(sessionId: string): Promise<openApiClient.OkResponseBody>;
+    // (undocumented)
+    updateTradeDraft(params: openApiClient.UpdateTradeDraftRequest): Promise<void>;
 }
 
 // @public
@@ -762,8 +779,8 @@ function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, igno
 // @public (undocumented)
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
-    // (undocumented)
-    createAuthorizedContext(authCtxCfg: AuthContextConfiguration): AuthorizedApiContext;
+    createAuth(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): Auth;
+    createAuthorizedContext(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): AuthorizedApiContext;
     // (undocumented)
     createGuestUser(): Promise<AuthContextConfiguration>;
     // (undocumented)
@@ -3643,6 +3660,17 @@ interface GetTradeDraftsRequest {
 }
 
 // @public
+function getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
+
+// @public (undocumented)
+interface GetTradeDraftsRequest {
+    // (undocumented)
+    skip?: number;
+    // (undocumented)
+    take?: number;
+}
+
+// @public
 interface GetUserResponse {
     userId: string;
 }
@@ -4137,6 +4165,7 @@ declare namespace Models {
         RenderGenericTableParams,
         RiskClassInfo,
         Security,
+        SecuritySelector,
         SecurityDetailedInfo,
         SellPosition,
         Session,
@@ -5939,6 +5968,16 @@ class TextApiResponse {
     value(): Promise<string>;
 }
 
+// @public
+export type TokenRefreshCallback = (cfg: AuthContextConfiguration) => void;
+
+// @public (undocumented)
+export type TokenSet = {
+    idToken: string;
+    refreshToken: string;
+    expiresAt: number;
+};
+
 // @public (undocumented)
 class TradeApi extends runtime.BaseAPI {
     createTrade(requestParameters: CreateTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateTradeResponse>;
@@ -6150,6 +6189,13 @@ class UserApi extends runtime.BaseAPI {
     revokeAccessTokenRaw(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
 
+declare namespace Utils {
+    export {
+        getSizeUnitsFromConstraints
+    }
+}
+export { Utils }
+
 // @public
 interface ValidationDetail {
     debugData: string;
@@ -6246,10 +6292,6 @@ declare namespace WebSocketTypes {
     }
 }
 export { WebSocketTypes }
-
-// Warnings were encountered during analysis:
-//
-// dist/apiCtx.d.ts:22:5 - (ae-forgotten-export) The symbol "TokenSet" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
