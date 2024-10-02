@@ -1245,6 +1245,7 @@ interface ClientConfig {
     cognitoClientIds: Array<string>;
     enabled: boolean;
     guestUserInactivityTimeoutSeconds?: number;
+    guestUserLifetime?: GuestUserLifetime;
     legalEntityName: string;
     maintenanceStatus?: ClientConfigMaintenanceStatus | null;
     name: string;
@@ -1297,6 +1298,7 @@ interface ClientConfigUpdate {
     cognitoClientIds?: Array<string>;
     enabled?: boolean;
     guestUserInactivityTimeoutSeconds?: number | null;
+    guestUserLifetime?: GuestUserLifetime;
     legalEntityName?: string;
     maintenanceStatus?: ClientConfigMaintenanceStatus | null;
     managingUserIds?: Array<number>;
@@ -1380,6 +1382,7 @@ function ClientConfigUpdatePageToJSONRecursive(value?: ClientConfigUpdatePage | 
 // @public
 interface ClientConfigUpdateRateLimitPointsToConsume {
     guestUser?: number;
+    refreshToken?: number;
 }
 
 // @public (undocumented)
@@ -1651,7 +1654,13 @@ function CreatedResponseBodyToJSONRecursive(value?: CreatedResponseBody | null, 
 
 // @public
 interface CreateGuestUserResponse {
+    accessToken: string;
+    expiresIn?: number;
+    // @deprecated
     idToken: string;
+    refreshToken?: string;
+    refreshTokenExpiresIn?: number;
+    tokenType: string;
 }
 
 // @public (undocumented)
@@ -1787,6 +1796,29 @@ interface CreateTradeChallengeRequest {
     createOrderChallengeParams: CreateOrderChallengeParams;
 }
 
+// @public
+interface CreateTradeDrafts200Response {
+    id: string;
+}
+
+// @public (undocumented)
+function CreateTradeDrafts200ResponseFromJSON(json: any): CreateTradeDrafts200Response;
+
+// @public (undocumented)
+function CreateTradeDrafts200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateTradeDrafts200Response;
+
+// @public (undocumented)
+function CreateTradeDrafts200ResponseToJSON(value?: CreateTradeDrafts200Response | null): any;
+
+// @public (undocumented)
+function CreateTradeDrafts200ResponseToJSONRecursive(value?: CreateTradeDrafts200Response | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CreateTradeDraftsRequest {
+    // (undocumented)
+    tradeDraftCreateParams: TradeDraftCreateParams;
+}
+
 // @public (undocumented)
 interface CreateTradeRequest {
     // (undocumented)
@@ -1809,6 +1841,12 @@ function CreateTradeResponseToJSON(value?: CreateTradeResponse | null): any;
 
 // @public (undocumented)
 function CreateTradeResponseToJSONRecursive(value?: CreateTradeResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface DeactivateTradeDraftRequest {
+    // (undocumented)
+    id: string;
+}
 
 // @public (undocumented)
 const DecoupledOperationState: {
@@ -1911,6 +1949,10 @@ class DefaultApi extends runtime.BaseAPI {
     getUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetUserResponse>>;
     logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
+    obtainToken(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ObtainToken200Response>;
+    obtainTokenRaw(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ObtainToken200Response>>;
+    renamePortfolio(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    renamePortfolioRaw(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     triggerSessionSync(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     triggerSessionSyncRaw(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
     websocket(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
@@ -1964,6 +2006,12 @@ interface DeleteDemoAccountRequest {
 interface DeletePortfolioRequest {
     // (undocumented)
     portfolioId: string;
+}
+
+// @public (undocumented)
+interface DeleteTradeDraftRequest {
+    // (undocumented)
+    id: string;
 }
 
 // @public
@@ -2413,9 +2461,6 @@ interface Exchange {
     brokerizeExchangeId?: number;
     cashAccountIds?: Array<string>;
     currencyIso: string;
-    currencyIsoByCashAccountId?: {
-        [key: string]: string;
-    };
     defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
     // @deprecated
     hideOrderModel?: boolean;
@@ -3257,6 +3302,24 @@ function GetAcessTokenAvailablePermissions200ResponseToJSON(value?: GetAcessToke
 // @public (undocumented)
 function GetAcessTokenAvailablePermissions200ResponseToJSONRecursive(value?: GetAcessTokenAvailablePermissions200Response | null, ignoreParent?: boolean): any;
 
+// @public
+interface GetActiveTradeDraftsResponse {
+    totalCount: number;
+    tradeDrafts: Array<TradeDraft>;
+}
+
+// @public (undocumented)
+function GetActiveTradeDraftsResponseFromJSON(json: any): GetActiveTradeDraftsResponse;
+
+// @public (undocumented)
+function GetActiveTradeDraftsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetActiveTradeDraftsResponse;
+
+// @public (undocumented)
+function GetActiveTradeDraftsResponseToJSON(value?: GetActiveTradeDraftsResponse | null): any;
+
+// @public (undocumented)
+function GetActiveTradeDraftsResponseToJSONRecursive(value?: GetActiveTradeDraftsResponse | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface GetAuthInfoRequest {
     // (undocumented)
@@ -3572,6 +3635,14 @@ interface GetSecurityQuotesRequest {
 // @public
 function getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
 
+// @public (undocumented)
+interface GetTradeDraftsRequest {
+    // (undocumented)
+    skip?: number;
+    // (undocumented)
+    take?: number;
+}
+
 // @public
 interface GetUserResponse {
     userId: string;
@@ -3588,6 +3659,24 @@ function GetUserResponseToJSON(value?: GetUserResponse | null): any;
 
 // @public (undocumented)
 function GetUserResponseToJSONRecursive(value?: GetUserResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const GuestUserLifetime: {
+    readonly Day: "ONE_DAY";
+    readonly Week: "ONE_WEEK";
+};
+
+// @public (undocumented)
+type GuestUserLifetime = (typeof GuestUserLifetime)[keyof typeof GuestUserLifetime];
+
+// @public (undocumented)
+function GuestUserLifetimeFromJSON(json: any): GuestUserLifetime;
+
+// @public (undocumented)
+function GuestUserLifetimeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GuestUserLifetime;
+
+// @public (undocumented)
+function GuestUserLifetimeToJSON(value?: GuestUserLifetime | null): any;
 
 // @public
 interface Hint {
@@ -4116,6 +4205,35 @@ function OAuthLoginFormConfigToJSON(value?: OAuthLoginFormConfig | null): any;
 function OAuthLoginFormConfigToJSONRecursive(value?: OAuthLoginFormConfig | null, ignoreParent?: boolean): any;
 
 // @public
+interface ObtainToken200Response {
+    accessToken: string;
+    expiresIn: number;
+    refreshToken: any | null;
+    refreshTokenExpiresIn: number;
+    tokenType: string;
+}
+
+// @public (undocumented)
+function ObtainToken200ResponseFromJSON(json: any): ObtainToken200Response;
+
+// @public (undocumented)
+function ObtainToken200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObtainToken200Response;
+
+// @public (undocumented)
+function ObtainToken200ResponseToJSON(value?: ObtainToken200Response | null): any;
+
+// @public (undocumented)
+function ObtainToken200ResponseToJSONRecursive(value?: ObtainToken200Response | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface ObtainTokenRequest {
+    // (undocumented)
+    grantType: string;
+    // (undocumented)
+    refreshToken: string;
+}
+
+// @public
 interface OkResponseBody {
     msg: string;
 }
@@ -4568,6 +4686,7 @@ interface Portfolio {
     id: string;
     idHash: string;
     portfolioName: string;
+    portfolioNameOriginal: string;
     sessionIds: Array<string>;
     syncInfo: PortfolioSyncInfo;
 }
@@ -5137,6 +5256,31 @@ interface RemoveOriginRequest {
     // (undocumented)
     clientId: string;
 }
+
+// @public (undocumented)
+interface RenamePortfolioOperationRequest {
+    // (undocumented)
+    portfolioId: string;
+    // (undocumented)
+    renamePortfolioRequest: RenamePortfolioRequest;
+}
+
+// @public
+interface RenamePortfolioRequest {
+    newPortfolioName: string;
+}
+
+// @public (undocumented)
+function RenamePortfolioRequestFromJSON(json: any): RenamePortfolioRequest;
+
+// @public (undocumented)
+function RenamePortfolioRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenamePortfolioRequest;
+
+// @public (undocumented)
+function RenamePortfolioRequestToJSON(value?: RenamePortfolioRequest | null): any;
+
+// @public (undocumented)
+function RenamePortfolioRequestToJSONRecursive(value?: RenamePortfolioRequest | null, ignoreParent?: boolean): any;
 
 // @public
 interface RenderGenericTableParams {
@@ -5818,6 +5962,127 @@ class TradeApi extends runtime.BaseAPI {
 }
 
 // @public
+interface TradeDraft {
+    createdAt: Date;
+    description: string;
+    id: string;
+    inactive: boolean;
+    orderData: TradeDraftOrderCreate;
+    orderId: number;
+    userId: number;
+}
+
+// @public (undocumented)
+class TradeDraftApi extends runtime.BaseAPI {
+    createTradeDrafts(requestParameters: CreateTradeDraftsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateTradeDrafts200Response>;
+    createTradeDraftsRaw(requestParameters: CreateTradeDraftsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateTradeDrafts200Response>>;
+    deactivateTradeDraft(requestParameters: DeactivateTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deactivateTradeDraftRaw(requestParameters: DeactivateTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    deleteTradeDraft(requestParameters: DeleteTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deleteTradeDraftRaw(requestParameters: DeleteTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    getTradeDrafts(requestParameters?: GetTradeDraftsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetActiveTradeDraftsResponse>;
+    getTradeDraftsRaw(requestParameters: GetTradeDraftsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetActiveTradeDraftsResponse>>;
+    updateTradeDraft(requestParameters: UpdateTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    updateTradeDraftRaw(requestParameters: UpdateTradeDraftRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+}
+
+// @public
+interface TradeDraftCreateParams {
+    description?: string;
+    orderData: TradeDraftOrderCreate;
+}
+
+// @public (undocumented)
+function TradeDraftCreateParamsFromJSON(json: any): TradeDraftCreateParams;
+
+// @public (undocumented)
+function TradeDraftCreateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftCreateParams;
+
+// @public (undocumented)
+function TradeDraftCreateParamsToJSON(value?: TradeDraftCreateParams | null): any;
+
+// @public (undocumented)
+function TradeDraftCreateParamsToJSONRecursive(value?: TradeDraftCreateParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function TradeDraftFromJSON(json: any): TradeDraft;
+
+// @public (undocumented)
+function TradeDraftFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraft;
+
+// @public
+interface TradeDraftOrderCreate {
+    cashAccountId?: string;
+    direction: Direction;
+    exchangeId?: number;
+    limit?: number;
+    limitCurrencyIso?: string;
+    orderExtension?: OrderExtension;
+    orderModel: OrderModel;
+    portfolioId: string;
+    quoteLimit?: number;
+    security: Security;
+    size: number;
+    sizeUnit?: string;
+    stop?: number;
+    stopLimit?: number;
+    validity?: OrderValidity;
+}
+
+// @public (undocumented)
+function TradeDraftOrderCreateFromJSON(json: any): TradeDraftOrderCreate;
+
+// @public (undocumented)
+function TradeDraftOrderCreateFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftOrderCreate;
+
+// @public (undocumented)
+function TradeDraftOrderCreateToJSON(value?: TradeDraftOrderCreate | null): any;
+
+// @public (undocumented)
+function TradeDraftOrderCreateToJSONRecursive(value?: TradeDraftOrderCreate | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function TradeDraftToJSON(value?: TradeDraft | null): any;
+
+// @public (undocumented)
+function TradeDraftToJSONRecursive(value?: TradeDraft | null, ignoreParent?: boolean): any;
+
+// @public
+interface TradeDraftUpdateParams {
+    description?: string;
+    inactive?: boolean;
+    orderId?: TradeDraftUpdateParamsOrderId;
+}
+
+// @public (undocumented)
+function TradeDraftUpdateParamsFromJSON(json: any): TradeDraftUpdateParams;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftUpdateParams;
+
+// @public
+interface TradeDraftUpdateParamsOrderId {
+}
+
+// @public (undocumented)
+function TradeDraftUpdateParamsOrderIdFromJSON(json: any): TradeDraftUpdateParamsOrderId;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsOrderIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftUpdateParamsOrderId;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsOrderIdToJSON(value?: TradeDraftUpdateParamsOrderId | null): any;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsOrderIdToJSONRecursive(value?: TradeDraftUpdateParamsOrderId | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsToJSON(value?: TradeDraftUpdateParams | null): any;
+
+// @public (undocumented)
+function TradeDraftUpdateParamsToJSONRecursive(value?: TradeDraftUpdateParams | null, ignoreParent?: boolean): any;
+
+// @public
 interface TrailingDistance {
     mode: TrailingDistanceModeEnum;
     value: number;
@@ -5862,6 +6127,14 @@ type UpdateDecoupledOperationMessage = {
     subscriptionId: number;
     status: DecoupledOperationStatus_2;
 };
+
+// @public (undocumented)
+interface UpdateTradeDraftRequest {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    tradeDraftUpdateParams: TradeDraftUpdateParams;
+}
 
 // @public (undocumented)
 class UserApi extends runtime.BaseAPI {

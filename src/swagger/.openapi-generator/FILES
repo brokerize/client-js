@@ -9,6 +9,7 @@ apis/ExportApi.ts
 apis/MetaApi.ts
 apis/SecuritiesApi.ts
 apis/TradeApi.ts
+apis/TradeDraftApi.ts
 apis/UserApi.ts
 apis/index.ts
 index.ts
@@ -71,6 +72,7 @@ models/CreateModeSessionTanAllOf.ts
 models/CreateOrderChallengeParams.ts
 models/CreateOrderParams.ts
 models/CreateTanChallengeParams.ts
+models/CreateTradeDrafts200Response.ts
 models/CreateTradeResponse.ts
 models/CreatedResponseBody.ts
 models/DecoupledOperationState.ts
@@ -134,6 +136,7 @@ models/GenericTableRowValueTextSpecifics.ts
 models/GenericTableRowValueType.ts
 models/GetAccessTokensResponse.ts
 models/GetAcessTokenAvailablePermissions200Response.ts
+models/GetActiveTradeDraftsResponse.ts
 models/GetAuthInfoResponse.ts
 models/GetBrokersResponse.ts
 models/GetCostEstimationParams.ts
@@ -144,6 +147,7 @@ models/GetPortfolioQuotesResponse.ts
 models/GetQuoteParams.ts
 models/GetQuoteResponse.ts
 models/GetUserResponse.ts
+models/GuestUserLifetime.ts
 models/Hint.ts
 models/LegalTermConfirmItem.ts
 models/LegalTermsResponse.ts
@@ -157,6 +161,7 @@ models/LoginResponseReadySpecifics.ts
 models/LoginResponseState.ts
 models/MaintenanceStatus.ts
 models/OAuthLoginFormConfig.ts
+models/ObtainToken200Response.ts
 models/OkResponseBody.ts
 models/Order.ts
 models/OrderChanges.ts
@@ -196,6 +201,7 @@ models/PrepareOAuthRedirectResponse.ts
 models/PrepareTradeResponse.ts
 models/PreparedTrade.ts
 models/QuoteExpiration.ts
+models/RenamePortfolioRequest.ts
 models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts
 models/Security.ts
@@ -222,6 +228,11 @@ models/StringMapByOrderModel.ts
 models/SyncError.ts
 models/TakeProfitStopLossCapabilites.ts
 models/TakeProfitStopLossDetail.ts
+models/TradeDraft.ts
+models/TradeDraftCreateParams.ts
+models/TradeDraftOrderCreate.ts
+models/TradeDraftUpdateParams.ts
+models/TradeDraftUpdateParamsOrderId.ts
 models/TrailingDistance.ts
 models/ValidationDetail.ts
 models/index.ts
