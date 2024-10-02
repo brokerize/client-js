@@ -74,6 +74,12 @@ export interface Portfolio {
   portfolioName: string;
   /**
    *
+   * @type {string}
+   * @memberof Portfolio
+   */
+  portfolioNameOriginal: string;
+  /**
+   *
    * @type {Array<string>}
    * @memberof Portfolio
    */
@@ -104,6 +110,7 @@ export function PortfolioFromJSONTyped(
     id: json["id"],
     idHash: json["idHash"],
     portfolioName: json["portfolioName"],
+    portfolioNameOriginal: json["portfolioNameOriginal"],
     sessionIds: json["sessionIds"],
     syncInfo: PortfolioSyncInfoFromJSON(json["syncInfo"]),
   };
@@ -127,6 +134,7 @@ export function PortfolioToJSONRecursive(
     id: value.id,
     idHash: value.idHash,
     portfolioName: value.portfolioName,
+    portfolioNameOriginal: value.portfolioNameOriginal,
     sessionIds: value.sessionIds,
     syncInfo: PortfolioSyncInfoToJSON(value.syncInfo),
   };

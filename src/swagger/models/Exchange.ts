@@ -70,7 +70,12 @@ export interface Exchange {
    */
   brokerizeExchangeId?: number;
   /**
-   * The ids of the cash accounts compatible with this exchange. E.g. the ones that match the desired currency
+   * If defined, the cashAccounts that can be used with this exchange. The list should be presented to the user, so that they can
+   * select which account to order with. Usually this is just the list of cash accounts, filtered by currency. However, some
+   * brokers may allow to trade with cash accounts in a different currency than the exchange's currency, so this provided list should
+   * be used.
+   *
+   * If not defined, all cash accounts assigned to the portfolio can be used (if there is only one or none, the list should not be shown).
    * @type {Array<string>}
    * @memberof Exchange
    */
@@ -81,12 +86,6 @@ export interface Exchange {
    * @memberof Exchange
    */
   currencyIso: string;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof Exchange
-   */
-  currencyIsoByCashAccountId?: { [key: string]: string };
   /**
    *
    * @type {DefaultOrderValidityByOrderModel}
@@ -178,9 +177,6 @@ export function ExchangeFromJSONTyped(
       ? undefined
       : json["cashAccountIds"],
     currencyIso: json["currencyIso"],
-    currencyIsoByCashAccountId: !exists(json, "currencyIsoByCashAccountId")
-      ? undefined
-      : json["currencyIsoByCashAccountId"],
     defaultValidityByOrderModel: !exists(json, "defaultValidityByOrderModel")
       ? undefined
       : DefaultOrderValidityByOrderModelFromJSON(
@@ -234,7 +230,6 @@ export function ExchangeToJSONRecursive(
     brokerizeExchangeId: value.brokerizeExchangeId,
     cashAccountIds: value.cashAccountIds,
     currencyIso: value.currencyIso,
-    currencyIsoByCashAccountId: value.currencyIsoByCashAccountId,
     defaultValidityByOrderModel: DefaultOrderValidityByOrderModelToJSON(
       value.defaultValidityByOrderModel
     ),

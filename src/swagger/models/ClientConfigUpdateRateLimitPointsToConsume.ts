@@ -24,6 +24,12 @@ export interface ClientConfigUpdateRateLimitPointsToConsume {
    * @memberof ClientConfigUpdateRateLimitPointsToConsume
    */
   guestUser?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof ClientConfigUpdateRateLimitPointsToConsume
+   */
+  refreshToken?: number;
 }
 
 export function ClientConfigUpdateRateLimitPointsToConsumeFromJSON(
@@ -41,6 +47,9 @@ export function ClientConfigUpdateRateLimitPointsToConsumeFromJSONTyped(
   }
   return {
     guestUser: !exists(json, "guestUser") ? undefined : json["guestUser"],
+    refreshToken: !exists(json, "refreshToken")
+      ? undefined
+      : json["refreshToken"],
   };
 }
 
@@ -57,6 +66,7 @@ export function ClientConfigUpdateRateLimitPointsToConsumeToJSONRecursive(
 
   return {
     guestUser: value.guestUser,
+    refreshToken: value.refreshToken,
   };
 }
 

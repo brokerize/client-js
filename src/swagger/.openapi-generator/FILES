@@ -147,6 +147,7 @@ models/GetPortfolioQuotesResponse.ts
 models/GetQuoteParams.ts
 models/GetQuoteResponse.ts
 models/GetUserResponse.ts
+models/GuestUserLifetime.ts
 models/Hint.ts
 models/LegalTermConfirmItem.ts
 models/LegalTermsResponse.ts
@@ -160,6 +161,7 @@ models/LoginResponseReadySpecifics.ts
 models/LoginResponseState.ts
 models/MaintenanceStatus.ts
 models/OAuthLoginFormConfig.ts
+models/ObtainToken200Response.ts
 models/OkResponseBody.ts
 models/Order.ts
 models/OrderChanges.ts
@@ -199,6 +201,7 @@ models/PrepareOAuthRedirectResponse.ts
 models/PrepareTradeResponse.ts
 models/PreparedTrade.ts
 models/QuoteExpiration.ts
+models/RenamePortfolioRequest.ts
 models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts
 models/Security.ts

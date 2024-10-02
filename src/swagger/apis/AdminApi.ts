@@ -113,11 +113,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/clients/{clientId}/oauthReturnTo`.replace(
@@ -185,11 +188,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/clients/{clientId}/origin`.replace(
@@ -232,11 +238,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/client`,
@@ -288,11 +297,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/client/{clientId}`.replace(
@@ -334,11 +346,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/clients`,
@@ -422,11 +437,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/orderReport`,
@@ -492,11 +510,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/clients/{clientId}/removeOAuthReturnTo`.replace(
@@ -564,11 +585,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/clients/{clientId}/removeOrigin`.replace(
@@ -634,11 +658,14 @@ export class AdminApi extends runtime.BaseAPI {
         this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
     }
 
-    if (this.configuration && this.configuration.apiKey) {
-      headerParameters["x-access-token"] =
-        this.configuration.apiKey("x-access-token"); // idToken authentication
-    }
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
 
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
     const response = await this.request(
       {
         path: `/admin/clients/{clientId}/config`.replace(
