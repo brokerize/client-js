@@ -777,9 +777,8 @@ function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, igno
 // @public (undocumented)
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
-    createAuth(authCtxCfg: AuthContextConfiguration): Auth;
-    // (undocumented)
-    createAuthorizedContext(authCtxCfg: AuthContextConfiguration): AuthorizedApiContext;
+    createAuth(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): Auth;
+    createAuthorizedContext(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): AuthorizedApiContext;
     // (undocumented)
     createGuestUser(): Promise<AuthContextConfiguration>;
     // (undocumented)
@@ -5959,6 +5958,16 @@ class TextApiResponse {
     value(): Promise<string>;
 }
 
+// @public
+export type TokenRefreshCallback = (cfg: AuthContextConfiguration) => void;
+
+// @public (undocumented)
+export type TokenSet = {
+    idToken: string;
+    refreshToken: string;
+    expiresAt: number;
+};
+
 // @public (undocumented)
 class TradeApi extends runtime.BaseAPI {
     createTrade(requestParameters: CreateTradeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateTradeResponse>;
@@ -6273,10 +6282,6 @@ declare namespace WebSocketTypes {
     }
 }
 export { WebSocketTypes }
-
-// Warnings were encountered during analysis:
-//
-// dist/apiCtx.d.ts:22:5 - (ae-forgotten-export) The symbol "TokenSet" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -140,7 +140,7 @@ export class AuthorizedApiContext {
       signal: this._abortController.signal,
       headers: {
         "x-brkrz-client-id": this._cfg.clientId,
-        "x-access-token": tok.idToken,
+        Authorization: "Bearer " + tok.idToken,
         "Content-Type": "application/json",
       },
     };

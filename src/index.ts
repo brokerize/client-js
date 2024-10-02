@@ -10,6 +10,7 @@ import {
   Auth,
   createConfiguration,
   RegisteredUserAuthContextConfiguration,
+  TokenSet,
 } from "./apiCtx";
 import { AuthorizedApiContext } from "./authorizedApiContext";
 import { BrokerizeError } from "./errors";
@@ -35,6 +36,7 @@ export {
   Utils,
   BrokerizeError,
   Auth,
+  TokenSet,
 };
 export { CognitoPoolConfig, RegisteredUserAuthContextConfiguration };
 export { CognitoConfig, CognitoFacade };
@@ -82,6 +84,7 @@ export class Brokerize {
   }
 
   async createGuestUser(): Promise<AuthContextConfiguration> {
+    const updatedAt = Date.now();
     const user = await this._defaultApi.createGuestUser({
       headers: {
         "x-brkrz-client-id": this._cfg.clientId,
@@ -91,11 +94,29 @@ export class Brokerize {
     return {
       type: "guest",
       idToken: user.idToken,
+      tokens: {
+        updatedAt,
+        response: user,
+      },
     };
   }
 
-  createAuthorizedContext(authCtxCfg: AuthContextConfiguration) {
-    return new AuthorizedApiContext(this._cfg, this.createAuth(authCtxCfg));
+  /**
+   * Create a context for making authorized API calls. This context will automatically take care of refreshing the access token
+   * tokens if required. The `AuthorizedApiContext` then is used to make API calls on behalf of the active user.
+   *
+   * @param authCtxCfg the auth context data, e.g. a token set for a guest user
+   * @param tokenRefreshCallback when a token refresh occurs, this callback is called and can store the stored tokens
+   * @returns
+   */
+  createAuthorizedContext(
+    authCtxCfg: AuthContextConfiguration,
+    tokenRefreshCallback?: TokenRefreshCallback
+  ) {
+    return new AuthorizedApiContext(
+      this._cfg,
+      this.createAuth(authCtxCfg, tokenRefreshCallback)
+    );
   }
 
   getCognitoConfig(): CognitoPoolConfig | undefined {
@@ -108,14 +129,29 @@ export class Brokerize {
    * using the provided `AuthorizedApiContext` methods.
    *
    * @param authCtxCfg the auth context configuration
+   * @param tokenRefreshCallback when a token refresh occurs, this callback is called and can store the stored tokens
    * @returns
    */
-  createAuth(authCtxCfg: AuthContextConfiguration): Auth {
-    return createAuth(authCtxCfg, this._cfg, {
-      cognitoFacade: this._cfg.cognito?.cognitoFacade,
+  createAuth(
+    authCtxCfg: AuthContextConfiguration,
+    tokenRefreshCallback?: TokenRefreshCallback
+  ): Auth {
+    return createAuth({
+      authCfg: authCtxCfg,
+      cfg: this._cfg,
+      tokenRefreshCallback,
+      options: {
+        cognitoFacade: this._cfg.cognito?.cognitoFacade,
+      },
     });
   }
 }
+
+/**
+ * When a token update occurs (e.g. due to a refreshToken call), this callback is called.
+ * Clients can save the new tokens to their persistent token storage.
+ */
+export type TokenRefreshCallback = (cfg: AuthContextConfiguration) => void;
 
 function getGlobalObject() {
   let global;
