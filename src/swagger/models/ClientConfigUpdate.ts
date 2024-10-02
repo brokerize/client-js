@@ -48,6 +48,12 @@ import {
   ClientConfigUpdateRateLimitPointsToConsumeFromJSONTyped,
   ClientConfigUpdateRateLimitPointsToConsumeToJSON,
 } from "./ClientConfigUpdateRateLimitPointsToConsume";
+import {
+  GuestUserLifetime,
+  GuestUserLifetimeFromJSON,
+  GuestUserLifetimeFromJSONTyped,
+  GuestUserLifetimeToJSON,
+} from "./GuestUserLifetime";
 
 /**
  * A client configuration *update* (i.e. fields that are not modified can be left out).
@@ -109,6 +115,12 @@ export interface ClientConfigUpdate {
    * @memberof ClientConfigUpdate
    */
   guestUserInactivityTimeoutSeconds?: number | null;
+  /**
+   *
+   * @type {GuestUserLifetime}
+   * @memberof ClientConfigUpdate
+   */
+  guestUserLifetime?: GuestUserLifetime;
   /**
    *
    * @type {string}
@@ -214,6 +226,9 @@ export function ClientConfigUpdateFromJSONTyped(
     )
       ? undefined
       : json["guestUserInactivityTimeoutSeconds"],
+    guestUserLifetime: !exists(json, "guestUserLifetime")
+      ? undefined
+      : GuestUserLifetimeFromJSON(json["guestUserLifetime"]),
     legalEntityName: !exists(json, "legalEntityName")
       ? undefined
       : json["legalEntityName"],
@@ -274,6 +289,7 @@ export function ClientConfigUpdateToJSONRecursive(
     cognitoClientIds: value.cognitoClientIds,
     enabled: value.enabled,
     guestUserInactivityTimeoutSeconds: value.guestUserInactivityTimeoutSeconds,
+    guestUserLifetime: GuestUserLifetimeToJSON(value.guestUserLifetime),
     legalEntityName: value.legalEntityName,
     maintenanceStatus: ClientConfigMaintenanceStatusToJSON(
       value.maintenanceStatus

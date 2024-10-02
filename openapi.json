@@ -621,6 +621,10 @@
             "format": "int32",
             "type": "integer"
           },
+          "guestUserLifetime": {
+            "$ref": "#/components/schemas/GuestUserLifetime",
+            "description": "How long guest users of this client may be used. Note that the actual lifetime is calculated upon\ncreation of the user. We prefer expirations during nighttimes and/or weekends, so that users\nare not disturbed during their work.\n\nThe default value is `ONE_DAY`, which usually means that the user will expire during the next night.\n\nNote that the user may be expired way earlier if a `guestUserInactivityTimeoutSeconds` is defined."
+          },
           "legalEntityName": {
             "type": "string"
           },
@@ -710,6 +714,10 @@
             "nullable": true,
             "type": "integer"
           },
+          "guestUserLifetime": {
+            "$ref": "#/components/schemas/GuestUserLifetime",
+            "description": "How long guest users of this client may be used. Note that the actual lifetime is calculated upon\ncreation of the user. We prefer expirations during nighttimes and/or weekends, so that users\nare not disturbed during their work.\n\nThe default value is `ONE_DAY`, which usually means that the user will expire during the next night.\n\nNote that the user may be expired way earlier if a `guestUserInactivityTimeoutSeconds` is defined."
+          },
           "legalEntityName": {
             "type": "string"
           },
@@ -768,6 +776,10 @@
           "rateLimitPointsToConsume": {
             "properties": {
               "guestUser": {
+                "format": "double",
+                "type": "number"
+              },
+              "refreshToken": {
                 "format": "double",
                 "type": "number"
               }
@@ -856,11 +868,33 @@
       },
       "CreateGuestUserResponse": {
         "properties": {
+          "access_token": {
+            "description": "The bearer token that can be used to access the API.",
+            "type": "string"
+          },
+          "expires_in": {
+            "description": "Expiration time of the token in seconds from now.",
+            "format": "double",
+            "type": "number"
+          },
           "idToken": {
+            "deprecated": true,
+            "type": "string"
+          },
+          "refresh_token": {
+            "type": "string"
+          },
+          "refresh_token_expires_in": {
+            "description": "If applicable, expiration time of the refresh token in seconds from now.\nNote that this is optional and may not be provided in all cases.",
+            "format": "double",
+            "type": "number"
+          },
+          "token_type": {
+            "description": "The OAuth token_type. Currently always `\"bearer\"`.",
             "type": "string"
           }
         },
-        "required": ["idToken"],
+        "required": ["token_type", "access_token", "idToken"],
         "type": "object"
       },
       "CreateModeSessionTan": {
@@ -950,13 +984,6 @@
       "CurrencyCode": {
         "description": "- ISO code (e.g. EUR for Euro), if it is a monetary amount\n- or 'USDT' if its Tether (https://en.wikipedia.org/wiki/Tether_(cryptocurrency)\n- or 'XXX' if it is pieces\n- or 'PRC' if it is a percentage\n- or 'PRM' if it is permil\n- or 'XXP' if it is points (as for indices)\n- or 'GRAMS' if it is grams (as for precious metals)",
         "type": "string"
-      },
-      "CurrencyIsoByCashAccountIdMap": {
-        "additionalProperties": {
-          "type": "string"
-        },
-        "properties": {},
-        "type": "object"
       },
       "DateString": {
         "description": "Date in the format YYYY-MM-DD for validityType: 'GTD'\nDate in the format Date ISO string YYYY-MM-DDThh:mm:ss.fffZ for validityType: 'GTDT'",
@@ -1245,7 +1272,7 @@
             "type": "integer"
           },
           "cashAccountIds": {
-            "description": "The ids of the cash accounts compatible with this exchange. E.g. the ones that match the desired currency",
+            "description": "If defined, the cashAccounts that can be used with this exchange. The list should be presented to the user, so that they can\nselect which account to order with. Usually this is just the list of cash accounts, filtered by currency. However, some\nbrokers may allow to trade with cash accounts in a different currency than the exchange's currency, so this provided list should\nbe used.\n\nIf not defined, all cash accounts assigned to the portfolio can be used (if there is only one or none, the list should not be shown).",
             "items": {
               "type": "string"
             },
@@ -1254,10 +1281,6 @@
           "currencyIso": {
             "description": "Quotes for the instrument at this exchange are in this currency. This affects fields like limit, stop etc.",
             "type": "string"
-          },
-          "currencyIsoByCashAccountId": {
-            "$ref": "#/components/schemas/CurrencyIsoByCashAccountIdMap",
-            "description": "For each selectable cash account id, define which currency iso the cash account will be using. In other words, which currency\neach cash account is operating in.\n\nIf defined, the `currencyIso` to use for fields like limit, stop etc. is determined by the cash account id (!), i.e.\nthis overrides the `currencyIso` field.\n\nThis is especially relevant for crypto trading: the `PreparedInstrument` is for a given crypto coin (e.g. BTC), but the limits\nwill be provided in a fiat currency. So if you, for example, select a `EUR` cash account, the limit will be in `EUR` (= you are trading the\n\"pair\" BTC/EUR), but if you select a `USD` cash account, the fiat limit will be in `USD` (=you are trading the \"pair\" BTC/USD).\n\nIf this map is not provided or has no entry for the selected cash account, `currencyIso` must be used."
           },
           "defaultValidityByOrderModel": {
             "$ref": "#/components/schemas/DefaultOrderValidityByOrderModel",
@@ -1809,6 +1832,10 @@
         },
         "required": ["userId"],
         "type": "object"
+      },
+      "GuestUserLifetime": {
+        "enum": ["ONE_DAY", "ONE_WEEK"],
+        "type": "string"
       },
       "Hint": {
         "properties": {
@@ -2684,6 +2711,9 @@
           "portfolioName": {
             "type": "string"
           },
+          "portfolioNameOriginal": {
+            "type": "string"
+          },
           "sessionIds": {
             "items": {
               "type": "string"
@@ -2700,6 +2730,7 @@
           "syncInfo",
           "cashAccountIds",
           "sessionIds",
+          "portfolioNameOriginal",
           "portfolioName",
           "brokerName",
           "id"
@@ -3563,6 +3594,18 @@
         "required": ["directions", "orderModels"],
         "type": "object"
       },
+      "TokenParams": {
+        "properties": {
+          "grant_type": {
+            "type": "string"
+          },
+          "refresh_token": {
+            "type": "string"
+          }
+        },
+        "required": ["refresh_token", "grant_type"],
+        "type": "object"
+      },
       "TradeDraft": {
         "description": "Trade drafts are orders saved into for the user, to be reviewed and possibly executed at a later time.",
         "properties": {
@@ -3762,10 +3805,9 @@
         "type": "apiKey"
       },
       "idToken": {
-        "description": "Requests are authenticated by providing an header `x-access-token` which is a JWT token retrieved either from the `createguest` endpoint or retrieved for a user from the amazon cognito pool.",
-        "in": "header",
-        "name": "x-access-token",
-        "type": "apiKey"
+        "description": "Requests are authenticated by providing either a header `Authorization: Bearer <TOKEN>` or a header `x-access-token: <TOKEN>` where <TOKEN> is a token retrieved either from the `createGuest` endpoint or retrieved for a user from the amazon cognito pool, or a Personal Access Token created in the brokerize admin interface.",
+        "scheme": "bearer",
+        "type": "http"
       }
     }
   },
@@ -3773,7 +3815,7 @@
     "contact": {},
     "description": "# brokerize API\n\nThe brokerize API allows clients to implement multi-brokerage with a unified interface. While our partner brokers have different feature sets and legal constraints, our abstractions make it easy to build a consistent trading experience for your users. We provide an accessible demo broker for development and quality assurance purposes that allows you to test the different behaviours without the need to log in to the actual brokers.\n\n# user accounts & temporary guest sessions\n\nAll API calls act on behalf of a specific end-user that interacts with your application. It is recommended to directly call the API from frontends (for web applications, this will involve a CORS configuration, which can be attached easily to your client id).\n\nEnd users either have their own account at brokerize or create an ephemeral anonymous account while they use it. In the latter case, all data is deleted automatically when the session is terminated. If users decide to create a proper account, they can log in to brokerize any time with their credentials and keep their data stored as long as they wish.\n\n![](/docs/diagrams/account.svg)\n\nAfter retrieving a token for the user, interaction with the API is the same for both cases. All features are available for guest and registered users.\n\n# connecting brokers and synchronizing data to brokerize\n\nUsers connect their brokerage accounts from either the official brokerize UI or from an app's interface using their broker credentials. To find out which brokers can be used for logging in, the [GetBrokers](#operation/GetBrokers) endpoint must be used. An end user can add a login by calling [AddSession](#operation/AddSession). Note that brokerize _never_ saves the login credentials, but only tokens / session ids that are issued by the brokers. Those are discarded as soon as the user logs out from the broker using [LogoutSession](#operation/LogoutSession).\n\nAs soon as users have connected one or more broker sessions, those sessions are synced into their user account. This means that the list of portfolios, positions and orders are stored in the brokerize database. All synchronized portfolios and their contents are accessible using the portfolio operations (e.g. [GetPortfolios](#operation/GetPortfolios), [GetPortfolioOrders](#operation/GetPortfolioOrders) etc.). Even after the user disconnects a session (or it times out at the broker etc.), the data remains available until actively deleted by the user ([DeletePortfolio](#operation/DeletePortfolio)). This means that users can easily look at the last known state of each portfolio without needing to log in. As soon as they log in again via [AddSession](#operation/AddSession), the data is updated again (i.e. the synchronized portfolio gets connected to an \"online session\" again).\n\nData is automatically synchronized in the background, but clients can also request a sync using [TriggerSessionSync](#operation/TriggerSessionSync).\n\n![](/docs/diagrams/session-lifecycle.svg)\n\n# performing actions in portfolios\n\nSee [GetAuthInfo](#operation/GetAuthInfo) to get an overview on the available operations like creation, change and cancellation of orders.\nFor an overview how the flow of the creation of a trade from start to finish looks, see the next section\n\n# trade flow\n\nThe following diagram tries to assist in unterstanding the flow that occurs, when a trade is performed. It shows an example of a trade flow. Details may vary depending the broker and connected requirements. For more in-depth information please have a look a look at the [GetAuthInfo](#operation/GetAuthInfo) section.\n\n![](/docs/diagrams-drawio/trade-flow.svg)\n\n# rate limits\n\nCurrently a rate limit of 100 requests per 10 seconds per client/userId combination is implemented for all endpoints. The `CreateGuestUser` endpoint is accessible without a token, so _for that endpoint_ an IP-based limiting (1 guest user creation per 10 seconds) is implemented. These rate limits are subject to change and will be refined in the future.\n\nClients should implement ways to deal with the http `429` status code and can inspect the `Retry-After` header to implement appropriate waiting behavior.\n\n# privileged clients with client secrets\n\nOur API is designed to be publicly accessible in order to be used directly from browsers and apps. However this comes with relatively strict rate limiting (for example) for the guest user creation.\n\nIf a client only calls the API from a secured backend, the limit may be increased.\n\nIn order to authenticate as a priviliged client, the header `x-brkrz-client-secret` must be added to requests (a client secret is provided manually in that case).\n\n# request ids\n\nThe brokerize backend assigns a requestId to each request and returns it in the `x-request-id` header. The ID can be used to research error details, so it may be displayed to the user in the case of unexpected errors. In the case of internal server errors, the id will also be part of the JSON body; for example:\n\n```\n{\n    \"message\": \"An internal server error occured.\",\n    \"requestId\": \"9KzqMpRvVrQHDkFo\"\n}\n```\n\n# tradable securities\n\nIn this API, all tradable securities are identified by their ISIN. However, some securities do not have an ISIN. In these cases, we however still use the ISIN field for some special values. Currently frontends should manually map the securities to their security database if suitable.\n\nThe following special values for ISIN are currently supported (of course, the actual availability depends on the specific broker implementations):\n\n| `ISIN`  | Description |\n| ------- | ----------- |\n| `BTC` | BTC/EUR |\n| `ETH` | ETH/EUR |\n| `LTC` | LTC/EUR |\n| `XRP` | XRP/EUR |\n| `BCH` | BCH/EUR |\n| `EOS` | EOS/EUR |\n| `LINK` | LINK/EUR |\n| `XLM` | XLM/EUR |\n| `DOT` | DOT/EUR |\n| `UNI` | UNI/EUR |\n| `DOGE` | DOGE/EUR |\n| `ETC` | ETC/EUR |\n| `ADA` | ADA/EUR |\n| `SOL` | SOL/EUR |\n| `AAVE` | AAVE/EUR |\n| `ALGO` | ALGO/EUR |\n| `CRV` | CRV/EUR |\n| `LUNA` | LUNA/EUR |\n| `MANA` | MANA/EUR |\n| `MATIC` | MATIC/EUR |\n| `XTZ` | XTZ/EUR |\n| `AVAX` | AVAX/EUR |\n| `CHZ` | CHZ/EUR |\n| `ENJ` | ENJ/EUR |\n| `FTM` | FTM/EUR |\n| `KSM` | KSM/EUR |\n| `LRC` | LRC/EUR |\n| `MKR` | MKR/EUR |\n| `NEAR` | NEAR/EUR |\n| `QNT` | QNT/EUR |\n| `GRT` | GRT/EUR |\n| `SAND` | SAND/EUR |\n| `YFI` | YFI/EUR |\n",
     "title": "brokerize",
-    "version": "0.0.1-preview",
+    "version": "1.1.0",
     "x-logo": {
       "altText": "brokerize logo",
       "backgroundColor": "#FFFFFF",
@@ -4875,7 +4917,7 @@
         "tags": ["demobroker"]
       },
       "post": {
-        "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge with type text will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- with the password `7`, a challenge with type base64png will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy or stop loss order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN DE000MD96WE8 (a knock out with DAX as underlying)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN DE000DTR0CK8 (Daimler Truck Holding)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes do *NOT* have an expiration\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n  - default validity is set to `GTD` with a date of `2030-01-01`\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - quote, limit and market orders (both buy and sell) are supported on one exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set (`legalMessagesToConfirmByOrderModel`)\n- ISIN US64110L1061 (Netflix Inc.)\n  - one exchange with only quote order\n  - creating the quote order will return an error (quote expired)\n - ISIN US67066G1040 (NVIDIA)\n   - one exchange with only quote order, allowsQuoteModeLimit=true\n   - quote orders are executed immediately.\n     - if a quoteLimit is provided, execution happen at quoteLimit value\n     - otherwise, a random execution quote will be used\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- ISIN DE000PAH0038 (Porsche)\n  - one exchange with only market order\n  - all orders will be canceled\n  - `GetCostEstimation` contains (only) a link to a PDF document. This can be used to test whether linking to a PDF works.\n  - the instrument has both a `riskClassInfo.legalHint` as well as a `strikingHint`. Both should be visible in the order form.\n- ISIN DE0008404005 (Allianz) and some other hidden ISINs (can be requested from brokerize support)\n  - one exchange with all available orderModels\n  - orders are executed immediately\n- ISIN DE0008430026 (Munich Re)\n  - one exchange (L&S) with all available orderModels\n  - orders are executed immediately\n- ISIN FR0000120321 (L'Oréal)\n  - one exchange with all available orderModels\n  - the exchange has a `securityQuotesToken` set\n  - orders stay open\n  - changesHaveCostEstimations is `true` for orders with this ISIN\n- ISIN US5949181045 (Microsoft)\n  - one exchange with all available orderModels\n  - if size is even, a partial execution with size 1 is executed, the remaining part stays open\n  - if size is odd, a partial execution with size 1 is executed, the remaining part is canceled\n- ISIN US30303M1027 (Meta)\n  - one exchange with all available orderModels\n  - for each piece of the order size, there will be one execution with size 1 (so e.g. 10 executions for size 10)\n  - sizes > 30 are not accepted\n- ISIN US2546871060 (Disney)\n  - one exchange with all available orderModels\n  - all orders are canceled after 3s\n  - `costEstimationMustBeShown` is false and `costEstimationIsOnlyDetailedTable` is true (frontends must only show a link to the cost estimation table)\n- ISIN XX1234567890 (example of an ISIN that can never be mapped by frontends)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007100000 (Mercedes-Benz)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007472060 (Wirecard)\n  - test instrument for `empty orderModelsBuy` / `onlySellAllowed`\n- ISIN BTC (Bitcoin/Euro)\n  - has one exchange with support for quote, market and limit orders\n  - orders will be executed right away\n  - can be used to test frontend mapping of cryptos\n  - when you prepare a trade in the *second* portfolio (which has two cash accounts), `sizeUnitsByCashAccountId` will be set, so that the frontend can let the user select a combination of `cashAccount` and `sizeUnit`.\n- ISIN DE0006231004 (Infineon Technologies AG)\n  - one exchange with `orderModelsSell=['market'] and `orderModelsBuy=[]`\n- ISIN DE0005552004 (Deutsche Post AG)\n  - one exchange with `orderModelsSell=[] and `orderModelsBuy=['market']`\n  - market buy orders are executed immediately\n- ISIN US8740541094 (Take Two)\n  - three exchanges are available. all have `market` and `limit` available\n  - configuration for `takeProfitStopLoss` is different for the three exchanges. This can be used to test the implementation of takeProfit/stopLoss creation.\n    - exchange_with_exclusive_tp_sl: `takeProfitStopLoss.exclusive` is `true`, so that only one of the two can be set. Also, both fields are limited to market buy orders\n    - exchange_with_unlimited_tp_sl: `takeProfitStopLoss.exclusive` is `false`, so that both tp and sl may be set, for both sell and buy orders and both support orderModels\n    - exchange_without_tp_sl: `takeProfitStopLoss` is not set, so that no tp/sl can be set\n  - orders stay open forever\n- ISIN US5529531015 (MGM Resorts International)\n  - one exchange with market and limit orders\n  - orders are executed immediately\n  - short selling is allowed, so `availableOrderIntents` as well as `availableOrderIntentsToken` is set. \"sell to open\" and \"buy to close\" can be tested here.\n- ISIN XAU (Gold)\n  - only quote trading is allowed\n  - depending on the selected portfolio, it is possible to select a cash account (e.g. EUR or USD) to trade with\n  - users can chose between specifying the order size in the cash currency or in grams\n  - quotes have the `totalAmount` field set\n- `CryptoPair` ADA-USD (Cardano - US Dollar)\n  - 'quote', 'market', 'limit' order models are available\n  - One of the created demobroker portfolios does not have an USD cash account. For this portfolio an error will appear upon opening the order form\n  - users can chose between specifying the order size in the cash currency (USD) or in ADA\n  - validity types for limit orders are ['IOC', 'GTDT']. With 'GTDT' the user can specify a date AND time at which his order should be executed\n  - the size input decimal places are limited per sizeUnit. For USD it's 2 and for ADA it is 4 decimal places\n\n  - the orders will be canceled after 3 seconds\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.\n\nBehavior of `PortfolioQuotes` in the demo broker:\n- portfolio 1 starts with 100.000€ cash. portfolio 2 has two cash accounts, one starts with 100.000€, one with 100.000$.\n- when cash account values are summed up, we just assume an exchange rate of 1:1\n- each open buy order reserves 10€ cash from the availableCash\n- profit loss of the portfolio is the sum of the position's profit loss",
+        "description": "Create an account at the demo broker for the logged-in user. The account will have a default\nset of two empty portfolios by default. If the setting `isSinglePortfolio` is set, only one portfolio\nis created.\n\nThe account as well as the two portfolios have a randomly generated name.\n\nTo log into an account, use the account's generated name as username (Account name) in `AddSession`.\n- with the password `42`, the login will succeed immediately\n- with the password `1337`, a challenge with type text will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- with the password `7`, a challenge with type base64png will be returned which must be completed by using `addSessionCompleteChallenge` (with a challengeResponse `42`)\n- other passwords will not allow to log in\n\nThe demo broker implements the following pre-defined trade behaviors, so that different flows can be tested:\n- ISIN US0378331005 (Apple):\n  - market buy order is executed after 10 seconds by the backend at a random quote\n  - stop buy or stop loss order stays open forever (can be used for testing cancellation)\n  - cost estimations contain a `costDetailsLink` and a `costAcceptancePrompt`\n  - securityDetailedInfo is set, so a \"KID\" link should be displayed and linked to the corresponding table\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN LU0378438732 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN LU2611732046 (a DAX ETF)\n  - preparedTrade has `costEstimationIsOnlyDetailedTable` set to true, so that deviating order form behaviors can be tested\n  - two exchanges are available (\"xetra\" and \"quoteExchange\")\n  - xetra allows market and limit orders for buying and has defaultValidityByOrderModel set to GFD for market and GTD 2030-01-01 for limit\n  - orders are rejected with code `ORDER_REJECTED` immediately\n- ISIN DE000MD96WE8 (a knock out with DAX as underlying)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN DE000DTR0CK8 (Daimler Truck Holding)\n  - prepareTrade is rejected with a message that the user may not trade risky derivatives.\n- ISIN US4180561072 (Hasbro)\n  - only quote orders on one exchange are supported\n  - the quotes are valid for 45 seconds\n  - quote value is always `42`\n  - the order gets executed immediately\n- ISIN DE0005557508 (Deutsche Telekom)\n  - only quote orders on two different exchanges are supported\n  - the quotes do *NOT* have an expiration\n  - quote value is always `42`\n  - quote comes together with a costEstimation. Subsequent getCostEstimation calls are not allowed.\n  - `noExchangeDefault` is true, so that exchange must be selected by the user\n  - order will be canceled after 3 seconds\n- ISIN US98980L1017 (Zoom)\n  - only market orders (both buy and sell) are suppored on one exchange\n  - orders are executed immediately at a random quote\n  - order creation requires the user to accept a hint (i.e. first try will result in a `MUST_ACCEPT_HINT` error)\n  - default validity is set to `GTD` with a date of `2030-01-01`\n- ISIN US29786A1060 (Etsy)\n  - the prepareTrade request takes 5 seconds\n  - create challenge takes 5 seconds. for authMethod photoTAN, the challenge will return with an error after that period of time\n  - only quote and market orders allowed\n  - at exchange \"Slow exchange\" it takes 7 seconds to get a quote as well as 7 seconds to retrieve order costs\n  - at exchange \"Exchange with quote and cost errors\" the quote request as well as cost estimation will end with an error after 3 seconds\n  - the preparedTrade's `costEstimationMustBeShown` is true, so that the correct behavior (users cannot skip cost estimation in that case) can be tested.\n- ISIN XS2149280948 (bond from Bertelsmann)\n  - quote, limit and market orders (both buy and sell) are supported on one exchange\n  - limit orders are executed at exactly the limit price\n  - market orders are executed at a random quote between 90 and 150 percent\n  - for market orders, there is a legal message to confirm set (`legalMessagesToConfirmByOrderModel`)\n- ISIN US64110L1061 (Netflix Inc.)\n  - one exchange with only quote order\n  - creating the quote order will return an error (quote expired)\n - ISIN US67066G1040 (NVIDIA)\n   - one exchange with only quote order, allowsQuoteModeLimit=true\n   - quote orders are executed immediately.\n     - if a quoteLimit is provided, execution happen at quoteLimit value\n     - otherwise, a random execution quote will be used\n- ISIN DE000BAY0017 (Bayer AG)\n  - one exchange with only market order\n  - `costEstimationIsNotAvailable` is true, so no cost estimations should be linked/shown\n  - orders will be canceled after 3 seconds\n- ISIN DE000PAH0038 (Porsche)\n  - one exchange with only market order\n  - all orders will be canceled\n  - `GetCostEstimation` contains (only) a link to a PDF document. This can be used to test whether linking to a PDF works.\n  - the instrument has both a `riskClassInfo.legalHint` as well as a `strikingHint`. Both should be visible in the order form.\n- ISIN DE0008404005 (Allianz) and some other hidden ISINs (can be requested from brokerize support)\n  - one exchange with all available orderModels\n  - orders are executed immediately\n  - limit orders are executed at exactly the provided limit price\n- ISIN DE0008430026 (Munich Re)\n  - one exchange (L&S) with all available orderModels\n  - orders are executed immediately\n- ISIN FR0000120321 (L'Oréal)\n  - one exchange with all available orderModels\n  - the exchange has a `securityQuotesToken` set\n  - orders stay open\n  - changesHaveCostEstimations is `true` for orders with this ISIN\n- ISIN US5949181045 (Microsoft)\n  - one exchange with all available orderModels\n  - if size is even, a partial execution with size 1 is executed, the remaining part stays open\n  - if size is odd, a partial execution with size 1 is executed, the remaining part is canceled\n- ISIN US30303M1027 (Meta)\n  - one exchange with all available orderModels\n  - for each piece of the order size, there will be one execution with size 1 (so e.g. 10 executions for size 10)\n  - sizes > 30 are not accepted\n- ISIN US2546871060 (Disney)\n  - one exchange with all available orderModels\n  - all orders are canceled after 3s\n  - `costEstimationMustBeShown` is false and `costEstimationIsOnlyDetailedTable` is true (frontends must only show a link to the cost estimation table)\n- ISIN XX1234567890 (example of an ISIN that can never be mapped by frontends)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007100000 (Mercedes-Benz)\n  - one exchange with all available orderModels\n  - the instrument has two sellPositions to choose from (\"Sell Position A\" and \"Sell Position B\"). If no correct sell position is provided, trades will be rejected.\n  - orders are executed immediately\n- ISIN DE0007472060 (Wirecard)\n  - test instrument for `empty orderModelsBuy` / `onlySellAllowed`\n- ISIN BTC (Bitcoin/Euro)\n  - has one exchange with support for quote, market and limit orders\n  - orders will be executed right away\n  - can be used to test frontend mapping of cryptos\n  - when you prepare a trade in the *second* portfolio (which has two cash accounts), `sizeUnitsByCashAccountId` will be set, so that the frontend can let the user select a combination of `cashAccount` and `sizeUnit`.\n- ISIN DE0006231004 (Infineon Technologies AG)\n  - one exchange with `orderModelsSell=['market'] and `orderModelsBuy=[]`\n- ISIN DE0005552004 (Deutsche Post AG)\n  - one exchange with `orderModelsSell=[] and `orderModelsBuy=['market']`\n  - market buy orders are executed immediately\n- ISIN US8740541094 (Take Two)\n  - three exchanges are available. all have `market` and `limit` available\n  - configuration for `takeProfitStopLoss` is different for the three exchanges. This can be used to test the implementation of takeProfit/stopLoss creation.\n    - exchange_with_exclusive_tp_sl: `takeProfitStopLoss.exclusive` is `true`, so that only one of the two can be set. Also, both fields are limited to market buy orders\n    - exchange_with_unlimited_tp_sl: `takeProfitStopLoss.exclusive` is `false`, so that both tp and sl may be set, for both sell and buy orders and both support orderModels\n    - exchange_without_tp_sl: `takeProfitStopLoss` is not set, so that no tp/sl can be set\n  - orders stay open forever\n- ISIN US5529531015 (MGM Resorts International)\n  - one exchange with market and limit orders\n  - orders are executed immediately\n  - short selling is allowed, so `availableOrderIntents` as well as `availableOrderIntentsToken` is set. \"sell to open\" and \"buy to close\" can be tested here.\n- ISIN XAU (Gold)\n  - only quote trading is allowed\n  - depending on the selected portfolio, it is possible to select a cash account (e.g. EUR or USD) to trade with\n  - users can chose between specifying the order size in the cash currency or in grams\n  - quotes have the `totalAmount` field set\n- `CryptoPair` ADA-USD (Cardano - US Dollar)\n  - 'quote', 'market', 'limit' order models are available\n  - One of the created demobroker portfolios does not have an USD cash account. For this portfolio an error will appear upon opening the order form\n  - users can chose between specifying the order size in the cash currency (USD) or in ADA\n  - validity types for limit orders are ['IOC', 'GTDT']. With 'GTDT' the user can specify a date AND time at which his order should be executed\n  - the size input decimal places are limited per sizeUnit. For USD it's 2 and for ADA it is 4 decimal places\n\n  - the orders will be canceled after 3 seconds\n- all other orders will be canceled after 3 seconds\n\nCost estimations for `buy` and `sell` return a different set of fields. This can be used to test proper UI behavior when fields\nare set or unavailable.\n\nBehavior of `PortfolioQuotes` in the demo broker:\n- portfolio 1 starts with 100.000€ cash. portfolio 2 has two cash accounts, one starts with 100.000€, one with 100.000$.\n- when cash account values are summed up, we just assume an exchange rate of 1:1\n- each open buy order reserves 10€ cash from the availableCash\n- profit loss of the portfolio is the sum of the position's profit loss\n- if a EUR cashAccount has the value 0,00€, its `hideInOverviews` property is set to true. This can be used to test the frontend's behavior when a cash account is hidden.",
         "operationId": "CreateDemoAccount",
         "parameters": [],
         "requestBody": {
@@ -7175,6 +7217,149 @@
               }
             },
             "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "AUTH",
+                      "msg": "Authentication is not present or invalid"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not logged in"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "PORTFOLIO_NOT_FOUND",
+                      "msg": "Portfolio not found."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Portfolio not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "VALIDATION_FAILED",
+                      "msg": "Validation failed",
+                      "validationDetails": {
+                        "requestBody.order.size": {
+                          "debugData": "{\"value\":\"ABC\"}",
+                          "message": "invalid float number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Validation error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "RATE_LIMITED",
+                      "msg": "Rate limit exceeded."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Rate-limit exceeded"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Maintenance active"
+          }
+        },
+        "security": [
+          {
+            "clientId": [],
+            "cookieAuth": []
+          },
+          {
+            "clientId": [],
+            "idToken": []
+          }
+        ]
+      }
+    },
+    "/portfolios/{portfolioId}/rename": {
+      "post": {
+        "description": "This endpoint can be used to rename the display name of a specified portfolio.\nTo restore the original portfolio name, send a rename request with an empty string as the new name.\n**Note**: This does not change the original portfolio name at your broker.",
+        "operationId": "RenamePortfolio",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "portfolioId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "newPortfolioName": {
+                    "type": "string"
+                  }
+                },
+                "required": ["newPortfolioName"],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No content"
           },
           "401": {
             "content": {
@@ -9738,7 +9923,7 @@
     },
     "/trade/prepare": {
       "get": {
-        "description": "Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker` or both.\nDepending on the broker, the appropriate one will be used. Note that for backwards-compatibility reasons `isin` is\nrequired.\n\nThe response describes what kind of orders are supported by the broker for the security.\n\nIt requires the portfolio to have at least one active broker session.",
+        "description": "Prepare a trade of the security in the given portfolio `portfolioId`. You can provide `isin`, `usTicker`, `cryptoCode`, `cryptoPair` to select\na security. The actual broker implementation then automatically uses the appropriate identifier.\n\nIf you already have a `brokerSecurityId` for the given broker, you can also pass that.\n\nNote that for backwards-compatibility reasons `isin` is required. However, if the isin is not applicable, an empty string can be passed.\n\nThe response describes what kind of orders are supported by the broker for the security.\n\nIt requires the portfolio to have at least one active broker session.",
         "operationId": "PrepareTrade",
         "parameters": [
           {
@@ -11208,7 +11393,7 @@
     },
     "/user/guest": {
       "post": {
-        "description": "Create a guest user and return an JWT token which can be used to access resources.\nThe user as well as the token have a lifetime of 24 hours.",
+        "description": "Create a guest user and return a token which can be used to access resources.\n\nThe lifetime of the generated temporary user as well as the returned `access_token` depend on the client configuration.\nIt is usually around 24 hours. For some clients, tokens can be expired earlier based on inactivity.\n\nIf the client has configured a longer lifetime for their guest users, a `refresh_token`  is included in the\nresponse. This token can be used to renew the `access_token` after it has expired.\n\nThe `refresh_token` can be used to obtain a new `access_token` after the original token has expired using the `/user/token` endpoint.",
         "operationId": "CreateGuestUser",
         "parameters": [],
         "responses": {
@@ -11221,6 +11406,118 @@
               }
             },
             "description": "Ok"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "RATE_LIMITED",
+                      "msg": "Rate limit exceeded."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Rate-limit exceeded"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "MAINTENANCE",
+                      "msg": "API is in maintenance mode. Please try again after 11:30."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Maintenance active"
+          }
+        },
+        "security": [
+          {
+            "clientId": []
+          }
+        ]
+      }
+    },
+    "/user/token": {
+      "post": {
+        "description": "Obtain a new access token using a refresh token as specified in https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4.\nIf `CreateGuestUser` has provided a `refresh_token`, this endpoint may be used to obtain a new `access_token` after the original token has expired.",
+        "operationId": "ObtainToken",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "format": "double",
+                      "type": "number"
+                    },
+                    "refresh_token": {},
+                    "refresh_token_expires_in": {
+                      "format": "double",
+                      "type": "number"
+                    },
+                    "token_type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "refresh_token_expires_in",
+                    "refresh_token",
+                    "expires_in",
+                    "access_token",
+                    "token_type"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "AUTH",
+                      "msg": "Authentication is not present or invalid"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not logged in"
           },
           "429": {
             "content": {

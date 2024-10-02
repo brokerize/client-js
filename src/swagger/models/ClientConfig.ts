@@ -25,6 +25,12 @@ import {
   ClientConfigMaintenanceStatusToJSON,
 } from "./ClientConfigMaintenanceStatus";
 import {
+  GuestUserLifetime,
+  GuestUserLifetimeFromJSON,
+  GuestUserLifetimeFromJSONTyped,
+  GuestUserLifetimeToJSON,
+} from "./GuestUserLifetime";
+import {
   OAuthLoginFormConfig,
   OAuthLoginFormConfigFromJSON,
   OAuthLoginFormConfigFromJSONTyped,
@@ -79,6 +85,12 @@ export interface ClientConfig {
    * @memberof ClientConfig
    */
   guestUserInactivityTimeoutSeconds?: number;
+  /**
+   *
+   * @type {GuestUserLifetime}
+   * @memberof ClientConfig
+   */
+  guestUserLifetime?: GuestUserLifetime;
   /**
    *
    * @type {string}
@@ -155,6 +167,9 @@ export function ClientConfigFromJSONTyped(
     )
       ? undefined
       : json["guestUserInactivityTimeoutSeconds"],
+    guestUserLifetime: !exists(json, "guestUserLifetime")
+      ? undefined
+      : GuestUserLifetimeFromJSON(json["guestUserLifetime"]),
     legalEntityName: json["legalEntityName"],
     maintenanceStatus: !exists(json, "maintenanceStatus")
       ? undefined
@@ -191,6 +206,7 @@ export function ClientConfigToJSONRecursive(
     cognitoClientIds: value.cognitoClientIds,
     enabled: value.enabled,
     guestUserInactivityTimeoutSeconds: value.guestUserInactivityTimeoutSeconds,
+    guestUserLifetime: GuestUserLifetimeToJSON(value.guestUserLifetime),
     legalEntityName: value.legalEntityName,
     maintenanceStatus: ClientConfigMaintenanceStatusToJSON(
       value.maintenanceStatus

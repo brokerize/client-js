@@ -1263,6 +1263,7 @@ interface ClientConfig {
     cognitoClientIds: Array<string>;
     enabled: boolean;
     guestUserInactivityTimeoutSeconds?: number;
+    guestUserLifetime?: GuestUserLifetime;
     legalEntityName: string;
     maintenanceStatus?: ClientConfigMaintenanceStatus | null;
     name: string;
@@ -1315,6 +1316,7 @@ interface ClientConfigUpdate {
     cognitoClientIds?: Array<string>;
     enabled?: boolean;
     guestUserInactivityTimeoutSeconds?: number | null;
+    guestUserLifetime?: GuestUserLifetime;
     legalEntityName?: string;
     maintenanceStatus?: ClientConfigMaintenanceStatus | null;
     managingUserIds?: Array<number>;
@@ -1398,6 +1400,7 @@ function ClientConfigUpdatePageToJSONRecursive(value?: ClientConfigUpdatePage | 
 // @public
 interface ClientConfigUpdateRateLimitPointsToConsume {
     guestUser?: number;
+    refreshToken?: number;
 }
 
 // @public (undocumented)
@@ -1669,7 +1672,13 @@ function CreatedResponseBodyToJSONRecursive(value?: CreatedResponseBody | null, 
 
 // @public
 interface CreateGuestUserResponse {
+    accessToken: string;
+    expiresIn?: number;
+    // @deprecated
     idToken: string;
+    refreshToken?: string;
+    refreshTokenExpiresIn?: number;
+    tokenType: string;
 }
 
 // @public (undocumented)
@@ -1958,6 +1967,10 @@ class DefaultApi extends runtime.BaseAPI {
     getUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetUserResponse>>;
     logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
+    obtainToken(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ObtainToken200Response>;
+    obtainTokenRaw(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ObtainToken200Response>>;
+    renamePortfolio(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    renamePortfolioRaw(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     triggerSessionSync(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     triggerSessionSyncRaw(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
     websocket(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
@@ -2466,9 +2479,6 @@ interface Exchange {
     brokerizeExchangeId?: number;
     cashAccountIds?: Array<string>;
     currencyIso: string;
-    currencyIsoByCashAccountId?: {
-        [key: string]: string;
-    };
     defaultValidityByOrderModel?: DefaultOrderValidityByOrderModel;
     // @deprecated
     hideOrderModel?: boolean;
@@ -3668,6 +3678,24 @@ function GetUserResponseToJSON(value?: GetUserResponse | null): any;
 // @public (undocumented)
 function GetUserResponseToJSONRecursive(value?: GetUserResponse | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+const GuestUserLifetime: {
+    readonly Day: "ONE_DAY";
+    readonly Week: "ONE_WEEK";
+};
+
+// @public (undocumented)
+type GuestUserLifetime = (typeof GuestUserLifetime)[keyof typeof GuestUserLifetime];
+
+// @public (undocumented)
+function GuestUserLifetimeFromJSON(json: any): GuestUserLifetime;
+
+// @public (undocumented)
+function GuestUserLifetimeFromJSONTyped(json: any, ignoreDiscriminator: boolean): GuestUserLifetime;
+
+// @public (undocumented)
+function GuestUserLifetimeToJSON(value?: GuestUserLifetime | null): any;
+
 // @public
 interface Hint {
     id: string;
@@ -4195,6 +4223,35 @@ function OAuthLoginFormConfigToJSON(value?: OAuthLoginFormConfig | null): any;
 function OAuthLoginFormConfigToJSONRecursive(value?: OAuthLoginFormConfig | null, ignoreParent?: boolean): any;
 
 // @public
+interface ObtainToken200Response {
+    accessToken: string;
+    expiresIn: number;
+    refreshToken: any | null;
+    refreshTokenExpiresIn: number;
+    tokenType: string;
+}
+
+// @public (undocumented)
+function ObtainToken200ResponseFromJSON(json: any): ObtainToken200Response;
+
+// @public (undocumented)
+function ObtainToken200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObtainToken200Response;
+
+// @public (undocumented)
+function ObtainToken200ResponseToJSON(value?: ObtainToken200Response | null): any;
+
+// @public (undocumented)
+function ObtainToken200ResponseToJSONRecursive(value?: ObtainToken200Response | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface ObtainTokenRequest {
+    // (undocumented)
+    grantType: string;
+    // (undocumented)
+    refreshToken: string;
+}
+
+// @public
 interface OkResponseBody {
     msg: string;
 }
@@ -4647,6 +4704,7 @@ interface Portfolio {
     id: string;
     idHash: string;
     portfolioName: string;
+    portfolioNameOriginal: string;
     sessionIds: Array<string>;
     syncInfo: PortfolioSyncInfo;
 }
@@ -5216,6 +5274,31 @@ interface RemoveOriginRequest {
     // (undocumented)
     clientId: string;
 }
+
+// @public (undocumented)
+interface RenamePortfolioOperationRequest {
+    // (undocumented)
+    portfolioId: string;
+    // (undocumented)
+    renamePortfolioRequest: RenamePortfolioRequest;
+}
+
+// @public
+interface RenamePortfolioRequest {
+    newPortfolioName: string;
+}
+
+// @public (undocumented)
+function RenamePortfolioRequestFromJSON(json: any): RenamePortfolioRequest;
+
+// @public (undocumented)
+function RenamePortfolioRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenamePortfolioRequest;
+
+// @public (undocumented)
+function RenamePortfolioRequestToJSON(value?: RenamePortfolioRequest | null): any;
+
+// @public (undocumented)
+function RenamePortfolioRequestToJSONRecursive(value?: RenamePortfolioRequest | null, ignoreParent?: boolean): any;
 
 // @public
 interface RenderGenericTableParams {
