@@ -16,8 +16,8 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: |
-          echo @brokerize:https://npmjs.com > .npmrc
-          echo '//npmjs.com/:_authToken=${NPM_TOKEN}' >> .npmrc
+          echo @brokerize:https://registry.npmjs.org > .npmrc
+          echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >> .npmrc
       - run: npm publish
         working-directory: ./
         env:
