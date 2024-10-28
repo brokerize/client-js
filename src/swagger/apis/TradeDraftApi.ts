@@ -182,7 +182,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
   }
 
   /**
-   * Delete an trade draft from the database
+   * Delete a trade draft from the database
    */
   async deleteTradeDraftRaw(
     requestParameters: DeleteTradeDraftRequest,
@@ -229,7 +229,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
   }
 
   /**
-   * Delete an trade draft from the database
+   * Delete a trade draft from the database
    */
   async deleteTradeDraft(
     requestParameters: DeleteTradeDraftRequest,

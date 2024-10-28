@@ -3664,6 +3664,7 @@ interface GetTradeDraftsRequest {
 
 // @public
 interface GetUserResponse {
+    isGuest: boolean;
     userId: string;
 }
 
@@ -5062,6 +5063,7 @@ function PortfolioToJSONRecursive(value?: Portfolio | null, ignoreParent?: boole
 interface Position {
     availableSize: number;
     brokerExchangeId?: string;
+    brokerSecurityId?: string;
     comment?: string;
     commentIsEditable?: boolean;
     currentValuation?: PositionValuation;

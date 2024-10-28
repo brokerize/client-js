@@ -20,6 +20,12 @@ import { exists, mapValues } from "../runtime";
 export interface GetUserResponse {
   /**
    *
+   * @type {boolean}
+   * @memberof GetUserResponse
+   */
+  isGuest: boolean;
+  /**
+   *
    * @type {string}
    * @memberof GetUserResponse
    */
@@ -38,6 +44,7 @@ export function GetUserResponseFromJSONTyped(
     return json;
   }
   return {
+    isGuest: json["isGuest"],
     userId: json["userId"],
   };
 }
@@ -54,6 +61,7 @@ export function GetUserResponseToJSONRecursive(
   }
 
   return {
+    isGuest: value.isGuest,
     userId: value.userId,
   };
 }

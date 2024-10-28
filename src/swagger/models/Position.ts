@@ -56,6 +56,13 @@ export interface Position {
    */
   brokerExchangeId?: string;
   /**
+   * The security id, as defined by the broker. For example, this can be used to call `PrepareTrade`, even if the frontend
+   * does not have a mapping for the security.
+   * @type {string}
+   * @memberof Position
+   */
+  brokerSecurityId?: string;
+  /**
    * Textual comment for the position.
    * @type {string}
    * @memberof Position
@@ -218,6 +225,9 @@ export function PositionFromJSONTyped(
     brokerExchangeId: !exists(json, "brokerExchangeId")
       ? undefined
       : json["brokerExchangeId"],
+    brokerSecurityId: !exists(json, "brokerSecurityId")
+      ? undefined
+      : json["brokerSecurityId"],
     comment: !exists(json, "comment") ? undefined : json["comment"],
     commentIsEditable: !exists(json, "commentIsEditable")
       ? undefined
@@ -288,6 +298,7 @@ export function PositionToJSONRecursive(
   return {
     availableSize: value.availableSize,
     brokerExchangeId: value.brokerExchangeId,
+    brokerSecurityId: value.brokerSecurityId,
     comment: value.comment,
     commentIsEditable: value.commentIsEditable,
     currentValuation: PositionValuationToJSON(value.currentValuation),
