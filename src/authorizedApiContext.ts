@@ -46,6 +46,7 @@ export class AuthorizedApiContext {
   private _adminApi: openApiClient.AdminApi;
   private _userApi: openApiClient.UserApi;
   private _securitiesApi: openApiClient.SecuritiesApi;
+  private _tradeApiCryptoService: openApiClient.TradeApi;
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
@@ -56,6 +57,19 @@ export class AuthorizedApiContext {
     this._childContexts = [];
 
     const apiConfig = createConfiguration(cfg);
+
+    /* clone the config in order to have secondary API instances that send requests to
+       the external crypto trading service. */
+    const cfgCryptoService: BrokerizeConfig = {
+      clientId: cfg.clientId,
+      basePath: cfg.basePathCryptoService || cfg.basePath,
+      createAbortController: cfg.createAbortController,
+      createWebSocket: cfg.createWebSocket,
+      fetch: cfg.fetch,
+    };
+
+    const apiConfigCryptoService = createConfiguration(cfgCryptoService);
+
     this._logoutSubject = new Subject<void>();
     const postMiddleware = async (
       r: openApiClient.ResponseContext
@@ -80,6 +94,9 @@ export class AuthorizedApiContext {
     this._tradeApi = new openApiClient.TradeApi(apiConfig).withPostMiddleware(
       postMiddleware
     );
+    this._tradeApiCryptoService = new openApiClient.TradeApi(
+      apiConfigCryptoService
+    ).withPostMiddleware(postMiddleware);
     this._metaApi = new openApiClient.MetaApi(apiConfig).withPostMiddleware(
       postMiddleware
     );
@@ -382,8 +399,15 @@ export class AuthorizedApiContext {
   async prepareTrade(req: PrepareTradeRequest) {
     return this._tradeApi.prepareTrade(req, await this._initRequestInit());
   }
-  async createTrade(req: CreateTradeRequest) {
-    return this._tradeApi.createTrade(req, await this._initRequestInit());
+  async createTrade(req: CreateTradeRequest, viaCryptoService?: boolean) {
+    if (viaCryptoService) {
+      return this._tradeApiCryptoService.createTrade(
+        req,
+        await this._initRequestInit()
+      );
+    } else {
+      return this._tradeApi.createTrade(req, await this._initRequestInit());
+    }
   }
   async createTradeChallenge(req: CreateTradeChallengeRequest) {
     return this._tradeApi.createTradeChallenge(

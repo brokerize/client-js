@@ -535,7 +535,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     createSessionTanChallenge(req: openApiClient.CreateSessionTanChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
-    createTrade(req: CreateTradeRequest): Promise<openApiClient.CreateTradeResponse>;
+    createTrade(req: CreateTradeRequest, viaCryptoService?: boolean): Promise<openApiClient.CreateTradeResponse>;
     // (undocumented)
     createTradeChallenge(req: CreateTradeChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
@@ -790,6 +790,7 @@ export class Brokerize {
 // @public (undocumented)
 export interface BrokerizeConfig {
     basePath?: string;
+    basePathCryptoService?: string;
     // (undocumented)
     clientId: string;
     cognito?: CognitoConfig;
@@ -5144,6 +5145,7 @@ interface PreparedTrade {
         [key: string]: Array<string>;
     };
     strikingHint?: string;
+    tradingViaCryptoService?: boolean;
 }
 
 // @public (undocumented)

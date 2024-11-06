@@ -3135,6 +3135,10 @@
           "strikingHint": {
             "description": "If present, this hint must be displayed in the order form. It should be visible during the order\ncreation process, but does not need to be accepted by the user explicitly.",
             "type": "string"
+          },
+          "tradingViaCryptoService": {
+            "description": "If this is `true`, trades for this security must be sent to the external crypto trading service. If applicable for your client,\nthe URL of that endpoint will be provided in the admin panel. The request `CreateTrade` must then be directed to that endpoint instead\nof the brokerize API.\n\nIf this is `false`, trades can be sent directly to the brokerize API.",
+            "type": "boolean"
           }
         },
         "required": [
@@ -11586,6 +11590,10 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
+    },
+    {
+      "description": "This API instance",
+      "url": "http://localhost:3333"
     }
   ],
   "tags": [
