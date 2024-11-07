@@ -515,9 +515,9 @@ export class AuthorizedApiContext {
     // (undocumented)
     cancelDecoupledOperation(req: openApiClient.CancelDecoupledOperationRequest): Promise<void>;
     // (undocumented)
-    cancelOrder(req: openApiClient.CancelOrderRequest): Promise<void>;
+    cancelOrder(req: openApiClient.CancelOrderRequest, viaCryptoService?: boolean): Promise<void>;
     // (undocumented)
-    changeOrder(req: openApiClient.ChangeOrderRequest): Promise<void>;
+    changeOrder(req: openApiClient.ChangeOrderRequest, viaCryptoService?: boolean): Promise<void>;
     // (undocumented)
     confirmOAuth(p: ConfirmOAuthParams): Promise<openApiClient.ConfirmOAuthResponse>;
     // (undocumented)
@@ -4328,6 +4328,7 @@ interface Order {
     stopLimit?: number;
     stopLoss?: number;
     takeProfit?: number;
+    tradingViaCryptoService?: boolean;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
     // @deprecated

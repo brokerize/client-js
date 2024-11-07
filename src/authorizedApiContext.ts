@@ -31,13 +31,16 @@ export class AuthorizedApiContext {
   private _defaultApi: openApiClient.DefaultApi;
   private _demoBrokerApi: openApiClient.DemobrokerApi;
   private _tradeApi: openApiClient.TradeApi;
+  private _tradeApiCryptoService: openApiClient.TradeApi;
   private _isDestroyed = false;
   private _abortController: AbortController;
   private _metaApi: openApiClient.MetaApi;
   private _brokerLoginApi: openApiClient.BrokerLoginApi;
   private _tradeDraftApi: openApiClient.TradeDraftApi;
   private _cancelOrderApi: openApiClient.CancelOrderApi;
+  private _cancelOrderApiCryptoService: openApiClient.CancelOrderApi;
   private _changeOrderApi: openApiClient.ChangeOrderApi;
+  private _changeOrderApiCryptoService: openApiClient.ChangeOrderApi;
   private _logoutSubject: Subject<void>;
   private _childContexts: AuthorizedApiContext[];
   private _wsClient: BrokerizeWebSocketClientImpl;
@@ -46,7 +49,7 @@ export class AuthorizedApiContext {
   private _adminApi: openApiClient.AdminApi;
   private _userApi: openApiClient.UserApi;
   private _securitiesApi: openApiClient.SecuritiesApi;
-  private _tradeApiCryptoService: openApiClient.TradeApi;
+
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
@@ -109,8 +112,14 @@ export class AuthorizedApiContext {
     this._cancelOrderApi = new openApiClient.CancelOrderApi(
       apiConfig
     ).withPostMiddleware(postMiddleware);
+    this._cancelOrderApiCryptoService = new openApiClient.CancelOrderApi(
+      apiConfigCryptoService
+    ).withPostMiddleware(postMiddleware);
     this._changeOrderApi = new openApiClient.ChangeOrderApi(
       apiConfig
+    ).withPostMiddleware(postMiddleware);
+    this._changeOrderApiCryptoService = new openApiClient.ChangeOrderApi(
+      apiConfigCryptoService
     ).withPostMiddleware(postMiddleware);
     this._exportApi = new openApiClient.ExportApi(apiConfig).withPostMiddleware(
       postMiddleware
@@ -273,8 +282,14 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
-  async cancelOrder(req: openApiClient.CancelOrderRequest) {
-    return this._cancelOrderApi.cancelOrder(req, await this._initRequestInit());
+  async cancelOrder(
+    req: openApiClient.CancelOrderRequest,
+    viaCryptoService?: boolean
+  ) {
+    const api = viaCryptoService
+      ? this._cancelOrderApiCryptoService
+      : this._cancelOrderApi;
+    return api.cancelOrder(req, await this._initRequestInit());
   }
   async createChangeOrderChallenge(
     req: openApiClient.CreateChangeOrderChallengeRequest
@@ -284,8 +299,14 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
-  async changeOrder(req: openApiClient.ChangeOrderRequest) {
-    return this._changeOrderApi.changeOrder(req, await this._initRequestInit());
+  async changeOrder(
+    req: openApiClient.ChangeOrderRequest,
+    viaCryptoService?: boolean
+  ) {
+    const api = viaCryptoService
+      ? this._changeOrderApiCryptoService
+      : this._changeOrderApi;
+    return api.changeOrder(req, await this._initRequestInit());
   }
   async getPortfolios() {
     return this._defaultApi.getPortfolios(await this._initRequestInit());
@@ -400,14 +421,8 @@ export class AuthorizedApiContext {
     return this._tradeApi.prepareTrade(req, await this._initRequestInit());
   }
   async createTrade(req: CreateTradeRequest, viaCryptoService?: boolean) {
-    if (viaCryptoService) {
-      return this._tradeApiCryptoService.createTrade(
-        req,
-        await this._initRequestInit()
-      );
-    } else {
-      return this._tradeApi.createTrade(req, await this._initRequestInit());
-    }
+    const api = viaCryptoService ? this._tradeApiCryptoService : this._tradeApi;
+    return api.createTrade(req, await this._initRequestInit());
   }
   async createTradeChallenge(req: CreateTradeChallengeRequest) {
     return this._tradeApi.createTradeChallenge(

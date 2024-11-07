@@ -188,7 +188,7 @@ export interface PreparedTrade {
    * the URL of that endpoint will be provided in the admin panel. The request `CreateTrade` must then be directed to that endpoint instead
    * of the brokerize API.
    *
-   * If this is `false`, trades can be sent directly to the brokerize API.
+   * If this is `false` or undefined, trades can be sent directly to the brokerize API.
    * @type {boolean}
    * @memberof PreparedTrade
    */
