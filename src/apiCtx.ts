@@ -13,6 +13,10 @@ export interface BrokerizeConfig {
    * Path to the API, e.g. https://api-preview.brokerize.com
    */
   basePath?: string;
+  /**
+   * Path to the crypto trading API (c.f. tradingViaCryptoService), e.g. https://crypto-service-api.com
+   */
+  basePathCryptoService?: string;
   clientId: string;
   /**
    * The AWS cognito configuration, if the application is supposed to be used with brokerize accounts.

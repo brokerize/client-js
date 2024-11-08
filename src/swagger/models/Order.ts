@@ -434,6 +434,16 @@ export interface Order {
    */
   takeProfit?: number;
   /**
+   * If this is `true`, trades for this security must be sent to the external crypto trading service. If applicable for your client,
+   * the URL of that endpoint will be provided in the admin panel. The requests `CancelOrder` and `ChangeOrder` must then be
+   * directed to that endpoint instead.
+   *
+   * If this is `false` or undefined, trades can be sent directly to the brokerize API.
+   * @type {boolean}
+   * @memberof Order
+   */
+  tradingViaCryptoService?: boolean;
+  /**
    *
    * @type {TrailingDistance}
    * @memberof Order
@@ -602,6 +612,9 @@ export function OrderFromJSONTyped(
     stopLimit: !exists(json, "stopLimit") ? undefined : json["stopLimit"],
     stopLoss: !exists(json, "stopLoss") ? undefined : json["stopLoss"],
     takeProfit: !exists(json, "takeProfit") ? undefined : json["takeProfit"],
+    tradingViaCryptoService: !exists(json, "tradingViaCryptoService")
+      ? undefined
+      : json["tradingViaCryptoService"],
     trailingDistance: !exists(json, "trailingDistance")
       ? undefined
       : TrailingDistanceFromJSON(json["trailingDistance"]),
@@ -699,6 +712,7 @@ export function OrderToJSONRecursive(
     stopLimit: value.stopLimit,
     stopLoss: value.stopLoss,
     takeProfit: value.takeProfit,
+    tradingViaCryptoService: value.tradingViaCryptoService,
     trailingDistance: TrailingDistanceToJSON(value.trailingDistance),
     trailingLimitTolerance: value.trailingLimitTolerance,
     usTicker: value.usTicker,

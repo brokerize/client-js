@@ -515,9 +515,9 @@ export class AuthorizedApiContext {
     // (undocumented)
     cancelDecoupledOperation(req: openApiClient.CancelDecoupledOperationRequest): Promise<void>;
     // (undocumented)
-    cancelOrder(req: openApiClient.CancelOrderRequest): Promise<void>;
+    cancelOrder(req: openApiClient.CancelOrderRequest, viaCryptoService?: boolean): Promise<void>;
     // (undocumented)
-    changeOrder(req: openApiClient.ChangeOrderRequest): Promise<void>;
+    changeOrder(req: openApiClient.ChangeOrderRequest, viaCryptoService?: boolean): Promise<void>;
     // (undocumented)
     confirmOAuth(p: ConfirmOAuthParams): Promise<openApiClient.ConfirmOAuthResponse>;
     // (undocumented)
@@ -535,7 +535,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     createSessionTanChallenge(req: openApiClient.CreateSessionTanChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
-    createTrade(req: CreateTradeRequest): Promise<openApiClient.CreateTradeResponse>;
+    createTrade(req: CreateTradeRequest, viaCryptoService?: boolean): Promise<openApiClient.CreateTradeResponse>;
     // (undocumented)
     createTradeChallenge(req: CreateTradeChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
@@ -790,6 +790,7 @@ export class Brokerize {
 // @public (undocumented)
 export interface BrokerizeConfig {
     basePath?: string;
+    basePathCryptoService?: string;
     // (undocumented)
     clientId: string;
     cognito?: CognitoConfig;
@@ -4327,6 +4328,7 @@ interface Order {
     stopLimit?: number;
     stopLoss?: number;
     takeProfit?: number;
+    tradingViaCryptoService?: boolean;
     trailingDistance?: TrailingDistance;
     trailingLimitTolerance?: number;
     // @deprecated
@@ -5144,6 +5146,7 @@ interface PreparedTrade {
         [key: string]: Array<string>;
     };
     strikingHint?: string;
+    tradingViaCryptoService?: boolean;
 }
 
 // @public (undocumented)

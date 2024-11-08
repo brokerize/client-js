@@ -183,6 +183,16 @@ export interface PreparedTrade {
    * @memberof PreparedTrade
    */
   strikingHint?: string;
+  /**
+   * If this is `true`, trades for this security must be sent to the external crypto trading service. If applicable for your client,
+   * the URL of that endpoint will be provided in the admin panel. The request `CreateTrade` must then be directed to that endpoint instead
+   * of the brokerize API.
+   *
+   * If this is `false` or undefined, trades can be sent directly to the brokerize API.
+   * @type {boolean}
+   * @memberof PreparedTrade
+   */
+  tradingViaCryptoService?: boolean;
 }
 
 export function PreparedTradeFromJSON(json: any): PreparedTrade {
@@ -241,6 +251,9 @@ export function PreparedTradeFromJSONTyped(
     strikingHint: !exists(json, "strikingHint")
       ? undefined
       : json["strikingHint"],
+    tradingViaCryptoService: !exists(json, "tradingViaCryptoService")
+      ? undefined
+      : json["tradingViaCryptoService"],
   };
 }
 
@@ -285,6 +298,7 @@ export function PreparedTradeToJSONRecursive(
           ),
     sizeUnitsByCashAccountId: value.sizeUnitsByCashAccountId,
     strikingHint: value.strikingHint,
+    tradingViaCryptoService: value.tradingViaCryptoService,
   };
 }
 
