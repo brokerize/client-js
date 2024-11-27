@@ -59,6 +59,12 @@ export interface GetQuoteParams {
    */
   isin: string;
   /**
+   * If a list of sellPositions has been provided in `PrepareTrade`, this must contain the selected position id to sell from
+   * @type {string}
+   * @memberof GetQuoteParams
+   */
+  sellPositionId?: string;
+  /**
    *
    * @type {number}
    * @memberof GetQuoteParams
@@ -93,6 +99,9 @@ export function GetQuoteParamsFromJSONTyped(
       : json["cashAccountId"],
     direction: DirectionFromJSON(json["direction"]),
     isin: json["isin"],
+    sellPositionId: !exists(json, "sellPositionId")
+      ? undefined
+      : json["sellPositionId"],
     size: json["size"],
     sizeUnit: !exists(json, "sizeUnit") ? undefined : json["sizeUnit"],
   };
@@ -115,6 +124,7 @@ export function GetQuoteParamsToJSONRecursive(
     cashAccountId: value.cashAccountId,
     direction: DirectionToJSON(value.direction),
     isin: value.isin,
+    sellPositionId: value.sellPositionId,
     size: value.size,
     sizeUnit: value.sizeUnit,
   };

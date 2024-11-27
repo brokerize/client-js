@@ -32,10 +32,10 @@ export interface ObtainToken200Response {
   expiresIn: number;
   /**
    *
-   * @type {any}
+   * @type {string}
    * @memberof ObtainToken200Response
    */
-  refreshToken: any | null;
+  refreshToken: string;
   /**
    *
    * @type {number}

@@ -26,7 +26,7 @@ import {
 } from "./AuthMethodDecoupledSpecifics";
 
 /**
- * With the `DECOUPLED` flow, the operation is created right away wiuthout creating a challenge first. The operation's
+ * With the `DECOUPLED` flow, the operation is created right away without creating a challenge first. The operation's
  * response will include a `decoupledOperationId` which can be subscribed to using `GetDecoupledOperationStatus` and via
  * a WebSocket subscription. Also, the operation can be cancelled by the user using `CancelDecoupledOperation`. Currently
  * this flow is only implemented for `EnableSessionTan`.

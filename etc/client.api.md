@@ -3583,6 +3583,7 @@ interface GetQuoteParams {
     cashAccountId?: string;
     direction: Direction;
     isin: string;
+    sellPositionId?: string;
     size: number;
     sizeUnit?: string;
 }
@@ -4229,7 +4230,7 @@ function OAuthLoginFormConfigToJSONRecursive(value?: OAuthLoginFormConfig | null
 interface ObtainToken200Response {
     accessToken: string;
     expiresIn: number;
-    refreshToken: any | null;
+    refreshToken: string;
     refreshTokenExpiresIn: number;
     tokenType: string;
 }
