@@ -19,6 +19,15 @@ import { exists, mapValues } from "../runtime";
  */
 export interface DemoAccountSettings {
   /**
+   * Set an `authMethodStyle` to test different auth method behaviors. The following values are currently supported:
+   * - `default`: the broker will have various methods with different flows
+   * - `lazy`: the demo account reveals the complete list of auth methods only after the first session TAN challenge request. This also sets `allOperationsRequireSessionTan` to `true` for the account.
+   * - `one-decoupled`: the account will have *one auth method* with flow `DECOUPLED` (also sets `allOperationsRequireSessionTan=true`)
+   * @type {string}
+   * @memberof DemoAccountSettings
+   */
+  authMethodStyle?: string;
+  /**
    * Set this to `true` to create a single depot instead of the default two
    * @type {boolean}
    * @memberof DemoAccountSettings
@@ -31,6 +40,7 @@ export interface DemoAccountSettings {
    * This also sets `allOperationsRequireSessionTan` to `true` for the account.
    * @type {boolean}
    * @memberof DemoAccountSettings
+   * @deprecated
    */
   lazyAuthMethods?: boolean;
   /**
@@ -62,6 +72,9 @@ export function DemoAccountSettingsFromJSONTyped(
     return json;
   }
   return {
+    authMethodStyle: !exists(json, "authMethodStyle")
+      ? undefined
+      : json["authMethodStyle"],
     isSinglePortfolio: !exists(json, "isSinglePortfolio")
       ? undefined
       : json["isSinglePortfolio"],
@@ -87,6 +100,7 @@ export function DemoAccountSettingsToJSONRecursive(
   }
 
   return {
+    authMethodStyle: value.authMethodStyle,
     isSinglePortfolio: value.isSinglePortfolio,
     lazyAuthMethods: value.lazyAuthMethods,
     seedOrders: value.seedOrders,
