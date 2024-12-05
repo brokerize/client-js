@@ -12,12 +12,14 @@ async function someBrokerizeActions() {
     /* provide implementations of fetch, AbortController and WebSocket that will
        be used for interacting with the API. If you leave out those dependencies, they will default to globally available
        implementations, which should usually work in browsers and newer Node.JS environments, but may fail in other JS environments
-       that do not provide them. */
+       that do not provide them (e.g. runtimes in mobile apps). */
     fetch: ((url, init) => {
       return fetch(url, init)
     }) as any,
     createAbortController: () => new AbortController(),
-    createWebSocket: (url, protocol) => new WebSocket(url, protocol)
+    createWebSocket: (url, protocol) => new WebSocket(url, protocol),
+    // basePath: 'https://api-preview.brokerize.com', // this is the default value
+    // basePathCryptoService: 'https://crypto-service-api.com' // the optional external crypto service
   })
 
   /* create a guest user. the result contains the user's tokens and be stored, e.g. in a cookie or session storage */
