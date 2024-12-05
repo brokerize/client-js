@@ -614,6 +614,10 @@
             },
             "type": "array"
           },
+          "cryptoTradingAllowed": {
+            "description": "If this is true, crypto trading is allowed for this client. If this is true, clients must send\nsome requests to the crypto trading service (for crypto orders) which is controlled by the flag `tradingViaCryptoService`.",
+            "type": "boolean"
+          },
           "enabled": {
             "type": "boolean"
           },
@@ -705,6 +709,10 @@
               "type": "string"
             },
             "type": "array"
+          },
+          "cryptoTradingAllowed": {
+            "description": "If this is true, crypto trading is allowed for this client.",
+            "type": "boolean"
           },
           "enabled": {
             "type": "boolean"

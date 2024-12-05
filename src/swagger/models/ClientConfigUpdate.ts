@@ -104,6 +104,12 @@ export interface ClientConfigUpdate {
    */
   cognitoClientIds?: Array<string>;
   /**
+   * If this is true, crypto trading is allowed for this client.
+   * @type {boolean}
+   * @memberof ClientConfigUpdate
+   */
+  cryptoTradingAllowed?: boolean;
+  /**
    *
    * @type {boolean}
    * @memberof ClientConfigUpdate
@@ -219,6 +225,9 @@ export function ClientConfigUpdateFromJSONTyped(
     cognitoClientIds: !exists(json, "cognitoClientIds")
       ? undefined
       : json["cognitoClientIds"],
+    cryptoTradingAllowed: !exists(json, "cryptoTradingAllowed")
+      ? undefined
+      : json["cryptoTradingAllowed"],
     enabled: !exists(json, "enabled") ? undefined : json["enabled"],
     guestUserInactivityTimeoutSeconds: !exists(
       json,
@@ -287,6 +296,7 @@ export function ClientConfigUpdateToJSONRecursive(
         : mapValues(value.brokerEnvFilter, BrokerEnvFilterTypeToJSON),
     clientSecrets: value.clientSecrets,
     cognitoClientIds: value.cognitoClientIds,
+    cryptoTradingAllowed: value.cryptoTradingAllowed,
     enabled: value.enabled,
     guestUserInactivityTimeoutSeconds: value.guestUserInactivityTimeoutSeconds,
     guestUserLifetime: GuestUserLifetimeToJSON(value.guestUserLifetime),

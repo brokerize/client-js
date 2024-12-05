@@ -74,6 +74,13 @@ export interface ClientConfig {
    */
   cognitoClientIds: Array<string>;
   /**
+   * If this is true, crypto trading is allowed for this client. If this is true, clients must send
+   * some requests to the crypto trading service (for crypto orders) which is controlled by the flag `tradingViaCryptoService`.
+   * @type {boolean}
+   * @memberof ClientConfig
+   */
+  cryptoTradingAllowed?: boolean;
+  /**
    *
    * @type {boolean}
    * @memberof ClientConfig
@@ -160,6 +167,9 @@ export function ClientConfigFromJSONTyped(
       BrokerEnvFilterTypeFromJSON
     ),
     cognitoClientIds: json["cognitoClientIds"],
+    cryptoTradingAllowed: !exists(json, "cryptoTradingAllowed")
+      ? undefined
+      : json["cryptoTradingAllowed"],
     enabled: json["enabled"],
     guestUserInactivityTimeoutSeconds: !exists(
       json,
@@ -204,6 +214,7 @@ export function ClientConfigToJSONRecursive(
       BrokerEnvFilterTypeToJSON
     ),
     cognitoClientIds: value.cognitoClientIds,
+    cryptoTradingAllowed: value.cryptoTradingAllowed,
     enabled: value.enabled,
     guestUserInactivityTimeoutSeconds: value.guestUserInactivityTimeoutSeconds,
     guestUserLifetime: GuestUserLifetimeToJSON(value.guestUserLifetime),

@@ -1263,6 +1263,7 @@ interface ClientConfig {
         [key: string]: BrokerEnvFilterType;
     };
     cognitoClientIds: Array<string>;
+    cryptoTradingAllowed?: boolean;
     enabled: boolean;
     guestUserInactivityTimeoutSeconds?: number;
     guestUserLifetime?: GuestUserLifetime;
@@ -1316,6 +1317,7 @@ interface ClientConfigUpdate {
     };
     clientSecrets?: Array<string>;
     cognitoClientIds?: Array<string>;
+    cryptoTradingAllowed?: boolean;
     enabled?: boolean;
     guestUserInactivityTimeoutSeconds?: number | null;
     guestUserLifetime?: GuestUserLifetime;
