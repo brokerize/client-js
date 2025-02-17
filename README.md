@@ -89,3 +89,23 @@ const brokerize = new Brokerize({
   },
 });
 ```
+
+# content security policy (csp) headers
+
+If you secure your website using **Content Security Policy (CSP) headers**, please ensure that the **`connect-src`** directive allows the following sources to enable full functionality of our services:
+
+- **Web Requests & WebSocket Connections**:
+
+  - `https://api.brokerize.com`
+  - `wss://api.brokerize.com`
+  - `https://api-preview.brokerize.com`
+  - `wss://api-preview.brokerize.com`
+
+- **Crypto Trading**:
+  If you want to enable cryptocurrency trading, you must also allow:
+  - `https://crypto.donaucapital.de`
+  - `https://donau-crypto-test.brokerize.com`
+
+Additionally, if you are using **`brokerize-elements`** with our static files hosted at **`https://assets.brokerize.com/`**, you must include this domain in your **`img-src`** directive to allow images to load correctly.
+
+These CSP settings are required to prevent security-related restrictions that could otherwise block essential API calls and WebSocket connections.
