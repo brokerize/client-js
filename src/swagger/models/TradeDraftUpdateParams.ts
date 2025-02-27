@@ -12,13 +12,6 @@
  */
 
 import { exists, mapValues } from "../runtime";
-import {
-  TradeDraftUpdateParamsOrderId,
-  TradeDraftUpdateParamsOrderIdFromJSON,
-  TradeDraftUpdateParamsOrderIdFromJSONTyped,
-  TradeDraftUpdateParamsOrderIdToJSON,
-} from "./TradeDraftUpdateParamsOrderId";
-
 /**
  *
  * @export
@@ -39,10 +32,10 @@ export interface TradeDraftUpdateParams {
   inactive?: boolean;
   /**
    *
-   * @type {TradeDraftUpdateParamsOrderId}
+   * @type {string}
    * @memberof TradeDraftUpdateParams
    */
-  orderId?: TradeDraftUpdateParamsOrderId;
+  orderId?: string;
 }
 
 export function TradeDraftUpdateParamsFromJSON(
@@ -61,9 +54,7 @@ export function TradeDraftUpdateParamsFromJSONTyped(
   return {
     description: !exists(json, "description") ? undefined : json["description"],
     inactive: !exists(json, "inactive") ? undefined : json["inactive"],
-    orderId: !exists(json, "orderId")
-      ? undefined
-      : TradeDraftUpdateParamsOrderIdFromJSON(json["orderId"]),
+    orderId: !exists(json, "orderId") ? undefined : json["orderId"],
   };
 }
 
@@ -81,7 +72,7 @@ export function TradeDraftUpdateParamsToJSONRecursive(
   return {
     description: value.description,
     inactive: value.inactive,
-    orderId: TradeDraftUpdateParamsOrderIdToJSON(value.orderId),
+    orderId: value.orderId,
   };
 }
 

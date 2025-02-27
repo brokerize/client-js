@@ -607,6 +607,12 @@ export class AuthorizedApiContext {
     // (undocumented)
     getPortfolios(): Promise<openApiClient.PortfoliosResponse>;
     // (undocumented)
+    getPortfolioTrades(req: openApiClient.GetPortfolioTradesRequest): Promise<openApiClient.GetPortfolioTradesResponse>;
+    // (undocumented)
+    getPortfolioTradeStatistics(req: openApiClient.GetPortfolioTradeStatisticsRequest): Promise<openApiClient.GetPortfolioTradeStatisticsResponse>;
+    // (undocumented)
+    getPortfolioTradeWarnings(req: openApiClient.GetPortfolioTradeWarningsRequest): Promise<openApiClient.TradeWarning[]>;
+    // (undocumented)
     getQuote(p: GetQuoteRequest): Promise<openApiClient.GetQuoteResponse>;
     // (undocumented)
     getSecurityDetailedInfo(token: string): Promise<openApiClient.GenericTable>;
@@ -1965,14 +1971,22 @@ class DefaultApi extends runtime.BaseAPI {
     getPortfolios(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PortfoliosResponse>;
     // (undocumented)
     getPortfoliosRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PortfoliosResponse>>;
+    getPortfolioTrades(requestParameters: GetPortfolioTradesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioTradesResponse>;
+    getPortfolioTradesRaw(requestParameters: GetPortfolioTradesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioTradesResponse>>;
+    getPortfolioTradeStatistics(requestParameters: GetPortfolioTradeStatisticsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioTradeStatisticsResponse>;
+    getPortfolioTradeStatisticsRaw(requestParameters: GetPortfolioTradeStatisticsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioTradeStatisticsResponse>>;
+    // (undocumented)
+    getPortfolioTradeWarnings(requestParameters: GetPortfolioTradeWarningsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<TradeWarning>>;
+    // (undocumented)
+    getPortfolioTradeWarningsRaw(requestParameters: GetPortfolioTradeWarningsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<TradeWarning>>>;
     getSessions(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<SessionResponse>;
     getSessionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<SessionResponse>>;
     getUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetUserResponse>;
     getUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetUserResponse>>;
     logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
     logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
-    obtainToken(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ObtainToken200Response>;
-    obtainTokenRaw(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ObtainToken200Response>>;
+    obtainToken(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<TokenResponse>;
+    obtainTokenRaw(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<TokenResponse>>;
     renamePortfolio(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     renamePortfolioRaw(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     triggerSessionSync(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
@@ -3580,6 +3594,65 @@ function GetPortfolioQuotesResponseToJSON(value?: GetPortfolioQuotesResponse | n
 // @public (undocumented)
 function GetPortfolioQuotesResponseToJSONRecursive(value?: GetPortfolioQuotesResponse | null, ignoreParent?: boolean): any;
 
+// @public (undocumented)
+interface GetPortfolioTradesRequest {
+    // (undocumented)
+    portfolioId: string;
+    // (undocumented)
+    skip?: number;
+    // (undocumented)
+    take?: number;
+}
+
+// @public
+interface GetPortfolioTradesResponse {
+    totalCount: number;
+    trades: Array<SummarizedTrade>;
+}
+
+// @public (undocumented)
+function GetPortfolioTradesResponseFromJSON(json: any): GetPortfolioTradesResponse;
+
+// @public (undocumented)
+function GetPortfolioTradesResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPortfolioTradesResponse;
+
+// @public (undocumented)
+function GetPortfolioTradesResponseToJSON(value?: GetPortfolioTradesResponse | null): any;
+
+// @public (undocumented)
+function GetPortfolioTradesResponseToJSONRecursive(value?: GetPortfolioTradesResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface GetPortfolioTradeStatisticsRequest {
+    // (undocumented)
+    dateRanges: string;
+    // (undocumented)
+    portfolioId: string;
+}
+
+// @public
+interface GetPortfolioTradeStatisticsResponse {
+    data: Array<TradeStatisticsItem>;
+}
+
+// @public (undocumented)
+function GetPortfolioTradeStatisticsResponseFromJSON(json: any): GetPortfolioTradeStatisticsResponse;
+
+// @public (undocumented)
+function GetPortfolioTradeStatisticsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPortfolioTradeStatisticsResponse;
+
+// @public (undocumented)
+function GetPortfolioTradeStatisticsResponseToJSON(value?: GetPortfolioTradeStatisticsResponse | null): any;
+
+// @public (undocumented)
+function GetPortfolioTradeStatisticsResponseToJSONRecursive(value?: GetPortfolioTradeStatisticsResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface GetPortfolioTradeWarningsRequest {
+    // (undocumented)
+    portfolioId: string;
+}
+
 // @public
 interface GetQuoteParams {
     brokerExchangeId: string;
@@ -4184,7 +4257,13 @@ declare namespace Models {
         SecurityQuotes,
         SecurityQuote,
         OrderIntent,
-        OrderIntentAvailability
+        OrderIntentAvailability,
+        SummarizedTrade,
+        TradeWarning,
+        GetPortfolioTradesResponse,
+        GetPortfolioTradeStatisticsResponse,
+        TradeStatisticsItem,
+        TradeStatistics
     }
 }
 export { Models }
@@ -4229,27 +4308,6 @@ function OAuthLoginFormConfigToJSON(value?: OAuthLoginFormConfig | null): any;
 
 // @public (undocumented)
 function OAuthLoginFormConfigToJSONRecursive(value?: OAuthLoginFormConfig | null, ignoreParent?: boolean): any;
-
-// @public
-interface ObtainToken200Response {
-    accessToken: string;
-    expiresIn: number;
-    refreshToken: string;
-    refreshTokenExpiresIn: number;
-    tokenType: string;
-}
-
-// @public (undocumented)
-function ObtainToken200ResponseFromJSON(json: any): ObtainToken200Response;
-
-// @public (undocumented)
-function ObtainToken200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObtainToken200Response;
-
-// @public (undocumented)
-function ObtainToken200ResponseToJSON(value?: ObtainToken200Response | null): any;
-
-// @public (undocumented)
-function ObtainToken200ResponseToJSONRecursive(value?: ObtainToken200Response | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 interface ObtainTokenRequest {
@@ -5907,6 +5965,31 @@ export type Subscription = {
 };
 
 // @public
+interface SummarizedTrade {
+    closeDateTime: Date;
+    details: string;
+    fees?: Amount;
+    id: string;
+    openDateTime: Date;
+    profitLossAbs: Amount;
+    profitLossRel: number;
+    security: Security;
+    size: Amount;
+}
+
+// @public (undocumented)
+function SummarizedTradeFromJSON(json: any): SummarizedTrade;
+
+// @public (undocumented)
+function SummarizedTradeFromJSONTyped(json: any, ignoreDiscriminator: boolean): SummarizedTrade;
+
+// @public (undocumented)
+function SummarizedTradeToJSON(value?: SummarizedTrade | null): any;
+
+// @public (undocumented)
+function SummarizedTradeToJSONRecursive(value?: SummarizedTrade | null, ignoreParent?: boolean): any;
+
+// @public
 interface SyncError {
     date: Date;
     message: string;
@@ -5972,6 +6055,27 @@ class TextApiResponse {
 
 // @public
 export type TokenRefreshCallback = (cfg: AuthContextConfiguration) => void;
+
+// @public
+interface TokenResponse {
+    accessToken: string;
+    expiresIn: number;
+    refreshToken: string;
+    refreshTokenExpiresIn: number;
+    tokenType: string;
+}
+
+// @public (undocumented)
+function TokenResponseFromJSON(json: any): TokenResponse;
+
+// @public (undocumented)
+function TokenResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): TokenResponse;
+
+// @public (undocumented)
+function TokenResponseToJSON(value?: TokenResponse | null): any;
+
+// @public (undocumented)
+function TokenResponseToJSONRecursive(value?: TokenResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 export type TokenSet = {
@@ -6090,7 +6194,7 @@ function TradeDraftToJSONRecursive(value?: TradeDraft | null, ignoreParent?: boo
 interface TradeDraftUpdateParams {
     description?: string;
     inactive?: boolean;
-    orderId?: TradeDraftUpdateParamsOrderId;
+    orderId?: string;
 }
 
 // @public (undocumented)
@@ -6099,27 +6203,107 @@ function TradeDraftUpdateParamsFromJSON(json: any): TradeDraftUpdateParams;
 // @public (undocumented)
 function TradeDraftUpdateParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftUpdateParams;
 
-// @public
-interface TradeDraftUpdateParamsOrderId {
-}
-
-// @public (undocumented)
-function TradeDraftUpdateParamsOrderIdFromJSON(json: any): TradeDraftUpdateParamsOrderId;
-
-// @public (undocumented)
-function TradeDraftUpdateParamsOrderIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeDraftUpdateParamsOrderId;
-
-// @public (undocumented)
-function TradeDraftUpdateParamsOrderIdToJSON(value?: TradeDraftUpdateParamsOrderId | null): any;
-
-// @public (undocumented)
-function TradeDraftUpdateParamsOrderIdToJSONRecursive(value?: TradeDraftUpdateParamsOrderId | null, ignoreParent?: boolean): any;
-
 // @public (undocumented)
 function TradeDraftUpdateParamsToJSON(value?: TradeDraftUpdateParams | null): any;
 
 // @public (undocumented)
 function TradeDraftUpdateParamsToJSONRecursive(value?: TradeDraftUpdateParams | null, ignoreParent?: boolean): any;
+
+// @public
+interface TradeStatistics {
+    hitRate: number;
+    holdingPeriodInDays: TradeStatisticsHoldingPeriodInDays;
+    longestLosingStreak: number;
+    longestWinningStreak: number;
+    loserCount: number;
+    tradeCount: number;
+    winnerCount: number;
+}
+
+// @public
+interface TradeStatisticsDateRange {
+    dateString: string;
+    from: Date;
+    to: Date;
+}
+
+// @public (undocumented)
+function TradeStatisticsDateRangeFromJSON(json: any): TradeStatisticsDateRange;
+
+// @public (undocumented)
+function TradeStatisticsDateRangeFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeStatisticsDateRange;
+
+// @public (undocumented)
+function TradeStatisticsDateRangeToJSON(value?: TradeStatisticsDateRange | null): any;
+
+// @public (undocumented)
+function TradeStatisticsDateRangeToJSONRecursive(value?: TradeStatisticsDateRange | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function TradeStatisticsFromJSON(json: any): TradeStatistics;
+
+// @public (undocumented)
+function TradeStatisticsFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeStatistics;
+
+// @public
+interface TradeStatisticsHoldingPeriodInDays {
+    average: number;
+    max: number;
+    min: number;
+}
+
+// @public (undocumented)
+function TradeStatisticsHoldingPeriodInDaysFromJSON(json: any): TradeStatisticsHoldingPeriodInDays;
+
+// @public (undocumented)
+function TradeStatisticsHoldingPeriodInDaysFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeStatisticsHoldingPeriodInDays;
+
+// @public (undocumented)
+function TradeStatisticsHoldingPeriodInDaysToJSON(value?: TradeStatisticsHoldingPeriodInDays | null): any;
+
+// @public (undocumented)
+function TradeStatisticsHoldingPeriodInDaysToJSONRecursive(value?: TradeStatisticsHoldingPeriodInDays | null, ignoreParent?: boolean): any;
+
+// @public
+interface TradeStatisticsItem {
+    dateRange: TradeStatisticsDateRange;
+    stats: TradeStatistics;
+}
+
+// @public (undocumented)
+function TradeStatisticsItemFromJSON(json: any): TradeStatisticsItem;
+
+// @public (undocumented)
+function TradeStatisticsItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeStatisticsItem;
+
+// @public (undocumented)
+function TradeStatisticsItemToJSON(value?: TradeStatisticsItem | null): any;
+
+// @public (undocumented)
+function TradeStatisticsItemToJSONRecursive(value?: TradeStatisticsItem | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function TradeStatisticsToJSON(value?: TradeStatistics | null): any;
+
+// @public (undocumented)
+function TradeStatisticsToJSONRecursive(value?: TradeStatistics | null, ignoreParent?: boolean): any;
+
+// @public
+interface TradeWarning {
+    message: string;
+}
+
+// @public (undocumented)
+function TradeWarningFromJSON(json: any): TradeWarning;
+
+// @public (undocumented)
+function TradeWarningFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradeWarning;
+
+// @public (undocumented)
+function TradeWarningToJSON(value?: TradeWarning | null): any;
+
+// @public (undocumented)
+function TradeWarningToJSONRecursive(value?: TradeWarning | null, ignoreParent?: boolean): any;
 
 // @public
 interface TrailingDistance {

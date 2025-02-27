@@ -341,6 +341,28 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
+  async getPortfolioTrades(req: openApiClient.GetPortfolioTradesRequest) {
+    return this._defaultApi.getPortfolioTrades(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async getPortfolioTradeWarnings(
+    req: openApiClient.GetPortfolioTradeWarningsRequest
+  ) {
+    return this._defaultApi.getPortfolioTradeWarnings(
+      req,
+      await this._initRequestInit()
+    );
+  }
+  async getPortfolioTradeStatistics(
+    req: openApiClient.GetPortfolioTradeStatisticsRequest
+  ) {
+    return this._defaultApi.getPortfolioTradeStatistics(
+      req,
+      await this._initRequestInit()
+    );
+  }
   async getAuthInfo(portfolioId: string) {
     return this._defaultApi.getAuthInfo(
       { portfolioId },

@@ -52,12 +52,15 @@ import {
   GetPortfolioQuotesResponse,
   GetPortfolioQuotesResponseFromJSON,
   GetPortfolioQuotesResponseToJSON,
+  GetPortfolioTradeStatisticsResponse,
+  GetPortfolioTradeStatisticsResponseFromJSON,
+  GetPortfolioTradeStatisticsResponseToJSON,
+  GetPortfolioTradesResponse,
+  GetPortfolioTradesResponseFromJSON,
+  GetPortfolioTradesResponseToJSON,
   GetUserResponse,
   GetUserResponseFromJSON,
   GetUserResponseToJSON,
-  ObtainToken200Response,
-  ObtainToken200ResponseFromJSON,
-  ObtainToken200ResponseToJSON,
   OkResponseBody,
   OkResponseBodyFromJSON,
   OkResponseBodyToJSON,
@@ -70,6 +73,12 @@ import {
   SessionResponse,
   SessionResponseFromJSON,
   SessionResponseToJSON,
+  TokenResponse,
+  TokenResponseFromJSON,
+  TokenResponseToJSON,
+  TradeWarning,
+  TradeWarningFromJSON,
+  TradeWarningToJSON,
 } from "../models";
 
 export interface CancelDecoupledOperationRequest {
@@ -128,6 +137,21 @@ export interface GetPortfolioPositionsRequest {
 
 export interface GetPortfolioQuotesRequest {
   portfolioId: string;
+}
+
+export interface GetPortfolioTradeStatisticsRequest {
+  portfolioId: string;
+  dateRanges: string;
+}
+
+export interface GetPortfolioTradeWarningsRequest {
+  portfolioId: string;
+}
+
+export interface GetPortfolioTradesRequest {
+  portfolioId: string;
+  take?: number;
+  skip?: number;
 }
 
 export interface LogoutSessionRequest {
@@ -1036,6 +1060,224 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Load statistics based on the trade list for selected date ranges. The statistics (such as `longestWinningStreak` or `tradeCount`) are computed for each of the requested date ranges.
+   */
+  async getPortfolioTradeStatisticsRaw(
+    requestParameters: GetPortfolioTradeStatisticsRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<GetPortfolioTradeStatisticsResponse>> {
+    if (
+      requestParameters.portfolioId === null ||
+      requestParameters.portfolioId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "portfolioId",
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTradeStatistics."
+      );
+    }
+
+    if (
+      requestParameters.dateRanges === null ||
+      requestParameters.dateRanges === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "dateRanges",
+        "Required parameter requestParameters.dateRanges was null or undefined when calling getPortfolioTradeStatistics."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters.dateRanges !== undefined) {
+      queryParameters["dateRanges"] = requestParameters.dateRanges;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/portfolios/{portfolioId}/trades/statistics`.replace(
+          `{${"portfolioId"}}`,
+          encodeURIComponent(String(requestParameters.portfolioId))
+        ),
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetPortfolioTradeStatisticsResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Load statistics based on the trade list for selected date ranges. The statistics (such as `longestWinningStreak` or `tradeCount`) are computed for each of the requested date ranges.
+   */
+  async getPortfolioTradeStatistics(
+    requestParameters: GetPortfolioTradeStatisticsRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<GetPortfolioTradeStatisticsResponse> {
+    const response = await this.getPortfolioTradeStatisticsRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   */
+  async getPortfolioTradeWarningsRaw(
+    requestParameters: GetPortfolioTradeWarningsRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<Array<TradeWarning>>> {
+    if (
+      requestParameters.portfolioId === null ||
+      requestParameters.portfolioId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "portfolioId",
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTradeWarnings."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/portfolios/{portfolioId}/trades/warnings`.replace(
+          `{${"portfolioId"}}`,
+          encodeURIComponent(String(requestParameters.portfolioId))
+        ),
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      jsonValue.map(TradeWarningFromJSON)
+    );
+  }
+
+  /**
+   */
+  async getPortfolioTradeWarnings(
+    requestParameters: GetPortfolioTradeWarningsRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<Array<TradeWarning>> {
+    const response = await this.getPortfolioTradeWarningsRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * Load a list of completed trades in a portfolio. A completed trade corresponds to *one* closing of a position. Technically each closing of a position corresponds to one execution of an order with `intent=close` (usually those are sell orders, but in the case of short selling, opening a position is a sell order with intent=open).  The analysis follows the FIFO (First In, First Out) principle to accurately summarize trades. Each time a position is closed (note that partial executions are possible. In this case, each individual execution is regarded as a transaction), the system identifies the earliest corresponding \"open position execution\" that contributed to that closing. The result includes a single entry for each closing transaction, detailing key metrics such as profit/loss and holding period, based on the matched opening transactions.  This could be a real world example: - 2020-01-01: buy 5 stock1 for 100 USD each - 2021-06-01: buy 3 stock1 for 200 USD each - 2021-06-06: sell 6 stock1 for 300 USD each  In this case, the result would be one completed trade (corresponding to the last sell) with a profit of `(300*6)-(100*5+1*200)=1800-700=1100 USD`. There is an open position remaining (2 units of stock1, which correspond to the second buy transaction).  When we add this sell: - 2021-06-07: sell 2 stock1 for 400 USD each  It would add a second complete trade with a profit of `(400*2)-(200*2)=800-400=400 USD`.  For some brokers, the order history may be incomplete (e.g. only reveals the latest 90 days), so that we do not know if there could be older transactions. Thus, our implementation might detect (given the current set of open positions together with the list of order executions) that we cannot figure out the corresponding opening transactions for a closing transaction. Affected trades will be ignored for this analysis and might appear as warning items in the `/warnings` endpoint. Frontends should show those warnings so that users can understand why the analysis is incomplete.
+   */
+  async getPortfolioTradesRaw(
+    requestParameters: GetPortfolioTradesRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<GetPortfolioTradesResponse>> {
+    if (
+      requestParameters.portfolioId === null ||
+      requestParameters.portfolioId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "portfolioId",
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTrades."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters.take !== undefined) {
+      queryParameters["take"] = requestParameters.take;
+    }
+
+    if (requestParameters.skip !== undefined) {
+      queryParameters["skip"] = requestParameters.skip;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/portfolios/{portfolioId}/trades`.replace(
+          `{${"portfolioId"}}`,
+          encodeURIComponent(String(requestParameters.portfolioId))
+        ),
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetPortfolioTradesResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Load a list of completed trades in a portfolio. A completed trade corresponds to *one* closing of a position. Technically each closing of a position corresponds to one execution of an order with `intent=close` (usually those are sell orders, but in the case of short selling, opening a position is a sell order with intent=open).  The analysis follows the FIFO (First In, First Out) principle to accurately summarize trades. Each time a position is closed (note that partial executions are possible. In this case, each individual execution is regarded as a transaction), the system identifies the earliest corresponding \"open position execution\" that contributed to that closing. The result includes a single entry for each closing transaction, detailing key metrics such as profit/loss and holding period, based on the matched opening transactions.  This could be a real world example: - 2020-01-01: buy 5 stock1 for 100 USD each - 2021-06-01: buy 3 stock1 for 200 USD each - 2021-06-06: sell 6 stock1 for 300 USD each  In this case, the result would be one completed trade (corresponding to the last sell) with a profit of `(300*6)-(100*5+1*200)=1800-700=1100 USD`. There is an open position remaining (2 units of stock1, which correspond to the second buy transaction).  When we add this sell: - 2021-06-07: sell 2 stock1 for 400 USD each  It would add a second complete trade with a profit of `(400*2)-(200*2)=800-400=400 USD`.  For some brokers, the order history may be incomplete (e.g. only reveals the latest 90 days), so that we do not know if there could be older transactions. Thus, our implementation might detect (given the current set of open positions together with the list of order executions) that we cannot figure out the corresponding opening transactions for a closing transaction. Affected trades will be ignored for this analysis and might appear as warning items in the `/warnings` endpoint. Frontends should show those warnings so that users can understand why the analysis is incomplete.
+   */
+  async getPortfolioTrades(
+    requestParameters: GetPortfolioTradesRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<GetPortfolioTradesResponse> {
+    const response = await this.getPortfolioTradesRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
    */
   async getPortfoliosRaw(
     initOverrides?: RequestInit | runtime.InitOverideFunction
@@ -1249,7 +1491,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async obtainTokenRaw(
     requestParameters: ObtainTokenRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<runtime.ApiResponse<ObtainToken200Response>> {
+  ): Promise<runtime.ApiResponse<TokenResponse>> {
     if (
       requestParameters.grantType === null ||
       requestParameters.grantType === undefined
@@ -1315,7 +1557,7 @@ export class DefaultApi extends runtime.BaseAPI {
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ObtainToken200ResponseFromJSON(jsonValue)
+      TokenResponseFromJSON(jsonValue)
     );
   }
 
@@ -1325,7 +1567,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async obtainToken(
     requestParameters: ObtainTokenRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<ObtainToken200Response> {
+  ): Promise<TokenResponse> {
     const response = await this.obtainTokenRaw(
       requestParameters,
       initOverrides

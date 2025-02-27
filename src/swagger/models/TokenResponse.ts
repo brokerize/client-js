@@ -15,51 +15,49 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface ObtainToken200Response
+ * @interface TokenResponse
  */
-export interface ObtainToken200Response {
+export interface TokenResponse {
   /**
    *
    * @type {string}
-   * @memberof ObtainToken200Response
+   * @memberof TokenResponse
    */
   accessToken: string;
   /**
    *
    * @type {number}
-   * @memberof ObtainToken200Response
+   * @memberof TokenResponse
    */
   expiresIn: number;
   /**
    *
    * @type {string}
-   * @memberof ObtainToken200Response
+   * @memberof TokenResponse
    */
   refreshToken: string;
   /**
    *
    * @type {number}
-   * @memberof ObtainToken200Response
+   * @memberof TokenResponse
    */
   refreshTokenExpiresIn: number;
   /**
-   *
+   * token_type, it should always be "bearer"
    * @type {string}
-   * @memberof ObtainToken200Response
+   * @memberof TokenResponse
    */
   tokenType: string;
 }
 
-export function ObtainToken200ResponseFromJSON(
-  json: any
-): ObtainToken200Response {
-  return ObtainToken200ResponseFromJSONTyped(json, false);
+export function TokenResponseFromJSON(json: any): TokenResponse {
+  return TokenResponseFromJSONTyped(json, false);
 }
 
-export function ObtainToken200ResponseFromJSONTyped(
+export function TokenResponseFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): ObtainToken200Response {
+): TokenResponse {
   if (json === undefined || json === null) {
     return json;
   }
@@ -72,8 +70,8 @@ export function ObtainToken200ResponseFromJSONTyped(
   };
 }
 
-export function ObtainToken200ResponseToJSONRecursive(
-  value?: ObtainToken200Response | null,
+export function TokenResponseToJSONRecursive(
+  value?: TokenResponse | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -92,8 +90,6 @@ export function ObtainToken200ResponseToJSONRecursive(
   };
 }
 
-export function ObtainToken200ResponseToJSON(
-  value?: ObtainToken200Response | null
-): any {
-  return ObtainToken200ResponseToJSONRecursive(value, false);
+export function TokenResponseToJSON(value?: TokenResponse | null): any {
+  return TokenResponseToJSONRecursive(value, false);
 }
