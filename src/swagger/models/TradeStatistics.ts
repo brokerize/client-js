@@ -13,6 +13,18 @@
 
 import { exists, mapValues } from "../runtime";
 import {
+  Amount,
+  AmountFromJSON,
+  AmountFromJSONTyped,
+  AmountToJSON,
+} from "./Amount";
+import {
+  SummarizedTrade,
+  SummarizedTradeFromJSON,
+  SummarizedTradeFromJSONTyped,
+  SummarizedTradeToJSON,
+} from "./SummarizedTrade";
+import {
   TradeStatisticsHoldingPeriodInDays,
   TradeStatisticsHoldingPeriodInDaysFromJSON,
   TradeStatisticsHoldingPeriodInDaysFromJSONTyped,
@@ -25,6 +37,30 @@ import {
  * @interface TradeStatistics
  */
 export interface TradeStatistics {
+  /**
+   *
+   * @type {Amount}
+   * @memberof TradeStatistics
+   */
+  avgLossAbs?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof TradeStatistics
+   */
+  avgProfitAbs?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof TradeStatistics
+   */
+  avgProfitLossAbs?: Amount;
+  /**
+   *
+   * @type {SummarizedTrade}
+   * @memberof TradeStatistics
+   */
+  bestTrade?: SummarizedTrade;
   /**
    * Which fraction of the trades where winners. 1 is 100%, so a value of 1 would indicate
    * "all trades were winners".
@@ -57,6 +93,19 @@ export interface TradeStatistics {
    */
   loserCount: number;
   /**
+   * Profits/Losses. E.g. if there were 2000€ profits in winning trades and 1000€ losses in losing trades,
+   * the profitFactor would be 2000€ / 1000€ = 2.
+   * @type {number}
+   * @memberof TradeStatistics
+   */
+  profitFactor?: number;
+  /**
+   *
+   * @type {Amount}
+   * @memberof TradeStatistics
+   */
+  profitLossAbs?: Amount;
+  /**
    * How many trades are part of the calculation.
    * @type {number}
    * @memberof TradeStatistics
@@ -68,6 +117,12 @@ export interface TradeStatistics {
    * @memberof TradeStatistics
    */
   winnerCount: number;
+  /**
+   *
+   * @type {SummarizedTrade}
+   * @memberof TradeStatistics
+   */
+  worstTrade?: SummarizedTrade;
 }
 
 export function TradeStatisticsFromJSON(json: any): TradeStatistics {
@@ -82,6 +137,18 @@ export function TradeStatisticsFromJSONTyped(
     return json;
   }
   return {
+    avgLossAbs: !exists(json, "avgLossAbs")
+      ? undefined
+      : AmountFromJSON(json["avgLossAbs"]),
+    avgProfitAbs: !exists(json, "avgProfitAbs")
+      ? undefined
+      : AmountFromJSON(json["avgProfitAbs"]),
+    avgProfitLossAbs: !exists(json, "avgProfitLossAbs")
+      ? undefined
+      : AmountFromJSON(json["avgProfitLossAbs"]),
+    bestTrade: !exists(json, "bestTrade")
+      ? undefined
+      : SummarizedTradeFromJSON(json["bestTrade"]),
     hitRate: json["hitRate"],
     holdingPeriodInDays: TradeStatisticsHoldingPeriodInDaysFromJSON(
       json["holdingPeriodInDays"]
@@ -89,8 +156,17 @@ export function TradeStatisticsFromJSONTyped(
     longestLosingStreak: json["longestLosingStreak"],
     longestWinningStreak: json["longestWinningStreak"],
     loserCount: json["loserCount"],
+    profitFactor: !exists(json, "profitFactor")
+      ? undefined
+      : json["profitFactor"],
+    profitLossAbs: !exists(json, "profitLossAbs")
+      ? undefined
+      : AmountFromJSON(json["profitLossAbs"]),
     tradeCount: json["tradeCount"],
     winnerCount: json["winnerCount"],
+    worstTrade: !exists(json, "worstTrade")
+      ? undefined
+      : SummarizedTradeFromJSON(json["worstTrade"]),
   };
 }
 
@@ -106,6 +182,10 @@ export function TradeStatisticsToJSONRecursive(
   }
 
   return {
+    avgLossAbs: AmountToJSON(value.avgLossAbs),
+    avgProfitAbs: AmountToJSON(value.avgProfitAbs),
+    avgProfitLossAbs: AmountToJSON(value.avgProfitLossAbs),
+    bestTrade: SummarizedTradeToJSON(value.bestTrade),
     hitRate: value.hitRate,
     holdingPeriodInDays: TradeStatisticsHoldingPeriodInDaysToJSON(
       value.holdingPeriodInDays
@@ -113,8 +193,11 @@ export function TradeStatisticsToJSONRecursive(
     longestLosingStreak: value.longestLosingStreak,
     longestWinningStreak: value.longestWinningStreak,
     loserCount: value.loserCount,
+    profitFactor: value.profitFactor,
+    profitLossAbs: AmountToJSON(value.profitLossAbs),
     tradeCount: value.tradeCount,
     winnerCount: value.winnerCount,
+    worstTrade: SummarizedTradeToJSON(value.worstTrade),
   };
 }
 

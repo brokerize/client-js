@@ -150,6 +150,7 @@ export interface GetPortfolioTradeWarningsRequest {
 
 export interface GetPortfolioTradesRequest {
   portfolioId: string;
+  search?: string;
   take?: number;
   skip?: number;
 }
@@ -1221,6 +1222,10 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     const queryParameters: any = {};
+
+    if (requestParameters.search !== undefined) {
+      queryParameters["search"] = requestParameters.search;
+    }
 
     if (requestParameters.take !== undefined) {
       queryParameters["take"] = requestParameters.take;

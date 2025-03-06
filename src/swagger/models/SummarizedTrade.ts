@@ -33,6 +33,12 @@ import {
 export interface SummarizedTrade {
   /**
    *
+   * @type {Amount}
+   * @memberof SummarizedTrade
+   */
+  closeAvgQuotation: Amount;
+  /**
+   *
    * @type {Date}
    * @memberof SummarizedTrade
    */
@@ -55,6 +61,12 @@ export interface SummarizedTrade {
    * @memberof SummarizedTrade
    */
   id: string;
+  /**
+   *
+   * @type {Amount}
+   * @memberof SummarizedTrade
+   */
+  openAvgQuotation: Amount;
   /**
    *
    * @type {Date}
@@ -99,10 +111,12 @@ export function SummarizedTradeFromJSONTyped(
     return json;
   }
   return {
+    closeAvgQuotation: AmountFromJSON(json["closeAvgQuotation"]),
     closeDateTime: new Date(json["closeDateTime"]),
     details: json["details"],
     fees: !exists(json, "fees") ? undefined : AmountFromJSON(json["fees"]),
     id: json["id"],
+    openAvgQuotation: AmountFromJSON(json["openAvgQuotation"]),
     openDateTime: new Date(json["openDateTime"]),
     profitLossAbs: AmountFromJSON(json["profitLossAbs"]),
     profitLossRel: json["profitLossRel"],
@@ -123,10 +137,12 @@ export function SummarizedTradeToJSONRecursive(
   }
 
   return {
+    closeAvgQuotation: AmountToJSON(value.closeAvgQuotation),
     closeDateTime: value.closeDateTime.toISOString(),
     details: value.details,
     fees: AmountToJSON(value.fees),
     id: value.id,
+    openAvgQuotation: AmountToJSON(value.openAvgQuotation),
     openDateTime: value.openDateTime.toISOString(),
     profitLossAbs: AmountToJSON(value.profitLossAbs),
     profitLossRel: value.profitLossRel,

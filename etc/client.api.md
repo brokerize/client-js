@@ -3599,6 +3599,8 @@ interface GetPortfolioTradesRequest {
     // (undocumented)
     portfolioId: string;
     // (undocumented)
+    search?: string;
+    // (undocumented)
     skip?: number;
     // (undocumented)
     take?: number;
@@ -5966,10 +5968,12 @@ export type Subscription = {
 
 // @public
 interface SummarizedTrade {
+    closeAvgQuotation: Amount;
     closeDateTime: Date;
     details: string;
     fees?: Amount;
     id: string;
+    openAvgQuotation: Amount;
     openDateTime: Date;
     profitLossAbs: Amount;
     profitLossRel: number;
@@ -6211,13 +6215,20 @@ function TradeDraftUpdateParamsToJSONRecursive(value?: TradeDraftUpdateParams | 
 
 // @public
 interface TradeStatistics {
+    avgLossAbs?: Amount;
+    avgProfitAbs?: Amount;
+    avgProfitLossAbs?: Amount;
+    bestTrade?: SummarizedTrade;
     hitRate: number;
     holdingPeriodInDays: TradeStatisticsHoldingPeriodInDays;
     longestLosingStreak: number;
     longestWinningStreak: number;
     loserCount: number;
+    profitFactor?: number;
+    profitLossAbs?: Amount;
     tradeCount: number;
     winnerCount: number;
+    worstTrade?: SummarizedTrade;
 }
 
 // @public
