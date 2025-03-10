@@ -1,6 +1,6 @@
 # client-js
 
-The official `brokerize` JavaScript client. The main goal here is to have an API client that comes with TypeScript types so that auto-complete for JS code as well as proper types for TypeScript clients are available. Most of the heavy lifting is in the internal generated code.
+The official `brokerize` JavaScript client. The API client comes with TypeScript types so that auto-complete for JS code as well as proper types for TypeScript clients are available. Most of the heavy lifting is in the internal generated code (we use `@openapitools/openapi-generator-cli` to generate it), but we provide a manually maintained layer around it for a more consistent developer experience.
 
 Example usage:
 

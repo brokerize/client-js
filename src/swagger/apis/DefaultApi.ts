@@ -82,6 +82,10 @@ import {
 } from "../models";
 
 export interface CancelDecoupledOperationRequest {
+  decoupledOperationId: string;
+}
+
+export interface CancelDecoupledOperationLegacyRequest {
   sessionId: string;
   decoupledOperationId: string;
 }
@@ -109,6 +113,10 @@ export interface GetAuthInfoRequest {
 }
 
 export interface GetDecoupledOperationStatusRequest {
+  decoupledOperationId: string;
+}
+
+export interface GetDecoupledOperationStatusLegacyRequest {
   sessionId: string;
   decoupledOperationId: string;
 }
@@ -184,12 +192,71 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<void>> {
     if (
+      requestParameters.decoupledOperationId === null ||
+      requestParameters.decoupledOperationId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "decoupledOperationId",
+        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling cancelDecoupledOperation."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/decoupledOperations/{decoupledOperationId}`.replace(
+          `{${"decoupledOperationId"}}`,
+          encodeURIComponent(String(requestParameters.decoupledOperationId))
+        ),
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   */
+  async cancelDecoupledOperation(
+    requestParameters: CancelDecoupledOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<void> {
+    await this.cancelDecoupledOperationRaw(requestParameters, initOverrides);
+  }
+
+  /**
+   * Cancel a decoupled operation.  This is deprecated, use the new `CancelDecoupledOperation` instead (which does not require the sessionId anymore).
+   */
+  async cancelDecoupledOperationLegacyRaw(
+    requestParameters: CancelDecoupledOperationLegacyRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<void>> {
+    if (
       requestParameters.sessionId === null ||
       requestParameters.sessionId === undefined
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling cancelDecoupledOperation."
+        "Required parameter requestParameters.sessionId was null or undefined when calling cancelDecoupledOperationLegacy."
       );
     }
 
@@ -199,7 +266,7 @@ export class DefaultApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "decoupledOperationId",
-        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling cancelDecoupledOperation."
+        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling cancelDecoupledOperationLegacy."
       );
     }
 
@@ -242,12 +309,16 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Cancel a decoupled operation.  This is deprecated, use the new `CancelDecoupledOperation` instead (which does not require the sessionId anymore).
    */
-  async cancelDecoupledOperation(
-    requestParameters: CancelDecoupledOperationRequest,
+  async cancelDecoupledOperationLegacy(
+    requestParameters: CancelDecoupledOperationLegacyRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<void> {
-    await this.cancelDecoupledOperationRaw(requestParameters, initOverrides);
+    await this.cancelDecoupledOperationLegacyRaw(
+      requestParameters,
+      initOverrides
+    );
   }
 
   /**
@@ -698,12 +769,77 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<runtime.ApiResponse<DecoupledOperationStatus>> {
     if (
+      requestParameters.decoupledOperationId === null ||
+      requestParameters.decoupledOperationId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "decoupledOperationId",
+        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling getDecoupledOperationStatus."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/decoupledOperations/{decoupledOperationId}`.replace(
+          `{${"decoupledOperationId"}}`,
+          encodeURIComponent(String(requestParameters.decoupledOperationId))
+        ),
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      DecoupledOperationStatusFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   */
+  async getDecoupledOperationStatus(
+    requestParameters: GetDecoupledOperationStatusRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<DecoupledOperationStatus> {
+    const response = await this.getDecoupledOperationStatusRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * Get the status of a decoupled operation.  This is deprecated, use the new `GetDecoupledOperation` instead, which does not require the `sessionId` any more.
+   */
+  async getDecoupledOperationStatusLegacyRaw(
+    requestParameters: GetDecoupledOperationStatusLegacyRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<DecoupledOperationStatus>> {
+    if (
       requestParameters.sessionId === null ||
       requestParameters.sessionId === undefined
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling getDecoupledOperationStatus."
+        "Required parameter requestParameters.sessionId was null or undefined when calling getDecoupledOperationStatusLegacy."
       );
     }
 
@@ -713,7 +849,7 @@ export class DefaultApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "decoupledOperationId",
-        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling getDecoupledOperationStatus."
+        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling getDecoupledOperationStatusLegacy."
       );
     }
 
@@ -758,12 +894,13 @@ export class DefaultApi extends runtime.BaseAPI {
   }
 
   /**
+   * Get the status of a decoupled operation.  This is deprecated, use the new `GetDecoupledOperation` instead, which does not require the `sessionId` any more.
    */
-  async getDecoupledOperationStatus(
-    requestParameters: GetDecoupledOperationStatusRequest,
+  async getDecoupledOperationStatusLegacy(
+    requestParameters: GetDecoupledOperationStatusLegacyRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<DecoupledOperationStatus> {
-    const response = await this.getDecoupledOperationStatusRaw(
+    const response = await this.getDecoupledOperationStatusLegacyRaw(
       requestParameters,
       initOverrides
     );

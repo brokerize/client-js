@@ -19,6 +19,9 @@ import {
   CancelOrderParams,
   CancelOrderParamsFromJSON,
   CancelOrderParamsToJSON,
+  CancelOrderResponse,
+  CancelOrderResponseFromJSON,
+  CancelOrderResponseToJSON,
   Challenge,
   ChallengeFromJSON,
   ChallengeToJSON,
@@ -42,12 +45,12 @@ export interface CreateCancelOrderChallengeRequest {
  */
 export class CancelOrderApi extends runtime.BaseAPI {
   /**
-   * Actually cancel the order
+   * Cancel the given order (or in the case of decoupled authMethods: send the order cancellation to the user for confirmation. In this case, a decoupledOperationId is returned).
    */
   async cancelOrderRaw(
     requestParameters: CancelOrderRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<CancelOrderResponse>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
@@ -98,17 +101,23 @@ export class CancelOrderApi extends runtime.BaseAPI {
       initOverrides
     );
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      CancelOrderResponseFromJSON(jsonValue)
+    );
   }
 
   /**
-   * Actually cancel the order
+   * Cancel the given order (or in the case of decoupled authMethods: send the order cancellation to the user for confirmation. In this case, a decoupledOperationId is returned).
    */
   async cancelOrder(
     requestParameters: CancelOrderRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<void> {
-    await this.cancelOrderRaw(requestParameters, initOverrides);
+  ): Promise<CancelOrderResponse> {
+    const response = await this.cancelOrderRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
   }
 
   /**

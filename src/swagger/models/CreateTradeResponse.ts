@@ -19,7 +19,15 @@ import { exists, mapValues } from "../runtime";
  */
 export interface CreateTradeResponse {
   /**
-   *
+   * If a decoupled method is used to create the trade, the creation process can be observed through the
+   * `decoupledOperationId`. In this case, no `orderId` is returned.
+   * @type {string}
+   * @memberof CreateTradeResponse
+   */
+  decoupledOperationId?: string;
+  /**
+   * The id of the created order, if applicable. Some brokers don't return an orderId in all cases, so
+   * frontends should be able to just show a generic "order has been created" message in this case.
    * @type {string}
    * @memberof CreateTradeResponse
    */
@@ -38,6 +46,9 @@ export function CreateTradeResponseFromJSONTyped(
     return json;
   }
   return {
+    decoupledOperationId: !exists(json, "decoupledOperationId")
+      ? undefined
+      : json["decoupledOperationId"],
     orderId: !exists(json, "orderId") ? undefined : json["orderId"],
   };
 }
@@ -54,6 +65,7 @@ export function CreateTradeResponseToJSONRecursive(
   }
 
   return {
+    decoupledOperationId: value.decoupledOperationId,
     orderId: value.orderId,
   };
 }

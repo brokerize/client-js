@@ -18,6 +18,12 @@ import {
   CancelOrderChallengeResponseToJSON,
 } from "./CancelOrderChallengeResponse";
 import {
+  CancelOrderDecoupled,
+  CancelOrderDecoupledFromJSON,
+  CancelOrderDecoupledFromJSONTyped,
+  CancelOrderDecoupledToJSON,
+} from "./CancelOrderDecoupled";
+import {
   CreateModeSessionTan,
   CreateModeSessionTanFromJSON,
   CreateModeSessionTanFromJSONTyped,
@@ -31,6 +37,7 @@ import {
  */
 export type CancelOrderParams =
   | ({ mode: "challengeResponse" } & CancelOrderChallengeResponse)
+  | ({ mode: "decoupled" } & CancelOrderDecoupled)
   | ({ mode: "sessionTan" } & CreateModeSessionTan);
 
 export function CancelOrderParamsFromJSON(json: any): CancelOrderParams {
@@ -49,6 +56,11 @@ export function CancelOrderParamsFromJSONTyped(
       return {
         ...CancelOrderChallengeResponseFromJSONTyped(json, true),
         mode: "challengeResponse",
+      };
+    case "decoupled":
+      return {
+        ...CancelOrderDecoupledFromJSONTyped(json, true),
+        mode: "decoupled",
       };
     case "sessionTan":
       return {
@@ -72,6 +84,8 @@ export function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any {
   switch (value["mode"]) {
     case "challengeResponse":
       return CancelOrderChallengeResponseToJSON(value);
+    case "decoupled":
+      return CancelOrderDecoupledToJSON(value);
     case "sessionTan":
       return CreateModeSessionTanToJSON(value);
     default:

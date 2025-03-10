@@ -26,6 +26,20 @@ import {
  */
 export interface DecoupledOperationStatus {
   /**
+   * If:
+   * - the decoupled operation is an order creation
+   * - *AND* it is in the state `AUTHORIZATION_USER_ACCEPTED`
+   * - *AND* the broker supports retrieving this information
+   *
+   * This is the id of the created order. Note that depending on the broker, it is possible
+   * (as with non-decoupled order creations as well), that the broker does not return this id, but
+   * instead will add the order to the order book asynchronously. In this case it is not possible to directly
+   * show an order receipt, but just a message (e.g. "Order has been created successfully - check order list for updates").
+   * @type {string}
+   * @memberof DecoupledOperationStatus
+   */
+  createdOrderId?: string;
+  /**
    *
    * @type {DecoupledOperationState}
    * @memberof DecoupledOperationStatus
@@ -53,6 +67,9 @@ export function DecoupledOperationStatusFromJSONTyped(
     return json;
   }
   return {
+    createdOrderId: !exists(json, "createdOrderId")
+      ? undefined
+      : json["createdOrderId"],
     state: DecoupledOperationStateFromJSON(json["state"]),
     text: !exists(json, "text") ? undefined : json["text"],
   };
@@ -70,6 +87,7 @@ export function DecoupledOperationStatusToJSONRecursive(
   }
 
   return {
+    createdOrderId: value.createdOrderId,
     state: DecoupledOperationStateToJSON(value.state),
     text: value.text,
   };

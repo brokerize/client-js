@@ -18,6 +18,7 @@
 export const CancelOrderParamsMode = {
   SessionTan: "sessionTan",
   ChallengeResponse: "challengeResponse",
+  Decoupled: "decoupled",
 } as const;
 export type CancelOrderParamsMode =
   (typeof CancelOrderParamsMode)[keyof typeof CancelOrderParamsMode];

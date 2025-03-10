@@ -22,6 +22,9 @@ import {
   ChangeOrderParams,
   ChangeOrderParamsFromJSON,
   ChangeOrderParamsToJSON,
+  ChangeOrderResponse,
+  ChangeOrderResponseFromJSON,
+  ChangeOrderResponseToJSON,
   ErrorResponse,
   ErrorResponseFromJSON,
   ErrorResponseToJSON,
@@ -58,7 +61,7 @@ export class ChangeOrderApi extends runtime.BaseAPI {
   async changeOrderRaw(
     requestParameters: ChangeOrderRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<runtime.ApiResponse<void>> {
+  ): Promise<runtime.ApiResponse<ChangeOrderResponse>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
@@ -109,7 +112,9 @@ export class ChangeOrderApi extends runtime.BaseAPI {
       initOverrides
     );
 
-    return new runtime.VoidApiResponse(response);
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ChangeOrderResponseFromJSON(jsonValue)
+    );
   }
 
   /**
@@ -118,8 +123,12 @@ export class ChangeOrderApi extends runtime.BaseAPI {
   async changeOrder(
     requestParameters: ChangeOrderRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<void> {
-    await this.changeOrderRaw(requestParameters, initOverrides);
+  ): Promise<ChangeOrderResponse> {
+    const response = await this.changeOrderRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
   }
 
   /**

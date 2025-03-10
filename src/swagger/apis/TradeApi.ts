@@ -90,7 +90,7 @@ export interface PrepareTradeRequest {
  */
 export class TradeApi extends runtime.BaseAPI {
   /**
-   * Create a trade.  It is possible that the broker rejects the order because of some extra hints that the user must accept (which can not be figured out in `prepareTrade`, e.g. because the order volume has to be determined first). In thise case, the `MUST_ACCEPT_HINT` error code is returned. The user can choose to accept that hint. If that is the case, the request can be retried with the `acceptHintId` parameter.
+   * Create a trade.  It is possible that the broker rejects the order because of some extra hints that the user must accept (which can not be figured out in `prepareTrade`, e.g. because the order volume has to be determined first). In this case, the `MUST_ACCEPT_HINT` error code is returned. The user can choose to accept that hint. If that is the case, the request can be retried with the `acceptHintId` parameter.
    */
   async createTradeRaw(
     requestParameters: CreateTradeRequest,
@@ -142,7 +142,7 @@ export class TradeApi extends runtime.BaseAPI {
   }
 
   /**
-   * Create a trade.  It is possible that the broker rejects the order because of some extra hints that the user must accept (which can not be figured out in `prepareTrade`, e.g. because the order volume has to be determined first). In thise case, the `MUST_ACCEPT_HINT` error code is returned. The user can choose to accept that hint. If that is the case, the request can be retried with the `acceptHintId` parameter.
+   * Create a trade.  It is possible that the broker rejects the order because of some extra hints that the user must accept (which can not be figured out in `prepareTrade`, e.g. because the order volume has to be determined first). In this case, the `MUST_ACCEPT_HINT` error code is returned. The user can choose to accept that hint. If that is the case, the request can be retried with the `acceptHintId` parameter.
    */
   async createTrade(
     requestParameters: CreateTradeRequest,

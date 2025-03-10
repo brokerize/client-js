@@ -515,9 +515,9 @@ export class AuthorizedApiContext {
     // (undocumented)
     cancelDecoupledOperation(req: openApiClient.CancelDecoupledOperationRequest): Promise<void>;
     // (undocumented)
-    cancelOrder(req: openApiClient.CancelOrderRequest, viaCryptoService?: boolean): Promise<void>;
+    cancelOrder(req: openApiClient.CancelOrderRequest, viaCryptoService?: boolean): Promise<openApiClient.CancelOrderResponse>;
     // (undocumented)
-    changeOrder(req: openApiClient.ChangeOrderRequest, viaCryptoService?: boolean): Promise<void>;
+    changeOrder(req: openApiClient.ChangeOrderRequest, viaCryptoService?: boolean): Promise<openApiClient.ChangeOrderResponse>;
     // (undocumented)
     confirmOAuth(p: ConfirmOAuthParams): Promise<openApiClient.ConfirmOAuthResponse>;
     // (undocumented)
@@ -968,7 +968,7 @@ function BrokerMetaToJSONRecursive(value?: BrokerMeta | null, ignoreParent?: boo
 export type Callback<T = any> = (err: any, data: T) => void;
 
 // @public (undocumented)
-interface CancelDecoupledOperationRequest {
+interface CancelDecoupledOperationLegacyRequest {
     // (undocumented)
     decoupledOperationId: string;
     // (undocumented)
@@ -976,9 +976,15 @@ interface CancelDecoupledOperationRequest {
 }
 
 // @public (undocumented)
+interface CancelDecoupledOperationRequest {
+    // (undocumented)
+    decoupledOperationId: string;
+}
+
+// @public (undocumented)
 class CancelOrderApi extends runtime.BaseAPI {
-    cancelOrder(requestParameters: CancelOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    cancelOrderRaw(requestParameters: CancelOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    cancelOrder(requestParameters: CancelOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CancelOrderResponse>;
+    cancelOrderRaw(requestParameters: CancelOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CancelOrderResponse>>;
     createCancelOrderChallenge(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
     createCancelOrderChallengeRaw(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
 }
@@ -1073,9 +1079,79 @@ function CancelOrderChallengeResponseToJSON(value?: CancelOrderChallengeResponse
 function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChallengeResponse | null, ignoreParent?: boolean): any;
 
 // @public
+interface CancelOrderDecoupled {
+    authMethod?: string;
+    mode: CancelOrderDecoupledModeEnum;
+}
+
+// @public
+interface CancelOrderDecoupledAllOf {
+    mode?: CancelOrderDecoupledAllOfModeEnum;
+}
+
+// @public (undocumented)
+function CancelOrderDecoupledAllOfFromJSON(json: any): CancelOrderDecoupledAllOf;
+
+// @public (undocumented)
+function CancelOrderDecoupledAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderDecoupledAllOf;
+
+// @public (undocumented)
+const CancelOrderDecoupledAllOfModeEnum: {
+    readonly Decoupled: "decoupled";
+};
+
+// @public (undocumented)
+type CancelOrderDecoupledAllOfModeEnum = (typeof CancelOrderDecoupledAllOfModeEnum)[keyof typeof CancelOrderDecoupledAllOfModeEnum];
+
+// @public (undocumented)
+function CancelOrderDecoupledAllOfToJSON(value?: CancelOrderDecoupledAllOf | null): any;
+
+// @public (undocumented)
+function CancelOrderDecoupledAllOfToJSONRecursive(value?: CancelOrderDecoupledAllOf | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function CancelOrderDecoupledFromJSON(json: any): CancelOrderDecoupled;
+
+// @public (undocumented)
+function CancelOrderDecoupledFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderDecoupled;
+
+// @public (undocumented)
+const CancelOrderDecoupledModeEnum: {
+    readonly Decoupled: "decoupled";
+};
+
+// @public (undocumented)
+type CancelOrderDecoupledModeEnum = (typeof CancelOrderDecoupledModeEnum)[keyof typeof CancelOrderDecoupledModeEnum];
+
+// @public
+interface CancelOrderDecoupledSpecifics {
+    authMethod?: string;
+}
+
+// @public (undocumented)
+function CancelOrderDecoupledSpecificsFromJSON(json: any): CancelOrderDecoupledSpecifics;
+
+// @public (undocumented)
+function CancelOrderDecoupledSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderDecoupledSpecifics;
+
+// @public (undocumented)
+function CancelOrderDecoupledSpecificsToJSON(value?: CancelOrderDecoupledSpecifics | null): any;
+
+// @public (undocumented)
+function CancelOrderDecoupledSpecificsToJSONRecursive(value?: CancelOrderDecoupledSpecifics | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+function CancelOrderDecoupledToJSON(value?: CancelOrderDecoupled | null): any;
+
+// @public (undocumented)
+function CancelOrderDecoupledToJSONRecursive(value?: CancelOrderDecoupled | null, ignoreParent?: boolean): any;
+
+// @public
 type CancelOrderParams = ({
     mode: "challengeResponse";
 } & CancelOrderChallengeResponse) | ({
+    mode: "decoupled";
+} & CancelOrderDecoupled) | ({
     mode: "sessionTan";
 } & CreateModeSessionTan);
 
@@ -1089,6 +1165,7 @@ function CancelOrderParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 const CancelOrderParamsMode: {
     readonly SessionTan: "sessionTan";
     readonly ChallengeResponse: "challengeResponse";
+    readonly Decoupled: "decoupled";
 };
 
 // @public (undocumented)
@@ -1113,6 +1190,23 @@ interface CancelOrderRequest {
     // (undocumented)
     id: string;
 }
+
+// @public
+interface CancelOrderResponse {
+    decoupledOperationId?: string;
+}
+
+// @public (undocumented)
+function CancelOrderResponseFromJSON(json: any): CancelOrderResponse;
+
+// @public (undocumented)
+function CancelOrderResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CancelOrderResponse;
+
+// @public (undocumented)
+function CancelOrderResponseToJSON(value?: CancelOrderResponse | null): any;
+
+// @public (undocumented)
+function CancelOrderResponseToJSONRecursive(value?: CancelOrderResponse | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function canConsumeForm(consumes: Consume[]): boolean;
@@ -1206,8 +1300,8 @@ function ChallengeToJSONRecursive(value?: Challenge | null, ignoreParent?: boole
 
 // @public (undocumented)
 class ChangeOrderApi extends runtime.BaseAPI {
-    changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ChangeOrderResponse>;
+    changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ChangeOrderResponse>>;
     createChangeOrderChallenge(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
     createChangeOrderChallengeRaw(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
     getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OrderCostEstimation>;
@@ -1259,6 +1353,23 @@ interface ChangeOrderRequest {
     // (undocumented)
     id: string;
 }
+
+// @public
+interface ChangeOrderResponse {
+    decoupledOperationId?: string;
+}
+
+// @public (undocumented)
+function ChangeOrderResponseFromJSON(json: any): ChangeOrderResponse;
+
+// @public (undocumented)
+function ChangeOrderResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChangeOrderResponse;
+
+// @public (undocumented)
+function ChangeOrderResponseToJSON(value?: ChangeOrderResponse | null): any;
+
+// @public (undocumented)
+function ChangeOrderResponseToJSONRecursive(value?: ChangeOrderResponse | null, ignoreParent?: boolean): any;
 
 // @public
 interface ClientConfig {
@@ -1855,6 +1966,7 @@ interface CreateTradeRequest {
 
 // @public
 interface CreateTradeResponse {
+    decoupledOperationId?: string;
     orderId?: string;
 }
 
@@ -1901,6 +2013,7 @@ function DecoupledOperationStateToJSON(value?: DecoupledOperationState | null): 
 
 // @public
 interface DecoupledOperationStatus {
+    createdOrderId?: string;
     state: DecoupledOperationState;
     text?: string;
 }
@@ -1927,6 +2040,8 @@ function DecoupledOperationStatusToJSONRecursive(value?: DecoupledOperationStatu
 class DefaultApi extends runtime.BaseAPI {
     // (undocumented)
     cancelDecoupledOperation(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    cancelDecoupledOperationLegacy(requestParameters: CancelDecoupledOperationLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    cancelDecoupledOperationLegacyRaw(requestParameters: CancelDecoupledOperationLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     // (undocumented)
     cancelDecoupledOperationRaw(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     createGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateGuestUserResponse>;
@@ -1949,6 +2064,8 @@ class DefaultApi extends runtime.BaseAPI {
     getAuthInfoRaw(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAuthInfoResponse>>;
     // (undocumented)
     getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationStatus>;
+    getDecoupledOperationStatusLegacy(requestParameters: GetDecoupledOperationStatusLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationStatus>;
+    getDecoupledOperationStatusLegacyRaw(requestParameters: GetDecoupledOperationStatusLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationStatus>>;
     // (undocumented)
     getDecoupledOperationStatusRaw(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationStatus>>;
     // (undocumented)
@@ -3436,11 +3553,17 @@ interface GetCostEstimationRequest {
 }
 
 // @public (undocumented)
-interface GetDecoupledOperationStatusRequest {
+interface GetDecoupledOperationStatusLegacyRequest {
     // (undocumented)
     decoupledOperationId: string;
     // (undocumented)
     sessionId: string;
+}
+
+// @public (undocumented)
+interface GetDecoupledOperationStatusRequest {
+    // (undocumented)
+    decoupledOperationId: string;
 }
 
 // @public (undocumented)
