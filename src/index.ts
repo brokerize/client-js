@@ -153,12 +153,10 @@ export class Brokerize {
  */
 export type TokenRefreshCallback = (cfg: AuthContextConfiguration) => void;
 
-function getGlobalObject() {
-  let global;
-  try {
-    global = Function("return this")();
-  } catch (e) {
-    global = window;
-  }
-  return global;
+function getGlobalObject(): any {
+  if (typeof globalThis !== "undefined") return globalThis;
+  if (typeof self !== "undefined") return self;
+  if (typeof window !== "undefined") return window;
+  if (typeof global !== "undefined") return global;
+  throw new Error("Unable to determine global object");
 }
