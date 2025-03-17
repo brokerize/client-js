@@ -9,7 +9,7 @@ type WebSocketCommandAuthorize = {
   idToken: string;
 };
 
-type WebSocketCommandPing = {
+export type WebSocketCommandPing = {
   cmd: "ping";
 };
 
@@ -53,10 +53,15 @@ export type SubscribeDecoupledOperation = {
   decoupledOperationId: string;
 };
 
+export type WebSocketPingMessage = {
+  cmd: "ping";
+};
+
 export type WebSocketMessage =
   | WebSocketSubscriptionMessage
   | WebSocketError
-  | WebSocketAuthenticatedMessage;
+  | WebSocketAuthenticatedMessage
+  | WebSocketPingMessage;
 
 export type WebSocketSubscriptionMessage =
   | WebSocketMessageErrorOnSubscription

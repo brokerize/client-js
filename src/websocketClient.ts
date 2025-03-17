@@ -11,8 +11,8 @@ import type {
   WebSocketError,
   WebSocketMessage,
   WebSocketMessageErrorOnSubscription,
-  WebSocketPingMessage,
   WebSocketSubscriptionMessage,
+  WebSocketPingMessage,
 } from "./websocketTypes";
 
 const LOG_PREFIX = "[brokerize WebSocketClient] ";

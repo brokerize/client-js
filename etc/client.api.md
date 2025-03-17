@@ -2022,6 +2022,7 @@ interface DecoupledOperationStatus {
 type DecoupledOperationStatus_2 = {
     text?: string;
     state: DecoupledOperationState_2;
+    createdOrderId?: string;
 };
 
 // @public (undocumented)
@@ -6549,10 +6550,14 @@ type WebSocketAuthenticatedMessage = {
 };
 
 // Warning: (ae-forgotten-export) The symbol "WebSocketCommandAuthorize" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "WebSocketCommandPing" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
 type WebSocketCommand = WebSocketCommandAuthorize | WebSocketCommandPing | WebSocketCommandSubscribe | WebSocketCommandUnsubscribe;
+
+// @public (undocumented)
+type WebSocketCommandPing = {
+    cmd: "ping";
+};
 
 // Warning: (ae-forgotten-export) The symbol "InvalidateBase" needs to be exported by the entry point index.d.ts
 //
@@ -6593,17 +6598,18 @@ type WebSocketSubscriptionSuccessfulMessage = InvalidateMessage | UpdateDecouple
 declare namespace WebSocketTypes {
     export {
         WebSocketCommand,
+        WebSocketCommandPing,
         WebSocketCommandUnsubscribe,
         WebSocketCommandSubscribe,
         SubscribeInvalidateDetails,
         SubscribeDecoupledOperation,
+        WebSocketPingMessage,
         WebSocketMessage,
         WebSocketSubscriptionMessage,
         WebSocketSubscriptionSuccessfulMessage,
         WebSocketAuthenticatedMessage,
         WebSocketMessageErrorOnSubscription,
         InvalidateMessage,
-        WebSocketPingMessage,
         UpdateDecoupledOperationMessage,
         BrokerizeWebSocketError,
         WebSocketError,
