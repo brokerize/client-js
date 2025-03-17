@@ -56,8 +56,7 @@ export type SubscribeDecoupledOperation = {
 export type WebSocketMessage =
   | WebSocketSubscriptionMessage
   | WebSocketError
-  | WebSocketAuthenticatedMessage
-  | WebSocketPingMessage;
+  | WebSocketAuthenticatedMessage;
 
 export type WebSocketSubscriptionMessage =
   | WebSocketMessageErrorOnSubscription
@@ -79,10 +78,6 @@ export type WebSocketMessageErrorOnSubscription = {
 export type InvalidateMessage = {
   cmd: "invalidate";
   subscriptionId: number;
-};
-
-export type WebSocketPingMessage = {
-  cmd: "ping";
 };
 
 export type UpdateDecoupledOperationMessage = {
@@ -108,4 +103,16 @@ export type DecoupledOperationState =
 export type DecoupledOperationStatus = {
   text?: string;
   state: DecoupledOperationState;
+  /**
+   * If:
+   * - the decoupled operation is an order creation
+   * - *AND* it is in the state `AUTHORIZATION_USER_ACCEPTED`
+   * - *AND* the broker supports retrieving this information
+   *
+   * This is the id of the created order. Note that depending on the broker, it is possible
+   * (as with non-decoupled order creations as well), that the broker does not return this id, but
+   * instead will add the order to the order book asynchronously. In this case it is not possible to directly
+   * show an order receipt, but just a message (e.g. "Order has been created successfully - check order list for updates").
+   */
+  createdOrderId?: string;
 };
