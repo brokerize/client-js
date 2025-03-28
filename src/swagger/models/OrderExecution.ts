@@ -51,6 +51,12 @@ export interface OrderExecution {
   executionStatusText?: string;
   /**
    *
+   * @type {Amount}
+   * @memberof OrderExecution
+   */
+  fee?: Amount;
+  /**
+   *
    * @type {string}
    * @memberof OrderExecution
    */
@@ -109,6 +115,7 @@ export function OrderExecutionFromJSONTyped(
     executionStatusText: !exists(json, "executionStatusText")
       ? undefined
       : json["executionStatusText"],
+    fee: !exists(json, "fee") ? undefined : AmountFromJSON(json["fee"]),
     id: !exists(json, "id") ? undefined : json["id"],
     quote: !exists(json, "quote") ? undefined : AmountFromJSON(json["quote"]),
     size: AmountFromJSON(json["size"]),
@@ -141,6 +148,7 @@ export function OrderExecutionToJSONRecursive(
         ? undefined
         : value.executedDateTime.toISOString(),
     executionStatusText: value.executionStatusText,
+    fee: AmountToJSON(value.fee),
     id: value.id,
     quote: AmountToJSON(value.quote),
     size: AmountToJSON(value.size),

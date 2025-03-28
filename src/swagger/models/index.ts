@@ -53,6 +53,7 @@ export * from "./ClientConfigUpdateOAuthLoginForm";
 export * from "./ClientConfigUpdatePage";
 export * from "./ClientConfigUpdateRateLimitPointsToConsume";
 export * from "./ClientsResponseInner";
+export * from "./CoinbaseClientCfg";
 export * from "./ConfirmOAuthParams";
 export * from "./ConfirmOAuthResponse";
 export * from "./CostDetailsLink";

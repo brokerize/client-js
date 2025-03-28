@@ -40,7 +40,7 @@ export interface GetPagesConfigurationRequest {
  */
 export class MetaApi extends runtime.BaseAPI {
   /**
-   * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future).
+   * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future). The `loginForm` field is only available for a small combination of brokers and clients and is not guaranteed to be present.
    */
   async getBrokersRaw(
     initOverrides?: RequestInit | runtime.InitOverideFunction
@@ -70,7 +70,7 @@ export class MetaApi extends runtime.BaseAPI {
   }
 
   /**
-   * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future).
+   * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future). The `loginForm` field is only available for a small combination of brokers and clients and is not guaranteed to be present.
    */
   async getBrokers(
     initOverrides?: RequestInit | runtime.InitOverideFunction

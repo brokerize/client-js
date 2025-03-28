@@ -66,6 +66,7 @@ models/ClientConfigUpdateOAuthLoginForm.ts
 models/ClientConfigUpdatePage.ts
 models/ClientConfigUpdateRateLimitPointsToConsume.ts
 models/ClientsResponseInner.ts
+models/CoinbaseClientCfg.ts
 models/ConfirmOAuthParams.ts
 models/ConfirmOAuthResponse.ts
 models/CostDetailsLink.ts

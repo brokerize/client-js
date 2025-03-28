@@ -18,6 +18,12 @@ import {
   BitpandaClientCfgFromJSONTyped,
   BitpandaClientCfgToJSON,
 } from "./BitpandaClientCfg";
+import {
+  CoinbaseClientCfg,
+  CoinbaseClientCfgFromJSON,
+  CoinbaseClientCfgFromJSONTyped,
+  CoinbaseClientCfgToJSON,
+} from "./CoinbaseClientCfg";
 
 /**
  *
@@ -31,6 +37,12 @@ export interface BrokerClientCfg {
    * @memberof BrokerClientCfg
    */
   bitpanda?: BitpandaClientCfg;
+  /**
+   *
+   * @type {CoinbaseClientCfg}
+   * @memberof BrokerClientCfg
+   */
+  coinbase?: CoinbaseClientCfg;
 }
 
 export function BrokerClientCfgFromJSON(json: any): BrokerClientCfg {
@@ -48,6 +60,9 @@ export function BrokerClientCfgFromJSONTyped(
     bitpanda: !exists(json, "bitpanda")
       ? undefined
       : BitpandaClientCfgFromJSON(json["bitpanda"]),
+    coinbase: !exists(json, "coinbase")
+      ? undefined
+      : CoinbaseClientCfgFromJSON(json["coinbase"]),
   };
 }
 
@@ -64,6 +79,7 @@ export function BrokerClientCfgToJSONRecursive(
 
   return {
     bitpanda: BitpandaClientCfgToJSON(value.bitpanda),
+    coinbase: CoinbaseClientCfgToJSON(value.coinbase),
   };
 }
 

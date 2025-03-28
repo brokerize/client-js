@@ -729,6 +729,7 @@ class BlobApiResponse {
 // @public
 interface BrokerClientCfg {
     bitpanda?: BitpandaClientCfg;
+    coinbase?: CoinbaseClientCfg;
 }
 
 // @public (undocumented)
@@ -1582,6 +1583,23 @@ export type CognitoPoolConfig = {
     ClientId: string;
     Endpoint?: string | null;
 };
+
+// @public
+interface CoinbaseClientCfg {
+    trackingPrefix: string;
+}
+
+// @public (undocumented)
+function CoinbaseClientCfgFromJSON(json: any): CoinbaseClientCfg;
+
+// @public (undocumented)
+function CoinbaseClientCfgFromJSONTyped(json: any, ignoreDiscriminator: boolean): CoinbaseClientCfg;
+
+// @public (undocumented)
+function CoinbaseClientCfgToJSON(value?: CoinbaseClientCfg | null): any;
+
+// @public (undocumented)
+function CoinbaseClientCfgToJSONRecursive(value?: CoinbaseClientCfg | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 const COLLECTION_FORMATS: {
@@ -4634,6 +4652,7 @@ interface OrderExecution {
     crossRate?: number;
     executedDateTime?: Date;
     executionStatusText?: string;
+    fee?: Amount;
     id?: string;
     quote?: Amount;
     size: Amount;
