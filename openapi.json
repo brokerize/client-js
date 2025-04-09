@@ -700,7 +700,14 @@
             },
             "type": "array"
           },
-          "page": {}
+          "page": {},
+          "reportingFlags": {
+            "description": "These flags are used in supporting the reporting logic",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
         },
         "required": [
           "page",
@@ -835,6 +842,13 @@
               }
             },
             "type": "object"
+          },
+          "reportingFlags": {
+            "description": "These flags are used in supporting the reporting logic",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -4023,6 +4037,16 @@
             "description": "How many trades had a positive profit/loss.",
             "format": "int32",
             "type": "integer"
+          },
+          "winnerDaysRatio": {
+            "description": "The proportion of trading days that ended with a net profit within the selected timeframe.\n\n- Calculated as the number of profitable trading days divided by the total number of trading days with activity.\n- For example, if trades were executed on 10 days and 2 of those days resulted in a net profit, the ratio would be `0.2`.\n- If no trades occurred during the selected period, the value is `undefined`.",
+            "format": "double",
+            "type": "number"
+          },
+          "winnerMonthsRatio": {
+            "description": "The proportion of months that ended with a net profit within the selected timeframe.\n\n- Calculated as the number of profitable trading months divided by the total number of trading months with activity.\n- For example, if trades were executed in 10 months and 2 of those months resulted in a net profit, the ratio would be `0.2`.\n- If no trades occurred during the selected period, the value is `undefined`.",
+            "format": "double",
+            "type": "number"
           },
           "worstTrade": {
             "$ref": "#/components/schemas/SummarizedTrade",

@@ -140,6 +140,12 @@ export interface ClientConfig {
    * @memberof ClientConfig
    */
   page: any | null;
+  /**
+   * These flags are used in supporting the reporting logic
+   * @type {Array<string>}
+   * @memberof ClientConfig
+   */
+  reportingFlags?: Array<string>;
 }
 
 export function ClientConfigFromJSON(json: any): ClientConfig {
@@ -191,6 +197,9 @@ export function ClientConfigFromJSONTyped(
     oAuthReturnToRegularExpressions: json["oAuthReturnToRegularExpressions"],
     oAuthReturnToUrls: json["oAuthReturnToUrls"],
     page: json["page"],
+    reportingFlags: !exists(json, "reportingFlags")
+      ? undefined
+      : json["reportingFlags"],
   };
 }
 
@@ -227,6 +236,7 @@ export function ClientConfigToJSONRecursive(
     oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
     oAuthReturnToUrls: value.oAuthReturnToUrls,
     page: value.page,
+    reportingFlags: value.reportingFlags,
   };
 }
 

@@ -187,6 +187,12 @@ export interface ClientConfigUpdate {
    * @memberof ClientConfigUpdate
    */
   rateLimitPointsToConsume?: ClientConfigUpdateRateLimitPointsToConsume;
+  /**
+   * These flags are used in supporting the reporting logic
+   * @type {Array<string>}
+   * @memberof ClientConfigUpdate
+   */
+  reportingFlags?: Array<string>;
 }
 
 export function ClientConfigUpdateFromJSON(json: any): ClientConfigUpdate {
@@ -271,6 +277,9 @@ export function ClientConfigUpdateFromJSONTyped(
       : ClientConfigUpdateRateLimitPointsToConsumeFromJSON(
           json["rateLimitPointsToConsume"]
         ),
+    reportingFlags: !exists(json, "reportingFlags")
+      ? undefined
+      : json["reportingFlags"],
   };
 }
 
@@ -316,6 +325,7 @@ export function ClientConfigUpdateToJSONRecursive(
     rateLimitPointsToConsume: ClientConfigUpdateRateLimitPointsToConsumeToJSON(
       value.rateLimitPointsToConsume
     ),
+    reportingFlags: value.reportingFlags,
   };
 }
 

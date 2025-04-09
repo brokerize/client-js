@@ -118,6 +118,26 @@ export interface TradeStatistics {
    */
   winnerCount: number;
   /**
+   * The proportion of trading days that ended with a net profit within the selected timeframe.
+   *
+   * - Calculated as the number of profitable trading days divided by the total number of trading days with activity.
+   * - For example, if trades were executed on 10 days and 2 of those days resulted in a net profit, the ratio would be `0.2`.
+   * - If no trades occurred during the selected period, the value is `undefined`.
+   * @type {number}
+   * @memberof TradeStatistics
+   */
+  winnerDaysRatio?: number;
+  /**
+   * The proportion of months that ended with a net profit within the selected timeframe.
+   *
+   * - Calculated as the number of profitable trading months divided by the total number of trading months with activity.
+   * - For example, if trades were executed in 10 months and 2 of those months resulted in a net profit, the ratio would be `0.2`.
+   * - If no trades occurred during the selected period, the value is `undefined`.
+   * @type {number}
+   * @memberof TradeStatistics
+   */
+  winnerMonthsRatio?: number;
+  /**
    *
    * @type {SummarizedTrade}
    * @memberof TradeStatistics
@@ -164,6 +184,12 @@ export function TradeStatisticsFromJSONTyped(
       : AmountFromJSON(json["profitLossAbs"]),
     tradeCount: json["tradeCount"],
     winnerCount: json["winnerCount"],
+    winnerDaysRatio: !exists(json, "winnerDaysRatio")
+      ? undefined
+      : json["winnerDaysRatio"],
+    winnerMonthsRatio: !exists(json, "winnerMonthsRatio")
+      ? undefined
+      : json["winnerMonthsRatio"],
     worstTrade: !exists(json, "worstTrade")
       ? undefined
       : SummarizedTradeFromJSON(json["worstTrade"]),
@@ -197,6 +223,8 @@ export function TradeStatisticsToJSONRecursive(
     profitLossAbs: AmountToJSON(value.profitLossAbs),
     tradeCount: value.tradeCount,
     winnerCount: value.winnerCount,
+    winnerDaysRatio: value.winnerDaysRatio,
+    winnerMonthsRatio: value.winnerMonthsRatio,
     worstTrade: SummarizedTradeToJSON(value.worstTrade),
   };
 }

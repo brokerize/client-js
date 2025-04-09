@@ -1392,6 +1392,7 @@ interface ClientConfig {
     oAuthReturnToRegularExpressions: Array<string>;
     oAuthReturnToUrls: Array<string>;
     page: any | null;
+    reportingFlags?: Array<string>;
 }
 
 // @public (undocumented)
@@ -1449,6 +1450,7 @@ interface ClientConfigUpdate {
     optionalClientSecrets?: Array<string>;
     page?: ClientConfigUpdatePage | null;
     rateLimitPointsToConsume?: ClientConfigUpdateRateLimitPointsToConsume;
+    reportingFlags?: Array<string>;
 }
 
 // @public (undocumented)
@@ -6371,6 +6373,8 @@ interface TradeStatistics {
     profitLossAbs?: Amount;
     tradeCount: number;
     winnerCount: number;
+    winnerDaysRatio?: number;
+    winnerMonthsRatio?: number;
     worstTrade?: SummarizedTrade;
 }
 
