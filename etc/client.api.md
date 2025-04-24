@@ -1013,6 +1013,7 @@ interface CancelOrderChallengeResponse {
     challengeId?: string;
     challengeResponse: string;
     mode: CancelOrderChallengeResponseModeEnum;
+    reportingTag?: string;
 }
 
 // @public
@@ -1059,6 +1060,7 @@ interface CancelOrderChallengeResponseSpecifics {
     authMethod?: string;
     challengeId?: string;
     challengeResponse?: string;
+    reportingTag?: string;
 }
 
 // @public (undocumented)
@@ -1083,6 +1085,7 @@ function CancelOrderChallengeResponseToJSONRecursive(value?: CancelOrderChalleng
 interface CancelOrderDecoupled {
     authMethod?: string;
     mode: CancelOrderDecoupledModeEnum;
+    reportingTag?: string;
 }
 
 // @public
@@ -1127,6 +1130,7 @@ type CancelOrderDecoupledModeEnum = (typeof CancelOrderDecoupledModeEnum)[keyof 
 // @public
 interface CancelOrderDecoupledSpecifics {
     authMethod?: string;
+    reportingTag?: string;
 }
 
 // @public (undocumented)
@@ -1333,6 +1337,7 @@ interface ChangeOrderParams {
     challengeId?: string;
     challengeResponse?: string;
     changes: OrderChanges;
+    reportingTag?: string;
 }
 
 // @public (undocumented)
@@ -1665,6 +1670,7 @@ interface ConfigurationParameters {
 // @public
 interface ConfirmOAuthParams {
     code: string;
+    reportingTag?: string | null;
     ticketId: string;
 }
 
@@ -1837,6 +1843,7 @@ function CreateGuestUserResponseToJSONRecursive(value?: CreateGuestUserResponse 
 // @public
 interface CreateModeSessionTan {
     mode: CreateModeSessionTanModeEnum;
+    reportingTag?: string;
 }
 
 // @public
@@ -1878,6 +1885,23 @@ const CreateModeSessionTanModeEnum: {
 // @public (undocumented)
 type CreateModeSessionTanModeEnum = (typeof CreateModeSessionTanModeEnum)[keyof typeof CreateModeSessionTanModeEnum];
 
+// @public
+interface CreateModeSessionTanSpecifics {
+    reportingTag?: string;
+}
+
+// @public (undocumented)
+function CreateModeSessionTanSpecificsFromJSON(json: any): CreateModeSessionTanSpecifics;
+
+// @public (undocumented)
+function CreateModeSessionTanSpecificsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateModeSessionTanSpecifics;
+
+// @public (undocumented)
+function CreateModeSessionTanSpecificsToJSON(value?: CreateModeSessionTanSpecifics | null): any;
+
+// @public (undocumented)
+function CreateModeSessionTanSpecificsToJSONRecursive(value?: CreateModeSessionTanSpecifics | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 function CreateModeSessionTanToJSON(value?: CreateModeSessionTan | null): any;
 
@@ -1910,6 +1934,7 @@ interface CreateOrderParams {
     challengeId?: string;
     challengeResponse?: string;
     order: OrderCreate;
+    reportingTag?: string;
 }
 
 // @public (undocumented)

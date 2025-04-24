@@ -55,6 +55,13 @@ export interface CancelOrderChallengeResponse {
    * @memberof CancelOrderChallengeResponse
    */
   challengeResponse: string;
+  /**
+   * An optional client-defined tag which will appear in order reports. Note that the number of tags is limited per client and
+   * if you use more tags, they will not be recorded.
+   * @type {string}
+   * @memberof CancelOrderChallengeResponse
+   */
+  reportingTag?: string;
 }
 
 /**
@@ -84,6 +91,9 @@ export function CancelOrderChallengeResponseFromJSONTyped(
     authMethod: !exists(json, "authMethod") ? undefined : json["authMethod"],
     challengeId: !exists(json, "challengeId") ? undefined : json["challengeId"],
     challengeResponse: json["challengeResponse"],
+    reportingTag: !exists(json, "reportingTag")
+      ? undefined
+      : json["reportingTag"],
   };
 }
 
@@ -103,6 +113,7 @@ export function CancelOrderChallengeResponseToJSONRecursive(
     authMethod: value.authMethod,
     challengeId: value.challengeId,
     challengeResponse: value.challengeResponse,
+    reportingTag: value.reportingTag,
   };
 }
 

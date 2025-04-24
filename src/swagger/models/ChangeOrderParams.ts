@@ -49,6 +49,13 @@ export interface ChangeOrderParams {
    * @memberof ChangeOrderParams
    */
   changes: OrderChanges;
+  /**
+   * An optional client-defined tag which will appear in order reports. Note that the number of tags is limited per client and
+   * if you use more tags, they will not be recorded.
+   * @type {string}
+   * @memberof ChangeOrderParams
+   */
+  reportingTag?: string;
 }
 
 export function ChangeOrderParamsFromJSON(json: any): ChangeOrderParams {
@@ -69,6 +76,9 @@ export function ChangeOrderParamsFromJSONTyped(
       ? undefined
       : json["challengeResponse"],
     changes: OrderChangesFromJSON(json["changes"]),
+    reportingTag: !exists(json, "reportingTag")
+      ? undefined
+      : json["reportingTag"],
   };
 }
 
@@ -88,6 +98,7 @@ export function ChangeOrderParamsToJSONRecursive(
     challengeId: value.challengeId,
     challengeResponse: value.challengeResponse,
     changes: OrderChangesToJSON(value.changes),
+    reportingTag: value.reportingTag,
   };
 }
 

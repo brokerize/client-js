@@ -29,6 +29,12 @@ export interface ConfirmOAuthParams {
    * @type {string}
    * @memberof ConfirmOAuthParams
    */
+  reportingTag?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof ConfirmOAuthParams
+   */
   ticketId: string;
 }
 
@@ -45,6 +51,9 @@ export function ConfirmOAuthParamsFromJSONTyped(
   }
   return {
     code: json["code"],
+    reportingTag: !exists(json, "reportingTag")
+      ? undefined
+      : json["reportingTag"],
     ticketId: json["ticketId"],
   };
 }
@@ -62,6 +71,7 @@ export function ConfirmOAuthParamsToJSONRecursive(
 
   return {
     code: value.code,
+    reportingTag: value.reportingTag,
     ticketId: value.ticketId,
   };
 }

@@ -56,6 +56,13 @@ export interface CreateOrderParams {
    * @memberof CreateOrderParams
    */
   order: OrderCreate;
+  /**
+   * An optional client-defined tag which will appear in order reports. Note that the number of tags is limited per client and
+   * if you use more tags, they will not be recorded.
+   * @type {string}
+   * @memberof CreateOrderParams
+   */
+  reportingTag?: string;
 }
 
 export function CreateOrderParamsFromJSON(json: any): CreateOrderParams {
@@ -79,6 +86,9 @@ export function CreateOrderParamsFromJSONTyped(
       ? undefined
       : json["challengeResponse"],
     order: OrderCreateFromJSON(json["order"]),
+    reportingTag: !exists(json, "reportingTag")
+      ? undefined
+      : json["reportingTag"],
   };
 }
 
@@ -99,6 +109,7 @@ export function CreateOrderParamsToJSONRecursive(
     challengeId: value.challengeId,
     challengeResponse: value.challengeResponse,
     order: OrderCreateToJSON(value.order),
+    reportingTag: value.reportingTag,
   };
 }
 
