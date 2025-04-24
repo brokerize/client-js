@@ -75,6 +75,7 @@ models/CreateClient200Response.ts
 models/CreateGuestUserResponse.ts
 models/CreateModeSessionTan.ts
 models/CreateModeSessionTanAllOf.ts
+models/CreateModeSessionTanSpecifics.ts
 models/CreateOrderChallengeParams.ts
 models/CreateOrderParams.ts
 models/CreateTanChallengeParams.ts

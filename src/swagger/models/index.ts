@@ -62,6 +62,7 @@ export * from "./CreateClient200Response";
 export * from "./CreateGuestUserResponse";
 export * from "./CreateModeSessionTan";
 export * from "./CreateModeSessionTanAllOf";
+export * from "./CreateModeSessionTanSpecifics";
 export * from "./CreateOrderChallengeParams";
 export * from "./CreateOrderParams";
 export * from "./CreateTanChallengeParams";

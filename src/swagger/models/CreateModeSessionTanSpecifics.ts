@@ -15,47 +15,40 @@ import { exists, mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CancelOrderDecoupledSpecifics
+ * @interface CreateModeSessionTanSpecifics
  */
-export interface CancelOrderDecoupledSpecifics {
-  /**
-   *
-   * @type {string}
-   * @memberof CancelOrderDecoupledSpecifics
-   */
-  authMethod?: string;
+export interface CreateModeSessionTanSpecifics {
   /**
    * An optional client-defined tag which will appear in order reports. Note that the number of tags is limited per client and
    * if you use more tags, they will not be recorded.
    * @type {string}
-   * @memberof CancelOrderDecoupledSpecifics
+   * @memberof CreateModeSessionTanSpecifics
    */
   reportingTag?: string;
 }
 
-export function CancelOrderDecoupledSpecificsFromJSON(
+export function CreateModeSessionTanSpecificsFromJSON(
   json: any
-): CancelOrderDecoupledSpecifics {
-  return CancelOrderDecoupledSpecificsFromJSONTyped(json, false);
+): CreateModeSessionTanSpecifics {
+  return CreateModeSessionTanSpecificsFromJSONTyped(json, false);
 }
 
-export function CancelOrderDecoupledSpecificsFromJSONTyped(
+export function CreateModeSessionTanSpecificsFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): CancelOrderDecoupledSpecifics {
+): CreateModeSessionTanSpecifics {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    authMethod: !exists(json, "authMethod") ? undefined : json["authMethod"],
     reportingTag: !exists(json, "reportingTag")
       ? undefined
       : json["reportingTag"],
   };
 }
 
-export function CancelOrderDecoupledSpecificsToJSONRecursive(
-  value?: CancelOrderDecoupledSpecifics | null,
+export function CreateModeSessionTanSpecificsToJSONRecursive(
+  value?: CreateModeSessionTanSpecifics | null,
   ignoreParent = false
 ): any {
   if (value === undefined) {
@@ -66,13 +59,12 @@ export function CancelOrderDecoupledSpecificsToJSONRecursive(
   }
 
   return {
-    authMethod: value.authMethod,
     reportingTag: value.reportingTag,
   };
 }
 
-export function CancelOrderDecoupledSpecificsToJSON(
-  value?: CancelOrderDecoupledSpecifics | null
+export function CreateModeSessionTanSpecificsToJSON(
+  value?: CreateModeSessionTanSpecifics | null
 ): any {
-  return CancelOrderDecoupledSpecificsToJSONRecursive(value, false);
+  return CreateModeSessionTanSpecificsToJSONRecursive(value, false);
 }

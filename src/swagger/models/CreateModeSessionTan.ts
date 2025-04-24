@@ -18,6 +18,12 @@ import {
   CreateModeSessionTanAllOfFromJSONTyped,
   CreateModeSessionTanAllOfToJSON,
 } from "./CreateModeSessionTanAllOf";
+import {
+  CreateModeSessionTanSpecifics,
+  CreateModeSessionTanSpecificsFromJSON,
+  CreateModeSessionTanSpecificsFromJSONTyped,
+  CreateModeSessionTanSpecificsToJSON,
+} from "./CreateModeSessionTanSpecifics";
 
 /**
  *
@@ -31,6 +37,13 @@ export interface CreateModeSessionTan {
    * @memberof CreateModeSessionTan
    */
   mode: CreateModeSessionTanModeEnum;
+  /**
+   * An optional client-defined tag which will appear in order reports. Note that the number of tags is limited per client and
+   * if you use more tags, they will not be recorded.
+   * @type {string}
+   * @memberof CreateModeSessionTan
+   */
+  reportingTag?: string;
 }
 
 /**
@@ -55,6 +68,9 @@ export function CreateModeSessionTanFromJSONTyped(
   }
   return {
     mode: json["mode"],
+    reportingTag: !exists(json, "reportingTag")
+      ? undefined
+      : json["reportingTag"],
   };
 }
 
@@ -71,6 +87,7 @@ export function CreateModeSessionTanToJSONRecursive(
 
   return {
     mode: value.mode,
+    reportingTag: value.reportingTag,
   };
 }
 

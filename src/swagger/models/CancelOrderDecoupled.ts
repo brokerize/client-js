@@ -43,6 +43,13 @@ export interface CancelOrderDecoupled {
    * @memberof CancelOrderDecoupled
    */
   authMethod?: string;
+  /**
+   * An optional client-defined tag which will appear in order reports. Note that the number of tags is limited per client and
+   * if you use more tags, they will not be recorded.
+   * @type {string}
+   * @memberof CancelOrderDecoupled
+   */
+  reportingTag?: string;
 }
 
 /**
@@ -68,6 +75,9 @@ export function CancelOrderDecoupledFromJSONTyped(
   return {
     mode: json["mode"],
     authMethod: !exists(json, "authMethod") ? undefined : json["authMethod"],
+    reportingTag: !exists(json, "reportingTag")
+      ? undefined
+      : json["reportingTag"],
   };
 }
 
@@ -85,6 +95,7 @@ export function CancelOrderDecoupledToJSONRecursive(
   return {
     mode: value.mode,
     authMethod: value.authMethod,
+    reportingTag: value.reportingTag,
   };
 }
 
