@@ -697,11 +697,7 @@ export class AuthorizedApiContext {
 
   private _initInternalWebSocketClient() {
     const basePath = this._cfg.basePath || "https://api-preview.brokerize.com";
-    const websocketPath =
-      (basePath.startsWith("https")
-        ? "wss://" + basePath.substring(8)
-        : "ws://" + basePath.substring(7)) + "/websocket";
-
+    const websocketPath = getWebSocketURLByBasePath(basePath);
     if (!this._cfg.createWebSocket) {
       throw new Error(
         "createWebSocket not provided. This should not happen as there should be a default implementation."
@@ -739,5 +735,17 @@ export class AuthorizedApiContext {
         s.unsubscribe();
       },
     };
+  }
+}
+
+function getWebSocketURLByBasePath(basePath: string) {
+  const SUFFIX = "/websocket";
+  if (basePath.startsWith("https")) {
+    return "wss://" + basePath.substring(8) + SUFFIX;
+  } else if (basePath.startsWith("http")) {
+    return "ws://" + basePath.substring(7) + SUFFIX;
+  } else {
+    // might be a relative path
+    return basePath + SUFFIX;
   }
 }
