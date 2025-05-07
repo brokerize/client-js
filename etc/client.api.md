@@ -502,8 +502,7 @@ function AuthMethodToJSON(value?: AuthMethod | null): any;
 
 // @public (undocumented)
 export class AuthorizedApiContext {
-    // Warning: (ae-forgotten-export) The symbol "BrokerizeWebSocketClientImpl" needs to be exported by the entry point index.d.ts
-    constructor(cfg: BrokerizeConfig, auth: Auth, wsClient?: BrokerizeWebSocketClientImpl);
+    constructor(cfg: BrokerizeConfig, auth: Auth, wsClient?: BrokerizeWebSocketClient);
     // (undocumented)
     addClientOAuthReturnToUrl(clientId: string, url: string): Promise<void>;
     // (undocumented)
@@ -787,7 +786,11 @@ function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, igno
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
     createAuth(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): Auth;
-    createAuthorizedContext(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): AuthorizedApiContext;
+    createAuthorizedContext(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback, customWebSocketClient?: BrokerizeWebSocketClient): AuthorizedApiContext;
+    createCustomWebSocketClient({ url, auth }: {
+        url?: string;
+        auth: Auth;
+    }): BrokerizeWebSocketClient;
     // (undocumented)
     createGuestUser(): Promise<AuthContextConfiguration>;
     // (undocumented)

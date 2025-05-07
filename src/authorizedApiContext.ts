@@ -43,7 +43,7 @@ export class AuthorizedApiContext {
   private _changeOrderApiCryptoService: openApiClient.ChangeOrderApi;
   private _logoutSubject: Subject<void>;
   private _childContexts: AuthorizedApiContext[];
-  private _wsClient: BrokerizeWebSocketClientImpl;
+  private _wsClient: BrokerizeWebSocketClient;
   private _cache: { getBrokers?: Promise<openApiClient.GetBrokersResponse> };
   private _exportApi: openApiClient.ExportApi;
   private _adminApi: openApiClient.AdminApi;
@@ -53,7 +53,7 @@ export class AuthorizedApiContext {
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
-    wsClient?: BrokerizeWebSocketClientImpl
+    wsClient?: BrokerizeWebSocketClient
   ) {
     this._cfg = cfg;
     this._auth = auth;
@@ -738,7 +738,7 @@ export class AuthorizedApiContext {
   }
 }
 
-function getWebSocketURLByBasePath(basePath: string) {
+export function getWebSocketURLByBasePath(basePath: string) {
   const SUFFIX = "/websocket";
   if (basePath.startsWith("https")) {
     return "wss://" + basePath.substring(8) + SUFFIX;

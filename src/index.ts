@@ -12,12 +12,16 @@ import {
   RegisteredUserAuthContextConfiguration,
   TokenSet,
 } from "./apiCtx";
-import { AuthorizedApiContext } from "./authorizedApiContext";
+import {
+  AuthorizedApiContext,
+  getWebSocketURLByBasePath,
+} from "./authorizedApiContext";
 import { BrokerizeError } from "./errors";
 import * as openApiClient from "./swagger";
 import * as Models from "./modelExports";
 import {
   BrokerizeWebSocketClient,
+  BrokerizeWebSocketClientImpl,
   Callback,
   Subscription,
 } from "./websocketClient";
@@ -111,12 +115,11 @@ export class Brokerize {
    */
   createAuthorizedContext(
     authCtxCfg: AuthContextConfiguration,
-    tokenRefreshCallback?: TokenRefreshCallback
+    tokenRefreshCallback?: TokenRefreshCallback,
+    customWebSocketClient?: BrokerizeWebSocketClient
   ) {
-    return new AuthorizedApiContext(
-      this._cfg,
-      this.createAuth(authCtxCfg, tokenRefreshCallback)
-    );
+    const auth = this.createAuth(authCtxCfg, tokenRefreshCallback);
+    return new AuthorizedApiContext(this._cfg, auth, customWebSocketClient);
   }
 
   getCognitoConfig(): CognitoPoolConfig | undefined {
@@ -144,6 +147,48 @@ export class Brokerize {
         cognitoFacade: this._cfg.cognito?.cognitoFacade,
       },
     });
+  }
+
+  /**
+   * Create a customized WebSocket client. You can override the WebSocket connection URL and the Auth implementation
+   * for a custom token retrieval behavior.
+   *
+   * Note that in most contexts this is not needed.
+   *
+   * If you want to use it, you should use the created client in your call to `createAuthorizedContext`, so that it
+   * is used by clients:
+   *
+   * ```
+   * const customWebSocketClient = Brokerize.createCustomWebSocketClient({ auth: { async getToken() {...} }});
+   * const authorizedApiCtx = Brokerize.createAuthorizedContext(authCtxCfg, tokenRefreshCallback, customWebSocketClient);
+   * ```
+   */
+  createCustomWebSocketClient({
+    url,
+    auth,
+  }: {
+    url?: string;
+    auth: Auth;
+  }): BrokerizeWebSocketClient {
+    if (!url?.length) {
+      const basePath =
+        this._cfg.basePath || "https://api-preview.brokerize.com";
+      url = getWebSocketURLByBasePath(basePath);
+    }
+    if (this._cfg.createWebSocket == null) {
+      throw new Error("createWebSocket must be configured");
+    }
+    if (!auth?.getToken) {
+      throw new Error(
+        "Auth implementation with getToken function must be provided"
+      );
+    }
+
+    return new BrokerizeWebSocketClientImpl(
+      url,
+      auth,
+      this._cfg.createWebSocket
+    );
   }
 }
 
