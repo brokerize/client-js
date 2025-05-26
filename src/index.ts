@@ -103,6 +103,13 @@ export class Brokerize {
       )}`,
     });
 
+    if (!response.ok) {
+      throw new BrokerizeError(401, {
+        msg: "The token could not be refreshed. Please log in again.",
+        code: "AUTH",
+      });
+    }
+
     const responseJson = (await response.json()) as {
       token_type: string;
       access_token: string;
