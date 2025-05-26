@@ -43,6 +43,19 @@ export interface TokenResponse {
    */
   refreshTokenExpiresIn: number;
   /**
+   * If applicable for the client configuration, another refresh token which does not have
+   * access to the current trading session. It can be used to acquire a new trading session.
+   * @type {string}
+   * @memberof TokenResponse
+   */
+  refreshTokenWithoutTradingsession?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof TokenResponse
+   */
+  refreshTokenWithoutTradingsessionExpiresIn?: number;
+  /**
    * token_type, it should always be "bearer"
    * @type {string}
    * @memberof TokenResponse
@@ -66,6 +79,18 @@ export function TokenResponseFromJSONTyped(
     expiresIn: json["expires_in"],
     refreshToken: json["refresh_token"],
     refreshTokenExpiresIn: json["refresh_token_expires_in"],
+    refreshTokenWithoutTradingsession: !exists(
+      json,
+      "refresh_token_without_tradingsession"
+    )
+      ? undefined
+      : json["refresh_token_without_tradingsession"],
+    refreshTokenWithoutTradingsessionExpiresIn: !exists(
+      json,
+      "refresh_token_without_tradingsession_expires_in"
+    )
+      ? undefined
+      : json["refresh_token_without_tradingsession_expires_in"],
     tokenType: json["token_type"],
   };
 }
@@ -86,6 +111,10 @@ export function TokenResponseToJSONRecursive(
     expires_in: value.expiresIn,
     refresh_token: value.refreshToken,
     refresh_token_expires_in: value.refreshTokenExpiresIn,
+    refresh_token_without_tradingsession:
+      value.refreshTokenWithoutTradingsession,
+    refresh_token_without_tradingsession_expires_in:
+      value.refreshTokenWithoutTradingsessionExpiresIn,
     token_type: value.tokenType,
   };
 }

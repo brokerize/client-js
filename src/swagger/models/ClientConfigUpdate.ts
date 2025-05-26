@@ -128,6 +128,16 @@ export interface ClientConfigUpdate {
    */
   guestUserLifetime?: GuestUserLifetime;
   /**
+   * If true, portfolios that have no active session usable by the current user token will
+   * be filtered from /portfolio/ endpoints. This is useful for applications that do not
+   * want to offer viewing data that is not from the currently logged in broker sessions.
+   *
+   * Default is false.
+   * @type {boolean}
+   * @memberof ClientConfigUpdate
+   */
+  hideOfflinePortfolios?: boolean;
+  /**
    *
    * @type {string}
    * @memberof ClientConfigUpdate
@@ -244,6 +254,9 @@ export function ClientConfigUpdateFromJSONTyped(
     guestUserLifetime: !exists(json, "guestUserLifetime")
       ? undefined
       : GuestUserLifetimeFromJSON(json["guestUserLifetime"]),
+    hideOfflinePortfolios: !exists(json, "hideOfflinePortfolios")
+      ? undefined
+      : json["hideOfflinePortfolios"],
     legalEntityName: !exists(json, "legalEntityName")
       ? undefined
       : json["legalEntityName"],
@@ -309,6 +322,7 @@ export function ClientConfigUpdateToJSONRecursive(
     enabled: value.enabled,
     guestUserInactivityTimeoutSeconds: value.guestUserInactivityTimeoutSeconds,
     guestUserLifetime: GuestUserLifetimeToJSON(value.guestUserLifetime),
+    hideOfflinePortfolios: value.hideOfflinePortfolios,
     legalEntityName: value.legalEntityName,
     maintenanceStatus: ClientConfigMaintenanceStatusToJSON(
       value.maintenanceStatus

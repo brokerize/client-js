@@ -16,8 +16,9 @@
  * @export
  */
 export const GuestUserLifetime = {
-  Day: "ONE_DAY",
-  Week: "ONE_WEEK",
+  OneDay: "ONE_DAY",
+  OneWeek: "ONE_WEEK",
+  Infinite: "INFINITE",
 } as const;
 export type GuestUserLifetime =
   (typeof GuestUserLifetime)[keyof typeof GuestUserLifetime];

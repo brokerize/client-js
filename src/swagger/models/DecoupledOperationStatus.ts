@@ -40,6 +40,13 @@ export interface DecoupledOperationStatus {
    */
   createdOrderId?: string;
   /**
+   * If this is `true`, clients may show a "cancel" button which triggers the `CancelDecoupledOperation` endpoint.
+   * Some brokers do not offer cancellation - in that case, do not call the endpoint.
+   * @type {boolean}
+   * @memberof DecoupledOperationStatus
+   */
+  isCancellable?: boolean;
+  /**
    *
    * @type {DecoupledOperationState}
    * @memberof DecoupledOperationStatus
@@ -70,6 +77,9 @@ export function DecoupledOperationStatusFromJSONTyped(
     createdOrderId: !exists(json, "createdOrderId")
       ? undefined
       : json["createdOrderId"],
+    isCancellable: !exists(json, "isCancellable")
+      ? undefined
+      : json["isCancellable"],
     state: DecoupledOperationStateFromJSON(json["state"]),
     text: !exists(json, "text") ? undefined : json["text"],
   };
@@ -88,6 +98,7 @@ export function DecoupledOperationStatusToJSONRecursive(
 
   return {
     createdOrderId: value.createdOrderId,
+    isCancellable: value.isCancellable,
     state: DecoupledOperationStateToJSON(value.state),
     text: value.text,
   };

@@ -204,6 +204,13 @@ export interface Order {
    */
   currentStop?: Amount;
   /**
+   * If this is true, it is possible to get more details about the order (usually execution details) by retrieving the order
+   * using the `GetOrder` endpoint.
+   * @type {boolean}
+   * @memberof Order
+   */
+  detailsCanBeEnhanced?: boolean;
+  /**
    *
    * @type {Direction}
    * @memberof Order
@@ -250,6 +257,7 @@ export interface Order {
    * If this is true, it is not possible to show a receipt for this order (this is the case if order data is incomplete in order lists).
    * @type {boolean}
    * @memberof Order
+   * @deprecated
    */
   hasNoOrderReceipt?: boolean;
   /**
@@ -545,6 +553,9 @@ export function OrderFromJSONTyped(
     currentStop: !exists(json, "currentStop")
       ? undefined
       : AmountFromJSON(json["currentStop"]),
+    detailsCanBeEnhanced: !exists(json, "detailsCanBeEnhanced")
+      ? undefined
+      : json["detailsCanBeEnhanced"],
     direction: DirectionFromJSON(json["direction"]),
     displayNo: !exists(json, "displayNo") ? undefined : json["displayNo"],
     exchangeId: !exists(json, "exchangeId") ? undefined : json["exchangeId"],
@@ -670,6 +681,7 @@ export function OrderToJSONRecursive(
     changesHaveCostEstimations: value.changesHaveCostEstimations,
     createdAt: value.createdAt.toISOString(),
     currentStop: AmountToJSON(value.currentStop),
+    detailsCanBeEnhanced: value.detailsCanBeEnhanced,
     direction: DirectionToJSON(value.direction),
     displayNo: value.displayNo,
     exchangeId: value.exchangeId,

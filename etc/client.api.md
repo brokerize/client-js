@@ -787,7 +787,7 @@ export class Brokerize {
     constructor(cfg: BrokerizeConfig);
     createAuth(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): Auth;
     createAuthorizedContext(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback, customWebSocketClient?: BrokerizeWebSocketClient): AuthorizedApiContext;
-    createCustomWebSocketClient({ url, auth }: {
+    createCustomWebSocketClient({ url, auth, }: {
         url?: string;
         auth: Auth;
     }): BrokerizeWebSocketClient;
@@ -1393,6 +1393,7 @@ interface ClientConfig {
     enabled: boolean;
     guestUserInactivityTimeoutSeconds?: number;
     guestUserLifetime?: GuestUserLifetime;
+    hideOfflinePortfolios?: boolean;
     legalEntityName: string;
     maintenanceStatus?: ClientConfigMaintenanceStatus | null;
     name: string;
@@ -1448,6 +1449,7 @@ interface ClientConfigUpdate {
     enabled?: boolean;
     guestUserInactivityTimeoutSeconds?: number | null;
     guestUserLifetime?: GuestUserLifetime;
+    hideOfflinePortfolios?: boolean;
     legalEntityName?: string;
     maintenanceStatus?: ClientConfigMaintenanceStatus | null;
     managingUserIds?: Array<number>;
@@ -1828,6 +1830,8 @@ interface CreateGuestUserResponse {
     idToken: string;
     refreshToken?: string;
     refreshTokenExpiresIn?: number;
+    refreshTokenWithoutTradingsession?: string;
+    refreshTokenWithoutTradingsessionExpiresIn?: number;
     tokenType: string;
 }
 
@@ -2062,6 +2066,7 @@ function DecoupledOperationStateToJSON(value?: DecoupledOperationState | null): 
 // @public
 interface DecoupledOperationStatus {
     createdOrderId?: string;
+    isCancellable?: boolean;
     state: DecoupledOperationState;
     text?: string;
 }
@@ -3935,8 +3940,9 @@ function GetUserResponseToJSONRecursive(value?: GetUserResponse | null, ignorePa
 
 // @public (undocumented)
 const GuestUserLifetime: {
-    readonly Day: "ONE_DAY";
-    readonly Week: "ONE_WEEK";
+    readonly OneDay: "ONE_DAY";
+    readonly OneWeek: "ONE_WEEK";
+    readonly Infinite: "INFINITE";
 };
 
 // @public (undocumented)
@@ -4529,6 +4535,7 @@ interface Order {
     changesHaveCostEstimations?: boolean;
     createdAt: Date;
     currentStop?: Amount;
+    detailsCanBeEnhanced?: boolean;
     direction: Direction;
     displayNo?: string;
     exchangeId?: number;
@@ -4536,6 +4543,7 @@ interface Order {
     executedAt?: Date;
     executedSize?: number;
     executions?: Array<OrderExecution>;
+    // @deprecated
     hasNoOrderReceipt?: boolean;
     id: string;
     ifDoneLimit?: number;
@@ -6239,6 +6247,8 @@ interface TokenResponse {
     expiresIn: number;
     refreshToken: string;
     refreshTokenExpiresIn: number;
+    refreshTokenWithoutTradingsession?: string;
+    refreshTokenWithoutTradingsessionExpiresIn?: number;
     tokenType: string;
 }
 

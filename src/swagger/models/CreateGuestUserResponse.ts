@@ -51,6 +51,20 @@ export interface CreateGuestUserResponse {
    */
   refreshTokenExpiresIn?: number;
   /**
+   * If applicable for the client configuration, another refresh token which does not have
+   * access to the current trading session. It can be used to acquire a new trading session, which will belong to the
+   * same user, but have separate active broker sessions.
+   * @type {string}
+   * @memberof CreateGuestUserResponse
+   */
+  refreshTokenWithoutTradingsession?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof CreateGuestUserResponse
+   */
+  refreshTokenWithoutTradingsessionExpiresIn?: number;
+  /**
    * The OAuth token_type. Currently always `"bearer"`.
    * @type {string}
    * @memberof CreateGuestUserResponse
@@ -81,6 +95,18 @@ export function CreateGuestUserResponseFromJSONTyped(
     refreshTokenExpiresIn: !exists(json, "refresh_token_expires_in")
       ? undefined
       : json["refresh_token_expires_in"],
+    refreshTokenWithoutTradingsession: !exists(
+      json,
+      "refresh_token_without_tradingsession"
+    )
+      ? undefined
+      : json["refresh_token_without_tradingsession"],
+    refreshTokenWithoutTradingsessionExpiresIn: !exists(
+      json,
+      "refresh_token_without_tradingsession_expires_in"
+    )
+      ? undefined
+      : json["refresh_token_without_tradingsession_expires_in"],
     tokenType: json["token_type"],
   };
 }
@@ -102,6 +128,10 @@ export function CreateGuestUserResponseToJSONRecursive(
     idToken: value.idToken,
     refresh_token: value.refreshToken,
     refresh_token_expires_in: value.refreshTokenExpiresIn,
+    refresh_token_without_tradingsession:
+      value.refreshTokenWithoutTradingsession,
+    refresh_token_without_tradingsession_expires_in:
+      value.refreshTokenWithoutTradingsessionExpiresIn,
     token_type: value.tokenType,
   };
 }
