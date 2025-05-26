@@ -11,6 +11,7 @@ import {
   createConfiguration,
   RegisteredUserAuthContextConfiguration,
   TokenSet,
+  GuestAuthContextConfiguration,
 } from "./apiCtx";
 import {
   AuthorizedApiContext,
@@ -85,6 +86,52 @@ export class Brokerize {
 
     this._cfg = cfg;
     this._defaultApi = new openApiClient.DefaultApi(createConfiguration(cfg));
+  }
+
+  async refreshGuestUser(
+    refreshToken: string
+  ): Promise<GuestAuthContextConfiguration> {
+    const response = await fetch(this._cfg.basePath + "/user/token", {
+      method: "POST",
+      headers: {
+        "x-brkrz-client-id": this._cfg.clientId,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      // XXX some runtimes do not have URLSearchParams, so just produce the body in the old-fashioned way
+      body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(
+        refreshToken
+      )}`,
+    });
+
+    const responseJson = (await response.json()) as {
+      token_type: string;
+      access_token: string;
+      expires_in: number | undefined;
+      refresh_token: any;
+      refresh_token_expires_in: number | undefined;
+      refresh_Token_without_tradingsession?: string;
+      refresh_token_without_tradingsession_expires_in?: number;
+    };
+
+    return {
+      type: "guest",
+      idToken: responseJson.access_token,
+      tokens: {
+        updatedAt: Date.now(),
+        response: {
+          accessToken: responseJson.access_token,
+          refreshToken: responseJson.refresh_token,
+          expiresIn: responseJson.expires_in,
+          tokenType: responseJson.token_type,
+          refreshTokenExpiresIn: responseJson.refresh_token_expires_in,
+          idToken: responseJson.access_token,
+          refreshTokenWithoutTradingsession:
+            responseJson.refresh_Token_without_tradingsession,
+          refreshTokenWithoutTradingsessionExpiresIn:
+            responseJson.refresh_token_without_tradingsession_expires_in,
+        },
+      },
+    };
   }
 
   async createGuestUser(): Promise<AuthContextConfiguration> {

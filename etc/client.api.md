@@ -795,6 +795,8 @@ export class Brokerize {
     createGuestUser(): Promise<AuthContextConfiguration>;
     // (undocumented)
     getCognitoConfig(): CognitoPoolConfig | undefined;
+    // (undocumented)
+    refreshGuestUser(refreshToken: string): Promise<GuestAuthContextConfiguration>;
 }
 
 // @public (undocumented)
