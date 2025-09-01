@@ -6163,7 +6163,9 @@ interface SummarizedTrade {
     openAvgQuotation: Amount;
     openDateTime: Date;
     profitLossAbs: Amount;
+    profitLossAbsAfterFees?: Amount;
     profitLossRel: number;
+    profitLossRelAfterFees?: number;
     security: Security;
     size: Amount;
     tax?: Amount;

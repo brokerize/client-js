@@ -81,10 +81,22 @@ export interface SummarizedTrade {
   profitLossAbs: Amount;
   /**
    *
+   * @type {Amount}
+   * @memberof SummarizedTrade
+   */
+  profitLossAbsAfterFees?: Amount;
+  /**
+   *
    * @type {number}
    * @memberof SummarizedTrade
    */
   profitLossRel: number;
+  /**
+   *
+   * @type {number}
+   * @memberof SummarizedTrade
+   */
+  profitLossRelAfterFees?: number;
   /**
    *
    * @type {Security}
@@ -137,7 +149,13 @@ export function SummarizedTradeFromJSONTyped(
     openAvgQuotation: AmountFromJSON(json["openAvgQuotation"]),
     openDateTime: new Date(json["openDateTime"]),
     profitLossAbs: AmountFromJSON(json["profitLossAbs"]),
+    profitLossAbsAfterFees: !exists(json, "profitLossAbsAfterFees")
+      ? undefined
+      : AmountFromJSON(json["profitLossAbsAfterFees"]),
     profitLossRel: json["profitLossRel"],
+    profitLossRelAfterFees: !exists(json, "profitLossRelAfterFees")
+      ? undefined
+      : json["profitLossRelAfterFees"],
     security: SecurityFromJSON(json["security"]),
     size: AmountFromJSON(json["size"]),
     tax: !exists(json, "tax") ? undefined : AmountFromJSON(json["tax"]),
@@ -170,7 +188,9 @@ export function SummarizedTradeToJSONRecursive(
     openAvgQuotation: AmountToJSON(value.openAvgQuotation),
     openDateTime: value.openDateTime.toISOString(),
     profitLossAbs: AmountToJSON(value.profitLossAbs),
+    profitLossAbsAfterFees: AmountToJSON(value.profitLossAbsAfterFees),
     profitLossRel: value.profitLossRel,
+    profitLossRelAfterFees: value.profitLossRelAfterFees,
     security: SecurityToJSON(value.security),
     size: AmountToJSON(value.size),
     tax: AmountToJSON(value.tax),
