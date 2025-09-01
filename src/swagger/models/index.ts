@@ -234,5 +234,6 @@ export * from "./TradeStatisticsDateRange";
 export * from "./TradeStatisticsHoldingPeriodInDays";
 export * from "./TradeStatisticsItem";
 export * from "./TradeWarning";
+export * from "./TradingSessionLifetime";
 export * from "./TrailingDistance";
 export * from "./ValidationDetail";

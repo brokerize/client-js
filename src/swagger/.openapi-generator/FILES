@@ -247,6 +247,7 @@ models/TradeStatisticsDateRange.ts
 models/TradeStatisticsHoldingPeriodInDays.ts
 models/TradeStatisticsItem.ts
 models/TradeWarning.ts
+models/TradingSessionLifetime.ts
 models/TrailingDistance.ts
 models/ValidationDetail.ts
 models/index.ts

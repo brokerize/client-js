@@ -54,6 +54,12 @@ import {
   GuestUserLifetimeFromJSONTyped,
   GuestUserLifetimeToJSON,
 } from "./GuestUserLifetime";
+import {
+  TradingSessionLifetime,
+  TradingSessionLifetimeFromJSON,
+  TradingSessionLifetimeFromJSONTyped,
+  TradingSessionLifetimeToJSON,
+} from "./TradingSessionLifetime";
 
 /**
  * A client configuration *update* (i.e. fields that are not modified can be left out).
@@ -203,6 +209,18 @@ export interface ClientConfigUpdate {
    * @memberof ClientConfigUpdate
    */
   reportingFlags?: Array<string>;
+  /**
+   *
+   * @type {number}
+   * @memberof ClientConfigUpdate
+   */
+  tradingSessionInactivityTimeoutSeconds?: number | null;
+  /**
+   *
+   * @type {TradingSessionLifetime}
+   * @memberof ClientConfigUpdate
+   */
+  tradingSessionLifetime?: TradingSessionLifetime;
 }
 
 export function ClientConfigUpdateFromJSON(json: any): ClientConfigUpdate {
@@ -293,6 +311,15 @@ export function ClientConfigUpdateFromJSONTyped(
     reportingFlags: !exists(json, "reportingFlags")
       ? undefined
       : json["reportingFlags"],
+    tradingSessionInactivityTimeoutSeconds: !exists(
+      json,
+      "tradingSessionInactivityTimeoutSeconds"
+    )
+      ? undefined
+      : json["tradingSessionInactivityTimeoutSeconds"],
+    tradingSessionLifetime: !exists(json, "tradingSessionLifetime")
+      ? undefined
+      : TradingSessionLifetimeFromJSON(json["tradingSessionLifetime"]),
   };
 }
 
@@ -340,6 +367,11 @@ export function ClientConfigUpdateToJSONRecursive(
       value.rateLimitPointsToConsume
     ),
     reportingFlags: value.reportingFlags,
+    tradingSessionInactivityTimeoutSeconds:
+      value.tradingSessionInactivityTimeoutSeconds,
+    tradingSessionLifetime: TradingSessionLifetimeToJSON(
+      value.tradingSessionLifetime
+    ),
   };
 }
 

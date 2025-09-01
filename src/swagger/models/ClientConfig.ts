@@ -36,6 +36,12 @@ import {
   OAuthLoginFormConfigFromJSONTyped,
   OAuthLoginFormConfigToJSON,
 } from "./OAuthLoginFormConfig";
+import {
+  TradingSessionLifetime,
+  TradingSessionLifetimeFromJSON,
+  TradingSessionLifetimeFromJSONTyped,
+  TradingSessionLifetimeToJSON,
+} from "./TradingSessionLifetime";
 
 /**
  * The client configuration as it appears in API endpoints.
@@ -156,6 +162,18 @@ export interface ClientConfig {
    * @memberof ClientConfig
    */
   reportingFlags?: Array<string>;
+  /**
+   *
+   * @type {number}
+   * @memberof ClientConfig
+   */
+  tradingSessionInactivityTimeoutSeconds?: number | null;
+  /**
+   *
+   * @type {TradingSessionLifetime}
+   * @memberof ClientConfig
+   */
+  tradingSessionLifetime?: TradingSessionLifetime;
 }
 
 export function ClientConfigFromJSON(json: any): ClientConfig {
@@ -213,6 +231,15 @@ export function ClientConfigFromJSONTyped(
     reportingFlags: !exists(json, "reportingFlags")
       ? undefined
       : json["reportingFlags"],
+    tradingSessionInactivityTimeoutSeconds: !exists(
+      json,
+      "tradingSessionInactivityTimeoutSeconds"
+    )
+      ? undefined
+      : json["tradingSessionInactivityTimeoutSeconds"],
+    tradingSessionLifetime: !exists(json, "tradingSessionLifetime")
+      ? undefined
+      : TradingSessionLifetimeFromJSON(json["tradingSessionLifetime"]),
   };
 }
 
@@ -251,6 +278,11 @@ export function ClientConfigToJSONRecursive(
     oAuthReturnToUrls: value.oAuthReturnToUrls,
     page: value.page,
     reportingFlags: value.reportingFlags,
+    tradingSessionInactivityTimeoutSeconds:
+      value.tradingSessionInactivityTimeoutSeconds,
+    tradingSessionLifetime: TradingSessionLifetimeToJSON(
+      value.tradingSessionLifetime
+    ),
   };
 }
 

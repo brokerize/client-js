@@ -97,6 +97,24 @@ export interface SummarizedTrade {
    * @memberof SummarizedTrade
    */
   size: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof SummarizedTrade
+   */
+  tax?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof SummarizedTrade
+   */
+  tradedVolume?: Amount;
+  /**
+   *
+   * @type {Amount}
+   * @memberof SummarizedTrade
+   */
+  transactionTax?: Amount;
 }
 
 export function SummarizedTradeFromJSON(json: any): SummarizedTrade {
@@ -122,6 +140,13 @@ export function SummarizedTradeFromJSONTyped(
     profitLossRel: json["profitLossRel"],
     security: SecurityFromJSON(json["security"]),
     size: AmountFromJSON(json["size"]),
+    tax: !exists(json, "tax") ? undefined : AmountFromJSON(json["tax"]),
+    tradedVolume: !exists(json, "tradedVolume")
+      ? undefined
+      : AmountFromJSON(json["tradedVolume"]),
+    transactionTax: !exists(json, "transactionTax")
+      ? undefined
+      : AmountFromJSON(json["transactionTax"]),
   };
 }
 
@@ -148,6 +173,9 @@ export function SummarizedTradeToJSONRecursive(
     profitLossRel: value.profitLossRel,
     security: SecurityToJSON(value.security),
     size: AmountToJSON(value.size),
+    tax: AmountToJSON(value.tax),
+    tradedVolume: AmountToJSON(value.tradedVolume),
+    transactionTax: AmountToJSON(value.transactionTax),
   };
 }
 

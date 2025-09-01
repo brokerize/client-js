@@ -1404,6 +1404,8 @@ interface ClientConfig {
     oAuthReturnToUrls: Array<string>;
     page: any | null;
     reportingFlags?: Array<string>;
+    tradingSessionInactivityTimeoutSeconds?: number | null;
+    tradingSessionLifetime?: TradingSessionLifetime;
 }
 
 // @public (undocumented)
@@ -1463,6 +1465,8 @@ interface ClientConfigUpdate {
     page?: ClientConfigUpdatePage | null;
     rateLimitPointsToConsume?: ClientConfigUpdateRateLimitPointsToConsume;
     reportingFlags?: Array<string>;
+    tradingSessionInactivityTimeoutSeconds?: number | null;
+    tradingSessionLifetime?: TradingSessionLifetime;
 }
 
 // @public (undocumented)
@@ -6162,6 +6166,9 @@ interface SummarizedTrade {
     profitLossRel: number;
     security: Security;
     size: Amount;
+    tax?: Amount;
+    tradedVolume?: Amount;
+    transactionTax?: Amount;
 }
 
 // @public (undocumented)
@@ -6502,6 +6509,24 @@ function TradeWarningToJSON(value?: TradeWarning | null): any;
 
 // @public (undocumented)
 function TradeWarningToJSONRecursive(value?: TradeWarning | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+const TradingSessionLifetime: {
+    readonly Day: "ONE_DAY";
+    readonly Week: "ONE_WEEK";
+};
+
+// @public (undocumented)
+type TradingSessionLifetime = (typeof TradingSessionLifetime)[keyof typeof TradingSessionLifetime];
+
+// @public (undocumented)
+function TradingSessionLifetimeFromJSON(json: any): TradingSessionLifetime;
+
+// @public (undocumented)
+function TradingSessionLifetimeFromJSONTyped(json: any, ignoreDiscriminator: boolean): TradingSessionLifetime;
+
+// @public (undocumented)
+function TradingSessionLifetimeToJSON(value?: TradingSessionLifetime | null): any;
 
 // @public
 interface TrailingDistance {
