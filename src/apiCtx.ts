@@ -82,11 +82,17 @@ export function createAuth({
     return {
       async getToken() {
         if (guestAuthCfg.tokens) {
+          let expiresIn = guestAuthCfg.tokens.response.expiresIn;
+          if (expiresIn == null) {
+            // eslint-disable-next-line no-console
+            console.log(
+              "[brokerize client] expiresIn is unexpectedly nullish. assuming 300 seconds"
+            );
+            expiresIn = 300;
+          }
           /* modern tokens */
           const tokenExpiresAt =
-            guestAuthCfg.tokens.updatedAt +
-            guestAuthCfg.tokens.response.expiresIn! * 1000 -
-            10000;
+            guestAuthCfg.tokens.updatedAt + expiresIn * 1000 - 10000;
           const needsRefresh = Date.now() > tokenExpiresAt;
           if (needsRefresh && guestAuthCfg.tokens.response.refreshToken) {
             if (!cfg.fetch) {

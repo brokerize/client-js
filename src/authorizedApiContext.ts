@@ -347,6 +347,12 @@ export class AuthorizedApiContext {
       await this._initRequestInit()
     );
   }
+  async getPortfolioCalendar(req: openApiClient.GetPortfolioCalendarRequest) {
+    return this._defaultApi.getPortfolioCalendar(
+      req,
+      await this._initRequestInit()
+    );
+  }
   async getPortfolioTradeWarnings(
     req: openApiClient.GetPortfolioTradeWarningsRequest
   ) {

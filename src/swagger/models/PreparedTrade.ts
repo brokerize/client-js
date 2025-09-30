@@ -88,8 +88,15 @@ export interface PreparedTrade {
    */
   costEstimationIsNotAvailable: boolean;
   /**
-   * If this is true, cost estimations only have the detailed table property, so it is not feasible
-   * to embed them into the order form, but show the table in a dedicated view.
+   * Indicates that this cost estimation does not include summary fields
+   * (e.g. `entryCosts`, `totalCosts`, etc.) and therefore cannot be rendered
+   * inline within the order form. Instead, only a detailed representation is available.
+   *
+   * Historically, this implied that only `detailedTable` would be provided
+   * (hence the flag name). However, in modern usage, `costDetailsLink` may be present instead.
+   *
+   * In that case, clients can render an action such as "Show detailed costs," which then loads the cost
+   * estimartion and either displays the `detailedTable` or navigates to the `costDetailsLink` URL.
    * @type {boolean}
    * @memberof PreparedTrade
    */

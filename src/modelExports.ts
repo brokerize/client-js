@@ -164,3 +164,6 @@ export { GetPortfolioTradesResponse } from "./swagger/models/GetPortfolioTradesR
 export { GetPortfolioTradeStatisticsResponse } from "./swagger/models/GetPortfolioTradeStatisticsResponse";
 export { TradeStatisticsItem } from "./swagger/models/TradeStatisticsItem";
 export { TradeStatistics } from "./swagger/models/TradeStatistics";
+export { GetPortfolioCalendarResponse } from "./swagger/models/GetPortfolioCalendarResponse";
+export { PortfolioCalendarDateRange } from "./swagger/models/PortfolioCalendarDateRange";
+export { PortfolioCalendarItem } from "./swagger/models/PortfolioCalendarItem";

@@ -148,6 +148,7 @@ models/GetAuthInfoResponse.ts
 models/GetBrokersResponse.ts
 models/GetCostEstimationParams.ts
 models/GetOrderResponse.ts
+models/GetPortfolioCalendarResponse.ts
 models/GetPortfolioOrdersResponse.ts
 models/GetPortfolioPositionsResponse.ts
 models/GetPortfolioQuotesResponse.ts
@@ -187,6 +188,8 @@ models/OrderValidityTypeByOrderModel.ts
 models/PageConfig.ts
 models/PagesConfigurationResponse.ts
 models/Portfolio.ts
+models/PortfolioCalendarDateRange.ts
+models/PortfolioCalendarItem.ts
 models/PortfolioQuotes.ts
 models/PortfolioSyncInfo.ts
 models/PortfolioSyncInfoComplete.ts

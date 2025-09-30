@@ -43,6 +43,9 @@ import {
   GetOrderResponse,
   GetOrderResponseFromJSON,
   GetOrderResponseToJSON,
+  GetPortfolioCalendarResponse,
+  GetPortfolioCalendarResponseFromJSON,
+  GetPortfolioCalendarResponseToJSON,
   GetPortfolioOrdersResponse,
   GetPortfolioOrdersResponseFromJSON,
   GetPortfolioOrdersResponseToJSON,
@@ -123,6 +126,11 @@ export interface GetDecoupledOperationStatusLegacyRequest {
 
 export interface GetOrderRequest {
   id: string;
+}
+
+export interface GetPortfolioCalendarRequest {
+  portfolioId: string;
+  dateRanges: string;
 }
 
 export interface GetPortfolioOrdersRequest {
@@ -962,6 +970,86 @@ export class DefaultApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<GetOrderResponse> {
     const response = await this.getOrderRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Retrieve \"by-day\" aggregated values for the selected date ranges.
+   */
+  async getPortfolioCalendarRaw(
+    requestParameters: GetPortfolioCalendarRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<GetPortfolioCalendarResponse>> {
+    if (
+      requestParameters.portfolioId === null ||
+      requestParameters.portfolioId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "portfolioId",
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioCalendar."
+      );
+    }
+
+    if (
+      requestParameters.dateRanges === null ||
+      requestParameters.dateRanges === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "dateRanges",
+        "Required parameter requestParameters.dateRanges was null or undefined when calling getPortfolioCalendar."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters.dateRanges !== undefined) {
+      queryParameters["dateRanges"] = requestParameters.dateRanges;
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/portfolios/{portfolioId}/calendar`.replace(
+          `{${"portfolioId"}}`,
+          encodeURIComponent(String(requestParameters.portfolioId))
+        ),
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetPortfolioCalendarResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Retrieve \"by-day\" aggregated values for the selected date ranges.
+   */
+  async getPortfolioCalendar(
+    requestParameters: GetPortfolioCalendarRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<GetPortfolioCalendarResponse> {
+    const response = await this.getPortfolioCalendarRaw(
+      requestParameters,
+      initOverrides
+    );
     return await response.value();
   }
 

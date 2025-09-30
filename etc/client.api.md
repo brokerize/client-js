@@ -598,6 +598,8 @@ export class AuthorizedApiContext {
         contentType: string | null;
     }>;
     // (undocumented)
+    getPortfolioCalendar(req: openApiClient.GetPortfolioCalendarRequest): Promise<openApiClient.GetPortfolioCalendarResponse>;
+    // (undocumented)
     getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest): Promise<openApiClient.GetPortfolioOrdersResponse>;
     // (undocumented)
     getPortfolioPositions(portfolioId: string): Promise<openApiClient.GetPortfolioPositionsResponse>;
@@ -2132,6 +2134,8 @@ class DefaultApi extends runtime.BaseAPI {
     getOrder(requestParameters: GetOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetOrderResponse>;
     // (undocumented)
     getOrderRaw(requestParameters: GetOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetOrderResponse>>;
+    getPortfolioCalendar(requestParameters: GetPortfolioCalendarRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioCalendarResponse>;
+    getPortfolioCalendarRaw(requestParameters: GetPortfolioCalendarRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioCalendarResponse>>;
     // (undocumented)
     getPortfolioOrders(requestParameters: GetPortfolioOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioOrdersResponse>;
     // (undocumented)
@@ -3684,6 +3688,31 @@ interface GetPagesConfigurationRequest {
 }
 
 // @public (undocumented)
+interface GetPortfolioCalendarRequest {
+    // (undocumented)
+    dateRanges: string;
+    // (undocumented)
+    portfolioId: string;
+}
+
+// @public
+interface GetPortfolioCalendarResponse {
+    data: Array<PortfolioCalendarDateRange>;
+}
+
+// @public (undocumented)
+function GetPortfolioCalendarResponseFromJSON(json: any): GetPortfolioCalendarResponse;
+
+// @public (undocumented)
+function GetPortfolioCalendarResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPortfolioCalendarResponse;
+
+// @public (undocumented)
+function GetPortfolioCalendarResponseToJSON(value?: GetPortfolioCalendarResponse | null): any;
+
+// @public (undocumented)
+function GetPortfolioCalendarResponseToJSONRecursive(value?: GetPortfolioCalendarResponse | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
 interface GetPortfolioOrdersRequest {
     // (undocumented)
     cryptoCode?: string;
@@ -4449,7 +4478,10 @@ declare namespace Models {
         GetPortfolioTradesResponse,
         GetPortfolioTradeStatisticsResponse,
         TradeStatisticsItem,
-        TradeStatistics
+        TradeStatistics,
+        GetPortfolioCalendarResponse,
+        PortfolioCalendarDateRange,
+        PortfolioCalendarItem
     }
 }
 export { Models }
@@ -4964,6 +4996,43 @@ interface Portfolio {
     sessionIds: Array<string>;
     syncInfo: PortfolioSyncInfo;
 }
+
+// @public
+interface PortfolioCalendarDateRange {
+    dateRange: TradeStatisticsDateRange;
+    items: Array<PortfolioCalendarItem>;
+}
+
+// @public (undocumented)
+function PortfolioCalendarDateRangeFromJSON(json: any): PortfolioCalendarDateRange;
+
+// @public (undocumented)
+function PortfolioCalendarDateRangeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioCalendarDateRange;
+
+// @public (undocumented)
+function PortfolioCalendarDateRangeToJSON(value?: PortfolioCalendarDateRange | null): any;
+
+// @public (undocumented)
+function PortfolioCalendarDateRangeToJSONRecursive(value?: PortfolioCalendarDateRange | null, ignoreParent?: boolean): any;
+
+// @public
+interface PortfolioCalendarItem {
+    date: string;
+    executionCount: number;
+    transactionVolume: Amount;
+}
+
+// @public (undocumented)
+function PortfolioCalendarItemFromJSON(json: any): PortfolioCalendarItem;
+
+// @public (undocumented)
+function PortfolioCalendarItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): PortfolioCalendarItem;
+
+// @public (undocumented)
+function PortfolioCalendarItemToJSON(value?: PortfolioCalendarItem | null): any;
+
+// @public (undocumented)
+function PortfolioCalendarItemToJSONRecursive(value?: PortfolioCalendarItem | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
 function PortfolioFromJSON(json: any): Portfolio;
