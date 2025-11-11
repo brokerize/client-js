@@ -140,6 +140,13 @@ export class AuthorizedApiContext {
     }
     this._abortController = cfg.createAbortController();
     this._wsClient = wsClient || this._initInternalWebSocketClient();
+    if (
+      (this._wsClient as BrokerizeWebSocketClientImpl)._setAuthorizedApiContext
+    ) {
+      (this._wsClient as BrokerizeWebSocketClientImpl)._setAuthorizedApiContext(
+        this
+      );
+    }
     this._cache = {};
   }
   createChildContext() {

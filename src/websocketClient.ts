@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import { Auth } from "./apiCtx";
+import { AuthorizedApiContext } from "./authorizedApiContext";
 import { WebSocket } from "./dependencyDefinitions/webSocket";
 import type {
   InvalidateMessage,
@@ -33,6 +35,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _fatalError: WebSocketError | null = null;
   private _lastNonFatalError: WebSocketError | null = null;
   private _errorCount = 0;
+  private _apiCtx: AuthorizedApiContext | null = null;
 
   constructor(
     websocketUrl: string,
@@ -58,7 +61,6 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     this._reconnectIntvl = setInterval(() => {
       if (!this._socket && this._shouldConnect()) {
         if (this._errorCount > 0) {
-          // eslint-disable-next-line no-console
           console.warn(
             LOG_PREFIX +
               "reconnecting. current error count is " +
@@ -115,6 +117,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       this._map[key] = {
         callbacks: [wrappedCb],
         idOnSocket: null,
+        interrupted: false,
       };
     } else {
       this._map[key].callbacks.push(wrappedCb);
@@ -187,8 +190,61 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       const cmd = JSON.parse(key) as WebSocketCommandSubscribe;
       cmd.subscriptionId = this._id;
       this._sendWs(cmd, true);
+
+      if (this._map[key].interrupted) {
+        this._map[key].interrupted = false;
+        this._fillInMessagesAfterConnectionInterruption(
+          cmd,
+          this._map[key].callbacks
+        );
+      }
     } else if (!this._socket) {
       this._connect();
+    }
+  }
+
+  private _fillInMessagesAfterConnectionInterruption(
+    cmd: WebSocketCommandSubscribe,
+    callbacks: Callback<any>[]
+  ) {
+    if (cmd.type == "invalidate") {
+      const assumedInvalidate: InvalidateMessage = {
+        cmd: "invalidate",
+        subscriptionId: cmd.subscriptionId,
+      }; // minimal invalidate
+      console.log(
+        LOG_PREFIX +
+          "connection was interrupted. filling in assumed invalidates that may have happened while socket was not available."
+      );
+      callbacks.forEach((cb) => cb(null, assumedInvalidate));
+    } else if (cmd.type == "decoupledOperationStatus") {
+      if (this._apiCtx) {
+        this._apiCtx
+          .getDecoupledOperationStatus({
+            decoupledOperationId: cmd.decoupledOperationId,
+          })
+          .then(
+            (status) => {
+              const invMsg: UpdateDecoupledOperationMessage = {
+                cmd: "updateDecoupledOperationStatus",
+                status: status,
+                subscriptionId: cmd.subscriptionId,
+              };
+              console.log(
+                LOG_PREFIX +
+                  "sending virtual decoupled operation status updates to subscribers due to connection interruption."
+              );
+              callbacks.forEach((cb) => cb(null, invMsg));
+            },
+            (err) => {
+              console.log(
+                err,
+                LOG_PREFIX +
+                  "could not retrieve status of decoupledOperation. ignoring it."
+              );
+            }
+          );
+      }
     }
   }
 
@@ -203,6 +259,14 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       );
       this._map[key].idOnSocket = null;
     }
+  }
+
+  /**
+   * Internal method for setting a related AuthorizedApiContext. This is used to retrieve
+   * decoupled operation status on interrupted connections.
+   */
+  _setAuthorizedApiContext(ctx: AuthorizedApiContext) {
+    this._apiCtx = ctx;
   }
 
   _startOrStopDisconnectTimeout() {
@@ -231,7 +295,6 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     if (this._socket?.readyState == 1) {
       this._socket?.send(JSON.stringify(data));
     } else {
-      // eslint-disable-next-line no-console
       console.log(
         LOG_PREFIX + "socket not ready, not sending message.",
         this._lastNonFatalError,
@@ -324,17 +387,18 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
           }
         },
         (err) => {
-          // eslint-disable-next-line no-console
           console.error(LOG_PREFIX + " connection failed", err);
         }
       );
     };
 
     this._socket.onclose = () => {
-      this._socket = null;
+      // mark all subscriptions interrupted so they can issue synthetic messages on reconnect
       for (const k in this._map) {
+        this._map[k].interrupted = true;
         this._endSubscription(k);
       }
+      this._socket = null;
     };
     this._pingIntvl && clearInterval(this._pingIntvl);
     this._pingIntvl = setInterval(() => {
@@ -385,7 +449,6 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       try {
         cb(this._fatalError, null);
       } catch (err) {
-        // eslint-disable-next-line no-console
         console.warn(LOG_PREFIX + "error in callback", err);
       }
     });
@@ -435,4 +498,9 @@ export type Subscription = {
 type SubscriptionEntry = {
   idOnSocket: number | null;
   callbacks: Callback[];
+  /**
+   * If a subscription was interrupted (socket offline period), this is tracked here in order
+   * to fill in messages.
+   */
+  interrupted: boolean;
 };
