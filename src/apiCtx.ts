@@ -125,7 +125,7 @@ export function createAuth({
               expires_in: number | undefined;
               refresh_token: any;
               refresh_token_expires_in: number | undefined;
-              refresh_Token_without_tradingsession?: string;
+              refresh_token_without_tradingsession?: string;
               refresh_token_without_tradingsession_expires_in?: number;
             };
 
@@ -141,7 +141,7 @@ export function createAuth({
                 refreshTokenExpiresIn: responseJson.refresh_token_expires_in,
                 idToken: responseJson.access_token,
                 refreshTokenWithoutTradingsession:
-                  responseJson.refresh_Token_without_tradingsession,
+                  responseJson.refresh_token_without_tradingsession,
                 refreshTokenWithoutTradingsessionExpiresIn:
                   responseJson.refresh_token_without_tradingsession_expires_in,
               },
