@@ -1405,6 +1405,7 @@ interface ClientConfig {
     oAuthReturnToRegularExpressions: Array<string>;
     oAuthReturnToUrls: Array<string>;
     page: any | null;
+    readonly?: boolean;
     reportingFlags?: Array<string>;
     tradingSessionInactivityTimeoutSeconds?: number | null;
     tradingSessionLifetime?: TradingSessionLifetime;
@@ -1466,6 +1467,7 @@ interface ClientConfigUpdate {
     optionalClientSecrets?: Array<string>;
     page?: ClientConfigUpdatePage | null;
     rateLimitPointsToConsume?: ClientConfigUpdateRateLimitPointsToConsume;
+    readonly?: boolean;
     reportingFlags?: Array<string>;
     tradingSessionInactivityTimeoutSeconds?: number | null;
     tradingSessionLifetime?: TradingSessionLifetime;

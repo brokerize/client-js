@@ -157,6 +157,12 @@ export interface ClientConfig {
    */
   page: any | null;
   /**
+   * If true, users of this client cannot create or change trades.
+   * @type {boolean}
+   * @memberof ClientConfig
+   */
+  readonly?: boolean;
+  /**
    * These flags are used in supporting the reporting logic
    * @type {Array<string>}
    * @memberof ClientConfig
@@ -228,6 +234,7 @@ export function ClientConfigFromJSONTyped(
     oAuthReturnToRegularExpressions: json["oAuthReturnToRegularExpressions"],
     oAuthReturnToUrls: json["oAuthReturnToUrls"],
     page: json["page"],
+    readonly: !exists(json, "readonly") ? undefined : json["readonly"],
     reportingFlags: !exists(json, "reportingFlags")
       ? undefined
       : json["reportingFlags"],
@@ -277,6 +284,7 @@ export function ClientConfigToJSONRecursive(
     oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
     oAuthReturnToUrls: value.oAuthReturnToUrls,
     page: value.page,
+    readonly: value.readonly,
     reportingFlags: value.reportingFlags,
     tradingSessionInactivityTimeoutSeconds:
       value.tradingSessionInactivityTimeoutSeconds,

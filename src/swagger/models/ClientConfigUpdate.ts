@@ -204,7 +204,13 @@ export interface ClientConfigUpdate {
    */
   rateLimitPointsToConsume?: ClientConfigUpdateRateLimitPointsToConsume;
   /**
-   * These flags are used in supporting the reporting logic
+   * If true, users of this client cannot create or change trades.
+   * @type {boolean}
+   * @memberof ClientConfigUpdate
+   */
+  readonly?: boolean;
+  /**
+   * These flags are used in supporting the reporting logic.
    * @type {Array<string>}
    * @memberof ClientConfigUpdate
    */
@@ -308,6 +314,7 @@ export function ClientConfigUpdateFromJSONTyped(
       : ClientConfigUpdateRateLimitPointsToConsumeFromJSON(
           json["rateLimitPointsToConsume"]
         ),
+    readonly: !exists(json, "readonly") ? undefined : json["readonly"],
     reportingFlags: !exists(json, "reportingFlags")
       ? undefined
       : json["reportingFlags"],
@@ -366,6 +373,7 @@ export function ClientConfigUpdateToJSONRecursive(
     rateLimitPointsToConsume: ClientConfigUpdateRateLimitPointsToConsumeToJSON(
       value.rateLimitPointsToConsume
     ),
+    readonly: value.readonly,
     reportingFlags: value.reportingFlags,
     tradingSessionInactivityTimeoutSeconds:
       value.tradingSessionInactivityTimeoutSeconds,
