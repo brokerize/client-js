@@ -64,6 +64,9 @@ import {
   GetUserResponse,
   GetUserResponseFromJSON,
   GetUserResponseToJSON,
+  LogoutOkResponseBody,
+  LogoutOkResponseBodyFromJSON,
+  LogoutOkResponseBodyToJSON,
   OkResponseBody,
   OkResponseBodyFromJSON,
   OkResponseBodyToJSON,
@@ -1655,7 +1658,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async logoutSessionRaw(
     requestParameters: LogoutSessionRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<runtime.ApiResponse<OkResponseBody>> {
+  ): Promise<runtime.ApiResponse<LogoutOkResponseBody>> {
     if (
       requestParameters.sessionId === null ||
       requestParameters.sessionId === undefined
@@ -1697,7 +1700,7 @@ export class DefaultApi extends runtime.BaseAPI {
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OkResponseBodyFromJSON(jsonValue)
+      LogoutOkResponseBodyFromJSON(jsonValue)
     );
   }
 
@@ -1707,7 +1710,7 @@ export class DefaultApi extends runtime.BaseAPI {
   async logoutSession(
     requestParameters: LogoutSessionRequest,
     initOverrides?: RequestInit | runtime.InitOverideFunction
-  ): Promise<OkResponseBody> {
+  ): Promise<LogoutOkResponseBody> {
     const response = await this.logoutSessionRaw(
       requestParameters,
       initOverrides

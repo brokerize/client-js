@@ -630,7 +630,7 @@ export class AuthorizedApiContext {
     // (undocumented)
     getUser(): Promise<openApiClient.GetUserResponse>;
     // (undocumented)
-    logoutSession(sessionId: string): Promise<openApiClient.OkResponseBody>;
+    logoutSession(sessionId: string): Promise<openApiClient.LogoutOkResponseBody>;
     // (undocumented)
     prepareOAuthRedirect(p: PrepareOAuthRedirectParams): Promise<openApiClient.PrepareOAuthRedirectResponse>;
     // (undocumented)
@@ -2166,8 +2166,8 @@ class DefaultApi extends runtime.BaseAPI {
     getSessionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<SessionResponse>>;
     getUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetUserResponse>;
     getUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetUserResponse>>;
-    logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
-    logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
+    logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LogoutOkResponseBody>;
+    logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LogoutOkResponseBody>>;
     obtainToken(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<TokenResponse>;
     obtainTokenRaw(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<TokenResponse>>;
     renamePortfolio(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
@@ -3959,6 +3959,7 @@ interface GetTradeDraftsRequest {
 
 // @public
 interface GetUserResponse {
+    createdAt: Date;
     isGuest: boolean;
     userId: string;
 }
@@ -4268,6 +4269,24 @@ function LoginResponseStateToJSON(value?: LoginResponseState | null): any;
 // @public (undocumented)
 function LoginResponseToJSON(value?: LoginResponse | null): any;
 
+// @public
+interface LogoutOkResponseBody {
+    frontendLogoutUrl?: string;
+    msg: string;
+}
+
+// @public (undocumented)
+function LogoutOkResponseBodyFromJSON(json: any): LogoutOkResponseBody;
+
+// @public (undocumented)
+function LogoutOkResponseBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): LogoutOkResponseBody;
+
+// @public (undocumented)
+function LogoutOkResponseBodyToJSON(value?: LogoutOkResponseBody | null): any;
+
+// @public (undocumented)
+function LogoutOkResponseBodyToJSONRecursive(value?: LogoutOkResponseBody | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface LogoutSessionRequest {
     // (undocumented)
@@ -4422,6 +4441,7 @@ declare namespace Models {
         LoginResponseState,
         MaintenanceStatus,
         OkResponseBody,
+        LogoutOkResponseBody,
         Order,
         OrderChanges,
         OrderCostEstimation,

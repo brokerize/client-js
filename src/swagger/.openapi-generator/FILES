@@ -169,6 +169,7 @@ models/LoginResponseReady.ts
 models/LoginResponseReadyAllOf.ts
 models/LoginResponseReadySpecifics.ts
 models/LoginResponseState.ts
+models/LogoutOkResponseBody.ts
 models/MaintenanceStatus.ts
 models/OAuthLoginFormConfig.ts
 models/OkResponseBody.ts

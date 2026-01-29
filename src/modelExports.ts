@@ -103,6 +103,7 @@ export { LoginResponseReady } from "./swagger/models/LoginResponseReady";
 export { LoginResponseState } from "./swagger/models/LoginResponseState";
 export { MaintenanceStatus } from "./swagger/models/MaintenanceStatus";
 export { OkResponseBody } from "./swagger/models/OkResponseBody";
+export { LogoutOkResponseBody } from "./swagger/models/LogoutOkResponseBody";
 export { Order } from "./swagger/models/Order";
 export { OrderChanges } from "./swagger/models/OrderChanges";
 export { OrderCostEstimation } from "./swagger/models/OrderCostEstimation";

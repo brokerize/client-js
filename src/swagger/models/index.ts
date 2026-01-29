@@ -156,6 +156,7 @@ export * from "./LoginResponseReady";
 export * from "./LoginResponseReadyAllOf";
 export * from "./LoginResponseReadySpecifics";
 export * from "./LoginResponseState";
+export * from "./LogoutOkResponseBody";
 export * from "./MaintenanceStatus";
 export * from "./OAuthLoginFormConfig";
 export * from "./OkResponseBody";
