@@ -1,17 +1,17 @@
 /* Import/Export the DOM parts we rely on. Those are partial copies from the official TypeScript DOM library definitions (https://github.com/microsoft/TypeScript/blob/master/lib/lib.dom.d.ts),
    but reduced to the parts actually used by bg-trading. */
 import {
+  Auth,
   AuthContextConfiguration,
   BrokerizeConfig,
   CognitoConfig,
   CognitoFacade,
   CognitoPoolConfig,
   createAuth,
-  Auth,
   createConfiguration,
+  GuestAuthContextConfiguration,
   RegisteredUserAuthContextConfiguration,
   TokenSet,
-  GuestAuthContextConfiguration,
 } from "./apiCtx";
 import {
   AuthorizedApiContext,
@@ -48,7 +48,7 @@ export { CognitoConfig, CognitoFacade };
 
 export class Brokerize {
   private _cfg: BrokerizeConfig;
-  private _defaultApi: openApiClient.DefaultApi;
+  private _userApi: openApiClient.UserApi;
 
   constructor(cfg: BrokerizeConfig) {
     if (!cfg.fetch) {
@@ -85,7 +85,7 @@ export class Brokerize {
     }
 
     this._cfg = cfg;
-    this._defaultApi = new openApiClient.DefaultApi(createConfiguration(cfg));
+    this._userApi = new openApiClient.UserApi(createConfiguration(cfg));
   }
 
   async refreshGuestUser(
@@ -143,7 +143,7 @@ export class Brokerize {
 
   async createGuestUser(): Promise<AuthContextConfiguration> {
     const updatedAt = Date.now();
-    const user = await this._defaultApi.createGuestUser({
+    const user = await this._userApi.createGuestUser({
       headers: {
         "x-brkrz-client-id": this._cfg.clientId,
         "Content-Type": "application/json",

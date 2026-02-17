@@ -5490,7 +5490,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["decoupledOperations"]
       },
       "get": {
         "operationId": "GetDecoupledOperationStatus",
@@ -5597,7 +5598,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["decoupledOperations"]
       }
     },
     "/demo/accounts": {
@@ -6312,7 +6314,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["order"]
       }
     },
     "/order/{id}/cancel": {
@@ -6475,7 +6478,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["cancelOrder"]
+        "tags": ["order"]
       }
     },
     "/order/{id}/cancelChallenge": {
@@ -6648,7 +6651,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["cancelOrder"]
+        "tags": ["order"]
       }
     },
     "/order/{id}/change": {
@@ -6811,7 +6814,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["changeOrder"]
+        "tags": ["order"]
       }
     },
     "/order/{id}/changeChallenge": {
@@ -6974,7 +6977,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["changeOrder"]
+        "tags": ["order"]
       }
     },
     "/order/{id}/changeCostEstimation": {
@@ -7137,7 +7140,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["changeOrder"]
+        "tags": ["order"]
       }
     },
     "/pages": {
@@ -7349,7 +7352,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}": {
@@ -7482,7 +7486,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/authinfo": {
@@ -7616,7 +7621,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/calendar": {
@@ -7759,7 +7765,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/orders": {
@@ -7982,7 +7989,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/positions": {
@@ -8115,7 +8123,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/quotes": {
@@ -8248,7 +8257,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/rename": {
@@ -8391,7 +8401,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/trades": {
@@ -8556,7 +8567,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/trades/statistics": {
@@ -8699,7 +8711,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/portfolios/{portfolioId}/trades/warnings": {
@@ -8835,7 +8848,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["portfolio"]
       }
     },
     "/securities/quotes/{securityQuotesToken}": {
@@ -9164,7 +9178,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["session"]
       },
       "post": {
         "operationId": "AddSession",
@@ -9334,7 +9349,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["brokerLogin"]
+        "tags": ["session"]
       }
     },
     "/sessions/completeLogin": {
@@ -9488,7 +9503,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["brokerLogin"]
+        "tags": ["session"]
       }
     },
     "/sessions/confirmOAuth": {
@@ -9631,7 +9646,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["brokerLogin"]
+        "tags": ["session"]
       }
     },
     "/sessions/prepareOAuthRedirect": {
@@ -9767,7 +9782,7 @@
             "cookieAuth": []
           }
         ],
-        "tags": ["brokerLogin"]
+        "tags": ["session"]
       }
     },
     "/sessions/{sessionId}": {
@@ -9877,7 +9892,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["session"]
       }
     },
     "/sessions/{sessionId}/decoupledOperation/{decoupledOperationId}": {
@@ -10007,7 +10023,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["session"]
       },
       "get": {
         "deprecated": true,
@@ -10124,7 +10141,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["session"]
       }
     },
     "/sessions/{sessionId}/sessiontan": {
@@ -10252,7 +10270,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["session"]
       },
       "post": {
         "operationId": "EnableSessionTan",
@@ -10393,7 +10412,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["session"]
       }
     },
     "/sessions/{sessionId}/sessiontanchallenge": {
@@ -10523,7 +10543,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["session"]
       }
     },
     "/sessions/{sessionId}/sync": {
@@ -10633,7 +10654,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["session"]
       }
     },
     "/sessions/{sessionId}/triggerSyncError": {
@@ -12398,7 +12420,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["user"]
       },
       "get": {
         "description": "Checks the provided authentication and returns the logged-in user.",
@@ -12479,7 +12502,8 @@
             "clientId": [],
             "cookieAuth": []
           }
-        ]
+        ],
+        "tags": ["user"]
       }
     },
     "/user/accessTokenAvailablePermissions": {
@@ -12820,7 +12844,8 @@
           {
             "clientId": []
           }
-        ]
+        ],
+        "tags": ["user"]
       }
     },
     "/user/token": {
@@ -12908,7 +12933,8 @@
           {
             "clientId": []
           }
-        ]
+        ],
+        "tags": ["user"]
       }
     },
     "/websocket": {
@@ -12919,7 +12945,8 @@
           "101": {
             "description": "Upgrading to WebSocket"
           }
-        }
+        },
+        "tags": ["websocket"]
       }
     }
   },
@@ -12927,6 +12954,10 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
+    },
+    {
+      "description": "This API instance",
+      "url": "http://localhost:3333"
     }
   ],
   "tags": [
@@ -12939,20 +12970,20 @@
       "name": "meta"
     },
     {
-      "description": "Requests that relate to cancelling open orders",
-      "name": "cancelOrder"
-    },
-    {
-      "description": "Requests that relate to changing open orders",
-      "name": "changeOrder"
+      "description": "Requests that relate to placed orders",
+      "name": "order"
     },
     {
       "description": "Requests that relate to creating a new order / trade",
       "name": "trade"
     },
     {
-      "description": "Requests that relate to adding a broker session to the user's account",
-      "name": "brokerLogin"
+      "description": "Requests that relate to sessions or session TANs. Logging in, creating a new session, deleting a session",
+      "name": "session"
+    },
+    {
+      "description": "Requests that relate to portfolios",
+      "name": "portfolio"
     },
     {
       "description": "Requests for managing brokerize API clients",
@@ -12965,6 +12996,10 @@
     {
       "description": "BETA FEATURE: requests for managing TradeDrafts. TradeDrafts can be generated by bots / trading scripts and are manually reviewed by the user before they are executed. This allows for a more secure trading experience, because the user can review the trades before they are executed.",
       "name": "tradeDraft"
+    },
+    {
+      "description": "Requests that relate to users",
+      "name": "user"
     }
   ]
 }

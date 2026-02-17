@@ -15,23 +15,27 @@ import * as runtime from "../runtime";
 import {
   AccessTokenResult,
   AccessTokenResultFromJSON,
-  AccessTokenResultToJSON,
   CreateAccessTokenParams,
-  CreateAccessTokenParamsFromJSON,
   CreateAccessTokenParamsToJSON,
-  ErrorResponse,
-  ErrorResponseFromJSON,
-  ErrorResponseToJSON,
+  CreateGuestUserResponse,
+  CreateGuestUserResponseFromJSON,
   GetAccessTokensResponse,
   GetAccessTokensResponseFromJSON,
-  GetAccessTokensResponseToJSON,
   GetAcessTokenAvailablePermissions200Response,
   GetAcessTokenAvailablePermissions200ResponseFromJSON,
-  GetAcessTokenAvailablePermissions200ResponseToJSON,
+  GetUserResponse,
+  GetUserResponseFromJSON,
+  TokenResponse,
+  TokenResponseFromJSON,
 } from "../models";
 
 export interface CreateAccessTokenRequest {
   createAccessTokenParams: CreateAccessTokenParams;
+}
+
+export interface ObtainTokenRequest {
+  grantType: string;
+  refreshToken: string;
 }
 
 export interface RevokeAccessTokenRequest {
@@ -108,6 +112,91 @@ export class UserApi extends runtime.BaseAPI {
       initOverrides
     );
     return await response.value();
+  }
+
+  /**
+   * Create a guest user and return a token which can be used to access resources.  The lifetime of the generated temporary user as well as the returned `access_token` depend on the client configuration. It is usually around 24 hours. For some clients, tokens can be expired earlier based on inactivity.  If the client has configured a longer lifetime for their guest users, a `refresh_token`  is included in the response. This token can be used to renew the `access_token` after it has expired.  The `refresh_token` can be used to obtain a new `access_token` after the original token has expired using the `/user/token` endpoint.
+   */
+  async createGuestUserRaw(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<CreateGuestUserResponse>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    const response = await this.request(
+      {
+        path: `/user/guest`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      CreateGuestUserResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Create a guest user and return a token which can be used to access resources.  The lifetime of the generated temporary user as well as the returned `access_token` depend on the client configuration. It is usually around 24 hours. For some clients, tokens can be expired earlier based on inactivity.  If the client has configured a longer lifetime for their guest users, a `refresh_token`  is included in the response. This token can be used to renew the `access_token` after it has expired.  The `refresh_token` can be used to obtain a new `access_token` after the original token has expired using the `/user/token` endpoint.
+   */
+  async createGuestUser(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<CreateGuestUserResponse> {
+    const response = await this.createGuestUserRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Delete the current user (only allowed if it is a guest account). Also logs out all active broker sessions attached to the user.
+   */
+  async deleteGuestUserRaw(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<void>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/user`,
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * Delete the current user (only allowed if it is a guest account). Also logs out all active broker sessions attached to the user.
+   */
+  async deleteGuestUser(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<void> {
+    await this.deleteGuestUserRaw(initOverrides);
   }
 
   /**
@@ -203,6 +292,144 @@ export class UserApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<GetAcessTokenAvailablePermissions200Response> {
     const response = await this.getAcessTokenAvailablePermissionsRaw(
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * Checks the provided authentication and returns the logged-in user.
+   */
+  async getUserRaw(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<GetUserResponse>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/user`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetUserResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Checks the provided authentication and returns the logged-in user.
+   */
+  async getUser(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<GetUserResponse> {
+    const response = await this.getUserRaw(initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Obtain a new access token using a refresh token as specified in https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4. If `CreateGuestUser` has provided a `refresh_token`, this endpoint may be used to obtain a new `access_token` after the original token has expired.
+   */
+  async obtainTokenRaw(
+    requestParameters: ObtainTokenRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<TokenResponse>> {
+    if (
+      requestParameters.grantType === null ||
+      requestParameters.grantType === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "grantType",
+        "Required parameter requestParameters.grantType was null or undefined when calling obtainToken."
+      );
+    }
+
+    if (
+      requestParameters.refreshToken === null ||
+      requestParameters.refreshToken === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "refreshToken",
+        "Required parameter requestParameters.refreshToken was null or undefined when calling obtainToken."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    const consumes: runtime.Consume[] = [
+      { contentType: "application/x-www-form-urlencoded" },
+    ];
+    // @ts-ignore: canConsumeForm may be unused
+    const canConsumeForm = runtime.canConsumeForm(consumes);
+
+    let formParams: { append(param: string, value: any): any };
+    let useForm = false;
+    if (useForm) {
+      formParams = new FormData();
+    } else {
+      throw new Error(
+        "URLSearchParams support has been dopped due to compatibility problems in mobile apps."
+      );
+    }
+
+    if (requestParameters.grantType !== undefined) {
+      formParams.append("grant_type", requestParameters.grantType as any);
+    }
+
+    if (requestParameters.refreshToken !== undefined) {
+      formParams.append("refresh_token", requestParameters.refreshToken as any);
+    }
+
+    const response = await this.request(
+      {
+        path: `/user/token`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: formParams,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      TokenResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Obtain a new access token using a refresh token as specified in https://datatracker.ietf.org/doc/html/rfc6749#section-4.1.4. If `CreateGuestUser` has provided a `refresh_token`, this endpoint may be used to obtain a new `access_token` after the original token has expired.
+   */
+  async obtainToken(
+    requestParameters: ObtainTokenRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<TokenResponse> {
+    const response = await this.obtainTokenRaw(
+      requestParameters,
       initOverrides
     );
     return await response.value();
