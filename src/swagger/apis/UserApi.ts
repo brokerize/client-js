@@ -15,27 +15,68 @@ import * as runtime from "../runtime";
 import {
   AccessTokenResult,
   AccessTokenResultFromJSON,
+  AccessTokenResultToJSON,
+  CheckRecoveryPhrase200Response,
+  CheckRecoveryPhrase200ResponseFromJSON,
+  CheckRecoveryPhrase200ResponseToJSON,
   CreateAccessTokenParams,
+  CreateAccessTokenParamsFromJSON,
   CreateAccessTokenParamsToJSON,
   CreateGuestUserResponse,
   CreateGuestUserResponseFromJSON,
+  CreateGuestUserResponseToJSON,
+  CreateRecoveryPhraseParams,
+  CreateRecoveryPhraseParamsFromJSON,
+  CreateRecoveryPhraseParamsToJSON,
+  CreateRecoveryPhraseResult,
+  CreateRecoveryPhraseResultFromJSON,
+  CreateRecoveryPhraseResultToJSON,
+  ErrorResponse,
+  ErrorResponseFromJSON,
+  ErrorResponseToJSON,
   GetAccessTokensResponse,
   GetAccessTokensResponseFromJSON,
+  GetAccessTokensResponseToJSON,
   GetAcessTokenAvailablePermissions200Response,
   GetAcessTokenAvailablePermissions200ResponseFromJSON,
+  GetAcessTokenAvailablePermissions200ResponseToJSON,
+  GetRecoveryPhrasesResponse,
+  GetRecoveryPhrasesResponseFromJSON,
+  GetRecoveryPhrasesResponseToJSON,
   GetUserResponse,
   GetUserResponseFromJSON,
+  GetUserResponseToJSON,
+  ObtainTokenByRecoveryPhraseParams,
+  ObtainTokenByRecoveryPhraseParamsFromJSON,
+  ObtainTokenByRecoveryPhraseParamsToJSON,
   TokenResponse,
   TokenResponseFromJSON,
+  TokenResponseToJSON,
 } from "../models";
+
+export interface CheckRecoveryPhraseRequest {
+  obtainTokenByRecoveryPhraseParams: ObtainTokenByRecoveryPhraseParams;
+}
 
 export interface CreateAccessTokenRequest {
   createAccessTokenParams: CreateAccessTokenParams;
 }
 
+export interface CreateRecoveryPhraseRequest {
+  createRecoveryPhraseParams: CreateRecoveryPhraseParams;
+}
+
+export interface DeleteRecoveryPhraseRequest {
+  recoveryPhraseId: string;
+}
+
 export interface ObtainTokenRequest {
   grantType: string;
   refreshToken: string;
+}
+
+export interface ObtainTokenByRecoveryPhraseRequest {
+  obtainTokenByRecoveryPhraseParams: ObtainTokenByRecoveryPhraseParams;
 }
 
 export interface RevokeAccessTokenRequest {
@@ -46,6 +87,66 @@ export interface RevokeAccessTokenRequest {
  *
  */
 export class UserApi extends runtime.BaseAPI {
+  /**
+   * Check if the RecoveryPhrase is still valid without obtaining a new token set. This can be used in frontends when users are asked if they still have their RecoveryPhrase.
+   */
+  async checkRecoveryPhraseRaw(
+    requestParameters: CheckRecoveryPhraseRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<CheckRecoveryPhrase200Response>> {
+    if (
+      requestParameters.obtainTokenByRecoveryPhraseParams === null ||
+      requestParameters.obtainTokenByRecoveryPhraseParams === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "obtainTokenByRecoveryPhraseParams",
+        "Required parameter requestParameters.obtainTokenByRecoveryPhraseParams was null or undefined when calling checkRecoveryPhrase."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    const response = await this.request(
+      {
+        path: `/user/recoveryPhrases/check`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: ObtainTokenByRecoveryPhraseParamsToJSON(
+          requestParameters.obtainTokenByRecoveryPhraseParams
+        ),
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      CheckRecoveryPhrase200ResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Check if the RecoveryPhrase is still valid without obtaining a new token set. This can be used in frontends when users are asked if they still have their RecoveryPhrase.
+   */
+  async checkRecoveryPhrase(
+    requestParameters: CheckRecoveryPhraseRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<CheckRecoveryPhrase200Response> {
+    const response = await this.checkRecoveryPhraseRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
   /**
    * Create a token for the current user. The token can be used to access resources on behalf of the user.
    */
@@ -155,6 +256,74 @@ export class UserApi extends runtime.BaseAPI {
   }
 
   /**
+   * Create a RecoveryPhrase for the current guest user.  The brokerize backend uses RecoveryPhrases instead of email + password registration or similar approaches, which can never be guaranteed to be anonymous.  Users can simply generate a RecoveryPhrase and save it in a password manager, memorize it or write it down in a safe location.  The BIP39 word list known from Bitcoins is used to encode a cryptographically safe random token and allows access to the account later (see endpoint `ObtainTokenFromRecoveryPhrase`).
+   */
+  async createRecoveryPhraseRaw(
+    requestParameters: CreateRecoveryPhraseRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<CreateRecoveryPhraseResult>> {
+    if (
+      requestParameters.createRecoveryPhraseParams === null ||
+      requestParameters.createRecoveryPhraseParams === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "createRecoveryPhraseParams",
+        "Required parameter requestParameters.createRecoveryPhraseParams was null or undefined when calling createRecoveryPhrase."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/user/recoveryPhrases`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: CreateRecoveryPhraseParamsToJSON(
+          requestParameters.createRecoveryPhraseParams
+        ),
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      CreateRecoveryPhraseResultFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Create a RecoveryPhrase for the current guest user.  The brokerize backend uses RecoveryPhrases instead of email + password registration or similar approaches, which can never be guaranteed to be anonymous.  Users can simply generate a RecoveryPhrase and save it in a password manager, memorize it or write it down in a safe location.  The BIP39 word list known from Bitcoins is used to encode a cryptographically safe random token and allows access to the account later (see endpoint `ObtainTokenFromRecoveryPhrase`).
+   */
+  async createRecoveryPhrase(
+    requestParameters: CreateRecoveryPhraseRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<CreateRecoveryPhraseResult> {
+    const response = await this.createRecoveryPhraseRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
    * Delete the current user (only allowed if it is a guest account). Also logs out all active broker sessions attached to the user.
    */
   async deleteGuestUserRaw(
@@ -197,6 +366,66 @@ export class UserApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<void> {
     await this.deleteGuestUserRaw(initOverrides);
+  }
+
+  /**
+   * Delete the RecoveryPhrase from the account.
+   */
+  async deleteRecoveryPhraseRaw(
+    requestParameters: DeleteRecoveryPhraseRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<void>> {
+    if (
+      requestParameters.recoveryPhraseId === null ||
+      requestParameters.recoveryPhraseId === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "recoveryPhraseId",
+        "Required parameter requestParameters.recoveryPhraseId was null or undefined when calling deleteRecoveryPhrase."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/user/recoveryPhrases/{recoveryPhraseId}`.replace(
+          `{${"recoveryPhraseId"}}`,
+          encodeURIComponent(String(requestParameters.recoveryPhraseId))
+        ),
+        method: "DELETE",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.VoidApiResponse(response);
+  }
+
+  /**
+   * Delete the RecoveryPhrase from the account.
+   */
+  async deleteRecoveryPhrase(
+    requestParameters: DeleteRecoveryPhraseRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<void> {
+    await this.deleteRecoveryPhraseRaw(requestParameters, initOverrides);
   }
 
   /**
@@ -294,6 +523,54 @@ export class UserApi extends runtime.BaseAPI {
     const response = await this.getAcessTokenAvailablePermissionsRaw(
       initOverrides
     );
+    return await response.value();
+  }
+
+  /**
+   * Lists all the recoveryPhrases metadata the user has in their account.
+   */
+  async getRecoveryPhrasesRaw(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<GetRecoveryPhrasesResponse>> {
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("idToken", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    const response = await this.request(
+      {
+        path: `/user/recoveryPhrases`,
+        method: "GET",
+        headers: headerParameters,
+        query: queryParameters,
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetRecoveryPhrasesResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Lists all the recoveryPhrases metadata the user has in their account.
+   */
+  async getRecoveryPhrases(
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<GetRecoveryPhrasesResponse> {
+    const response = await this.getRecoveryPhrasesRaw(initOverrides);
     return await response.value();
   }
 
@@ -429,6 +706,66 @@ export class UserApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverideFunction
   ): Promise<TokenResponse> {
     const response = await this.obtainTokenRaw(
+      requestParameters,
+      initOverrides
+    );
+    return await response.value();
+  }
+
+  /**
+   * Obtain a new access and refresh token set by a RecoveryPhrase. The new set also contains a refresh_token etc, so it can then be used just like the tokens obtained from the `ObtainToken` endpoint.  This also creates a new `trading_session`, as RecoveryPhrases never allow access to an existing trading_session.
+   */
+  async obtainTokenByRecoveryPhraseRaw(
+    requestParameters: ObtainTokenByRecoveryPhraseRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<runtime.ApiResponse<TokenResponse>> {
+    if (
+      requestParameters.obtainTokenByRecoveryPhraseParams === null ||
+      requestParameters.obtainTokenByRecoveryPhraseParams === undefined
+    ) {
+      throw new runtime.RequiredError(
+        "obtainTokenByRecoveryPhraseParams",
+        "Required parameter requestParameters.obtainTokenByRecoveryPhraseParams was null or undefined when calling obtainTokenByRecoveryPhrase."
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-brkrz-client-id"] =
+        this.configuration.apiKey("x-brkrz-client-id"); // clientId authentication
+    }
+
+    const response = await this.request(
+      {
+        path: `/user/recoveryPhrases/token`,
+        method: "POST",
+        headers: headerParameters,
+        query: queryParameters,
+        body: ObtainTokenByRecoveryPhraseParamsToJSON(
+          requestParameters.obtainTokenByRecoveryPhraseParams
+        ),
+      },
+      initOverrides
+    );
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      TokenResponseFromJSON(jsonValue)
+    );
+  }
+
+  /**
+   * Obtain a new access and refresh token set by a RecoveryPhrase. The new set also contains a refresh_token etc, so it can then be used just like the tokens obtained from the `ObtainToken` endpoint.  This also creates a new `trading_session`, as RecoveryPhrases never allow access to an existing trading_session.
+   */
+  async obtainTokenByRecoveryPhrase(
+    requestParameters: ObtainTokenByRecoveryPhraseRequest,
+    initOverrides?: RequestInit | runtime.InitOverideFunction
+  ): Promise<TokenResponse> {
+    const response = await this.obtainTokenByRecoveryPhraseRaw(
       requestParameters,
       initOverrides
     );

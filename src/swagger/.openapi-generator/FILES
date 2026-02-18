@@ -60,6 +60,7 @@ models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
 models/ChangeOrderResponse.ts
+models/CheckRecoveryPhrase200Response.ts
 models/ClientConfig.ts
 models/ClientConfigMaintenanceStatus.ts
 models/ClientConfigUpdate.ts
@@ -79,6 +80,8 @@ models/CreateModeSessionTanAllOf.ts
 models/CreateModeSessionTanSpecifics.ts
 models/CreateOrderChallengeParams.ts
 models/CreateOrderParams.ts
+models/CreateRecoveryPhraseParams.ts
+models/CreateRecoveryPhraseResult.ts
 models/CreateTanChallengeParams.ts
 models/CreateTradeDrafts200Response.ts
 models/CreateTradeResponse.ts
@@ -157,6 +160,7 @@ models/GetPortfolioTradeStatisticsResponse.ts
 models/GetPortfolioTradesResponse.ts
 models/GetQuoteParams.ts
 models/GetQuoteResponse.ts
+models/GetRecoveryPhrasesResponse.ts
 models/GetUserResponse.ts
 models/GuestUserLifetime.ts
 models/Hint.ts
@@ -173,6 +177,7 @@ models/LoginResponseState.ts
 models/LogoutOkResponseBody.ts
 models/MaintenanceStatus.ts
 models/OAuthLoginFormConfig.ts
+models/ObtainTokenByRecoveryPhraseParams.ts
 models/OkResponseBody.ts
 models/Order.ts
 models/OrderChanges.ts
@@ -214,6 +219,7 @@ models/PrepareOAuthRedirectResponse.ts
 models/PrepareTradeResponse.ts
 models/PreparedTrade.ts
 models/QuoteExpiration.ts
+models/RecoveryPhraseItem.ts
 models/RenamePortfolioRequest.ts
 models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts

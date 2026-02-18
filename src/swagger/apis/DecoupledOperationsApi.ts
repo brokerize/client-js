@@ -15,6 +15,10 @@ import * as runtime from "../runtime";
 import {
   DecoupledOperationStatus,
   DecoupledOperationStatusFromJSON,
+  DecoupledOperationStatusToJSON,
+  ErrorResponse,
+  ErrorResponseFromJSON,
+  ErrorResponseToJSON,
 } from "../models";
 
 export interface CancelDecoupledOperationRequest {

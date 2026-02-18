@@ -1353,6 +1353,29 @@ function ChangeOrderResponseToJSON(value?: ChangeOrderResponse | null): any;
 function ChangeOrderResponseToJSONRecursive(value?: ChangeOrderResponse | null, ignoreParent?: boolean): any;
 
 // @public
+interface CheckRecoveryPhrase200Response {
+    expiresAt: Date;
+}
+
+// @public (undocumented)
+function CheckRecoveryPhrase200ResponseFromJSON(json: any): CheckRecoveryPhrase200Response;
+
+// @public (undocumented)
+function CheckRecoveryPhrase200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CheckRecoveryPhrase200Response;
+
+// @public (undocumented)
+function CheckRecoveryPhrase200ResponseToJSON(value?: CheckRecoveryPhrase200Response | null): any;
+
+// @public (undocumented)
+function CheckRecoveryPhrase200ResponseToJSONRecursive(value?: CheckRecoveryPhrase200Response | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CheckRecoveryPhraseRequest {
+    // (undocumented)
+    obtainTokenByRecoveryPhraseParams: ObtainTokenByRecoveryPhraseParams;
+}
+
+// @public
 interface ClientConfig {
     allowedOrigins: Array<string>;
     allowedOriginsRegularExpressions?: Array<string>;
@@ -1934,6 +1957,46 @@ function CreateOrderParamsToJSON(value?: CreateOrderParams | null): any;
 // @public (undocumented)
 function CreateOrderParamsToJSONRecursive(value?: CreateOrderParams | null, ignoreParent?: boolean): any;
 
+// @public
+interface CreateRecoveryPhraseParams {
+    name: string;
+}
+
+// @public (undocumented)
+function CreateRecoveryPhraseParamsFromJSON(json: any): CreateRecoveryPhraseParams;
+
+// @public (undocumented)
+function CreateRecoveryPhraseParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateRecoveryPhraseParams;
+
+// @public (undocumented)
+function CreateRecoveryPhraseParamsToJSON(value?: CreateRecoveryPhraseParams | null): any;
+
+// @public (undocumented)
+function CreateRecoveryPhraseParamsToJSONRecursive(value?: CreateRecoveryPhraseParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CreateRecoveryPhraseRequest {
+    // (undocumented)
+    createRecoveryPhraseParams: CreateRecoveryPhraseParams;
+}
+
+// @public
+interface CreateRecoveryPhraseResult {
+    recoveryPhrase: string;
+}
+
+// @public (undocumented)
+function CreateRecoveryPhraseResultFromJSON(json: any): CreateRecoveryPhraseResult;
+
+// @public (undocumented)
+function CreateRecoveryPhraseResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateRecoveryPhraseResult;
+
+// @public (undocumented)
+function CreateRecoveryPhraseResultToJSON(value?: CreateRecoveryPhraseResult | null): any;
+
+// @public (undocumented)
+function CreateRecoveryPhraseResultToJSONRecursive(value?: CreateRecoveryPhraseResult | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface CreateSessionTanChallengeRequest {
     // (undocumented)
@@ -2127,6 +2190,12 @@ interface DeleteDemoAccountRequest {
 interface DeletePortfolioRequest {
     // (undocumented)
     portfolioId: string;
+}
+
+// @public (undocumented)
+interface DeleteRecoveryPhraseRequest {
+    // (undocumented)
+    recoveryPhraseId: string;
 }
 
 // @public (undocumented)
@@ -3830,6 +3899,23 @@ function GetQuoteResponseToJSON(value?: GetQuoteResponse | null): any;
 // @public (undocumented)
 function GetQuoteResponseToJSONRecursive(value?: GetQuoteResponse | null, ignoreParent?: boolean): any;
 
+// @public
+interface GetRecoveryPhrasesResponse {
+    recoveryPhrases: Array<RecoveryPhraseItem>;
+}
+
+// @public (undocumented)
+function GetRecoveryPhrasesResponseFromJSON(json: any): GetRecoveryPhrasesResponse;
+
+// @public (undocumented)
+function GetRecoveryPhrasesResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetRecoveryPhrasesResponse;
+
+// @public (undocumented)
+function GetRecoveryPhrasesResponseToJSON(value?: GetRecoveryPhrasesResponse | null): any;
+
+// @public (undocumented)
+function GetRecoveryPhrasesResponseToJSONRecursive(value?: GetRecoveryPhrasesResponse | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface GetSecurityDetailedInfoRequest {
     // (undocumented)
@@ -4450,6 +4536,29 @@ function OAuthLoginFormConfigToJSON(value?: OAuthLoginFormConfig | null): any;
 
 // @public (undocumented)
 function OAuthLoginFormConfigToJSONRecursive(value?: OAuthLoginFormConfig | null, ignoreParent?: boolean): any;
+
+// @public
+interface ObtainTokenByRecoveryPhraseParams {
+    recoveryPhrase: string;
+}
+
+// @public (undocumented)
+function ObtainTokenByRecoveryPhraseParamsFromJSON(json: any): ObtainTokenByRecoveryPhraseParams;
+
+// @public (undocumented)
+function ObtainTokenByRecoveryPhraseParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObtainTokenByRecoveryPhraseParams;
+
+// @public (undocumented)
+function ObtainTokenByRecoveryPhraseParamsToJSON(value?: ObtainTokenByRecoveryPhraseParams | null): any;
+
+// @public (undocumented)
+function ObtainTokenByRecoveryPhraseParamsToJSONRecursive(value?: ObtainTokenByRecoveryPhraseParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface ObtainTokenByRecoveryPhraseRequest {
+    // (undocumented)
+    obtainTokenByRecoveryPhraseParams: ObtainTokenByRecoveryPhraseParams;
+}
 
 // @public (undocumented)
 interface ObtainTokenRequest {
@@ -5559,6 +5668,27 @@ function QuoteExpirationToJSON(value?: QuoteExpiration | null): any;
 // @public (undocumented)
 function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent?: boolean): any;
 
+// @public
+interface RecoveryPhraseItem {
+    createdAt: Date;
+    expiresAt: Date;
+    id: string;
+    lastUsedAt: Date;
+    name: string;
+}
+
+// @public (undocumented)
+function RecoveryPhraseItemFromJSON(json: any): RecoveryPhraseItem;
+
+// @public (undocumented)
+function RecoveryPhraseItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): RecoveryPhraseItem;
+
+// @public (undocumented)
+function RecoveryPhraseItemToJSON(value?: RecoveryPhraseItem | null): any;
+
+// @public (undocumented)
+function RecoveryPhraseItemToJSONRecursive(value?: RecoveryPhraseItem | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 export type RegisteredUserAuthContextConfiguration = {
     type: "registered";
@@ -6667,21 +6797,31 @@ interface UpdateTradeDraftRequest {
 
 // @public (undocumented)
 class UserApi extends runtime.BaseAPI {
+    checkRecoveryPhrase(requestParameters: CheckRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CheckRecoveryPhrase200Response>;
+    checkRecoveryPhraseRaw(requestParameters: CheckRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CheckRecoveryPhrase200Response>>;
     createAccessToken(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<AccessTokenResult>;
     createAccessTokenRaw(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<AccessTokenResult>>;
     createGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateGuestUserResponse>;
     createGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateGuestUserResponse>>;
+    createRecoveryPhrase(requestParameters: CreateRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateRecoveryPhraseResult>;
+    createRecoveryPhraseRaw(requestParameters: CreateRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateRecoveryPhraseResult>>;
     deleteGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     deleteGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    deleteRecoveryPhrase(requestParameters: DeleteRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deleteRecoveryPhraseRaw(requestParameters: DeleteRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     // (undocumented)
     getAccessTokens(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAccessTokensResponse>;
     // (undocumented)
     getAccessTokensRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAccessTokensResponse>>;
     getAcessTokenAvailablePermissions(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAcessTokenAvailablePermissions200Response>;
     getAcessTokenAvailablePermissionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAcessTokenAvailablePermissions200Response>>;
+    getRecoveryPhrases(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetRecoveryPhrasesResponse>;
+    getRecoveryPhrasesRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetRecoveryPhrasesResponse>>;
     getUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetUserResponse>;
     getUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetUserResponse>>;
     obtainToken(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<TokenResponse>;
+    obtainTokenByRecoveryPhrase(requestParameters: ObtainTokenByRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<TokenResponse>;
+    obtainTokenByRecoveryPhraseRaw(requestParameters: ObtainTokenByRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<TokenResponse>>;
     obtainTokenRaw(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<TokenResponse>>;
     // (undocumented)
     revokeAccessToken(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
