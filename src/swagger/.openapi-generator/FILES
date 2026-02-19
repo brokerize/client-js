@@ -1,16 +1,17 @@
 .openapi-generator-ignore
 apis/AdminApi.ts
-apis/BrokerLoginApi.ts
-apis/CancelOrderApi.ts
-apis/ChangeOrderApi.ts
-apis/DefaultApi.ts
+apis/DecoupledOperationsApi.ts
 apis/DemobrokerApi.ts
 apis/ExportApi.ts
 apis/MetaApi.ts
+apis/OrderApi.ts
+apis/PortfolioApi.ts
 apis/SecuritiesApi.ts
+apis/SessionApi.ts
 apis/TradeApi.ts
 apis/TradeDraftApi.ts
 apis/UserApi.ts
+apis/WebsocketApi.ts
 apis/index.ts
 index.ts
 models/AccessTokenItem.ts
@@ -59,6 +60,7 @@ models/Challenge.ts
 models/ChangeOrderChallengeParams.ts
 models/ChangeOrderParams.ts
 models/ChangeOrderResponse.ts
+models/CheckRecoveryPhrase200Response.ts
 models/ClientConfig.ts
 models/ClientConfigMaintenanceStatus.ts
 models/ClientConfigUpdate.ts
@@ -78,6 +80,8 @@ models/CreateModeSessionTanAllOf.ts
 models/CreateModeSessionTanSpecifics.ts
 models/CreateOrderChallengeParams.ts
 models/CreateOrderParams.ts
+models/CreateRecoveryPhraseParams.ts
+models/CreateRecoveryPhraseResult.ts
 models/CreateTanChallengeParams.ts
 models/CreateTradeDrafts200Response.ts
 models/CreateTradeResponse.ts
@@ -156,6 +160,7 @@ models/GetPortfolioTradeStatisticsResponse.ts
 models/GetPortfolioTradesResponse.ts
 models/GetQuoteParams.ts
 models/GetQuoteResponse.ts
+models/GetRecoveryPhrasesResponse.ts
 models/GetUserResponse.ts
 models/GuestUserLifetime.ts
 models/Hint.ts
@@ -172,6 +177,7 @@ models/LoginResponseState.ts
 models/LogoutOkResponseBody.ts
 models/MaintenanceStatus.ts
 models/OAuthLoginFormConfig.ts
+models/ObtainTokenByRecoveryPhraseParams.ts
 models/OkResponseBody.ts
 models/Order.ts
 models/OrderChanges.ts
@@ -213,6 +219,7 @@ models/PrepareOAuthRedirectResponse.ts
 models/PrepareTradeResponse.ts
 models/PreparedTrade.ts
 models/QuoteExpiration.ts
+models/RecoveryPhraseItem.ts
 models/RenamePortfolioRequest.ts
 models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts

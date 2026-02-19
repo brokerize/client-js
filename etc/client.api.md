@@ -848,20 +848,6 @@ type BrokerizeWebSocketError = {
     message: string;
 };
 
-// @public (undocumented)
-class BrokerLoginApi extends runtime.BaseAPI {
-    // (undocumented)
-    addSession(requestParameters: AddSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LoginResponse>;
-    addSessionCompleteChallenge(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LoginResponseReady>;
-    addSessionCompleteChallengeRaw(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LoginResponseReady>>;
-    // (undocumented)
-    addSessionRaw(requestParameters: AddSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LoginResponse>>;
-    confirmOAuth(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ConfirmOAuthResponse>;
-    confirmOAuthRaw(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ConfirmOAuthResponse>>;
-    prepareOAuthRedirect(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PrepareOAuthRedirectResponse>;
-    prepareOAuthRedirectRaw(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PrepareOAuthRedirectResponse>>;
-}
-
 // @public
 interface BrokerLoginForm {
     passwordField: BrokerLoginFormField;
@@ -987,14 +973,6 @@ interface CancelDecoupledOperationLegacyRequest {
 interface CancelDecoupledOperationRequest {
     // (undocumented)
     decoupledOperationId: string;
-}
-
-// @public (undocumented)
-class CancelOrderApi extends runtime.BaseAPI {
-    cancelOrder(requestParameters: CancelOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CancelOrderResponse>;
-    cancelOrderRaw(requestParameters: CancelOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CancelOrderResponse>>;
-    createCancelOrderChallenge(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
-    createCancelOrderChallengeRaw(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
 }
 
 // @public
@@ -1310,16 +1288,6 @@ function ChallengeToJSON(value?: Challenge | null): any;
 // @public (undocumented)
 function ChallengeToJSONRecursive(value?: Challenge | null, ignoreParent?: boolean): any;
 
-// @public (undocumented)
-class ChangeOrderApi extends runtime.BaseAPI {
-    changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ChangeOrderResponse>;
-    changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ChangeOrderResponse>>;
-    createChangeOrderChallenge(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
-    createChangeOrderChallengeRaw(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
-    getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OrderCostEstimation>;
-    getChangeOrderCostEstimationRaw(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OrderCostEstimation>>;
-}
-
 // @public
 interface ChangeOrderChallengeParams {
     authMethod: string;
@@ -1383,6 +1351,29 @@ function ChangeOrderResponseToJSON(value?: ChangeOrderResponse | null): any;
 
 // @public (undocumented)
 function ChangeOrderResponseToJSONRecursive(value?: ChangeOrderResponse | null, ignoreParent?: boolean): any;
+
+// @public
+interface CheckRecoveryPhrase200Response {
+    expiresAt: Date;
+}
+
+// @public (undocumented)
+function CheckRecoveryPhrase200ResponseFromJSON(json: any): CheckRecoveryPhrase200Response;
+
+// @public (undocumented)
+function CheckRecoveryPhrase200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): CheckRecoveryPhrase200Response;
+
+// @public (undocumented)
+function CheckRecoveryPhrase200ResponseToJSON(value?: CheckRecoveryPhrase200Response | null): any;
+
+// @public (undocumented)
+function CheckRecoveryPhrase200ResponseToJSONRecursive(value?: CheckRecoveryPhrase200Response | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CheckRecoveryPhraseRequest {
+    // (undocumented)
+    obtainTokenByRecoveryPhraseParams: ObtainTokenByRecoveryPhraseParams;
+}
 
 // @public
 interface ClientConfig {
@@ -1966,6 +1957,46 @@ function CreateOrderParamsToJSON(value?: CreateOrderParams | null): any;
 // @public (undocumented)
 function CreateOrderParamsToJSONRecursive(value?: CreateOrderParams | null, ignoreParent?: boolean): any;
 
+// @public
+interface CreateRecoveryPhraseParams {
+    name: string;
+}
+
+// @public (undocumented)
+function CreateRecoveryPhraseParamsFromJSON(json: any): CreateRecoveryPhraseParams;
+
+// @public (undocumented)
+function CreateRecoveryPhraseParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateRecoveryPhraseParams;
+
+// @public (undocumented)
+function CreateRecoveryPhraseParamsToJSON(value?: CreateRecoveryPhraseParams | null): any;
+
+// @public (undocumented)
+function CreateRecoveryPhraseParamsToJSONRecursive(value?: CreateRecoveryPhraseParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface CreateRecoveryPhraseRequest {
+    // (undocumented)
+    createRecoveryPhraseParams: CreateRecoveryPhraseParams;
+}
+
+// @public
+interface CreateRecoveryPhraseResult {
+    recoveryPhrase: string;
+}
+
+// @public (undocumented)
+function CreateRecoveryPhraseResultFromJSON(json: any): CreateRecoveryPhraseResult;
+
+// @public (undocumented)
+function CreateRecoveryPhraseResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateRecoveryPhraseResult;
+
+// @public (undocumented)
+function CreateRecoveryPhraseResultToJSON(value?: CreateRecoveryPhraseResult | null): any;
+
+// @public (undocumented)
+function CreateRecoveryPhraseResultToJSONRecursive(value?: CreateRecoveryPhraseResult | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface CreateSessionTanChallengeRequest {
     // (undocumented)
@@ -2051,6 +2082,18 @@ interface DeactivateTradeDraftRequest {
 }
 
 // @public (undocumented)
+class DecoupledOperationsApi extends runtime.BaseAPI {
+    // (undocumented)
+    cancelDecoupledOperation(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    // (undocumented)
+    cancelDecoupledOperationRaw(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    // (undocumented)
+    getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationStatus>;
+    // (undocumented)
+    getDecoupledOperationStatusRaw(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationStatus>>;
+}
+
+// @public (undocumented)
 const DecoupledOperationState: {
     readonly Aborted: "AUTHORIZATION_ABORTED";
     readonly Initial: "AUTHORIZATION_INITIAL";
@@ -2101,84 +2144,6 @@ function DecoupledOperationStatusToJSON(value?: DecoupledOperationStatus | null)
 function DecoupledOperationStatusToJSONRecursive(value?: DecoupledOperationStatus | null, ignoreParent?: boolean): any;
 
 // @public (undocumented)
-class DefaultApi extends runtime.BaseAPI {
-    // (undocumented)
-    cancelDecoupledOperation(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    cancelDecoupledOperationLegacy(requestParameters: CancelDecoupledOperationLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    cancelDecoupledOperationLegacyRaw(requestParameters: CancelDecoupledOperationLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-    // (undocumented)
-    cancelDecoupledOperationRaw(requestParameters: CancelDecoupledOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-    createGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateGuestUserResponse>;
-    createGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateGuestUserResponse>>;
-    createSessionTanChallenge(requestParameters: CreateSessionTanChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
-    createSessionTanChallengeRaw(requestParameters: CreateSessionTanChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
-    deleteGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    deleteGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-    // (undocumented)
-    deletePortfolio(requestParameters: DeletePortfolioRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
-    // (undocumented)
-    deletePortfolioRaw(requestParameters: DeletePortfolioRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
-    // (undocumented)
-    enableSessionTan(requestParameters: EnableSessionTanRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<EnableSessionTanResponse>;
-    // (undocumented)
-    enableSessionTanRaw(requestParameters: EnableSessionTanRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<EnableSessionTanResponse>>;
-    endSessionTan(requestParameters: EndSessionTanRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<EndSessionTanResponse>;
-    endSessionTanRaw(requestParameters: EndSessionTanRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<EndSessionTanResponse>>;
-    getAuthInfo(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAuthInfoResponse>;
-    getAuthInfoRaw(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAuthInfoResponse>>;
-    // (undocumented)
-    getDecoupledOperationStatus(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationStatus>;
-    getDecoupledOperationStatusLegacy(requestParameters: GetDecoupledOperationStatusLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationStatus>;
-    getDecoupledOperationStatusLegacyRaw(requestParameters: GetDecoupledOperationStatusLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationStatus>>;
-    // (undocumented)
-    getDecoupledOperationStatusRaw(requestParameters: GetDecoupledOperationStatusRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationStatus>>;
-    // (undocumented)
-    getOrder(requestParameters: GetOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetOrderResponse>;
-    // (undocumented)
-    getOrderRaw(requestParameters: GetOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetOrderResponse>>;
-    getPortfolioCalendar(requestParameters: GetPortfolioCalendarRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioCalendarResponse>;
-    getPortfolioCalendarRaw(requestParameters: GetPortfolioCalendarRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioCalendarResponse>>;
-    // (undocumented)
-    getPortfolioOrders(requestParameters: GetPortfolioOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioOrdersResponse>;
-    // (undocumented)
-    getPortfolioOrdersRaw(requestParameters: GetPortfolioOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioOrdersResponse>>;
-    // (undocumented)
-    getPortfolioPositions(requestParameters: GetPortfolioPositionsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioPositionsResponse>;
-    // (undocumented)
-    getPortfolioPositionsRaw(requestParameters: GetPortfolioPositionsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioPositionsResponse>>;
-    // (undocumented)
-    getPortfolioQuotes(requestParameters: GetPortfolioQuotesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioQuotesResponse>;
-    // (undocumented)
-    getPortfolioQuotesRaw(requestParameters: GetPortfolioQuotesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioQuotesResponse>>;
-    // (undocumented)
-    getPortfolios(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PortfoliosResponse>;
-    // (undocumented)
-    getPortfoliosRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PortfoliosResponse>>;
-    getPortfolioTrades(requestParameters: GetPortfolioTradesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioTradesResponse>;
-    getPortfolioTradesRaw(requestParameters: GetPortfolioTradesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioTradesResponse>>;
-    getPortfolioTradeStatistics(requestParameters: GetPortfolioTradeStatisticsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioTradeStatisticsResponse>;
-    getPortfolioTradeStatisticsRaw(requestParameters: GetPortfolioTradeStatisticsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioTradeStatisticsResponse>>;
-    // (undocumented)
-    getPortfolioTradeWarnings(requestParameters: GetPortfolioTradeWarningsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<TradeWarning>>;
-    // (undocumented)
-    getPortfolioTradeWarningsRaw(requestParameters: GetPortfolioTradeWarningsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<TradeWarning>>>;
-    getSessions(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<SessionResponse>;
-    getSessionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<SessionResponse>>;
-    getUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetUserResponse>;
-    getUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetUserResponse>>;
-    logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LogoutOkResponseBody>;
-    logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LogoutOkResponseBody>>;
-    obtainToken(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<TokenResponse>;
-    obtainTokenRaw(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<TokenResponse>>;
-    renamePortfolio(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    renamePortfolioRaw(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-    triggerSessionSync(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
-    triggerSessionSyncRaw(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
-    websocket(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
-    websocketRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
-}
-
-// @public (undocumented)
 const DefaultConfig: Configuration;
 
 // @public
@@ -2225,6 +2190,12 @@ interface DeleteDemoAccountRequest {
 interface DeletePortfolioRequest {
     // (undocumented)
     portfolioId: string;
+}
+
+// @public (undocumented)
+interface DeleteRecoveryPhraseRequest {
+    // (undocumented)
+    recoveryPhraseId: string;
 }
 
 // @public (undocumented)
@@ -3928,6 +3899,23 @@ function GetQuoteResponseToJSON(value?: GetQuoteResponse | null): any;
 // @public (undocumented)
 function GetQuoteResponseToJSONRecursive(value?: GetQuoteResponse | null, ignoreParent?: boolean): any;
 
+// @public
+interface GetRecoveryPhrasesResponse {
+    recoveryPhrases: Array<RecoveryPhraseItem>;
+}
+
+// @public (undocumented)
+function GetRecoveryPhrasesResponseFromJSON(json: any): GetRecoveryPhrasesResponse;
+
+// @public (undocumented)
+function GetRecoveryPhrasesResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetRecoveryPhrasesResponse;
+
+// @public (undocumented)
+function GetRecoveryPhrasesResponseToJSON(value?: GetRecoveryPhrasesResponse | null): any;
+
+// @public (undocumented)
+function GetRecoveryPhrasesResponseToJSONRecursive(value?: GetRecoveryPhrasesResponse | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 interface GetSecurityDetailedInfoRequest {
     // (undocumented)
@@ -4549,6 +4537,29 @@ function OAuthLoginFormConfigToJSON(value?: OAuthLoginFormConfig | null): any;
 // @public (undocumented)
 function OAuthLoginFormConfigToJSONRecursive(value?: OAuthLoginFormConfig | null, ignoreParent?: boolean): any;
 
+// @public
+interface ObtainTokenByRecoveryPhraseParams {
+    recoveryPhrase: string;
+}
+
+// @public (undocumented)
+function ObtainTokenByRecoveryPhraseParamsFromJSON(json: any): ObtainTokenByRecoveryPhraseParams;
+
+// @public (undocumented)
+function ObtainTokenByRecoveryPhraseParamsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObtainTokenByRecoveryPhraseParams;
+
+// @public (undocumented)
+function ObtainTokenByRecoveryPhraseParamsToJSON(value?: ObtainTokenByRecoveryPhraseParams | null): any;
+
+// @public (undocumented)
+function ObtainTokenByRecoveryPhraseParamsToJSONRecursive(value?: ObtainTokenByRecoveryPhraseParams | null, ignoreParent?: boolean): any;
+
+// @public (undocumented)
+interface ObtainTokenByRecoveryPhraseRequest {
+    // (undocumented)
+    obtainTokenByRecoveryPhraseParams: ObtainTokenByRecoveryPhraseParams;
+}
+
 // @public (undocumented)
 interface ObtainTokenRequest {
     // (undocumented)
@@ -4639,6 +4650,24 @@ interface Order {
     // @deprecated
     usTicker?: string;
     validity?: OrderValidity;
+}
+
+// @public (undocumented)
+class OrderApi extends runtime.BaseAPI {
+    cancelOrder(requestParameters: CancelOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CancelOrderResponse>;
+    cancelOrderRaw(requestParameters: CancelOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CancelOrderResponse>>;
+    changeOrder(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ChangeOrderResponse>;
+    changeOrderRaw(requestParameters: ChangeOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ChangeOrderResponse>>;
+    createCancelOrderChallenge(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
+    createCancelOrderChallengeRaw(requestParameters: CreateCancelOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
+    createChangeOrderChallenge(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
+    createChangeOrderChallengeRaw(requestParameters: CreateChangeOrderChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
+    getChangeOrderCostEstimation(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OrderCostEstimation>;
+    getChangeOrderCostEstimationRaw(requestParameters: GetChangeOrderCostEstimationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OrderCostEstimation>>;
+    // (undocumented)
+    getOrder(requestParameters: GetOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetOrderResponse>;
+    // (undocumented)
+    getOrderRaw(requestParameters: GetOrderRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetOrderResponse>>;
 }
 
 // @public
@@ -5017,6 +5046,44 @@ interface Portfolio {
     portfolioNameOriginal: string;
     sessionIds: Array<string>;
     syncInfo: PortfolioSyncInfo;
+}
+
+// @public (undocumented)
+class PortfolioApi extends runtime.BaseAPI {
+    // (undocumented)
+    deletePortfolio(requestParameters: DeletePortfolioRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
+    // (undocumented)
+    deletePortfolioRaw(requestParameters: DeletePortfolioRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
+    getAuthInfo(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAuthInfoResponse>;
+    getAuthInfoRaw(requestParameters: GetAuthInfoRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAuthInfoResponse>>;
+    getPortfolioCalendar(requestParameters: GetPortfolioCalendarRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioCalendarResponse>;
+    getPortfolioCalendarRaw(requestParameters: GetPortfolioCalendarRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioCalendarResponse>>;
+    // (undocumented)
+    getPortfolioOrders(requestParameters: GetPortfolioOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioOrdersResponse>;
+    // (undocumented)
+    getPortfolioOrdersRaw(requestParameters: GetPortfolioOrdersRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioOrdersResponse>>;
+    // (undocumented)
+    getPortfolioPositions(requestParameters: GetPortfolioPositionsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioPositionsResponse>;
+    // (undocumented)
+    getPortfolioPositionsRaw(requestParameters: GetPortfolioPositionsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioPositionsResponse>>;
+    // (undocumented)
+    getPortfolioQuotes(requestParameters: GetPortfolioQuotesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioQuotesResponse>;
+    // (undocumented)
+    getPortfolioQuotesRaw(requestParameters: GetPortfolioQuotesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioQuotesResponse>>;
+    // (undocumented)
+    getPortfolios(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PortfoliosResponse>;
+    // (undocumented)
+    getPortfoliosRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PortfoliosResponse>>;
+    getPortfolioTrades(requestParameters: GetPortfolioTradesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioTradesResponse>;
+    getPortfolioTradesRaw(requestParameters: GetPortfolioTradesRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioTradesResponse>>;
+    getPortfolioTradeStatistics(requestParameters: GetPortfolioTradeStatisticsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetPortfolioTradeStatisticsResponse>;
+    getPortfolioTradeStatisticsRaw(requestParameters: GetPortfolioTradeStatisticsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetPortfolioTradeStatisticsResponse>>;
+    // (undocumented)
+    getPortfolioTradeWarnings(requestParameters: GetPortfolioTradeWarningsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<TradeWarning>>;
+    // (undocumented)
+    getPortfolioTradeWarningsRaw(requestParameters: GetPortfolioTradeWarningsRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<TradeWarning>>>;
+    renamePortfolio(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    renamePortfolioRaw(requestParameters: RenamePortfolioOperationRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
 
 // @public
@@ -5601,6 +5668,27 @@ function QuoteExpirationToJSON(value?: QuoteExpiration | null): any;
 // @public (undocumented)
 function QuoteExpirationToJSONRecursive(value?: QuoteExpiration | null, ignoreParent?: boolean): any;
 
+// @public
+interface RecoveryPhraseItem {
+    createdAt: Date;
+    expiresAt: Date;
+    id: string;
+    lastUsedAt: Date;
+    name: string;
+}
+
+// @public (undocumented)
+function RecoveryPhraseItemFromJSON(json: any): RecoveryPhraseItem;
+
+// @public (undocumented)
+function RecoveryPhraseItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): RecoveryPhraseItem;
+
+// @public (undocumented)
+function RecoveryPhraseItemToJSON(value?: RecoveryPhraseItem | null): any;
+
+// @public (undocumented)
+function RecoveryPhraseItemToJSONRecursive(value?: RecoveryPhraseItem | null, ignoreParent?: boolean): any;
+
 // @public (undocumented)
 export type RegisteredUserAuthContextConfiguration = {
     type: "registered";
@@ -5946,6 +6034,38 @@ interface Session {
     lastSuccessfulSync?: Date;
     syncError?: SyncError;
     syncInfo: SessionSyncInfo;
+}
+
+// @public (undocumented)
+class SessionApi extends runtime.BaseAPI {
+    // (undocumented)
+    addSession(requestParameters: AddSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LoginResponse>;
+    addSessionCompleteChallenge(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LoginResponseReady>;
+    addSessionCompleteChallengeRaw(requestParameters: AddSessionCompleteChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LoginResponseReady>>;
+    // (undocumented)
+    addSessionRaw(requestParameters: AddSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LoginResponse>>;
+    cancelDecoupledOperationLegacy(requestParameters: CancelDecoupledOperationLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    cancelDecoupledOperationLegacyRaw(requestParameters: CancelDecoupledOperationLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    confirmOAuth(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<ConfirmOAuthResponse>;
+    confirmOAuthRaw(requestParameters: ConfirmOAuthRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<ConfirmOAuthResponse>>;
+    createSessionTanChallenge(requestParameters: CreateSessionTanChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Challenge>;
+    createSessionTanChallengeRaw(requestParameters: CreateSessionTanChallengeRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Challenge>>;
+    // (undocumented)
+    enableSessionTan(requestParameters: EnableSessionTanRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<EnableSessionTanResponse>;
+    // (undocumented)
+    enableSessionTanRaw(requestParameters: EnableSessionTanRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<EnableSessionTanResponse>>;
+    endSessionTan(requestParameters: EndSessionTanRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<EndSessionTanResponse>;
+    endSessionTanRaw(requestParameters: EndSessionTanRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<EndSessionTanResponse>>;
+    getDecoupledOperationStatusLegacy(requestParameters: GetDecoupledOperationStatusLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<DecoupledOperationStatus>;
+    getDecoupledOperationStatusLegacyRaw(requestParameters: GetDecoupledOperationStatusLegacyRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<DecoupledOperationStatus>>;
+    getSessions(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<SessionResponse>;
+    getSessionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<SessionResponse>>;
+    logoutSession(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<LogoutOkResponseBody>;
+    logoutSessionRaw(requestParameters: LogoutSessionRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<LogoutOkResponseBody>>;
+    prepareOAuthRedirect(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<PrepareOAuthRedirectResponse>;
+    prepareOAuthRedirectRaw(requestParameters: PrepareOAuthRedirectRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<PrepareOAuthRedirectResponse>>;
+    triggerSessionSync(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<OkResponseBody>;
+    triggerSessionSyncRaw(requestParameters: TriggerSessionSyncRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<OkResponseBody>>;
 }
 
 // @public (undocumented)
@@ -6677,14 +6797,32 @@ interface UpdateTradeDraftRequest {
 
 // @public (undocumented)
 class UserApi extends runtime.BaseAPI {
+    checkRecoveryPhrase(requestParameters: CheckRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CheckRecoveryPhrase200Response>;
+    checkRecoveryPhraseRaw(requestParameters: CheckRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CheckRecoveryPhrase200Response>>;
     createAccessToken(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<AccessTokenResult>;
     createAccessTokenRaw(requestParameters: CreateAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<AccessTokenResult>>;
+    createGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateGuestUserResponse>;
+    createGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateGuestUserResponse>>;
+    createRecoveryPhrase(requestParameters: CreateRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CreateRecoveryPhraseResult>;
+    createRecoveryPhraseRaw(requestParameters: CreateRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CreateRecoveryPhraseResult>>;
+    deleteGuestUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deleteGuestUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
+    deleteRecoveryPhrase(requestParameters: DeleteRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    deleteRecoveryPhraseRaw(requestParameters: DeleteRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
     // (undocumented)
     getAccessTokens(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAccessTokensResponse>;
     // (undocumented)
     getAccessTokensRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAccessTokensResponse>>;
     getAcessTokenAvailablePermissions(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetAcessTokenAvailablePermissions200Response>;
     getAcessTokenAvailablePermissionsRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetAcessTokenAvailablePermissions200Response>>;
+    getRecoveryPhrases(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetRecoveryPhrasesResponse>;
+    getRecoveryPhrasesRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetRecoveryPhrasesResponse>>;
+    getUser(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<GetUserResponse>;
+    getUserRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<GetUserResponse>>;
+    obtainToken(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<TokenResponse>;
+    obtainTokenByRecoveryPhrase(requestParameters: ObtainTokenByRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<TokenResponse>;
+    obtainTokenByRecoveryPhraseRaw(requestParameters: ObtainTokenByRecoveryPhraseRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<TokenResponse>>;
+    obtainTokenRaw(requestParameters: ObtainTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<TokenResponse>>;
     // (undocumented)
     revokeAccessToken(requestParameters: RevokeAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
     // (undocumented)
@@ -6723,6 +6861,12 @@ class VoidApiResponse {
     raw: Response;
     // (undocumented)
     value(): Promise<void>;
+}
+
+// @public (undocumented)
+class WebsocketApi extends runtime.BaseAPI {
+    websocket(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void>;
+    websocketRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>>;
 }
 
 // @public (undocumented)
