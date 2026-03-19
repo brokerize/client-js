@@ -1355,6 +1355,7 @@ function ChangeOrderResponseToJSONRecursive(value?: ChangeOrderResponse | null, 
 // @public
 interface CheckRecoveryPhrase200Response {
     expiresAt: Date;
+    userId: string;
 }
 
 // @public (undocumented)

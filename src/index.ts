@@ -85,7 +85,22 @@ export class Brokerize {
     }
 
     this._cfg = cfg;
-    this._userApi = new openApiClient.UserApi(createConfiguration(cfg));
+
+    const postMiddleware = async (
+      r: openApiClient.ResponseContext
+    ): Promise<void> => {
+      const statusCode = r.response.status;
+      if (statusCode >= 400) {
+        const decJson =
+          (await r.response.json()) as openApiClient.ErrorResponse;
+        const err = new BrokerizeError(statusCode, decJson);
+        throw err;
+      }
+    };
+
+    this._userApi = new openApiClient.UserApi(
+      createConfiguration(cfg)
+    ).withPostMiddleware(postMiddleware);
   }
 
   async refreshGuestUser(
@@ -200,6 +215,18 @@ export class Brokerize {
       options: {
         cognitoFacade: this._cfg.cognito?.cognitoFacade,
       },
+    });
+  }
+
+  checkRecoveryPhrase(recoveryPhrase: string) {
+    return this._userApi.checkRecoveryPhrase({
+      obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
+    });
+  }
+
+  obtainTokenByRecoveryPhrase(recoveryPhrase: string) {
+    return this._userApi.obtainTokenByRecoveryPhrase({
+      obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
     });
   }
 

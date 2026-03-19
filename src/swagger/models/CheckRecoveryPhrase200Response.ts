@@ -24,6 +24,12 @@ export interface CheckRecoveryPhrase200Response {
    * @memberof CheckRecoveryPhrase200Response
    */
   expiresAt: Date;
+  /**
+   *
+   * @type {string}
+   * @memberof CheckRecoveryPhrase200Response
+   */
+  userId: string;
 }
 
 export function CheckRecoveryPhrase200ResponseFromJSON(
@@ -41,6 +47,7 @@ export function CheckRecoveryPhrase200ResponseFromJSONTyped(
   }
   return {
     expiresAt: new Date(json["expiresAt"]),
+    userId: json["userId"],
   };
 }
 
@@ -57,6 +64,7 @@ export function CheckRecoveryPhrase200ResponseToJSONRecursive(
 
   return {
     expiresAt: value.expiresAt.toISOString(),
+    userId: value.userId,
   };
 }
 
