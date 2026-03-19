@@ -628,6 +628,28 @@ export class AuthorizedApiContext {
     );
   }
 
+  async getRecoveryPhrases() {
+    return this._userApi.getRecoveryPhrases(await this._initRequestInit());
+  }
+
+  async createRecoveryPhrase(opts: { name: string }) {
+    return this._userApi.createRecoveryPhrase(
+      {
+        createRecoveryPhraseParams: { name: opts.name },
+      },
+      await this._initRequestInit()
+    );
+  }
+
+  async deleteRecoveryPhrase(recoveryPhraseId: string) {
+    return this._userApi.deleteRecoveryPhrase(
+      {
+        recoveryPhraseId,
+      },
+      await this._initRequestInit()
+    );
+  }
+
   /**
    * Subscribe to security quotes. Note that this currently uses polling to load the quotes from the
    * API. This will be replaced with a websocket-based solution in the future, but we can keep this

@@ -532,6 +532,10 @@ export class AuthorizedApiContext {
     // (undocumented)
     createDemoAccount(demoAccountSettings?: DemoAccountSettings): Promise<openApiClient.CreatedResponseBody>;
     // (undocumented)
+    createRecoveryPhrase(opts: {
+        name: string;
+    }): Promise<openApiClient.CreateRecoveryPhraseResult>;
+    // (undocumented)
     createSessionTanChallenge(req: openApiClient.CreateSessionTanChallengeRequest): Promise<openApiClient.Challenge>;
     // (undocumented)
     createTrade(req: CreateTradeRequest, viaCryptoService?: boolean): Promise<openApiClient.CreateTradeResponse>;
@@ -551,6 +555,8 @@ export class AuthorizedApiContext {
     deleteGuestUser(): Promise<void>;
     // (undocumented)
     deletePortfolio(portfolioId: string): Promise<openApiClient.OkResponseBody>;
+    // (undocumented)
+    deleteRecoveryPhrase(recoveryPhraseId: string): Promise<void>;
     // (undocumented)
     deleteTradeDraft(params: openApiClient.DeleteTradeDraftRequest): Promise<void>;
     // (undocumented)
@@ -615,6 +621,8 @@ export class AuthorizedApiContext {
     getPortfolioTradeWarnings(req: openApiClient.GetPortfolioTradeWarningsRequest): Promise<openApiClient.TradeWarning[]>;
     // (undocumented)
     getQuote(p: GetQuoteRequest): Promise<openApiClient.GetQuoteResponse>;
+    // (undocumented)
+    getRecoveryPhrases(): Promise<openApiClient.GetRecoveryPhrasesResponse>;
     // (undocumented)
     getSecurityDetailedInfo(token: string): Promise<openApiClient.GenericTable>;
     // (undocumented)
@@ -787,6 +795,8 @@ function BrokerEnvironmentToJSONRecursive(value?: BrokerEnvironment | null, igno
 // @public (undocumented)
 export class Brokerize {
     constructor(cfg: BrokerizeConfig);
+    // (undocumented)
+    checkRecoveryPhrase(recoveryPhrase: string): Promise<openApiClient.CheckRecoveryPhrase200Response>;
     createAuth(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback): Auth;
     createAuthorizedContext(authCtxCfg: AuthContextConfiguration, tokenRefreshCallback?: TokenRefreshCallback, customWebSocketClient?: BrokerizeWebSocketClient): AuthorizedApiContext;
     createCustomWebSocketClient({ url, auth, }: {
@@ -797,6 +807,8 @@ export class Brokerize {
     createGuestUser(): Promise<AuthContextConfiguration>;
     // (undocumented)
     getCognitoConfig(): CognitoPoolConfig | undefined;
+    // (undocumented)
+    obtainTokenByRecoveryPhrase(recoveryPhrase: string): Promise<AuthContextConfiguration>;
     // (undocumented)
     refreshGuestUser(refreshToken: string): Promise<GuestAuthContextConfiguration>;
 }
@@ -1355,6 +1367,7 @@ function ChangeOrderResponseToJSONRecursive(value?: ChangeOrderResponse | null, 
 // @public
 interface CheckRecoveryPhrase200Response {
     expiresAt: Date;
+    userId: string;
 }
 
 // @public (undocumented)
@@ -4491,7 +4504,10 @@ declare namespace Models {
         TradeStatistics,
         GetPortfolioCalendarResponse,
         PortfolioCalendarDateRange,
-        PortfolioCalendarItem
+        PortfolioCalendarItem,
+        GetRecoveryPhrasesResponse,
+        CreateRecoveryPhraseResult,
+        CheckRecoveryPhrase200Response
     }
 }
 export { Models }

@@ -85,7 +85,22 @@ export class Brokerize {
     }
 
     this._cfg = cfg;
-    this._userApi = new openApiClient.UserApi(createConfiguration(cfg));
+
+    const postMiddleware = async (
+      r: openApiClient.ResponseContext
+    ): Promise<void> => {
+      const statusCode = r.response.status;
+      if (statusCode >= 400) {
+        const decJson =
+          (await r.response.json()) as openApiClient.ErrorResponse;
+        const err = new BrokerizeError(statusCode, decJson);
+        throw err;
+      }
+    };
+
+    this._userApi = new openApiClient.UserApi(
+      createConfiguration(cfg)
+    ).withPostMiddleware(postMiddleware);
   }
 
   async refreshGuestUser(
@@ -201,6 +216,46 @@ export class Brokerize {
         cognitoFacade: this._cfg.cognito?.cognitoFacade,
       },
     });
+  }
+
+  checkRecoveryPhrase(recoveryPhrase: string) {
+    return this._userApi.checkRecoveryPhrase(
+      {
+        obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
+      },
+      {
+        headers: {
+          "x-brkrz-client-id": this._cfg.clientId,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+
+  async obtainTokenByRecoveryPhrase(
+    recoveryPhrase: string
+  ): Promise<AuthContextConfiguration> {
+    const tokResult = await this._userApi.obtainTokenByRecoveryPhrase(
+      {
+        obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
+      },
+      {
+        headers: {
+          "x-brkrz-client-id": this._cfg.clientId,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const updatedAt = Date.now();
+    return {
+      type: "guest",
+      idToken: "", // deprecated
+      tokens: {
+        updatedAt,
+        response: tokResult as openApiClient.CreateGuestUserResponse,
+      },
+    };
   }
 
   /**
