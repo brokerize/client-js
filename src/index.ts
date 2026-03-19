@@ -219,15 +219,43 @@ export class Brokerize {
   }
 
   checkRecoveryPhrase(recoveryPhrase: string) {
-    return this._userApi.checkRecoveryPhrase({
-      obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
-    });
+    return this._userApi.checkRecoveryPhrase(
+      {
+        obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
+      },
+      {
+        headers: {
+          "x-brkrz-client-id": this._cfg.clientId,
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 
-  obtainTokenByRecoveryPhrase(recoveryPhrase: string) {
-    return this._userApi.obtainTokenByRecoveryPhrase({
-      obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
-    });
+  async obtainTokenByRecoveryPhrase(
+    recoveryPhrase: string
+  ): Promise<AuthContextConfiguration> {
+    const tokResult = await this._userApi.obtainTokenByRecoveryPhrase(
+      {
+        obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
+      },
+      {
+        headers: {
+          "x-brkrz-client-id": this._cfg.clientId,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const updatedAt = Date.now();
+    return {
+      type: "guest",
+      idToken: "", // deprecated
+      tokens: {
+        updatedAt,
+        response: tokResult as openApiClient.CreateGuestUserResponse,
+      },
+    };
   }
 
   /**

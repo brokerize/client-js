@@ -168,3 +168,6 @@ export { TradeStatistics } from "./swagger/models/TradeStatistics";
 export { GetPortfolioCalendarResponse } from "./swagger/models/GetPortfolioCalendarResponse";
 export { PortfolioCalendarDateRange } from "./swagger/models/PortfolioCalendarDateRange";
 export { PortfolioCalendarItem } from "./swagger/models/PortfolioCalendarItem";
+export { GetRecoveryPhrasesResponse } from "./swagger/models/GetRecoveryPhrasesResponse";
+export { CreateRecoveryPhraseResult } from "./swagger/models/CreateRecoveryPhraseResult";
+export { CheckRecoveryPhrase200Response } from "./swagger/models/CheckRecoveryPhrase200Response";
