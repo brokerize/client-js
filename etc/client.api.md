@@ -1393,6 +1393,7 @@ interface ClientConfig {
     allowedOrigins: Array<string>;
     allowedOriginsRegularExpressions?: Array<string>;
     allowRequestsWithoutOrigin: boolean;
+    allowSecurityLogos?: boolean;
     brokerEnvFilter: {
         [key: string]: BrokerEnvFilterType;
     };
@@ -1400,6 +1401,7 @@ interface ClientConfig {
     cryptoTradingAllowed?: boolean;
     enabled: boolean;
     guestUserInactivityTimeoutSeconds?: number;
+    guestUserInactivityTimeoutSecondsRecoveryPhrase?: number;
     guestUserLifetime?: GuestUserLifetime;
     hideOfflinePortfolios?: boolean;
     legalEntityName: string;
@@ -1450,6 +1452,7 @@ interface ClientConfigUpdate {
     allowedOrigins?: Array<string>;
     allowedOriginsRegularExpressions?: Array<string>;
     allowRequestsWithoutOrigin?: boolean;
+    allowSecurityLogos?: boolean;
     brokerClientIds?: BrokerClientCfg;
     brokerEnvFilter?: {
         [key: string]: BrokerEnvFilterType;
@@ -1459,6 +1462,7 @@ interface ClientConfigUpdate {
     cryptoTradingAllowed?: boolean;
     enabled?: boolean;
     guestUserInactivityTimeoutSeconds?: number | null;
+    guestUserInactivityTimeoutSecondsRecoveryPhrase?: number | null;
     guestUserLifetime?: GuestUserLifetime;
     hideOfflinePortfolios?: boolean;
     legalEntityName?: string;
@@ -4636,6 +4640,7 @@ interface Order {
     ifDoneLimit?: number;
     intent?: OrderIntentEnum;
     isin: string;
+    isIncomplete?: boolean;
     limit?: number;
     limitCurrencyIso?: string;
     mayObserveCurrentStop?: boolean;
@@ -5875,6 +5880,7 @@ interface Security {
     cryptoCode?: string;
     // @deprecated
     isin?: string;
+    logos?: SecurityLogoUrls;
     name?: string;
     priceFactor?: number;
     selector: SecuritySelector;
@@ -5912,6 +5918,23 @@ function SecurityFromJSON(json: any): Security;
 
 // @public (undocumented)
 function SecurityFromJSONTyped(json: any, ignoreDiscriminator: boolean): Security;
+
+// @public
+interface SecurityLogoUrls {
+    svgSquare?: string;
+}
+
+// @public (undocumented)
+function SecurityLogoUrlsFromJSON(json: any): SecurityLogoUrls;
+
+// @public (undocumented)
+function SecurityLogoUrlsFromJSONTyped(json: any, ignoreDiscriminator: boolean): SecurityLogoUrls;
+
+// @public (undocumented)
+function SecurityLogoUrlsToJSON(value?: SecurityLogoUrls | null): any;
+
+// @public (undocumented)
+function SecurityLogoUrlsToJSONRecursive(value?: SecurityLogoUrls | null, ignoreParent?: boolean): any;
 
 // @public
 interface SecurityQuote {

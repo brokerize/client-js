@@ -647,6 +647,10 @@
           "allowRequestsWithoutOrigin": {
             "type": "boolean"
           },
+          "allowSecurityLogos": {
+            "description": "If true, security logo URLs (`Security.logos`) are returned with positions/orders for this client.\nLogos are served via `logos.brokerize.com`.",
+            "type": "boolean"
+          },
           "allowedOrigins": {
             "items": {
               "type": "string"
@@ -676,6 +680,12 @@
             "type": "boolean"
           },
           "guestUserInactivityTimeoutSeconds": {
+            "description": "How long guest users will be kept after their last activity.\nIf the user has set up a RecoveryPhrase, `guestUserInactivityTimeoutSecondsRecoveryPhrase` is used instead (if defined).",
+            "format": "int32",
+            "type": "integer"
+          },
+          "guestUserInactivityTimeoutSecondsRecoveryPhrase": {
+            "description": "How long guest users will be kept after their last activity *if they have a RecoveryPhrase*.\n\nIf the user has no RecoveryPhrase, `guestUserInactivityTimeoutSeconds` is used instead (if defined).",
             "format": "int32",
             "type": "integer"
           },
@@ -758,6 +768,10 @@
           "allowRequestsWithoutOrigin": {
             "type": "boolean"
           },
+          "allowSecurityLogos": {
+            "description": "If true, security logo URLs (`Security.logos`) are returned with positions/orders for this client.\nLogos are served via `logos.brokerize.com`.\n\nDefault is false.",
+            "type": "boolean"
+          },
           "allowedOrigins": {
             "items": {
               "type": "string"
@@ -796,6 +810,13 @@
             "type": "boolean"
           },
           "guestUserInactivityTimeoutSeconds": {
+            "description": "How long guest users will be kept after their last activity.\nIf the user has set up a RecoveryPhrase, `guestUserInactivityTimeoutSecondsRecoveryPhrase` is used instead (if defined).",
+            "format": "int32",
+            "nullable": true,
+            "type": "integer"
+          },
+          "guestUserInactivityTimeoutSecondsRecoveryPhrase": {
+            "description": "How long guest users will be kept after their last activity *if they have a RecoveryPhrase*.\n\nIf the user has no RecoveryPhrase, `guestUserInactivityTimeoutSeconds` is used instead (if defined).",
             "format": "int32",
             "nullable": true,
             "type": "integer"
@@ -2391,6 +2412,10 @@
             "enum": ["open", "close"],
             "type": "string"
           },
+          "isIncomplete": {
+            "description": "If this is true, the order data retrieved from the broker is incomplete. Fields may be missing or be incomplete.",
+            "type": "boolean"
+          },
           "isin": {
             "description": "The ISIN of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.\n\nNote that we will make isin optional in a future version of the API.",
             "type": "string"
@@ -2570,7 +2595,7 @@
         "additionalProperties": false,
         "properties": {
           "costAcceptancePrompt": {
-            "description": "If present, users have to accept this message before creating an order.\nIf accepting the costs and performing the order is one click (which is allowed), the create order button label\nmust contain the information that costs are accepted.",
+            "description": "If present, users have to accept this message before creating an order.\nIf accepting the costs and performing the order is one click (which is allowed), the create order button label\nmust contain the information that costs are accepted. May contain (some) HTML",
             "type": "string"
           },
           "costDetailsLink": {
@@ -3555,6 +3580,9 @@
             "deprecated": true,
             "type": "string"
           },
+          "logos": {
+            "$ref": "#/components/schemas/SecurityLogoUrls"
+          },
           "name": {
             "type": "string"
           },
@@ -3603,6 +3631,16 @@
           }
         },
         "required": ["token", "label"],
+        "type": "object"
+      },
+      "SecurityLogoUrls": {
+        "description": "URLs to logos (e.g. company logos) for a security. Only present if the\nclient is configured to receive logos (`allowSecurityLogos`).",
+        "properties": {
+          "svgSquare": {
+            "description": "Square SVG logo. Directly embeddable URL served via `logos.brokerize.com`.",
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "SecurityQuote": {
@@ -4419,7 +4457,7 @@
     "contact": {},
     "description": "The brokerize multi brokerage API. For high-level documentation, visit https://developer.brokerize.com/docs/api",
     "title": "brokerize",
-    "version": "1.8.0"
+    "version": "1.9.0"
   },
   "openapi": "3.0.0",
   "paths": {
