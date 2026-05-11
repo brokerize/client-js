@@ -56,6 +56,13 @@ export interface ClientConfig {
    */
   allowRequestsWithoutOrigin: boolean;
   /**
+   * If true, security logo URLs (`Security.logos`) are returned with positions/orders for this client.
+   * Logos are served via `logos.brokerize.com`.
+   * @type {boolean}
+   * @memberof ClientConfig
+   */
+  allowSecurityLogos?: boolean;
+  /**
    *
    * @type {Array<string>}
    * @memberof ClientConfig
@@ -93,11 +100,20 @@ export interface ClientConfig {
    */
   enabled: boolean;
   /**
-   *
+   * How long guest users will be kept after their last activity.
+   * If the user has set up a RecoveryPhrase, `guestUserInactivityTimeoutSecondsRecoveryPhrase` is used instead (if defined).
    * @type {number}
    * @memberof ClientConfig
    */
   guestUserInactivityTimeoutSeconds?: number;
+  /**
+   * How long guest users will be kept after their last activity *if they have a RecoveryPhrase*.
+   *
+   * If the user has no RecoveryPhrase, `guestUserInactivityTimeoutSeconds` is used instead (if defined).
+   * @type {number}
+   * @memberof ClientConfig
+   */
+  guestUserInactivityTimeoutSecondsRecoveryPhrase?: number;
   /**
    *
    * @type {GuestUserLifetime}
@@ -195,6 +211,9 @@ export function ClientConfigFromJSONTyped(
   }
   return {
     allowRequestsWithoutOrigin: json["allowRequestsWithoutOrigin"],
+    allowSecurityLogos: !exists(json, "allowSecurityLogos")
+      ? undefined
+      : json["allowSecurityLogos"],
     allowedOrigins: json["allowedOrigins"],
     allowedOriginsRegularExpressions: !exists(
       json,
@@ -217,6 +236,12 @@ export function ClientConfigFromJSONTyped(
     )
       ? undefined
       : json["guestUserInactivityTimeoutSeconds"],
+    guestUserInactivityTimeoutSecondsRecoveryPhrase: !exists(
+      json,
+      "guestUserInactivityTimeoutSecondsRecoveryPhrase"
+    )
+      ? undefined
+      : json["guestUserInactivityTimeoutSecondsRecoveryPhrase"],
     guestUserLifetime: !exists(json, "guestUserLifetime")
       ? undefined
       : GuestUserLifetimeFromJSON(json["guestUserLifetime"]),
@@ -263,6 +288,7 @@ export function ClientConfigToJSONRecursive(
 
   return {
     allowRequestsWithoutOrigin: value.allowRequestsWithoutOrigin,
+    allowSecurityLogos: value.allowSecurityLogos,
     allowedOrigins: value.allowedOrigins,
     allowedOriginsRegularExpressions: value.allowedOriginsRegularExpressions,
     brokerEnvFilter: mapValues(
@@ -273,6 +299,8 @@ export function ClientConfigToJSONRecursive(
     cryptoTradingAllowed: value.cryptoTradingAllowed,
     enabled: value.enabled,
     guestUserInactivityTimeoutSeconds: value.guestUserInactivityTimeoutSeconds,
+    guestUserInactivityTimeoutSecondsRecoveryPhrase:
+      value.guestUserInactivityTimeoutSecondsRecoveryPhrase,
     guestUserLifetime: GuestUserLifetimeToJSON(value.guestUserLifetime),
     hideOfflinePortfolios: value.hideOfflinePortfolios,
     legalEntityName: value.legalEntityName,

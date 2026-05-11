@@ -13,6 +13,12 @@
 
 import { exists, mapValues } from "../runtime";
 import {
+  SecurityLogoUrls,
+  SecurityLogoUrlsFromJSON,
+  SecurityLogoUrlsFromJSONTyped,
+  SecurityLogoUrlsToJSON,
+} from "./SecurityLogoUrls";
+import {
   SecuritySelector,
   SecuritySelectorFromJSON,
   SecuritySelectorFromJSONTyped,
@@ -39,6 +45,12 @@ export interface Security {
    * @deprecated
    */
   isin?: string;
+  /**
+   *
+   * @type {SecurityLogoUrls}
+   * @memberof Security
+   */
+  logos?: SecurityLogoUrls;
   /**
    *
    * @type {string}
@@ -120,6 +132,9 @@ export function SecurityFromJSONTyped(
   return {
     cryptoCode: !exists(json, "cryptoCode") ? undefined : json["cryptoCode"],
     isin: !exists(json, "isin") ? undefined : json["isin"],
+    logos: !exists(json, "logos")
+      ? undefined
+      : SecurityLogoUrlsFromJSON(json["logos"]),
     name: !exists(json, "name") ? undefined : json["name"],
     priceFactor: !exists(json, "priceFactor") ? undefined : json["priceFactor"],
     selector: SecuritySelectorFromJSON(json["selector"]),
@@ -145,6 +160,7 @@ export function SecurityToJSONRecursive(
   return {
     cryptoCode: value.cryptoCode,
     isin: value.isin,
+    logos: SecurityLogoUrlsToJSON(value.logos),
     name: value.name,
     priceFactor: value.priceFactor,
     selector: SecuritySelectorToJSON(value.selector),

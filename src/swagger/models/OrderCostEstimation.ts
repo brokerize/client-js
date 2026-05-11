@@ -40,7 +40,7 @@ export interface OrderCostEstimation {
   /**
    * If present, users have to accept this message before creating an order.
    * If accepting the costs and performing the order is one click (which is allowed), the create order button label
-   * must contain the information that costs are accepted.
+   * must contain the information that costs are accepted. May contain (some) HTML
    * @type {string}
    * @memberof OrderCostEstimation
    */

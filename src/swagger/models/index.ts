@@ -211,6 +211,7 @@ export * from "./RenderGenericTableParams";
 export * from "./RiskClassInfo";
 export * from "./Security";
 export * from "./SecurityDetailedInfo";
+export * from "./SecurityLogoUrls";
 export * from "./SecurityQuote";
 export * from "./SecurityQuotes";
 export * from "./SecurityQuotesMeta";

@@ -283,6 +283,12 @@ export interface Order {
    */
   intent?: OrderIntentEnum;
   /**
+   * If this is true, the order data retrieved from the broker is incomplete. Fields may be missing or be incomplete.
+   * @type {boolean}
+   * @memberof Order
+   */
+  isIncomplete?: boolean;
+  /**
    * The ISIN of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.
    *
    * Note that we will make isin optional in a future version of the API.
@@ -577,6 +583,9 @@ export function OrderFromJSONTyped(
     id: json["id"],
     ifDoneLimit: !exists(json, "ifDoneLimit") ? undefined : json["ifDoneLimit"],
     intent: !exists(json, "intent") ? undefined : json["intent"],
+    isIncomplete: !exists(json, "isIncomplete")
+      ? undefined
+      : json["isIncomplete"],
     isin: json["isin"],
     limit: !exists(json, "limit") ? undefined : json["limit"],
     limitCurrencyIso: !exists(json, "limitCurrencyIso")
@@ -699,6 +708,7 @@ export function OrderToJSONRecursive(
     id: value.id,
     ifDoneLimit: value.ifDoneLimit,
     intent: value.intent,
+    isIncomplete: value.isIncomplete,
     isin: value.isin,
     limit: value.limit,
     limitCurrencyIso: value.limitCurrencyIso,

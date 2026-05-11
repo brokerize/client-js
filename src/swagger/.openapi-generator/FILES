@@ -225,6 +225,7 @@ models/RenderGenericTableParams.ts
 models/RiskClassInfo.ts
 models/Security.ts
 models/SecurityDetailedInfo.ts
+models/SecurityLogoUrls.ts
 models/SecurityQuote.ts
 models/SecurityQuotes.ts
 models/SecurityQuotesMeta.ts
