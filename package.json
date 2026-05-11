@@ -41,8 +41,8 @@
     "download-spec": "curl https://api-preview.brokerize.com/openapi.json > openapi.json && npm run format-openapi",
     "download-spec-local": "curl http://localhost:3333/openapi.json > openapi.json && npm run format-openapi",
     "format": "prettier --write src openapi.json",
-    "format-openapi": "prettier --write openapi.json",
     "format:check": "prettier src --check",
+    "format-openapi": "prettier --write openapi.json",
     "full-update": "npm run download-and-generate && npm run build",
     "full-update-local": "npm run download-and-generate-local && npm run build",
     "generate": "npm run clean-swagger && npm run openapi-preprocess && npx @openapitools/openapi-generator-cli generate -i temp/openapi.json -g typescript-fetch -t ./generator-tpl -o ./src/swagger && npm run format",
@@ -64,16 +64,17 @@
     "package.json": "sort-package-json"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "7.23.1",
-    "@openapitools/openapi-generator-cli": "2.5.1",
-    "@typescript-eslint/eslint-plugin": "5.56.0",
-    "eslint": "8.36.0",
-    "eslint-config-prettier": "8.8.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "2.8.6",
-    "sort-package-json": "^2.10.0",
-    "typescript": "5.3.3"
+    "@microsoft/api-extractor": "7.58.7",
+    "@openapitools/openapi-generator-cli": "2.32.0",
+    "@types/node": "^24.12.3",
+    "@typescript-eslint/eslint-plugin": "8.59.2",
+    "eslint": "10.3.0",
+    "eslint-config-prettier": "10.1.8",
+    "husky": "9.1.7",
+    "lint-staged": "17.0.4",
+    "prettier": "3.8.3",
+    "sort-package-json": "3.6.1",
+    "typescript": "6.0.3"
   },
   "publishConfig": {
     "access": "public"
