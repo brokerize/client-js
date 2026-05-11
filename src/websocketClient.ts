@@ -346,7 +346,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       } else if (
         (message as WebSocketAuthenticatedMessage).cmd == "authenticated"
       ) {
-        this._authenticatedCallback && this._authenticatedCallback();
+        if (this._authenticatedCallback) this._authenticatedCallback();
         this._authenticatedCallback = null;
       } else if ((message as WebSocketPingMessage).cmd == "ping") {
         // NOP
@@ -400,7 +400,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       }
       this._socket = null;
     };
-    this._pingIntvl && clearInterval(this._pingIntvl);
+    if (this._pingIntvl) clearInterval(this._pingIntvl);
     this._pingIntvl = setInterval(() => {
       // 2: CLOSING, 3: CLOSED
       if (
@@ -435,7 +435,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _handleFatalError(e: WebSocketError) {
     this._fatalError = e;
     this._updateReconnectInterval();
-    this._pingIntvl && clearInterval(this._pingIntvl);
+    if (this._pingIntvl) clearInterval(this._pingIntvl);
     for (const key in this._map) {
       this._notifySubscribersAboutFatalError(key);
     }
