@@ -76,15 +76,15 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
 
   /**
    * Simple backoff behavior: first retry is fast (100ms), next 9 retries 1s, after that we only reconnect every 10s.
+   * Jitter is added to avoid a thundering herd when many clients reconnect simultaneously (e.g. after a server-side disconnect).
+   * The first retry uses a wider jitter window (~1s) because that's the scenario most prone to bursts of TLS handshakes.
    */
   private _computeReconnectIntervalInMilliseconds(errorCount: number) {
     if (errorCount == 0) {
-      return 100;
-    } else if (errorCount < 10) {
-      return 1000;
-    } else {
-      return 10000;
+      return 100 + Math.floor(Math.random() * 1000);
     }
+    const base = errorCount < 10 ? 1000 : 10000;
+    return base + Math.floor(Math.random() * base);
   }
 
   private _shouldConnect() {
