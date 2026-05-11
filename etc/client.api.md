@@ -594,6 +594,7 @@ export type CognitoPoolConfig = {
 
 // @public
 interface ConfirmOAuthParams {
+    clientManagesChangeDetection?: boolean;
     code: string;
     reportingTag?: string | null;
     ticketId: string;

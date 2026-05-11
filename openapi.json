@@ -950,6 +950,9 @@
       },
       "ConfirmOAuthParams": {
         "properties": {
+          "clientManagesChangeDetection": {
+            "type": "boolean"
+          },
           "code": {
             "type": "string"
           },
@@ -4021,6 +4024,65 @@
         "required": ["message", "date"],
         "type": "object"
       },
+      "SyncHint": {
+        "discriminator": {
+          "mapping": {
+            "AssumeOrderExecuted": "#/components/schemas/SyncHintAssumeOrderExecuted",
+            "ManualReload": "#/components/schemas/SyncHintManualReload"
+          },
+          "propertyName": "type"
+        },
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/SyncHintType"
+          }
+        },
+        "required": ["type"],
+        "type": "object"
+      },
+      "SyncHintAssumeOrderExecuted": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SyncHint"
+          },
+          {
+            "$ref": "#/components/schemas/SyncHintAssumeOrderExecutedSpecifics"
+          }
+        ],
+        "required": ["orderId", "type"],
+        "type": "object"
+      },
+      "SyncHintAssumeOrderExecutedSpecifics": {
+        "properties": {
+          "orderId": {
+            "type": "string"
+          }
+        }
+      },
+      "SyncHintManualReload": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SyncHint"
+          },
+          {
+            "$ref": "#/components/schemas/SyncHintManualReloadSpecifics"
+          }
+        ],
+        "required": ["portfolioId", "type"],
+        "type": "object"
+      },
+      "SyncHintManualReloadSpecifics": {
+        "properties": {
+          "portfolioId": {
+            "type": "string"
+          }
+        }
+      },
+      "SyncHintType": {
+        "enum": ["ManualReload", "AssumeOrderExecuted"],
+        "nullable": false,
+        "type": "string"
+      },
       "TakeProfitStopLossCapabilites": {
         "description": "Describes whether and how takeProfit/stopLoss may be defined for an order.\nFor example, some brokers only allow takeProfit *or* stopLoss, not both.",
         "properties": {
@@ -4400,6 +4462,17 @@
           }
         },
         "required": ["value", "mode"],
+        "type": "object"
+      },
+      "TriggerSyncBody": {
+        "properties": {
+          "hints": {
+            "items": {
+              "$ref": "#/components/schemas/SyncHint"
+            },
+            "type": "array"
+          }
+        },
         "type": "object"
       },
       "ValidationDetail": {
@@ -10866,6 +10939,105 @@
         "tags": ["demobroker"]
       }
     },
+    "/sync": {
+      "post": {
+        "operationId": "TriggerSync",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriggerSyncBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "msg": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["msg"],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "AUTH",
+                      "msg": "Authentication is not present or invalid"
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not logged in"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "PORTFOLIO_NOT_FOUND",
+                      "msg": "Portfolio not found."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Portfolio or order not found"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "code": "RATE_LIMITED",
+                      "msg": "Rate limit exceeded."
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Rate-limit exceeded"
+          }
+        },
+        "security": [
+          {
+            "clientId": [],
+            "idToken": []
+          },
+          {
+            "clientId": [],
+            "cookieAuth": []
+          }
+        ],
+        "tags": ["sync"]
+      }
+    },
     "/trade/availableOrderIntents": {
       "get": {
         "description": "If `PreparedTrade` contains an `availableOrderIntentsToken`, this endpoint can be used to update the\navailable order intents.\n\nIt is recommended to poll this (e.g. at a rate of one request per 5s). In a future version updates will\nbe provided over WebSockets.",
@@ -13591,6 +13763,10 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
+    },
+    {
+      "description": "This API instance",
+      "url": "http://localhost:3333"
     }
   ],
   "tags": [

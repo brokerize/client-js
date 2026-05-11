@@ -20,6 +20,12 @@ import { exists, mapValues } from "../runtime";
 export interface ConfirmOAuthParams {
   /**
    *
+   * @type {boolean}
+   * @memberof ConfirmOAuthParams
+   */
+  clientManagesChangeDetection?: boolean;
+  /**
+   *
    * @type {string}
    * @memberof ConfirmOAuthParams
    */
@@ -50,6 +56,9 @@ export function ConfirmOAuthParamsFromJSONTyped(
     return json;
   }
   return {
+    clientManagesChangeDetection: !exists(json, "clientManagesChangeDetection")
+      ? undefined
+      : json["clientManagesChangeDetection"],
     code: json["code"],
     reportingTag: !exists(json, "reportingTag")
       ? undefined
@@ -70,6 +79,7 @@ export function ConfirmOAuthParamsToJSONRecursive(
   }
 
   return {
+    clientManagesChangeDetection: value.clientManagesChangeDetection,
     code: value.code,
     reportingTag: value.reportingTag,
     ticketId: value.ticketId,

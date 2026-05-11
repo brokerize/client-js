@@ -9,6 +9,7 @@ export * from "./OrderApi";
 export * from "./PortfolioApi";
 export * from "./SecuritiesApi";
 export * from "./SessionApi";
+export * from "./SyncApi";
 export * from "./TradeApi";
 export * from "./TradeDraftApi";
 export * from "./UserApi";
