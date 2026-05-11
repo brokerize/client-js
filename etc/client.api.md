@@ -4481,6 +4481,7 @@ declare namespace Models {
         Security,
         SecuritySelector,
         SecurityDetailedInfo,
+        SecurityLogoUrls,
         SellPosition,
         Session,
         SessionResponse,

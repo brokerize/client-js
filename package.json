@@ -14,14 +14,27 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/client.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/client.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/index.js",
   "types": "dist/client.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "api-extractor": "npx api-extractor run --local",
-    "build": "npx tsc && npm run api-extractor",
+    "build": "npx tsc && node scripts/fix-esm-extensions.cjs && npx tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'}))\" && npm run api-extractor",
     "clean-swagger": "rm -rf ./src/swagger",
     "download-and-generate": "npm run download-spec && npm run generate",
     "download-and-generate-local": "npm run download-spec-local && npm run generate",
@@ -37,6 +50,8 @@
     "lint-fix": "npm run format && eslint --ignore-path .gitignore ./src --fix",
     "openapi-generator-extract-templates": "npx openapi-generator-cli author template -g typescript-fetch -o generator-tpl",
     "openapi-preprocess": "node openapi-preprocess.js",
+    "prepack": "node scripts/prepack-package-json.cjs strip",
+    "postpack": "node scripts/prepack-package-json.cjs restore",
     "prepare": "husky"
   },
   "lint-staged": {
