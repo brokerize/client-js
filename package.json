@@ -34,7 +34,7 @@
   ],
   "scripts": {
     "api-extractor": "npx api-extractor run --local",
-    "build": "npx tsc && npx tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'}))\" && npm run api-extractor",
+    "build": "npx tsc && node scripts/fix-esm-extensions.cjs && npx tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type:'commonjs'}))\" && npm run api-extractor",
     "clean-swagger": "rm -rf ./src/swagger",
     "download-and-generate": "npm run download-spec && npm run generate",
     "download-and-generate-local": "npm run download-spec-local && npm run generate",
