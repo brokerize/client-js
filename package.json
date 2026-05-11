@@ -50,6 +50,8 @@
     "lint-fix": "npm run format && eslint --ignore-path .gitignore ./src --fix",
     "openapi-generator-extract-templates": "npx openapi-generator-cli author template -g typescript-fetch -o generator-tpl",
     "openapi-preprocess": "node openapi-preprocess.js",
+    "prepack": "node scripts/prepack-package-json.cjs strip",
+    "postpack": "node scripts/prepack-package-json.cjs restore",
     "prepare": "husky"
   },
   "lint-staged": {
