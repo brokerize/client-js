@@ -25,20 +25,20 @@ export type PortfolioSyncInfoStatus =
   (typeof PortfolioSyncInfoStatus)[keyof typeof PortfolioSyncInfoStatus];
 
 export function PortfolioSyncInfoStatusFromJSON(
-  json: any
+  json: any,
 ): PortfolioSyncInfoStatus {
   return PortfolioSyncInfoStatusFromJSONTyped(json, false);
 }
 
 export function PortfolioSyncInfoStatusFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfolioSyncInfoStatus {
   return json as PortfolioSyncInfoStatus;
 }
 
 export function PortfolioSyncInfoStatusToJSON(
-  value?: PortfolioSyncInfoStatus | null
+  value?: PortfolioSyncInfoStatus | null,
 ): any {
   return value as any;
 }

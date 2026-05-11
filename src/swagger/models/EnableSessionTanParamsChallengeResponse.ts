@@ -67,14 +67,14 @@ export type EnableSessionTanParamsChallengeResponseKindEnum =
   (typeof EnableSessionTanParamsChallengeResponseKindEnum)[keyof typeof EnableSessionTanParamsChallengeResponseKindEnum];
 
 export function EnableSessionTanParamsChallengeResponseFromJSON(
-  json: any
+  json: any,
 ): EnableSessionTanParamsChallengeResponse {
   return EnableSessionTanParamsChallengeResponseFromJSONTyped(json, false);
 }
 
 export function EnableSessionTanParamsChallengeResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EnableSessionTanParamsChallengeResponse {
   if (json === undefined || json === null) {
     return json;
@@ -89,7 +89,7 @@ export function EnableSessionTanParamsChallengeResponseFromJSONTyped(
 
 export function EnableSessionTanParamsChallengeResponseToJSONRecursive(
   value?: EnableSessionTanParamsChallengeResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -107,7 +107,7 @@ export function EnableSessionTanParamsChallengeResponseToJSONRecursive(
 }
 
 export function EnableSessionTanParamsChallengeResponseToJSON(
-  value?: EnableSessionTanParamsChallengeResponse | null
+  value?: EnableSessionTanParamsChallengeResponse | null,
 ): any {
   return EnableSessionTanParamsChallengeResponseToJSONRecursive(value, false);
 }

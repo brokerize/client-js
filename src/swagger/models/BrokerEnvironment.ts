@@ -44,7 +44,7 @@ export function BrokerEnvironmentFromJSON(json: any): BrokerEnvironment {
 
 export function BrokerEnvironmentFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): BrokerEnvironment {
   if (json === undefined || json === null) {
     return json;
@@ -58,7 +58,7 @@ export function BrokerEnvironmentFromJSONTyped(
 
 export function BrokerEnvironmentToJSONRecursive(
   value?: BrokerEnvironment | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

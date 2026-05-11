@@ -208,7 +208,7 @@ export function PreparedTradeFromJSON(json: any): PreparedTrade {
 
 export function PreparedTradeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PreparedTrade {
   if (json === undefined || json === null) {
     return json;
@@ -224,7 +224,7 @@ export function PreparedTradeFromJSONTyped(
     costEstimationIsNotAvailable: json["costEstimationIsNotAvailable"],
     costEstimationIsOnlyDetailedTable: !exists(
       json,
-      "costEstimationIsOnlyDetailedTable"
+      "costEstimationIsOnlyDetailedTable",
     )
       ? undefined
       : json["costEstimationIsOnlyDetailedTable"],
@@ -250,7 +250,7 @@ export function PreparedTradeFromJSONTyped(
     sizeUnitConstraints: !exists(json, "sizeUnitConstraints")
       ? undefined
       : (json["sizeUnitConstraints"] as Array<any>).map(
-          SizeUnitConstraintFromJSON
+          SizeUnitConstraintFromJSON,
         ),
     sizeUnitsByCashAccountId: !exists(json, "sizeUnitsByCashAccountId")
       ? undefined
@@ -266,7 +266,7 @@ export function PreparedTradeFromJSONTyped(
 
 export function PreparedTradeToJSONRecursive(
   value?: PreparedTrade | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -277,7 +277,7 @@ export function PreparedTradeToJSONRecursive(
 
   return {
     availableOrderIntents: OrderIntentAvailabilityToJSON(
-      value.availableOrderIntents
+      value.availableOrderIntents,
     ),
     availableOrderIntentsToken: value.availableOrderIntentsToken,
     brokerSecurityId: value.brokerSecurityId,
@@ -289,7 +289,7 @@ export function PreparedTradeToJSONRecursive(
     riskClassInfo: RiskClassInfoToJSON(value.riskClassInfo),
     security: SecurityToJSON(value.security),
     securityDetailedInfo: SecurityDetailedInfoToJSON(
-      value.securityDetailedInfo
+      value.securityDetailedInfo,
     ),
     sellPositions:
       value.sellPositions === undefined
@@ -301,7 +301,7 @@ export function PreparedTradeToJSONRecursive(
       value.sizeUnitConstraints === undefined
         ? undefined
         : (value.sizeUnitConstraints as Array<any>).map(
-            SizeUnitConstraintToJSON
+            SizeUnitConstraintToJSON,
           ),
     sizeUnitsByCashAccountId: value.sizeUnitsByCashAccountId,
     strikingHint: value.strikingHint,

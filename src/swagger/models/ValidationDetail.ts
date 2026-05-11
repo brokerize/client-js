@@ -38,7 +38,7 @@ export function ValidationDetailFromJSON(json: any): ValidationDetail {
 
 export function ValidationDetailFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ValidationDetail {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function ValidationDetailFromJSONTyped(
 
 export function ValidationDetailToJSONRecursive(
   value?: ValidationDetail | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

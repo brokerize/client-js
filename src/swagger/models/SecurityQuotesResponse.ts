@@ -34,14 +34,14 @@ export interface SecurityQuotesResponse {
 }
 
 export function SecurityQuotesResponseFromJSON(
-  json: any
+  json: any,
 ): SecurityQuotesResponse {
   return SecurityQuotesResponseFromJSONTyped(json, false);
 }
 
 export function SecurityQuotesResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SecurityQuotesResponse {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function SecurityQuotesResponseFromJSONTyped(
 
 export function SecurityQuotesResponseToJSONRecursive(
   value?: SecurityQuotesResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function SecurityQuotesResponseToJSONRecursive(
 }
 
 export function SecurityQuotesResponseToJSON(
-  value?: SecurityQuotesResponse | null
+  value?: SecurityQuotesResponse | null,
 ): any {
   return SecurityQuotesResponseToJSONRecursive(value, false);
 }

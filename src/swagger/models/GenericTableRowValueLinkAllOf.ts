@@ -36,14 +36,14 @@ export type GenericTableRowValueLinkAllOfTypeEnum =
   (typeof GenericTableRowValueLinkAllOfTypeEnum)[keyof typeof GenericTableRowValueLinkAllOfTypeEnum];
 
 export function GenericTableRowValueLinkAllOfFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueLinkAllOf {
   return GenericTableRowValueLinkAllOfFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueLinkAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueLinkAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function GenericTableRowValueLinkAllOfFromJSONTyped(
 
 export function GenericTableRowValueLinkAllOfToJSONRecursive(
   value?: GenericTableRowValueLinkAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function GenericTableRowValueLinkAllOfToJSONRecursive(
 }
 
 export function GenericTableRowValueLinkAllOfToJSON(
-  value?: GenericTableRowValueLinkAllOf | null
+  value?: GenericTableRowValueLinkAllOf | null,
 ): any {
   return GenericTableRowValueLinkAllOfToJSONRecursive(value, false);
 }

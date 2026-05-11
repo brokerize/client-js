@@ -51,7 +51,7 @@ export function DemoAccountFromJSON(json: any): DemoAccount {
 
 export function DemoAccountFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): DemoAccount {
   if (json === undefined || json === null) {
     return json;
@@ -65,7 +65,7 @@ export function DemoAccountFromJSONTyped(
 
 export function DemoAccountToJSONRecursive(
   value?: DemoAccount | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

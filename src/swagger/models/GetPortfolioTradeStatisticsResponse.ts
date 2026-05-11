@@ -34,14 +34,14 @@ export interface GetPortfolioTradeStatisticsResponse {
 }
 
 export function GetPortfolioTradeStatisticsResponseFromJSON(
-  json: any
+  json: any,
 ): GetPortfolioTradeStatisticsResponse {
   return GetPortfolioTradeStatisticsResponseFromJSONTyped(json, false);
 }
 
 export function GetPortfolioTradeStatisticsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetPortfolioTradeStatisticsResponse {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function GetPortfolioTradeStatisticsResponseFromJSONTyped(
 
 export function GetPortfolioTradeStatisticsResponseToJSONRecursive(
   value?: GetPortfolioTradeStatisticsResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function GetPortfolioTradeStatisticsResponseToJSONRecursive(
 }
 
 export function GetPortfolioTradeStatisticsResponseToJSON(
-  value?: GetPortfolioTradeStatisticsResponse | null
+  value?: GetPortfolioTradeStatisticsResponse | null,
 ): any {
   return GetPortfolioTradeStatisticsResponseToJSONRecursive(value, false);
 }

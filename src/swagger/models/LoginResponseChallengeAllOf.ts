@@ -36,14 +36,14 @@ export type LoginResponseChallengeAllOfStateEnum =
   (typeof LoginResponseChallengeAllOfStateEnum)[keyof typeof LoginResponseChallengeAllOfStateEnum];
 
 export function LoginResponseChallengeAllOfFromJSON(
-  json: any
+  json: any,
 ): LoginResponseChallengeAllOf {
   return LoginResponseChallengeAllOfFromJSONTyped(json, false);
 }
 
 export function LoginResponseChallengeAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LoginResponseChallengeAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function LoginResponseChallengeAllOfFromJSONTyped(
 
 export function LoginResponseChallengeAllOfToJSONRecursive(
   value?: LoginResponseChallengeAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function LoginResponseChallengeAllOfToJSONRecursive(
 }
 
 export function LoginResponseChallengeAllOfToJSON(
-  value?: LoginResponseChallengeAllOf | null
+  value?: LoginResponseChallengeAllOf | null,
 ): any {
   return LoginResponseChallengeAllOfToJSONRecursive(value, false);
 }

@@ -29,7 +29,7 @@ export function AuthMethodFlowFromJSON(json: any): AuthMethodFlow {
 
 export function AuthMethodFlowFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodFlow {
   return json as AuthMethodFlow;
 }

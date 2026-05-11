@@ -36,14 +36,14 @@ export type LoginResponseReadyAllOfStateEnum =
   (typeof LoginResponseReadyAllOfStateEnum)[keyof typeof LoginResponseReadyAllOfStateEnum];
 
 export function LoginResponseReadyAllOfFromJSON(
-  json: any
+  json: any,
 ): LoginResponseReadyAllOf {
   return LoginResponseReadyAllOfFromJSONTyped(json, false);
 }
 
 export function LoginResponseReadyAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LoginResponseReadyAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function LoginResponseReadyAllOfFromJSONTyped(
 
 export function LoginResponseReadyAllOfToJSONRecursive(
   value?: LoginResponseReadyAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function LoginResponseReadyAllOfToJSONRecursive(
 }
 
 export function LoginResponseReadyAllOfToJSON(
-  value?: LoginResponseReadyAllOf | null
+  value?: LoginResponseReadyAllOf | null,
 ): any {
   return LoginResponseReadyAllOfToJSONRecursive(value, false);
 }

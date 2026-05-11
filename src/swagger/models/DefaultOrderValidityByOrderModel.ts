@@ -100,14 +100,14 @@ export interface DefaultOrderValidityByOrderModel {
 }
 
 export function DefaultOrderValidityByOrderModelFromJSON(
-  json: any
+  json: any,
 ): DefaultOrderValidityByOrderModel {
   return DefaultOrderValidityByOrderModelFromJSONTyped(json, false);
 }
 
 export function DefaultOrderValidityByOrderModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): DefaultOrderValidityByOrderModel {
   if (json === undefined || json === null) {
     return json;
@@ -154,7 +154,7 @@ export function DefaultOrderValidityByOrderModelFromJSONTyped(
 
 export function DefaultOrderValidityByOrderModelToJSONRecursive(
   value?: DefaultOrderValidityByOrderModel | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -180,7 +180,7 @@ export function DefaultOrderValidityByOrderModelToJSONRecursive(
 }
 
 export function DefaultOrderValidityByOrderModelToJSON(
-  value?: DefaultOrderValidityByOrderModel | null
+  value?: DefaultOrderValidityByOrderModel | null,
 ): any {
   return DefaultOrderValidityByOrderModelToJSONRecursive(value, false);
 }

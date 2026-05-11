@@ -23,20 +23,20 @@ export type TradingSessionLifetime =
   (typeof TradingSessionLifetime)[keyof typeof TradingSessionLifetime];
 
 export function TradingSessionLifetimeFromJSON(
-  json: any
+  json: any,
 ): TradingSessionLifetime {
   return TradingSessionLifetimeFromJSONTyped(json, false);
 }
 
 export function TradingSessionLifetimeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradingSessionLifetime {
   return json as TradingSessionLifetime;
 }
 
 export function TradingSessionLifetimeToJSON(
-  value?: TradingSessionLifetime | null
+  value?: TradingSessionLifetime | null,
 ): any {
   return value as any;
 }

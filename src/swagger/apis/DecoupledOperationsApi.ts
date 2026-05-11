@@ -37,7 +37,7 @@ export class DecoupledOperationsApi extends runtime.BaseAPI {
    */
   async cancelDecoupledOperationRaw(
     requestParameters: CancelDecoupledOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.decoupledOperationId === null ||
@@ -45,7 +45,7 @@ export class DecoupledOperationsApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "decoupledOperationId",
-        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling cancelDecoupledOperation."
+        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling cancelDecoupledOperation.",
       );
     }
 
@@ -70,13 +70,13 @@ export class DecoupledOperationsApi extends runtime.BaseAPI {
       {
         path: `/decoupledOperations/{decoupledOperationId}`.replace(
           `{${"decoupledOperationId"}}`,
-          encodeURIComponent(String(requestParameters.decoupledOperationId))
+          encodeURIComponent(String(requestParameters.decoupledOperationId)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -86,7 +86,7 @@ export class DecoupledOperationsApi extends runtime.BaseAPI {
    */
   async cancelDecoupledOperation(
     requestParameters: CancelDecoupledOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.cancelDecoupledOperationRaw(requestParameters, initOverrides);
   }
@@ -95,7 +95,7 @@ export class DecoupledOperationsApi extends runtime.BaseAPI {
    */
   async getDecoupledOperationStatusRaw(
     requestParameters: GetDecoupledOperationStatusRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<DecoupledOperationStatus>> {
     if (
       requestParameters.decoupledOperationId === null ||
@@ -103,7 +103,7 @@ export class DecoupledOperationsApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "decoupledOperationId",
-        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling getDecoupledOperationStatus."
+        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling getDecoupledOperationStatus.",
       );
     }
 
@@ -128,17 +128,17 @@ export class DecoupledOperationsApi extends runtime.BaseAPI {
       {
         path: `/decoupledOperations/{decoupledOperationId}`.replace(
           `{${"decoupledOperationId"}}`,
-          encodeURIComponent(String(requestParameters.decoupledOperationId))
+          encodeURIComponent(String(requestParameters.decoupledOperationId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      DecoupledOperationStatusFromJSON(jsonValue)
+      DecoupledOperationStatusFromJSON(jsonValue),
     );
   }
 
@@ -146,11 +146,11 @@ export class DecoupledOperationsApi extends runtime.BaseAPI {
    */
   async getDecoupledOperationStatus(
     requestParameters: GetDecoupledOperationStatusRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<DecoupledOperationStatus> {
     const response = await this.getDecoupledOperationStatusRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

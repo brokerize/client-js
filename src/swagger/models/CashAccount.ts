@@ -56,7 +56,7 @@ export function CashAccountFromJSON(json: any): CashAccount {
 
 export function CashAccountFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CashAccount {
   if (json === undefined || json === null) {
     return json;
@@ -71,7 +71,7 @@ export function CashAccountFromJSONTyped(
 
 export function CashAccountToJSONRecursive(
   value?: CashAccount | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

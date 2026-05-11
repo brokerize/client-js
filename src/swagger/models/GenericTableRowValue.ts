@@ -53,7 +53,7 @@ export function GenericTableRowValueFromJSON(json: any): GenericTableRowValue {
 
 export function GenericTableRowValueFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValue {
   if (json === undefined || json === null) {
     return json;
@@ -81,13 +81,13 @@ export function GenericTableRowValueFromJSONTyped(
       };
     default:
       throw new Error(
-        `No variant of GenericTableRowValue exists with 'type=${json["type"]}'`
+        `No variant of GenericTableRowValue exists with 'type=${json["type"]}'`,
       );
   }
 }
 
 export function GenericTableRowValueToJSON(
-  value?: GenericTableRowValue | null
+  value?: GenericTableRowValue | null,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -106,7 +106,7 @@ export function GenericTableRowValueToJSON(
       return GenericTableRowValueTextToJSON(value);
     default:
       throw new Error(
-        `No variant of GenericTableRowValue exists with 'type=${value["type"]}'`
+        `No variant of GenericTableRowValue exists with 'type=${value["type"]}'`,
       );
   }
 }

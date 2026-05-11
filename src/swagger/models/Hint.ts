@@ -38,7 +38,7 @@ export function HintFromJSON(json: any): Hint {
 
 export function HintFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): Hint {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function HintFromJSONTyped(
 
 export function HintToJSONRecursive(
   value?: Hint | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

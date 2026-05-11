@@ -44,7 +44,7 @@ export function SecurityQuotesMetaFromJSON(json: any): SecurityQuotesMeta {
 
 export function SecurityQuotesMetaFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SecurityQuotesMeta {
   if (json === undefined || json === null) {
     return json;
@@ -58,7 +58,7 @@ export function SecurityQuotesMetaFromJSONTyped(
 
 export function SecurityQuotesMetaToJSONRecursive(
   value?: SecurityQuotesMeta | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -75,7 +75,7 @@ export function SecurityQuotesMetaToJSONRecursive(
 }
 
 export function SecurityQuotesMetaToJSON(
-  value?: SecurityQuotesMeta | null
+  value?: SecurityQuotesMeta | null,
 ): any {
   return SecurityQuotesMetaToJSONRecursive(value, false);
 }

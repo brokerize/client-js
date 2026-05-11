@@ -81,7 +81,7 @@ export function AuthMethodDecoupledFromJSON(json: any): AuthMethodDecoupled {
 
 export function AuthMethodDecoupledFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodDecoupled {
   if (json === undefined || json === null) {
     return json;
@@ -101,7 +101,7 @@ export function AuthMethodDecoupledFromJSONTyped(
 
 export function AuthMethodDecoupledToJSONRecursive(
   value?: AuthMethodDecoupled | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -120,7 +120,7 @@ export function AuthMethodDecoupledToJSONRecursive(
 }
 
 export function AuthMethodDecoupledToJSON(
-  value?: AuthMethodDecoupled | null
+  value?: AuthMethodDecoupled | null,
 ): any {
   return AuthMethodDecoupledToJSONRecursive(value, false);
 }

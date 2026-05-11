@@ -99,7 +99,7 @@ export function OrderExecutionFromJSON(json: any): OrderExecution {
 
 export function OrderExecutionFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderExecution {
   if (json === undefined || json === null) {
     return json;
@@ -131,7 +131,7 @@ export function OrderExecutionFromJSONTyped(
 
 export function OrderExecutionToJSONRecursive(
   value?: OrderExecution | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

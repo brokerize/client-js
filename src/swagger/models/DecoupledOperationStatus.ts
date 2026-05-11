@@ -61,14 +61,14 @@ export interface DecoupledOperationStatus {
 }
 
 export function DecoupledOperationStatusFromJSON(
-  json: any
+  json: any,
 ): DecoupledOperationStatus {
   return DecoupledOperationStatusFromJSONTyped(json, false);
 }
 
 export function DecoupledOperationStatusFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): DecoupledOperationStatus {
   if (json === undefined || json === null) {
     return json;
@@ -87,7 +87,7 @@ export function DecoupledOperationStatusFromJSONTyped(
 
 export function DecoupledOperationStatusToJSONRecursive(
   value?: DecoupledOperationStatus | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -105,7 +105,7 @@ export function DecoupledOperationStatusToJSONRecursive(
 }
 
 export function DecoupledOperationStatusToJSON(
-  value?: DecoupledOperationStatus | null
+  value?: DecoupledOperationStatus | null,
 ): any {
   return DecoupledOperationStatusToJSONRecursive(value, false);
 }

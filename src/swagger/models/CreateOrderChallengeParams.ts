@@ -47,14 +47,14 @@ export interface CreateOrderChallengeParams {
 }
 
 export function CreateOrderChallengeParamsFromJSON(
-  json: any
+  json: any,
 ): CreateOrderChallengeParams {
   return CreateOrderChallengeParamsFromJSONTyped(json, false);
 }
 
 export function CreateOrderChallengeParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateOrderChallengeParams {
   if (json === undefined || json === null) {
     return json;
@@ -70,7 +70,7 @@ export function CreateOrderChallengeParamsFromJSONTyped(
 
 export function CreateOrderChallengeParamsToJSONRecursive(
   value?: CreateOrderChallengeParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -87,7 +87,7 @@ export function CreateOrderChallengeParamsToJSONRecursive(
 }
 
 export function CreateOrderChallengeParamsToJSON(
-  value?: CreateOrderChallengeParams | null
+  value?: CreateOrderChallengeParams | null,
 ): any {
   return CreateOrderChallengeParamsToJSONRecursive(value, false);
 }

@@ -87,7 +87,7 @@ export function AuthMethodTanFromJSON(json: any): AuthMethodTan {
 
 export function AuthMethodTanFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodTan {
   if (json === undefined || json === null) {
     return json;
@@ -108,7 +108,7 @@ export function AuthMethodTanFromJSONTyped(
 
 export function AuthMethodTanToJSONRecursive(
   value?: AuthMethodTan | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

@@ -253,7 +253,7 @@ export function ClientConfigUpdateFromJSON(json: any): ClientConfigUpdate {
 
 export function ClientConfigUpdateFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ClientConfigUpdate {
   if (json === undefined || json === null) {
     return json;
@@ -270,7 +270,7 @@ export function ClientConfigUpdateFromJSONTyped(
       : json["allowedOrigins"],
     allowedOriginsRegularExpressions: !exists(
       json,
-      "allowedOriginsRegularExpressions"
+      "allowedOriginsRegularExpressions",
     )
       ? undefined
       : json["allowedOriginsRegularExpressions"],
@@ -292,13 +292,13 @@ export function ClientConfigUpdateFromJSONTyped(
     enabled: !exists(json, "enabled") ? undefined : json["enabled"],
     guestUserInactivityTimeoutSeconds: !exists(
       json,
-      "guestUserInactivityTimeoutSeconds"
+      "guestUserInactivityTimeoutSeconds",
     )
       ? undefined
       : json["guestUserInactivityTimeoutSeconds"],
     guestUserInactivityTimeoutSecondsRecoveryPhrase: !exists(
       json,
-      "guestUserInactivityTimeoutSecondsRecoveryPhrase"
+      "guestUserInactivityTimeoutSecondsRecoveryPhrase",
     )
       ? undefined
       : json["guestUserInactivityTimeoutSecondsRecoveryPhrase"],
@@ -323,7 +323,7 @@ export function ClientConfigUpdateFromJSONTyped(
       : ClientConfigUpdateOAuthLoginFormFromJSON(json["oAuthLoginForm"]),
     oAuthReturnToRegularExpressions: !exists(
       json,
-      "oAuthReturnToRegularExpressions"
+      "oAuthReturnToRegularExpressions",
     )
       ? undefined
       : json["oAuthReturnToRegularExpressions"],
@@ -339,7 +339,7 @@ export function ClientConfigUpdateFromJSONTyped(
     rateLimitPointsToConsume: !exists(json, "rateLimitPointsToConsume")
       ? undefined
       : ClientConfigUpdateRateLimitPointsToConsumeFromJSON(
-          json["rateLimitPointsToConsume"]
+          json["rateLimitPointsToConsume"],
         ),
     readonly: !exists(json, "readonly") ? undefined : json["readonly"],
     reportingFlags: !exists(json, "reportingFlags")
@@ -347,7 +347,7 @@ export function ClientConfigUpdateFromJSONTyped(
       : json["reportingFlags"],
     tradingSessionInactivityTimeoutSeconds: !exists(
       json,
-      "tradingSessionInactivityTimeoutSeconds"
+      "tradingSessionInactivityTimeoutSeconds",
     )
       ? undefined
       : json["tradingSessionInactivityTimeoutSeconds"],
@@ -359,7 +359,7 @@ export function ClientConfigUpdateFromJSONTyped(
 
 export function ClientConfigUpdateToJSONRecursive(
   value?: ClientConfigUpdate | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -389,32 +389,32 @@ export function ClientConfigUpdateToJSONRecursive(
     hideOfflinePortfolios: value.hideOfflinePortfolios,
     legalEntityName: value.legalEntityName,
     maintenanceStatus: ClientConfigMaintenanceStatusToJSON(
-      value.maintenanceStatus
+      value.maintenanceStatus,
     ),
     managingUserIds: value.managingUserIds,
     name: value.name,
     oAuthLoginForm: ClientConfigUpdateOAuthLoginFormToJSON(
-      value.oAuthLoginForm
+      value.oAuthLoginForm,
     ),
     oAuthReturnToRegularExpressions: value.oAuthReturnToRegularExpressions,
     oAuthReturnToUrls: value.oAuthReturnToUrls,
     optionalClientSecrets: value.optionalClientSecrets,
     page: ClientConfigUpdatePageToJSON(value.page),
     rateLimitPointsToConsume: ClientConfigUpdateRateLimitPointsToConsumeToJSON(
-      value.rateLimitPointsToConsume
+      value.rateLimitPointsToConsume,
     ),
     readonly: value.readonly,
     reportingFlags: value.reportingFlags,
     tradingSessionInactivityTimeoutSeconds:
       value.tradingSessionInactivityTimeoutSeconds,
     tradingSessionLifetime: TradingSessionLifetimeToJSON(
-      value.tradingSessionLifetime
+      value.tradingSessionLifetime,
     ),
   };
 }
 
 export function ClientConfigUpdateToJSON(
-  value?: ClientConfigUpdate | null
+  value?: ClientConfigUpdate | null,
 ): any {
   return ClientConfigUpdateToJSONRecursive(value, false);
 }

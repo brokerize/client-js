@@ -70,14 +70,14 @@ export interface AuthMethodChallengeResponseSpecifics {
 }
 
 export function AuthMethodChallengeResponseSpecificsFromJSON(
-  json: any
+  json: any,
 ): AuthMethodChallengeResponseSpecifics {
   return AuthMethodChallengeResponseSpecificsFromJSONTyped(json, false);
 }
 
 export function AuthMethodChallengeResponseSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodChallengeResponseSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -88,7 +88,7 @@ export function AuthMethodChallengeResponseSpecificsFromJSONTyped(
       : json["challengeLabel"],
     challengeResponseIsOnlyConfirmation: !exists(
       json,
-      "challengeResponseIsOnlyConfirmation"
+      "challengeResponseIsOnlyConfirmation",
     )
       ? undefined
       : json["challengeResponseIsOnlyConfirmation"],
@@ -111,7 +111,7 @@ export function AuthMethodChallengeResponseSpecificsFromJSONTyped(
 
 export function AuthMethodChallengeResponseSpecificsToJSONRecursive(
   value?: AuthMethodChallengeResponseSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -134,7 +134,7 @@ export function AuthMethodChallengeResponseSpecificsToJSONRecursive(
 }
 
 export function AuthMethodChallengeResponseSpecificsToJSON(
-  value?: AuthMethodChallengeResponseSpecifics | null
+  value?: AuthMethodChallengeResponseSpecifics | null,
 ): any {
   return AuthMethodChallengeResponseSpecificsToJSONRecursive(value, false);
 }

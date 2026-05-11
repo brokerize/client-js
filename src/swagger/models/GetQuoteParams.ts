@@ -84,7 +84,7 @@ export function GetQuoteParamsFromJSON(json: any): GetQuoteParams {
 
 export function GetQuoteParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetQuoteParams {
   if (json === undefined || json === null) {
     return json;
@@ -109,7 +109,7 @@ export function GetQuoteParamsFromJSONTyped(
 
 export function GetQuoteParamsToJSONRecursive(
   value?: GetQuoteParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

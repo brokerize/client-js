@@ -27,14 +27,14 @@ export interface GenericTableRowValueDatetimeSpecifics {
 }
 
 export function GenericTableRowValueDatetimeSpecificsFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueDatetimeSpecifics {
   return GenericTableRowValueDatetimeSpecificsFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueDatetimeSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueDatetimeSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function GenericTableRowValueDatetimeSpecificsFromJSONTyped(
 
 export function GenericTableRowValueDatetimeSpecificsToJSONRecursive(
   value?: GenericTableRowValueDatetimeSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function GenericTableRowValueDatetimeSpecificsToJSONRecursive(
 }
 
 export function GenericTableRowValueDatetimeSpecificsToJSON(
-  value?: GenericTableRowValueDatetimeSpecifics | null
+  value?: GenericTableRowValueDatetimeSpecifics | null,
 ): any {
   return GenericTableRowValueDatetimeSpecificsToJSONRecursive(value, false);
 }

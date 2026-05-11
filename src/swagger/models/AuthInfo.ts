@@ -65,7 +65,7 @@ export function AuthInfoFromJSON(json: any): AuthInfo {
 
 export function AuthInfoFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthInfo {
   if (json === undefined || json === null) {
     return json;
@@ -73,7 +73,7 @@ export function AuthInfoFromJSONTyped(
   return {
     allOperationsRequireSessionTan: !exists(
       json,
-      "allOperationsRequireSessionTan"
+      "allOperationsRequireSessionTan",
     )
       ? undefined
       : json["allOperationsRequireSessionTan"],
@@ -90,7 +90,7 @@ export function AuthInfoFromJSONTyped(
 
 export function AuthInfoToJSONRecursive(
   value?: AuthInfo | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

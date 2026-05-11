@@ -46,7 +46,7 @@ export function SessionSyncInfoFromJSON(json: any): SessionSyncInfo {
 
 export function SessionSyncInfoFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SessionSyncInfo {
   if (json === undefined || json === null) {
     return json;
@@ -69,7 +69,7 @@ export function SessionSyncInfoFromJSONTyped(
       };
     default:
       throw new Error(
-        `No variant of SessionSyncInfo exists with 'status=${json["status"]}'`
+        `No variant of SessionSyncInfo exists with 'status=${json["status"]}'`,
       );
   }
 }
@@ -90,7 +90,7 @@ export function SessionSyncInfoToJSON(value?: SessionSyncInfo | null): any {
       return SessionSyncInfoSyncedToJSON(value);
     default:
       throw new Error(
-        `No variant of SessionSyncInfo exists with 'status=${value["status"]}'`
+        `No variant of SessionSyncInfo exists with 'status=${value["status"]}'`,
       );
   }
 }

@@ -34,14 +34,14 @@ export interface CancelOrderDecoupledSpecifics {
 }
 
 export function CancelOrderDecoupledSpecificsFromJSON(
-  json: any
+  json: any,
 ): CancelOrderDecoupledSpecifics {
   return CancelOrderDecoupledSpecificsFromJSONTyped(json, false);
 }
 
 export function CancelOrderDecoupledSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderDecoupledSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -56,7 +56,7 @@ export function CancelOrderDecoupledSpecificsFromJSONTyped(
 
 export function CancelOrderDecoupledSpecificsToJSONRecursive(
   value?: CancelOrderDecoupledSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -72,7 +72,7 @@ export function CancelOrderDecoupledSpecificsToJSONRecursive(
 }
 
 export function CancelOrderDecoupledSpecificsToJSON(
-  value?: CancelOrderDecoupledSpecifics | null
+  value?: CancelOrderDecoupledSpecifics | null,
 ): any {
   return CancelOrderDecoupledSpecificsToJSONRecursive(value, false);
 }

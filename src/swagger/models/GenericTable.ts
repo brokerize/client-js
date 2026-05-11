@@ -57,7 +57,7 @@ export function GenericTableFromJSON(json: any): GenericTable {
 
 export function GenericTableFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTable {
   if (json === undefined || json === null) {
     return json;
@@ -75,7 +75,7 @@ export function GenericTableFromJSONTyped(
 
 export function GenericTableToJSONRecursive(
   value?: GenericTable | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

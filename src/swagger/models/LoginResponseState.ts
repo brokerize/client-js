@@ -28,13 +28,13 @@ export function LoginResponseStateFromJSON(json: any): LoginResponseState {
 
 export function LoginResponseStateFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LoginResponseState {
   return json as LoginResponseState;
 }
 
 export function LoginResponseStateToJSON(
-  value?: LoginResponseState | null
+  value?: LoginResponseState | null,
 ): any {
   return value as any;
 }

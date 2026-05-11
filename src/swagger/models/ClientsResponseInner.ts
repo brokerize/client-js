@@ -51,7 +51,7 @@ export function ClientsResponseInnerFromJSON(json: any): ClientsResponseInner {
 
 export function ClientsResponseInnerFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ClientsResponseInner {
   if (json === undefined || json === null) {
     return json;
@@ -66,7 +66,7 @@ export function ClientsResponseInnerFromJSONTyped(
 
 export function ClientsResponseInnerToJSONRecursive(
   value?: ClientsResponseInner | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -84,7 +84,7 @@ export function ClientsResponseInnerToJSONRecursive(
 }
 
 export function ClientsResponseInnerToJSON(
-  value?: ClientsResponseInner | null
+  value?: ClientsResponseInner | null,
 ): any {
   return ClientsResponseInnerToJSONRecursive(value, false);
 }

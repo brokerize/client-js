@@ -24,20 +24,20 @@ export type CancelOrderParamsMode =
   (typeof CancelOrderParamsMode)[keyof typeof CancelOrderParamsMode];
 
 export function CancelOrderParamsModeFromJSON(
-  json: any
+  json: any,
 ): CancelOrderParamsMode {
   return CancelOrderParamsModeFromJSONTyped(json, false);
 }
 
 export function CancelOrderParamsModeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderParamsMode {
   return json as CancelOrderParamsMode;
 }
 
 export function CancelOrderParamsModeToJSON(
-  value?: CancelOrderParamsMode | null
+  value?: CancelOrderParamsMode | null,
 ): any {
   return value as any;
 }

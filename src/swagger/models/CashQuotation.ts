@@ -32,7 +32,7 @@ export function CashQuotationFromJSON(json: any): CashQuotation {
 
 export function CashQuotationFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CashQuotation {
   return json as CashQuotation;
 }

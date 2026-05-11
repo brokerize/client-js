@@ -38,7 +38,7 @@ export function AccessTokenResultFromJSON(json: any): AccessTokenResult {
 
 export function AccessTokenResultFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AccessTokenResult {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function AccessTokenResultFromJSONTyped(
 
 export function AccessTokenResultToJSONRecursive(
   value?: AccessTokenResult | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

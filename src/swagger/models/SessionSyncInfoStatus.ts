@@ -24,20 +24,20 @@ export type SessionSyncInfoStatus =
   (typeof SessionSyncInfoStatus)[keyof typeof SessionSyncInfoStatus];
 
 export function SessionSyncInfoStatusFromJSON(
-  json: any
+  json: any,
 ): SessionSyncInfoStatus {
   return SessionSyncInfoStatusFromJSONTyped(json, false);
 }
 
 export function SessionSyncInfoStatusFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SessionSyncInfoStatus {
   return json as SessionSyncInfoStatus;
 }
 
 export function SessionSyncInfoStatusToJSON(
-  value?: SessionSyncInfoStatus | null
+  value?: SessionSyncInfoStatus | null,
 ): any {
   return value as any;
 }

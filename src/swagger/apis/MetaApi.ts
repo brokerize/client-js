@@ -43,7 +43,7 @@ export class MetaApi extends runtime.BaseAPI {
    * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future). The `loginForm` field is only available for a small combination of brokers and clients and is not guaranteed to be present.
    */
   async getBrokersRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetBrokersResponse>> {
     const queryParameters: any = {};
 
@@ -61,11 +61,11 @@ export class MetaApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetBrokersResponseFromJSON(jsonValue)
+      GetBrokersResponseFromJSON(jsonValue),
     );
   }
 
@@ -73,7 +73,7 @@ export class MetaApi extends runtime.BaseAPI {
    * List all brokers that users can log in to. Describes *how* to login by specifying either a `loginForm` or some other means of login (e.g. the brokers\' OAuth process in the future). The `loginForm` field is only available for a small combination of brokers and clients and is not guaranteed to be present.
    */
   async getBrokers(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetBrokersResponse> {
     const response = await this.getBrokersRaw(initOverrides);
     return await response.value();
@@ -83,7 +83,7 @@ export class MetaApi extends runtime.BaseAPI {
    * List all exchanges mapped in brokerize.  Brokers provide their own list of exchanges with any order preparation request, so there may be cases where a broker exchange is not mapped to this brokerize exchange list. This is totally valid: this list serves as a known subset of exchanges to facilitate switching between brokers or mapping to your own exchange database.
    */
   async getExchangesRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<ExchangesResponse>> {
     const queryParameters: any = {};
 
@@ -101,11 +101,11 @@ export class MetaApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ExchangesResponseFromJSON(jsonValue)
+      ExchangesResponseFromJSON(jsonValue),
     );
   }
 
@@ -113,7 +113,7 @@ export class MetaApi extends runtime.BaseAPI {
    * List all exchanges mapped in brokerize.  Brokers provide their own list of exchanges with any order preparation request, so there may be cases where a broker exchange is not mapped to this brokerize exchange list. This is totally valid: this list serves as a known subset of exchanges to facilitate switching between brokers or mapping to your own exchange database.
    */
   async getExchanges(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<ExchangesResponse> {
     const response = await this.getExchangesRaw(initOverrides);
     return await response.value();
@@ -123,7 +123,7 @@ export class MetaApi extends runtime.BaseAPI {
    * Get the legal terms that the user has to accept before logging in to any broker.
    */
   async getLegalTermsRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<LegalTermsResponse>> {
     const queryParameters: any = {};
 
@@ -149,11 +149,11 @@ export class MetaApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      LegalTermsResponseFromJSON(jsonValue)
+      LegalTermsResponseFromJSON(jsonValue),
     );
   }
 
@@ -161,7 +161,7 @@ export class MetaApi extends runtime.BaseAPI {
    * Get the legal terms that the user has to accept before logging in to any broker.
    */
   async getLegalTerms(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<LegalTermsResponse> {
     const response = await this.getLegalTermsRaw(initOverrides);
     return await response.value();
@@ -172,7 +172,7 @@ export class MetaApi extends runtime.BaseAPI {
    */
   async getPagesConfigurationRaw(
     requestParameters: GetPagesConfigurationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<PagesConfigurationResponse>> {
     const queryParameters: any = {};
 
@@ -193,11 +193,11 @@ export class MetaApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PagesConfigurationResponseFromJSON(jsonValue)
+      PagesConfigurationResponseFromJSON(jsonValue),
     );
   }
 
@@ -206,11 +206,11 @@ export class MetaApi extends runtime.BaseAPI {
    */
   async getPagesConfiguration(
     requestParameters: GetPagesConfigurationRequest = {},
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<PagesConfigurationResponse> {
     const response = await this.getPagesConfigurationRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

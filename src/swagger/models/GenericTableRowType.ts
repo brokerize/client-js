@@ -29,13 +29,13 @@ export function GenericTableRowTypeFromJSON(json: any): GenericTableRowType {
 
 export function GenericTableRowTypeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowType {
   return json as GenericTableRowType;
 }
 
 export function GenericTableRowTypeToJSON(
-  value?: GenericTableRowType | null
+  value?: GenericTableRowType | null,
 ): any {
   return value as any;
 }

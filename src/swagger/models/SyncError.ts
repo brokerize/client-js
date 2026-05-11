@@ -38,7 +38,7 @@ export function SyncErrorFromJSON(json: any): SyncError {
 
 export function SyncErrorFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SyncError {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function SyncErrorFromJSONTyped(
 
 export function SyncErrorToJSONRecursive(
   value?: SyncError | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

@@ -135,7 +135,7 @@ export function SummarizedTradeFromJSON(json: any): SummarizedTrade {
 
 export function SummarizedTradeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SummarizedTrade {
   if (json === undefined || json === null) {
     return json;
@@ -170,7 +170,7 @@ export function SummarizedTradeFromJSONTyped(
 
 export function SummarizedTradeToJSONRecursive(
   value?: SummarizedTrade | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

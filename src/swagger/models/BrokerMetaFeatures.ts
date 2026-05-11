@@ -64,7 +64,7 @@ export function BrokerMetaFeaturesFromJSON(json: any): BrokerMetaFeatures {
 
 export function BrokerMetaFeaturesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): BrokerMetaFeatures {
   if (json === undefined || json === null) {
     return json;
@@ -75,7 +75,7 @@ export function BrokerMetaFeaturesFromJSONTyped(
       : json["orderExchangeNames"],
     positionProfitLossAbsPrevClose: !exists(
       json,
-      "positionProfitLossAbsPrevClose"
+      "positionProfitLossAbsPrevClose",
     )
       ? undefined
       : json["positionProfitLossAbsPrevClose"],
@@ -84,19 +84,19 @@ export function BrokerMetaFeaturesFromJSONTyped(
       : json["positionProfitLossRel"],
     positionProfitLossRelPrevClose: !exists(
       json,
-      "positionProfitLossRelPrevClose"
+      "positionProfitLossRelPrevClose",
     )
       ? undefined
       : json["positionProfitLossRelPrevClose"],
     supportedOrderStatuses: (json["supportedOrderStatuses"] as Array<any>).map(
-      OrderStatusFromJSON
+      OrderStatusFromJSON,
     ),
   };
 }
 
 export function BrokerMetaFeaturesToJSONRecursive(
   value?: BrokerMetaFeatures | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -111,13 +111,13 @@ export function BrokerMetaFeaturesToJSONRecursive(
     positionProfitLossRel: value.positionProfitLossRel,
     positionProfitLossRelPrevClose: value.positionProfitLossRelPrevClose,
     supportedOrderStatuses: (value.supportedOrderStatuses as Array<any>).map(
-      OrderStatusToJSON
+      OrderStatusToJSON,
     ),
   };
 }
 
 export function BrokerMetaFeaturesToJSON(
-  value?: BrokerMetaFeatures | null
+  value?: BrokerMetaFeatures | null,
 ): any {
   return BrokerMetaFeaturesToJSONRecursive(value, false);
 }

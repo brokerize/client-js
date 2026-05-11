@@ -34,14 +34,14 @@ export interface SetClientConfigRequest {
 }
 
 export function SetClientConfigRequestFromJSON(
-  json: any
+  json: any,
 ): SetClientConfigRequest {
   return SetClientConfigRequestFromJSONTyped(json, false);
 }
 
 export function SetClientConfigRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SetClientConfigRequest {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function SetClientConfigRequestFromJSONTyped(
 
 export function SetClientConfigRequestToJSONRecursive(
   value?: SetClientConfigRequest | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function SetClientConfigRequestToJSONRecursive(
 }
 
 export function SetClientConfigRequestToJSON(
-  value?: SetClientConfigRequest | null
+  value?: SetClientConfigRequest | null,
 ): any {
   return SetClientConfigRequestToJSONRecursive(value, false);
 }

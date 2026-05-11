@@ -27,14 +27,14 @@ export interface ObtainTokenByRecoveryPhraseParams {
 }
 
 export function ObtainTokenByRecoveryPhraseParamsFromJSON(
-  json: any
+  json: any,
 ): ObtainTokenByRecoveryPhraseParams {
   return ObtainTokenByRecoveryPhraseParamsFromJSONTyped(json, false);
 }
 
 export function ObtainTokenByRecoveryPhraseParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ObtainTokenByRecoveryPhraseParams {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function ObtainTokenByRecoveryPhraseParamsFromJSONTyped(
 
 export function ObtainTokenByRecoveryPhraseParamsToJSONRecursive(
   value?: ObtainTokenByRecoveryPhraseParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function ObtainTokenByRecoveryPhraseParamsToJSONRecursive(
 }
 
 export function ObtainTokenByRecoveryPhraseParamsToJSON(
-  value?: ObtainTokenByRecoveryPhraseParams | null
+  value?: ObtainTokenByRecoveryPhraseParams | null,
 ): any {
   return ObtainTokenByRecoveryPhraseParamsToJSONRecursive(value, false);
 }

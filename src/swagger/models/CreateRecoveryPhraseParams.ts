@@ -28,14 +28,14 @@ export interface CreateRecoveryPhraseParams {
 }
 
 export function CreateRecoveryPhraseParamsFromJSON(
-  json: any
+  json: any,
 ): CreateRecoveryPhraseParams {
   return CreateRecoveryPhraseParamsFromJSONTyped(json, false);
 }
 
 export function CreateRecoveryPhraseParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateRecoveryPhraseParams {
   if (json === undefined || json === null) {
     return json;
@@ -47,7 +47,7 @@ export function CreateRecoveryPhraseParamsFromJSONTyped(
 
 export function CreateRecoveryPhraseParamsToJSONRecursive(
   value?: CreateRecoveryPhraseParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -62,7 +62,7 @@ export function CreateRecoveryPhraseParamsToJSONRecursive(
 }
 
 export function CreateRecoveryPhraseParamsToJSON(
-  value?: CreateRecoveryPhraseParams | null
+  value?: CreateRecoveryPhraseParams | null,
 ): any {
   return CreateRecoveryPhraseParamsToJSONRecursive(value, false);
 }

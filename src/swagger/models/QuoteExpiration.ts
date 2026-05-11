@@ -46,7 +46,7 @@ export function QuoteExpirationFromJSON(json: any): QuoteExpiration {
 
 export function QuoteExpirationFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): QuoteExpiration {
   if (json === undefined || json === null) {
     return json;
@@ -60,7 +60,7 @@ export function QuoteExpirationFromJSONTyped(
 
 export function QuoteExpirationToJSONRecursive(
   value?: QuoteExpiration | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

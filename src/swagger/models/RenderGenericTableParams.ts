@@ -34,14 +34,14 @@ export interface RenderGenericTableParams {
 }
 
 export function RenderGenericTableParamsFromJSON(
-  json: any
+  json: any,
 ): RenderGenericTableParams {
   return RenderGenericTableParamsFromJSONTyped(json, false);
 }
 
 export function RenderGenericTableParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): RenderGenericTableParams {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function RenderGenericTableParamsFromJSONTyped(
 
 export function RenderGenericTableParamsToJSONRecursive(
   value?: RenderGenericTableParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function RenderGenericTableParamsToJSONRecursive(
 }
 
 export function RenderGenericTableParamsToJSON(
-  value?: RenderGenericTableParams | null
+  value?: RenderGenericTableParams | null,
 ): any {
   return RenderGenericTableParamsToJSONRecursive(value, false);
 }

@@ -60,7 +60,7 @@ export function ChallengeFromJSON(json: any): Challenge {
 
 export function ChallengeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): Challenge {
   if (json === undefined || json === null) {
     return json;
@@ -77,7 +77,7 @@ export function ChallengeFromJSONTyped(
 
 export function ChallengeToJSONRecursive(
   value?: Challenge | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

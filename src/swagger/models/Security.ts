@@ -124,7 +124,7 @@ export function SecurityFromJSON(json: any): Security {
 
 export function SecurityFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): Security {
   if (json === undefined || json === null) {
     return json;
@@ -148,7 +148,7 @@ export function SecurityFromJSONTyped(
 
 export function SecurityToJSONRecursive(
   value?: Security | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

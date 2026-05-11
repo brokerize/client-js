@@ -34,28 +34,28 @@ export interface GetRecoveryPhrasesResponse {
 }
 
 export function GetRecoveryPhrasesResponseFromJSON(
-  json: any
+  json: any,
 ): GetRecoveryPhrasesResponse {
   return GetRecoveryPhrasesResponseFromJSONTyped(json, false);
 }
 
 export function GetRecoveryPhrasesResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetRecoveryPhrasesResponse {
   if (json === undefined || json === null) {
     return json;
   }
   return {
     recoveryPhrases: (json["recoveryPhrases"] as Array<any>).map(
-      RecoveryPhraseItemFromJSON
+      RecoveryPhraseItemFromJSON,
     ),
   };
 }
 
 export function GetRecoveryPhrasesResponseToJSONRecursive(
   value?: GetRecoveryPhrasesResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -66,13 +66,13 @@ export function GetRecoveryPhrasesResponseToJSONRecursive(
 
   return {
     recoveryPhrases: (value.recoveryPhrases as Array<any>).map(
-      RecoveryPhraseItemToJSON
+      RecoveryPhraseItemToJSON,
     ),
   };
 }
 
 export function GetRecoveryPhrasesResponseToJSON(
-  value?: GetRecoveryPhrasesResponse | null
+  value?: GetRecoveryPhrasesResponse | null,
 ): any {
   return GetRecoveryPhrasesResponseToJSONRecursive(value, false);
 }

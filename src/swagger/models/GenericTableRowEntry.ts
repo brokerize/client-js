@@ -84,7 +84,7 @@ export function GenericTableRowEntryFromJSON(json: any): GenericTableRowEntry {
 
 export function GenericTableRowEntryFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowEntry {
   if (json === undefined || json === null) {
     return json;
@@ -102,7 +102,7 @@ export function GenericTableRowEntryFromJSONTyped(
 
 export function GenericTableRowEntryToJSONRecursive(
   value?: GenericTableRowEntry | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -121,7 +121,7 @@ export function GenericTableRowEntryToJSONRecursive(
 }
 
 export function GenericTableRowEntryToJSON(
-  value?: GenericTableRowEntry | null
+  value?: GenericTableRowEntry | null,
 ): any {
   return GenericTableRowEntryToJSONRecursive(value, false);
 }

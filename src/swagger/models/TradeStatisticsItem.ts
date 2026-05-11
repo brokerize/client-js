@@ -51,7 +51,7 @@ export function TradeStatisticsItemFromJSON(json: any): TradeStatisticsItem {
 
 export function TradeStatisticsItemFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradeStatisticsItem {
   if (json === undefined || json === null) {
     return json;
@@ -64,7 +64,7 @@ export function TradeStatisticsItemFromJSONTyped(
 
 export function TradeStatisticsItemToJSONRecursive(
   value?: TradeStatisticsItem | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -80,7 +80,7 @@ export function TradeStatisticsItemToJSONRecursive(
 }
 
 export function TradeStatisticsItemToJSON(
-  value?: TradeStatisticsItem | null
+  value?: TradeStatisticsItem | null,
 ): any {
   return TradeStatisticsItemToJSONRecursive(value, false);
 }

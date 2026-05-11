@@ -113,7 +113,7 @@ export function OrderChangesFromJSON(json: any): OrderChanges {
 
 export function OrderChangesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderChanges {
   if (json === undefined || json === null) {
     return json;
@@ -142,7 +142,7 @@ export function OrderChangesFromJSONTyped(
 
 export function OrderChangesToJSONRecursive(
   value?: OrderChanges | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

@@ -27,14 +27,14 @@ export interface EnableSessionTanResponseAnyOf {
 }
 
 export function EnableSessionTanResponseAnyOfFromJSON(
-  json: any
+  json: any,
 ): EnableSessionTanResponseAnyOf {
   return EnableSessionTanResponseAnyOfFromJSONTyped(json, false);
 }
 
 export function EnableSessionTanResponseAnyOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EnableSessionTanResponseAnyOf {
   if (json === undefined || json === null) {
     return json;
@@ -48,7 +48,7 @@ export function EnableSessionTanResponseAnyOfFromJSONTyped(
 
 export function EnableSessionTanResponseAnyOfToJSONRecursive(
   value?: EnableSessionTanResponseAnyOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -63,7 +63,7 @@ export function EnableSessionTanResponseAnyOfToJSONRecursive(
 }
 
 export function EnableSessionTanResponseAnyOfToJSON(
-  value?: EnableSessionTanResponseAnyOf | null
+  value?: EnableSessionTanResponseAnyOf | null,
 ): any {
   return EnableSessionTanResponseAnyOfToJSONRecursive(value, false);
 }

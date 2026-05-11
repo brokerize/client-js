@@ -39,14 +39,14 @@ export interface TradeStatisticsHoldingPeriodInDays {
 }
 
 export function TradeStatisticsHoldingPeriodInDaysFromJSON(
-  json: any
+  json: any,
 ): TradeStatisticsHoldingPeriodInDays {
   return TradeStatisticsHoldingPeriodInDaysFromJSONTyped(json, false);
 }
 
 export function TradeStatisticsHoldingPeriodInDaysFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradeStatisticsHoldingPeriodInDays {
   if (json === undefined || json === null) {
     return json;
@@ -60,7 +60,7 @@ export function TradeStatisticsHoldingPeriodInDaysFromJSONTyped(
 
 export function TradeStatisticsHoldingPeriodInDaysToJSONRecursive(
   value?: TradeStatisticsHoldingPeriodInDays | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -77,7 +77,7 @@ export function TradeStatisticsHoldingPeriodInDaysToJSONRecursive(
 }
 
 export function TradeStatisticsHoldingPeriodInDaysToJSON(
-  value?: TradeStatisticsHoldingPeriodInDays | null
+  value?: TradeStatisticsHoldingPeriodInDays | null,
 ): any {
   return TradeStatisticsHoldingPeriodInDaysToJSONRecursive(value, false);
 }

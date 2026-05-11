@@ -51,7 +51,7 @@ export function PortfoliosResponseFromJSON(json: any): PortfoliosResponse {
 
 export function PortfoliosResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfoliosResponse {
   if (json === undefined || json === null) {
     return json;
@@ -64,7 +64,7 @@ export function PortfoliosResponseFromJSONTyped(
 
 export function PortfoliosResponseToJSONRecursive(
   value?: PortfoliosResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -80,7 +80,7 @@ export function PortfoliosResponseToJSONRecursive(
 }
 
 export function PortfoliosResponseToJSON(
-  value?: PortfoliosResponse | null
+  value?: PortfoliosResponse | null,
 ): any {
   return PortfoliosResponseToJSONRecursive(value, false);
 }

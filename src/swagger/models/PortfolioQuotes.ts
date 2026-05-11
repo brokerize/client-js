@@ -81,7 +81,7 @@ export function PortfolioQuotesFromJSON(json: any): PortfolioQuotes {
 
 export function PortfolioQuotesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfolioQuotes {
   if (json === undefined || json === null) {
     return json;
@@ -116,7 +116,7 @@ export function PortfolioQuotesFromJSONTyped(
 
 export function PortfolioQuotesToJSONRecursive(
   value?: PortfolioQuotes | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

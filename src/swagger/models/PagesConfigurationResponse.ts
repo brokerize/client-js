@@ -33,14 +33,14 @@ export interface PagesConfigurationResponse {
 }
 
 export function PagesConfigurationResponseFromJSON(
-  json: any
+  json: any,
 ): PagesConfigurationResponse {
   return PagesConfigurationResponseFromJSONTyped(json, false);
 }
 
 export function PagesConfigurationResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PagesConfigurationResponse {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function PagesConfigurationResponseFromJSONTyped(
 
 export function PagesConfigurationResponseToJSONRecursive(
   value?: PagesConfigurationResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -69,7 +69,7 @@ export function PagesConfigurationResponseToJSONRecursive(
 }
 
 export function PagesConfigurationResponseToJSON(
-  value?: PagesConfigurationResponse | null
+  value?: PagesConfigurationResponse | null,
 ): any {
   return PagesConfigurationResponseToJSONRecursive(value, false);
 }

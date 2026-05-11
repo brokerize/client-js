@@ -50,7 +50,7 @@ export function AddSessionParamsFromJSON(json: any): AddSessionParams {
 
 export function AddSessionParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AddSessionParams {
   if (json === undefined || json === null) {
     return json;
@@ -65,7 +65,7 @@ export function AddSessionParamsFromJSONTyped(
 
 export function AddSessionParamsToJSONRecursive(
   value?: AddSessionParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

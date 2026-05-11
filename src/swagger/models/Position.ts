@@ -215,7 +215,7 @@ export function PositionFromJSON(json: any): Position {
 
 export function PositionFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): Position {
   if (json === undefined || json === null) {
     return json;
@@ -286,7 +286,7 @@ export function PositionFromJSONTyped(
 
 export function PositionToJSONRecursive(
   value?: Position | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

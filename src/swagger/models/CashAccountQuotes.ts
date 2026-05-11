@@ -51,7 +51,7 @@ export function CashAccountQuotesFromJSON(json: any): CashAccountQuotes {
 
 export function CashAccountQuotesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CashAccountQuotes {
   if (json === undefined || json === null) {
     return json;
@@ -71,7 +71,7 @@ export function CashAccountQuotesFromJSONTyped(
 
 export function CashAccountQuotesToJSONRecursive(
   value?: CashAccountQuotes | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

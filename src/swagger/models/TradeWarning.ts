@@ -32,7 +32,7 @@ export function TradeWarningFromJSON(json: any): TradeWarning {
 
 export function TradeWarningFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradeWarning {
   if (json === undefined || json === null) {
     return json;
@@ -44,7 +44,7 @@ export function TradeWarningFromJSONTyped(
 
 export function TradeWarningToJSONRecursive(
   value?: TradeWarning | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

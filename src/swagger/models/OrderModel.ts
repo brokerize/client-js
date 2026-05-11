@@ -39,7 +39,7 @@ export function OrderModelFromJSON(json: any): OrderModel {
 
 export function OrderModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderModel {
   return json as OrderModel;
 }

@@ -35,7 +35,7 @@ export function OrderExtensionFromJSON(json: any): OrderExtension {
 
 export function OrderExtensionFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderExtension {
   return json as OrderExtension;
 }

@@ -52,7 +52,7 @@ export function OrderValidityFromJSON(json: any): OrderValidity {
 
 export function OrderValidityFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderValidity {
   if (json === undefined || json === null) {
     return json;
@@ -66,7 +66,7 @@ export function OrderValidityFromJSONTyped(
 
 export function OrderValidityToJSONRecursive(
   value?: OrderValidity | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

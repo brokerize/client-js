@@ -36,14 +36,14 @@ export type CancelOrderDecoupledAllOfModeEnum =
   (typeof CancelOrderDecoupledAllOfModeEnum)[keyof typeof CancelOrderDecoupledAllOfModeEnum];
 
 export function CancelOrderDecoupledAllOfFromJSON(
-  json: any
+  json: any,
 ): CancelOrderDecoupledAllOf {
   return CancelOrderDecoupledAllOfFromJSONTyped(json, false);
 }
 
 export function CancelOrderDecoupledAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderDecoupledAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function CancelOrderDecoupledAllOfFromJSONTyped(
 
 export function CancelOrderDecoupledAllOfToJSONRecursive(
   value?: CancelOrderDecoupledAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function CancelOrderDecoupledAllOfToJSONRecursive(
 }
 
 export function CancelOrderDecoupledAllOfToJSON(
-  value?: CancelOrderDecoupledAllOf | null
+  value?: CancelOrderDecoupledAllOf | null,
 ): any {
   return CancelOrderDecoupledAllOfToJSONRecursive(value, false);
 }

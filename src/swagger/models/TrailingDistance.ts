@@ -49,7 +49,7 @@ export function TrailingDistanceFromJSON(json: any): TrailingDistance {
 
 export function TrailingDistanceFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TrailingDistance {
   if (json === undefined || json === null) {
     return json;
@@ -62,7 +62,7 @@ export function TrailingDistanceFromJSONTyped(
 
 export function TrailingDistanceToJSONRecursive(
   value?: TrailingDistance | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

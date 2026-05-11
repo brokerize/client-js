@@ -52,14 +52,14 @@ export interface AuthMethodTanSpecifics {
 }
 
 export function AuthMethodTanSpecificsFromJSON(
-  json: any
+  json: any,
 ): AuthMethodTanSpecifics {
   return AuthMethodTanSpecificsFromJSONTyped(json, false);
 }
 
 export function AuthMethodTanSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodTanSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -81,7 +81,7 @@ export function AuthMethodTanSpecificsFromJSONTyped(
 
 export function AuthMethodTanSpecificsToJSONRecursive(
   value?: AuthMethodTanSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -100,7 +100,7 @@ export function AuthMethodTanSpecificsToJSONRecursive(
 }
 
 export function AuthMethodTanSpecificsToJSON(
-  value?: AuthMethodTanSpecifics | null
+  value?: AuthMethodTanSpecifics | null,
 ): any {
   return AuthMethodTanSpecificsToJSONRecursive(value, false);
 }

@@ -39,7 +39,7 @@ export function GetBrokersResponseFromJSON(json: any): GetBrokersResponse {
 
 export function GetBrokersResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetBrokersResponse {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function GetBrokersResponseFromJSONTyped(
 
 export function GetBrokersResponseToJSONRecursive(
   value?: GetBrokersResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -66,7 +66,7 @@ export function GetBrokersResponseToJSONRecursive(
 }
 
 export function GetBrokersResponseToJSON(
-  value?: GetBrokersResponse | null
+  value?: GetBrokersResponse | null,
 ): any {
   return GetBrokersResponseToJSONRecursive(value, false);
 }

@@ -32,7 +32,7 @@ export function OkResponseBodyFromJSON(json: any): OkResponseBody {
 
 export function OkResponseBodyFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OkResponseBody {
   if (json === undefined || json === null) {
     return json;
@@ -44,7 +44,7 @@ export function OkResponseBodyFromJSONTyped(
 
 export function OkResponseBodyToJSONRecursive(
   value?: OkResponseBody | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

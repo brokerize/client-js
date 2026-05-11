@@ -14,7 +14,7 @@ export declare interface ReadableStream<R = any> {
       writable,
       readable,
     }: { writable: WritableStream<R>; readable: ReadableStream<T> },
-    options?: any
+    options?: any,
   ): ReadableStream<T>;
   pipeTo(dest: WritableStream<R>, options?: any): Promise<void>;
   tee(): [ReadableStream<R>, ReadableStream<R>];
@@ -25,11 +25,11 @@ declare const ReadableStream: // NOSONAR
   prototype: ReadableStream;
   new (
     underlyingSource: UnderlyingByteSource,
-    strategy?: { highWaterMark?: number; size?: undefined } // NOSONAR
+    strategy?: { highWaterMark?: number; size?: undefined }, // NOSONAR
   ): ReadableStream<Uint8Array>;
   new <R = any>(
     underlyingSource?: UnderlyingSource<R>,
-    strategy?: QueuingStrategy<R>
+    strategy?: QueuingStrategy<R>,
   ): ReadableStream<R>;
 };
 
@@ -37,7 +37,7 @@ interface ReadableStreamBYOBReader {
   readonly closed: Promise<void>;
   cancel(reason?: any): Promise<void>;
   read<T extends ArrayBufferView>(
-    view: T
+    view: T,
   ): Promise<ReadableStreamReadResult<T>>;
   releaseLock(): void;
 }

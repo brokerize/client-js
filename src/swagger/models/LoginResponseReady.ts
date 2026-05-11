@@ -60,7 +60,7 @@ export function LoginResponseReadyFromJSON(json: any): LoginResponseReady {
 
 export function LoginResponseReadyFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LoginResponseReady {
   if (json === undefined || json === null) {
     return json;
@@ -73,7 +73,7 @@ export function LoginResponseReadyFromJSONTyped(
 
 export function LoginResponseReadyToJSONRecursive(
   value?: LoginResponseReady | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -89,7 +89,7 @@ export function LoginResponseReadyToJSONRecursive(
 }
 
 export function LoginResponseReadyToJSON(
-  value?: LoginResponseReady | null
+  value?: LoginResponseReady | null,
 ): any {
   return LoginResponseReadyToJSONRecursive(value, false);
 }

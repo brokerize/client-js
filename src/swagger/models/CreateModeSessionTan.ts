@@ -61,7 +61,7 @@ export function CreateModeSessionTanFromJSON(json: any): CreateModeSessionTan {
 
 export function CreateModeSessionTanFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateModeSessionTan {
   if (json === undefined || json === null) {
     return json;
@@ -76,7 +76,7 @@ export function CreateModeSessionTanFromJSONTyped(
 
 export function CreateModeSessionTanToJSONRecursive(
   value?: CreateModeSessionTan | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -92,7 +92,7 @@ export function CreateModeSessionTanToJSONRecursive(
 }
 
 export function CreateModeSessionTanToJSON(
-  value?: CreateModeSessionTan | null
+  value?: CreateModeSessionTan | null,
 ): any {
   return CreateModeSessionTanToJSONRecursive(value, false);
 }

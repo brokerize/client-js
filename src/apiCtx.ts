@@ -77,7 +77,7 @@ export function createAuth({
 }): Auth {
   if (authCfg.type == "guest") {
     const guestAuthCfg = JSON.parse(
-      JSON.stringify(authCfg)
+      JSON.stringify(authCfg),
     ) as GuestAuthContextConfiguration; // clone it
     return {
       async getToken() {
@@ -86,7 +86,7 @@ export function createAuth({
           if (expiresIn == null) {
             // eslint-disable-next-line no-console
             console.log(
-              "[brokerize client] expiresIn is unexpectedly nullish. assuming 300 seconds"
+              "[brokerize client] expiresIn is unexpectedly nullish. assuming 300 seconds",
             );
             expiresIn = 300;
           }
@@ -97,7 +97,7 @@ export function createAuth({
           if (needsRefresh && guestAuthCfg.tokens.response.refreshToken) {
             if (!cfg.fetch) {
               throw new Error(
-                "Invalid cfg: fetch is required for refreshing tokens."
+                "Invalid cfg: fetch is required for refreshing tokens.",
               );
             }
             const response = await fetch(cfg.basePath + "/user/token", {
@@ -108,7 +108,7 @@ export function createAuth({
               },
               // XXX some runtimes do not have URLSearchParams, so just produce the body in the old-fashioned way
               body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(
-                guestAuthCfg.tokens.response.refreshToken
+                guestAuthCfg.tokens.response.refreshToken,
               )}`,
             });
 
@@ -161,19 +161,19 @@ export function createAuth({
   } else if (authCfg.type == "registered") {
     if (!cfg.cognito) {
       throw new Error(
-        "Trying to initialize createAuth for cognito, but no cognito config present in BrokerizeConfig."
+        "Trying to initialize createAuth for cognito, but no cognito config present in BrokerizeConfig.",
       );
     }
 
     if (!options?.cognitoFacade) {
       throw new Error(
-        "Trying to initialize createAuth for cognito, but access to the cognito library was not provided in the options."
+        "Trying to initialize createAuth for cognito, but access to the cognito library was not provided in the options.",
       );
     }
 
     const session = options.cognitoFacade.createSession(
       cfg.cognito?.poolConfig,
-      authCfg
+      authCfg,
     );
     return {
       async getToken() {
@@ -199,7 +199,7 @@ export type CognitoPoolConfig = {
 export type CognitoFacade = {
   createSession: (
     cognitoPoolConfig: CognitoPoolConfig,
-    authCfg: RegisteredUserAuthContextConfiguration
+    authCfg: RegisteredUserAuthContextConfiguration,
   ) => {
     getToken: () => Promise<{ idToken: string }>;
   };

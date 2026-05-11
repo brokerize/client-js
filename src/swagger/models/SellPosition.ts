@@ -38,7 +38,7 @@ export function SellPositionFromJSON(json: any): SellPosition {
 
 export function SellPositionFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SellPosition {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function SellPositionFromJSONTyped(
 
 export function SellPositionToJSONRecursive(
   value?: SellPosition | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

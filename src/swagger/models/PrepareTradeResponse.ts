@@ -39,7 +39,7 @@ export function PrepareTradeResponseFromJSON(json: any): PrepareTradeResponse {
 
 export function PrepareTradeResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PrepareTradeResponse {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function PrepareTradeResponseFromJSONTyped(
 
 export function PrepareTradeResponseToJSONRecursive(
   value?: PrepareTradeResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -66,7 +66,7 @@ export function PrepareTradeResponseToJSONRecursive(
 }
 
 export function PrepareTradeResponseToJSON(
-  value?: PrepareTradeResponse | null
+  value?: PrepareTradeResponse | null,
 ): any {
   return PrepareTradeResponseToJSONRecursive(value, false);
 }

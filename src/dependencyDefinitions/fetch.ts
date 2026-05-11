@@ -4,7 +4,7 @@ import { AbortSignal } from "./abortSignal";
 
 export declare type WhatWgFetch = (
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
 ) => Promise<Response>;
 
 export declare type RequestInfo = Request | string;
@@ -137,7 +137,7 @@ declare interface Headers {
   set(name: string, value: string): void;
   forEach(
     callbackfn: (value: string, key: string, parent: Headers) => void,
-    thisArg?: any
+    thisArg?: any,
   ): void;
 }
 

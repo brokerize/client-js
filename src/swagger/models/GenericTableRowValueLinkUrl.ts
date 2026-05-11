@@ -61,14 +61,14 @@ export type GenericTableRowValueLinkUrlTypeEnum =
   (typeof GenericTableRowValueLinkUrlTypeEnum)[keyof typeof GenericTableRowValueLinkUrlTypeEnum];
 
 export function GenericTableRowValueLinkUrlFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueLinkUrl {
   return GenericTableRowValueLinkUrlFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueLinkUrlFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueLinkUrl {
   if (json === undefined || json === null) {
     return json;
@@ -82,7 +82,7 @@ export function GenericTableRowValueLinkUrlFromJSONTyped(
 
 export function GenericTableRowValueLinkUrlToJSONRecursive(
   value?: GenericTableRowValueLinkUrl | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -99,7 +99,7 @@ export function GenericTableRowValueLinkUrlToJSONRecursive(
 }
 
 export function GenericTableRowValueLinkUrlToJSON(
-  value?: GenericTableRowValueLinkUrl | null
+  value?: GenericTableRowValueLinkUrl | null,
 ): any {
   return GenericTableRowValueLinkUrlToJSONRecursive(value, false);
 }

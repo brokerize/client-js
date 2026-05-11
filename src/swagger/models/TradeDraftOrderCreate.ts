@@ -148,14 +148,14 @@ export interface TradeDraftOrderCreate {
 }
 
 export function TradeDraftOrderCreateFromJSON(
-  json: any
+  json: any,
 ): TradeDraftOrderCreate {
   return TradeDraftOrderCreateFromJSONTyped(json, false);
 }
 
 export function TradeDraftOrderCreateFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradeDraftOrderCreate {
   if (json === undefined || json === null) {
     return json;
@@ -189,7 +189,7 @@ export function TradeDraftOrderCreateFromJSONTyped(
 
 export function TradeDraftOrderCreateToJSONRecursive(
   value?: TradeDraftOrderCreate | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -218,7 +218,7 @@ export function TradeDraftOrderCreateToJSONRecursive(
 }
 
 export function TradeDraftOrderCreateToJSON(
-  value?: TradeDraftOrderCreate | null
+  value?: TradeDraftOrderCreate | null,
 ): any {
   return TradeDraftOrderCreateToJSONRecursive(value, false);
 }

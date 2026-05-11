@@ -34,7 +34,7 @@ export function GetOrderResponseFromJSON(json: any): GetOrderResponse {
 
 export function GetOrderResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetOrderResponse {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function GetOrderResponseFromJSONTyped(
 
 export function GetOrderResponseToJSONRecursive(
   value?: GetOrderResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

@@ -34,14 +34,14 @@ export interface GetPortfolioCalendarResponse {
 }
 
 export function GetPortfolioCalendarResponseFromJSON(
-  json: any
+  json: any,
 ): GetPortfolioCalendarResponse {
   return GetPortfolioCalendarResponseFromJSONTyped(json, false);
 }
 
 export function GetPortfolioCalendarResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetPortfolioCalendarResponse {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function GetPortfolioCalendarResponseFromJSONTyped(
 
 export function GetPortfolioCalendarResponseToJSONRecursive(
   value?: GetPortfolioCalendarResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function GetPortfolioCalendarResponseToJSONRecursive(
 }
 
 export function GetPortfolioCalendarResponseToJSON(
-  value?: GetPortfolioCalendarResponse | null
+  value?: GetPortfolioCalendarResponse | null,
 ): any {
   return GetPortfolioCalendarResponseToJSONRecursive(value, false);
 }

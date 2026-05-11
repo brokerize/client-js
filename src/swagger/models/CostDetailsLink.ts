@@ -44,7 +44,7 @@ export function CostDetailsLinkFromJSON(json: any): CostDetailsLink {
 
 export function CostDetailsLinkFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CostDetailsLink {
   if (json === undefined || json === null) {
     return json;
@@ -58,7 +58,7 @@ export function CostDetailsLinkFromJSONTyped(
 
 export function CostDetailsLinkToJSONRecursive(
   value?: CostDetailsLink | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

@@ -27,14 +27,14 @@ export interface AddOAuthReturnToUrlRequest {
 }
 
 export function AddOAuthReturnToUrlRequestFromJSON(
-  json: any
+  json: any,
 ): AddOAuthReturnToUrlRequest {
   return AddOAuthReturnToUrlRequestFromJSONTyped(json, false);
 }
 
 export function AddOAuthReturnToUrlRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AddOAuthReturnToUrlRequest {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function AddOAuthReturnToUrlRequestFromJSONTyped(
 
 export function AddOAuthReturnToUrlRequestToJSONRecursive(
   value?: AddOAuthReturnToUrlRequest | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function AddOAuthReturnToUrlRequestToJSONRecursive(
 }
 
 export function AddOAuthReturnToUrlRequestToJSON(
-  value?: AddOAuthReturnToUrlRequest | null
+  value?: AddOAuthReturnToUrlRequest | null,
 ): any {
   return AddOAuthReturnToUrlRequestToJSONRecursive(value, false);
 }

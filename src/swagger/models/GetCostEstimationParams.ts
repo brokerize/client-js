@@ -34,14 +34,14 @@ export interface GetCostEstimationParams {
 }
 
 export function GetCostEstimationParamsFromJSON(
-  json: any
+  json: any,
 ): GetCostEstimationParams {
   return GetCostEstimationParamsFromJSONTyped(json, false);
 }
 
 export function GetCostEstimationParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetCostEstimationParams {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function GetCostEstimationParamsFromJSONTyped(
 
 export function GetCostEstimationParamsToJSONRecursive(
   value?: GetCostEstimationParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function GetCostEstimationParamsToJSONRecursive(
 }
 
 export function GetCostEstimationParamsToJSON(
-  value?: GetCostEstimationParams | null
+  value?: GetCostEstimationParams | null,
 ): any {
   return GetCostEstimationParamsToJSONRecursive(value, false);
 }

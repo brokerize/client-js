@@ -34,14 +34,14 @@ export interface SessionSyncInfoErrorSpecifics {
 }
 
 export function SessionSyncInfoErrorSpecificsFromJSON(
-  json: any
+  json: any,
 ): SessionSyncInfoErrorSpecifics {
   return SessionSyncInfoErrorSpecificsFromJSONTyped(json, false);
 }
 
 export function SessionSyncInfoErrorSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SessionSyncInfoErrorSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function SessionSyncInfoErrorSpecificsFromJSONTyped(
 
 export function SessionSyncInfoErrorSpecificsToJSONRecursive(
   value?: SessionSyncInfoErrorSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function SessionSyncInfoErrorSpecificsToJSONRecursive(
 }
 
 export function SessionSyncInfoErrorSpecificsToJSON(
-  value?: SessionSyncInfoErrorSpecifics | null
+  value?: SessionSyncInfoErrorSpecifics | null,
 ): any {
   return SessionSyncInfoErrorSpecificsToJSONRecursive(value, false);
 }

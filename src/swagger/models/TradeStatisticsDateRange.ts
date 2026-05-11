@@ -39,14 +39,14 @@ export interface TradeStatisticsDateRange {
 }
 
 export function TradeStatisticsDateRangeFromJSON(
-  json: any
+  json: any,
 ): TradeStatisticsDateRange {
   return TradeStatisticsDateRangeFromJSONTyped(json, false);
 }
 
 export function TradeStatisticsDateRangeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradeStatisticsDateRange {
   if (json === undefined || json === null) {
     return json;
@@ -60,7 +60,7 @@ export function TradeStatisticsDateRangeFromJSONTyped(
 
 export function TradeStatisticsDateRangeToJSONRecursive(
   value?: TradeStatisticsDateRange | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -77,7 +77,7 @@ export function TradeStatisticsDateRangeToJSONRecursive(
 }
 
 export function TradeStatisticsDateRangeToJSON(
-  value?: TradeStatisticsDateRange | null
+  value?: TradeStatisticsDateRange | null,
 ): any {
   return TradeStatisticsDateRangeToJSONRecursive(value, false);
 }

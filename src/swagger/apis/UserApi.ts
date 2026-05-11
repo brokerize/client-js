@@ -92,7 +92,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async checkRecoveryPhraseRaw(
     requestParameters: CheckRecoveryPhraseRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<CheckRecoveryPhrase200Response>> {
     if (
       requestParameters.obtainTokenByRecoveryPhraseParams === null ||
@@ -100,7 +100,7 @@ export class UserApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "obtainTokenByRecoveryPhraseParams",
-        "Required parameter requestParameters.obtainTokenByRecoveryPhraseParams was null or undefined when calling checkRecoveryPhrase."
+        "Required parameter requestParameters.obtainTokenByRecoveryPhraseParams was null or undefined when calling checkRecoveryPhrase.",
       );
     }
 
@@ -122,14 +122,14 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: ObtainTokenByRecoveryPhraseParamsToJSON(
-          requestParameters.obtainTokenByRecoveryPhraseParams
+          requestParameters.obtainTokenByRecoveryPhraseParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CheckRecoveryPhrase200ResponseFromJSON(jsonValue)
+      CheckRecoveryPhrase200ResponseFromJSON(jsonValue),
     );
   }
 
@@ -138,11 +138,11 @@ export class UserApi extends runtime.BaseAPI {
    */
   async checkRecoveryPhrase(
     requestParameters: CheckRecoveryPhraseRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<CheckRecoveryPhrase200Response> {
     const response = await this.checkRecoveryPhraseRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -152,7 +152,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async createAccessTokenRaw(
     requestParameters: CreateAccessTokenRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<AccessTokenResult>> {
     if (
       requestParameters.createAccessTokenParams === null ||
@@ -160,7 +160,7 @@ export class UserApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "createAccessTokenParams",
-        "Required parameter requestParameters.createAccessTokenParams was null or undefined when calling createAccessToken."
+        "Required parameter requestParameters.createAccessTokenParams was null or undefined when calling createAccessToken.",
       );
     }
 
@@ -190,14 +190,14 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: CreateAccessTokenParamsToJSON(
-          requestParameters.createAccessTokenParams
+          requestParameters.createAccessTokenParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      AccessTokenResultFromJSON(jsonValue)
+      AccessTokenResultFromJSON(jsonValue),
     );
   }
 
@@ -206,11 +206,11 @@ export class UserApi extends runtime.BaseAPI {
    */
   async createAccessToken(
     requestParameters: CreateAccessTokenRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<AccessTokenResult> {
     const response = await this.createAccessTokenRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -219,7 +219,7 @@ export class UserApi extends runtime.BaseAPI {
    * Create a guest user and return a token which can be used to access resources.  The lifetime of the generated temporary user as well as the returned `access_token` depend on the client configuration. It is usually around 24 hours. For some clients, tokens can be expired earlier based on inactivity.  If the client has configured a longer lifetime for their guest users, a `refresh_token`  is included in the response. This token can be used to renew the `access_token` after it has expired.  The `refresh_token` can be used to obtain a new `access_token` after the original token has expired using the `/user/token` endpoint.
    */
   async createGuestUserRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<CreateGuestUserResponse>> {
     const queryParameters: any = {};
 
@@ -237,11 +237,11 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CreateGuestUserResponseFromJSON(jsonValue)
+      CreateGuestUserResponseFromJSON(jsonValue),
     );
   }
 
@@ -249,7 +249,7 @@ export class UserApi extends runtime.BaseAPI {
    * Create a guest user and return a token which can be used to access resources.  The lifetime of the generated temporary user as well as the returned `access_token` depend on the client configuration. It is usually around 24 hours. For some clients, tokens can be expired earlier based on inactivity.  If the client has configured a longer lifetime for their guest users, a `refresh_token`  is included in the response. This token can be used to renew the `access_token` after it has expired.  The `refresh_token` can be used to obtain a new `access_token` after the original token has expired using the `/user/token` endpoint.
    */
   async createGuestUser(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<CreateGuestUserResponse> {
     const response = await this.createGuestUserRaw(initOverrides);
     return await response.value();
@@ -260,7 +260,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async createRecoveryPhraseRaw(
     requestParameters: CreateRecoveryPhraseRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<CreateRecoveryPhraseResult>> {
     if (
       requestParameters.createRecoveryPhraseParams === null ||
@@ -268,7 +268,7 @@ export class UserApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "createRecoveryPhraseParams",
-        "Required parameter requestParameters.createRecoveryPhraseParams was null or undefined when calling createRecoveryPhrase."
+        "Required parameter requestParameters.createRecoveryPhraseParams was null or undefined when calling createRecoveryPhrase.",
       );
     }
 
@@ -298,14 +298,14 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: CreateRecoveryPhraseParamsToJSON(
-          requestParameters.createRecoveryPhraseParams
+          requestParameters.createRecoveryPhraseParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CreateRecoveryPhraseResultFromJSON(jsonValue)
+      CreateRecoveryPhraseResultFromJSON(jsonValue),
     );
   }
 
@@ -314,11 +314,11 @@ export class UserApi extends runtime.BaseAPI {
    */
   async createRecoveryPhrase(
     requestParameters: CreateRecoveryPhraseRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<CreateRecoveryPhraseResult> {
     const response = await this.createRecoveryPhraseRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -327,7 +327,7 @@ export class UserApi extends runtime.BaseAPI {
    * Delete the current user (only allowed if it is a guest account). Also logs out all active broker sessions attached to the user.
    */
   async deleteGuestUserRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     const queryParameters: any = {};
 
@@ -353,7 +353,7 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -363,7 +363,7 @@ export class UserApi extends runtime.BaseAPI {
    * Delete the current user (only allowed if it is a guest account). Also logs out all active broker sessions attached to the user.
    */
   async deleteGuestUser(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.deleteGuestUserRaw(initOverrides);
   }
@@ -373,7 +373,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async deleteRecoveryPhraseRaw(
     requestParameters: DeleteRecoveryPhraseRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.recoveryPhraseId === null ||
@@ -381,7 +381,7 @@ export class UserApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "recoveryPhraseId",
-        "Required parameter requestParameters.recoveryPhraseId was null or undefined when calling deleteRecoveryPhrase."
+        "Required parameter requestParameters.recoveryPhraseId was null or undefined when calling deleteRecoveryPhrase.",
       );
     }
 
@@ -406,13 +406,13 @@ export class UserApi extends runtime.BaseAPI {
       {
         path: `/user/recoveryPhrases/{recoveryPhraseId}`.replace(
           `{${"recoveryPhraseId"}}`,
-          encodeURIComponent(String(requestParameters.recoveryPhraseId))
+          encodeURIComponent(String(requestParameters.recoveryPhraseId)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -423,7 +423,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async deleteRecoveryPhrase(
     requestParameters: DeleteRecoveryPhraseRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.deleteRecoveryPhraseRaw(requestParameters, initOverrides);
   }
@@ -431,7 +431,7 @@ export class UserApi extends runtime.BaseAPI {
   /**
    */
   async getAccessTokensRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetAccessTokensResponse>> {
     const queryParameters: any = {};
 
@@ -457,18 +457,18 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAccessTokensResponseFromJSON(jsonValue)
+      GetAccessTokensResponseFromJSON(jsonValue),
     );
   }
 
   /**
    */
   async getAccessTokens(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetAccessTokensResponse> {
     const response = await this.getAccessTokensRaw(initOverrides);
     return await response.value();
@@ -478,7 +478,7 @@ export class UserApi extends runtime.BaseAPI {
    * Figure out which permissions are available to select from for a new access token.
    */
   async getAcessTokenAvailablePermissionsRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<
     runtime.ApiResponse<GetAcessTokenAvailablePermissions200Response>
   > {
@@ -506,11 +506,11 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAcessTokenAvailablePermissions200ResponseFromJSON(jsonValue)
+      GetAcessTokenAvailablePermissions200ResponseFromJSON(jsonValue),
     );
   }
 
@@ -518,11 +518,10 @@ export class UserApi extends runtime.BaseAPI {
    * Figure out which permissions are available to select from for a new access token.
    */
   async getAcessTokenAvailablePermissions(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetAcessTokenAvailablePermissions200Response> {
-    const response = await this.getAcessTokenAvailablePermissionsRaw(
-      initOverrides
-    );
+    const response =
+      await this.getAcessTokenAvailablePermissionsRaw(initOverrides);
     return await response.value();
   }
 
@@ -530,7 +529,7 @@ export class UserApi extends runtime.BaseAPI {
    * Lists all the recoveryPhrases metadata the user has in their account.
    */
   async getRecoveryPhrasesRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetRecoveryPhrasesResponse>> {
     const queryParameters: any = {};
 
@@ -556,11 +555,11 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetRecoveryPhrasesResponseFromJSON(jsonValue)
+      GetRecoveryPhrasesResponseFromJSON(jsonValue),
     );
   }
 
@@ -568,7 +567,7 @@ export class UserApi extends runtime.BaseAPI {
    * Lists all the recoveryPhrases metadata the user has in their account.
    */
   async getRecoveryPhrases(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetRecoveryPhrasesResponse> {
     const response = await this.getRecoveryPhrasesRaw(initOverrides);
     return await response.value();
@@ -578,7 +577,7 @@ export class UserApi extends runtime.BaseAPI {
    * Checks the provided authentication and returns the logged-in user.
    */
   async getUserRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetUserResponse>> {
     const queryParameters: any = {};
 
@@ -604,11 +603,11 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetUserResponseFromJSON(jsonValue)
+      GetUserResponseFromJSON(jsonValue),
     );
   }
 
@@ -616,7 +615,7 @@ export class UserApi extends runtime.BaseAPI {
    * Checks the provided authentication and returns the logged-in user.
    */
   async getUser(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetUserResponse> {
     const response = await this.getUserRaw(initOverrides);
     return await response.value();
@@ -627,7 +626,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async obtainTokenRaw(
     requestParameters: ObtainTokenRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<TokenResponse>> {
     if (
       requestParameters.grantType === null ||
@@ -635,7 +634,7 @@ export class UserApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "grantType",
-        "Required parameter requestParameters.grantType was null or undefined when calling obtainToken."
+        "Required parameter requestParameters.grantType was null or undefined when calling obtainToken.",
       );
     }
 
@@ -645,7 +644,7 @@ export class UserApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "refreshToken",
-        "Required parameter requestParameters.refreshToken was null or undefined when calling obtainToken."
+        "Required parameter requestParameters.refreshToken was null or undefined when calling obtainToken.",
       );
     }
 
@@ -670,7 +669,7 @@ export class UserApi extends runtime.BaseAPI {
       formParams = new FormData();
     } else {
       throw new Error(
-        "URLSearchParams support has been dopped due to compatibility problems in mobile apps."
+        "URLSearchParams support has been dopped due to compatibility problems in mobile apps.",
       );
     }
 
@@ -690,11 +689,11 @@ export class UserApi extends runtime.BaseAPI {
         query: queryParameters,
         body: formParams,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      TokenResponseFromJSON(jsonValue)
+      TokenResponseFromJSON(jsonValue),
     );
   }
 
@@ -703,11 +702,11 @@ export class UserApi extends runtime.BaseAPI {
    */
   async obtainToken(
     requestParameters: ObtainTokenRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<TokenResponse> {
     const response = await this.obtainTokenRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -717,7 +716,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async obtainTokenByRecoveryPhraseRaw(
     requestParameters: ObtainTokenByRecoveryPhraseRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<TokenResponse>> {
     if (
       requestParameters.obtainTokenByRecoveryPhraseParams === null ||
@@ -725,7 +724,7 @@ export class UserApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "obtainTokenByRecoveryPhraseParams",
-        "Required parameter requestParameters.obtainTokenByRecoveryPhraseParams was null or undefined when calling obtainTokenByRecoveryPhrase."
+        "Required parameter requestParameters.obtainTokenByRecoveryPhraseParams was null or undefined when calling obtainTokenByRecoveryPhrase.",
       );
     }
 
@@ -747,14 +746,14 @@ export class UserApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: ObtainTokenByRecoveryPhraseParamsToJSON(
-          requestParameters.obtainTokenByRecoveryPhraseParams
+          requestParameters.obtainTokenByRecoveryPhraseParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      TokenResponseFromJSON(jsonValue)
+      TokenResponseFromJSON(jsonValue),
     );
   }
 
@@ -763,11 +762,11 @@ export class UserApi extends runtime.BaseAPI {
    */
   async obtainTokenByRecoveryPhrase(
     requestParameters: ObtainTokenByRecoveryPhraseRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<TokenResponse> {
     const response = await this.obtainTokenByRecoveryPhraseRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -776,7 +775,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async revokeAccessTokenRaw(
     requestParameters: RevokeAccessTokenRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.accessTokenId === null ||
@@ -784,7 +783,7 @@ export class UserApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "accessTokenId",
-        "Required parameter requestParameters.accessTokenId was null or undefined when calling revokeAccessToken."
+        "Required parameter requestParameters.accessTokenId was null or undefined when calling revokeAccessToken.",
       );
     }
 
@@ -809,13 +808,13 @@ export class UserApi extends runtime.BaseAPI {
       {
         path: `/user/accessTokens/{accessTokenId}`.replace(
           `{${"accessTokenId"}}`,
-          encodeURIComponent(String(requestParameters.accessTokenId))
+          encodeURIComponent(String(requestParameters.accessTokenId)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -825,7 +824,7 @@ export class UserApi extends runtime.BaseAPI {
    */
   async revokeAccessToken(
     requestParameters: RevokeAccessTokenRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.revokeAccessTokenRaw(requestParameters, initOverrides);
   }

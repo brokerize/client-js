@@ -32,7 +32,7 @@ export function ConfirmOAuthResponseFromJSON(json: any): ConfirmOAuthResponse {
 
 export function ConfirmOAuthResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ConfirmOAuthResponse {
   if (json === undefined || json === null) {
     return json;
@@ -44,7 +44,7 @@ export function ConfirmOAuthResponseFromJSONTyped(
 
 export function ConfirmOAuthResponseToJSONRecursive(
   value?: ConfirmOAuthResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -59,7 +59,7 @@ export function ConfirmOAuthResponseToJSONRecursive(
 }
 
 export function ConfirmOAuthResponseToJSON(
-  value?: ConfirmOAuthResponse | null
+  value?: ConfirmOAuthResponse | null,
 ): any {
   return ConfirmOAuthResponseToJSONRecursive(value, false);
 }

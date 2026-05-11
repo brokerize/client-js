@@ -46,7 +46,7 @@ export function CancelOrderParamsFromJSON(json: any): CancelOrderParams {
 
 export function CancelOrderParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderParams {
   if (json === undefined || json === null) {
     return json;
@@ -69,7 +69,7 @@ export function CancelOrderParamsFromJSONTyped(
       };
     default:
       throw new Error(
-        `No variant of CancelOrderParams exists with 'mode=${json["mode"]}'`
+        `No variant of CancelOrderParams exists with 'mode=${json["mode"]}'`,
       );
   }
 }
@@ -90,7 +90,7 @@ export function CancelOrderParamsToJSON(value?: CancelOrderParams | null): any {
       return CreateModeSessionTanToJSON(value);
     default:
       throw new Error(
-        `No variant of CancelOrderParams exists with 'mode=${value["mode"]}'`
+        `No variant of CancelOrderParams exists with 'mode=${value["mode"]}'`,
       );
   }
 }

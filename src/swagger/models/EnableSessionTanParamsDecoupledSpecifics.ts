@@ -27,14 +27,14 @@ export interface EnableSessionTanParamsDecoupledSpecifics {
 }
 
 export function EnableSessionTanParamsDecoupledSpecificsFromJSON(
-  json: any
+  json: any,
 ): EnableSessionTanParamsDecoupledSpecifics {
   return EnableSessionTanParamsDecoupledSpecificsFromJSONTyped(json, false);
 }
 
 export function EnableSessionTanParamsDecoupledSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EnableSessionTanParamsDecoupledSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function EnableSessionTanParamsDecoupledSpecificsFromJSONTyped(
 
 export function EnableSessionTanParamsDecoupledSpecificsToJSONRecursive(
   value?: EnableSessionTanParamsDecoupledSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function EnableSessionTanParamsDecoupledSpecificsToJSONRecursive(
 }
 
 export function EnableSessionTanParamsDecoupledSpecificsToJSON(
-  value?: EnableSessionTanParamsDecoupledSpecifics | null
+  value?: EnableSessionTanParamsDecoupledSpecifics | null,
 ): any {
   return EnableSessionTanParamsDecoupledSpecificsToJSONRecursive(value, false);
 }

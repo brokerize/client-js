@@ -80,14 +80,14 @@ export type ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum =
   (typeof ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum)[keyof typeof ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum];
 
 export function ClientConfigUpdateOAuthLoginFormFromJSON(
-  json: any
+  json: any,
 ): ClientConfigUpdateOAuthLoginForm {
   return ClientConfigUpdateOAuthLoginFormFromJSONTyped(json, false);
 }
 
 export function ClientConfigUpdateOAuthLoginFormFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ClientConfigUpdateOAuthLoginForm {
   if (json === undefined || json === null) {
     return json;
@@ -109,7 +109,7 @@ export function ClientConfigUpdateOAuthLoginFormFromJSONTyped(
 
 export function ClientConfigUpdateOAuthLoginFormToJSONRecursive(
   value?: ClientConfigUpdateOAuthLoginForm | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -128,7 +128,7 @@ export function ClientConfigUpdateOAuthLoginFormToJSONRecursive(
 }
 
 export function ClientConfigUpdateOAuthLoginFormToJSON(
-  value?: ClientConfigUpdateOAuthLoginForm | null
+  value?: ClientConfigUpdateOAuthLoginForm | null,
 ): any {
   return ClientConfigUpdateOAuthLoginFormToJSONRecursive(value, false);
 }

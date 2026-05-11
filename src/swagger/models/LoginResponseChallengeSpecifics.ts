@@ -34,14 +34,14 @@ export interface LoginResponseChallengeSpecifics {
 }
 
 export function LoginResponseChallengeSpecificsFromJSON(
-  json: any
+  json: any,
 ): LoginResponseChallengeSpecifics {
   return LoginResponseChallengeSpecificsFromJSONTyped(json, false);
 }
 
 export function LoginResponseChallengeSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LoginResponseChallengeSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function LoginResponseChallengeSpecificsFromJSONTyped(
 
 export function LoginResponseChallengeSpecificsToJSONRecursive(
   value?: LoginResponseChallengeSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function LoginResponseChallengeSpecificsToJSONRecursive(
 }
 
 export function LoginResponseChallengeSpecificsToJSON(
-  value?: LoginResponseChallengeSpecifics | null
+  value?: LoginResponseChallengeSpecifics | null,
 ): any {
   return LoginResponseChallengeSpecificsToJSONRecursive(value, false);
 }

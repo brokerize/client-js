@@ -32,7 +32,7 @@ export function CoinbaseClientCfgFromJSON(json: any): CoinbaseClientCfg {
 
 export function CoinbaseClientCfgFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CoinbaseClientCfg {
   if (json === undefined || json === null) {
     return json;
@@ -44,7 +44,7 @@ export function CoinbaseClientCfgFromJSONTyped(
 
 export function CoinbaseClientCfgToJSONRecursive(
   value?: CoinbaseClientCfg | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

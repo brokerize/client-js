@@ -27,14 +27,14 @@ export interface PrepareOAuthRedirectResponse {
 }
 
 export function PrepareOAuthRedirectResponseFromJSON(
-  json: any
+  json: any,
 ): PrepareOAuthRedirectResponse {
   return PrepareOAuthRedirectResponseFromJSONTyped(json, false);
 }
 
 export function PrepareOAuthRedirectResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PrepareOAuthRedirectResponse {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function PrepareOAuthRedirectResponseFromJSONTyped(
 
 export function PrepareOAuthRedirectResponseToJSONRecursive(
   value?: PrepareOAuthRedirectResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function PrepareOAuthRedirectResponseToJSONRecursive(
 }
 
 export function PrepareOAuthRedirectResponseToJSON(
-  value?: PrepareOAuthRedirectResponse | null
+  value?: PrepareOAuthRedirectResponse | null,
 ): any {
   return PrepareOAuthRedirectResponseToJSONRecursive(value, false);
 }

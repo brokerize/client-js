@@ -71,7 +71,7 @@ export function CreateOrderParamsFromJSON(json: any): CreateOrderParams {
 
 export function CreateOrderParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateOrderParams {
   if (json === undefined || json === null) {
     return json;
@@ -94,7 +94,7 @@ export function CreateOrderParamsFromJSONTyped(
 
 export function CreateOrderParamsToJSONRecursive(
   value?: CreateOrderParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

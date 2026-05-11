@@ -39,7 +39,7 @@ export function DemoAccountsResponseFromJSON(json: any): DemoAccountsResponse {
 
 export function DemoAccountsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): DemoAccountsResponse {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function DemoAccountsResponseFromJSONTyped(
 
 export function DemoAccountsResponseToJSONRecursive(
   value?: DemoAccountsResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -66,7 +66,7 @@ export function DemoAccountsResponseToJSONRecursive(
 }
 
 export function DemoAccountsResponseToJSON(
-  value?: DemoAccountsResponse | null
+  value?: DemoAccountsResponse | null,
 ): any {
   return DemoAccountsResponseToJSONRecursive(value, false);
 }

@@ -46,7 +46,7 @@ export function AuthMethodFromJSON(json: any): AuthMethod {
 
 export function AuthMethodFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethod {
   if (json === undefined || json === null) {
     return json;
@@ -66,7 +66,7 @@ export function AuthMethodFromJSONTyped(
       return { ...AuthMethodTanFromJSONTyped(json, true), flow: "TAN" };
     default:
       throw new Error(
-        `No variant of AuthMethod exists with 'flow=${json["flow"]}'`
+        `No variant of AuthMethod exists with 'flow=${json["flow"]}'`,
       );
   }
 }
@@ -87,7 +87,7 @@ export function AuthMethodToJSON(value?: AuthMethod | null): any {
       return AuthMethodTanToJSON(value);
     default:
       throw new Error(
-        `No variant of AuthMethod exists with 'flow=${value["flow"]}'`
+        `No variant of AuthMethod exists with 'flow=${value["flow"]}'`,
       );
   }
 }

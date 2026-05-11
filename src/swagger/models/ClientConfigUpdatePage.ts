@@ -58,14 +58,14 @@ export interface ClientConfigUpdatePage {
 }
 
 export function ClientConfigUpdatePageFromJSON(
-  json: any
+  json: any,
 ): ClientConfigUpdatePage {
   return ClientConfigUpdatePageFromJSONTyped(json, false);
 }
 
 export function ClientConfigUpdatePageFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ClientConfigUpdatePage {
   if (json === undefined || json === null) {
     return json;
@@ -83,7 +83,7 @@ export function ClientConfigUpdatePageFromJSONTyped(
 
 export function ClientConfigUpdatePageToJSONRecursive(
   value?: ClientConfigUpdatePage | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -102,7 +102,7 @@ export function ClientConfigUpdatePageToJSONRecursive(
 }
 
 export function ClientConfigUpdatePageToJSON(
-  value?: ClientConfigUpdatePage | null
+  value?: ClientConfigUpdatePage | null,
 ): any {
   return ClientConfigUpdatePageToJSONRecursive(value, false);
 }

@@ -73,14 +73,14 @@ export interface CreateGuestUserResponse {
 }
 
 export function CreateGuestUserResponseFromJSON(
-  json: any
+  json: any,
 ): CreateGuestUserResponse {
   return CreateGuestUserResponseFromJSONTyped(json, false);
 }
 
 export function CreateGuestUserResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateGuestUserResponse {
   if (json === undefined || json === null) {
     return json;
@@ -97,13 +97,13 @@ export function CreateGuestUserResponseFromJSONTyped(
       : json["refresh_token_expires_in"],
     refreshTokenWithoutTradingsession: !exists(
       json,
-      "refresh_token_without_tradingsession"
+      "refresh_token_without_tradingsession",
     )
       ? undefined
       : json["refresh_token_without_tradingsession"],
     refreshTokenWithoutTradingsessionExpiresIn: !exists(
       json,
-      "refresh_token_without_tradingsession_expires_in"
+      "refresh_token_without_tradingsession_expires_in",
     )
       ? undefined
       : json["refresh_token_without_tradingsession_expires_in"],
@@ -113,7 +113,7 @@ export function CreateGuestUserResponseFromJSONTyped(
 
 export function CreateGuestUserResponseToJSONRecursive(
   value?: CreateGuestUserResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -137,7 +137,7 @@ export function CreateGuestUserResponseToJSONRecursive(
 }
 
 export function CreateGuestUserResponseToJSON(
-  value?: CreateGuestUserResponse | null
+  value?: CreateGuestUserResponse | null,
 ): any {
   return CreateGuestUserResponseToJSONRecursive(value, false);
 }

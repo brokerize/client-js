@@ -33,14 +33,14 @@ export interface GenericTableRowValueLinkUrlSpecifics {
 }
 
 export function GenericTableRowValueLinkUrlSpecificsFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueLinkUrlSpecifics {
   return GenericTableRowValueLinkUrlSpecificsFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueLinkUrlSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueLinkUrlSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function GenericTableRowValueLinkUrlSpecificsFromJSONTyped(
 
 export function GenericTableRowValueLinkUrlSpecificsToJSONRecursive(
   value?: GenericTableRowValueLinkUrlSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -69,7 +69,7 @@ export function GenericTableRowValueLinkUrlSpecificsToJSONRecursive(
 }
 
 export function GenericTableRowValueLinkUrlSpecificsToJSON(
-  value?: GenericTableRowValueLinkUrlSpecifics | null
+  value?: GenericTableRowValueLinkUrlSpecifics | null,
 ): any {
   return GenericTableRowValueLinkUrlSpecificsToJSONRecursive(value, false);
 }

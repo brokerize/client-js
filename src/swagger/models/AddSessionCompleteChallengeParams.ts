@@ -33,14 +33,14 @@ export interface AddSessionCompleteChallengeParams {
 }
 
 export function AddSessionCompleteChallengeParamsFromJSON(
-  json: any
+  json: any,
 ): AddSessionCompleteChallengeParams {
   return AddSessionCompleteChallengeParamsFromJSONTyped(json, false);
 }
 
 export function AddSessionCompleteChallengeParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AddSessionCompleteChallengeParams {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function AddSessionCompleteChallengeParamsFromJSONTyped(
 
 export function AddSessionCompleteChallengeParamsToJSONRecursive(
   value?: AddSessionCompleteChallengeParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -69,7 +69,7 @@ export function AddSessionCompleteChallengeParamsToJSONRecursive(
 }
 
 export function AddSessionCompleteChallengeParamsToJSON(
-  value?: AddSessionCompleteChallengeParams | null
+  value?: AddSessionCompleteChallengeParams | null,
 ): any {
   return AddSessionCompleteChallengeParamsToJSONRecursive(value, false);
 }

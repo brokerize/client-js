@@ -34,14 +34,14 @@ export interface GenericTableRowValueLinkSpecifics {
 }
 
 export function GenericTableRowValueLinkSpecificsFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueLinkSpecifics {
   return GenericTableRowValueLinkSpecificsFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueLinkSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueLinkSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function GenericTableRowValueLinkSpecificsFromJSONTyped(
 
 export function GenericTableRowValueLinkSpecificsToJSONRecursive(
   value?: GenericTableRowValueLinkSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function GenericTableRowValueLinkSpecificsToJSONRecursive(
 }
 
 export function GenericTableRowValueLinkSpecificsToJSON(
-  value?: GenericTableRowValueLinkSpecifics | null
+  value?: GenericTableRowValueLinkSpecifics | null,
 ): any {
   return GenericTableRowValueLinkSpecificsToJSONRecursive(value, false);
 }

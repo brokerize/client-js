@@ -36,14 +36,14 @@ export type PortfolioSyncInfoCompleteAllOfStatusEnum =
   (typeof PortfolioSyncInfoCompleteAllOfStatusEnum)[keyof typeof PortfolioSyncInfoCompleteAllOfStatusEnum];
 
 export function PortfolioSyncInfoCompleteAllOfFromJSON(
-  json: any
+  json: any,
 ): PortfolioSyncInfoCompleteAllOf {
   return PortfolioSyncInfoCompleteAllOfFromJSONTyped(json, false);
 }
 
 export function PortfolioSyncInfoCompleteAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfolioSyncInfoCompleteAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function PortfolioSyncInfoCompleteAllOfFromJSONTyped(
 
 export function PortfolioSyncInfoCompleteAllOfToJSONRecursive(
   value?: PortfolioSyncInfoCompleteAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function PortfolioSyncInfoCompleteAllOfToJSONRecursive(
 }
 
 export function PortfolioSyncInfoCompleteAllOfToJSON(
-  value?: PortfolioSyncInfoCompleteAllOf | null
+  value?: PortfolioSyncInfoCompleteAllOf | null,
 ): any {
   return PortfolioSyncInfoCompleteAllOfToJSONRecursive(value, false);
 }

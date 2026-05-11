@@ -112,7 +112,7 @@ export function GetQuoteResponseFromJSON(json: any): GetQuoteResponse {
 
 export function GetQuoteResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetQuoteResponse {
   if (json === undefined || json === null) {
     return json;
@@ -141,7 +141,7 @@ export function GetQuoteResponseFromJSONTyped(
 
 export function GetQuoteResponseToJSONRecursive(
   value?: GetQuoteResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

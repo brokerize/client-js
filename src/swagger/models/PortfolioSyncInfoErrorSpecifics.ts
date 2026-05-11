@@ -34,14 +34,14 @@ export interface PortfolioSyncInfoErrorSpecifics {
 }
 
 export function PortfolioSyncInfoErrorSpecificsFromJSON(
-  json: any
+  json: any,
 ): PortfolioSyncInfoErrorSpecifics {
   return PortfolioSyncInfoErrorSpecificsFromJSONTyped(json, false);
 }
 
 export function PortfolioSyncInfoErrorSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfolioSyncInfoErrorSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function PortfolioSyncInfoErrorSpecificsFromJSONTyped(
 
 export function PortfolioSyncInfoErrorSpecificsToJSONRecursive(
   value?: PortfolioSyncInfoErrorSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function PortfolioSyncInfoErrorSpecificsToJSONRecursive(
 }
 
 export function PortfolioSyncInfoErrorSpecificsToJSON(
-  value?: PortfolioSyncInfoErrorSpecifics | null
+  value?: PortfolioSyncInfoErrorSpecifics | null,
 ): any {
   return PortfolioSyncInfoErrorSpecificsToJSONRecursive(value, false);
 }

@@ -64,7 +64,7 @@ export function ChangeOrderParamsFromJSON(json: any): ChangeOrderParams {
 
 export function ChangeOrderParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ChangeOrderParams {
   if (json === undefined || json === null) {
     return json;
@@ -84,7 +84,7 @@ export function ChangeOrderParamsFromJSONTyped(
 
 export function ChangeOrderParamsToJSONRecursive(
   value?: ChangeOrderParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

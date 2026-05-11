@@ -94,7 +94,7 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async createTradeRaw(
     requestParameters: CreateTradeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<CreateTradeResponse>> {
     if (
       requestParameters.createOrderParams === null ||
@@ -102,7 +102,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "createOrderParams",
-        "Required parameter requestParameters.createOrderParams was null or undefined when calling createTrade."
+        "Required parameter requestParameters.createOrderParams was null or undefined when calling createTrade.",
       );
     }
 
@@ -133,11 +133,11 @@ export class TradeApi extends runtime.BaseAPI {
         query: queryParameters,
         body: CreateOrderParamsToJSON(requestParameters.createOrderParams),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CreateTradeResponseFromJSON(jsonValue)
+      CreateTradeResponseFromJSON(jsonValue),
     );
   }
 
@@ -146,11 +146,11 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async createTrade(
     requestParameters: CreateTradeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<CreateTradeResponse> {
     const response = await this.createTradeRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -160,7 +160,7 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async createTradeChallengeRaw(
     requestParameters: CreateTradeChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<Challenge>> {
     if (
       requestParameters.createOrderChallengeParams === null ||
@@ -168,7 +168,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "createOrderChallengeParams",
-        "Required parameter requestParameters.createOrderChallengeParams was null or undefined when calling createTradeChallenge."
+        "Required parameter requestParameters.createOrderChallengeParams was null or undefined when calling createTradeChallenge.",
       );
     }
 
@@ -198,14 +198,14 @@ export class TradeApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: CreateOrderChallengeParamsToJSON(
-          requestParameters.createOrderChallengeParams
+          requestParameters.createOrderChallengeParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ChallengeFromJSON(jsonValue)
+      ChallengeFromJSON(jsonValue),
     );
   }
 
@@ -214,11 +214,11 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async createTradeChallenge(
     requestParameters: CreateTradeChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<Challenge> {
     const response = await this.createTradeChallengeRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -228,7 +228,7 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async getAvailableOrderIntentsRaw(
     requestParameters: GetAvailableOrderIntentsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<OrderIntentAvailability>> {
     if (
       requestParameters.token === null ||
@@ -236,7 +236,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "token",
-        "Required parameter requestParameters.token was null or undefined when calling getAvailableOrderIntents."
+        "Required parameter requestParameters.token was null or undefined when calling getAvailableOrderIntents.",
       );
     }
 
@@ -268,11 +268,11 @@ export class TradeApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OrderIntentAvailabilityFromJSON(jsonValue)
+      OrderIntentAvailabilityFromJSON(jsonValue),
     );
   }
 
@@ -281,11 +281,11 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async getAvailableOrderIntents(
     requestParameters: GetAvailableOrderIntentsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<OrderIntentAvailability> {
     const response = await this.getAvailableOrderIntentsRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -294,7 +294,7 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async getCostEstimationRaw(
     requestParameters: GetCostEstimationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<OrderCostEstimation>> {
     if (
       requestParameters.getCostEstimationParams === null ||
@@ -302,7 +302,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "getCostEstimationParams",
-        "Required parameter requestParameters.getCostEstimationParams was null or undefined when calling getCostEstimation."
+        "Required parameter requestParameters.getCostEstimationParams was null or undefined when calling getCostEstimation.",
       );
     }
 
@@ -332,14 +332,14 @@ export class TradeApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: GetCostEstimationParamsToJSON(
-          requestParameters.getCostEstimationParams
+          requestParameters.getCostEstimationParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OrderCostEstimationFromJSON(jsonValue)
+      OrderCostEstimationFromJSON(jsonValue),
     );
   }
 
@@ -347,11 +347,11 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async getCostEstimation(
     requestParameters: GetCostEstimationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<OrderCostEstimation> {
     const response = await this.getCostEstimationRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -361,7 +361,7 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async getQuoteRaw(
     requestParameters: GetQuoteRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetQuoteResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -369,7 +369,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getQuote."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getQuote.",
       );
     }
 
@@ -379,7 +379,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "getQuoteParams",
-        "Required parameter requestParameters.getQuoteParams was null or undefined when calling getQuote."
+        "Required parameter requestParameters.getQuoteParams was null or undefined when calling getQuote.",
       );
     }
 
@@ -414,11 +414,11 @@ export class TradeApi extends runtime.BaseAPI {
         query: queryParameters,
         body: GetQuoteParamsToJSON(requestParameters.getQuoteParams),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetQuoteResponseFromJSON(jsonValue)
+      GetQuoteResponseFromJSON(jsonValue),
     );
   }
 
@@ -427,7 +427,7 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async getQuote(
     requestParameters: GetQuoteRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetQuoteResponse> {
     const response = await this.getQuoteRaw(requestParameters, initOverrides);
     return await response.value();
@@ -438,7 +438,7 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async getSecurityDetailedInfoRaw(
     requestParameters: GetSecurityDetailedInfoRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GenericTable>> {
     if (
       requestParameters.token === null ||
@@ -446,7 +446,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "token",
-        "Required parameter requestParameters.token was null or undefined when calling getSecurityDetailedInfo."
+        "Required parameter requestParameters.token was null or undefined when calling getSecurityDetailedInfo.",
       );
     }
 
@@ -478,11 +478,11 @@ export class TradeApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GenericTableFromJSON(jsonValue)
+      GenericTableFromJSON(jsonValue),
     );
   }
 
@@ -491,11 +491,11 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async getSecurityDetailedInfo(
     requestParameters: GetSecurityDetailedInfoRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GenericTable> {
     const response = await this.getSecurityDetailedInfoRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -505,7 +505,7 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async prepareTradeRaw(
     requestParameters: PrepareTradeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<PrepareTradeResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -513,7 +513,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling prepareTrade."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling prepareTrade.",
       );
     }
 
@@ -523,7 +523,7 @@ export class TradeApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "isin",
-        "Required parameter requestParameters.isin was null or undefined when calling prepareTrade."
+        "Required parameter requestParameters.isin was null or undefined when calling prepareTrade.",
       );
     }
 
@@ -575,11 +575,11 @@ export class TradeApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PrepareTradeResponseFromJSON(jsonValue)
+      PrepareTradeResponseFromJSON(jsonValue),
     );
   }
 
@@ -588,11 +588,11 @@ export class TradeApi extends runtime.BaseAPI {
    */
   async prepareTrade(
     requestParameters: PrepareTradeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<PrepareTradeResponse> {
     const response = await this.prepareTradeRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

@@ -56,7 +56,7 @@ export function RecoveryPhraseItemFromJSON(json: any): RecoveryPhraseItem {
 
 export function RecoveryPhraseItemFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): RecoveryPhraseItem {
   if (json === undefined || json === null) {
     return json;
@@ -72,7 +72,7 @@ export function RecoveryPhraseItemFromJSONTyped(
 
 export function RecoveryPhraseItemToJSONRecursive(
   value?: RecoveryPhraseItem | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -91,7 +91,7 @@ export function RecoveryPhraseItemToJSONRecursive(
 }
 
 export function RecoveryPhraseItemToJSON(
-  value?: RecoveryPhraseItem | null
+  value?: RecoveryPhraseItem | null,
 ): any {
   return RecoveryPhraseItemToJSONRecursive(value, false);
 }

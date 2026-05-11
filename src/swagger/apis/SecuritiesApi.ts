@@ -41,7 +41,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
    */
   async getSecurityQuotesRaw(
     requestParameters: GetSecurityQuotesRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<SecurityQuotesResponse>> {
     if (
       requestParameters.securityQuotesToken === null ||
@@ -49,7 +49,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "securityQuotesToken",
-        "Required parameter requestParameters.securityQuotesToken was null or undefined when calling getSecurityQuotes."
+        "Required parameter requestParameters.securityQuotesToken was null or undefined when calling getSecurityQuotes.",
       );
     }
 
@@ -74,17 +74,17 @@ export class SecuritiesApi extends runtime.BaseAPI {
       {
         path: `/securities/quotes/{securityQuotesToken}`.replace(
           `{${"securityQuotesToken"}}`,
-          encodeURIComponent(String(requestParameters.securityQuotesToken))
+          encodeURIComponent(String(requestParameters.securityQuotesToken)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      SecurityQuotesResponseFromJSON(jsonValue)
+      SecurityQuotesResponseFromJSON(jsonValue),
     );
   }
 
@@ -93,11 +93,11 @@ export class SecuritiesApi extends runtime.BaseAPI {
    */
   async getSecurityQuotes(
     requestParameters: GetSecurityQuotesRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<SecurityQuotesResponse> {
     const response = await this.getSecurityQuotesRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -107,7 +107,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
    */
   async getSecurityQuotesMetaRaw(
     requestParameters: GetSecurityQuotesMetaRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<SecurityQuotesMeta>> {
     if (
       requestParameters.securityQuotesToken === null ||
@@ -115,7 +115,7 @@ export class SecuritiesApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "securityQuotesToken",
-        "Required parameter requestParameters.securityQuotesToken was null or undefined when calling getSecurityQuotesMeta."
+        "Required parameter requestParameters.securityQuotesToken was null or undefined when calling getSecurityQuotesMeta.",
       );
     }
 
@@ -140,17 +140,17 @@ export class SecuritiesApi extends runtime.BaseAPI {
       {
         path: `/securities/quotes/{securityQuotesToken}/meta`.replace(
           `{${"securityQuotesToken"}}`,
-          encodeURIComponent(String(requestParameters.securityQuotesToken))
+          encodeURIComponent(String(requestParameters.securityQuotesToken)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      SecurityQuotesMetaFromJSON(jsonValue)
+      SecurityQuotesMetaFromJSON(jsonValue),
     );
   }
 
@@ -159,11 +159,11 @@ export class SecuritiesApi extends runtime.BaseAPI {
    */
   async getSecurityQuotesMeta(
     requestParameters: GetSecurityQuotesMetaRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<SecurityQuotesMeta> {
     const response = await this.getSecurityQuotesMetaRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

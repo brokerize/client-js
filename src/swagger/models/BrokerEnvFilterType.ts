@@ -30,13 +30,13 @@ export function BrokerEnvFilterTypeFromJSON(json: any): BrokerEnvFilterType {
 
 export function BrokerEnvFilterTypeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): BrokerEnvFilterType {
   return json as BrokerEnvFilterType;
 }
 
 export function BrokerEnvFilterTypeToJSON(
-  value?: BrokerEnvFilterType | null
+  value?: BrokerEnvFilterType | null,
 ): any {
   return value as any;
 }

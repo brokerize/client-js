@@ -45,7 +45,7 @@ export function BrokerLoginFormFromJSON(json: any): BrokerLoginForm {
 
 export function BrokerLoginFormFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): BrokerLoginForm {
   if (json === undefined || json === null) {
     return json;
@@ -58,7 +58,7 @@ export function BrokerLoginFormFromJSONTyped(
 
 export function BrokerLoginFormToJSONRecursive(
   value?: BrokerLoginForm | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

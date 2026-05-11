@@ -60,7 +60,7 @@ export function GenericTableRowTextFromJSON(json: any): GenericTableRowText {
 
 export function GenericTableRowTextFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowText {
   if (json === undefined || json === null) {
     return json;
@@ -73,7 +73,7 @@ export function GenericTableRowTextFromJSONTyped(
 
 export function GenericTableRowTextToJSONRecursive(
   value?: GenericTableRowText | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -89,7 +89,7 @@ export function GenericTableRowTextToJSONRecursive(
 }
 
 export function GenericTableRowTextToJSON(
-  value?: GenericTableRowText | null
+  value?: GenericTableRowText | null,
 ): any {
   return GenericTableRowTextToJSONRecursive(value, false);
 }

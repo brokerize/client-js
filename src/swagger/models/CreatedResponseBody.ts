@@ -38,7 +38,7 @@ export function CreatedResponseBodyFromJSON(json: any): CreatedResponseBody {
 
 export function CreatedResponseBodyFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreatedResponseBody {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function CreatedResponseBodyFromJSONTyped(
 
 export function CreatedResponseBodyToJSONRecursive(
   value?: CreatedResponseBody | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -67,7 +67,7 @@ export function CreatedResponseBodyToJSONRecursive(
 }
 
 export function CreatedResponseBodyToJSON(
-  value?: CreatedResponseBody | null
+  value?: CreatedResponseBody | null,
 ): any {
   return CreatedResponseBodyToJSONRecursive(value, false);
 }

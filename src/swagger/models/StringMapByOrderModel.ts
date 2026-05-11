@@ -93,14 +93,14 @@ export interface StringMapByOrderModel {
 }
 
 export function StringMapByOrderModelFromJSON(
-  json: any
+  json: any,
 ): StringMapByOrderModel {
   return StringMapByOrderModelFromJSONTyped(json, false);
 }
 
 export function StringMapByOrderModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): StringMapByOrderModel {
   if (json === undefined || json === null) {
     return json;
@@ -131,7 +131,7 @@ export function StringMapByOrderModelFromJSONTyped(
 
 export function StringMapByOrderModelToJSONRecursive(
   value?: StringMapByOrderModel | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -157,7 +157,7 @@ export function StringMapByOrderModelToJSONRecursive(
 }
 
 export function StringMapByOrderModelToJSON(
-  value?: StringMapByOrderModel | null
+  value?: StringMapByOrderModel | null,
 ): any {
   return StringMapByOrderModelToJSONRecursive(value, false);
 }

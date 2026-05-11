@@ -46,14 +46,14 @@ export interface AuthMethodDecoupledSpecifics {
 }
 
 export function AuthMethodDecoupledSpecificsFromJSON(
-  json: any
+  json: any,
 ): AuthMethodDecoupledSpecifics {
   return AuthMethodDecoupledSpecificsFromJSONTyped(json, false);
 }
 
 export function AuthMethodDecoupledSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodDecoupledSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -72,7 +72,7 @@ export function AuthMethodDecoupledSpecificsFromJSONTyped(
 
 export function AuthMethodDecoupledSpecificsToJSONRecursive(
   value?: AuthMethodDecoupledSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -90,7 +90,7 @@ export function AuthMethodDecoupledSpecificsToJSONRecursive(
 }
 
 export function AuthMethodDecoupledSpecificsToJSON(
-  value?: AuthMethodDecoupledSpecifics | null
+  value?: AuthMethodDecoupledSpecifics | null,
 ): any {
   return AuthMethodDecoupledSpecificsToJSONRecursive(value, false);
 }

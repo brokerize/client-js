@@ -12,7 +12,7 @@
 export function createPollingSubscription<T>(
   fetchData: () => Promise<T>,
   intvlMs: number,
-  callback: (err: Error | undefined, data: T | undefined) => void
+  callback: (err: Error | undefined, data: T | undefined) => void,
 ) {
   let timeout: NodeJS.Timeout | null = null;
   let done = false;
@@ -29,7 +29,7 @@ export function createPollingSubscription<T>(
       // eslint-disable-next-line no-console
       console.error(
         "brokerize pollingSubscription: the user callback threw an error unexpectedly: ",
-        err
+        err,
       );
     }
 
@@ -51,7 +51,7 @@ export function createPollingSubscription<T>(
           timeout = setTimeout(fetchAndScheduleNext, intvlMs);
         }
       },
-      (err) => doCallback(err)
+      (err) => doCallback(err),
     );
   }
 

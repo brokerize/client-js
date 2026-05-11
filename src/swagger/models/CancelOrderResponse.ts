@@ -33,7 +33,7 @@ export function CancelOrderResponseFromJSON(json: any): CancelOrderResponse {
 
 export function CancelOrderResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderResponse {
   if (json === undefined || json === null) {
     return json;
@@ -47,7 +47,7 @@ export function CancelOrderResponseFromJSONTyped(
 
 export function CancelOrderResponseToJSONRecursive(
   value?: CancelOrderResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -62,7 +62,7 @@ export function CancelOrderResponseToJSONRecursive(
 }
 
 export function CancelOrderResponseToJSON(
-  value?: CancelOrderResponse | null
+  value?: CancelOrderResponse | null,
 ): any {
   return CancelOrderResponseToJSONRecursive(value, false);
 }

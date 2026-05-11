@@ -40,7 +40,7 @@ export function OrderValidityTypeFromJSON(json: any): OrderValidityType {
 
 export function OrderValidityTypeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderValidityType {
   return json as OrderValidityType;
 }

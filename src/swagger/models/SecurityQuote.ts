@@ -38,7 +38,7 @@ export function SecurityQuoteFromJSON(json: any): SecurityQuote {
 
 export function SecurityQuoteFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SecurityQuote {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function SecurityQuoteFromJSONTyped(
 
 export function SecurityQuoteToJSONRecursive(
   value?: SecurityQuote | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
