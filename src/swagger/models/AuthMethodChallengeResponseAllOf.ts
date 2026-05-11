@@ -36,14 +36,14 @@ export type AuthMethodChallengeResponseAllOfFlowEnum =
   (typeof AuthMethodChallengeResponseAllOfFlowEnum)[keyof typeof AuthMethodChallengeResponseAllOfFlowEnum];
 
 export function AuthMethodChallengeResponseAllOfFromJSON(
-  json: any
+  json: any,
 ): AuthMethodChallengeResponseAllOf {
   return AuthMethodChallengeResponseAllOfFromJSONTyped(json, false);
 }
 
 export function AuthMethodChallengeResponseAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodChallengeResponseAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function AuthMethodChallengeResponseAllOfFromJSONTyped(
 
 export function AuthMethodChallengeResponseAllOfToJSONRecursive(
   value?: AuthMethodChallengeResponseAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function AuthMethodChallengeResponseAllOfToJSONRecursive(
 }
 
 export function AuthMethodChallengeResponseAllOfToJSON(
-  value?: AuthMethodChallengeResponseAllOf | null
+  value?: AuthMethodChallengeResponseAllOf | null,
 ): any {
   return AuthMethodChallengeResponseAllOfToJSONRecursive(value, false);
 }

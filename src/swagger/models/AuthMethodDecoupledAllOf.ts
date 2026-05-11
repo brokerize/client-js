@@ -36,14 +36,14 @@ export type AuthMethodDecoupledAllOfFlowEnum =
   (typeof AuthMethodDecoupledAllOfFlowEnum)[keyof typeof AuthMethodDecoupledAllOfFlowEnum];
 
 export function AuthMethodDecoupledAllOfFromJSON(
-  json: any
+  json: any,
 ): AuthMethodDecoupledAllOf {
   return AuthMethodDecoupledAllOfFromJSONTyped(json, false);
 }
 
 export function AuthMethodDecoupledAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodDecoupledAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function AuthMethodDecoupledAllOfFromJSONTyped(
 
 export function AuthMethodDecoupledAllOfToJSONRecursive(
   value?: AuthMethodDecoupledAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function AuthMethodDecoupledAllOfToJSONRecursive(
 }
 
 export function AuthMethodDecoupledAllOfToJSON(
-  value?: AuthMethodDecoupledAllOf | null
+  value?: AuthMethodDecoupledAllOf | null,
 ): any {
   return AuthMethodDecoupledAllOfToJSONRecursive(value, false);
 }

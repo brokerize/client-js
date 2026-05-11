@@ -40,14 +40,14 @@ export interface GetActiveTradeDraftsResponse {
 }
 
 export function GetActiveTradeDraftsResponseFromJSON(
-  json: any
+  json: any,
 ): GetActiveTradeDraftsResponse {
   return GetActiveTradeDraftsResponseFromJSONTyped(json, false);
 }
 
 export function GetActiveTradeDraftsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetActiveTradeDraftsResponse {
   if (json === undefined || json === null) {
     return json;
@@ -60,7 +60,7 @@ export function GetActiveTradeDraftsResponseFromJSONTyped(
 
 export function GetActiveTradeDraftsResponseToJSONRecursive(
   value?: GetActiveTradeDraftsResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -76,7 +76,7 @@ export function GetActiveTradeDraftsResponseToJSONRecursive(
 }
 
 export function GetActiveTradeDraftsResponseToJSON(
-  value?: GetActiveTradeDraftsResponse | null
+  value?: GetActiveTradeDraftsResponse | null,
 ): any {
   return GetActiveTradeDraftsResponseToJSONRecursive(value, false);
 }

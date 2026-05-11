@@ -39,7 +39,7 @@ export function LoginResponseFromJSON(json: any): LoginResponse {
 
 export function LoginResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LoginResponse {
   if (json === undefined || json === null) {
     return json;
@@ -54,7 +54,7 @@ export function LoginResponseFromJSONTyped(
       return { ...LoginResponseReadyFromJSONTyped(json, true), state: "ready" };
     default:
       throw new Error(
-        `No variant of LoginResponse exists with 'state=${json["state"]}'`
+        `No variant of LoginResponse exists with 'state=${json["state"]}'`,
       );
   }
 }
@@ -73,7 +73,7 @@ export function LoginResponseToJSON(value?: LoginResponse | null): any {
       return LoginResponseReadyToJSON(value);
     default:
       throw new Error(
-        `No variant of LoginResponse exists with 'state=${value["state"]}'`
+        `No variant of LoginResponse exists with 'state=${value["state"]}'`,
       );
   }
 }

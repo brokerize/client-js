@@ -24,20 +24,20 @@ export type EnableSessionTanParamsKind =
   (typeof EnableSessionTanParamsKind)[keyof typeof EnableSessionTanParamsKind];
 
 export function EnableSessionTanParamsKindFromJSON(
-  json: any
+  json: any,
 ): EnableSessionTanParamsKind {
   return EnableSessionTanParamsKindFromJSONTyped(json, false);
 }
 
 export function EnableSessionTanParamsKindFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EnableSessionTanParamsKind {
   return json as EnableSessionTanParamsKind;
 }
 
 export function EnableSessionTanParamsKindToJSON(
-  value?: EnableSessionTanParamsKind | null
+  value?: EnableSessionTanParamsKind | null,
 ): any {
   return value as any;
 }

@@ -28,7 +28,7 @@ export function OrderIntentFromJSON(json: any): OrderIntent {
 
 export function OrderIntentFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderIntent {
   return json as OrderIntent;
 }

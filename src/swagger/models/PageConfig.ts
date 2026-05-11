@@ -56,7 +56,7 @@ export function PageConfigFromJSON(json: any): PageConfig {
 
 export function PageConfigFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PageConfig {
   if (json === undefined || json === null) {
     return json;
@@ -74,7 +74,7 @@ export function PageConfigFromJSONTyped(
 
 export function PageConfigToJSONRecursive(
   value?: PageConfig | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

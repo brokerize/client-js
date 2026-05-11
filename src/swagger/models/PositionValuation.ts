@@ -57,7 +57,7 @@ export function PositionValuationFromJSON(json: any): PositionValuation {
 
 export function PositionValuationFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PositionValuation {
   if (json === undefined || json === null) {
     return json;
@@ -76,7 +76,7 @@ export function PositionValuationFromJSONTyped(
 
 export function PositionValuationToJSONRecursive(
   value?: PositionValuation | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

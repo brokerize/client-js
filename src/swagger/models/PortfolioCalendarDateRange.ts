@@ -46,14 +46,14 @@ export interface PortfolioCalendarDateRange {
 }
 
 export function PortfolioCalendarDateRangeFromJSON(
-  json: any
+  json: any,
 ): PortfolioCalendarDateRange {
   return PortfolioCalendarDateRangeFromJSONTyped(json, false);
 }
 
 export function PortfolioCalendarDateRangeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfolioCalendarDateRange {
   if (json === undefined || json === null) {
     return json;
@@ -66,7 +66,7 @@ export function PortfolioCalendarDateRangeFromJSONTyped(
 
 export function PortfolioCalendarDateRangeToJSONRecursive(
   value?: PortfolioCalendarDateRange | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -82,7 +82,7 @@ export function PortfolioCalendarDateRangeToJSONRecursive(
 }
 
 export function PortfolioCalendarDateRangeToJSON(
-  value?: PortfolioCalendarDateRange | null
+  value?: PortfolioCalendarDateRange | null,
 ): any {
   return PortfolioCalendarDateRangeToJSONRecursive(value, false);
 }

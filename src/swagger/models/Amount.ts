@@ -77,7 +77,7 @@ export function AmountFromJSON(json: any): Amount {
 
 export function AmountFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): Amount {
   if (json === undefined || json === null) {
     return json;
@@ -95,7 +95,7 @@ export function AmountFromJSONTyped(
 
 export function AmountToJSONRecursive(
   value?: Amount | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

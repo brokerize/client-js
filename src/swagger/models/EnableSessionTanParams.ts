@@ -41,14 +41,14 @@ export type EnableSessionTanParams =
   | ({ kind: "tan" } & EnableSessionTanParamsTan);
 
 export function EnableSessionTanParamsFromJSON(
-  json: any
+  json: any,
 ): EnableSessionTanParams {
   return EnableSessionTanParamsFromJSONTyped(json, false);
 }
 
 export function EnableSessionTanParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EnableSessionTanParams {
   if (json === undefined || json === null) {
     return json;
@@ -71,13 +71,13 @@ export function EnableSessionTanParamsFromJSONTyped(
       };
     default:
       throw new Error(
-        `No variant of EnableSessionTanParams exists with 'kind=${json["kind"]}'`
+        `No variant of EnableSessionTanParams exists with 'kind=${json["kind"]}'`,
       );
   }
 }
 
 export function EnableSessionTanParamsToJSON(
-  value?: EnableSessionTanParams | null
+  value?: EnableSessionTanParams | null,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -94,7 +94,7 @@ export function EnableSessionTanParamsToJSON(
       return EnableSessionTanParamsTanToJSON(value);
     default:
       throw new Error(
-        `No variant of EnableSessionTanParams exists with 'kind=${value["kind"]}'`
+        `No variant of EnableSessionTanParams exists with 'kind=${value["kind"]}'`,
       );
   }
 }

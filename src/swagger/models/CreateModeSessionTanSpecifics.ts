@@ -28,14 +28,14 @@ export interface CreateModeSessionTanSpecifics {
 }
 
 export function CreateModeSessionTanSpecificsFromJSON(
-  json: any
+  json: any,
 ): CreateModeSessionTanSpecifics {
   return CreateModeSessionTanSpecificsFromJSONTyped(json, false);
 }
 
 export function CreateModeSessionTanSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateModeSessionTanSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -49,7 +49,7 @@ export function CreateModeSessionTanSpecificsFromJSONTyped(
 
 export function CreateModeSessionTanSpecificsToJSONRecursive(
   value?: CreateModeSessionTanSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -64,7 +64,7 @@ export function CreateModeSessionTanSpecificsToJSONRecursive(
 }
 
 export function CreateModeSessionTanSpecificsToJSON(
-  value?: CreateModeSessionTanSpecifics | null
+  value?: CreateModeSessionTanSpecifics | null,
 ): any {
   return CreateModeSessionTanSpecificsToJSONRecursive(value, false);
 }

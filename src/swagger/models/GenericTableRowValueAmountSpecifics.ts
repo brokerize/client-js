@@ -34,14 +34,14 @@ export interface GenericTableRowValueAmountSpecifics {
 }
 
 export function GenericTableRowValueAmountSpecificsFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueAmountSpecifics {
   return GenericTableRowValueAmountSpecificsFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueAmountSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueAmountSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function GenericTableRowValueAmountSpecificsFromJSONTyped(
 
 export function GenericTableRowValueAmountSpecificsToJSONRecursive(
   value?: GenericTableRowValueAmountSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function GenericTableRowValueAmountSpecificsToJSONRecursive(
 }
 
 export function GenericTableRowValueAmountSpecificsToJSON(
-  value?: GenericTableRowValueAmountSpecifics | null
+  value?: GenericTableRowValueAmountSpecifics | null,
 ): any {
   return GenericTableRowValueAmountSpecificsToJSONRecursive(value, false);
 }

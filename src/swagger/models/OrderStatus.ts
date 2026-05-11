@@ -30,7 +30,7 @@ export function OrderStatusFromJSON(json: any): OrderStatus {
 
 export function OrderStatusFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderStatus {
   return json as OrderStatus;
 }

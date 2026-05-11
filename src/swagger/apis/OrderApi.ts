@@ -86,12 +86,12 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async cancelOrderRaw(
     requestParameters: CancelOrderRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<CancelOrderResponse>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling cancelOrder."
+        "Required parameter requestParameters.id was null or undefined when calling cancelOrder.",
       );
     }
 
@@ -101,7 +101,7 @@ export class OrderApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "cancelOrderParams",
-        "Required parameter requestParameters.cancelOrderParams was null or undefined when calling cancelOrder."
+        "Required parameter requestParameters.cancelOrderParams was null or undefined when calling cancelOrder.",
       );
     }
 
@@ -128,18 +128,18 @@ export class OrderApi extends runtime.BaseAPI {
       {
         path: `/order/{id}/cancel`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: CancelOrderParamsToJSON(requestParameters.cancelOrderParams),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CancelOrderResponseFromJSON(jsonValue)
+      CancelOrderResponseFromJSON(jsonValue),
     );
   }
 
@@ -148,11 +148,11 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async cancelOrder(
     requestParameters: CancelOrderRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<CancelOrderResponse> {
     const response = await this.cancelOrderRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -162,12 +162,12 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async changeOrderRaw(
     requestParameters: ChangeOrderRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<ChangeOrderResponse>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling changeOrder."
+        "Required parameter requestParameters.id was null or undefined when calling changeOrder.",
       );
     }
 
@@ -177,7 +177,7 @@ export class OrderApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "changeOrderParams",
-        "Required parameter requestParameters.changeOrderParams was null or undefined when calling changeOrder."
+        "Required parameter requestParameters.changeOrderParams was null or undefined when calling changeOrder.",
       );
     }
 
@@ -204,18 +204,18 @@ export class OrderApi extends runtime.BaseAPI {
       {
         path: `/order/{id}/change`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: ChangeOrderParamsToJSON(requestParameters.changeOrderParams),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ChangeOrderResponseFromJSON(jsonValue)
+      ChangeOrderResponseFromJSON(jsonValue),
     );
   }
 
@@ -224,11 +224,11 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async changeOrder(
     requestParameters: ChangeOrderRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<ChangeOrderResponse> {
     const response = await this.changeOrderRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -238,12 +238,12 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async createCancelOrderChallengeRaw(
     requestParameters: CreateCancelOrderChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<Challenge>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling createCancelOrderChallenge."
+        "Required parameter requestParameters.id was null or undefined when calling createCancelOrderChallenge.",
       );
     }
 
@@ -253,7 +253,7 @@ export class OrderApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "cancelOrderChallengeParams",
-        "Required parameter requestParameters.cancelOrderChallengeParams was null or undefined when calling createCancelOrderChallenge."
+        "Required parameter requestParameters.cancelOrderChallengeParams was null or undefined when calling createCancelOrderChallenge.",
       );
     }
 
@@ -280,20 +280,20 @@ export class OrderApi extends runtime.BaseAPI {
       {
         path: `/order/{id}/cancelChallenge`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: CancelOrderChallengeParamsToJSON(
-          requestParameters.cancelOrderChallengeParams
+          requestParameters.cancelOrderChallengeParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ChallengeFromJSON(jsonValue)
+      ChallengeFromJSON(jsonValue),
     );
   }
 
@@ -302,11 +302,11 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async createCancelOrderChallenge(
     requestParameters: CreateCancelOrderChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<Challenge> {
     const response = await this.createCancelOrderChallengeRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -316,12 +316,12 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async createChangeOrderChallengeRaw(
     requestParameters: CreateChangeOrderChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<Challenge>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling createChangeOrderChallenge."
+        "Required parameter requestParameters.id was null or undefined when calling createChangeOrderChallenge.",
       );
     }
 
@@ -331,7 +331,7 @@ export class OrderApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "changeOrderChallengeParams",
-        "Required parameter requestParameters.changeOrderChallengeParams was null or undefined when calling createChangeOrderChallenge."
+        "Required parameter requestParameters.changeOrderChallengeParams was null or undefined when calling createChangeOrderChallenge.",
       );
     }
 
@@ -358,20 +358,20 @@ export class OrderApi extends runtime.BaseAPI {
       {
         path: `/order/{id}/changeChallenge`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: ChangeOrderChallengeParamsToJSON(
-          requestParameters.changeOrderChallengeParams
+          requestParameters.changeOrderChallengeParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ChallengeFromJSON(jsonValue)
+      ChallengeFromJSON(jsonValue),
     );
   }
 
@@ -380,11 +380,11 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async createChangeOrderChallenge(
     requestParameters: CreateChangeOrderChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<Challenge> {
     const response = await this.createChangeOrderChallengeRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -394,12 +394,12 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async getChangeOrderCostEstimationRaw(
     requestParameters: GetChangeOrderCostEstimationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<OrderCostEstimation>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling getChangeOrderCostEstimation."
+        "Required parameter requestParameters.id was null or undefined when calling getChangeOrderCostEstimation.",
       );
     }
 
@@ -409,7 +409,7 @@ export class OrderApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "estimateChangeOrderCostsParams",
-        "Required parameter requestParameters.estimateChangeOrderCostsParams was null or undefined when calling getChangeOrderCostEstimation."
+        "Required parameter requestParameters.estimateChangeOrderCostsParams was null or undefined when calling getChangeOrderCostEstimation.",
       );
     }
 
@@ -436,20 +436,20 @@ export class OrderApi extends runtime.BaseAPI {
       {
         path: `/order/{id}/changeCostEstimation`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: EstimateChangeOrderCostsParamsToJSON(
-          requestParameters.estimateChangeOrderCostsParams
+          requestParameters.estimateChangeOrderCostsParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OrderCostEstimationFromJSON(jsonValue)
+      OrderCostEstimationFromJSON(jsonValue),
     );
   }
 
@@ -458,11 +458,11 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async getChangeOrderCostEstimation(
     requestParameters: GetChangeOrderCostEstimationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<OrderCostEstimation> {
     const response = await this.getChangeOrderCostEstimationRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -471,12 +471,12 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async getOrderRaw(
     requestParameters: GetOrderRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetOrderResponse>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling getOrder."
+        "Required parameter requestParameters.id was null or undefined when calling getOrder.",
       );
     }
 
@@ -501,17 +501,17 @@ export class OrderApi extends runtime.BaseAPI {
       {
         path: `/order/{id}`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetOrderResponseFromJSON(jsonValue)
+      GetOrderResponseFromJSON(jsonValue),
     );
   }
 
@@ -519,7 +519,7 @@ export class OrderApi extends runtime.BaseAPI {
    */
   async getOrder(
     requestParameters: GetOrderRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetOrderResponse> {
     const response = await this.getOrderRaw(requestParameters, initOverrides);
     return await response.value();

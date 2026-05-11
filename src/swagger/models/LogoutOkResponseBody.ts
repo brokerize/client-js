@@ -38,7 +38,7 @@ export function LogoutOkResponseBodyFromJSON(json: any): LogoutOkResponseBody {
 
 export function LogoutOkResponseBodyFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LogoutOkResponseBody {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function LogoutOkResponseBodyFromJSONTyped(
 
 export function LogoutOkResponseBodyToJSONRecursive(
   value?: LogoutOkResponseBody | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -69,7 +69,7 @@ export function LogoutOkResponseBodyToJSONRecursive(
 }
 
 export function LogoutOkResponseBodyToJSON(
-  value?: LogoutOkResponseBody | null
+  value?: LogoutOkResponseBody | null,
 ): any {
   return LogoutOkResponseBodyToJSONRecursive(value, false);
 }

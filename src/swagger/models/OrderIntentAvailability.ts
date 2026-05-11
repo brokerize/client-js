@@ -40,14 +40,14 @@ export interface OrderIntentAvailability {
 }
 
 export function OrderIntentAvailabilityFromJSON(
-  json: any
+  json: any,
 ): OrderIntentAvailability {
   return OrderIntentAvailabilityFromJSONTyped(json, false);
 }
 
 export function OrderIntentAvailabilityFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderIntentAvailability {
   if (json === undefined || json === null) {
     return json;
@@ -60,7 +60,7 @@ export function OrderIntentAvailabilityFromJSONTyped(
 
 export function OrderIntentAvailabilityToJSONRecursive(
   value?: OrderIntentAvailability | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -76,7 +76,7 @@ export function OrderIntentAvailabilityToJSONRecursive(
 }
 
 export function OrderIntentAvailabilityToJSON(
-  value?: OrderIntentAvailability | null
+  value?: OrderIntentAvailability | null,
 ): any {
   return OrderIntentAvailabilityToJSONRecursive(value, false);
 }

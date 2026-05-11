@@ -25,20 +25,20 @@ export type DecoupledOperationState =
   (typeof DecoupledOperationState)[keyof typeof DecoupledOperationState];
 
 export function DecoupledOperationStateFromJSON(
-  json: any
+  json: any,
 ): DecoupledOperationState {
   return DecoupledOperationStateFromJSONTyped(json, false);
 }
 
 export function DecoupledOperationStateFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): DecoupledOperationState {
   return json as DecoupledOperationState;
 }
 
 export function DecoupledOperationStateToJSON(
-  value?: DecoupledOperationState | null
+  value?: DecoupledOperationState | null,
 ): any {
   return value as any;
 }

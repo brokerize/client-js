@@ -25,20 +25,20 @@ export type GenericTableRowValueType =
   (typeof GenericTableRowValueType)[keyof typeof GenericTableRowValueType];
 
 export function GenericTableRowValueTypeFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueType {
   return GenericTableRowValueTypeFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueTypeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueType {
   return json as GenericTableRowValueType;
 }
 
 export function GenericTableRowValueTypeToJSON(
-  value?: GenericTableRowValueType | null
+  value?: GenericTableRowValueType | null,
 ): any {
   return value as any;
 }

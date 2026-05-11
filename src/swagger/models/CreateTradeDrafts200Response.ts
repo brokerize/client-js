@@ -27,14 +27,14 @@ export interface CreateTradeDrafts200Response {
 }
 
 export function CreateTradeDrafts200ResponseFromJSON(
-  json: any
+  json: any,
 ): CreateTradeDrafts200Response {
   return CreateTradeDrafts200ResponseFromJSONTyped(json, false);
 }
 
 export function CreateTradeDrafts200ResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateTradeDrafts200Response {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function CreateTradeDrafts200ResponseFromJSONTyped(
 
 export function CreateTradeDrafts200ResponseToJSONRecursive(
   value?: CreateTradeDrafts200Response | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function CreateTradeDrafts200ResponseToJSONRecursive(
 }
 
 export function CreateTradeDrafts200ResponseToJSON(
-  value?: CreateTradeDrafts200Response | null
+  value?: CreateTradeDrafts200Response | null,
 ): any {
   return CreateTradeDrafts200ResponseToJSONRecursive(value, false);
 }

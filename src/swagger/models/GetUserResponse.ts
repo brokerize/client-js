@@ -44,7 +44,7 @@ export function GetUserResponseFromJSON(json: any): GetUserResponse {
 
 export function GetUserResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetUserResponse {
   if (json === undefined || json === null) {
     return json;
@@ -58,7 +58,7 @@ export function GetUserResponseFromJSONTyped(
 
 export function GetUserResponseToJSONRecursive(
   value?: GetUserResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

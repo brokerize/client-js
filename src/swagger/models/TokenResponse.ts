@@ -69,7 +69,7 @@ export function TokenResponseFromJSON(json: any): TokenResponse {
 
 export function TokenResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TokenResponse {
   if (json === undefined || json === null) {
     return json;
@@ -81,13 +81,13 @@ export function TokenResponseFromJSONTyped(
     refreshTokenExpiresIn: json["refresh_token_expires_in"],
     refreshTokenWithoutTradingsession: !exists(
       json,
-      "refresh_token_without_tradingsession"
+      "refresh_token_without_tradingsession",
     )
       ? undefined
       : json["refresh_token_without_tradingsession"],
     refreshTokenWithoutTradingsessionExpiresIn: !exists(
       json,
-      "refresh_token_without_tradingsession_expires_in"
+      "refresh_token_without_tradingsession_expires_in",
     )
       ? undefined
       : json["refresh_token_without_tradingsession_expires_in"],
@@ -97,7 +97,7 @@ export function TokenResponseFromJSONTyped(
 
 export function TokenResponseToJSONRecursive(
   value?: TokenResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

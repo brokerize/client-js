@@ -27,7 +27,7 @@ export function DirectionFromJSON(json: any): Direction {
 
 export function DirectionFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): Direction {
   return json as Direction;
 }

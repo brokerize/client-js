@@ -40,7 +40,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   constructor(
     websocketUrl: string,
     auth: Auth,
-    createWebSocket: (url: string) => WebSocket
+    createWebSocket: (url: string) => WebSocket,
   ) {
     this._url = websocketUrl;
     this._id = 0;
@@ -66,7 +66,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
               "reconnecting. current error count is " +
               this._errorCount +
               ". the last error was: ",
-            this._lastNonFatalError
+            this._lastNonFatalError,
           );
         }
         this._connect();
@@ -139,7 +139,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         }
         unsub = true;
         this._map[key].callbacks = this._map[key].callbacks.filter(
-          (cb) => cb != wrappedCb
+          (cb) => cb != wrappedCb,
         );
         if (this._map[key].callbacks.length == 0) {
           this._endSubscription(key);
@@ -151,7 +151,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
 
   subscribeInvalidate(
     subscribe: SubscribeInvalidateDetails,
-    callback: Callback
+    callback: Callback,
   ) {
     const cmd: WebSocketCommandSubscribe = {
       cmd: "subscribe",
@@ -167,7 +167,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       SubscribeDecoupledOperation,
       "sessionId" | "decoupledOperationId"
     >,
-    callback: Callback
+    callback: Callback,
   ) {
     const cmd: WebSocketCommandSubscribe = {
       cmd: "subscribe",
@@ -195,7 +195,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         this._map[key].interrupted = false;
         this._fillInMessagesAfterConnectionInterruption(
           cmd,
-          this._map[key].callbacks
+          this._map[key].callbacks,
         );
       }
     } else if (!this._socket) {
@@ -205,7 +205,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
 
   private _fillInMessagesAfterConnectionInterruption(
     cmd: WebSocketCommandSubscribe,
-    callbacks: Callback<any>[]
+    callbacks: Callback<any>[],
   ) {
     if (cmd.type == "invalidate") {
       const assumedInvalidate: InvalidateMessage = {
@@ -214,7 +214,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       }; // minimal invalidate
       console.log(
         LOG_PREFIX +
-          "connection was interrupted. filling in assumed invalidates that may have happened while socket was not available."
+          "connection was interrupted. filling in assumed invalidates that may have happened while socket was not available.",
       );
       callbacks.forEach((cb) => cb(null, assumedInvalidate));
     } else if (cmd.type == "decoupledOperationStatus") {
@@ -232,7 +232,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
               };
               console.log(
                 LOG_PREFIX +
-                  "sending virtual decoupled operation status updates to subscribers due to connection interruption."
+                  "sending virtual decoupled operation status updates to subscribers due to connection interruption.",
               );
               callbacks.forEach((cb) => cb(null, invMsg));
             },
@@ -240,9 +240,9 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
               console.log(
                 err,
                 LOG_PREFIX +
-                  "could not retrieve status of decoupledOperation. ignoring it."
+                  "could not retrieve status of decoupledOperation. ignoring it.",
               );
-            }
+            },
           );
       }
     }
@@ -255,7 +255,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
           cmd: "unsubscribe",
           subscriptionId: this._map[key].idOnSocket as number,
         },
-        true
+        true,
       );
       this._map[key].idOnSocket = null;
     }
@@ -298,7 +298,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
       console.log(
         LOG_PREFIX + "socket not ready, not sending message.",
         this._lastNonFatalError,
-        this._fatalError
+        this._fatalError,
       );
     }
   }
@@ -323,7 +323,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         /* message concerns a subscription */
         if ((message as InvalidateMessage).cmd == "invalidate") {
           const entry = this._findSubscriptionEntry(
-            (message as WebSocketSubscriptionMessage).subscriptionId
+            (message as WebSocketSubscriptionMessage).subscriptionId,
           );
           entry?.entry.callbacks.forEach((cb) => cb(null, message));
         } else if (
@@ -331,16 +331,16 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
           "updateDecoupledOperationStatus"
         ) {
           const entry = this._findSubscriptionEntry(
-            (message as WebSocketSubscriptionMessage).subscriptionId
+            (message as WebSocketSubscriptionMessage).subscriptionId,
           );
           entry?.entry.callbacks.forEach((cb) => cb(null, message));
         } else if ((message as WebSocketMessageErrorOnSubscription).error) {
           /* error on subscription */
           const entry = this._findSubscriptionEntry(
-            (message as WebSocketSubscriptionMessage).subscriptionId
+            (message as WebSocketSubscriptionMessage).subscriptionId,
           );
           entry?.entry.callbacks.forEach((cb) =>
-            cb(message as WebSocketMessageErrorOnSubscription, null)
+            cb(message as WebSocketMessageErrorOnSubscription, null),
           );
         }
       } else if (
@@ -379,7 +379,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
                 cmd: "authorize",
                 idToken: token.idToken,
               },
-              true
+              true,
             );
             this._authenticatedCallback = _authCb;
           } else {
@@ -388,7 +388,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
         },
         (err) => {
           console.error(LOG_PREFIX + " connection failed", err);
-        }
+        },
       );
     };
 
@@ -477,7 +477,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
 export interface BrokerizeWebSocketClient {
   subscribeInvalidate: (
     subscribe: SubscribeInvalidateDetails,
-    callback: Callback
+    callback: Callback,
   ) => Subscription;
 
   subscribeDecoupledOperation: (
@@ -485,7 +485,7 @@ export interface BrokerizeWebSocketClient {
       SubscribeDecoupledOperation,
       "sessionId" | "decoupledOperationId"
     >,
-    callback: Callback
+    callback: Callback,
   ) => Subscription;
 }
 

@@ -27,14 +27,14 @@ export interface CreateTanChallengeParams {
 }
 
 export function CreateTanChallengeParamsFromJSON(
-  json: any
+  json: any,
 ): CreateTanChallengeParams {
   return CreateTanChallengeParamsFromJSONTyped(json, false);
 }
 
 export function CreateTanChallengeParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateTanChallengeParams {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function CreateTanChallengeParamsFromJSONTyped(
 
 export function CreateTanChallengeParamsToJSONRecursive(
   value?: CreateTanChallengeParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function CreateTanChallengeParamsToJSONRecursive(
 }
 
 export function CreateTanChallengeParamsToJSON(
-  value?: CreateTanChallengeParams | null
+  value?: CreateTanChallengeParams | null,
 ): any {
   return CreateTanChallengeParamsToJSONRecursive(value, false);
 }

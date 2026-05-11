@@ -125,7 +125,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async addSessionRaw(
     requestParameters: AddSessionRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<LoginResponse>> {
     if (
       requestParameters.addSessionParams === null ||
@@ -133,7 +133,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "addSessionParams",
-        "Required parameter requestParameters.addSessionParams was null or undefined when calling addSession."
+        "Required parameter requestParameters.addSessionParams was null or undefined when calling addSession.",
       );
     }
 
@@ -164,11 +164,11 @@ export class SessionApi extends runtime.BaseAPI {
         query: queryParameters,
         body: AddSessionParamsToJSON(requestParameters.addSessionParams),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      LoginResponseFromJSON(jsonValue)
+      LoginResponseFromJSON(jsonValue),
     );
   }
 
@@ -176,7 +176,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async addSession(
     requestParameters: AddSessionRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<LoginResponse> {
     const response = await this.addSessionRaw(requestParameters, initOverrides);
     return await response.value();
@@ -187,7 +187,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async addSessionCompleteChallengeRaw(
     requestParameters: AddSessionCompleteChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<LoginResponseReady>> {
     if (
       requestParameters.addSessionCompleteChallengeParams === null ||
@@ -195,7 +195,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "addSessionCompleteChallengeParams",
-        "Required parameter requestParameters.addSessionCompleteChallengeParams was null or undefined when calling addSessionCompleteChallenge."
+        "Required parameter requestParameters.addSessionCompleteChallengeParams was null or undefined when calling addSessionCompleteChallenge.",
       );
     }
 
@@ -225,14 +225,14 @@ export class SessionApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: AddSessionCompleteChallengeParamsToJSON(
-          requestParameters.addSessionCompleteChallengeParams
+          requestParameters.addSessionCompleteChallengeParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      LoginResponseReadyFromJSON(jsonValue)
+      LoginResponseReadyFromJSON(jsonValue),
     );
   }
 
@@ -241,11 +241,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async addSessionCompleteChallenge(
     requestParameters: AddSessionCompleteChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<LoginResponseReady> {
     const response = await this.addSessionCompleteChallengeRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -255,7 +255,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async cancelDecoupledOperationLegacyRaw(
     requestParameters: CancelDecoupledOperationLegacyRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.sessionId === null ||
@@ -263,7 +263,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling cancelDecoupledOperationLegacy."
+        "Required parameter requestParameters.sessionId was null or undefined when calling cancelDecoupledOperationLegacy.",
       );
     }
 
@@ -273,7 +273,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "decoupledOperationId",
-        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling cancelDecoupledOperationLegacy."
+        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling cancelDecoupledOperationLegacy.",
       );
     }
 
@@ -299,17 +299,17 @@ export class SessionApi extends runtime.BaseAPI {
         path: `/sessions/{sessionId}/decoupledOperation/{decoupledOperationId}`
           .replace(
             `{${"sessionId"}}`,
-            encodeURIComponent(String(requestParameters.sessionId))
+            encodeURIComponent(String(requestParameters.sessionId)),
           )
           .replace(
             `{${"decoupledOperationId"}}`,
-            encodeURIComponent(String(requestParameters.decoupledOperationId))
+            encodeURIComponent(String(requestParameters.decoupledOperationId)),
           ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -320,11 +320,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async cancelDecoupledOperationLegacy(
     requestParameters: CancelDecoupledOperationLegacyRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.cancelDecoupledOperationLegacyRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
   }
 
@@ -333,7 +333,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async confirmOAuthRaw(
     requestParameters: ConfirmOAuthRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<ConfirmOAuthResponse>> {
     if (
       requestParameters.confirmOAuthParams === null ||
@@ -341,7 +341,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "confirmOAuthParams",
-        "Required parameter requestParameters.confirmOAuthParams was null or undefined when calling confirmOAuth."
+        "Required parameter requestParameters.confirmOAuthParams was null or undefined when calling confirmOAuth.",
       );
     }
 
@@ -372,11 +372,11 @@ export class SessionApi extends runtime.BaseAPI {
         query: queryParameters,
         body: ConfirmOAuthParamsToJSON(requestParameters.confirmOAuthParams),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ConfirmOAuthResponseFromJSON(jsonValue)
+      ConfirmOAuthResponseFromJSON(jsonValue),
     );
   }
 
@@ -385,11 +385,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async confirmOAuth(
     requestParameters: ConfirmOAuthRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<ConfirmOAuthResponse> {
     const response = await this.confirmOAuthRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -399,7 +399,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async createSessionTanChallengeRaw(
     requestParameters: CreateSessionTanChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<Challenge>> {
     if (
       requestParameters.sessionId === null ||
@@ -407,7 +407,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling createSessionTanChallenge."
+        "Required parameter requestParameters.sessionId was null or undefined when calling createSessionTanChallenge.",
       );
     }
 
@@ -417,7 +417,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "createTanChallengeParams",
-        "Required parameter requestParameters.createTanChallengeParams was null or undefined when calling createSessionTanChallenge."
+        "Required parameter requestParameters.createTanChallengeParams was null or undefined when calling createSessionTanChallenge.",
       );
     }
 
@@ -444,20 +444,20 @@ export class SessionApi extends runtime.BaseAPI {
       {
         path: `/sessions/{sessionId}/sessiontanchallenge`.replace(
           `{${"sessionId"}}`,
-          encodeURIComponent(String(requestParameters.sessionId))
+          encodeURIComponent(String(requestParameters.sessionId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: CreateTanChallengeParamsToJSON(
-          requestParameters.createTanChallengeParams
+          requestParameters.createTanChallengeParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ChallengeFromJSON(jsonValue)
+      ChallengeFromJSON(jsonValue),
     );
   }
 
@@ -466,11 +466,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async createSessionTanChallenge(
     requestParameters: CreateSessionTanChallengeRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<Challenge> {
     const response = await this.createSessionTanChallengeRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -479,7 +479,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async enableSessionTanRaw(
     requestParameters: EnableSessionTanRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<EnableSessionTanResponse>> {
     if (
       requestParameters.sessionId === null ||
@@ -487,7 +487,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling enableSessionTan."
+        "Required parameter requestParameters.sessionId was null or undefined when calling enableSessionTan.",
       );
     }
 
@@ -497,7 +497,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "enableSessionTanParams",
-        "Required parameter requestParameters.enableSessionTanParams was null or undefined when calling enableSessionTan."
+        "Required parameter requestParameters.enableSessionTanParams was null or undefined when calling enableSessionTan.",
       );
     }
 
@@ -524,20 +524,20 @@ export class SessionApi extends runtime.BaseAPI {
       {
         path: `/sessions/{sessionId}/sessiontan`.replace(
           `{${"sessionId"}}`,
-          encodeURIComponent(String(requestParameters.sessionId))
+          encodeURIComponent(String(requestParameters.sessionId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: EnableSessionTanParamsToJSON(
-          requestParameters.enableSessionTanParams
+          requestParameters.enableSessionTanParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      EnableSessionTanResponseFromJSON(jsonValue)
+      EnableSessionTanResponseFromJSON(jsonValue),
     );
   }
 
@@ -545,11 +545,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async enableSessionTan(
     requestParameters: EnableSessionTanRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<EnableSessionTanResponse> {
     const response = await this.enableSessionTanRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -559,7 +559,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async endSessionTanRaw(
     requestParameters: EndSessionTanRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<EndSessionTanResponse>> {
     if (
       requestParameters.sessionId === null ||
@@ -567,7 +567,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling endSessionTan."
+        "Required parameter requestParameters.sessionId was null or undefined when calling endSessionTan.",
       );
     }
 
@@ -592,17 +592,17 @@ export class SessionApi extends runtime.BaseAPI {
       {
         path: `/sessions/{sessionId}/sessiontan`.replace(
           `{${"sessionId"}}`,
-          encodeURIComponent(String(requestParameters.sessionId))
+          encodeURIComponent(String(requestParameters.sessionId)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      EndSessionTanResponseFromJSON(jsonValue)
+      EndSessionTanResponseFromJSON(jsonValue),
     );
   }
 
@@ -611,11 +611,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async endSessionTan(
     requestParameters: EndSessionTanRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<EndSessionTanResponse> {
     const response = await this.endSessionTanRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -625,7 +625,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async getDecoupledOperationStatusLegacyRaw(
     requestParameters: GetDecoupledOperationStatusLegacyRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<DecoupledOperationStatus>> {
     if (
       requestParameters.sessionId === null ||
@@ -633,7 +633,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling getDecoupledOperationStatusLegacy."
+        "Required parameter requestParameters.sessionId was null or undefined when calling getDecoupledOperationStatusLegacy.",
       );
     }
 
@@ -643,7 +643,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "decoupledOperationId",
-        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling getDecoupledOperationStatusLegacy."
+        "Required parameter requestParameters.decoupledOperationId was null or undefined when calling getDecoupledOperationStatusLegacy.",
       );
     }
 
@@ -669,21 +669,21 @@ export class SessionApi extends runtime.BaseAPI {
         path: `/sessions/{sessionId}/decoupledOperation/{decoupledOperationId}`
           .replace(
             `{${"sessionId"}}`,
-            encodeURIComponent(String(requestParameters.sessionId))
+            encodeURIComponent(String(requestParameters.sessionId)),
           )
           .replace(
             `{${"decoupledOperationId"}}`,
-            encodeURIComponent(String(requestParameters.decoupledOperationId))
+            encodeURIComponent(String(requestParameters.decoupledOperationId)),
           ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      DecoupledOperationStatusFromJSON(jsonValue)
+      DecoupledOperationStatusFromJSON(jsonValue),
     );
   }
 
@@ -692,11 +692,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async getDecoupledOperationStatusLegacy(
     requestParameters: GetDecoupledOperationStatusLegacyRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<DecoupledOperationStatus> {
     const response = await this.getDecoupledOperationStatusLegacyRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -705,7 +705,7 @@ export class SessionApi extends runtime.BaseAPI {
    * Get the currently active broker sessions of the user\'s account.
    */
   async getSessionsRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<SessionResponse>> {
     const queryParameters: any = {};
 
@@ -731,11 +731,11 @@ export class SessionApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      SessionResponseFromJSON(jsonValue)
+      SessionResponseFromJSON(jsonValue),
     );
   }
 
@@ -743,7 +743,7 @@ export class SessionApi extends runtime.BaseAPI {
    * Get the currently active broker sessions of the user\'s account.
    */
   async getSessions(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<SessionResponse> {
     const response = await this.getSessionsRaw(initOverrides);
     return await response.value();
@@ -754,7 +754,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async logoutSessionRaw(
     requestParameters: LogoutSessionRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<LogoutOkResponseBody>> {
     if (
       requestParameters.sessionId === null ||
@@ -762,7 +762,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling logoutSession."
+        "Required parameter requestParameters.sessionId was null or undefined when calling logoutSession.",
       );
     }
 
@@ -787,17 +787,17 @@ export class SessionApi extends runtime.BaseAPI {
       {
         path: `/sessions/{sessionId}`.replace(
           `{${"sessionId"}}`,
-          encodeURIComponent(String(requestParameters.sessionId))
+          encodeURIComponent(String(requestParameters.sessionId)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      LogoutOkResponseBodyFromJSON(jsonValue)
+      LogoutOkResponseBodyFromJSON(jsonValue),
     );
   }
 
@@ -806,11 +806,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async logoutSession(
     requestParameters: LogoutSessionRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<LogoutOkResponseBody> {
     const response = await this.logoutSessionRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -820,7 +820,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async prepareOAuthRedirectRaw(
     requestParameters: PrepareOAuthRedirectRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<PrepareOAuthRedirectResponse>> {
     if (
       requestParameters.prepareOAuthRedirectParams === null ||
@@ -828,7 +828,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "prepareOAuthRedirectParams",
-        "Required parameter requestParameters.prepareOAuthRedirectParams was null or undefined when calling prepareOAuthRedirect."
+        "Required parameter requestParameters.prepareOAuthRedirectParams was null or undefined when calling prepareOAuthRedirect.",
       );
     }
 
@@ -858,14 +858,14 @@ export class SessionApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: PrepareOAuthRedirectParamsToJSON(
-          requestParameters.prepareOAuthRedirectParams
+          requestParameters.prepareOAuthRedirectParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PrepareOAuthRedirectResponseFromJSON(jsonValue)
+      PrepareOAuthRedirectResponseFromJSON(jsonValue),
     );
   }
 
@@ -874,11 +874,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async prepareOAuthRedirect(
     requestParameters: PrepareOAuthRedirectRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<PrepareOAuthRedirectResponse> {
     const response = await this.prepareOAuthRedirectRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -888,7 +888,7 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async triggerSessionSyncRaw(
     requestParameters: TriggerSessionSyncRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<OkResponseBody>> {
     if (
       requestParameters.sessionId === null ||
@@ -896,7 +896,7 @@ export class SessionApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling triggerSessionSync."
+        "Required parameter requestParameters.sessionId was null or undefined when calling triggerSessionSync.",
       );
     }
 
@@ -921,17 +921,17 @@ export class SessionApi extends runtime.BaseAPI {
       {
         path: `/sessions/{sessionId}/sync`.replace(
           `{${"sessionId"}}`,
-          encodeURIComponent(String(requestParameters.sessionId))
+          encodeURIComponent(String(requestParameters.sessionId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OkResponseBodyFromJSON(jsonValue)
+      OkResponseBodyFromJSON(jsonValue),
     );
   }
 
@@ -940,11 +940,11 @@ export class SessionApi extends runtime.BaseAPI {
    */
   async triggerSessionSync(
     requestParameters: TriggerSessionSyncRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<OkResponseBody> {
     const response = await this.triggerSessionSyncRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

@@ -50,7 +50,7 @@ export function BrokerMetaImagesFromJSON(json: any): BrokerMetaImages {
 
 export function BrokerMetaImagesFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): BrokerMetaImages {
   if (json === undefined || json === null) {
     return json;
@@ -65,7 +65,7 @@ export function BrokerMetaImagesFromJSONTyped(
 
 export function BrokerMetaImagesToJSONRecursive(
   value?: BrokerMetaImages | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

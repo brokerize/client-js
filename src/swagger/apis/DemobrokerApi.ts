@@ -51,7 +51,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
    */
   async createDemoAccountRaw(
     requestParameters: CreateDemoAccountRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<CreatedResponseBody>> {
     const queryParameters: any = {};
 
@@ -80,11 +80,11 @@ export class DemobrokerApi extends runtime.BaseAPI {
         query: queryParameters,
         body: DemoAccountSettingsToJSON(requestParameters.demoAccountSettings),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CreatedResponseBodyFromJSON(jsonValue)
+      CreatedResponseBodyFromJSON(jsonValue),
     );
   }
 
@@ -93,11 +93,11 @@ export class DemobrokerApi extends runtime.BaseAPI {
    */
   async createDemoAccount(
     requestParameters: CreateDemoAccountRequest = {},
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<CreatedResponseBody> {
     const response = await this.createDemoAccountRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -107,7 +107,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
    */
   async deleteDemoAccountRaw(
     requestParameters: DeleteDemoAccountRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<OkResponseBody>> {
     if (
       requestParameters.accountId === null ||
@@ -115,7 +115,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "accountId",
-        "Required parameter requestParameters.accountId was null or undefined when calling deleteDemoAccount."
+        "Required parameter requestParameters.accountId was null or undefined when calling deleteDemoAccount.",
       );
     }
 
@@ -140,17 +140,17 @@ export class DemobrokerApi extends runtime.BaseAPI {
       {
         path: `/demo/accounts/{accountId}`.replace(
           `{${"accountId"}}`,
-          encodeURIComponent(String(requestParameters.accountId))
+          encodeURIComponent(String(requestParameters.accountId)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OkResponseBodyFromJSON(jsonValue)
+      OkResponseBodyFromJSON(jsonValue),
     );
   }
 
@@ -159,11 +159,11 @@ export class DemobrokerApi extends runtime.BaseAPI {
    */
   async deleteDemoAccount(
     requestParameters: DeleteDemoAccountRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<OkResponseBody> {
     const response = await this.deleteDemoAccountRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -172,7 +172,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
    * List all demo accounts that the user has in her account. The account name can be used as the login username in the demo broker login process.
    */
   async getDemoAccountsRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<DemoAccountsResponse>> {
     const queryParameters: any = {};
 
@@ -198,11 +198,11 @@ export class DemobrokerApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      DemoAccountsResponseFromJSON(jsonValue)
+      DemoAccountsResponseFromJSON(jsonValue),
     );
   }
 
@@ -210,7 +210,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
    * List all demo accounts that the user has in her account. The account name can be used as the login username in the demo broker login process.
    */
   async getDemoAccounts(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<DemoAccountsResponse> {
     const response = await this.getDemoAccountsRaw(initOverrides);
     return await response.value();
@@ -221,7 +221,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
    */
   async triggerDemoSessionSyncErrorRaw(
     requestParameters: TriggerDemoSessionSyncErrorRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<OkResponseBody>> {
     if (
       requestParameters.sessionId === null ||
@@ -229,7 +229,7 @@ export class DemobrokerApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "sessionId",
-        "Required parameter requestParameters.sessionId was null or undefined when calling triggerDemoSessionSyncError."
+        "Required parameter requestParameters.sessionId was null or undefined when calling triggerDemoSessionSyncError.",
       );
     }
 
@@ -254,17 +254,17 @@ export class DemobrokerApi extends runtime.BaseAPI {
       {
         path: `/sessions/{sessionId}/triggerSyncError`.replace(
           `{${"sessionId"}}`,
-          encodeURIComponent(String(requestParameters.sessionId))
+          encodeURIComponent(String(requestParameters.sessionId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OkResponseBodyFromJSON(jsonValue)
+      OkResponseBodyFromJSON(jsonValue),
     );
   }
 
@@ -273,11 +273,11 @@ export class DemobrokerApi extends runtime.BaseAPI {
    */
   async triggerDemoSessionSyncError(
     requestParameters: TriggerDemoSessionSyncErrorRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<OkResponseBody> {
     const response = await this.triggerDemoSessionSyncErrorRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

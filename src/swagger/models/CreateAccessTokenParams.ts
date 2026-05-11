@@ -44,14 +44,14 @@ export interface CreateAccessTokenParams {
 }
 
 export function CreateAccessTokenParamsFromJSON(
-  json: any
+  json: any,
 ): CreateAccessTokenParams {
   return CreateAccessTokenParamsFromJSONTyped(json, false);
 }
 
 export function CreateAccessTokenParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateAccessTokenParams {
   if (json === undefined || json === null) {
     return json;
@@ -65,7 +65,7 @@ export function CreateAccessTokenParamsFromJSONTyped(
 
 export function CreateAccessTokenParamsToJSONRecursive(
   value?: CreateAccessTokenParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -82,7 +82,7 @@ export function CreateAccessTokenParamsToJSONRecursive(
 }
 
 export function CreateAccessTokenParamsToJSON(
-  value?: CreateAccessTokenParams | null
+  value?: CreateAccessTokenParams | null,
 ): any {
   return CreateAccessTokenParamsToJSONRecursive(value, false);
 }

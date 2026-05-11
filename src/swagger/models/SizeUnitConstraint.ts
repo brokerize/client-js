@@ -57,7 +57,7 @@ export function SizeUnitConstraintFromJSON(json: any): SizeUnitConstraint {
 
 export function SizeUnitConstraintFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SizeUnitConstraint {
   if (json === undefined || json === null) {
     return json;
@@ -76,7 +76,7 @@ export function SizeUnitConstraintFromJSONTyped(
 
 export function SizeUnitConstraintToJSONRecursive(
   value?: SizeUnitConstraint | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -97,7 +97,7 @@ export function SizeUnitConstraintToJSONRecursive(
 }
 
 export function SizeUnitConstraintToJSON(
-  value?: SizeUnitConstraint | null
+  value?: SizeUnitConstraint | null,
 ): any {
   return SizeUnitConstraintToJSONRecursive(value, false);
 }

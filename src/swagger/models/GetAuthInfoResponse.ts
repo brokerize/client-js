@@ -39,7 +39,7 @@ export function GetAuthInfoResponseFromJSON(json: any): GetAuthInfoResponse {
 
 export function GetAuthInfoResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetAuthInfoResponse {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function GetAuthInfoResponseFromJSONTyped(
 
 export function GetAuthInfoResponseToJSONRecursive(
   value?: GetAuthInfoResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -66,7 +66,7 @@ export function GetAuthInfoResponseToJSONRecursive(
 }
 
 export function GetAuthInfoResponseToJSON(
-  value?: GetAuthInfoResponse | null
+  value?: GetAuthInfoResponse | null,
 ): any {
   return GetAuthInfoResponseToJSONRecursive(value, false);
 }

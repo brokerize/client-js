@@ -34,28 +34,28 @@ export interface GetAcessTokenAvailablePermissions200Response {
 }
 
 export function GetAcessTokenAvailablePermissions200ResponseFromJSON(
-  json: any
+  json: any,
 ): GetAcessTokenAvailablePermissions200Response {
   return GetAcessTokenAvailablePermissions200ResponseFromJSONTyped(json, false);
 }
 
 export function GetAcessTokenAvailablePermissions200ResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetAcessTokenAvailablePermissions200Response {
   if (json === undefined || json === null) {
     return json;
   }
   return {
     availablePermissions: (json["availablePermissions"] as Array<any>).map(
-      AvailablePermissionsNodeFromJSON
+      AvailablePermissionsNodeFromJSON,
     ),
   };
 }
 
 export function GetAcessTokenAvailablePermissions200ResponseToJSONRecursive(
   value?: GetAcessTokenAvailablePermissions200Response | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -66,16 +66,16 @@ export function GetAcessTokenAvailablePermissions200ResponseToJSONRecursive(
 
   return {
     availablePermissions: (value.availablePermissions as Array<any>).map(
-      AvailablePermissionsNodeToJSON
+      AvailablePermissionsNodeToJSON,
     ),
   };
 }
 
 export function GetAcessTokenAvailablePermissions200ResponseToJSON(
-  value?: GetAcessTokenAvailablePermissions200Response | null
+  value?: GetAcessTokenAvailablePermissions200Response | null,
 ): any {
   return GetAcessTokenAvailablePermissions200ResponseToJSONRecursive(
     value,
-    false
+    false,
   );
 }

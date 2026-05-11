@@ -100,7 +100,7 @@ export function BrokerMetaFromJSON(json: any): BrokerMeta {
 
 export function BrokerMetaFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): BrokerMeta {
   if (json === undefined || json === null) {
     return json;
@@ -123,7 +123,7 @@ export function BrokerMetaFromJSONTyped(
 
 export function BrokerMetaToJSONRecursive(
   value?: BrokerMeta | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

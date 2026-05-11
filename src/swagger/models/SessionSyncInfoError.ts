@@ -66,7 +66,7 @@ export function SessionSyncInfoErrorFromJSON(json: any): SessionSyncInfoError {
 
 export function SessionSyncInfoErrorFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SessionSyncInfoError {
   if (json === undefined || json === null) {
     return json;
@@ -79,7 +79,7 @@ export function SessionSyncInfoErrorFromJSONTyped(
 
 export function SessionSyncInfoErrorToJSONRecursive(
   value?: SessionSyncInfoError | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -95,7 +95,7 @@ export function SessionSyncInfoErrorToJSONRecursive(
 }
 
 export function SessionSyncInfoErrorToJSON(
-  value?: SessionSyncInfoError | null
+  value?: SessionSyncInfoError | null,
 ): any {
   return SessionSyncInfoErrorToJSONRecursive(value, false);
 }

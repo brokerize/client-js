@@ -75,7 +75,7 @@ export function TradeDraftFromJSON(json: any): TradeDraft {
 
 export function TradeDraftFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradeDraft {
   if (json === undefined || json === null) {
     return json;
@@ -93,7 +93,7 @@ export function TradeDraftFromJSONTyped(
 
 export function TradeDraftToJSONRecursive(
   value?: TradeDraft | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

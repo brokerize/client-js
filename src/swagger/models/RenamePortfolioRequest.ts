@@ -27,14 +27,14 @@ export interface RenamePortfolioRequest {
 }
 
 export function RenamePortfolioRequestFromJSON(
-  json: any
+  json: any,
 ): RenamePortfolioRequest {
   return RenamePortfolioRequestFromJSONTyped(json, false);
 }
 
 export function RenamePortfolioRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): RenamePortfolioRequest {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function RenamePortfolioRequestFromJSONTyped(
 
 export function RenamePortfolioRequestToJSONRecursive(
   value?: RenamePortfolioRequest | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function RenamePortfolioRequestToJSONRecursive(
 }
 
 export function RenamePortfolioRequestToJSON(
-  value?: RenamePortfolioRequest | null
+  value?: RenamePortfolioRequest | null,
 ): any {
   return RenamePortfolioRequestToJSONRecursive(value, false);
 }

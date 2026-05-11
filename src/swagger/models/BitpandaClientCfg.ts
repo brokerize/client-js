@@ -38,7 +38,7 @@ export function BitpandaClientCfgFromJSON(json: any): BitpandaClientCfg {
 
 export function BitpandaClientCfgFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): BitpandaClientCfg {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function BitpandaClientCfgFromJSONTyped(
 
 export function BitpandaClientCfgToJSONRecursive(
   value?: BitpandaClientCfg | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

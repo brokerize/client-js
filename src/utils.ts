@@ -10,7 +10,7 @@ export function getSizeUnitsFromConstraints(
   preparedTrade: PreparedTrade,
   orderModel: OrderModel,
   direction: Direction,
-  cashAccountId: string
+  cashAccountId: string,
 ) {
   for (const constraint of preparedTrade.sizeUnitConstraints || []) {
     if (

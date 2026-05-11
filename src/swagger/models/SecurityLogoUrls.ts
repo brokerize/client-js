@@ -33,7 +33,7 @@ export function SecurityLogoUrlsFromJSON(json: any): SecurityLogoUrls {
 
 export function SecurityLogoUrlsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SecurityLogoUrls {
   if (json === undefined || json === null) {
     return json;
@@ -45,7 +45,7 @@ export function SecurityLogoUrlsFromJSONTyped(
 
 export function SecurityLogoUrlsToJSONRecursive(
   value?: SecurityLogoUrls | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

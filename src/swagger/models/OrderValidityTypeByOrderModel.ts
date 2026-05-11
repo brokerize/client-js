@@ -100,14 +100,14 @@ export interface OrderValidityTypeByOrderModel {
 }
 
 export function OrderValidityTypeByOrderModelFromJSON(
-  json: any
+  json: any,
 ): OrderValidityTypeByOrderModel {
   return OrderValidityTypeByOrderModelFromJSONTyped(json, false);
 }
 
 export function OrderValidityTypeByOrderModelFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderValidityTypeByOrderModel {
   if (json === undefined || json === null) {
     return json;
@@ -143,12 +143,12 @@ export function OrderValidityTypeByOrderModelFromJSONTyped(
     trailingStopLimit: !exists(json, "trailingStopLimit")
       ? undefined
       : (json["trailingStopLimit"] as Array<any>).map(
-          OrderValidityTypeFromJSON
+          OrderValidityTypeFromJSON,
         ),
     trailingStopMarket: !exists(json, "trailingStopMarket")
       ? undefined
       : (json["trailingStopMarket"] as Array<any>).map(
-          OrderValidityTypeFromJSON
+          OrderValidityTypeFromJSON,
         ),
     unknown: !exists(json, "unknown")
       ? undefined
@@ -158,7 +158,7 @@ export function OrderValidityTypeByOrderModelFromJSONTyped(
 
 export function OrderValidityTypeByOrderModelToJSONRecursive(
   value?: OrderValidityTypeByOrderModel | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -220,7 +220,7 @@ export function OrderValidityTypeByOrderModelToJSONRecursive(
 }
 
 export function OrderValidityTypeByOrderModelToJSON(
-  value?: OrderValidityTypeByOrderModel | null
+  value?: OrderValidityTypeByOrderModel | null,
 ): any {
   return OrderValidityTypeByOrderModelToJSONRecursive(value, false);
 }

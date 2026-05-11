@@ -80,7 +80,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async addOAuthReturnToUrlRaw(
     requestParameters: AddOAuthReturnToUrlOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.clientId === null ||
@@ -88,7 +88,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "clientId",
-        "Required parameter requestParameters.clientId was null or undefined when calling addOAuthReturnToUrl."
+        "Required parameter requestParameters.clientId was null or undefined when calling addOAuthReturnToUrl.",
       );
     }
 
@@ -98,7 +98,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "addOAuthReturnToUrlRequest",
-        "Required parameter requestParameters.addOAuthReturnToUrlRequest was null or undefined when calling addOAuthReturnToUrl."
+        "Required parameter requestParameters.addOAuthReturnToUrlRequest was null or undefined when calling addOAuthReturnToUrl.",
       );
     }
 
@@ -125,16 +125,16 @@ export class AdminApi extends runtime.BaseAPI {
       {
         path: `/admin/clients/{clientId}/oauthReturnTo`.replace(
           `{${"clientId"}}`,
-          encodeURIComponent(String(requestParameters.clientId))
+          encodeURIComponent(String(requestParameters.clientId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: AddOAuthReturnToUrlRequestToJSON(
-          requestParameters.addOAuthReturnToUrlRequest
+          requestParameters.addOAuthReturnToUrlRequest,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -145,7 +145,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async addOAuthReturnToUrl(
     requestParameters: AddOAuthReturnToUrlOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.addOAuthReturnToUrlRaw(requestParameters, initOverrides);
   }
@@ -155,7 +155,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async addOriginRaw(
     requestParameters: AddOriginOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.clientId === null ||
@@ -163,7 +163,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "clientId",
-        "Required parameter requestParameters.clientId was null or undefined when calling addOrigin."
+        "Required parameter requestParameters.clientId was null or undefined when calling addOrigin.",
       );
     }
 
@@ -173,7 +173,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "addOriginRequest",
-        "Required parameter requestParameters.addOriginRequest was null or undefined when calling addOrigin."
+        "Required parameter requestParameters.addOriginRequest was null or undefined when calling addOrigin.",
       );
     }
 
@@ -200,14 +200,14 @@ export class AdminApi extends runtime.BaseAPI {
       {
         path: `/admin/clients/{clientId}/origin`.replace(
           `{${"clientId"}}`,
-          encodeURIComponent(String(requestParameters.clientId))
+          encodeURIComponent(String(requestParameters.clientId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: AddOriginRequestToJSON(requestParameters.addOriginRequest),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -218,7 +218,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async addOrigin(
     requestParameters: AddOriginOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.addOriginRaw(requestParameters, initOverrides);
   }
@@ -227,7 +227,7 @@ export class AdminApi extends runtime.BaseAPI {
    * Create an API client.
    */
   async createClientRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<CreateClient200Response>> {
     const queryParameters: any = {};
 
@@ -253,11 +253,11 @@ export class AdminApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CreateClient200ResponseFromJSON(jsonValue)
+      CreateClient200ResponseFromJSON(jsonValue),
     );
   }
 
@@ -265,7 +265,7 @@ export class AdminApi extends runtime.BaseAPI {
    * Create an API client.
    */
   async createClient(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<CreateClient200Response> {
     const response = await this.createClientRaw(initOverrides);
     return await response.value();
@@ -276,7 +276,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async deleteClientRaw(
     requestParameters: DeleteClientRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.clientId === null ||
@@ -284,7 +284,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "clientId",
-        "Required parameter requestParameters.clientId was null or undefined when calling deleteClient."
+        "Required parameter requestParameters.clientId was null or undefined when calling deleteClient.",
       );
     }
 
@@ -309,13 +309,13 @@ export class AdminApi extends runtime.BaseAPI {
       {
         path: `/admin/client/{clientId}`.replace(
           `{${"clientId"}}`,
-          encodeURIComponent(String(requestParameters.clientId))
+          encodeURIComponent(String(requestParameters.clientId)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -326,7 +326,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async deleteClient(
     requestParameters: DeleteClientRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.deleteClientRaw(requestParameters, initOverrides);
   }
@@ -335,7 +335,7 @@ export class AdminApi extends runtime.BaseAPI {
    * List all clients that the current user may administrate.
    */
   async getMyClientsRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<Array<ClientsResponseInner>>> {
     const queryParameters: any = {};
 
@@ -361,11 +361,11 @@ export class AdminApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(ClientsResponseInnerFromJSON)
+      jsonValue.map(ClientsResponseInnerFromJSON),
     );
   }
 
@@ -373,7 +373,7 @@ export class AdminApi extends runtime.BaseAPI {
    * List all clients that the current user may administrate.
    */
   async getMyClients(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<Array<ClientsResponseInner>> {
     const response = await this.getMyClientsRaw(initOverrides);
     return await response.value();
@@ -384,7 +384,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async getOrderReportRaw(
     requestParameters: GetOrderReportRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<string>> {
     if (
       requestParameters.from === null ||
@@ -392,14 +392,14 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "from",
-        "Required parameter requestParameters.from was null or undefined when calling getOrderReport."
+        "Required parameter requestParameters.from was null or undefined when calling getOrderReport.",
       );
     }
 
     if (requestParameters.to === null || requestParameters.to === undefined) {
       throw new runtime.RequiredError(
         "to",
-        "Required parameter requestParameters.to was null or undefined when calling getOrderReport."
+        "Required parameter requestParameters.to was null or undefined when calling getOrderReport.",
       );
     }
 
@@ -452,7 +452,7 @@ export class AdminApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.TextApiResponse(response) as any;
@@ -463,11 +463,11 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async getOrderReport(
     requestParameters: GetOrderReportRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<string> {
     const response = await this.getOrderReportRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -477,7 +477,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async removeOAuthReturnToUrlRaw(
     requestParameters: RemoveOAuthReturnToUrlRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.clientId === null ||
@@ -485,7 +485,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "clientId",
-        "Required parameter requestParameters.clientId was null or undefined when calling removeOAuthReturnToUrl."
+        "Required parameter requestParameters.clientId was null or undefined when calling removeOAuthReturnToUrl.",
       );
     }
 
@@ -495,7 +495,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "addOAuthReturnToUrlRequest",
-        "Required parameter requestParameters.addOAuthReturnToUrlRequest was null or undefined when calling removeOAuthReturnToUrl."
+        "Required parameter requestParameters.addOAuthReturnToUrlRequest was null or undefined when calling removeOAuthReturnToUrl.",
       );
     }
 
@@ -522,16 +522,16 @@ export class AdminApi extends runtime.BaseAPI {
       {
         path: `/admin/clients/{clientId}/removeOAuthReturnTo`.replace(
           `{${"clientId"}}`,
-          encodeURIComponent(String(requestParameters.clientId))
+          encodeURIComponent(String(requestParameters.clientId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: AddOAuthReturnToUrlRequestToJSON(
-          requestParameters.addOAuthReturnToUrlRequest
+          requestParameters.addOAuthReturnToUrlRequest,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -542,7 +542,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async removeOAuthReturnToUrl(
     requestParameters: RemoveOAuthReturnToUrlRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.removeOAuthReturnToUrlRaw(requestParameters, initOverrides);
   }
@@ -552,7 +552,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async removeOriginRaw(
     requestParameters: RemoveOriginRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.clientId === null ||
@@ -560,7 +560,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "clientId",
-        "Required parameter requestParameters.clientId was null or undefined when calling removeOrigin."
+        "Required parameter requestParameters.clientId was null or undefined when calling removeOrigin.",
       );
     }
 
@@ -570,7 +570,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "addOriginRequest",
-        "Required parameter requestParameters.addOriginRequest was null or undefined when calling removeOrigin."
+        "Required parameter requestParameters.addOriginRequest was null or undefined when calling removeOrigin.",
       );
     }
 
@@ -597,14 +597,14 @@ export class AdminApi extends runtime.BaseAPI {
       {
         path: `/admin/clients/{clientId}/removeOrigin`.replace(
           `{${"clientId"}}`,
-          encodeURIComponent(String(requestParameters.clientId))
+          encodeURIComponent(String(requestParameters.clientId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: AddOriginRequestToJSON(requestParameters.addOriginRequest),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -615,7 +615,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async removeOrigin(
     requestParameters: RemoveOriginRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.removeOriginRaw(requestParameters, initOverrides);
   }
@@ -625,7 +625,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async setClientConfigRaw(
     requestParameters: SetClientConfigOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.clientId === null ||
@@ -633,7 +633,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "clientId",
-        "Required parameter requestParameters.clientId was null or undefined when calling setClientConfig."
+        "Required parameter requestParameters.clientId was null or undefined when calling setClientConfig.",
       );
     }
 
@@ -643,7 +643,7 @@ export class AdminApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "setClientConfigRequest",
-        "Required parameter requestParameters.setClientConfigRequest was null or undefined when calling setClientConfig."
+        "Required parameter requestParameters.setClientConfigRequest was null or undefined when calling setClientConfig.",
       );
     }
 
@@ -670,16 +670,16 @@ export class AdminApi extends runtime.BaseAPI {
       {
         path: `/admin/clients/{clientId}/config`.replace(
           `{${"clientId"}}`,
-          encodeURIComponent(String(requestParameters.clientId))
+          encodeURIComponent(String(requestParameters.clientId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: SetClientConfigRequestToJSON(
-          requestParameters.setClientConfigRequest
+          requestParameters.setClientConfigRequest,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -690,7 +690,7 @@ export class AdminApi extends runtime.BaseAPI {
    */
   async setClientConfig(
     requestParameters: SetClientConfigOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.setClientConfigRaw(requestParameters, initOverrides);
   }

@@ -33,14 +33,14 @@ export interface CheckRecoveryPhrase200Response {
 }
 
 export function CheckRecoveryPhrase200ResponseFromJSON(
-  json: any
+  json: any,
 ): CheckRecoveryPhrase200Response {
   return CheckRecoveryPhrase200ResponseFromJSONTyped(json, false);
 }
 
 export function CheckRecoveryPhrase200ResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CheckRecoveryPhrase200Response {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function CheckRecoveryPhrase200ResponseFromJSONTyped(
 
 export function CheckRecoveryPhrase200ResponseToJSONRecursive(
   value?: CheckRecoveryPhrase200Response | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -69,7 +69,7 @@ export function CheckRecoveryPhrase200ResponseToJSONRecursive(
 }
 
 export function CheckRecoveryPhrase200ResponseToJSON(
-  value?: CheckRecoveryPhrase200Response | null
+  value?: CheckRecoveryPhrase200Response | null,
 ): any {
   return CheckRecoveryPhrase200ResponseToJSONRecursive(value, false);
 }

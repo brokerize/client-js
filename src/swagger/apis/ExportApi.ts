@@ -34,7 +34,7 @@ export class ExportApi extends runtime.BaseAPI {
    */
   async renderGenericTableRaw(
     requestParameters: RenderGenericTableRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<string>> {
     if (
       requestParameters.renderGenericTableParams === null ||
@@ -42,7 +42,7 @@ export class ExportApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "renderGenericTableParams",
-        "Required parameter requestParameters.renderGenericTableParams was null or undefined when calling renderGenericTable."
+        "Required parameter requestParameters.renderGenericTableParams was null or undefined when calling renderGenericTable.",
       );
     }
 
@@ -72,10 +72,10 @@ export class ExportApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: RenderGenericTableParamsToJSON(
-          requestParameters.renderGenericTableParams
+          requestParameters.renderGenericTableParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.TextApiResponse(response) as any;
@@ -86,11 +86,11 @@ export class ExportApi extends runtime.BaseAPI {
    */
   async renderGenericTable(
     requestParameters: RenderGenericTableRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<string> {
     const response = await this.renderGenericTableRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }

@@ -34,14 +34,14 @@ export interface GetPortfolioPositionsResponse {
 }
 
 export function GetPortfolioPositionsResponseFromJSON(
-  json: any
+  json: any,
 ): GetPortfolioPositionsResponse {
   return GetPortfolioPositionsResponseFromJSONTyped(json, false);
 }
 
 export function GetPortfolioPositionsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetPortfolioPositionsResponse {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function GetPortfolioPositionsResponseFromJSONTyped(
 
 export function GetPortfolioPositionsResponseToJSONRecursive(
   value?: GetPortfolioPositionsResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function GetPortfolioPositionsResponseToJSONRecursive(
 }
 
 export function GetPortfolioPositionsResponseToJSON(
-  value?: GetPortfolioPositionsResponse | null
+  value?: GetPortfolioPositionsResponse | null,
 ): any {
   return GetPortfolioPositionsResponseToJSONRecursive(value, false);
 }

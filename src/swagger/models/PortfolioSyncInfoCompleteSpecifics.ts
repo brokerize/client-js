@@ -27,14 +27,14 @@ export interface PortfolioSyncInfoCompleteSpecifics {
 }
 
 export function PortfolioSyncInfoCompleteSpecificsFromJSON(
-  json: any
+  json: any,
 ): PortfolioSyncInfoCompleteSpecifics {
   return PortfolioSyncInfoCompleteSpecificsFromJSONTyped(json, false);
 }
 
 export function PortfolioSyncInfoCompleteSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfolioSyncInfoCompleteSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -48,7 +48,7 @@ export function PortfolioSyncInfoCompleteSpecificsFromJSONTyped(
 
 export function PortfolioSyncInfoCompleteSpecificsToJSONRecursive(
   value?: PortfolioSyncInfoCompleteSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -64,7 +64,7 @@ export function PortfolioSyncInfoCompleteSpecificsToJSONRecursive(
 }
 
 export function PortfolioSyncInfoCompleteSpecificsToJSON(
-  value?: PortfolioSyncInfoCompleteSpecifics | null
+  value?: PortfolioSyncInfoCompleteSpecifics | null,
 ): any {
   return PortfolioSyncInfoCompleteSpecificsToJSONRecursive(value, false);
 }

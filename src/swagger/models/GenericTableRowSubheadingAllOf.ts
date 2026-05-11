@@ -36,14 +36,14 @@ export type GenericTableRowSubheadingAllOfTypeEnum =
   (typeof GenericTableRowSubheadingAllOfTypeEnum)[keyof typeof GenericTableRowSubheadingAllOfTypeEnum];
 
 export function GenericTableRowSubheadingAllOfFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowSubheadingAllOf {
   return GenericTableRowSubheadingAllOfFromJSONTyped(json, false);
 }
 
 export function GenericTableRowSubheadingAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowSubheadingAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function GenericTableRowSubheadingAllOfFromJSONTyped(
 
 export function GenericTableRowSubheadingAllOfToJSONRecursive(
   value?: GenericTableRowSubheadingAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function GenericTableRowSubheadingAllOfToJSONRecursive(
 }
 
 export function GenericTableRowSubheadingAllOfToJSON(
-  value?: GenericTableRowSubheadingAllOf | null
+  value?: GenericTableRowSubheadingAllOf | null,
 ): any {
   return GenericTableRowSubheadingAllOfToJSONRecursive(value, false);
 }

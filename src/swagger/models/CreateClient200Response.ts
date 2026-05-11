@@ -33,14 +33,14 @@ export interface CreateClient200Response {
 }
 
 export function CreateClient200ResponseFromJSON(
-  json: any
+  json: any,
 ): CreateClient200Response {
   return CreateClient200ResponseFromJSONTyped(json, false);
 }
 
 export function CreateClient200ResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateClient200Response {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function CreateClient200ResponseFromJSONTyped(
 
 export function CreateClient200ResponseToJSONRecursive(
   value?: CreateClient200Response | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -69,7 +69,7 @@ export function CreateClient200ResponseToJSONRecursive(
 }
 
 export function CreateClient200ResponseToJSON(
-  value?: CreateClient200Response | null
+  value?: CreateClient200Response | null,
 ): any {
   return CreateClient200ResponseToJSONRecursive(value, false);
 }

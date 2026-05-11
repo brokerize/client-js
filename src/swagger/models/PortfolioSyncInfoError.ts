@@ -61,14 +61,14 @@ export type PortfolioSyncInfoErrorStatusEnum =
   (typeof PortfolioSyncInfoErrorStatusEnum)[keyof typeof PortfolioSyncInfoErrorStatusEnum];
 
 export function PortfolioSyncInfoErrorFromJSON(
-  json: any
+  json: any,
 ): PortfolioSyncInfoError {
   return PortfolioSyncInfoErrorFromJSONTyped(json, false);
 }
 
 export function PortfolioSyncInfoErrorFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfolioSyncInfoError {
   if (json === undefined || json === null) {
     return json;
@@ -81,7 +81,7 @@ export function PortfolioSyncInfoErrorFromJSONTyped(
 
 export function PortfolioSyncInfoErrorToJSONRecursive(
   value?: PortfolioSyncInfoError | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -97,7 +97,7 @@ export function PortfolioSyncInfoErrorToJSONRecursive(
 }
 
 export function PortfolioSyncInfoErrorToJSON(
-  value?: PortfolioSyncInfoError | null
+  value?: PortfolioSyncInfoError | null,
 ): any {
   return PortfolioSyncInfoErrorToJSONRecursive(value, false);
 }

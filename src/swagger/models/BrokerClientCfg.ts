@@ -51,7 +51,7 @@ export function BrokerClientCfgFromJSON(json: any): BrokerClientCfg {
 
 export function BrokerClientCfgFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): BrokerClientCfg {
   if (json === undefined || json === null) {
     return json;
@@ -68,7 +68,7 @@ export function BrokerClientCfgFromJSONTyped(
 
 export function BrokerClientCfgToJSONRecursive(
   value?: BrokerClientCfg | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

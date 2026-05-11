@@ -53,7 +53,7 @@ export function PortfolioSyncInfoFromJSON(json: any): PortfolioSyncInfo {
 
 export function PortfolioSyncInfoFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): PortfolioSyncInfo {
   if (json === undefined || json === null) {
     return json;
@@ -81,7 +81,7 @@ export function PortfolioSyncInfoFromJSONTyped(
       };
     default:
       throw new Error(
-        `No variant of PortfolioSyncInfo exists with 'status=${json["status"]}'`
+        `No variant of PortfolioSyncInfo exists with 'status=${json["status"]}'`,
       );
   }
 }
@@ -104,7 +104,7 @@ export function PortfolioSyncInfoToJSON(value?: PortfolioSyncInfo | null): any {
       return PortfolioSyncInfoPendingToJSON(value);
     default:
       throw new Error(
-        `No variant of PortfolioSyncInfo exists with 'status=${value["status"]}'`
+        `No variant of PortfolioSyncInfo exists with 'status=${value["status"]}'`,
       );
   }
 }

@@ -52,14 +52,14 @@ export interface GetPortfolioQuotesResponse {
 }
 
 export function GetPortfolioQuotesResponseFromJSON(
-  json: any
+  json: any,
 ): GetPortfolioQuotesResponse {
   return GetPortfolioQuotesResponseFromJSONTyped(json, false);
 }
 
 export function GetPortfolioQuotesResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetPortfolioQuotesResponse {
   if (json === undefined || json === null) {
     return json;
@@ -79,7 +79,7 @@ export function GetPortfolioQuotesResponseFromJSONTyped(
 
 export function GetPortfolioQuotesResponseToJSONRecursive(
   value?: GetPortfolioQuotesResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -100,7 +100,7 @@ export function GetPortfolioQuotesResponseToJSONRecursive(
 }
 
 export function GetPortfolioQuotesResponseToJSON(
-  value?: GetPortfolioQuotesResponse | null
+  value?: GetPortfolioQuotesResponse | null,
 ): any {
   return GetPortfolioQuotesResponseToJSONRecursive(value, false);
 }

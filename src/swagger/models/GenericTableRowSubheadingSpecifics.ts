@@ -27,14 +27,14 @@ export interface GenericTableRowSubheadingSpecifics {
 }
 
 export function GenericTableRowSubheadingSpecificsFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowSubheadingSpecifics {
   return GenericTableRowSubheadingSpecificsFromJSONTyped(json, false);
 }
 
 export function GenericTableRowSubheadingSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowSubheadingSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function GenericTableRowSubheadingSpecificsFromJSONTyped(
 
 export function GenericTableRowSubheadingSpecificsToJSONRecursive(
   value?: GenericTableRowSubheadingSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function GenericTableRowSubheadingSpecificsToJSONRecursive(
 }
 
 export function GenericTableRowSubheadingSpecificsToJSON(
-  value?: GenericTableRowSubheadingSpecifics | null
+  value?: GenericTableRowSubheadingSpecifics | null,
 ): any {
   return GenericTableRowSubheadingSpecificsToJSONRecursive(value, false);
 }

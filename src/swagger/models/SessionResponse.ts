@@ -39,7 +39,7 @@ export function SessionResponseFromJSON(json: any): SessionResponse {
 
 export function SessionResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SessionResponse {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function SessionResponseFromJSONTyped(
 
 export function SessionResponseToJSONRecursive(
   value?: SessionResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

@@ -247,7 +247,7 @@ export function OrderCreateFromJSON(json: any): OrderCreate {
 
 export function OrderCreateFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderCreate {
   if (json === undefined || json === null) {
     return json;
@@ -302,7 +302,7 @@ export function OrderCreateFromJSONTyped(
 
 export function OrderCreateToJSONRecursive(
   value?: OrderCreate | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

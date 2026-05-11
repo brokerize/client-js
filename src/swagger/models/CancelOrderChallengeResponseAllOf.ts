@@ -36,14 +36,14 @@ export type CancelOrderChallengeResponseAllOfModeEnum =
   (typeof CancelOrderChallengeResponseAllOfModeEnum)[keyof typeof CancelOrderChallengeResponseAllOfModeEnum];
 
 export function CancelOrderChallengeResponseAllOfFromJSON(
-  json: any
+  json: any,
 ): CancelOrderChallengeResponseAllOf {
   return CancelOrderChallengeResponseAllOfFromJSONTyped(json, false);
 }
 
 export function CancelOrderChallengeResponseAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderChallengeResponseAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function CancelOrderChallengeResponseAllOfFromJSONTyped(
 
 export function CancelOrderChallengeResponseAllOfToJSONRecursive(
   value?: CancelOrderChallengeResponseAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function CancelOrderChallengeResponseAllOfToJSONRecursive(
 }
 
 export function CancelOrderChallengeResponseAllOfToJSON(
-  value?: CancelOrderChallengeResponseAllOf | null
+  value?: CancelOrderChallengeResponseAllOf | null,
 ): any {
   return CancelOrderChallengeResponseAllOfToJSONRecursive(value, false);
 }

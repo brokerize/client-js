@@ -40,14 +40,14 @@ export interface GetPortfolioTradesResponse {
 }
 
 export function GetPortfolioTradesResponseFromJSON(
-  json: any
+  json: any,
 ): GetPortfolioTradesResponse {
   return GetPortfolioTradesResponseFromJSONTyped(json, false);
 }
 
 export function GetPortfolioTradesResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetPortfolioTradesResponse {
   if (json === undefined || json === null) {
     return json;
@@ -60,7 +60,7 @@ export function GetPortfolioTradesResponseFromJSONTyped(
 
 export function GetPortfolioTradesResponseToJSONRecursive(
   value?: GetPortfolioTradesResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -76,7 +76,7 @@ export function GetPortfolioTradesResponseToJSONRecursive(
 }
 
 export function GetPortfolioTradesResponseToJSON(
-  value?: GetPortfolioTradesResponse | null
+  value?: GetPortfolioTradesResponse | null,
 ): any {
   return GetPortfolioTradesResponseToJSONRecursive(value, false);
 }

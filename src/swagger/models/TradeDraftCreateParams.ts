@@ -40,14 +40,14 @@ export interface TradeDraftCreateParams {
 }
 
 export function TradeDraftCreateParamsFromJSON(
-  json: any
+  json: any,
 ): TradeDraftCreateParams {
   return TradeDraftCreateParamsFromJSONTyped(json, false);
 }
 
 export function TradeDraftCreateParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradeDraftCreateParams {
   if (json === undefined || json === null) {
     return json;
@@ -60,7 +60,7 @@ export function TradeDraftCreateParamsFromJSONTyped(
 
 export function TradeDraftCreateParamsToJSONRecursive(
   value?: TradeDraftCreateParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -76,7 +76,7 @@ export function TradeDraftCreateParamsToJSONRecursive(
 }
 
 export function TradeDraftCreateParamsToJSON(
-  value?: TradeDraftCreateParams | null
+  value?: TradeDraftCreateParams | null,
 ): any {
   return TradeDraftCreateParamsToJSONRecursive(value, false);
 }

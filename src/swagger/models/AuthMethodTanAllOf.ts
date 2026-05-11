@@ -41,7 +41,7 @@ export function AuthMethodTanAllOfFromJSON(json: any): AuthMethodTanAllOf {
 
 export function AuthMethodTanAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodTanAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function AuthMethodTanAllOfFromJSONTyped(
 
 export function AuthMethodTanAllOfToJSONRecursive(
   value?: AuthMethodTanAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function AuthMethodTanAllOfToJSONRecursive(
 }
 
 export function AuthMethodTanAllOfToJSON(
-  value?: AuthMethodTanAllOf | null
+  value?: AuthMethodTanAllOf | null,
 ): any {
   return AuthMethodTanAllOfToJSONRecursive(value, false);
 }

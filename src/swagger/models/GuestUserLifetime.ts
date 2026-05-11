@@ -29,7 +29,7 @@ export function GuestUserLifetimeFromJSON(json: any): GuestUserLifetime {
 
 export function GuestUserLifetimeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GuestUserLifetime {
   return json as GuestUserLifetime;
 }

@@ -39,17 +39,17 @@ export interface EnableSessionTanParamsChallengeResponseSpecifics {
 }
 
 export function EnableSessionTanParamsChallengeResponseSpecificsFromJSON(
-  json: any
+  json: any,
 ): EnableSessionTanParamsChallengeResponseSpecifics {
   return EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped(
     json,
-    false
+    false,
   );
 }
 
 export function EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EnableSessionTanParamsChallengeResponseSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -65,7 +65,7 @@ export function EnableSessionTanParamsChallengeResponseSpecificsFromJSONTyped(
 
 export function EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive(
   value?: EnableSessionTanParamsChallengeResponseSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -82,10 +82,10 @@ export function EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive(
 }
 
 export function EnableSessionTanParamsChallengeResponseSpecificsToJSON(
-  value?: EnableSessionTanParamsChallengeResponseSpecifics | null
+  value?: EnableSessionTanParamsChallengeResponseSpecifics | null,
 ): any {
   return EnableSessionTanParamsChallengeResponseSpecificsToJSONRecursive(
     value,
-    false
+    false,
   );
 }

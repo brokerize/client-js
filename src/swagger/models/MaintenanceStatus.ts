@@ -38,7 +38,7 @@ export function MaintenanceStatusFromJSON(json: any): MaintenanceStatus {
 
 export function MaintenanceStatusFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): MaintenanceStatus {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function MaintenanceStatusFromJSONTyped(
 
 export function MaintenanceStatusToJSONRecursive(
   value?: MaintenanceStatus | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

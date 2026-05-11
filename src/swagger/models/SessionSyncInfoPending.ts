@@ -43,14 +43,14 @@ export type SessionSyncInfoPendingStatusEnum =
   (typeof SessionSyncInfoPendingStatusEnum)[keyof typeof SessionSyncInfoPendingStatusEnum];
 
 export function SessionSyncInfoPendingFromJSON(
-  json: any
+  json: any,
 ): SessionSyncInfoPending {
   return SessionSyncInfoPendingFromJSONTyped(json, false);
 }
 
 export function SessionSyncInfoPendingFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SessionSyncInfoPending {
   if (json === undefined || json === null) {
     return json;
@@ -62,7 +62,7 @@ export function SessionSyncInfoPendingFromJSONTyped(
 
 export function SessionSyncInfoPendingToJSONRecursive(
   value?: SessionSyncInfoPending | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -77,7 +77,7 @@ export function SessionSyncInfoPendingToJSONRecursive(
 }
 
 export function SessionSyncInfoPendingToJSON(
-  value?: SessionSyncInfoPending | null
+  value?: SessionSyncInfoPending | null,
 ): any {
   return SessionSyncInfoPendingToJSONRecursive(value, false);
 }

@@ -109,14 +109,14 @@ export type AuthMethodChallengeResponseFlowEnum =
   (typeof AuthMethodChallengeResponseFlowEnum)[keyof typeof AuthMethodChallengeResponseFlowEnum];
 
 export function AuthMethodChallengeResponseFromJSON(
-  json: any
+  json: any,
 ): AuthMethodChallengeResponse {
   return AuthMethodChallengeResponseFromJSONTyped(json, false);
 }
 
 export function AuthMethodChallengeResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AuthMethodChallengeResponse {
   if (json === undefined || json === null) {
     return json;
@@ -128,7 +128,7 @@ export function AuthMethodChallengeResponseFromJSONTyped(
       : json["challengeLabel"],
     challengeResponseIsOnlyConfirmation: !exists(
       json,
-      "challengeResponseIsOnlyConfirmation"
+      "challengeResponseIsOnlyConfirmation",
     )
       ? undefined
       : json["challengeResponseIsOnlyConfirmation"],
@@ -147,7 +147,7 @@ export function AuthMethodChallengeResponseFromJSONTyped(
 
 export function AuthMethodChallengeResponseToJSONRecursive(
   value?: AuthMethodChallengeResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -171,7 +171,7 @@ export function AuthMethodChallengeResponseToJSONRecursive(
 }
 
 export function AuthMethodChallengeResponseToJSON(
-  value?: AuthMethodChallengeResponse | null
+  value?: AuthMethodChallengeResponse | null,
 ): any {
   return AuthMethodChallengeResponseToJSONRecursive(value, false);
 }

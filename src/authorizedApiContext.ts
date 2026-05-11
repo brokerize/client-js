@@ -54,7 +54,7 @@ export class AuthorizedApiContext {
   constructor(
     cfg: BrokerizeConfig,
     auth: Auth,
-    wsClient?: BrokerizeWebSocketClient
+    wsClient?: BrokerizeWebSocketClient,
   ) {
     this._cfg = cfg;
     this._auth = auth;
@@ -76,7 +76,7 @@ export class AuthorizedApiContext {
 
     this._logoutSubject = new Subject<void>();
     const postMiddleware = async (
-      r: openApiClient.ResponseContext
+      r: openApiClient.ResponseContext,
     ): Promise<void> => {
       const statusCode = r.response.status;
       if (statusCode >= 400) {
@@ -90,50 +90,50 @@ export class AuthorizedApiContext {
     };
 
     this._demoBrokerApi = new openApiClient.DemobrokerApi(
-      apiConfig
+      apiConfig,
     ).withPostMiddleware(postMiddleware);
     this._tradeApi = new openApiClient.TradeApi(apiConfig).withPostMiddleware(
-      postMiddleware
+      postMiddleware,
     );
     this._tradeApiCryptoService = new openApiClient.TradeApi(
-      apiConfigCryptoService
+      apiConfigCryptoService,
     ).withPostMiddleware(postMiddleware);
     this._metaApi = new openApiClient.MetaApi(apiConfig).withPostMiddleware(
-      postMiddleware
+      postMiddleware,
     );
     this._sessionApi = new openApiClient.SessionApi(
-      apiConfig
+      apiConfig,
     ).withPostMiddleware(postMiddleware);
     this._tradeDraftApi = new openApiClient.TradeDraftApi(
-      apiConfig
+      apiConfig,
     ).withPostMiddleware(postMiddleware);
     this._orderApi = new openApiClient.OrderApi(apiConfig).withPostMiddleware(
-      postMiddleware
+      postMiddleware,
     );
     this._orderApiCryptoService = new openApiClient.OrderApi(
-      apiConfigCryptoService
+      apiConfigCryptoService,
     ).withPostMiddleware(postMiddleware);
     this._exportApi = new openApiClient.ExportApi(apiConfig).withPostMiddleware(
-      postMiddleware
+      postMiddleware,
     );
     this._adminApi = new openApiClient.AdminApi(apiConfig).withPostMiddleware(
-      postMiddleware
+      postMiddleware,
     );
     this._securitiesApi = new openApiClient.SecuritiesApi(
-      apiConfig
+      apiConfig,
     ).withPostMiddleware(postMiddleware);
     this._portfolioApi = new openApiClient.PortfolioApi(
-      apiConfig
+      apiConfig,
     ).withPostMiddleware(postMiddleware);
     this._decoupledOperationsApi = new openApiClient.DecoupledOperationsApi(
-      apiConfig
+      apiConfig,
     ).withPostMiddleware(postMiddleware);
     this._userApi = new openApiClient.UserApi(apiConfig).withPostMiddleware(
-      postMiddleware
+      postMiddleware,
     );
     if (!cfg.createAbortController) {
       throw new Error(
-        "createAbortController not provided. This should not happen as there should be a default implementation."
+        "createAbortController not provided. This should not happen as there should be a default implementation.",
       );
     }
     this._abortController = cfg.createAbortController();
@@ -142,7 +142,7 @@ export class AuthorizedApiContext {
       (this._wsClient as BrokerizeWebSocketClientImpl)._setAuthorizedApiContext
     ) {
       (this._wsClient as BrokerizeWebSocketClientImpl)._setAuthorizedApiContext(
-        this
+        this,
       );
     }
     this._cache = {};
@@ -151,7 +151,7 @@ export class AuthorizedApiContext {
     const result = new AuthorizedApiContext(
       this._cfg,
       this._auth,
-      this._wsClient
+      this._wsClient,
     );
     const childContexts = this._childContexts;
     childContexts.push(result);
@@ -190,33 +190,33 @@ export class AuthorizedApiContext {
   async getTradeDrafts(params: openApiClient.GetTradeDraftsRequest) {
     return this._tradeDraftApi.getTradeDrafts(
       params,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async createTradeDraft(params: openApiClient.CreateTradeDraftsRequest) {
     return this._tradeDraftApi.createTradeDrafts(
       params,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async updateTradeDraft(params: openApiClient.UpdateTradeDraftRequest) {
     return this._tradeDraftApi.updateTradeDraft(
       params,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async deactivateTradeDraft(
-    params: openApiClient.DeactivateTradeDraftRequest
+    params: openApiClient.DeactivateTradeDraftRequest,
   ) {
     return this._tradeDraftApi.deactivateTradeDraft(
       params,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async deleteTradeDraft(params: openApiClient.DeleteTradeDraftRequest) {
     return this._tradeDraftApi.deleteTradeDraft(
       params,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getLegalTerms() {
@@ -228,7 +228,7 @@ export class AuthorizedApiContext {
   async addSession(params: AddSessionParams) {
     return this._sessionApi.addSession(
       { addSessionParams: params },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getSessions() {
@@ -239,7 +239,7 @@ export class AuthorizedApiContext {
       {
         demoAccountSettings,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getAccessTokens() {
@@ -248,7 +248,7 @@ export class AuthorizedApiContext {
   async createAccessToken(params: openApiClient.CreateAccessTokenParams) {
     return this._userApi.createAccessToken(
       { createAccessTokenParams: params },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async revokeAccessToken(accessTokenId: string) {
@@ -256,12 +256,12 @@ export class AuthorizedApiContext {
       {
         accessTokenId,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getAcessTokenAvailablePermissions() {
     return this._userApi.getAcessTokenAvailablePermissions(
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getDemoAccounts() {
@@ -270,41 +270,41 @@ export class AuthorizedApiContext {
   async deleteDemoAccount(del: DeleteDemoAccountRequest) {
     return this._demoBrokerApi.deleteDemoAccount(
       del,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getOrder(orderId: string) {
     return this._orderApi.getOrder(
       { id: orderId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async createCancelOrderChallenge(
-    req: openApiClient.CreateCancelOrderChallengeRequest
+    req: openApiClient.CreateCancelOrderChallengeRequest,
   ) {
     return this._orderApi.createCancelOrderChallenge(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async cancelOrder(
     req: openApiClient.CancelOrderRequest,
-    viaCryptoService?: boolean
+    viaCryptoService?: boolean,
   ) {
     const api = viaCryptoService ? this._orderApiCryptoService : this._orderApi;
     return api.cancelOrder(req, await this._initRequestInit());
   }
   async createChangeOrderChallenge(
-    req: openApiClient.CreateChangeOrderChallengeRequest
+    req: openApiClient.CreateChangeOrderChallengeRequest,
   ) {
     return this._orderApi.createChangeOrderChallenge(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async changeOrder(
     req: openApiClient.ChangeOrderRequest,
-    viaCryptoService?: boolean
+    viaCryptoService?: boolean,
   ) {
     const api = viaCryptoService ? this._orderApiCryptoService : this._orderApi;
     return api.changeOrder(req, await this._initRequestInit());
@@ -315,129 +315,129 @@ export class AuthorizedApiContext {
   async renamePortfolio(portfolioId: string, newPortfolioName: string) {
     return this._portfolioApi.renamePortfolio(
       { portfolioId, renamePortfolioRequest: { newPortfolioName } },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async deletePortfolio(portfolioId: string) {
     return this._portfolioApi.deletePortfolio(
       { portfolioId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getPortfolioQuotes(portfolioId: string) {
     return this._portfolioApi.getPortfolioQuotes(
       { portfolioId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getPortfolioPositions(portfolioId: string) {
     return this._portfolioApi.getPortfolioPositions(
       { portfolioId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getPortfolioOrders(req: openApiClient.GetPortfolioOrdersRequest) {
     return this._portfolioApi.getPortfolioOrders(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getPortfolioTrades(req: openApiClient.GetPortfolioTradesRequest) {
     return this._portfolioApi.getPortfolioTrades(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getPortfolioCalendar(req: openApiClient.GetPortfolioCalendarRequest) {
     return this._portfolioApi.getPortfolioCalendar(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getPortfolioTradeWarnings(
-    req: openApiClient.GetPortfolioTradeWarningsRequest
+    req: openApiClient.GetPortfolioTradeWarningsRequest,
   ) {
     return this._portfolioApi.getPortfolioTradeWarnings(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getPortfolioTradeStatistics(
-    req: openApiClient.GetPortfolioTradeStatisticsRequest
+    req: openApiClient.GetPortfolioTradeStatisticsRequest,
   ) {
     return this._portfolioApi.getPortfolioTradeStatistics(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getAuthInfo(portfolioId: string) {
     return this._portfolioApi.getAuthInfo(
       { portfolioId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async addSessionCompleteChallenge(
-    req: openApiClient.AddSessionCompleteChallengeRequest
+    req: openApiClient.AddSessionCompleteChallengeRequest,
   ) {
     return this._sessionApi.addSessionCompleteChallenge(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async createSessionTanChallenge(
-    req: openApiClient.CreateSessionTanChallengeRequest
+    req: openApiClient.CreateSessionTanChallengeRequest,
   ) {
     return this._sessionApi.createSessionTanChallenge(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   // XXX improve "kind" enum
   async enableSessionTan(req: openApiClient.EnableSessionTanRequest) {
     return this._sessionApi.enableSessionTan(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
 
   async endSessionTan(sessionId: string) {
     return this._sessionApi.endSessionTan(
       { sessionId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getDecoupledOperationStatus(
-    req: openApiClient.GetDecoupledOperationStatusRequest
+    req: openApiClient.GetDecoupledOperationStatusRequest,
   ) {
     return this._decoupledOperationsApi.getDecoupledOperationStatus(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async cancelDecoupledOperation(
-    req: openApiClient.CancelDecoupledOperationRequest
+    req: openApiClient.CancelDecoupledOperationRequest,
   ) {
     return this._decoupledOperationsApi.cancelDecoupledOperation(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async triggerSessionSync(sessionId: string) {
     return this._sessionApi.triggerSessionSync(
       { sessionId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async triggerDemoSessionSyncError(sessionId: string) {
     return this._demoBrokerApi.triggerDemoSessionSyncError(
       { sessionId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async logoutSession(sessionId: string) {
     return this._sessionApi.logoutSession(
       { sessionId },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getUser() {
@@ -456,7 +456,7 @@ export class AuthorizedApiContext {
   async createTradeChallenge(req: CreateTradeChallengeRequest) {
     return this._tradeApi.createTradeChallenge(
       req,
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getCostEstimation(p: GetCostEstimationParams) {
@@ -464,7 +464,7 @@ export class AuthorizedApiContext {
       {
         getCostEstimationParams: p,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getChangeOrderCostEstimation(orderId: string, changes: OrderChanges) {
@@ -475,7 +475,7 @@ export class AuthorizedApiContext {
         },
         id: orderId,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getQuote(p: GetQuoteRequest) {
@@ -484,13 +484,13 @@ export class AuthorizedApiContext {
   async prepareOAuthRedirect(p: PrepareOAuthRedirectParams) {
     return this._sessionApi.prepareOAuthRedirect(
       { prepareOAuthRedirectParams: p },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async confirmOAuth(p: ConfirmOAuthParams) {
     return this._sessionApi.confirmOAuth(
       { confirmOAuthParams: p },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async getSecurityDetailedInfo(token: string) {
@@ -498,7 +498,7 @@ export class AuthorizedApiContext {
       {
         token,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async renderGenericTablePdf(table: GenericTable): Promise<Blob> {
@@ -508,7 +508,7 @@ export class AuthorizedApiContext {
           table,
         },
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
 
     return response.raw.blob();
@@ -524,7 +524,7 @@ export class AuthorizedApiContext {
       {
         clientId,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async addClientOrigin(clientId: string, origin: string) {
@@ -535,7 +535,7 @@ export class AuthorizedApiContext {
           origin,
         },
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async removeClientOrigin(clientId: string, origin: string) {
@@ -546,7 +546,7 @@ export class AuthorizedApiContext {
           origin,
         },
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async addClientOAuthReturnToUrl(clientId: string, url: string) {
@@ -557,7 +557,7 @@ export class AuthorizedApiContext {
           url,
         },
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async removeClientOAuthReturnToUrl(clientId: string, url: string) {
@@ -568,12 +568,12 @@ export class AuthorizedApiContext {
           url,
         },
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
   async setClientConfig(
     clientId: string,
-    config: openApiClient.ClientConfigUpdate
+    config: openApiClient.ClientConfigUpdate,
   ) {
     return this._adminApi.setClientConfig(
       {
@@ -582,7 +582,7 @@ export class AuthorizedApiContext {
           config,
         },
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
 
@@ -603,7 +603,7 @@ export class AuthorizedApiContext {
         format: opts.format,
         onlyExecutedOrders: opts.onlyExecutedOrders,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
     const filename = response.raw.headers.get("x-brkrz-filename");
     const contentType = response.raw.headers.get("content-type");
@@ -615,7 +615,7 @@ export class AuthorizedApiContext {
       {
         securityQuotesToken: opts.securityQuotesToken,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
 
@@ -624,7 +624,7 @@ export class AuthorizedApiContext {
       {
         securityQuotesToken,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
 
@@ -637,7 +637,7 @@ export class AuthorizedApiContext {
       {
         createRecoveryPhraseParams: { name: opts.name },
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
 
@@ -646,7 +646,7 @@ export class AuthorizedApiContext {
       {
         recoveryPhraseId,
       },
-      await this._initRequestInit()
+      await this._initRequestInit(),
     );
   }
 
@@ -664,12 +664,12 @@ export class AuthorizedApiContext {
    */
   subscribeQuotes(
     securityQuotesToken: string,
-    callback: Callback<openApiClient.SecurityQuotesResponse | undefined>
+    callback: Callback<openApiClient.SecurityQuotesResponse | undefined>,
   ) {
     return createPollingSubscription(
       () => this.getSecurityQuotes({ securityQuotesToken }),
       2500,
-      callback
+      callback,
     );
   }
 
@@ -688,7 +688,7 @@ export class AuthorizedApiContext {
    */
   subscribeAvailableOrderIntents(
     preparedTrade: openApiClient.PreparedTrade,
-    callback: Callback<openApiClient.OrderIntentAvailability | undefined>
+    callback: Callback<openApiClient.OrderIntentAvailability | undefined>,
   ) {
     let emitFallback = true;
 
@@ -703,12 +703,12 @@ export class AuthorizedApiContext {
         async () => {
           const resp = await this._tradeApi.getAvailableOrderIntents(
             { token },
-            await this._initRequestInit()
+            await this._initRequestInit(),
           );
           return resp;
         },
         5000,
-        callback
+        callback,
       );
     }
 
@@ -729,14 +729,14 @@ export class AuthorizedApiContext {
     const websocketPath = getWebSocketURLByBasePath(basePath);
     if (!this._cfg.createWebSocket) {
       throw new Error(
-        "createWebSocket not provided. This should not happen as there should be a default implementation."
+        "createWebSocket not provided. This should not happen as there should be a default implementation.",
       );
     }
 
     return new BrokerizeWebSocketClientImpl(
       websocketPath,
       this._auth,
-      this._cfg.createWebSocket
+      this._cfg.createWebSocket,
     );
   }
   createWebSocketClient() {
@@ -744,7 +744,7 @@ export class AuthorizedApiContext {
       subscribeDecoupledOperation:
         this._wsClient.subscribeDecoupledOperation.bind(this._wsClient),
       subscribeInvalidate: this._wsClient.subscribeInvalidate.bind(
-        this._wsClient
+        this._wsClient,
       ),
     };
     return wrappedClient;

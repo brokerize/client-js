@@ -36,14 +36,14 @@ export type GenericTableRowValueLinkPortfolioAllOfTypeEnum =
   (typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum)[keyof typeof GenericTableRowValueLinkPortfolioAllOfTypeEnum];
 
 export function GenericTableRowValueLinkPortfolioAllOfFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueLinkPortfolioAllOf {
   return GenericTableRowValueLinkPortfolioAllOfFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueLinkPortfolioAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueLinkPortfolioAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function GenericTableRowValueLinkPortfolioAllOfFromJSONTyped(
 
 export function GenericTableRowValueLinkPortfolioAllOfToJSONRecursive(
   value?: GenericTableRowValueLinkPortfolioAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function GenericTableRowValueLinkPortfolioAllOfToJSONRecursive(
 }
 
 export function GenericTableRowValueLinkPortfolioAllOfToJSON(
-  value?: GenericTableRowValueLinkPortfolioAllOf | null
+  value?: GenericTableRowValueLinkPortfolioAllOf | null,
 ): any {
   return GenericTableRowValueLinkPortfolioAllOfToJSONRecursive(value, false);
 }

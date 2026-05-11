@@ -34,14 +34,14 @@ export interface GetAccessTokensResponse {
 }
 
 export function GetAccessTokensResponseFromJSON(
-  json: any
+  json: any,
 ): GetAccessTokensResponse {
   return GetAccessTokensResponseFromJSONTyped(json, false);
 }
 
 export function GetAccessTokensResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetAccessTokensResponse {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function GetAccessTokensResponseFromJSONTyped(
 
 export function GetAccessTokensResponseToJSONRecursive(
   value?: GetAccessTokensResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function GetAccessTokensResponseToJSONRecursive(
 }
 
 export function GetAccessTokensResponseToJSON(
-  value?: GetAccessTokensResponse | null
+  value?: GetAccessTokensResponse | null,
 ): any {
   return GetAccessTokensResponseToJSONRecursive(value, false);
 }

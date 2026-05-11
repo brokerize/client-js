@@ -23,20 +23,20 @@ export type GenericTableRowValueLinkValueType =
   (typeof GenericTableRowValueLinkValueType)[keyof typeof GenericTableRowValueLinkValueType];
 
 export function GenericTableRowValueLinkValueTypeFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueLinkValueType {
   return GenericTableRowValueLinkValueTypeFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueLinkValueTypeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueLinkValueType {
   return json as GenericTableRowValueLinkValueType;
 }
 
 export function GenericTableRowValueLinkValueTypeToJSON(
-  value?: GenericTableRowValueLinkValueType | null
+  value?: GenericTableRowValueLinkValueType | null,
 ): any {
   return value as any;
 }

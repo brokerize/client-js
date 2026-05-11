@@ -46,7 +46,7 @@ export function GenericTableRowFromJSON(json: any): GenericTableRow {
 
 export function GenericTableRowFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRow {
   if (json === undefined || json === null) {
     return json;
@@ -66,7 +66,7 @@ export function GenericTableRowFromJSONTyped(
       return { ...GenericTableRowTextFromJSONTyped(json, true), type: "text" };
     default:
       throw new Error(
-        `No variant of GenericTableRow exists with 'type=${json["type"]}'`
+        `No variant of GenericTableRow exists with 'type=${json["type"]}'`,
       );
   }
 }
@@ -87,7 +87,7 @@ export function GenericTableRowToJSON(value?: GenericTableRow | null): any {
       return GenericTableRowTextToJSON(value);
     default:
       throw new Error(
-        `No variant of GenericTableRow exists with 'type=${value["type"]}'`
+        `No variant of GenericTableRow exists with 'type=${value["type"]}'`,
       );
   }
 }

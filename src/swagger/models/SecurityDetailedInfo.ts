@@ -39,7 +39,7 @@ export function SecurityDetailedInfoFromJSON(json: any): SecurityDetailedInfo {
 
 export function SecurityDetailedInfoFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SecurityDetailedInfo {
   if (json === undefined || json === null) {
     return json;
@@ -52,7 +52,7 @@ export function SecurityDetailedInfoFromJSONTyped(
 
 export function SecurityDetailedInfoToJSONRecursive(
   value?: SecurityDetailedInfo | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function SecurityDetailedInfoToJSONRecursive(
 }
 
 export function SecurityDetailedInfoToJSON(
-  value?: SecurityDetailedInfo | null
+  value?: SecurityDetailedInfo | null,
 ): any {
   return SecurityDetailedInfoToJSONRecursive(value, false);
 }

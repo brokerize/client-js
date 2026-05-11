@@ -34,14 +34,14 @@ export type GenericTableRowValueLinkValue =
   | ({ type: "url" } & GenericTableRowValueLinkUrl);
 
 export function GenericTableRowValueLinkValueFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueLinkValue {
   return GenericTableRowValueLinkValueFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueLinkValueFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueLinkValue {
   if (json === undefined || json === null) {
     return json;
@@ -59,13 +59,13 @@ export function GenericTableRowValueLinkValueFromJSONTyped(
       };
     default:
       throw new Error(
-        `No variant of GenericTableRowValueLinkValue exists with 'type=${json["type"]}'`
+        `No variant of GenericTableRowValueLinkValue exists with 'type=${json["type"]}'`,
       );
   }
 }
 
 export function GenericTableRowValueLinkValueToJSON(
-  value?: GenericTableRowValueLinkValue | null
+  value?: GenericTableRowValueLinkValue | null,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -80,7 +80,7 @@ export function GenericTableRowValueLinkValueToJSON(
       return GenericTableRowValueLinkUrlToJSON(value);
     default:
       throw new Error(
-        `No variant of GenericTableRowValueLinkValue exists with 'type=${value["type"]}'`
+        `No variant of GenericTableRowValueLinkValue exists with 'type=${value["type"]}'`,
       );
   }
 }

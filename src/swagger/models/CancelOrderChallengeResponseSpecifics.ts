@@ -46,14 +46,14 @@ export interface CancelOrderChallengeResponseSpecifics {
 }
 
 export function CancelOrderChallengeResponseSpecificsFromJSON(
-  json: any
+  json: any,
 ): CancelOrderChallengeResponseSpecifics {
   return CancelOrderChallengeResponseSpecificsFromJSONTyped(json, false);
 }
 
 export function CancelOrderChallengeResponseSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderChallengeResponseSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -72,7 +72,7 @@ export function CancelOrderChallengeResponseSpecificsFromJSONTyped(
 
 export function CancelOrderChallengeResponseSpecificsToJSONRecursive(
   value?: CancelOrderChallengeResponseSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -90,7 +90,7 @@ export function CancelOrderChallengeResponseSpecificsToJSONRecursive(
 }
 
 export function CancelOrderChallengeResponseSpecificsToJSON(
-  value?: CancelOrderChallengeResponseSpecifics | null
+  value?: CancelOrderChallengeResponseSpecifics | null,
 ): any {
   return CancelOrderChallengeResponseSpecificsToJSONRecursive(value, false);
 }

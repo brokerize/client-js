@@ -27,14 +27,14 @@ export interface GenericTableRowTextSpecifics {
 }
 
 export function GenericTableRowTextSpecificsFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowTextSpecifics {
   return GenericTableRowTextSpecificsFromJSONTyped(json, false);
 }
 
 export function GenericTableRowTextSpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowTextSpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function GenericTableRowTextSpecificsFromJSONTyped(
 
 export function GenericTableRowTextSpecificsToJSONRecursive(
   value?: GenericTableRowTextSpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function GenericTableRowTextSpecificsToJSONRecursive(
 }
 
 export function GenericTableRowTextSpecificsToJSON(
-  value?: GenericTableRowTextSpecifics | null
+  value?: GenericTableRowTextSpecifics | null,
 ): any {
   return GenericTableRowTextSpecificsToJSONRecursive(value, false);
 }

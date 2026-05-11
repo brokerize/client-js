@@ -52,7 +52,7 @@ export function LegalTermsResponseFromJSON(json: any): LegalTermsResponse {
 
 export function LegalTermsResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LegalTermsResponse {
   if (json === undefined || json === null) {
     return json;
@@ -60,7 +60,7 @@ export function LegalTermsResponseFromJSONTyped(
   return {
     checkboxesHtml: json["checkboxesHtml"],
     confirmItems: (json["confirmItems"] as Array<any>).map(
-      LegalTermConfirmItemFromJSON
+      LegalTermConfirmItemFromJSON,
     ),
     disclaimerHtml: json["disclaimerHtml"],
   };
@@ -68,7 +68,7 @@ export function LegalTermsResponseFromJSONTyped(
 
 export function LegalTermsResponseToJSONRecursive(
   value?: LegalTermsResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -80,14 +80,14 @@ export function LegalTermsResponseToJSONRecursive(
   return {
     checkboxesHtml: value.checkboxesHtml,
     confirmItems: (value.confirmItems as Array<any>).map(
-      LegalTermConfirmItemToJSON
+      LegalTermConfirmItemToJSON,
     ),
     disclaimerHtml: value.disclaimerHtml,
   };
 }
 
 export function LegalTermsResponseToJSON(
-  value?: LegalTermsResponse | null
+  value?: LegalTermsResponse | null,
 ): any {
   return LegalTermsResponseToJSONRecursive(value, false);
 }

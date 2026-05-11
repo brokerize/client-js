@@ -502,7 +502,7 @@ export function OrderFromJSON(json: any): Order {
 
 export function OrderFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): Order {
   if (json === undefined || json === null) {
     return json;
@@ -534,7 +534,7 @@ export function OrderFromJSONTyped(
     allowsChangeValidityTypes: !exists(json, "allowsChangeValidityTypes")
       ? undefined
       : (json["allowsChangeValidityTypes"] as Array<any>).map(
-          OrderValidityTypeFromJSON
+          OrderValidityTypeFromJSON,
         ),
     bondCurrencyIso: !exists(json, "bondCurrencyIso")
       ? undefined
@@ -601,7 +601,7 @@ export function OrderFromJSONTyped(
     orderModel: OrderModelFromJSON(json["orderModel"]),
     orderStatusIsAwaitingParentOrder: !exists(
       json,
-      "orderStatusIsAwaitingParentOrder"
+      "orderStatusIsAwaitingParentOrder",
     )
       ? undefined
       : json["orderStatusIsAwaitingParentOrder"],
@@ -650,7 +650,7 @@ export function OrderFromJSONTyped(
 
 export function OrderToJSONRecursive(
   value?: Order | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -676,7 +676,7 @@ export function OrderToJSONRecursive(
       value.allowsChangeValidityTypes === undefined
         ? undefined
         : (value.allowsChangeValidityTypes as Array<any>).map(
-            OrderValidityTypeToJSON
+            OrderValidityTypeToJSON,
           ),
     bondCurrencyIso: value.bondCurrencyIso,
     brokerExchangeId: value.brokerExchangeId,

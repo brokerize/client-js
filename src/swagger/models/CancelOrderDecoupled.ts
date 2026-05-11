@@ -67,7 +67,7 @@ export function CancelOrderDecoupledFromJSON(json: any): CancelOrderDecoupled {
 
 export function CancelOrderDecoupledFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderDecoupled {
   if (json === undefined || json === null) {
     return json;
@@ -83,7 +83,7 @@ export function CancelOrderDecoupledFromJSONTyped(
 
 export function CancelOrderDecoupledToJSONRecursive(
   value?: CancelOrderDecoupled | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -100,7 +100,7 @@ export function CancelOrderDecoupledToJSONRecursive(
 }
 
 export function CancelOrderDecoupledToJSON(
-  value?: CancelOrderDecoupled | null
+  value?: CancelOrderDecoupled | null,
 ): any {
   return CancelOrderDecoupledToJSONRecursive(value, false);
 }

@@ -33,14 +33,14 @@ export interface ClientConfigUpdateRateLimitPointsToConsume {
 }
 
 export function ClientConfigUpdateRateLimitPointsToConsumeFromJSON(
-  json: any
+  json: any,
 ): ClientConfigUpdateRateLimitPointsToConsume {
   return ClientConfigUpdateRateLimitPointsToConsumeFromJSONTyped(json, false);
 }
 
 export function ClientConfigUpdateRateLimitPointsToConsumeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ClientConfigUpdateRateLimitPointsToConsume {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function ClientConfigUpdateRateLimitPointsToConsumeFromJSONTyped(
 
 export function ClientConfigUpdateRateLimitPointsToConsumeToJSONRecursive(
   value?: ClientConfigUpdateRateLimitPointsToConsume | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -71,10 +71,10 @@ export function ClientConfigUpdateRateLimitPointsToConsumeToJSONRecursive(
 }
 
 export function ClientConfigUpdateRateLimitPointsToConsumeToJSON(
-  value?: ClientConfigUpdateRateLimitPointsToConsume | null
+  value?: ClientConfigUpdateRateLimitPointsToConsume | null,
 ): any {
   return ClientConfigUpdateRateLimitPointsToConsumeToJSONRecursive(
     value,
-    false
+    false,
   );
 }

@@ -38,7 +38,7 @@ export function ExchangeMetaFromJSON(json: any): ExchangeMeta {
 
 export function ExchangeMetaFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ExchangeMeta {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function ExchangeMetaFromJSONTyped(
 
 export function ExchangeMetaToJSONRecursive(
   value?: ExchangeMeta | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

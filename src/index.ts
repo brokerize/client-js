@@ -55,7 +55,7 @@ export class Brokerize {
       const global = getGlobalObject();
       if (!global.fetch) {
         throw new Error(
-          "fetch is not provided and no global fetch function is available"
+          "fetch is not provided and no global fetch function is available",
         );
       }
       cfg.fetch = global.fetch.bind(global) as any;
@@ -65,7 +65,7 @@ export class Brokerize {
       const global = getGlobalObject();
       if (!global.AbortController) {
         throw new Error(
-          "createAbortController not provided and no global AbortController is available"
+          "createAbortController not provided and no global AbortController is available",
         );
       }
       cfg.createAbortController = () => {
@@ -77,7 +77,7 @@ export class Brokerize {
       const global = getGlobalObject();
       if (!global.WebSocket) {
         throw new Error(
-          "WebSocket implementation not available. Please provide one in BrokerizeConfig."
+          "WebSocket implementation not available. Please provide one in BrokerizeConfig.",
         );
       }
       cfg.createWebSocket = (url?: string, protocol?: string | string[]) =>
@@ -87,7 +87,7 @@ export class Brokerize {
     this._cfg = cfg;
 
     const postMiddleware = async (
-      r: openApiClient.ResponseContext
+      r: openApiClient.ResponseContext,
     ): Promise<void> => {
       const statusCode = r.response.status;
       if (statusCode >= 400) {
@@ -99,12 +99,12 @@ export class Brokerize {
     };
 
     this._userApi = new openApiClient.UserApi(
-      createConfiguration(cfg)
+      createConfiguration(cfg),
     ).withPostMiddleware(postMiddleware);
   }
 
   async refreshGuestUser(
-    refreshToken: string
+    refreshToken: string,
   ): Promise<GuestAuthContextConfiguration> {
     const response = await fetch(this._cfg.basePath + "/user/token", {
       method: "POST",
@@ -114,7 +114,7 @@ export class Brokerize {
       },
       // XXX some runtimes do not have URLSearchParams, so just produce the body in the old-fashioned way
       body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(
-        refreshToken
+        refreshToken,
       )}`,
     });
 
@@ -185,7 +185,7 @@ export class Brokerize {
   createAuthorizedContext(
     authCtxCfg: AuthContextConfiguration,
     tokenRefreshCallback?: TokenRefreshCallback,
-    customWebSocketClient?: BrokerizeWebSocketClient
+    customWebSocketClient?: BrokerizeWebSocketClient,
   ) {
     const auth = this.createAuth(authCtxCfg, tokenRefreshCallback);
     return new AuthorizedApiContext(this._cfg, auth, customWebSocketClient);
@@ -206,7 +206,7 @@ export class Brokerize {
    */
   createAuth(
     authCtxCfg: AuthContextConfiguration,
-    tokenRefreshCallback?: TokenRefreshCallback
+    tokenRefreshCallback?: TokenRefreshCallback,
   ): Auth {
     return createAuth({
       authCfg: authCtxCfg,
@@ -228,12 +228,12 @@ export class Brokerize {
           "x-brkrz-client-id": this._cfg.clientId,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
   }
 
   async obtainTokenByRecoveryPhrase(
-    recoveryPhrase: string
+    recoveryPhrase: string,
   ): Promise<AuthContextConfiguration> {
     const tokResult = await this._userApi.obtainTokenByRecoveryPhrase(
       {
@@ -244,7 +244,7 @@ export class Brokerize {
           "x-brkrz-client-id": this._cfg.clientId,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     const updatedAt = Date.now();
@@ -289,14 +289,14 @@ export class Brokerize {
     }
     if (!auth?.getToken) {
       throw new Error(
-        "Auth implementation with getToken function must be provided"
+        "Auth implementation with getToken function must be provided",
       );
     }
 
     return new BrokerizeWebSocketClientImpl(
       url,
       auth,
-      this._cfg.createWebSocket
+      this._cfg.createWebSocket,
     );
   }
 }

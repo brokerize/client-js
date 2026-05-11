@@ -27,14 +27,14 @@ export interface LoginResponseReadySpecifics {
 }
 
 export function LoginResponseReadySpecificsFromJSON(
-  json: any
+  json: any,
 ): LoginResponseReadySpecifics {
   return LoginResponseReadySpecificsFromJSONTyped(json, false);
 }
 
 export function LoginResponseReadySpecificsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LoginResponseReadySpecifics {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function LoginResponseReadySpecificsFromJSONTyped(
 
 export function LoginResponseReadySpecificsToJSONRecursive(
   value?: LoginResponseReadySpecifics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function LoginResponseReadySpecificsToJSONRecursive(
 }
 
 export function LoginResponseReadySpecificsToJSON(
-  value?: LoginResponseReadySpecifics | null
+  value?: LoginResponseReadySpecifics | null,
 ): any {
   return LoginResponseReadySpecificsToJSONRecursive(value, false);
 }

@@ -39,14 +39,14 @@ export interface AvailablePermissionsNode {
 }
 
 export function AvailablePermissionsNodeFromJSON(
-  json: any
+  json: any,
 ): AvailablePermissionsNode {
   return AvailablePermissionsNodeFromJSONTyped(json, false);
 }
 
 export function AvailablePermissionsNodeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AvailablePermissionsNode {
   if (json === undefined || json === null) {
     return json;
@@ -62,7 +62,7 @@ export function AvailablePermissionsNodeFromJSONTyped(
 
 export function AvailablePermissionsNodeToJSONRecursive(
   value?: AvailablePermissionsNode | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -82,7 +82,7 @@ export function AvailablePermissionsNodeToJSONRecursive(
 }
 
 export function AvailablePermissionsNodeToJSON(
-  value?: AvailablePermissionsNode | null
+  value?: AvailablePermissionsNode | null,
 ): any {
   return AvailablePermissionsNodeToJSONRecursive(value, false);
 }

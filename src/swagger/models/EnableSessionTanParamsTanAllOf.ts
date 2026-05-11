@@ -36,14 +36,14 @@ export type EnableSessionTanParamsTanAllOfKindEnum =
   (typeof EnableSessionTanParamsTanAllOfKindEnum)[keyof typeof EnableSessionTanParamsTanAllOfKindEnum];
 
 export function EnableSessionTanParamsTanAllOfFromJSON(
-  json: any
+  json: any,
 ): EnableSessionTanParamsTanAllOf {
   return EnableSessionTanParamsTanAllOfFromJSONTyped(json, false);
 }
 
 export function EnableSessionTanParamsTanAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EnableSessionTanParamsTanAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function EnableSessionTanParamsTanAllOfFromJSONTyped(
 
 export function EnableSessionTanParamsTanAllOfToJSONRecursive(
   value?: EnableSessionTanParamsTanAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function EnableSessionTanParamsTanAllOfToJSONRecursive(
 }
 
 export function EnableSessionTanParamsTanAllOfToJSON(
-  value?: EnableSessionTanParamsTanAllOf | null
+  value?: EnableSessionTanParamsTanAllOf | null,
 ): any {
   return EnableSessionTanParamsTanAllOfToJSONRecursive(value, false);
 }

@@ -204,7 +204,7 @@ export function ClientConfigFromJSON(json: any): ClientConfig {
 
 export function ClientConfigFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ClientConfig {
   if (json === undefined || json === null) {
     return json;
@@ -217,13 +217,13 @@ export function ClientConfigFromJSONTyped(
     allowedOrigins: json["allowedOrigins"],
     allowedOriginsRegularExpressions: !exists(
       json,
-      "allowedOriginsRegularExpressions"
+      "allowedOriginsRegularExpressions",
     )
       ? undefined
       : json["allowedOriginsRegularExpressions"],
     brokerEnvFilter: mapValues(
       json["brokerEnvFilter"],
-      BrokerEnvFilterTypeFromJSON
+      BrokerEnvFilterTypeFromJSON,
     ),
     cognitoClientIds: json["cognitoClientIds"],
     cryptoTradingAllowed: !exists(json, "cryptoTradingAllowed")
@@ -232,13 +232,13 @@ export function ClientConfigFromJSONTyped(
     enabled: json["enabled"],
     guestUserInactivityTimeoutSeconds: !exists(
       json,
-      "guestUserInactivityTimeoutSeconds"
+      "guestUserInactivityTimeoutSeconds",
     )
       ? undefined
       : json["guestUserInactivityTimeoutSeconds"],
     guestUserInactivityTimeoutSecondsRecoveryPhrase: !exists(
       json,
-      "guestUserInactivityTimeoutSecondsRecoveryPhrase"
+      "guestUserInactivityTimeoutSecondsRecoveryPhrase",
     )
       ? undefined
       : json["guestUserInactivityTimeoutSecondsRecoveryPhrase"],
@@ -265,7 +265,7 @@ export function ClientConfigFromJSONTyped(
       : json["reportingFlags"],
     tradingSessionInactivityTimeoutSeconds: !exists(
       json,
-      "tradingSessionInactivityTimeoutSeconds"
+      "tradingSessionInactivityTimeoutSeconds",
     )
       ? undefined
       : json["tradingSessionInactivityTimeoutSeconds"],
@@ -277,7 +277,7 @@ export function ClientConfigFromJSONTyped(
 
 export function ClientConfigToJSONRecursive(
   value?: ClientConfig | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -293,7 +293,7 @@ export function ClientConfigToJSONRecursive(
     allowedOriginsRegularExpressions: value.allowedOriginsRegularExpressions,
     brokerEnvFilter: mapValues(
       value.brokerEnvFilter,
-      BrokerEnvFilterTypeToJSON
+      BrokerEnvFilterTypeToJSON,
     ),
     cognitoClientIds: value.cognitoClientIds,
     cryptoTradingAllowed: value.cryptoTradingAllowed,
@@ -305,7 +305,7 @@ export function ClientConfigToJSONRecursive(
     hideOfflinePortfolios: value.hideOfflinePortfolios,
     legalEntityName: value.legalEntityName,
     maintenanceStatus: ClientConfigMaintenanceStatusToJSON(
-      value.maintenanceStatus
+      value.maintenanceStatus,
     ),
     name: value.name,
     oAuthLoginForm: OAuthLoginFormConfigToJSON(value.oAuthLoginForm),
@@ -317,7 +317,7 @@ export function ClientConfigToJSONRecursive(
     tradingSessionInactivityTimeoutSeconds:
       value.tradingSessionInactivityTimeoutSeconds,
     tradingSessionLifetime: TradingSessionLifetimeToJSON(
-      value.tradingSessionLifetime
+      value.tradingSessionLifetime,
     ),
   };
 }

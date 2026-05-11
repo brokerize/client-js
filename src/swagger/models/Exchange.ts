@@ -158,7 +158,7 @@ export function ExchangeFromJSON(json: any): Exchange {
 
 export function ExchangeFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): Exchange {
   if (json === undefined || json === null) {
     return json;
@@ -180,7 +180,7 @@ export function ExchangeFromJSONTyped(
     defaultValidityByOrderModel: !exists(json, "defaultValidityByOrderModel")
       ? undefined
       : DefaultOrderValidityByOrderModelFromJSON(
-          json["defaultValidityByOrderModel"]
+          json["defaultValidityByOrderModel"],
         ),
     hideOrderModel: !exists(json, "hideOrderModel")
       ? undefined
@@ -189,17 +189,17 @@ export function ExchangeFromJSONTyped(
     label: json["label"],
     legalMessagesToConfirmByOrderModel: !exists(
       json,
-      "legalMessagesToConfirmByOrderModel"
+      "legalMessagesToConfirmByOrderModel",
     )
       ? undefined
       : StringMapByOrderModelFromJSON(
-          json["legalMessagesToConfirmByOrderModel"]
+          json["legalMessagesToConfirmByOrderModel"],
         ),
     orderModelsBuy: (json["orderModelsBuy"] as Array<any>).map(
-      OrderModelFromJSON
+      OrderModelFromJSON,
     ),
     orderModelsSell: (json["orderModelsSell"] as Array<any>).map(
-      OrderModelFromJSON
+      OrderModelFromJSON,
     ),
     securityQuotesToken: !exists(json, "securityQuotesToken")
       ? undefined
@@ -208,14 +208,14 @@ export function ExchangeFromJSONTyped(
       ? undefined
       : TakeProfitStopLossCapabilitesFromJSON(json["takeProfitStopLoss"]),
     validityTypesByOrderModel: OrderValidityTypeByOrderModelFromJSON(
-      json["validityTypesByOrderModel"]
+      json["validityTypesByOrderModel"],
     ),
   };
 }
 
 export function ExchangeToJSONRecursive(
   value?: Exchange | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -231,24 +231,24 @@ export function ExchangeToJSONRecursive(
     cashAccountIds: value.cashAccountIds,
     currencyIso: value.currencyIso,
     defaultValidityByOrderModel: DefaultOrderValidityByOrderModelToJSON(
-      value.defaultValidityByOrderModel
+      value.defaultValidityByOrderModel,
     ),
     hideOrderModel: value.hideOrderModel,
     id: value.id,
     label: value.label,
     legalMessagesToConfirmByOrderModel: StringMapByOrderModelToJSON(
-      value.legalMessagesToConfirmByOrderModel
+      value.legalMessagesToConfirmByOrderModel,
     ),
     orderModelsBuy: (value.orderModelsBuy as Array<any>).map(OrderModelToJSON),
     orderModelsSell: (value.orderModelsSell as Array<any>).map(
-      OrderModelToJSON
+      OrderModelToJSON,
     ),
     securityQuotesToken: value.securityQuotesToken,
     takeProfitStopLoss: TakeProfitStopLossCapabilitesToJSON(
-      value.takeProfitStopLoss
+      value.takeProfitStopLoss,
     ),
     validityTypesByOrderModel: OrderValidityTypeByOrderModelToJSON(
-      value.validityTypesByOrderModel
+      value.validityTypesByOrderModel,
     ),
   };
 }

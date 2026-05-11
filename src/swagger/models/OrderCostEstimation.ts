@@ -101,7 +101,7 @@ export function OrderCostEstimationFromJSON(json: any): OrderCostEstimation {
 
 export function OrderCostEstimationFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OrderCostEstimation {
   if (json === undefined || json === null) {
     return json;
@@ -139,7 +139,7 @@ export function OrderCostEstimationFromJSONTyped(
 
 export function OrderCostEstimationToJSONRecursive(
   value?: OrderCostEstimation | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -162,7 +162,7 @@ export function OrderCostEstimationToJSONRecursive(
 }
 
 export function OrderCostEstimationToJSON(
-  value?: OrderCostEstimation | null
+  value?: OrderCostEstimation | null,
 ): any {
   return OrderCostEstimationToJSONRecursive(value, false);
 }

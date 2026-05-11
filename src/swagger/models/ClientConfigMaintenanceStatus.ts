@@ -40,14 +40,14 @@ export interface ClientConfigMaintenanceStatus {
 }
 
 export function ClientConfigMaintenanceStatusFromJSON(
-  json: any
+  json: any,
 ): ClientConfigMaintenanceStatus {
   return ClientConfigMaintenanceStatusFromJSONTyped(json, false);
 }
 
 export function ClientConfigMaintenanceStatusFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ClientConfigMaintenanceStatus {
   if (json === undefined || json === null) {
     return json;
@@ -62,7 +62,7 @@ export function ClientConfigMaintenanceStatusFromJSONTyped(
 
 export function ClientConfigMaintenanceStatusToJSONRecursive(
   value?: ClientConfigMaintenanceStatus | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -81,7 +81,7 @@ export function ClientConfigMaintenanceStatusToJSONRecursive(
 }
 
 export function ClientConfigMaintenanceStatusToJSON(
-  value?: ClientConfigMaintenanceStatus | null
+  value?: ClientConfigMaintenanceStatus | null,
 ): any {
   return ClientConfigMaintenanceStatusToJSONRecursive(value, false);
 }

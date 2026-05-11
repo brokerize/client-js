@@ -39,7 +39,7 @@ export function ExchangesResponseFromJSON(json: any): ExchangesResponse {
 
 export function ExchangesResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ExchangesResponse {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function ExchangesResponseFromJSONTyped(
 
 export function ExchangesResponseToJSONRecursive(
   value?: ExchangesResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

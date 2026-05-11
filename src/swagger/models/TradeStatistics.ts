@@ -151,7 +151,7 @@ export function TradeStatisticsFromJSON(json: any): TradeStatistics {
 
 export function TradeStatisticsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TradeStatistics {
   if (json === undefined || json === null) {
     return json;
@@ -171,7 +171,7 @@ export function TradeStatisticsFromJSONTyped(
       : SummarizedTradeFromJSON(json["bestTrade"]),
     hitRate: json["hitRate"],
     holdingPeriodInDays: TradeStatisticsHoldingPeriodInDaysFromJSON(
-      json["holdingPeriodInDays"]
+      json["holdingPeriodInDays"],
     ),
     longestLosingStreak: json["longestLosingStreak"],
     longestWinningStreak: json["longestWinningStreak"],
@@ -198,7 +198,7 @@ export function TradeStatisticsFromJSONTyped(
 
 export function TradeStatisticsToJSONRecursive(
   value?: TradeStatistics | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -214,7 +214,7 @@ export function TradeStatisticsToJSONRecursive(
     bestTrade: SummarizedTradeToJSON(value.bestTrade),
     hitRate: value.hitRate,
     holdingPeriodInDays: TradeStatisticsHoldingPeriodInDaysToJSON(
-      value.holdingPeriodInDays
+      value.holdingPeriodInDays,
     ),
     longestLosingStreak: value.longestLosingStreak,
     longestWinningStreak: value.longestWinningStreak,

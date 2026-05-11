@@ -82,7 +82,7 @@ export function ErrorResponseFromJSON(json: any): ErrorResponse {
 
 export function ErrorResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): ErrorResponse {
   if (json === undefined || json === null) {
     return json;
@@ -105,7 +105,7 @@ export function ErrorResponseFromJSONTyped(
 
 export function ErrorResponseToJSONRecursive(
   value?: ErrorResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

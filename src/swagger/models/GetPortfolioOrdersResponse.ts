@@ -35,14 +35,14 @@ export interface GetPortfolioOrdersResponse {
 }
 
 export function GetPortfolioOrdersResponseFromJSON(
-  json: any
+  json: any,
 ): GetPortfolioOrdersResponse {
   return GetPortfolioOrdersResponseFromJSONTyped(json, false);
 }
 
 export function GetPortfolioOrdersResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GetPortfolioOrdersResponse {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function GetPortfolioOrdersResponseFromJSONTyped(
 
 export function GetPortfolioOrdersResponseToJSONRecursive(
   value?: GetPortfolioOrdersResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -71,7 +71,7 @@ export function GetPortfolioOrdersResponseToJSONRecursive(
 }
 
 export function GetPortfolioOrdersResponseToJSON(
-  value?: GetPortfolioOrdersResponse | null
+  value?: GetPortfolioOrdersResponse | null,
 ): any {
   return GetPortfolioOrdersResponseToJSONRecursive(value, false);
 }

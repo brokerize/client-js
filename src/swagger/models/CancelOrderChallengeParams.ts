@@ -27,14 +27,14 @@ export interface CancelOrderChallengeParams {
 }
 
 export function CancelOrderChallengeParamsFromJSON(
-  json: any
+  json: any,
 ): CancelOrderChallengeParams {
   return CancelOrderChallengeParamsFromJSONTyped(json, false);
 }
 
 export function CancelOrderChallengeParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CancelOrderChallengeParams {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function CancelOrderChallengeParamsFromJSONTyped(
 
 export function CancelOrderChallengeParamsToJSONRecursive(
   value?: CancelOrderChallengeParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function CancelOrderChallengeParamsToJSONRecursive(
 }
 
 export function CancelOrderChallengeParamsToJSON(
-  value?: CancelOrderChallengeParams | null
+  value?: CancelOrderChallengeParams | null,
 ): any {
   return CancelOrderChallengeParamsToJSONRecursive(value, false);
 }

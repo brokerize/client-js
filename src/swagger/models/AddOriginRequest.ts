@@ -32,7 +32,7 @@ export function AddOriginRequestFromJSON(json: any): AddOriginRequest {
 
 export function AddOriginRequestFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AddOriginRequest {
   if (json === undefined || json === null) {
     return json;
@@ -44,7 +44,7 @@ export function AddOriginRequestFromJSONTyped(
 
 export function AddOriginRequestToJSONRecursive(
   value?: AddOriginRequest | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

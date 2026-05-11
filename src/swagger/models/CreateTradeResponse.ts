@@ -40,7 +40,7 @@ export function CreateTradeResponseFromJSON(json: any): CreateTradeResponse {
 
 export function CreateTradeResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateTradeResponse {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function CreateTradeResponseFromJSONTyped(
 
 export function CreateTradeResponseToJSONRecursive(
   value?: CreateTradeResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -71,7 +71,7 @@ export function CreateTradeResponseToJSONRecursive(
 }
 
 export function CreateTradeResponseToJSON(
-  value?: CreateTradeResponse | null
+  value?: CreateTradeResponse | null,
 ): any {
   return CreateTradeResponseToJSONRecursive(value, false);
 }

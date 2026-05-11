@@ -36,14 +36,14 @@ export type GenericTableRowValueDatetimeAllOfTypeEnum =
   (typeof GenericTableRowValueDatetimeAllOfTypeEnum)[keyof typeof GenericTableRowValueDatetimeAllOfTypeEnum];
 
 export function GenericTableRowValueDatetimeAllOfFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueDatetimeAllOf {
   return GenericTableRowValueDatetimeAllOfFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueDatetimeAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueDatetimeAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function GenericTableRowValueDatetimeAllOfFromJSONTyped(
 
 export function GenericTableRowValueDatetimeAllOfToJSONRecursive(
   value?: GenericTableRowValueDatetimeAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function GenericTableRowValueDatetimeAllOfToJSONRecursive(
 }
 
 export function GenericTableRowValueDatetimeAllOfToJSON(
-  value?: GenericTableRowValueDatetimeAllOf | null
+  value?: GenericTableRowValueDatetimeAllOf | null,
 ): any {
   return GenericTableRowValueDatetimeAllOfToJSONRecursive(value, false);
 }

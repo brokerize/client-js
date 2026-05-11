@@ -66,7 +66,7 @@ export function DemoAccountSettingsFromJSON(json: any): DemoAccountSettings {
 
 export function DemoAccountSettingsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): DemoAccountSettings {
   if (json === undefined || json === null) {
     return json;
@@ -90,7 +90,7 @@ export function DemoAccountSettingsFromJSONTyped(
 
 export function DemoAccountSettingsToJSONRecursive(
   value?: DemoAccountSettings | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -109,7 +109,7 @@ export function DemoAccountSettingsToJSONRecursive(
 }
 
 export function DemoAccountSettingsToJSON(
-  value?: DemoAccountSettings | null
+  value?: DemoAccountSettings | null,
 ): any {
   return DemoAccountSettingsToJSONRecursive(value, false);
 }

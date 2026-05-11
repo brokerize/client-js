@@ -27,14 +27,14 @@ export interface EndSessionTanResponse {
 }
 
 export function EndSessionTanResponseFromJSON(
-  json: any
+  json: any,
 ): EndSessionTanResponse {
   return EndSessionTanResponseFromJSONTyped(json, false);
 }
 
 export function EndSessionTanResponseFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EndSessionTanResponse {
   if (json === undefined || json === null) {
     return json;
@@ -46,7 +46,7 @@ export function EndSessionTanResponseFromJSONTyped(
 
 export function EndSessionTanResponseToJSONRecursive(
   value?: EndSessionTanResponse | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -61,7 +61,7 @@ export function EndSessionTanResponseToJSONRecursive(
 }
 
 export function EndSessionTanResponseToJSON(
-  value?: EndSessionTanResponse | null
+  value?: EndSessionTanResponse | null,
 ): any {
   return EndSessionTanResponseToJSONRecursive(value, false);
 }

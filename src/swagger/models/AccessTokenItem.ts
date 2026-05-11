@@ -50,7 +50,7 @@ export function AccessTokenItemFromJSON(json: any): AccessTokenItem {
 
 export function AccessTokenItemFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): AccessTokenItem {
   if (json === undefined || json === null) {
     return json;
@@ -65,7 +65,7 @@ export function AccessTokenItemFromJSONTyped(
 
 export function AccessTokenItemToJSONRecursive(
   value?: AccessTokenItem | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;

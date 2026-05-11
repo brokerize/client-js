@@ -115,7 +115,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async deletePortfolioRaw(
     requestParameters: DeletePortfolioRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<OkResponseBody>> {
     if (
       requestParameters.portfolioId === null ||
@@ -123,7 +123,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling deletePortfolio."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling deletePortfolio.",
       );
     }
 
@@ -148,17 +148,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      OkResponseBodyFromJSON(jsonValue)
+      OkResponseBodyFromJSON(jsonValue),
     );
   }
 
@@ -166,11 +166,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async deletePortfolio(
     requestParameters: DeletePortfolioRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<OkResponseBody> {
     const response = await this.deletePortfolioRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -180,7 +180,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getAuthInfoRaw(
     requestParameters: GetAuthInfoRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetAuthInfoResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -188,7 +188,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getAuthInfo."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getAuthInfo.",
       );
     }
 
@@ -213,17 +213,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/authinfo`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetAuthInfoResponseFromJSON(jsonValue)
+      GetAuthInfoResponseFromJSON(jsonValue),
     );
   }
 
@@ -232,11 +232,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getAuthInfo(
     requestParameters: GetAuthInfoRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetAuthInfoResponse> {
     const response = await this.getAuthInfoRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -246,7 +246,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioCalendarRaw(
     requestParameters: GetPortfolioCalendarRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetPortfolioCalendarResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -254,7 +254,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioCalendar."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioCalendar.",
       );
     }
 
@@ -264,7 +264,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "dateRanges",
-        "Required parameter requestParameters.dateRanges was null or undefined when calling getPortfolioCalendar."
+        "Required parameter requestParameters.dateRanges was null or undefined when calling getPortfolioCalendar.",
       );
     }
 
@@ -293,17 +293,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/calendar`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetPortfolioCalendarResponseFromJSON(jsonValue)
+      GetPortfolioCalendarResponseFromJSON(jsonValue),
     );
   }
 
@@ -312,11 +312,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioCalendar(
     requestParameters: GetPortfolioCalendarRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetPortfolioCalendarResponse> {
     const response = await this.getPortfolioCalendarRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -325,7 +325,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioOrdersRaw(
     requestParameters: GetPortfolioOrdersRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetPortfolioOrdersResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -333,7 +333,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioOrders."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioOrders.",
       );
     }
 
@@ -398,17 +398,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/orders`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetPortfolioOrdersResponseFromJSON(jsonValue)
+      GetPortfolioOrdersResponseFromJSON(jsonValue),
     );
   }
 
@@ -416,11 +416,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioOrders(
     requestParameters: GetPortfolioOrdersRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetPortfolioOrdersResponse> {
     const response = await this.getPortfolioOrdersRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -429,7 +429,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioPositionsRaw(
     requestParameters: GetPortfolioPositionsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetPortfolioPositionsResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -437,7 +437,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioPositions."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioPositions.",
       );
     }
 
@@ -462,17 +462,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/positions`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetPortfolioPositionsResponseFromJSON(jsonValue)
+      GetPortfolioPositionsResponseFromJSON(jsonValue),
     );
   }
 
@@ -480,11 +480,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioPositions(
     requestParameters: GetPortfolioPositionsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetPortfolioPositionsResponse> {
     const response = await this.getPortfolioPositionsRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -493,7 +493,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioQuotesRaw(
     requestParameters: GetPortfolioQuotesRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetPortfolioQuotesResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -501,7 +501,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioQuotes."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioQuotes.",
       );
     }
 
@@ -526,17 +526,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/quotes`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetPortfolioQuotesResponseFromJSON(jsonValue)
+      GetPortfolioQuotesResponseFromJSON(jsonValue),
     );
   }
 
@@ -544,11 +544,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioQuotes(
     requestParameters: GetPortfolioQuotesRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetPortfolioQuotesResponse> {
     const response = await this.getPortfolioQuotesRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -558,7 +558,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioTradeStatisticsRaw(
     requestParameters: GetPortfolioTradeStatisticsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetPortfolioTradeStatisticsResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -566,7 +566,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTradeStatistics."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTradeStatistics.",
       );
     }
 
@@ -576,7 +576,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "dateRanges",
-        "Required parameter requestParameters.dateRanges was null or undefined when calling getPortfolioTradeStatistics."
+        "Required parameter requestParameters.dateRanges was null or undefined when calling getPortfolioTradeStatistics.",
       );
     }
 
@@ -605,17 +605,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/trades/statistics`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetPortfolioTradeStatisticsResponseFromJSON(jsonValue)
+      GetPortfolioTradeStatisticsResponseFromJSON(jsonValue),
     );
   }
 
@@ -624,11 +624,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioTradeStatistics(
     requestParameters: GetPortfolioTradeStatisticsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetPortfolioTradeStatisticsResponse> {
     const response = await this.getPortfolioTradeStatisticsRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -637,7 +637,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioTradeWarningsRaw(
     requestParameters: GetPortfolioTradeWarningsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<Array<TradeWarning>>> {
     if (
       requestParameters.portfolioId === null ||
@@ -645,7 +645,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTradeWarnings."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTradeWarnings.",
       );
     }
 
@@ -670,17 +670,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/trades/warnings`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(TradeWarningFromJSON)
+      jsonValue.map(TradeWarningFromJSON),
     );
   }
 
@@ -688,11 +688,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioTradeWarnings(
     requestParameters: GetPortfolioTradeWarningsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<Array<TradeWarning>> {
     const response = await this.getPortfolioTradeWarningsRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -702,7 +702,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioTradesRaw(
     requestParameters: GetPortfolioTradesRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetPortfolioTradesResponse>> {
     if (
       requestParameters.portfolioId === null ||
@@ -710,7 +710,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTrades."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling getPortfolioTrades.",
       );
     }
 
@@ -747,17 +747,17 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/trades`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "GET",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetPortfolioTradesResponseFromJSON(jsonValue)
+      GetPortfolioTradesResponseFromJSON(jsonValue),
     );
   }
 
@@ -766,11 +766,11 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async getPortfolioTrades(
     requestParameters: GetPortfolioTradesRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetPortfolioTradesResponse> {
     const response = await this.getPortfolioTradesRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -778,7 +778,7 @@ export class PortfolioApi extends runtime.BaseAPI {
   /**
    */
   async getPortfoliosRaw(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<PortfoliosResponse>> {
     const queryParameters: any = {};
 
@@ -804,18 +804,18 @@ export class PortfolioApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      PortfoliosResponseFromJSON(jsonValue)
+      PortfoliosResponseFromJSON(jsonValue),
     );
   }
 
   /**
    */
   async getPortfolios(
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<PortfoliosResponse> {
     const response = await this.getPortfoliosRaw(initOverrides);
     return await response.value();
@@ -826,7 +826,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async renamePortfolioRaw(
     requestParameters: RenamePortfolioOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (
       requestParameters.portfolioId === null ||
@@ -834,7 +834,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "portfolioId",
-        "Required parameter requestParameters.portfolioId was null or undefined when calling renamePortfolio."
+        "Required parameter requestParameters.portfolioId was null or undefined when calling renamePortfolio.",
       );
     }
 
@@ -844,7 +844,7 @@ export class PortfolioApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "renamePortfolioRequest",
-        "Required parameter requestParameters.renamePortfolioRequest was null or undefined when calling renamePortfolio."
+        "Required parameter requestParameters.renamePortfolioRequest was null or undefined when calling renamePortfolio.",
       );
     }
 
@@ -871,16 +871,16 @@ export class PortfolioApi extends runtime.BaseAPI {
       {
         path: `/portfolios/{portfolioId}/rename`.replace(
           `{${"portfolioId"}}`,
-          encodeURIComponent(String(requestParameters.portfolioId))
+          encodeURIComponent(String(requestParameters.portfolioId)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
         body: RenamePortfolioRequestToJSON(
-          requestParameters.renamePortfolioRequest
+          requestParameters.renamePortfolioRequest,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -891,7 +891,7 @@ export class PortfolioApi extends runtime.BaseAPI {
    */
   async renamePortfolio(
     requestParameters: RenamePortfolioOperationRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.renamePortfolioRaw(requestParameters, initOverrides);
   }

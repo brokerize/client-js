@@ -34,14 +34,14 @@ export interface EstimateChangeOrderCostsParams {
 }
 
 export function EstimateChangeOrderCostsParamsFromJSON(
-  json: any
+  json: any,
 ): EstimateChangeOrderCostsParams {
   return EstimateChangeOrderCostsParamsFromJSONTyped(json, false);
 }
 
 export function EstimateChangeOrderCostsParamsFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): EstimateChangeOrderCostsParams {
   if (json === undefined || json === null) {
     return json;
@@ -53,7 +53,7 @@ export function EstimateChangeOrderCostsParamsFromJSONTyped(
 
 export function EstimateChangeOrderCostsParamsToJSONRecursive(
   value?: EstimateChangeOrderCostsParams | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -68,7 +68,7 @@ export function EstimateChangeOrderCostsParamsToJSONRecursive(
 }
 
 export function EstimateChangeOrderCostsParamsToJSON(
-  value?: EstimateChangeOrderCostsParams | null
+  value?: EstimateChangeOrderCostsParams | null,
 ): any {
   return EstimateChangeOrderCostsParamsToJSONRecursive(value, false);
 }

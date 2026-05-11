@@ -38,7 +38,7 @@ export function LegalTermConfirmItemFromJSON(json: any): LegalTermConfirmItem {
 
 export function LegalTermConfirmItemFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): LegalTermConfirmItem {
   if (json === undefined || json === null) {
     return json;
@@ -51,7 +51,7 @@ export function LegalTermConfirmItemFromJSONTyped(
 
 export function LegalTermConfirmItemToJSONRecursive(
   value?: LegalTermConfirmItem | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -67,7 +67,7 @@ export function LegalTermConfirmItemToJSONRecursive(
 }
 
 export function LegalTermConfirmItemToJSON(
-  value?: LegalTermConfirmItem | null
+  value?: LegalTermConfirmItem | null,
 ): any {
   return LegalTermConfirmItemToJSONRecursive(value, false);
 }

@@ -61,7 +61,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async createTradeDraftsRaw(
     requestParameters: CreateTradeDraftsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<CreateTradeDrafts200Response>> {
     if (
       requestParameters.tradeDraftCreateParams === null ||
@@ -69,7 +69,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "tradeDraftCreateParams",
-        "Required parameter requestParameters.tradeDraftCreateParams was null or undefined when calling createTradeDrafts."
+        "Required parameter requestParameters.tradeDraftCreateParams was null or undefined when calling createTradeDrafts.",
       );
     }
 
@@ -99,14 +99,14 @@ export class TradeDraftApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
         body: TradeDraftCreateParamsToJSON(
-          requestParameters.tradeDraftCreateParams
+          requestParameters.tradeDraftCreateParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CreateTradeDrafts200ResponseFromJSON(jsonValue)
+      CreateTradeDrafts200ResponseFromJSON(jsonValue),
     );
   }
 
@@ -115,11 +115,11 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async createTradeDrafts(
     requestParameters: CreateTradeDraftsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<CreateTradeDrafts200Response> {
     const response = await this.createTradeDraftsRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -129,12 +129,12 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async deactivateTradeDraftRaw(
     requestParameters: DeactivateTradeDraftRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling deactivateTradeDraft."
+        "Required parameter requestParameters.id was null or undefined when calling deactivateTradeDraft.",
       );
     }
 
@@ -159,13 +159,13 @@ export class TradeDraftApi extends runtime.BaseAPI {
       {
         path: `/tradeDrafts/{id}/deactivate`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "POST",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -176,7 +176,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async deactivateTradeDraft(
     requestParameters: DeactivateTradeDraftRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.deactivateTradeDraftRaw(requestParameters, initOverrides);
   }
@@ -186,12 +186,12 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async deleteTradeDraftRaw(
     requestParameters: DeleteTradeDraftRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling deleteTradeDraft."
+        "Required parameter requestParameters.id was null or undefined when calling deleteTradeDraft.",
       );
     }
 
@@ -216,13 +216,13 @@ export class TradeDraftApi extends runtime.BaseAPI {
       {
         path: `/tradeDrafts/{id}`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "DELETE",
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -233,7 +233,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async deleteTradeDraft(
     requestParameters: DeleteTradeDraftRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.deleteTradeDraftRaw(requestParameters, initOverrides);
   }
@@ -243,7 +243,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async getTradeDraftsRaw(
     requestParameters: GetTradeDraftsRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<GetActiveTradeDraftsResponse>> {
     const queryParameters: any = {};
 
@@ -277,11 +277,11 @@ export class TradeDraftApi extends runtime.BaseAPI {
         headers: headerParameters,
         query: queryParameters,
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      GetActiveTradeDraftsResponseFromJSON(jsonValue)
+      GetActiveTradeDraftsResponseFromJSON(jsonValue),
     );
   }
 
@@ -290,11 +290,11 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async getTradeDrafts(
     requestParameters: GetTradeDraftsRequest = {},
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<GetActiveTradeDraftsResponse> {
     const response = await this.getTradeDraftsRaw(
       requestParameters,
-      initOverrides
+      initOverrides,
     );
     return await response.value();
   }
@@ -304,12 +304,12 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async updateTradeDraftRaw(
     requestParameters: UpdateTradeDraftRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<runtime.ApiResponse<void>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling updateTradeDraft."
+        "Required parameter requestParameters.id was null or undefined when calling updateTradeDraft.",
       );
     }
 
@@ -319,7 +319,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "tradeDraftUpdateParams",
-        "Required parameter requestParameters.tradeDraftUpdateParams was null or undefined when calling updateTradeDraft."
+        "Required parameter requestParameters.tradeDraftUpdateParams was null or undefined when calling updateTradeDraft.",
       );
     }
 
@@ -346,16 +346,16 @@ export class TradeDraftApi extends runtime.BaseAPI {
       {
         path: `/tradeDrafts/{id}`.replace(
           `{${"id"}}`,
-          encodeURIComponent(String(requestParameters.id))
+          encodeURIComponent(String(requestParameters.id)),
         ),
         method: "PUT",
         headers: headerParameters,
         query: queryParameters,
         body: TradeDraftUpdateParamsToJSON(
-          requestParameters.tradeDraftUpdateParams
+          requestParameters.tradeDraftUpdateParams,
         ),
       },
-      initOverrides
+      initOverrides,
     );
 
     return new runtime.VoidApiResponse(response);
@@ -366,7 +366,7 @@ export class TradeDraftApi extends runtime.BaseAPI {
    */
   async updateTradeDraft(
     requestParameters: UpdateTradeDraftRequest,
-    initOverrides?: RequestInit | runtime.InitOverideFunction
+    initOverrides?: RequestInit | runtime.InitOverideFunction,
   ): Promise<void> {
     await this.updateTradeDraftRaw(requestParameters, initOverrides);
   }

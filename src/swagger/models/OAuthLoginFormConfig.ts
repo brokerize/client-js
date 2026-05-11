@@ -78,7 +78,7 @@ export function OAuthLoginFormConfigFromJSON(json: any): OAuthLoginFormConfig {
 
 export function OAuthLoginFormConfigFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): OAuthLoginFormConfig {
   if (json === undefined || json === null) {
     return json;
@@ -100,7 +100,7 @@ export function OAuthLoginFormConfigFromJSONTyped(
 
 export function OAuthLoginFormConfigToJSONRecursive(
   value?: OAuthLoginFormConfig | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -119,7 +119,7 @@ export function OAuthLoginFormConfigToJSONRecursive(
 }
 
 export function OAuthLoginFormConfigToJSON(
-  value?: OAuthLoginFormConfig | null
+  value?: OAuthLoginFormConfig | null,
 ): any {
   return OAuthLoginFormConfigToJSONRecursive(value, false);
 }

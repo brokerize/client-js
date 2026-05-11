@@ -46,14 +46,14 @@ export interface TakeProfitStopLossDetail {
 }
 
 export function TakeProfitStopLossDetailFromJSON(
-  json: any
+  json: any,
 ): TakeProfitStopLossDetail {
   return TakeProfitStopLossDetailFromJSONTyped(json, false);
 }
 
 export function TakeProfitStopLossDetailFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): TakeProfitStopLossDetail {
   if (json === undefined || json === null) {
     return json;
@@ -66,7 +66,7 @@ export function TakeProfitStopLossDetailFromJSONTyped(
 
 export function TakeProfitStopLossDetailToJSONRecursive(
   value?: TakeProfitStopLossDetail | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -82,7 +82,7 @@ export function TakeProfitStopLossDetailToJSONRecursive(
 }
 
 export function TakeProfitStopLossDetailToJSON(
-  value?: TakeProfitStopLossDetail | null
+  value?: TakeProfitStopLossDetail | null,
 ): any {
   return TakeProfitStopLossDetailToJSONRecursive(value, false);
 }

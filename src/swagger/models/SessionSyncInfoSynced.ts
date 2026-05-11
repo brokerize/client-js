@@ -55,14 +55,14 @@ export type SessionSyncInfoSyncedStatusEnum =
   (typeof SessionSyncInfoSyncedStatusEnum)[keyof typeof SessionSyncInfoSyncedStatusEnum];
 
 export function SessionSyncInfoSyncedFromJSON(
-  json: any
+  json: any,
 ): SessionSyncInfoSynced {
   return SessionSyncInfoSyncedFromJSONTyped(json, false);
 }
 
 export function SessionSyncInfoSyncedFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): SessionSyncInfoSynced {
   if (json === undefined || json === null) {
     return json;
@@ -75,7 +75,7 @@ export function SessionSyncInfoSyncedFromJSONTyped(
 
 export function SessionSyncInfoSyncedToJSONRecursive(
   value?: SessionSyncInfoSynced | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -91,7 +91,7 @@ export function SessionSyncInfoSyncedToJSONRecursive(
 }
 
 export function SessionSyncInfoSyncedToJSON(
-  value?: SessionSyncInfoSynced | null
+  value?: SessionSyncInfoSynced | null,
 ): any {
   return SessionSyncInfoSyncedToJSONRecursive(value, false);
 }

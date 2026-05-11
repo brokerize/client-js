@@ -36,14 +36,14 @@ export type GenericTableRowValueAmountAllOfTypeEnum =
   (typeof GenericTableRowValueAmountAllOfTypeEnum)[keyof typeof GenericTableRowValueAmountAllOfTypeEnum];
 
 export function GenericTableRowValueAmountAllOfFromJSON(
-  json: any
+  json: any,
 ): GenericTableRowValueAmountAllOf {
   return GenericTableRowValueAmountAllOfFromJSONTyped(json, false);
 }
 
 export function GenericTableRowValueAmountAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): GenericTableRowValueAmountAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function GenericTableRowValueAmountAllOfFromJSONTyped(
 
 export function GenericTableRowValueAmountAllOfToJSONRecursive(
   value?: GenericTableRowValueAmountAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function GenericTableRowValueAmountAllOfToJSONRecursive(
 }
 
 export function GenericTableRowValueAmountAllOfToJSON(
-  value?: GenericTableRowValueAmountAllOf | null
+  value?: GenericTableRowValueAmountAllOf | null,
 ): any {
   return GenericTableRowValueAmountAllOfToJSONRecursive(value, false);
 }

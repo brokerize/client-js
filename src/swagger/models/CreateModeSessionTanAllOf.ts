@@ -36,14 +36,14 @@ export type CreateModeSessionTanAllOfModeEnum =
   (typeof CreateModeSessionTanAllOfModeEnum)[keyof typeof CreateModeSessionTanAllOfModeEnum];
 
 export function CreateModeSessionTanAllOfFromJSON(
-  json: any
+  json: any,
 ): CreateModeSessionTanAllOf {
   return CreateModeSessionTanAllOfFromJSONTyped(json, false);
 }
 
 export function CreateModeSessionTanAllOfFromJSONTyped(
   json: any,
-  ignoreDiscriminator: boolean
+  ignoreDiscriminator: boolean,
 ): CreateModeSessionTanAllOf {
   if (json === undefined || json === null) {
     return json;
@@ -55,7 +55,7 @@ export function CreateModeSessionTanAllOfFromJSONTyped(
 
 export function CreateModeSessionTanAllOfToJSONRecursive(
   value?: CreateModeSessionTanAllOf | null,
-  ignoreParent = false
+  ignoreParent = false,
 ): any {
   if (value === undefined) {
     return undefined;
@@ -70,7 +70,7 @@ export function CreateModeSessionTanAllOfToJSONRecursive(
 }
 
 export function CreateModeSessionTanAllOfToJSON(
-  value?: CreateModeSessionTanAllOf | null
+  value?: CreateModeSessionTanAllOf | null,
 ): any {
   return CreateModeSessionTanAllOfToJSONRecursive(value, false);
 }
