@@ -132,6 +132,9 @@ export class AuthorizedApiContext {
     this._userApi = new openApiClient.UserApi(apiConfig).withPostMiddleware(
       postMiddleware,
     );
+    this._syncApi = new openApiClient.SyncApi(apiConfig).withPostMiddleware(
+      postMiddleware,
+    );
     if (!cfg.createAbortController) {
       throw new Error(
         "createAbortController not provided. This should not happen as there should be a default implementation.",
