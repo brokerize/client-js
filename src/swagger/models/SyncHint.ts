@@ -23,6 +23,12 @@ import {
   SyncHintManualReloadFromJSONTyped,
   SyncHintManualReloadToJSON,
 } from "./SyncHintManualReload";
+import {
+  SyncHintReloadOrderHistory,
+  SyncHintReloadOrderHistoryFromJSON,
+  SyncHintReloadOrderHistoryFromJSONTyped,
+  SyncHintReloadOrderHistoryToJSON,
+} from "./SyncHintReloadOrderHistory";
 
 /**
  * @type SyncHint
@@ -31,7 +37,8 @@ import {
  */
 export type SyncHint =
   | ({ type: "AssumeOrderExecuted" } & SyncHintAssumeOrderExecuted)
-  | ({ type: "ManualReload" } & SyncHintManualReload);
+  | ({ type: "ManualReload" } & SyncHintManualReload)
+  | ({ type: "ReloadOrderHistory" } & SyncHintReloadOrderHistory);
 
 export function SyncHintFromJSON(json: any): SyncHint {
   return SyncHintFromJSONTyped(json, false);
@@ -55,6 +62,11 @@ export function SyncHintFromJSONTyped(
         ...SyncHintManualReloadFromJSONTyped(json, true),
         type: "ManualReload",
       };
+    case "ReloadOrderHistory":
+      return {
+        ...SyncHintReloadOrderHistoryFromJSONTyped(json, true),
+        type: "ReloadOrderHistory",
+      };
     default:
       throw new Error(
         `No variant of SyncHint exists with 'type=${json["type"]}'`,
@@ -74,6 +86,8 @@ export function SyncHintToJSON(value?: SyncHint | null): any {
       return SyncHintAssumeOrderExecutedToJSON(value);
     case "ManualReload":
       return SyncHintManualReloadToJSON(value);
+    case "ReloadOrderHistory":
+      return SyncHintReloadOrderHistoryToJSON(value);
     default:
       throw new Error(
         `No variant of SyncHint exists with 'type=${value["type"]}'`,

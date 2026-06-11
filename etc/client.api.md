@@ -293,6 +293,10 @@ export class AuthorizedApiContext {
     // (undocumented)
     triggerSessionSync(sessionId: string): Promise<openApiClient.OkResponseBody>;
     // (undocumented)
+    triggerSync(opts: {
+        hints: openApiClient.SyncHint[];
+    }): Promise<openApiClient.TriggerSync200Response>;
+    // (undocumented)
     updateTradeDraft(params: openApiClient.UpdateTradeDraftRequest): Promise<void>;
 }
 
@@ -1342,7 +1346,10 @@ declare namespace Models {
         PortfolioCalendarItem,
         GetRecoveryPhrasesResponse,
         CreateRecoveryPhraseResult,
-        CheckRecoveryPhrase200Response
+        CheckRecoveryPhrase200Response,
+        SyncHint,
+        SyncHintAssumeOrderExecuted,
+        SyncHintManualReload
     }
 }
 export { Models }
@@ -1994,6 +2001,31 @@ interface SummarizedTrade {
 interface SyncError {
     date: Date;
     message: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "SyncHintReloadOrderHistory" needs to be exported by the entry point index.d.ts
+//
+// @public
+type SyncHint = ({
+    type: "AssumeOrderExecuted";
+} & SyncHintAssumeOrderExecuted) | ({
+    type: "ManualReload";
+} & SyncHintManualReload) | ({
+    type: "ReloadOrderHistory";
+} & SyncHintReloadOrderHistory);
+
+// @public
+interface SyncHintAssumeOrderExecuted {
+    orderId: string;
+    // Warning: (ae-forgotten-export) The symbol "SyncHintAssumeOrderExecutedTypeEnum" needs to be exported by the entry point index.d.ts
+    type: SyncHintAssumeOrderExecutedTypeEnum;
+}
+
+// @public
+interface SyncHintManualReload {
+    portfolioId: string;
+    // Warning: (ae-forgotten-export) The symbol "SyncHintManualReloadTypeEnum" needs to be exported by the entry point index.d.ts
+    type: SyncHintManualReloadTypeEnum;
 }
 
 // @public

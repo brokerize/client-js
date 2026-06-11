@@ -18,6 +18,7 @@
 export const SyncHintType = {
   ManualReload: "ManualReload",
   AssumeOrderExecuted: "AssumeOrderExecuted",
+  ReloadOrderHistory: "ReloadOrderHistory",
 } as const;
 export type SyncHintType = (typeof SyncHintType)[keyof typeof SyncHintType];
 

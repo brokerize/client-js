@@ -255,6 +255,9 @@ models/SyncHintAssumeOrderExecutedSpecifics.ts
 models/SyncHintManualReload.ts
 models/SyncHintManualReloadAllOf.ts
 models/SyncHintManualReloadSpecifics.ts
+models/SyncHintReloadOrderHistory.ts
+models/SyncHintReloadOrderHistoryAllOf.ts
+models/SyncHintReloadOrderHistorySpecifics.ts
 models/SyncHintType.ts
 models/TakeProfitStopLossCapabilites.ts
 models/TakeProfitStopLossDetail.ts

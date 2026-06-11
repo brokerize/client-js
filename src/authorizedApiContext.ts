@@ -654,11 +654,11 @@ export class AuthorizedApiContext {
     );
   }
 
-  async triggerSync(hints: openApiClient.SyncHint[]) {
+  async triggerSync(opts: { hints: openApiClient.SyncHint[] }) {
     return this._syncApi.triggerSync(
       {
         triggerSyncBody: {
-          hints,
+          hints: opts.hints,
         },
       },
       await this._initRequestInit(),

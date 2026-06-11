@@ -4028,7 +4028,8 @@
         "discriminator": {
           "mapping": {
             "AssumeOrderExecuted": "#/components/schemas/SyncHintAssumeOrderExecuted",
-            "ManualReload": "#/components/schemas/SyncHintManualReload"
+            "ManualReload": "#/components/schemas/SyncHintManualReload",
+            "ReloadOrderHistory": "#/components/schemas/SyncHintReloadOrderHistory"
           },
           "propertyName": "type"
         },
@@ -4078,8 +4079,28 @@
           }
         }
       },
+      "SyncHintReloadOrderHistory": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SyncHint"
+          },
+          {
+            "$ref": "#/components/schemas/SyncHintReloadOrderHistorySpecifics"
+          }
+        ],
+        "description": "Re-sync the full order history of a portfolio. Use this to heal histories where the broker added\norders to the archive after the fact (sometimes weeks later), which a regular sync would not pick up\nbecause it only fetches orders newer than the last synced range.",
+        "required": ["portfolioId", "type"],
+        "type": "object"
+      },
+      "SyncHintReloadOrderHistorySpecifics": {
+        "properties": {
+          "portfolioId": {
+            "type": "string"
+          }
+        }
+      },
       "SyncHintType": {
-        "enum": ["ManualReload", "AssumeOrderExecuted"],
+        "enum": ["ManualReload", "AssumeOrderExecuted", "ReloadOrderHistory"],
         "nullable": false,
         "type": "string"
       },
@@ -4530,7 +4551,7 @@
     "contact": {},
     "description": "The brokerize multi brokerage API. For high-level documentation, visit https://developer.brokerize.com/docs/api",
     "title": "brokerize",
-    "version": "1.9.0"
+    "version": "1.10.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -13763,10 +13784,6 @@
     {
       "description": "Preview environment",
       "url": "https://api-preview.brokerize.com"
-    },
-    {
-      "description": "This API instance",
-      "url": "http://localhost:3333"
     }
   ],
   "tags": [
