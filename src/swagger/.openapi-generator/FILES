@@ -8,6 +8,7 @@ apis/OrderApi.ts
 apis/PortfolioApi.ts
 apis/SecuritiesApi.ts
 apis/SessionApi.ts
+apis/SyncApi.ts
 apis/TradeApi.ts
 apis/TradeDraftApi.ts
 apis/UserApi.ts
@@ -247,6 +248,17 @@ models/SizeUnitConstraint.ts
 models/StringMapByOrderModel.ts
 models/SummarizedTrade.ts
 models/SyncError.ts
+models/SyncHint.ts
+models/SyncHintAssumeOrderExecuted.ts
+models/SyncHintAssumeOrderExecutedAllOf.ts
+models/SyncHintAssumeOrderExecutedSpecifics.ts
+models/SyncHintManualReload.ts
+models/SyncHintManualReloadAllOf.ts
+models/SyncHintManualReloadSpecifics.ts
+models/SyncHintReloadOrderHistory.ts
+models/SyncHintReloadOrderHistoryAllOf.ts
+models/SyncHintReloadOrderHistorySpecifics.ts
+models/SyncHintType.ts
 models/TakeProfitStopLossCapabilites.ts
 models/TakeProfitStopLossDetail.ts
 models/TokenResponse.ts
@@ -261,6 +273,8 @@ models/TradeStatisticsItem.ts
 models/TradeWarning.ts
 models/TradingSessionLifetime.ts
 models/TrailingDistance.ts
+models/TriggerSync200Response.ts
+models/TriggerSyncBody.ts
 models/ValidationDetail.ts
 models/index.ts
 runtime.ts

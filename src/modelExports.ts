@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 
 export { AddOAuthReturnToUrlRequest } from "./swagger/models/AddOAuthReturnToUrlRequest";
 export { AddOriginRequest } from "./swagger/models/AddOriginRequest";
@@ -172,3 +171,6 @@ export { PortfolioCalendarItem } from "./swagger/models/PortfolioCalendarItem";
 export { GetRecoveryPhrasesResponse } from "./swagger/models/GetRecoveryPhrasesResponse";
 export { CreateRecoveryPhraseResult } from "./swagger/models/CreateRecoveryPhraseResult";
 export { CheckRecoveryPhrase200Response } from "./swagger/models/CheckRecoveryPhrase200Response";
+export { SyncHint } from "./swagger/models/SyncHint";
+export { SyncHintAssumeOrderExecuted } from "./swagger/models/SyncHintAssumeOrderExecuted";
+export { SyncHintManualReload } from "./swagger/models/SyncHintManualReload";

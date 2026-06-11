@@ -49,6 +49,7 @@ export class AuthorizedApiContext {
   private readonly _userApi: openApiClient.UserApi;
   private readonly _securitiesApi: openApiClient.SecuritiesApi;
   private readonly _portfolioApi: openApiClient.PortfolioApi;
+  private readonly _syncApi: openApiClient.SyncApi;
   private readonly _decoupledOperationsApi: openApiClient.DecoupledOperationsApi;
 
   constructor(
@@ -129,6 +130,9 @@ export class AuthorizedApiContext {
       apiConfig,
     ).withPostMiddleware(postMiddleware);
     this._userApi = new openApiClient.UserApi(apiConfig).withPostMiddleware(
+      postMiddleware,
+    );
+    this._syncApi = new openApiClient.SyncApi(apiConfig).withPostMiddleware(
       postMiddleware,
     );
     if (!cfg.createAbortController) {
@@ -645,6 +649,17 @@ export class AuthorizedApiContext {
     return this._userApi.deleteRecoveryPhrase(
       {
         recoveryPhraseId,
+      },
+      await this._initRequestInit(),
+    );
+  }
+
+  async triggerSync(opts: { hints: openApiClient.SyncHint[] }) {
+    return this._syncApi.triggerSync(
+      {
+        triggerSyncBody: {
+          hints: opts.hints,
+        },
       },
       await this._initRequestInit(),
     );
