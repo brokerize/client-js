@@ -2006,6 +2006,10 @@
             "description": "This will be deprecated and replaced by `brokerSecurityId` in the long term.\nMake sure to fill `brokerSecurityId`.",
             "type": "string"
           },
+          "legalCheckboxChecked": {
+            "description": "Whether the user checked the legal checkbox.\nRequired if the preparedTrade's `legalCheckbox` has a constraint matching the\ncurrent order values (send the selected value even if the user left it at the default).",
+            "type": "boolean"
+          },
           "sellPositionId": {
             "description": "If a list of sellPositions has been provided in `PrepareTrade`, this must contain the selected position id to sell from",
             "type": "string"
@@ -2669,6 +2673,10 @@
             "description": "The ISIN of the security to trade, if applicable. Note that at least one of `isin` and `usTicker` must be set.\n\nNote that we will make isin optional in a future version of the API.",
             "type": "string"
           },
+          "legalCheckboxChecked": {
+            "description": "Whether the user checked the legal checkbox.\nRequired if the preparedTrade's `legalCheckbox` has a constraint matching the\ncurrent order values (send the selected value even if the user left it at the default).",
+            "type": "boolean"
+          },
           "limit": {
             "$ref": "#/components/schemas/OrderLimitValue",
             "description": "The limit of an order specifies a maximum (direction buy) or minimum (direction sell) value to execute the\norder at.\n\nA limit can be set for orderModel `limit`"
@@ -2801,6 +2809,53 @@
         "description": "Some brokers and exchanges allow adding an order extension that influence how the order is executed.\n\n- `FOK`: Fill or kill\n- `ICO`: Immediate or cancel\n- `AON`: All or None\n- `PEA`: Partial executions allowed",
         "enum": ["FOK", "IOC", "AON", "PEA"],
         "type": "string"
+      },
+      "OrderFormLegalCheckbox": {
+        "properties": {
+          "constraints": {
+            "description": "Determines in which cases the legal checkbox must be shown. Iterate over the\nconstraints; if at least one matches the current order values, the checkbox is\napplicable and must be presented. In that case `legalCheckboxChecked` must be sent\nwith the order (even if the user did not change the default value).",
+            "items": {
+              "$ref": "#/components/schemas/OrderFormLegalCheckboxConstraint"
+            },
+            "type": "array"
+          },
+          "defaultChecked": {
+            "description": "If `true`, the checkbox must be checked by default.\nIf `false`, the checkbox must *not* be checked by default.",
+            "type": "boolean"
+          },
+          "text": {
+            "description": "The text to show for the \"legal checkbox\". This must be displayed in the OrderForm before\nthe order/getQuote button.",
+            "type": "string"
+          }
+        },
+        "required": ["constraints", "defaultChecked", "text"],
+        "type": "object"
+      },
+      "OrderFormLegalCheckboxConstraint": {
+        "properties": {
+          "directions": {
+            "description": "If set, only consider this a match if the selected direction is contained in this list.",
+            "items": {
+              "$ref": "#/components/schemas/Direction"
+            },
+            "type": "array"
+          },
+          "exchangeIds": {
+            "description": "If set, only consider this a match if the selected `Exchange.id` is contained in the list.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "orderModels": {
+            "description": "If set, only consider this a match if the selected `orderModel` is contained in the list.\nIf a matching constraint includes `'quote'`, the value must also be supplied to\n`GetQuote` (via `GetQuoteParams.legalCheckboxChecked`), not only at order creation.",
+            "items": {
+              "$ref": "#/components/schemas/OrderModel"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
       },
       "OrderIntent": {
         "description": "OrderIntent `open` means that the order is supposed to open a new position. `close` means that the order is supposed to close an existing position.\nNote that this is independent of the order's direction (e.g. a short position is closed by a buy order).",
@@ -3427,7 +3482,7 @@
             "type": "boolean"
           },
           "costEstimationIsOnlyDetailedTable": {
-            "description": "Indicates that this cost estimation does not include summary fields\n(e.g. `entryCosts`, `totalCosts`, etc.) and therefore cannot be rendered\ninline within the order form. Instead, only a detailed representation is available.\n\nHistorically, this implied that only `detailedTable` would be provided\n(hence the flag name). However, in modern usage, `costDetailsLink` may be present instead.\n\nIn that case, clients can render an action such as \"Show detailed costs,\" which then loads the cost\nestimartion and either displays the `detailedTable` or navigates to the `costDetailsLink` URL.",
+            "description": "Indicates that this cost estimation does not include summary fields\n(e.g. `entryCosts`, `totalCosts`, etc.) and therefore cannot be rendered\ninline within the order form. Instead, only a detailed representation is available.\n\nHistorically, this implied that only `detailedTable` would be provided\n(hence the flag name). However, in modern usage, `costDetailsLink` may be present instead.\n\nIn that case, clients can render an action such as \"Show detailed costs,\" which then loads the cost\nestimation and either displays the `detailedTable` or navigates to the `costDetailsLink` URL.",
             "type": "boolean"
           },
           "costEstimationMustBeShown": {
@@ -3439,6 +3494,10 @@
               "$ref": "#/components/schemas/Exchange"
             },
             "type": "array"
+          },
+          "legalCheckbox": {
+            "$ref": "#/components/schemas/OrderFormLegalCheckbox",
+            "description": "If defined, a legal checkbox must be shown under defined circumstances."
           },
           "noExchangeDefault": {
             "description": "If this is true, frontends are not allowed to set an exchange default. Users must select an exchange explicitly.",
@@ -4551,7 +4610,7 @@
     "contact": {},
     "description": "The brokerize multi brokerage API. For high-level documentation, visit https://developer.brokerize.com/docs/api",
     "title": "brokerize",
-    "version": "1.10.0"
+    "version": "1.11.0"
   },
   "openapi": "3.0.0",
   "paths": {

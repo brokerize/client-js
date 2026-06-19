@@ -186,6 +186,8 @@ models/OrderCostEstimation.ts
 models/OrderCreate.ts
 models/OrderExecution.ts
 models/OrderExtension.ts
+models/OrderFormLegalCheckbox.ts
+models/OrderFormLegalCheckboxConstraint.ts
 models/OrderIntent.ts
 models/OrderIntentAvailability.ts
 models/OrderModel.ts

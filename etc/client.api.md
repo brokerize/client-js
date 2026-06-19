@@ -1072,6 +1072,7 @@ interface GetQuoteParams {
     cashAccountId?: string;
     direction: Direction;
     isin: string;
+    legalCheckboxChecked?: boolean;
     sellPositionId?: string;
     size: number;
     sizeUnit?: string;
@@ -1349,7 +1350,9 @@ declare namespace Models {
         CheckRecoveryPhrase200Response,
         SyncHint,
         SyncHintAssumeOrderExecuted,
-        SyncHintManualReload
+        SyncHintManualReload,
+        OrderFormLegalCheckbox,
+        OrderFormLegalCheckboxConstraint
     }
 }
 export { Models }
@@ -1466,6 +1469,7 @@ interface OrderCreate {
     // Warning: (ae-forgotten-export) The symbol "OrderCreateIntentEnum" needs to be exported by the entry point index.d.ts
     intent?: OrderCreateIntentEnum;
     isin: string;
+    legalCheckboxChecked?: boolean;
     limit?: number;
     limitCurrencyIso?: string;
     orderExtension?: OrderExtension;
@@ -1512,6 +1516,20 @@ const OrderExtension: {
 
 // @public (undocumented)
 type OrderExtension = (typeof OrderExtension)[keyof typeof OrderExtension];
+
+// @public
+interface OrderFormLegalCheckbox {
+    constraints: Array<OrderFormLegalCheckboxConstraint>;
+    defaultChecked: boolean;
+    text: string;
+}
+
+// @public
+interface OrderFormLegalCheckboxConstraint {
+    directions?: Array<Direction>;
+    exchangeIds?: Array<string>;
+    orderModels?: Array<OrderModel>;
+}
 
 // @public
 const OrderIntent: {
@@ -1751,6 +1769,7 @@ interface PreparedTrade {
     costEstimationIsOnlyDetailedTable?: boolean;
     costEstimationMustBeShown: boolean;
     exchanges: Array<Exchange>;
+    legalCheckbox?: OrderFormLegalCheckbox;
     noExchangeDefault?: boolean;
     riskClassInfo?: RiskClassInfo;
     security: Security;

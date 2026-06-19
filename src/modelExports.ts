@@ -174,3 +174,5 @@ export { CheckRecoveryPhrase200Response } from "./swagger/models/CheckRecoveryPh
 export { SyncHint } from "./swagger/models/SyncHint";
 export { SyncHintAssumeOrderExecuted } from "./swagger/models/SyncHintAssumeOrderExecuted";
 export { SyncHintManualReload } from "./swagger/models/SyncHintManualReload";
+export { OrderFormLegalCheckbox } from "./swagger/models/OrderFormLegalCheckbox";
+export { OrderFormLegalCheckboxConstraint } from "./swagger/models/OrderFormLegalCheckboxConstraint";

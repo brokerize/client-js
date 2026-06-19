@@ -113,6 +113,14 @@ export interface OrderCreate {
    */
   isin: string;
   /**
+   * Whether the user checked the legal checkbox.
+   * Required if the preparedTrade's `legalCheckbox` has a constraint matching the
+   * current order values (send the selected value even if the user left it at the default).
+   * @type {boolean}
+   * @memberof OrderCreate
+   */
+  legalCheckboxChecked?: boolean;
+  /**
    * The limit of an order specifies a maximum (direction buy) or minimum (direction sell) value to execute the
    * order at.
    *
@@ -267,6 +275,9 @@ export function OrderCreateFromJSONTyped(
     ifDoneLimit: !exists(json, "ifDoneLimit") ? undefined : json["ifDoneLimit"],
     intent: !exists(json, "intent") ? undefined : json["intent"],
     isin: json["isin"],
+    legalCheckboxChecked: !exists(json, "legalCheckboxChecked")
+      ? undefined
+      : json["legalCheckboxChecked"],
     limit: !exists(json, "limit") ? undefined : json["limit"],
     limitCurrencyIso: !exists(json, "limitCurrencyIso")
       ? undefined
@@ -320,6 +331,7 @@ export function OrderCreateToJSONRecursive(
     ifDoneLimit: value.ifDoneLimit,
     intent: value.intent,
     isin: value.isin,
+    legalCheckboxChecked: value.legalCheckboxChecked,
     limit: value.limit,
     limitCurrencyIso: value.limitCurrencyIso,
     orderExtension: OrderExtensionToJSON(value.orderExtension),

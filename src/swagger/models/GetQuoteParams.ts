@@ -59,6 +59,14 @@ export interface GetQuoteParams {
    */
   isin: string;
   /**
+   * Whether the user checked the legal checkbox.
+   * Required if the preparedTrade's `legalCheckbox` has a constraint matching the
+   * current order values (send the selected value even if the user left it at the default).
+   * @type {boolean}
+   * @memberof GetQuoteParams
+   */
+  legalCheckboxChecked?: boolean;
+  /**
    * If a list of sellPositions has been provided in `PrepareTrade`, this must contain the selected position id to sell from
    * @type {string}
    * @memberof GetQuoteParams
@@ -99,6 +107,9 @@ export function GetQuoteParamsFromJSONTyped(
       : json["cashAccountId"],
     direction: DirectionFromJSON(json["direction"]),
     isin: json["isin"],
+    legalCheckboxChecked: !exists(json, "legalCheckboxChecked")
+      ? undefined
+      : json["legalCheckboxChecked"],
     sellPositionId: !exists(json, "sellPositionId")
       ? undefined
       : json["sellPositionId"],
@@ -124,6 +135,7 @@ export function GetQuoteParamsToJSONRecursive(
     cashAccountId: value.cashAccountId,
     direction: DirectionToJSON(value.direction),
     isin: value.isin,
+    legalCheckboxChecked: value.legalCheckboxChecked,
     sellPositionId: value.sellPositionId,
     size: value.size,
     sizeUnit: value.sizeUnit,

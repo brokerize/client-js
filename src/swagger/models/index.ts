@@ -171,6 +171,8 @@ export * from "./OrderCostEstimation";
 export * from "./OrderCreate";
 export * from "./OrderExecution";
 export * from "./OrderExtension";
+export * from "./OrderFormLegalCheckbox";
+export * from "./OrderFormLegalCheckboxConstraint";
 export * from "./OrderIntent";
 export * from "./OrderIntentAvailability";
 export * from "./OrderModel";

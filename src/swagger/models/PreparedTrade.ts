@@ -19,6 +19,12 @@ import {
   ExchangeToJSON,
 } from "./Exchange";
 import {
+  OrderFormLegalCheckbox,
+  OrderFormLegalCheckboxFromJSON,
+  OrderFormLegalCheckboxFromJSONTyped,
+  OrderFormLegalCheckboxToJSON,
+} from "./OrderFormLegalCheckbox";
+import {
   OrderIntentAvailability,
   OrderIntentAvailabilityFromJSON,
   OrderIntentAvailabilityFromJSONTyped,
@@ -96,7 +102,7 @@ export interface PreparedTrade {
    * (hence the flag name). However, in modern usage, `costDetailsLink` may be present instead.
    *
    * In that case, clients can render an action such as "Show detailed costs," which then loads the cost
-   * estimartion and either displays the `detailedTable` or navigates to the `costDetailsLink` URL.
+   * estimation and either displays the `detailedTable` or navigates to the `costDetailsLink` URL.
    * @type {boolean}
    * @memberof PreparedTrade
    */
@@ -114,6 +120,12 @@ export interface PreparedTrade {
    * @memberof PreparedTrade
    */
   exchanges: Array<Exchange>;
+  /**
+   *
+   * @type {OrderFormLegalCheckbox}
+   * @memberof PreparedTrade
+   */
+  legalCheckbox?: OrderFormLegalCheckbox;
   /**
    * If this is true, frontends are not allowed to set an exchange default. Users must select an exchange explicitly.
    * @type {boolean}
@@ -230,6 +242,9 @@ export function PreparedTradeFromJSONTyped(
       : json["costEstimationIsOnlyDetailedTable"],
     costEstimationMustBeShown: json["costEstimationMustBeShown"],
     exchanges: (json["exchanges"] as Array<any>).map(ExchangeFromJSON),
+    legalCheckbox: !exists(json, "legalCheckbox")
+      ? undefined
+      : OrderFormLegalCheckboxFromJSON(json["legalCheckbox"]),
     noExchangeDefault: !exists(json, "noExchangeDefault")
       ? undefined
       : json["noExchangeDefault"],
@@ -285,6 +300,7 @@ export function PreparedTradeToJSONRecursive(
     costEstimationIsOnlyDetailedTable: value.costEstimationIsOnlyDetailedTable,
     costEstimationMustBeShown: value.costEstimationMustBeShown,
     exchanges: (value.exchanges as Array<any>).map(ExchangeToJSON),
+    legalCheckbox: OrderFormLegalCheckboxToJSON(value.legalCheckbox),
     noExchangeDefault: value.noExchangeDefault,
     riskClassInfo: RiskClassInfoToJSON(value.riskClassInfo),
     security: SecurityToJSON(value.security),
