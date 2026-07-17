@@ -12,6 +12,7 @@ import {
   GuestAuthContextConfiguration,
   RegisteredUserAuthContextConfiguration,
   TokenSet,
+  withAcceptLanguage,
 } from "./apiCtx";
 import {
   AuthorizedApiContext,
@@ -108,10 +109,10 @@ export class Brokerize {
   ): Promise<GuestAuthContextConfiguration> {
     const response = await fetch(this._cfg.basePath + "/user/token", {
       method: "POST",
-      headers: {
+      headers: await withAcceptLanguage(this._cfg, {
         "x-brkrz-client-id": this._cfg.clientId,
         "Content-Type": "application/x-www-form-urlencoded",
-      },
+      }),
       // XXX some runtimes do not have URLSearchParams, so just produce the body in the old-fashioned way
       body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(
         refreshToken,
@@ -159,10 +160,10 @@ export class Brokerize {
   async createGuestUser(): Promise<AuthContextConfiguration> {
     const updatedAt = Date.now();
     const user = await this._userApi.createGuestUser({
-      headers: {
+      headers: await withAcceptLanguage(this._cfg, {
         "x-brkrz-client-id": this._cfg.clientId,
         "Content-Type": "application/json",
-      },
+      }),
     });
     return {
       type: "guest",
@@ -218,16 +219,16 @@ export class Brokerize {
     });
   }
 
-  checkRecoveryPhrase(recoveryPhrase: string) {
+  async checkRecoveryPhrase(recoveryPhrase: string) {
     return this._userApi.checkRecoveryPhrase(
       {
         obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
       },
       {
-        headers: {
+        headers: await withAcceptLanguage(this._cfg, {
           "x-brkrz-client-id": this._cfg.clientId,
           "Content-Type": "application/json",
-        },
+        }),
       },
     );
   }
@@ -240,10 +241,10 @@ export class Brokerize {
         obtainTokenByRecoveryPhraseParams: { recoveryPhrase },
       },
       {
-        headers: {
+        headers: await withAcceptLanguage(this._cfg, {
           "x-brkrz-client-id": this._cfg.clientId,
           "Content-Type": "application/json",
-        },
+        }),
       },
     );
 

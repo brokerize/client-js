@@ -20,6 +20,9 @@ async function someBrokerizeActions() {
     createWebSocket: (url, protocol) => new WebSocket(url, protocol),
     // basePath: 'https://api-preview.brokerize.com', // this is the default value
     // basePathCryptoService: 'https://crypto-service-api.com' // the optional external crypto service
+    // acceptLanguage: 'de', // optional `Accept-Language` header for localized responses (e.g. legal terms).
+    //                       // may also be a function `() => 'de'` that is evaluated on every request,
+    //                       // so runtime language changes are picked up without recreating the client.
   })
 
   /* create a guest user. the result contains the user's tokens and be stored, e.g. in a cookie or session storage */
