@@ -22,6 +22,50 @@ export interface BrokerizeConfig {
    * The AWS cognito configuration, if the application is supposed to be used with brokerize accounts.
    */
   cognito?: CognitoConfig;
+  /**
+   * Optional value for the `Accept-Language` header sent with API requests. Use this to request
+   * localized backend responses (e.g. legal terms) in the language selected in your application,
+   * overriding the language the browser would send by default.
+   *
+   * Accepts a static value (e.g. `"de"`, `"en"`, `"de-DE"`) or a function that returns the current
+   * language. The function is evaluated on every request, so runtime language changes are picked up
+   * without recreating the client. Return `undefined`/`null` (or provide no value) to omit the
+   * header and let the runtime/browser default apply.
+   */
+  acceptLanguage?:
+    | string
+    | (() => string | null | undefined | Promise<string | null | undefined>);
+}
+
+/**
+ * Resolves the configured `Accept-Language` value (static or via a getter function) to a string,
+ * or `undefined` if none is configured / the getter yields an empty value.
+ */
+export async function resolveAcceptLanguage(
+  cfg: BrokerizeConfig,
+): Promise<string | undefined> {
+  const { acceptLanguage } = cfg;
+  const value =
+    typeof acceptLanguage === "function"
+      ? await acceptLanguage()
+      : acceptLanguage;
+  return value || undefined;
+}
+
+/**
+ * Adds the configured `Accept-Language` header to the given headers object (mutating and returning
+ * it) if a language is configured. No-op otherwise. Used to apply the configured language uniformly
+ * to authorized and unauthenticated requests.
+ */
+export async function withAcceptLanguage(
+  cfg: BrokerizeConfig,
+  headers: Record<string, string>,
+): Promise<Record<string, string>> {
+  const acceptLanguage = await resolveAcceptLanguage(cfg);
+  if (acceptLanguage) {
+    headers["Accept-Language"] = acceptLanguage;
+  }
+  return headers;
 }
 
 export type AuthContextConfiguration =
@@ -102,10 +146,10 @@ export function createAuth({
             }
             const response = await fetch(cfg.basePath + "/user/token", {
               method: "POST",
-              headers: {
+              headers: await withAcceptLanguage(cfg, {
                 "x-brkrz-client-id": cfg.clientId,
                 "Content-Type": "application/x-www-form-urlencoded",
-              },
+              }),
               // XXX some runtimes do not have URLSearchParams, so just produce the body in the old-fashioned way
               body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(
                 guestAuthCfg.tokens.response.refreshToken,

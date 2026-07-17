@@ -1,5 +1,10 @@
 import { Subject } from "rxjs";
-import { Auth, BrokerizeConfig, createConfiguration } from "./apiCtx";
+import {
+  Auth,
+  BrokerizeConfig,
+  createConfiguration,
+  withAcceptLanguage,
+} from "./apiCtx";
 import { BrokerizeError } from "./errors";
 import { createPollingSubscription } from "./pollingSubscription";
 import * as openApiClient from "./swagger";
@@ -171,13 +176,14 @@ export class AuthorizedApiContext {
       throw new Error("AuthorizedApiContext is destroyed");
     }
     const tok = await this._auth.getToken();
+    const headers = await withAcceptLanguage(this._cfg, {
+      "x-brkrz-client-id": this._cfg.clientId,
+      Authorization: "Bearer " + tok.idToken,
+      "Content-Type": "application/json",
+    });
     return {
       signal: this._abortController.signal,
-      headers: {
-        "x-brkrz-client-id": this._cfg.clientId,
-        Authorization: "Bearer " + tok.idToken,
-        "Content-Type": "application/json",
-      },
+      headers,
     };
   }
   async getBrokers() {
