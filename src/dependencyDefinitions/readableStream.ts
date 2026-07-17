@@ -86,8 +86,7 @@ interface ReadableStreamDefaultReader<R = any> {
 }
 
 type ReadableStreamReadResult<T> =
-  | ReadableStreamReadValueResult<T>
-  | ReadableStreamReadDoneResult<T>;
+  ReadableStreamReadValueResult<T> | ReadableStreamReadDoneResult<T>;
 
 interface ReadableStreamReadDoneResult<T> {
   done: true;

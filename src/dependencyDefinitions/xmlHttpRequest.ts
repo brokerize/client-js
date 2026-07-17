@@ -308,8 +308,7 @@ interface EventListenerOptions {
 }
 
 declare type EventListenerOrEventListenerObject =
-  | EventListener
-  | EventListenerObject;
+  EventListener | EventListenerObject;
 type BodyInit = any;
 
 interface EventListener {
@@ -325,9 +324,4 @@ interface XMLHttpRequestEventMap extends XMLHttpRequestEventTargetEventMap {
 }
 
 type XMLHttpRequestResponseType =
-  | ""
-  | "arraybuffer"
-  | "blob"
-  | "document"
-  | "json"
-  | "text";
+  "" | "arraybuffer" | "blob" | "document" | "json" | "text";

@@ -19,8 +19,7 @@ export type WebSocketCommandUnsubscribe = {
 };
 
 export type WebSocketCommandSubscribe =
-  | (InvalidateBase & SubscribeInvalidateDetails)
-  | SubscribeDecoupledOperation;
+  (InvalidateBase & SubscribeInvalidateDetails) | SubscribeDecoupledOperation;
 
 type InvalidateBase = {
   cmd: "subscribe";
@@ -29,9 +28,7 @@ type InvalidateBase = {
 };
 
 export type SubscribeInvalidateDetails =
-  | SubscribeSessions
-  | SubscribePositions
-  | SubscribeOrders;
+  SubscribeSessions | SubscribePositions | SubscribeOrders;
 
 type SubscribeSessions = {
   entity: "sessions";
@@ -64,12 +61,10 @@ export type WebSocketMessage =
   | WebSocketPingMessage;
 
 export type WebSocketSubscriptionMessage =
-  | WebSocketMessageErrorOnSubscription
-  | WebSocketSubscriptionSuccessfulMessage;
+  WebSocketMessageErrorOnSubscription | WebSocketSubscriptionSuccessfulMessage;
 
 export type WebSocketSubscriptionSuccessfulMessage =
-  | InvalidateMessage
-  | UpdateDecoupledOperationMessage;
+  InvalidateMessage | UpdateDecoupledOperationMessage;
 
 export type WebSocketAuthenticatedMessage = {
   cmd: "authenticated";
