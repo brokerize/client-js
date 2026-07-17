@@ -69,8 +69,7 @@ export async function withAcceptLanguage(
 }
 
 export type AuthContextConfiguration =
-  | GuestAuthContextConfiguration
-  | RegisteredUserAuthContextConfiguration;
+  GuestAuthContextConfiguration | RegisteredUserAuthContextConfiguration;
 
 export type RegisteredUserAuthContextConfiguration = {
   type: "registered";

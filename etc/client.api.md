@@ -348,6 +348,7 @@ export class Brokerize {
 
 // @public (undocumented)
 export interface BrokerizeConfig {
+    acceptLanguage?: string | (() => string | null | undefined | Promise<string | null | undefined>);
     basePath?: string;
     basePathCryptoService?: string;
     // (undocumented)

@@ -221,9 +221,4 @@ export declare interface Response extends Body {
 }
 
 declare type ResponseType =
-  | "basic"
-  | "cors"
-  | "default"
-  | "error"
-  | "opaque"
-  | "opaqueredirect";
+  "basic" | "cors" | "default" | "error" | "opaque" | "opaqueredirect";

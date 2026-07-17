@@ -68,8 +68,7 @@ export type WhatWgWebSocket = {
 };
 
 export declare type EventListenerOrEventListenerObject =
-  | EventListener
-  | EventListenerObject;
+  EventListener | EventListenerObject;
 
 export declare interface EventListener {
   (evt: Event): void;
