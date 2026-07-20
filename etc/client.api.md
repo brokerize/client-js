@@ -1306,6 +1306,7 @@ declare namespace Models {
         Position,
         PositionValuation,
         PrepareOAuthRedirectParams,
+        PrepareOAuthRedirectParamsAppearanceEnum,
         PrepareOAuthRedirectResponse,
         PrepareTradeResponse,
         PreparedTrade,
@@ -1791,10 +1792,20 @@ interface PreparedTrade {
 
 // @public
 interface PrepareOAuthRedirectParams {
+    appearance?: PrepareOAuthRedirectParamsAppearanceEnum;
     brokerName: string;
     env: string;
     returnToUrl: string;
 }
+
+// @public (undocumented)
+const PrepareOAuthRedirectParamsAppearanceEnum: {
+    readonly Light: "light";
+    readonly Dark: "dark";
+};
+
+// @public (undocumented)
+type PrepareOAuthRedirectParamsAppearanceEnum = (typeof PrepareOAuthRedirectParamsAppearanceEnum)[keyof typeof PrepareOAuthRedirectParamsAppearanceEnum];
 
 // @public
 interface PrepareOAuthRedirectResponse {

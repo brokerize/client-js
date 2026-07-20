@@ -3432,6 +3432,11 @@
       },
       "PrepareOAuthRedirectParams": {
         "properties": {
+          "appearance": {
+            "description": "Preferred appearance for login screens. Note that this can only be set explicitly for some selected brokers.\nIf the broker does not support it, this is silently ignored and the default broker appearance is used.",
+            "enum": ["light", "dark"],
+            "type": "string"
+          },
           "brokerName": {
             "$ref": "#/components/schemas/BrokerName"
           },
@@ -4610,7 +4615,7 @@
     "contact": {},
     "description": "The brokerize multi brokerage API. For high-level documentation, visit https://developer.brokerize.com/docs/api",
     "title": "brokerize",
-    "version": "1.11.0"
+    "version": "1.12.0"
   },
   "openapi": "3.0.0",
   "paths": {

@@ -126,6 +126,7 @@ export { PortfoliosResponse } from "./swagger/models/PortfoliosResponse";
 export { Position } from "./swagger/models/Position";
 export { PositionValuation } from "./swagger/models/PositionValuation";
 export { PrepareOAuthRedirectParams } from "./swagger/models/PrepareOAuthRedirectParams";
+export { PrepareOAuthRedirectParamsAppearanceEnum } from "./swagger/models/PrepareOAuthRedirectParams";
 export { PrepareOAuthRedirectResponse } from "./swagger/models/PrepareOAuthRedirectResponse";
 export { PrepareTradeResponse } from "./swagger/models/PrepareTradeResponse";
 export { PreparedTrade } from "./swagger/models/PreparedTrade";

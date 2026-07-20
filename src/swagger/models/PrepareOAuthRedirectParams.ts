@@ -19,6 +19,13 @@ import { exists, mapValues } from "../runtime";
  */
 export interface PrepareOAuthRedirectParams {
   /**
+   * Preferred appearance for login screens. Note that this can only be set explicitly for some selected brokers.
+   * If the broker does not support it, this is silently ignored and the default broker appearance is used.
+   * @type {string}
+   * @memberof PrepareOAuthRedirectParams
+   */
+  appearance?: PrepareOAuthRedirectParamsAppearanceEnum;
+  /**
    *
    * @type {string}
    * @memberof PrepareOAuthRedirectParams
@@ -38,6 +45,16 @@ export interface PrepareOAuthRedirectParams {
   returnToUrl: string;
 }
 
+/**
+ * @export
+ */
+export const PrepareOAuthRedirectParamsAppearanceEnum = {
+  Light: "light",
+  Dark: "dark",
+} as const;
+export type PrepareOAuthRedirectParamsAppearanceEnum =
+  (typeof PrepareOAuthRedirectParamsAppearanceEnum)[keyof typeof PrepareOAuthRedirectParamsAppearanceEnum];
+
 export function PrepareOAuthRedirectParamsFromJSON(
   json: any,
 ): PrepareOAuthRedirectParams {
@@ -52,6 +69,7 @@ export function PrepareOAuthRedirectParamsFromJSONTyped(
     return json;
   }
   return {
+    appearance: !exists(json, "appearance") ? undefined : json["appearance"],
     brokerName: json["brokerName"],
     env: json["env"],
     returnToUrl: json["returnToUrl"],
@@ -70,6 +88,7 @@ export function PrepareOAuthRedirectParamsToJSONRecursive(
   }
 
   return {
+    appearance: value.appearance,
     brokerName: value.brokerName,
     env: value.env,
     returnToUrl: value.returnToUrl,
