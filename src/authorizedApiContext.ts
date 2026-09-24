@@ -5,7 +5,7 @@ import {
   createConfiguration,
   withAcceptLanguage,
 } from "./apiCtx";
-import { BrokerizeError } from "./errors";
+import { createErrorFromResponse } from "./errors";
 import { createPollingSubscription } from "./pollingSubscription";
 import * as openApiClient from "./swagger";
 import {
@@ -15,7 +15,6 @@ import {
   CreateTradeRequest,
   DeleteDemoAccountRequest,
   DemoAccountSettings,
-  ErrorResponse,
   GenericTable,
   GetCostEstimationParams,
   GetQuoteRequest,
@@ -86,8 +85,7 @@ export class AuthorizedApiContext {
     ): Promise<void> => {
       const statusCode = r.response.status;
       if (statusCode >= 400) {
-        const decJson = (await r.response.json()) as ErrorResponse;
-        const err = new BrokerizeError(statusCode, decJson);
+        const err = await createErrorFromResponse(r.response);
         if (statusCode == 401) {
           this._logoutSubject.error(err);
         }
