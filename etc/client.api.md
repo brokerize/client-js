@@ -1346,6 +1346,7 @@ declare namespace Models {
         OrderIntentAvailability,
         SummarizedTrade,
         TradeWarning,
+        TradeWarningReason,
         GetPortfolioTradesResponse,
         GetPortfolioTradeStatisticsResponse,
         TradeStatisticsItem,
@@ -2121,11 +2122,24 @@ interface TradeStatisticsItem {
 interface TradeWarning {
     fromDate?: string;
     message: string;
-    // Warning: (ae-forgotten-export) The symbol "TradeWarningReason" needs to be exported by the entry point index.d.ts
     reason: TradeWarningReason;
     security?: Security;
     toDate?: string;
 }
+
+// @public
+const TradeWarningReason: {
+    readonly ExecutionsWithoutTimestamp: "executionsWithoutTimestamp";
+    readonly InconsistentOrderHistory: "inconsistentOrderHistory";
+    readonly PositionNotFullyExplained: "positionNotFullyExplained";
+    readonly MissingEodPrice: "missingEodPrice";
+    readonly MissingFxRate: "missingFxRate";
+    readonly UnknownBuyPrice: "unknownBuyPrice";
+    readonly RealizedPnlUnavailable: "realizedPnlUnavailable";
+};
+
+// @public (undocumented)
+type TradeWarningReason = (typeof TradeWarningReason)[keyof typeof TradeWarningReason];
 
 // @public
 interface TrailingDistance {
