@@ -247,6 +247,7 @@ models/SessionSyncInfoSyncedAllOf.ts
 models/SessionSyncInfoSyncedSpecifics.ts
 models/SetClientConfigRequest.ts
 models/SizeUnitConstraint.ts
+models/SmartbrokerClientCfg.ts
 models/StringMapByOrderModel.ts
 models/SummarizedTrade.ts
 models/SyncError.ts
@@ -273,6 +274,7 @@ models/TradeStatisticsDateRange.ts
 models/TradeStatisticsHoldingPeriodInDays.ts
 models/TradeStatisticsItem.ts
 models/TradeWarning.ts
+models/TradeWarningReason.ts
 models/TradingSessionLifetime.ts
 models/TrailingDistance.ts
 models/TriggerSync200Response.ts

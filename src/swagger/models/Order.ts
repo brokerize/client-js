@@ -152,7 +152,14 @@ export interface Order {
    */
   bondCurrencyIso?: string;
   /**
+   * The id of the exchange, as defined by the *broker*.
    *
+   * When reading an order this **can be an empty string**: not every order is traded on an exchange -- a securities
+   * account transfer, for example, is booked into or out of the custody account and has no trading venue, so the
+   * broker reports no exchange for it. Clients must handle the empty string.
+   *
+   * Note that this field will become optional in a future version of the API, so clients should not rely on it
+   * being present at all. For creating an order it stays required, see `OrderCreate`.
    * @type {string}
    * @memberof Order
    */
@@ -236,7 +243,8 @@ export interface Order {
    */
   exchangeName?: string;
   /**
-   * For fully executed orders: the timestamp of the *latest* execution.
+   * For orders with at least one execution (`executed`, `open_executed`, `canceled_executed`):
+   * the timestamp of the *latest* execution.
    * @type {Date}
    * @memberof Order
    */

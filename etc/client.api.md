@@ -421,6 +421,7 @@ interface BrokerMeta {
     features: BrokerMetaFeatures;
     images: BrokerMetaImages;
     loginForm?: BrokerLoginForm;
+    supportedExchangeIds: Array<number>;
     supportsOAuthLogin?: boolean;
 }
 
@@ -2017,6 +2018,7 @@ export type Subscription = {
 interface SummarizedTrade {
     closeAvgQuotation: Amount;
     closeDateTime: Date;
+    closedByKnockOut?: boolean;
     details: string;
     fees?: Amount;
     id: string;
@@ -2117,7 +2119,12 @@ interface TradeStatisticsItem {
 
 // @public
 interface TradeWarning {
+    fromDate?: string;
     message: string;
+    // Warning: (ae-forgotten-export) The symbol "TradeWarningReason" needs to be exported by the entry point index.d.ts
+    reason: TradeWarningReason;
+    security?: Security;
+    toDate?: string;
 }
 
 // @public

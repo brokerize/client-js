@@ -44,6 +44,20 @@ export interface SummarizedTrade {
    */
   closeDateTime: Date;
   /**
+   * True if this trade was not closed by a sale but by the instrument being booked out — it knocked
+   * out or expired, and the issuer removed the position from the depot without a sell order ever
+   * reaching the order archive.
+   *
+   * The closing execution is therefore synthetic: brokerize derives it from the knock-out date and
+   * prices it with the instrument's closing price on that day (0 where none is known, which is the
+   * floor rather than a claim — the issuer's buy-back, if there was one, is not in the archive). The
+   * P/L is otherwise computed exactly like any other trade's, FIFO-matched against the position's own
+   * buys. Absent on an ordinary trade.
+   * @type {boolean}
+   * @memberof SummarizedTrade
+   */
+  closedByKnockOut?: boolean;
+  /**
    *
    * @type {string}
    * @memberof SummarizedTrade
@@ -143,6 +157,9 @@ export function SummarizedTradeFromJSONTyped(
   return {
     closeAvgQuotation: AmountFromJSON(json["closeAvgQuotation"]),
     closeDateTime: new Date(json["closeDateTime"]),
+    closedByKnockOut: !exists(json, "closedByKnockOut")
+      ? undefined
+      : json["closedByKnockOut"],
     details: json["details"],
     fees: !exists(json, "fees") ? undefined : AmountFromJSON(json["fees"]),
     id: json["id"],
@@ -182,6 +199,7 @@ export function SummarizedTradeToJSONRecursive(
   return {
     closeAvgQuotation: AmountToJSON(value.closeAvgQuotation),
     closeDateTime: value.closeDateTime.toISOString(),
+    closedByKnockOut: value.closedByKnockOut,
     details: value.details,
     fees: AmountToJSON(value.fees),
     id: value.id,

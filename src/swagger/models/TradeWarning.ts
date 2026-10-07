@@ -12,6 +12,19 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  Security,
+  SecurityFromJSON,
+  SecurityFromJSONTyped,
+  SecurityToJSON,
+} from "./Security";
+import {
+  TradeWarningReason,
+  TradeWarningReasonFromJSON,
+  TradeWarningReasonFromJSONTyped,
+  TradeWarningReasonToJSON,
+} from "./TradeWarningReason";
+
 /**
  *
  * @export
@@ -19,11 +32,39 @@ import { exists, mapValues } from "../runtime";
  */
 export interface TradeWarning {
   /**
-   *
+   * Date in the format YYYY-MM-DD for validityType: 'GTD'
+   * Date in the format Date ISO string YYYY-MM-DDThh:mm:ss.fffZ for validityType: 'GTDT'
+   * @type {string}
+   * @memberof TradeWarning
+   */
+  fromDate?: string;
+  /**
+   * Human-readable description, currently German or English depending on where it originates. Meant
+   * as a fallback for displaying something at all — a client that knows `reason` should build its
+   * own text from the structured fields instead.
    * @type {string}
    * @memberof TradeWarning
    */
   message: string;
+  /**
+   *
+   * @type {TradeWarningReason}
+   * @memberof TradeWarning
+   */
+  reason: TradeWarningReason;
+  /**
+   *
+   * @type {Security}
+   * @memberof TradeWarning
+   */
+  security?: Security;
+  /**
+   * Date in the format YYYY-MM-DD for validityType: 'GTD'
+   * Date in the format Date ISO string YYYY-MM-DDThh:mm:ss.fffZ for validityType: 'GTDT'
+   * @type {string}
+   * @memberof TradeWarning
+   */
+  toDate?: string;
 }
 
 export function TradeWarningFromJSON(json: any): TradeWarning {
@@ -38,7 +79,13 @@ export function TradeWarningFromJSONTyped(
     return json;
   }
   return {
+    fromDate: !exists(json, "fromDate") ? undefined : json["fromDate"],
     message: json["message"],
+    reason: TradeWarningReasonFromJSON(json["reason"]),
+    security: !exists(json, "security")
+      ? undefined
+      : SecurityFromJSON(json["security"]),
+    toDate: !exists(json, "toDate") ? undefined : json["toDate"],
   };
 }
 
@@ -54,7 +101,11 @@ export function TradeWarningToJSONRecursive(
   }
 
   return {
+    fromDate: value.fromDate,
     message: value.message,
+    reason: TradeWarningReasonToJSON(value.reason),
+    security: SecurityToJSON(value.security),
+    toDate: value.toDate,
   };
 }
 

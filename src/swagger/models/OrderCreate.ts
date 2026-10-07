@@ -56,7 +56,8 @@ import {
  */
 export interface OrderCreate {
   /**
-   *
+   * The id of the exchange, as defined by the *broker*. Always required to create an order, and never empty --
+   * unlike when reading an order, where the broker may report no exchange (see `OrderBase.brokerExchangeId`).
    * @type {string}
    * @memberof OrderCreate
    */

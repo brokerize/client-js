@@ -44,13 +44,22 @@ export interface ClientConfigUpdateOAuthLoginForm {
    */
   logoUrlLight?: string;
   /**
+   * How the browser is sent back to the `returnTo` URL after a successful broker login.
    *
+   * `meta`, `js` and `link` render the interstitial callback screen and redirect from there (via a
+   * meta refresh, via JavaScript, or by revealing a link the user clicks). `http` skips the screen
+   * and answers the callback with a plain HTTP 302 instead.
+   *
+   * `http` only applies to `http`/`https` `returnTo` URLs. A `returnTo` in a custom app scheme
+   * still gets the interstitial, because browsers handle a 302 into an app scheme inconsistently.
+   *
+   * Default is `meta`.
    * @type {string}
    * @memberof ClientConfigUpdateOAuthLoginForm
    */
   redirectStyle?: ClientConfigUpdateOAuthLoginFormRedirectStyleEnum;
   /**
-   *
+   * Overrides `redirectStyle` for logins at bitpanda.
    * @type {string}
    * @memberof ClientConfigUpdateOAuthLoginForm
    */
@@ -64,6 +73,7 @@ export const ClientConfigUpdateOAuthLoginFormRedirectStyleEnum = {
   Meta: "meta",
   Js: "js",
   Link: "link",
+  Http: "http",
 } as const;
 export type ClientConfigUpdateOAuthLoginFormRedirectStyleEnum =
   (typeof ClientConfigUpdateOAuthLoginFormRedirectStyleEnum)[keyof typeof ClientConfigUpdateOAuthLoginFormRedirectStyleEnum];
@@ -75,6 +85,7 @@ export const ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum = {
   Meta: "meta",
   Js: "js",
   Link: "link",
+  Http: "http",
 } as const;
 export type ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum =
   (typeof ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum)[keyof typeof ClientConfigUpdateOAuthLoginFormRedirectStyleBitpandaEnum];

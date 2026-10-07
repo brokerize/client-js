@@ -87,6 +87,21 @@ export interface BrokerMeta {
    */
   loginForm?: BrokerLoginForm;
   /**
+   * All brokerize exchange ids this broker's exchanges are mapped to, ascending. Use it to tell
+   * upfront which brokers may be relevant for a given exchange, e.g. to preselect brokers for a
+   * security that is traded there.
+   *
+   * This is a static, broker-wide list: it means that brokerize knows how to translate between
+   * this broker's exchanges and the listed ids, not that every security can be traded at every
+   * one of them. The authoritative, security-specific list of tradable exchanges remains the
+   * `exchanges` field of a prepared trade.
+   *
+   * Every id is contained in the `GetExchanges` response, so it can always be resolved to a name.
+   * @type {Array<number>}
+   * @memberof BrokerMeta
+   */
+  supportedExchangeIds: Array<number>;
+  /**
    * If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.
    * @type {boolean}
    * @memberof BrokerMeta
@@ -115,6 +130,7 @@ export function BrokerMetaFromJSONTyped(
     loginForm: !exists(json, "loginForm")
       ? undefined
       : BrokerLoginFormFromJSON(json["loginForm"]),
+    supportedExchangeIds: json["supportedExchangeIds"],
     supportsOAuthLogin: !exists(json, "supportsOAuthLogin")
       ? undefined
       : json["supportsOAuthLogin"],
@@ -140,6 +156,7 @@ export function BrokerMetaToJSONRecursive(
     features: BrokerMetaFeaturesToJSON(value.features),
     images: BrokerMetaImagesToJSON(value.images),
     loginForm: BrokerLoginFormToJSON(value.loginForm),
+    supportedExchangeIds: value.supportedExchangeIds,
     supportsOAuthLogin: value.supportsOAuthLogin,
   };
 }

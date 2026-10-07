@@ -162,6 +162,7 @@ export { OrderIntent } from "./swagger/models/OrderIntent";
 export { OrderIntentAvailability } from "./swagger/models/OrderIntentAvailability";
 export { SummarizedTrade } from "./swagger/models/SummarizedTrade";
 export { TradeWarning } from "./swagger/models/TradeWarning";
+export { TradeWarningReason } from "./swagger/models/TradeWarningReason";
 export { GetPortfolioTradesResponse } from "./swagger/models/GetPortfolioTradesResponse";
 export { GetPortfolioTradeStatisticsResponse } from "./swagger/models/GetPortfolioTradeStatisticsResponse";
 export { TradeStatisticsItem } from "./swagger/models/TradeStatisticsItem";

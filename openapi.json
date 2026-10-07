@@ -298,6 +298,9 @@
           },
           "coinbase": {
             "$ref": "#/components/schemas/CoinbaseClientCfg"
+          },
+          "smartbroker": {
+            "$ref": "#/components/schemas/SmartbrokerClientCfg"
           }
         },
         "type": "object"
@@ -421,6 +424,14 @@
           "loginForm": {
             "$ref": "#/components/schemas/BrokerLoginForm"
           },
+          "supportedExchangeIds": {
+            "description": "All brokerize exchange ids this broker's exchanges are mapped to, ascending. Use it to tell\nupfront which brokers may be relevant for a given exchange, e.g. to preselect brokers for a\nsecurity that is traded there.\n\nThis is a static, broker-wide list: it means that brokerize knows how to translate between\nthis broker's exchanges and the listed ids, not that every security can be traded at every\none of them. The authoritative, security-specific list of tradable exchanges remains the\n`exchanges` field of a prepared trade.\n\nEvery id is contained in the `GetExchanges` response, so it can always be resolved to a name.",
+            "items": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "type": "array"
+          },
           "supportsOAuthLogin": {
             "description": "If true, the user can login at the broker via OAuth (this involves browser redirects). Use `prepareOAuthRedirect` to obtain a URL to redirect to.",
             "type": "boolean"
@@ -428,6 +439,7 @@
         },
         "required": [
           "features",
+          "supportedExchangeIds",
           "images",
           "displayName",
           "envLabel",
@@ -2252,11 +2264,13 @@
             "type": "string"
           },
           "redirectStyle": {
-            "enum": ["meta", "js", "link"],
+            "description": "How the browser is sent back to the `returnTo` URL after a successful broker login.\n\n`meta`, `js` and `link` render the interstitial callback screen and redirect from there (via a\nmeta refresh, via JavaScript, or by revealing a link the user clicks). `http` skips the screen\nand answers the callback with a plain HTTP 302 instead.\n\n`http` only applies to `http`/`https` `returnTo` URLs. A `returnTo` in a custom app scheme\nstill gets the interstitial, because browsers handle a 302 into an app scheme inconsistently.\n\nDefault is `meta`.",
+            "enum": ["meta", "js", "link", "http"],
             "type": "string"
           },
           "redirectStyleBitpanda": {
-            "enum": ["meta", "js", "link"],
+            "description": "Overrides `redirectStyle` for logins at bitpanda.",
+            "enum": ["meta", "js", "link", "http"],
             "type": "string"
           }
         },
@@ -2334,6 +2348,7 @@
             "type": "string"
           },
           "brokerExchangeId": {
+            "description": "The id of the exchange, as defined by the *broker*.\n\nWhen reading an order this **can be an empty string**: not every order is traded on an exchange -- a securities\naccount transfer, for example, is booked into or out of the custody account and has no trading venue, so the\nbroker reports no exchange for it. Clients must handle the empty string.\n\nNote that this field will become optional in a future version of the API, so clients should not rely on it\nbeing present at all. For creating an order it stays required, see `OrderCreate`.",
             "type": "string"
           },
           "brokerSecurityId": {
@@ -2387,7 +2402,7 @@
             "type": "string"
           },
           "executedAt": {
-            "description": "For fully executed orders: the timestamp of the *latest* execution.",
+            "description": "For orders with at least one execution (`executed`, `open_executed`, `canceled_executed`):\nthe timestamp of the *latest* execution.",
             "format": "date-time",
             "type": "string"
           },
@@ -2645,6 +2660,7 @@
         "additionalProperties": false,
         "properties": {
           "brokerExchangeId": {
+            "description": "The id of the exchange, as defined by the *broker*. Always required to create an order, and never empty --\nunlike when reading an order, where the broker may report no exchange (see `OrderBase.brokerExchangeId`).",
             "type": "string"
           },
           "brokerSecurityId": {
@@ -3960,6 +3976,15 @@
         "required": ["sizeUnits"],
         "type": "object"
       },
+      "SmartbrokerClientCfg": {
+        "properties": {
+          "clientIdProd": {
+            "description": "If the client must use a different broker-provided clientId, it can be configured here.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "StringMapByOrderModel": {
         "additionalProperties": false,
         "properties": {
@@ -4010,6 +4035,10 @@
           "closeDateTime": {
             "format": "date-time",
             "type": "string"
+          },
+          "closedByKnockOut": {
+            "description": "True if this trade was not closed by a sale but by the instrument being booked out — it knocked\nout or expired, and the issuer removed the position from the depot without a sell order ever\nreaching the order archive.\n\nThe closing execution is therefore synthetic: brokerize derives it from the knock-out date and\nprices it with the instrument's closing price on that day (0 where none is known, which is the\nfloor rather than a claim — the issuer's buy-back, if there was one, is not in the archive). The\nP/L is otherwise computed exactly like any other trade's, FIFO-matched against the position's own\nbuys. Absent on an ordinary trade.",
+            "type": "boolean"
           },
           "details": {
             "type": "string"
@@ -4524,12 +4553,42 @@
       },
       "TradeWarning": {
         "properties": {
+          "fromDate": {
+            "$ref": "#/components/schemas/DateString",
+            "description": "First day (`YYYY-MM-DD`, Europe/Berlin) the warning applies to, where it is limited to a period —\nfor instance the first day a security had to be valued without a closing price. Absent when the\nwarning is not tied to a period, which means it applies to the whole result."
+          },
           "message": {
+            "description": "Human-readable description, currently German or English depending on where it originates. Meant\nas a fallback for displaying something at all — a client that knows `reason` should build its\nown text from the structured fields instead.",
             "type": "string"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/TradeWarningReason",
+            "description": "Machine-readable cause, so warnings can be grouped, translated or acted upon."
+          },
+          "security": {
+            "$ref": "#/components/schemas/Security",
+            "description": "The security the warning is about. Absent when it concerns the portfolio as a whole rather than\none instrument (e.g. `realizedPnlUnavailable`)."
+          },
+          "toDate": {
+            "$ref": "#/components/schemas/DateString",
+            "description": "Last day (`YYYY-MM-DD`, Europe/Berlin) the warning applies to; see `fromDate`."
           }
         },
-        "required": ["message"],
+        "required": ["reason", "message"],
         "type": "object"
+      },
+      "TradeWarningReason": {
+        "description": "Why a trade or portfolio-history computation could not give a complete answer. Clients switch on\nthis instead of parsing `TradeWarning.message`, which is free text and may change at any time.\n\n- `executionsWithoutTimestamp`: order executions carry no execution time, so they cannot be placed\n  on a timeline and were ignored altogether.\n- `inconsistentOrderHistory`: the executions of one security contradict each other or the reported\n  holding (more sold than ever bought, a quantity that goes negative). Nothing can be reconstructed\n  from them, so the security is left out of the value history and its trades are not reported.\n- `positionNotFullyExplained`: the order archive covers only part of a position — typical for\n  brokers that return just the most recent weeks. What is held today is known, but its history\n  reaches further back than the executions do.\n- `missingEodPrice`: no closing price was available for the security on some days; it was valued\n  with the last price known before them.\n- `missingFxRate`: no exchange rate to the portfolio currency exists for the security's currency, so\n  its amounts are *not* converted and the totals they enter are off by the conversion.\n- `unknownBuyPrice`: no purchase price could be determined for a position, so it is missing from the\n  buy value (and from the profit it implies).\n- `realizedPnlUnavailable`: the completed trades could not be computed at all, which leaves the\n  realized profit/loss empty rather than wrong.",
+        "enum": [
+          "executionsWithoutTimestamp",
+          "inconsistentOrderHistory",
+          "positionNotFullyExplained",
+          "missingEodPrice",
+          "missingFxRate",
+          "unknownBuyPrice",
+          "realizedPnlUnavailable"
+        ],
+        "type": "string"
       },
       "TradingSessionLifetime": {
         "enum": ["ONE_DAY", "ONE_WEEK"],
@@ -4615,7 +4674,7 @@
     "contact": {},
     "description": "The brokerize multi brokerage API. For high-level documentation, visit https://developer.brokerize.com/docs/api",
     "title": "brokerize",
-    "version": "1.12.0"
+    "version": "1.14.0"
   },
   "openapi": "3.0.0",
   "paths": {
@@ -5552,6 +5611,7 @@
                               "type": "string"
                             }
                           },
+                          "supportedExchangeIds": [4, 22, 37, 45, 92],
                           "supportsOAuthLogin": true
                         }
                       ]
