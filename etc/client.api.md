@@ -381,6 +381,11 @@ export class BrokerizeError extends Error {
     };
 }
 
+// @public
+export class BrokerizeTimeoutError extends BrokerizeError {
+    constructor(body: ErrorResponse);
+}
+
 // @public (undocumented)
 export interface BrokerizeWebSocketClient {
     // (undocumented)

@@ -18,7 +18,11 @@ import {
   AuthorizedApiContext,
   getWebSocketURLByBasePath,
 } from "./authorizedApiContext";
-import { BrokerizeError } from "./errors";
+import {
+  BrokerizeError,
+  BrokerizeTimeoutError,
+  createErrorFromResponse,
+} from "./errors";
 import * as openApiClient from "./swagger";
 import * as Models from "./modelExports";
 import {
@@ -41,6 +45,7 @@ export {
   Callback,
   Utils,
   BrokerizeError,
+  BrokerizeTimeoutError,
   Auth,
   TokenSet,
 };
@@ -92,10 +97,7 @@ export class Brokerize {
     ): Promise<void> => {
       const statusCode = r.response.status;
       if (statusCode >= 400) {
-        const decJson =
-          (await r.response.json()) as openApiClient.ErrorResponse;
-        const err = new BrokerizeError(statusCode, decJson);
-        throw err;
+        throw await createErrorFromResponse(r.response);
       }
     };
 

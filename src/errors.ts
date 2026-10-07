@@ -97,3 +97,61 @@ export class BrokerizeError extends Error {
     this.msgBrokerName = body.msgBrokerName;
   }
 }
+
+/**
+ * Thrown if a request to the brokerize API timed out (HTTP status 504). This is typically sent by
+ * a load balancer or gateway in front of the API, so the response body usually is not a regular
+ * `ErrorResponse`.
+ */
+export class BrokerizeTimeoutError extends BrokerizeError {
+  constructor(body: ErrorResponse) {
+    super(504, body);
+    this.name = "BrokerizeTimeoutError";
+  }
+}
+
+function isErrorResponse(x: unknown): x is ErrorResponse {
+  return (
+    !!x &&
+    typeof x === "object" &&
+    typeof (x as ErrorResponse).msg === "string" &&
+    typeof (x as ErrorResponse).code === "string"
+  );
+}
+
+/**
+ * Create the error for a failed (status >= 400) API response. If the body is not a valid `ErrorResponse`
+ * (e.g. an HTML error page from a load balancer), a generic error body is used instead of failing with a
+ * JSON parse error.
+ */
+export async function createErrorFromResponse(
+  response: Response,
+): Promise<BrokerizeError> {
+  const statusCode = response.status;
+  let body: ErrorResponse | undefined;
+  try {
+    const parsed = JSON.parse(await response.text());
+    if (isErrorResponse(parsed)) {
+      body = parsed;
+    }
+  } catch {
+    /* not JSON, use the fallback below */
+  }
+
+  if (statusCode == 504) {
+    return new BrokerizeTimeoutError(
+      body || {
+        msg: "The request timed out. Please try again.",
+        code: "TIMEOUT",
+      },
+    );
+  }
+
+  return new BrokerizeError(
+    statusCode,
+    body || {
+      msg: "The request failed with status " + statusCode + ".",
+      code: "INTERNAL_SERVER_ERROR",
+    },
+  );
+}
