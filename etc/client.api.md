@@ -42,7 +42,7 @@ interface Amount {
 // @public (undocumented)
 export interface Auth {
     // (undocumented)
-    getToken: () => Promise<{
+    getToken: (opts?: GetTokenOptions) => Promise<{
         idToken: string;
     }>;
 }
@@ -346,6 +346,11 @@ export class Brokerize {
     refreshGuestUser(refreshToken: string): Promise<GuestAuthContextConfiguration>;
 }
 
+// @public
+export class BrokerizeAbortError extends Error {
+    constructor(msg: string);
+}
+
 // @public (undocumented)
 export interface BrokerizeConfig {
     acceptLanguage?: string | (() => string | null | undefined | Promise<string | null | undefined>);
@@ -389,14 +394,40 @@ export class BrokerizeTimeoutError extends BrokerizeError {
 // @public (undocumented)
 export interface BrokerizeWebSocketClient {
     // (undocumented)
+    getConnectionState: () => WebSocketConnectionState;
+    // (undocumented)
+    reconnect: () => void;
+    // (undocumented)
+    subscribeConnectionState: (callback: ConnectionStateCallback) => Subscription;
+    // (undocumented)
     subscribeDecoupledOperation: (subscribe: Pick<SubscribeDecoupledOperation, "sessionId" | "decoupledOperationId">, callback: Callback) => Subscription;
     // (undocumented)
     subscribeInvalidate: (subscribe: SubscribeInvalidateDetails, callback: Callback) => Subscription;
 }
 
-// @public (undocumented)
-type BrokerizeWebSocketError = {
+// @public
+export class BrokerizeWebSocketError extends BrokerizeError {
+    constructor(input: BrokerizeWebSocketErrorParams);
+    readonly cause?: unknown;
+    readonly terminal: boolean;
+}
+
+// @public
+type BrokerizeWebSocketError_2 = {
     message: string;
+    code?: string;
+};
+
+// @public
+export type BrokerizeWebSocketErrorCode = "AUTH" | "WEBSOCKET_CONNECTION_FAILED" | "WEBSOCKET_PROTOCOL_ERROR" | "WEBSOCKET_ERROR";
+
+// @public (undocumented)
+export type BrokerizeWebSocketErrorParams = {
+    msg: string;
+    code: BrokerizeWebSocketErrorCode;
+    httpStatusCode?: number;
+    terminal?: boolean;
+    cause?: unknown;
 };
 
 // @public
@@ -442,7 +473,7 @@ interface BrokerMetaImages {
     lightSquare: string;
 }
 
-// @public (undocumented)
+// @public
 export type Callback<T = any> = (err: any, data: T) => void;
 
 // @public
@@ -590,7 +621,7 @@ export type CognitoConfig = {
 // @public (undocumented)
 export type CognitoFacade = {
     createSession: (cognitoPoolConfig: CognitoPoolConfig, authCfg: RegisteredUserAuthContextConfiguration) => {
-        getToken: () => Promise<{
+        getToken: (opts?: GetTokenOptions) => Promise<{
             idToken: string;
         }>;
     };
@@ -615,6 +646,9 @@ interface ConfirmOAuthParams {
 interface ConfirmOAuthResponse {
     sessionId: string;
 }
+
+// @public (undocumented)
+export type ConnectionStateCallback = (state: WebSocketConnectionState) => void;
 
 // @public
 interface CostDetailsLink {
@@ -1109,6 +1143,11 @@ interface GetRecoveryPhrasesResponse {
 // @public
 function getSizeUnitsFromConstraints(preparedTrade: PreparedTrade, orderModel: OrderModel, direction: Direction, cashAccountId: string): string[];
 
+// @public (undocumented)
+export type GetTokenOptions = {
+    forceRefresh?: boolean;
+};
+
 // @public
 interface GetUserResponse {
     createdAt: Date;
@@ -1127,6 +1166,9 @@ type InvalidateMessage = {
     cmd: "invalidate";
     subscriptionId: number;
 };
+
+// @public
+export function isBrokerizeWebSocketError(x: unknown): x is BrokerizeWebSocketError;
 
 // @public
 interface LegalTermConfirmItem {
@@ -2203,8 +2245,17 @@ type WebSocketCommandUnsubscribe = {
 };
 
 // @public (undocumented)
+export type WebSocketConnectionState = {
+    status: WebSocketConnectionStatus;
+    error?: BrokerizeWebSocketError;
+};
+
+// @public
+export type WebSocketConnectionStatus = "closed" | "connecting" | "open" | "reconnecting" | "fatal";
+
+// @public (undocumented)
 type WebSocketError = {
-    error: BrokerizeWebSocketError;
+    error: BrokerizeWebSocketError_2;
 };
 
 // @public (undocumented)
@@ -2213,7 +2264,7 @@ type WebSocketMessage = WebSocketSubscriptionMessage | WebSocketError | WebSocke
 // @public (undocumented)
 type WebSocketMessageErrorOnSubscription = {
     subscriptionId: number;
-    error: BrokerizeWebSocketError;
+    error: BrokerizeWebSocketError_2;
 };
 
 // @public (undocumented)
@@ -2243,7 +2294,7 @@ declare namespace WebSocketTypes {
         WebSocketMessageErrorOnSubscription,
         InvalidateMessage,
         UpdateDecoupledOperationMessage,
-        BrokerizeWebSocketError,
+        BrokerizeWebSocketError_2 as BrokerizeWebSocketError,
         WebSocketError,
         DecoupledOperationState_2 as DecoupledOperationState,
         DecoupledOperationStatus_2 as DecoupledOperationStatus

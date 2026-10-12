@@ -86,8 +86,18 @@ export type UpdateDecoupledOperationMessage = {
   status: DecoupledOperationStatus;
 };
 
+/**
+ * The error payload as it is sent over the websocket. Applications do not see this type: the
+ * websocket client converts it into a `BrokerizeWebSocketError` (the exported error class) before
+ * passing it on.
+ */
 export type BrokerizeWebSocketError = {
   message: string;
+  /**
+   * A stable error code, if the server sends one. Preferred over matching `message`, which is
+   * meant to be human-readable and may change.
+   */
+  code?: string;
 };
 
 export type WebSocketError = {
