@@ -465,9 +465,20 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   /**
    * Internal method for setting a related AuthorizedApiContext. This is used to retrieve
    * decoupled operation status on interrupted connections.
+   *
+   * `null` detaches the current one, which a context does when it is destroyed: a destroyed
+   * context cannot perform that request, so holding on to it would be worse than holding none.
    */
-  _setAuthorizedApiContext(ctx: AuthorizedApiContext) {
+  _setAuthorizedApiContext(ctx: AuthorizedApiContext | null) {
     this._apiCtx = ctx;
+  }
+
+  /**
+   * Internal counterpart of `_setAuthorizedApiContext`, so that a context can tell whether the
+   * client is already attached to one - and whether that one is itself.
+   */
+  _getAuthorizedApiContext(): AuthorizedApiContext | null {
+    return this._apiCtx;
   }
 
   _startOrStopDisconnectTimeout() {

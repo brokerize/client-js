@@ -151,15 +151,49 @@ export class AuthorizedApiContext {
     this._abortController = cfg.createAbortController();
     this._ownsWsClient = !wsClient;
     this._wsClient = wsClient || this._initInternalWebSocketClient();
-    if (
-      (this._wsClient as BrokerizeWebSocketClientImpl)._setAuthorizedApiContext
-    ) {
-      (this._wsClient as BrokerizeWebSocketClientImpl)._setAuthorizedApiContext(
-        this,
-      );
-    }
+    this._attachToWsClient();
     this._cache = {};
   }
+  /**
+   * The websocket client keeps one context around to refetch the status of a decoupled operation
+   * with after an interrupted connection. That context has to outlive the connection, so it must
+   * not simply be whichever one was constructed last: child contexts are commonly created per
+   * request and destroyed again, and a destroyed context cannot perform that request.
+   *
+   * The first context attaches and keeps the client - that is the one that created it, and the
+   * children, which are handed the very same client, leave it alone.
+   */
+  private _attachToWsClient() {
+    const wsClient = this._wsClient as BrokerizeWebSocketClientImpl;
+    /* an application may pass in its own implementation of the interface. */
+    if (
+      !wsClient._setAuthorizedApiContext ||
+      !wsClient._getAuthorizedApiContext
+    ) {
+      return;
+    }
+    if (!wsClient._getAuthorizedApiContext()) {
+      wsClient._setAuthorizedApiContext(this);
+    }
+  }
+
+  /**
+   * Counterpart of `_attachToWsClient`: leave no destroyed context behind, so that a context
+   * created later can take over.
+   */
+  private _detachFromWsClient() {
+    const wsClient = this._wsClient as BrokerizeWebSocketClientImpl;
+    if (
+      !wsClient._setAuthorizedApiContext ||
+      !wsClient._getAuthorizedApiContext
+    ) {
+      return;
+    }
+    if (wsClient._getAuthorizedApiContext() === this) {
+      wsClient._setAuthorizedApiContext(null);
+    }
+  }
+
   createChildContext() {
     const result = new AuthorizedApiContext(
       this._cfg,
@@ -784,6 +818,7 @@ export class AuthorizedApiContext {
   destroy() {
     this._isDestroyed = true;
     this._abortController.abort();
+    this._detachFromWsClient();
     if (this._ownsWsClient) {
       /* otherwise its reconnect timer would keep running and keep reconnecting with the
          tokens of a context that is gone. */
