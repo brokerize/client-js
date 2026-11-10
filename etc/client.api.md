@@ -1321,6 +1321,8 @@ declare namespace Models {
         GetCostEstimationParams,
         GetOrderResponse,
         GetPortfolioOrdersResponse,
+        PortfolioOrderDetailsSyncInfo,
+        PortfolioOrderDetailsSyncInfoStatus,
         GetPortfolioPositionsResponse,
         GetPortfolioQuotesResponse,
         GetQuoteParams,
@@ -1712,6 +1714,21 @@ interface PortfolioCalendarItem {
 }
 
 // @public
+interface PortfolioOrderDetailsSyncInfo {
+    completeFrom?: Date;
+    status: PortfolioOrderDetailsSyncInfoStatus;
+}
+
+// @public (undocumented)
+const PortfolioOrderDetailsSyncInfoStatus: {
+    readonly Complete: "COMPLETE";
+    readonly Pending: "PENDING";
+};
+
+// @public (undocumented)
+type PortfolioOrderDetailsSyncInfoStatus = (typeof PortfolioOrderDetailsSyncInfoStatus)[keyof typeof PortfolioOrderDetailsSyncInfoStatus];
+
+// @public
 interface PortfolioQuotes {
     availableCash?: Amount;
     cashAccountBalance?: Amount;
@@ -1743,7 +1760,6 @@ type PortfolioSyncInfo = ({
 // @public
 interface PortfolioSyncInfoComplete {
     lastSync: Date;
-    // Warning: (ae-forgotten-export) The symbol "PortfolioOrderDetailsSyncInfo" needs to be exported by the entry point index.d.ts
     orderDetails?: PortfolioOrderDetailsSyncInfo;
     // Warning: (ae-forgotten-export) The symbol "PortfolioSyncInfoCompleteStatusEnum" needs to be exported by the entry point index.d.ts
     status: PortfolioSyncInfoCompleteStatusEnum;
