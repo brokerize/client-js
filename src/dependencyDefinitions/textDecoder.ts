@@ -20,12 +20,6 @@ export declare interface TextDecoder extends TextDecoderCommon {
   decode(input?: BufferSource, options?: TextDecodeOptions): string;
 }
 
-declare const TextDecoder: // NOSONAR
-{
-  prototype: TextDecoder;
-  new (label?: string, options?: TextDecoderOptions): TextDecoder;
-};
-
 interface TextDecoderCommon {
   /**
    * Returns encoding's name, lowercased.
@@ -45,9 +39,4 @@ type BufferSource = ArrayBufferView | ArrayBuffer | string;
 
 interface TextDecodeOptions {
   stream?: boolean;
-}
-
-interface TextDecoderOptions {
-  fatal?: boolean;
-  ignoreBOM?: boolean;
 }

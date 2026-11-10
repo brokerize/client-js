@@ -49,23 +49,11 @@ interface ReadableStreamDefaultReader<R = any> {
   releaseLock(): void;
 }
 
-interface ReadableStreamReader<R = any> {
-  cancel(): Promise<void>;
-  read(): Promise<ReadableStreamReadResult<R>>;
-  releaseLock(): void;
-}
-
 interface WritableStream<W = any> {
   readonly locked: boolean;
   abort(reason?: any): Promise<void>;
   getWriter(): WritableStreamDefaultWriter<W>;
 }
-
-declare const ReadableStreamReader: // NOSONAR
-{
-  prototype: ReadableStreamReader;
-  new (): ReadableStreamReader;
-};
 
 /** This Streams API interface is the object returned by WritableStream.getWriter() and once created locks the < writer to the WritableStream ensuring that no other streams can write to the underlying sink. */
 interface WritableStreamDefaultWriter<W = any> {
