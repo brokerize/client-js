@@ -185,6 +185,8 @@ export * from "./PagesConfigurationResponse";
 export * from "./Portfolio";
 export * from "./PortfolioCalendarDateRange";
 export * from "./PortfolioCalendarItem";
+export * from "./PortfolioOrderDetailsSyncInfo";
+export * from "./PortfolioOrderDetailsSyncInfoStatus";
 export * from "./PortfolioQuotes";
 export * from "./PortfolioSyncInfo";
 export * from "./PortfolioSyncInfoComplete";

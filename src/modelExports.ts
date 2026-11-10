@@ -88,6 +88,8 @@ export { GetBrokersResponse } from "./swagger/models/GetBrokersResponse";
 export { GetCostEstimationParams } from "./swagger/models/GetCostEstimationParams";
 export { GetOrderResponse } from "./swagger/models/GetOrderResponse";
 export { GetPortfolioOrdersResponse } from "./swagger/models/GetPortfolioOrdersResponse";
+export { PortfolioOrderDetailsSyncInfo } from "./swagger/models/PortfolioOrderDetailsSyncInfo";
+export { PortfolioOrderDetailsSyncInfoStatus } from "./swagger/models/PortfolioOrderDetailsSyncInfoStatus";
 export { GetPortfolioPositionsResponse } from "./swagger/models/GetPortfolioPositionsResponse";
 export { GetPortfolioQuotesResponse } from "./swagger/models/GetPortfolioQuotesResponse";
 export { GetQuoteParams } from "./swagger/models/GetQuoteParams";

@@ -36,6 +36,7 @@
 export const TradeWarningReason = {
   ExecutionsWithoutTimestamp: "executionsWithoutTimestamp",
   InconsistentOrderHistory: "inconsistentOrderHistory",
+  OrderDetailsIncomplete: "orderDetailsIncomplete",
   PositionNotFullyExplained: "positionNotFullyExplained",
   MissingEodPrice: "missingEodPrice",
   MissingFxRate: "missingFxRate",

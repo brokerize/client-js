@@ -13,6 +13,12 @@
 
 import { exists, mapValues } from "../runtime";
 import {
+  PortfolioOrderDetailsSyncInfo,
+  PortfolioOrderDetailsSyncInfoFromJSON,
+  PortfolioOrderDetailsSyncInfoFromJSONTyped,
+  PortfolioOrderDetailsSyncInfoToJSON,
+} from "./PortfolioOrderDetailsSyncInfo";
+import {
   PortfolioSyncInfoCompleteAllOf,
   PortfolioSyncInfoCompleteAllOfFromJSON,
   PortfolioSyncInfoCompleteAllOfFromJSONTyped,
@@ -43,6 +49,12 @@ export interface PortfolioSyncInfoComplete {
    * @memberof PortfolioSyncInfoComplete
    */
   lastSync: Date;
+  /**
+   *
+   * @type {PortfolioOrderDetailsSyncInfo}
+   * @memberof PortfolioSyncInfoComplete
+   */
+  orderDetails?: PortfolioOrderDetailsSyncInfo;
 }
 
 /**
@@ -70,6 +82,9 @@ export function PortfolioSyncInfoCompleteFromJSONTyped(
   return {
     status: json["status"],
     lastSync: new Date(json["lastSync"]),
+    orderDetails: !exists(json, "orderDetails")
+      ? undefined
+      : PortfolioOrderDetailsSyncInfoFromJSON(json["orderDetails"]),
   };
 }
 
@@ -87,6 +102,7 @@ export function PortfolioSyncInfoCompleteToJSONRecursive(
   return {
     status: value.status,
     lastSync: value.lastSync.toISOString(),
+    orderDetails: PortfolioOrderDetailsSyncInfoToJSON(value.orderDetails),
   };
 }
 

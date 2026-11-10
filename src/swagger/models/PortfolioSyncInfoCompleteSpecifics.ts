@@ -12,6 +12,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  PortfolioOrderDetailsSyncInfo,
+  PortfolioOrderDetailsSyncInfoFromJSON,
+  PortfolioOrderDetailsSyncInfoFromJSONTyped,
+  PortfolioOrderDetailsSyncInfoToJSON,
+} from "./PortfolioOrderDetailsSyncInfo";
+
 /**
  *
  * @export
@@ -24,6 +31,12 @@ export interface PortfolioSyncInfoCompleteSpecifics {
    * @memberof PortfolioSyncInfoCompleteSpecifics
    */
   lastSync?: Date;
+  /**
+   *
+   * @type {PortfolioOrderDetailsSyncInfo}
+   * @memberof PortfolioSyncInfoCompleteSpecifics
+   */
+  orderDetails?: PortfolioOrderDetailsSyncInfo;
 }
 
 export function PortfolioSyncInfoCompleteSpecificsFromJSON(
@@ -43,6 +56,9 @@ export function PortfolioSyncInfoCompleteSpecificsFromJSONTyped(
     lastSync: !exists(json, "lastSync")
       ? undefined
       : new Date(json["lastSync"]),
+    orderDetails: !exists(json, "orderDetails")
+      ? undefined
+      : PortfolioOrderDetailsSyncInfoFromJSON(json["orderDetails"]),
   };
 }
 
@@ -60,6 +76,7 @@ export function PortfolioSyncInfoCompleteSpecificsToJSONRecursive(
   return {
     lastSync:
       value.lastSync === undefined ? undefined : value.lastSync.toISOString(),
+    orderDetails: PortfolioOrderDetailsSyncInfoToJSON(value.orderDetails),
   };
 }
 

@@ -200,6 +200,8 @@ models/PagesConfigurationResponse.ts
 models/Portfolio.ts
 models/PortfolioCalendarDateRange.ts
 models/PortfolioCalendarItem.ts
+models/PortfolioOrderDetailsSyncInfo.ts
+models/PortfolioOrderDetailsSyncInfoStatus.ts
 models/PortfolioQuotes.ts
 models/PortfolioSyncInfo.ts
 models/PortfolioSyncInfoComplete.ts

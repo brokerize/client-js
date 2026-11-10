@@ -3159,6 +3159,25 @@
         "required": ["transactionVolume", "executionCount", "date"],
         "type": "object"
       },
+      "PortfolioOrderDetailsSyncInfo": {
+        "description": "Whether the *details* of the synced orders are already known — the executions, and with them the\nexecution prices and the fees.\n\nThis is a second, independent axis next to the sync status: a portfolio counts as `COMPLETE` as\nsoon as every order has been loaded, but some brokers (flatex) report an order's executions only\nwhen that single order is fetched individually, which happens during the sync for recent orders\nonly. The remaining ones are fetched in the background afterwards.\n\nIt matters because every evaluation that reconstructs the past — the trade list, the trade\nstatistics, the value history — is built from executions alone. An order whose details are still\nmissing contributes nothing at all to them.\n\nNot reported on every endpoint; absent means \"no statement\", not \"complete\".",
+        "properties": {
+          "completeFrom": {
+            "description": "Set while `status` is `PENDING`, absent once it is `COMPLETE`.\n\nEvaluations are complete for everything that happened after this point in time; before it,\nexecutions may still be missing. It is the timestamp of the newest order whose details are\nstill outstanding — and it is that order, not the oldest one, because the reconstruction is\nanchored at the current holdings and works backwards: a gap only affects what lies before it.\n\nThe boundary moves backwards as the background fetch works through the backlog, newest first.\nIt is not a progress bar for the *amount* that is still missing: details fetched out of order\n(a user opening an old order in the app fetches it right away) close a gap behind the\nboundary and leave it where it is.\n\nCaveat: for an order whose details are missing, the broker has usually only told us when it\nwas *created*, not when it executed — an order that executed considerably later than it was\ncreated can therefore sit slightly after this boundary.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PortfolioOrderDetailsSyncInfoStatus"
+          }
+        },
+        "required": ["status"],
+        "type": "object"
+      },
+      "PortfolioOrderDetailsSyncInfoStatus": {
+        "enum": ["COMPLETE", "PENDING"],
+        "type": "string"
+      },
       "PortfolioQuotes": {
         "properties": {
           "availableCash": {
@@ -3233,6 +3252,9 @@
           "lastSync": {
             "format": "date-time",
             "type": "string"
+          },
+          "orderDetails": {
+            "$ref": "#/components/schemas/PortfolioOrderDetailsSyncInfo"
           }
         }
       },
@@ -3272,6 +3294,10 @@
           "lastSync": {
             "format": "date-time",
             "type": "string"
+          },
+          "orderDetails": {
+            "$ref": "#/components/schemas/PortfolioOrderDetailsSyncInfo",
+            "description": "While the sync is `INCOMPLETE` the order archive is still growing, so the boundary reported\nhere can still move *forward* as older orders arrive."
           }
         }
       },
@@ -4582,6 +4608,7 @@
         "enum": [
           "executionsWithoutTimestamp",
           "inconsistentOrderHistory",
+          "orderDetailsIncomplete",
           "positionNotFullyExplained",
           "missingEodPrice",
           "missingFxRate",
@@ -4674,7 +4701,7 @@
     "contact": {},
     "description": "The brokerize multi brokerage API. For high-level documentation, visit https://developer.brokerize.com/docs/api",
     "title": "brokerize",
-    "version": "1.14.0"
+    "version": "1.15.0"
   },
   "openapi": "3.0.0",
   "paths": {

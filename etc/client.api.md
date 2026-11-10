@@ -406,6 +406,11 @@ export interface BrokerizeWebSocketClient {
 }
 
 // @public
+export type BrokerizeWebSocketClientOptions = {
+    maxConsecutiveAuthFailures?: number;
+};
+
+// @public
 export class BrokerizeWebSocketError extends BrokerizeError {
     constructor(input: BrokerizeWebSocketErrorParams);
     readonly cause?: unknown;
@@ -1738,6 +1743,8 @@ type PortfolioSyncInfo = ({
 // @public
 interface PortfolioSyncInfoComplete {
     lastSync: Date;
+    // Warning: (ae-forgotten-export) The symbol "PortfolioOrderDetailsSyncInfo" needs to be exported by the entry point index.d.ts
+    orderDetails?: PortfolioOrderDetailsSyncInfo;
     // Warning: (ae-forgotten-export) The symbol "PortfolioSyncInfoCompleteStatusEnum" needs to be exported by the entry point index.d.ts
     status: PortfolioSyncInfoCompleteStatusEnum;
 }
@@ -1752,6 +1759,7 @@ interface PortfolioSyncInfoError {
 // @public
 interface PortfolioSyncInfoIncomplete {
     lastSync: Date;
+    orderDetails?: PortfolioOrderDetailsSyncInfo;
     // Warning: (ae-forgotten-export) The symbol "PortfolioSyncInfoIncompleteStatusEnum" needs to be exported by the entry point index.d.ts
     status: PortfolioSyncInfoIncompleteStatusEnum;
 }
@@ -2173,6 +2181,7 @@ interface TradeWarning {
 const TradeWarningReason: {
     readonly ExecutionsWithoutTimestamp: "executionsWithoutTimestamp";
     readonly InconsistentOrderHistory: "inconsistentOrderHistory";
+    readonly OrderDetailsIncomplete: "orderDetailsIncomplete";
     readonly PositionNotFullyExplained: "positionNotFullyExplained";
     readonly MissingEodPrice: "missingEodPrice";
     readonly MissingFxRate: "missingFxRate";
