@@ -5,7 +5,7 @@ import {
   createConfiguration,
   withAcceptLanguage,
 } from "./apiCtx";
-import { createErrorFromResponse } from "./errors";
+import { BrokerizeAbortError, createErrorFromResponse } from "./errors";
 import { createPollingSubscription } from "./pollingSubscription";
 import * as openApiClient from "./swagger";
 import {
@@ -45,6 +45,11 @@ export class AuthorizedApiContext {
   private readonly _orderApiCryptoService: openApiClient.OrderApi;
   private readonly _logoutSubject: Subject<void>;
   private readonly _wsClient: BrokerizeWebSocketClient;
+  /**
+   * `true` if this context created the websocket client itself and therefore has to destroy it.
+   * A client passed in by the application is owned by the application.
+   */
+  private readonly _ownsWsClient: boolean;
   private readonly _cache: {
     getBrokers?: Promise<openApiClient.GetBrokersResponse>;
   };
@@ -144,6 +149,7 @@ export class AuthorizedApiContext {
       );
     }
     this._abortController = cfg.createAbortController();
+    this._ownsWsClient = !wsClient;
     this._wsClient = wsClient || this._initInternalWebSocketClient();
     if (
       (this._wsClient as BrokerizeWebSocketClientImpl)._setAuthorizedApiContext
@@ -171,7 +177,7 @@ export class AuthorizedApiContext {
   }
   private async _initRequestInit() {
     if (this._isDestroyed) {
-      throw new Error("AuthorizedApiContext is destroyed");
+      throw new BrokerizeAbortError("AuthorizedApiContext is destroyed");
     }
     const tok = await this._auth.getToken();
     const headers = await withAcceptLanguage(this._cfg, {
@@ -765,12 +771,24 @@ export class AuthorizedApiContext {
       subscribeInvalidate: this._wsClient.subscribeInvalidate.bind(
         this._wsClient,
       ),
+      subscribeConnectionState: this._wsClient.subscribeConnectionState.bind(
+        this._wsClient,
+      ),
+      getConnectionState: this._wsClient.getConnectionState.bind(
+        this._wsClient,
+      ),
+      reconnect: this._wsClient.reconnect.bind(this._wsClient),
     };
     return wrappedClient;
   }
   destroy() {
     this._isDestroyed = true;
     this._abortController.abort();
+    if (this._ownsWsClient) {
+      /* otherwise its reconnect timer would keep running and keep reconnecting with the
+         tokens of a context that is gone. */
+      (this._wsClient as BrokerizeWebSocketClientImpl).destroy();
+    }
   }
   subscribeLogout(callback: Callback): Subscription {
     const s = this._logoutSubject.subscribe({

@@ -155,3 +155,104 @@ export async function createErrorFromResponse(
     },
   );
 }
+
+/**
+ * Error codes used by {@link BrokerizeWebSocketError}.
+ *
+ * - `AUTH`: the websocket connection could not be authenticated. Same code as a failed token
+ *   refresh on the REST API, so applications can treat both identically.
+ * - `WEBSOCKET_CONNECTION_FAILED`: the connection could not be established or was lost
+ *   (network error, failed handshake, closed socket). The client retries these automatically.
+ * - `WEBSOCKET_PROTOCOL_ERROR`: a message from the server could not be parsed.
+ * - `WEBSOCKET_ERROR`: any other error reported by the server.
+ */
+export type BrokerizeWebSocketErrorCode =
+  | "AUTH"
+  | "WEBSOCKET_CONNECTION_FAILED"
+  | "WEBSOCKET_PROTOCOL_ERROR"
+  | "WEBSOCKET_ERROR";
+
+export type BrokerizeWebSocketErrorParams = {
+  msg: string;
+  code: BrokerizeWebSocketErrorCode;
+  httpStatusCode?: number;
+  /**
+   * See {@link BrokerizeWebSocketError.terminal}.
+   */
+  terminal?: boolean;
+  /**
+   * The underlying error or event, if any (e.g. the rejection of `Auth.getToken` or the
+   * `error` event of the websocket).
+   */
+  cause?: unknown;
+};
+
+const DEFAULT_STATUS_CODES: Record<BrokerizeWebSocketErrorCode, number> = {
+  AUTH: 401,
+  WEBSOCKET_CONNECTION_FAILED: 503,
+  WEBSOCKET_PROTOCOL_ERROR: 500,
+  WEBSOCKET_ERROR: 500,
+};
+
+/**
+ * Every error reported by the websocket client is an instance of this class, so applications can
+ * handle it like any other error (`instanceof Error`, `err.message`, stack trace) and can use the
+ * same error handling as for the REST API, which reports `BrokerizeError`.
+ */
+export class BrokerizeWebSocketError extends BrokerizeError {
+  /**
+   * If `true`, the affected subscription is over and will not receive any further data. Errors
+   * that are passed to a subscription callback are always terminal; non-terminal errors are only
+   * reported via `BrokerizeWebSocketClient.subscribeConnectionState`, because the client
+   * recovers from them on its own.
+   */
+  readonly terminal: boolean;
+  /**
+   * The underlying error or event, if any.
+   */
+  readonly cause?: unknown;
+
+  constructor({
+    msg,
+    code,
+    httpStatusCode,
+    terminal,
+    cause,
+  }: BrokerizeWebSocketErrorParams) {
+    super(httpStatusCode ?? DEFAULT_STATUS_CODES[code], { msg, code });
+    Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain (https://stackoverflow.com/questions/41102060/typescript-extending-error-class)
+    this.name = "BrokerizeWebSocketError";
+    this.terminal = terminal ?? false;
+    this.cause = cause;
+  }
+}
+
+/**
+ * Check whether the given value is a `BrokerizeWebSocketError`. Prefer this over `instanceof`,
+ * which fails if more than one copy of this package ends up in a dependency tree.
+ */
+export function isBrokerizeWebSocketError(
+  x: unknown,
+): x is BrokerizeWebSocketError {
+  return (
+    !!x &&
+    typeof x === "object" &&
+    (x as Error).name === "BrokerizeWebSocketError"
+  );
+}
+
+/**
+ * Thrown when a request is made on an `AuthorizedApiContext` that was already destroyed.
+ *
+ * `destroy()` aborts the context's `AbortController`, so a request that is already in flight
+ * rejects with a `DOMException` named `AbortError`. This error carries the same `name`, so that
+ * both cases can be handled with a single check (`err.name === "AbortError"`), the way `fetch`
+ * itself rejects when handed an already-aborted signal.
+ */
+export class BrokerizeAbortError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain (https://stackoverflow.com/questions/41102060/typescript-extending-error-class)
+    this.name = "AbortError";
+  }
+}

@@ -92,8 +92,17 @@ export interface GuestAuthContextConfiguration {
   tokens: { updatedAt: number; response: Models.CreateGuestUserResponse };
 }
 
+export type GetTokenOptions = {
+  /**
+   * Request a fresh token even if the currently known one is not expired yet. Used by the
+   * websocket client to retry once after the server rejected a token, before giving up.
+   * Implementations that cannot refresh on demand may ignore this.
+   */
+  forceRefresh?: boolean;
+};
+
 export interface Auth {
-  getToken: () => Promise<{ idToken: string }>;
+  getToken: (opts?: GetTokenOptions) => Promise<{ idToken: string }>;
 }
 
 export function createConfiguration(cfg: BrokerizeConfig) {
@@ -123,7 +132,7 @@ export function createAuth({
       JSON.stringify(authCfg),
     ) as GuestAuthContextConfiguration; // clone it
     return {
-      async getToken() {
+      async getToken(opts?: GetTokenOptions) {
         if (guestAuthCfg.tokens) {
           let expiresIn = guestAuthCfg.tokens.response.expiresIn;
           if (expiresIn == null) {
@@ -136,7 +145,8 @@ export function createAuth({
           /* modern tokens */
           const tokenExpiresAt =
             guestAuthCfg.tokens.updatedAt + expiresIn * 1000 - 10000;
-          const needsRefresh = Date.now() > tokenExpiresAt;
+          const needsRefresh =
+            opts?.forceRefresh || Date.now() > tokenExpiresAt;
           if (needsRefresh && guestAuthCfg.tokens.response.refreshToken) {
             if (!cfg.fetch) {
               throw new Error(
@@ -219,8 +229,8 @@ export function createAuth({
       authCfg,
     );
     return {
-      async getToken() {
-        return session.getToken();
+      async getToken(opts?: GetTokenOptions) {
+        return session.getToken(opts);
       },
     };
   } else {
@@ -244,7 +254,7 @@ export type CognitoFacade = {
     cognitoPoolConfig: CognitoPoolConfig,
     authCfg: RegisteredUserAuthContextConfiguration,
   ) => {
-    getToken: () => Promise<{ idToken: string }>;
+    getToken: (opts?: GetTokenOptions) => Promise<{ idToken: string }>;
   };
 };
 

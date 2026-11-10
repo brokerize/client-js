@@ -9,6 +9,7 @@ import {
   CognitoPoolConfig,
   createAuth,
   createConfiguration,
+  GetTokenOptions,
   GuestAuthContextConfiguration,
   RegisteredUserAuthContextConfiguration,
   TokenSet,
@@ -19,17 +20,26 @@ import {
   getWebSocketURLByBasePath,
 } from "./authorizedApiContext";
 import {
+  BrokerizeAbortError,
   BrokerizeError,
   BrokerizeTimeoutError,
+  BrokerizeWebSocketError,
+  BrokerizeWebSocketErrorCode,
+  BrokerizeWebSocketErrorParams,
   createErrorFromResponse,
+  isBrokerizeWebSocketError,
 } from "./errors";
 import * as openApiClient from "./swagger";
 import * as Models from "./modelExports";
 import {
   BrokerizeWebSocketClient,
   BrokerizeWebSocketClientImpl,
+  BrokerizeWebSocketClientOptions,
   Callback,
+  ConnectionStateCallback,
   Subscription,
+  WebSocketConnectionState,
+  WebSocketConnectionStatus,
 } from "./websocketClient";
 import * as WebSocketTypes from "./websocketTypes";
 import * as Utils from "./utils";
@@ -46,6 +56,16 @@ export {
   Utils,
   BrokerizeError,
   BrokerizeTimeoutError,
+  BrokerizeWebSocketError,
+  BrokerizeWebSocketErrorCode,
+  BrokerizeWebSocketErrorParams,
+  BrokerizeAbortError,
+  GetTokenOptions,
+  isBrokerizeWebSocketError,
+  ConnectionStateCallback,
+  BrokerizeWebSocketClientOptions,
+  WebSocketConnectionState,
+  WebSocketConnectionStatus,
   Auth,
   TokenSet,
 };
