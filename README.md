@@ -97,9 +97,16 @@ client.subscribeInvalidate({ entity: "sessions" }, (err) => {
 });
 ```
 
-A connection that cannot be authenticated is retried once with a freshly refreshed token, because
-the usual cause is an id token that expired in flight. Only if that retry is rejected as well does
-the client become `fatal`.
+A connection that cannot be authenticated is not a special case: the client refreshes the token
+and keeps retrying with a wide backoff, staying in `reconnecting` with the rejection as `error`.
+The usual cause is an id token that expired in flight, and the first retry fixes it without the
+application noticing more than a short gap - the subscriptions stay alive throughout. Only a token
+that is still being rejected after several minutes makes the client `fatal`, because by then the
+session is gone rather than stale.
+
+This means an application does not need its own retry: it only has to decide what to show while
+`status` is `reconnecting`, and how to react to `fatal` - usually the same way it reacts to a `401`
+on the REST API, which it will have seen by then anyway.
 
 # development & maintenance
 

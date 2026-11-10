@@ -21,6 +21,27 @@ import type {
 
 const LOG_PREFIX = "[brokerize WebSocketClient] ";
 
+/**
+ * How often in a row the server may reject our token before the client gives up (see
+ * `WebSocketConnectionState`). Every attempt fetches a fresh token first, so the first retry
+ * already covers the common case of a token that expired in flight, and the remaining ones cover
+ * a backend that is briefly unable to validate it. Together with `AUTH_RETRY_INTERVAL` this spans
+ * several minutes, after which a token that is still being rejected is not going to be accepted:
+ * the session is over and retrying would only keep refreshing tokens for nobody.
+ *
+ * Until then the client stays in `reconnecting` and reports the rejection through
+ * `subscribeConnectionState`, so an application can tell the user that live updates are currently
+ * unavailable without tearing down its subscriptions.
+ */
+const DEFAULT_MAX_CONSECUTIVE_AUTH_FAILURES = 10;
+
+/**
+ * The reconnect interval once the token has been rejected more than once. Every one of these
+ * attempts costs a token refresh, so they are spaced much wider than a plain reconnect. The first
+ * retry is deliberately not slowed down: it is the one that fixes a token that expired in flight.
+ */
+const AUTH_RETRY_INTERVAL = 30000;
+
 export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _url: string;
   private _map: Record<string, SubscriptionEntry> = {};
@@ -40,10 +61,12 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _apiCtx: AuthorizedApiContext | null = null;
 
   /**
-   * Set after the server rejected our token once. We then retry with a forced token refresh and
-   * only treat a second rejection as fatal. Reset on every successful authentication.
+   * How often the server rejected our token in a row. Every retry forces a token refresh, and
+   * only `_maxConsecutiveAuthFailures` of them in a row are fatal. Reset on every successful
+   * authentication.
    */
-  private _authRetried = false;
+  private _authFailureCount = 0;
+  private _maxConsecutiveAuthFailures: number;
   private _forceTokenRefresh = false;
 
   private _destroyed = false;
@@ -54,11 +77,15 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     websocketUrl: string,
     auth: Auth,
     createWebSocket: (url: string) => WebSocket,
+    options?: BrokerizeWebSocketClientOptions,
   ) {
     this._url = websocketUrl;
     this._id = 0;
     this._socket = null;
     this._pingIntvl = null;
+    this._maxConsecutiveAuthFailures =
+      options?.maxConsecutiveAuthFailures ??
+      DEFAULT_MAX_CONSECUTIVE_AUTH_FAILURES;
     this._updateReconnectInterval();
     this._auth = auth;
     this._createWebsocket = createWebSocket;
@@ -92,12 +119,21 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
    * Simple backoff behavior: first retry is fast (100ms), next 9 retries 1s, after that we only reconnect every 10s.
    * Jitter is added to avoid a thundering herd when many clients reconnect simultaneously (e.g. after a server-side disconnect).
    * The first retry uses a wider jitter window (~1s) because that's the scenario most prone to bursts of TLS handshakes.
+   *
+   * A token that keeps being rejected is retried far more slowly (`AUTH_RETRY_INTERVAL`), because
+   * every one of those attempts refreshes the token and a rejection is not something that tends to
+   * resolve within a second.
    */
   private _computeReconnectIntervalInMilliseconds(errorCount: number) {
     if (errorCount == 0) {
       return 100 + Math.floor(Math.random() * 1000);
     }
-    const base = errorCount < 10 ? 1000 : 10000;
+    const base =
+      this._authFailureCount > 1
+        ? AUTH_RETRY_INTERVAL
+        : errorCount < 10
+          ? 1000
+          : 10000;
     return base + Math.floor(Math.random() * base);
   }
 
@@ -280,7 +316,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
     this._fatalError = null;
     this._errorCount = 0;
     this._lastNonFatalError = null;
-    this._authRetried = false;
+    this._authFailureCount = 0;
     this._forceTokenRefresh = true;
     this._closeSocket();
     this._updateReconnectInterval();
@@ -730,24 +766,33 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
    * this client.
    */
   private _handleAuthenticationFailure(payload: WebSocketErrorPayload) {
-    if (!this._authRetried) {
-      this._authRetried = true;
-      this._forceTokenRefresh = true;
-      console.warn(
-        LOG_PREFIX +
-          "authentication failed. retrying once with a refreshed token.",
-      );
-      this._handleNonFatalError(toWebSocketError(payload, false));
-      this._closeSocket();
-      this._setConnectionState(
-        "reconnecting",
-        this._lastNonFatalError || undefined,
-      );
+    this._authFailureCount++;
+
+    if (this._authFailureCount >= this._maxConsecutiveAuthFailures) {
+      /* the token has been rejected for several minutes: the session is gone, not expired. */
+      this._handleFatalError(toWebSocketError(payload, true));
       return;
     }
 
-    // authentication failed again with a fresh token: this client is unusable.
-    this._handleFatalError(toWebSocketError(payload, true));
+    /* A rejected token is worth another attempt with a fresh one: the usual cause is a token that
+       expired between retrieving it and the server validating it. The subscriptions stay alive and
+       the rejection is reported through the connection state, so nothing has to be rebuilt once we
+       are back in. */
+    this._forceTokenRefresh = true;
+    console.warn(
+      LOG_PREFIX +
+        "authentication failed (" +
+        this._authFailureCount +
+        "/" +
+        this._maxConsecutiveAuthFailures +
+        "). retrying with a refreshed token.",
+    );
+    this._handleNonFatalError(toWebSocketError(payload, false));
+    this._closeSocket();
+    this._setConnectionState(
+      "reconnecting",
+      this._lastNonFatalError || undefined,
+    );
   }
 
   /**
@@ -797,7 +842,7 @@ export class BrokerizeWebSocketClientImpl implements BrokerizeWebSocketClient {
   private _resetErrorState() {
     this._lastNonFatalError = null;
     this._errorCount = 0;
-    this._authRetried = false;
+    this._authFailureCount = 0;
     this._updateReconnectInterval();
   }
 
@@ -830,6 +875,19 @@ function toWebSocketError(
   });
 }
 
+/**
+ * Optional behavior of `BrokerizeWebSocketClientImpl`. The defaults are what an application
+ * wants; this exists for the rare case that they have to be tightened.
+ */
+export type BrokerizeWebSocketClientOptions = {
+  /**
+   * How often in a row the server may reject our token before the client gives up and goes
+   * `fatal`. Defaults to 10, which together with the backoff spans several minutes. Mainly here so
+   * that tests do not have to wait that long.
+   */
+  maxConsecutiveAuthFailures?: number;
+};
+
 export interface BrokerizeWebSocketClient {
   subscribeInvalidate: (
     subscribe: SubscribeInvalidateDetails,
@@ -858,8 +916,13 @@ export interface BrokerizeWebSocketClient {
  * - `reconnecting`: the connection failed or was lost and the client is retrying. `error` holds
  *   the error that caused it. Subscriptions stay alive and receive a synthetic invalidate once
  *   the connection is back.
- * - `fatal`: the client is unusable. All subscriptions were terminated with `error`. Call
- *   `reconnect()` or create a new client.
+ *
+ *   A rejected token lands here too, so an application can show that live updates are currently
+ *   unavailable - and why - while the client works on getting back in, instead of having to
+ *   rebuild everything over a token that expired in flight.
+ * - `fatal`: the client gave up and is unusable. All subscriptions were terminated with `error`.
+ *   This only happens after the token has been rejected over and over for several minutes, i.e.
+ *   when the session is gone rather than stale. Call `reconnect()` or create a new client.
  */
 export type WebSocketConnectionStatus =
   "closed" | "connecting" | "open" | "reconnecting" | "fatal";

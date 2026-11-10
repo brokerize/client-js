@@ -57,7 +57,7 @@ const createdClients = [];
  * Every client gets its own socket list so that a client that is still reconnecting from an
  * earlier test cannot interfere.
  */
-function createClient(auth) {
+function createClient(auth, options) {
   const sockets = [];
   const client = new BrokerizeWebSocketClientImpl(
     "wss://example.invalid/websocket",
@@ -67,6 +67,7 @@ function createClient(auth) {
       sockets.push(socket);
       return socket;
     },
+    options,
   );
   createdClients.push(client);
   return { client, sockets, last: () => sockets[sockets.length - 1] };
@@ -109,7 +110,7 @@ describe("BrokerizeWebSocketClient error handling", () => {
     assert.ok(err.stack);
   });
 
-  it("retries a rejected token once with a forced refresh before giving up", async () => {
+  it("keeps the subscriptions alive while a rejected token is retried", async () => {
     const tokenCalls = [];
     const { client, sockets, last } = createClient({
       getToken: async (opts) => {
@@ -118,6 +119,8 @@ describe("BrokerizeWebSocketClient error handling", () => {
       },
     });
     const errors = [];
+    const states = [];
+    client.subscribeConnectionState((state) => states.push(state));
     client.subscribeInvalidate({ entity: "sessions" }, (err) => {
       if (err) errors.push(err);
     });
@@ -125,12 +128,9 @@ describe("BrokerizeWebSocketClient error handling", () => {
 
     sockets[0].receive({ error: { message: "authentication failed" } });
     await sleep(10);
-    assert.deepEqual(
-      errors,
-      [],
-      "the first rejection must not reach subscribers",
-    );
+    assert.deepEqual(errors, [], "a rejection must not reach subscribers");
     assert.equal(client.getConnectionState().status, "reconnecting");
+    assert.equal(client.getConnectionState().error.code, "AUTH");
 
     await sleep(RECONNECT_WAIT);
     assert.ok(sockets.length >= 2, "it must connect again on its own");
@@ -140,12 +140,41 @@ describe("BrokerizeWebSocketClient error handling", () => {
       "the retry must ask for a fresh token",
     );
 
+    /* a second rejection is retried as well instead of ending the subscriptions */
     last().receive({ error: { message: "authentication failed" } });
     await sleep(10);
+    assert.deepEqual(errors, []);
+    assert.equal(client.getConnectionState().status, "reconnecting");
+    assert.equal(client.getConnectionState().error.code, "AUTH");
+    assert.ok(
+      states.some(
+        (state) =>
+          state.status == "reconnecting" && state.error?.code == "AUTH",
+      ),
+      "the rejection must be observable while the client is retrying",
+    );
+  });
+
+  it("gives up once the token has been rejected too often", async () => {
+    const { client, sockets, last } = createClient(undefined, {
+      maxConsecutiveAuthFailures: 2,
+    });
+    const errors = [];
+    client.subscribeInvalidate({ entity: "sessions" }, (err) => {
+      if (err) errors.push(err);
+    });
+    await authenticate(sockets[0]);
+
+    sockets[0].receive({ error: { message: "authentication failed" } });
+    await sleep(RECONNECT_WAIT);
+    await openOnly(last());
+    last().receive({ error: { message: "authentication failed" } });
+    await sleep(10);
+
     assert.equal(
       errors.length,
       1,
-      "the second rejection terminates subscriptions",
+      "the last rejection terminates the subscriptions",
     );
     assert.ok(isBrokerizeWebSocketError(errors[0]));
     assert.equal(errors[0].code, "AUTH");
@@ -177,7 +206,9 @@ describe("BrokerizeWebSocketClient error handling", () => {
   });
 
   it("revives a client with a fatal error via reconnect()", async () => {
-    const { client, sockets, last } = createClient();
+    const { client, sockets, last } = createClient(undefined, {
+      maxConsecutiveAuthFailures: 2,
+    });
     const errors = [];
     client.subscribeInvalidate({ entity: "sessions" }, (err) => {
       if (err) errors.push(err);
@@ -209,7 +240,9 @@ describe("BrokerizeWebSocketClient error handling", () => {
   });
 
   it("reports the fatal error asynchronously when subscribing on a dead client", async () => {
-    const { client, sockets, last } = createClient();
+    const { client, sockets, last } = createClient(undefined, {
+      maxConsecutiveAuthFailures: 2,
+    });
     client.subscribeInvalidate({ entity: "sessions" }, () => {});
     await authenticate(sockets[0]);
     sockets[0].receive({ error: { message: "authentication failed" } });

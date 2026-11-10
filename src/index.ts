@@ -34,6 +34,7 @@ import * as Models from "./modelExports";
 import {
   BrokerizeWebSocketClient,
   BrokerizeWebSocketClientImpl,
+  BrokerizeWebSocketClientOptions,
   Callback,
   ConnectionStateCallback,
   Subscription,
@@ -62,6 +63,7 @@ export {
   GetTokenOptions,
   isBrokerizeWebSocketError,
   ConnectionStateCallback,
+  BrokerizeWebSocketClientOptions,
   WebSocketConnectionState,
   WebSocketConnectionStatus,
   Auth,
