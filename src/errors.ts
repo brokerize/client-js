@@ -86,9 +86,21 @@ export class BrokerizeError extends Error {
 
   httpStatusCode: number;
 
-  constructor(statusCode: number, body: ErrorResponse) {
+  /**
+   * The delay in milliseconds the server asked the client to wait before retrying, taken from the
+   * `Retry-After` response header. Set for rate limits, but not for all of them - a rate limit
+   * hit on the way to a broker has no reliable wait time to announce.
+   *
+   * This client never retries on its own: whether waiting is acceptable depends on the call (a
+   * background poll may wait and try again, placing an order must not), so the application
+   * decides. Treat this as the minimum delay and add a backoff of your own.
+   */
+  retryAfterMs?: number;
+
+  constructor(statusCode: number, body: ErrorResponse, retryAfterMs?: number) {
     super(body.msg);
     this.httpStatusCode = statusCode;
+    this.retryAfterMs = retryAfterMs;
     this.name = "BrokerizeError";
     this.msg = body.msg;
     this.code = body.code;
@@ -110,6 +122,42 @@ export class BrokerizeTimeoutError extends BrokerizeError {
   }
 }
 
+/**
+ * Whether the given error is a rate limit the caller may retry after waiting. Check
+ * {@link BrokerizeError.retryAfterMs} for the delay the server asked for - it is not always set.
+ */
+export function isRateLimitError(err: unknown): err is BrokerizeError {
+  return (
+    err instanceof BrokerizeError &&
+    (err.code === "RATE_LIMITED" || err.httpStatusCode === 429)
+  );
+}
+
+/**
+ * Parses a `Retry-After` header into milliseconds. The brokerize API sends a (possibly fractional)
+ * number of seconds; the HTTP spec also allows an absolute date, which a proxy in front of the API
+ * may produce. Returns `undefined` if the header is absent or cannot be understood.
+ */
+export function parseRetryAfter(
+  value: string | null | undefined,
+): number | undefined {
+  const raw = value?.trim();
+  if (!raw) {
+    return undefined;
+  }
+
+  const seconds = Number(raw);
+  if (Number.isFinite(seconds)) {
+    return seconds >= 0 ? Math.round(seconds * 1000) : undefined;
+  }
+
+  const date = Date.parse(raw);
+  if (isNaN(date)) {
+    return undefined;
+  }
+  return Math.max(0, date - Date.now());
+}
+
 function isErrorResponse(x: unknown): x is ErrorResponse {
   return (
     !!x &&
@@ -128,6 +176,7 @@ export async function createErrorFromResponse(
   response: Response,
 ): Promise<BrokerizeError> {
   const statusCode = response.status;
+  const retryAfterMs = parseRetryAfter(response.headers.get("Retry-After"));
   let body: ErrorResponse | undefined;
   try {
     const parsed = JSON.parse(await response.text());
@@ -153,7 +202,30 @@ export async function createErrorFromResponse(
       msg: "The request failed with status " + statusCode + ".",
       code: "INTERNAL_SERVER_ERROR",
     },
+    retryAfterMs,
   );
+}
+
+/**
+ * Create the error for a failed token refresh (`POST /user/token`).
+ *
+ * A rejected token means the user has to log in again, and callers act on that by discarding the
+ * stored session - so only an actual rejection may be reported that way. Everything else (a rate
+ * limit, a server error, maintenance) is transient and is passed through unchanged: flattening
+ * those into an auth error throws away a session that is still good, and turns one rate-limited
+ * request into a fresh login.
+ */
+export async function createTokenRefreshError(
+  response: Response,
+): Promise<BrokerizeError> {
+  const err = await createErrorFromResponse(response);
+  if (err.httpStatusCode === 401 || err.httpStatusCode === 403) {
+    return new BrokerizeError(401, {
+      msg: "The token could not be refreshed. Please log in again.",
+      code: "AUTH",
+    });
+  }
+  return err;
 }
 
 /**

@@ -27,7 +27,10 @@ import {
   BrokerizeWebSocketErrorCode,
   BrokerizeWebSocketErrorParams,
   createErrorFromResponse,
+  createTokenRefreshError,
   isBrokerizeWebSocketError,
+  isRateLimitError,
+  parseRetryAfter,
 } from "./errors";
 import * as openApiClient from "./swagger";
 import * as Models from "./modelExports";
@@ -62,6 +65,8 @@ export {
   BrokerizeAbortError,
   GetTokenOptions,
   isBrokerizeWebSocketError,
+  isRateLimitError,
+  parseRetryAfter,
   ConnectionStateCallback,
   BrokerizeWebSocketClientOptions,
   WebSocketConnectionState,
@@ -142,10 +147,7 @@ export class Brokerize {
     });
 
     if (!response.ok) {
-      throw new BrokerizeError(401, {
-        msg: "The token could not be refreshed. Please log in again.",
-        code: "AUTH",
-      });
+      throw await createTokenRefreshError(response);
     }
 
     const responseJson = (await response.json()) as {
