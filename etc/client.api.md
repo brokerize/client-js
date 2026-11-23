@@ -373,7 +373,7 @@ export interface BrokerizeConfig {
 
 // @public (undocumented)
 export class BrokerizeError extends Error {
-    constructor(statusCode: number, body: ErrorResponse);
+    constructor(statusCode: number, body: ErrorResponse, retryAfterMs?: number);
     code: string;
     // Warning: (ae-forgotten-export) The symbol "Hint_2" needs to be exported by the entry point index.d.ts
     hint?: Hint_2;
@@ -381,6 +381,7 @@ export class BrokerizeError extends Error {
     httpStatusCode: number;
     msg: string;
     msgBrokerName?: string;
+    retryAfterMs?: number;
     validationDetails?: {
         [key: string]: ValidationDetail;
     };
@@ -1176,6 +1177,9 @@ type InvalidateMessage = {
 export function isBrokerizeWebSocketError(x: unknown): x is BrokerizeWebSocketError;
 
 // @public
+export function isRateLimitError(err: unknown): err is BrokerizeError;
+
+// @public
 interface LegalTermConfirmItem {
     html: string;
     id: string;
@@ -1686,6 +1690,9 @@ interface PagesConfigurationResponse {
     clientId: string;
     page: any | null;
 }
+
+// @public
+export function parseRetryAfter(value: string | null | undefined): number | undefined;
 
 // @public
 interface Portfolio {

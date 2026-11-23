@@ -1,6 +1,7 @@
 /* Import/Export the DOM parts we rely on. Those are partial copies from the official TypeScript DOM library definitions (https://github.com/microsoft/TypeScript/blob/master/lib/lib.dom.d.ts),
    but reduced to the parts actually used by bg-trading. */
-import { BrokerizeError, Models, TokenRefreshCallback } from ".";
+import { Models, TokenRefreshCallback } from ".";
+import { createTokenRefreshError } from "./errors";
 import { WhatWgFetch } from "./dependencyDefinitions/fetch";
 import { WebSocket } from "./dependencyDefinitions/webSocket";
 import { Configuration } from "./swagger";
@@ -166,10 +167,7 @@ export function createAuth({
             });
 
             if (!response.ok) {
-              throw new BrokerizeError(401, {
-                msg: "The token could not be refreshed. Please log in again.",
-                code: "AUTH",
-              });
+              throw await createTokenRefreshError(response);
             }
 
             const responseJson = (await response.json()) as {
