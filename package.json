@@ -68,7 +68,7 @@
     "@microsoft/api-extractor": "7.60.1",
     "@openapitools/openapi-generator-cli": "2.42.2",
     "@types/node": "24.19.2",
-    "@typescript-eslint/eslint-plugin": "8.72.2",
+    "@typescript-eslint/eslint-plugin": "8.73.0",
     "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
     "husky": "9.1.7",
